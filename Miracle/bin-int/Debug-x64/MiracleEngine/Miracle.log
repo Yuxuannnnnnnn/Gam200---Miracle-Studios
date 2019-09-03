@@ -1,0 +1,6 @@
+﻿  EntryPoint.cpp
+D:\GAM200\Gam200---Sunrise-Studios\Miracle\Miracle\src\EntryPoint.cpp(55,25): error C2065:  'IDS_APP_TITLE': undeclared identifier
+D:\GAM200\Gam200---Sunrise-Studios\Miracle\Miracle\src\EntryPoint.cpp(56,25): error C2065:  'IDC_OPENGLTUTORIAL01': undeclared identifier
+D:\GAM200\Gam200---Sunrise-Studios\Miracle\Miracle\src\EntryPoint.cpp(65,51): error C2065:  'IDC_OPENGLTUTORIAL01': undeclared identifier
+D:\GAM200\Gam200---Sunrise-Studios\Miracle\Miracle\src\EntryPoint.cpp(128,2): error C3861:  'glewInit': identifier not found
+D:\GAM200\Gam200---Sunrise-Studios\Miracle\Miracle\src\EntryPoint.cpp(48): error C1075:  '{': no matching token found

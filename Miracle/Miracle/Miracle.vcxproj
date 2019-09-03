@@ -23,6 +23,7 @@
     <ProjectGuid>{E8D6EACC-1C36-4762-B026-6D1E55999A5C}</ProjectGuid>
     <RootNamespace>Miracle</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MiracleEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

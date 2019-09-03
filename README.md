@@ -1,2 +1,2 @@
-# Gam200---Sunrise-Studios
-Development of the ___ Engine &amp; ____ Game application.
+# Gam200--- Miracle Studios
+Development of the Miracle Engine &amp; ____ Game application.
