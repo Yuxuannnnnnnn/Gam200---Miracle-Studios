@@ -1,0 +1,15 @@
+Transform 
+0 0 
+0
+Sprite
+squareoutline
+60
+60
+1 0 0 1
+Body
+3
+0.3
+0.3
+Box
+30
+30
