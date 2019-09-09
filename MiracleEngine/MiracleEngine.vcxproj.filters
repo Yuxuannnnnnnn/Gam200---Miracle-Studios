@@ -791,6 +791,9 @@
     <ClCompile Include="Src\WindowsSystem\WindowsSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\MiracleEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
