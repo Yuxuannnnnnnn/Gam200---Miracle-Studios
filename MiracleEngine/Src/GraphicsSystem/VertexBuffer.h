@@ -1,18 +1,17 @@
-#include "glew.h"
+#pragma once
 
+#include "glew.h"
 
 class VertexBuffer
 {
-private:
-
-	GLuint _rendererID;
-
 public:
-
-	VertexBuffer(GLfloat* data, size_t size);
+	VertexBuffer(const void* data, unsigned int size);
 	~VertexBuffer();
 
-	void Bind();
-	void Unbind();
+	void Select();
+	void UnSelect();
+private:
+
+	GLuint _id;
 
 };

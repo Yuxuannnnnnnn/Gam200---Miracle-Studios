@@ -160,11 +160,9 @@
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
-    <ClInclude Include="Src\GraphicsSystem\VertexBuffer.h" />
     <ClInclude Include="Src\WindowsSystem\WindowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
     <ClCompile Include="Src\MiracleEngine.cpp" />
     <ClCompile Include="Src\WindowsSystem\WindowsSystem.cpp" />
   </ItemGroup>
