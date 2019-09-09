@@ -1,10 +1,10 @@
 ﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  compilation object save succeeded; see E:\gam200_stuff_jh\Sample_GameEngine\GameEngine\Source\Debug\Basic.cso
+  compilation object save succeeded; see D:\GAM200\Gam200---Sunrise-Studios\Sample GameEngine\Source\Debug\Basic.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  compilation object save succeeded; see E:\gam200_stuff_jh\Sample_GameEngine\GameEngine\Source\Debug\Debug.cso
-cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  compilation object save succeeded; see D:\GAM200\Gam200---Sunrise-Studios\Sample GameEngine\Source\Debug\Debug.cso
+  cl : Command line warning D9035 : option 'Gm' has been deprecated and will be removed in a future release
   Precompiled.cpp
   Compiling Precompiled Header File...
-e:\gam200_stuff_jh\sample_gameengine\gameengine\source\directxincludes.h(12): fatal error C1083: Cannot open include file: 'DxErr.h': No such file or directory
+D:\GAM200\Gam200---Sunrise-Studios\Sample GameEngine\Source\DirectXIncludes.h(12,10): error C1083:  Cannot open include file: 'DxErr.h': No such file or directory

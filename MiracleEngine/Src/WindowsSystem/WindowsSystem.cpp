@@ -1,6 +1,23 @@
 #include "WindowsSystem.h"
 #include <exception>
+#include "glew.h"
+#include <iostream>
 
+
+void CreateConsole()
+{
+	//Creating a console for debugging/info
+	if (AllocConsole())
+	{
+		FILE* file;
+
+		freopen_s(&file, "CONOUT$", "wt", stdout);
+		freopen_s(&file, "CONOUT$", "wt", stderr);
+		freopen_s(&file, "CONOUT$", "wt", stdin);
+
+		SetConsoleTitle("Logging");
+	}
+}
 
 
 //WindowsSystem Constructor
@@ -80,7 +97,7 @@ ATOM WindowsSystem::MyRegisterClass(HINSTANCE hInstance)
 	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MIRACLEENGINE));
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_MIRACLEENGINE);
+	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = szWindowClass;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -104,16 +121,32 @@ BOOL WindowsSystem::InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
 	hInst = hInstance; // Store instance handle in our global variable
 
-	HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+	//HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+	//	CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
-	if (!hWnd)
+
+//WS_CLIPCHILDREN: Excludes the area occupied by child windows when drawing occurs within the parent window
+//WS_CLIPSIBLINGS: Same for child windows - relative to each other.
+	DWORD dwStyle = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW;
+	dwStyle &= ~WS_SIZEBOX;
+	dwStyle &= ~WS_MAXIMIZEBOX;
+
+	RECT rect = { 0, 0, (LONG)(windowWidth - 1), (LONG)(windowHeight - 1) };
+	//The AdjustWindowRect sets the exact client area without the title bar and all the extra pixels
+	//This will give us the exact resolution for the white rectangular area
+	AdjustWindowRectEx(&rect, dwStyle, FALSE, WS_EX_APPWINDOW);
+
+	mainHWND = CreateWindowW(szWindowClass, szTitle, dwStyle,
+		CW_USEDEFAULT, 0, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr);
+
+
+	if (!mainHWND)
 	{
 		return FALSE;
 	}
 
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	ShowWindow(mainHWND, nCmdShow);
+	UpdateWindow(mainHWND);
 
 	return TRUE;
 }
@@ -131,7 +164,69 @@ HACCEL WindowsSystem::get_hAccelTable() const
 
 
 
-HWND WindowsSystem::get_mainHWND() const
+
+bool WindowsSystem::Initialise()
 {
-	return 	mainHWND;
+	/***************************************************************************************************/
+	//create rendering window
+	m_windowDC = GetDC(mainHWND);
+
+	DEVMODE devMode = { 0 };
+	devMode.dmSize = sizeof(DEVMODE);
+	BOOL b = EnumDisplaySettings(0, ENUM_CURRENT_SETTINGS, &devMode);
+	if (b == 0)
+		return false;
+
+	//drawing surface format
+	PIXELFORMATDESCRIPTOR pfdesc;
+	memset(&pfdesc, 0, sizeof(PIXELFORMATDESCRIPTOR));
+
+	pfdesc.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+	pfdesc.nVersion = 1;
+	pfdesc.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_GENERIC_ACCELERATED | PFD_DOUBLEBUFFER;
+	pfdesc.iPixelType = PFD_TYPE_RGBA;
+	pfdesc.cColorBits = (BYTE)devMode.dmBitsPerPel;//32; //24 bit color for front and back buffer
+	pfdesc.cDepthBits = 24;//24 bit depth buffer - not used in this demo
+	pfdesc.cStencilBits = 8; //8 bit stencil buffer - not used in this demo
+
+	int pf = ChoosePixelFormat(m_windowDC, &pfdesc);//checks if the graphics card can support the pixel format requested
+	if (pf == 0)
+	{
+		ReleaseDC(mainHWND, m_windowDC);
+		return false;
+	}
+
+
+	BOOL ok = SetPixelFormat(m_windowDC, pf, &pfdesc);
+	if (!ok)
+	{
+		ReleaseDC(mainHWND, m_windowDC);
+		return false;
+	}
+
+
+	//set the OpenGL context
+	m_wglDC = wglCreateContext(m_windowDC);
+	if (!m_wglDC)
+	{
+		ReleaseDC(mainHWND, m_windowDC);
+		return false;
+	}
+
+
+	ok = wglMakeCurrent(m_windowDC, m_wglDC);
+	if (!ok)
+	{
+		wglDeleteContext(m_wglDC);
+		ReleaseDC(mainHWND, m_windowDC);
+		return false;
+	}
+
+	//Check if glewinit call is successful
+	if (glewInit() != GLEW_OK)
+		std::cout << "Error" << std::endl;
+
+	//cout the opengl version that we are using
+	std::cout << glGetString(GL_VERSION) << std::endl;
 }
+

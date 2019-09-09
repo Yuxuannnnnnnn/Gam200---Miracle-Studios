@@ -5,6 +5,9 @@
 
 #define MAX_LOADSTRING 100
 
+void CreateConsole();
+
+
 class WindowsSystem
 {
 private:
@@ -15,19 +18,24 @@ private:
 	HACCEL hAccelTable;
 	HWND mainHWND;
 
+	HDC m_windowDC;//global Window-device context
+	HGLRC m_wglDC;//OpenGL-device context
+
+	unsigned int windowWidth = 800; //1920
+	unsigned int windowHeight = 600;  //1080
+
 public:
 
 	WindowsSystem(HINSTANCE hInstance, int nCmdShow);
 
 	// Forward declarations of functions included in this code module:
-	ATOM                MyRegisterClass(HINSTANCE hInstance);
-	BOOL                InitInstance(HINSTANCE hInstance, int nCmdShow);
+	ATOM MyRegisterClass(HINSTANCE hInstance);
+	BOOL InitInstance(HINSTANCE hInstance, int nCmdShow);
+	bool Initialise();
 
 
 	//Getter function
 	HACCEL get_hAccelTable() const;
 
-	HWND get_mainHWND() const;
-	
 };
 

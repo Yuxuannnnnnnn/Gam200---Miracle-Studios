@@ -157,14 +157,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
+    <ClInclude Include="Dep\glew-2.1.0\include\GL\glew.h" />
+    <ClInclude Include="Dep\glew-2.1.0\include\GL\glxew.h" />
+    <ClInclude Include="Dep\glew-2.1.0\include\GL\wglew.h" />
+    <ClInclude Include="Src\GraphicsSystem\Renderer.h" />
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
+    <ClInclude Include="Src\GraphicsSystem\VertexBuffer.h" />
+    <ClInclude Include="Src\Inputsystem\keydef.h" />
     <ClInclude Include="Src\WindowsSystem\WindowsSystem.h" />
+    <ClInclude Include="stb_image\stb_image.h" />
+    <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\GraphicsSystem\Renderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
     <ClCompile Include="Src\MiracleEngine.cpp" />
     <ClCompile Include="Src\WindowsSystem\WindowsSystem.cpp" />
+    <ClCompile Include="stb_image\stb_image.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />
@@ -172,6 +185,9 @@
   <ItemGroup>
     <Image Include="Resources\MiracleEngine.ico" />
     <Image Include="Resources\small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
