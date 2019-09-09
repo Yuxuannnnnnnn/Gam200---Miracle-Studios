@@ -230,3 +230,7 @@ bool WindowsSystem::Initialise()
 	std::cout << glGetString(GL_VERSION) << std::endl;
 }
 
+HDC WindowsSystem::get_m_windowDC() const
+{
+	return m_windowDC;
+}

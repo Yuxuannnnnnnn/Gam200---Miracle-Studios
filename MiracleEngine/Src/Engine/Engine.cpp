@@ -4,9 +4,12 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "GraphicsSystem/GraphicsSystem.h"
+
 
 void Engine::Init()
 {
+	_graphicSystem = new GraphicsSystem();
 }
 
 void Engine::Update()
@@ -31,8 +34,11 @@ void Engine::Update()
 	//enable the index of the vertex attribute
 	glEnableVertexAttribArray(0);
 
+	_graphicSystem->Update();
+
 }
 
 void Engine::Exit()
 {
+	delete _graphicSystem;
 }

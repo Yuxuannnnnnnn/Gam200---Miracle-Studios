@@ -32,6 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
 	bool loop = true;
 
+
 	// engine start here
 	while (loop)
 	{
@@ -48,8 +49,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				DispatchMessage(&msg);
 			}
 
+			
 			// engine update here
 			coreEngine->Update();
+
+			// swap double buffer at the end
+			::SwapBuffers(window.get_m_windowDC());
 		}
 	}
 	// engine exit here

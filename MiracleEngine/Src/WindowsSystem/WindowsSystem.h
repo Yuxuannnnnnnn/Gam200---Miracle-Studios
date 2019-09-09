@@ -36,6 +36,7 @@ public:
 
 	//Getter function
 	HACCEL get_hAccelTable() const;
+	HDC get_m_windowDC() const;
 
 };
 
