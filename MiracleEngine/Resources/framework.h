@@ -15,4 +15,4 @@
 #include <tchar.h>
 
 //Source files
-#include "..\\Src\WindowsSystem\WindowsSystem.h"
+#include "WindowsSystem/WindowsSystem.h"
