@@ -1,3 +1,4 @@
+
 #include "vertexbuffer.h"
 
 VertexBuffer::VertexBuffer(const void* data, unsigned int size)
@@ -11,6 +12,8 @@ VertexBuffer::~VertexBuffer()
 {
 	glDeleteBuffers(1, &_id);
 }
+
+
 void VertexBuffer::Select()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, _id);

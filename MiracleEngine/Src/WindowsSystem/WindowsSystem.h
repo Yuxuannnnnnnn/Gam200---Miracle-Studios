@@ -13,7 +13,7 @@ private:
 	WCHAR szTitle[MAX_LOADSTRING];        // The title bar text
 	WCHAR szWindowClass[MAX_LOADSTRING];  // the main window class name
 	HACCEL hAccelTable;
-
+	HWND mainHWND;
 
 public:
 
@@ -26,6 +26,8 @@ public:
 
 	//Getter function
 	HACCEL get_hAccelTable() const;
+
+	HWND get_mainHWND() const;
 	
 };
 

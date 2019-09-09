@@ -1,4 +1,5 @@
 #pragma once
+
 #include "glew.h"
 
 class VertexBuffer
@@ -10,6 +11,7 @@ public:
 	void Select();
 	void UnSelect();
 private:
+
 	GLuint _id;
 
 };
