@@ -128,3 +128,10 @@ HACCEL WindowsSystem::get_hAccelTable() const
 {
 	return hAccelTable;
 }
+
+
+
+HWND WindowsSystem::get_mainHWND() const
+{
+	return 	mainHWND;
+}

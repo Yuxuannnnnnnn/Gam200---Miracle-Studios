@@ -177,6 +177,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		-0.5f, 0.5f   // 3
 	};
 
+
 	GLuint indices[] =
 	{ 
 		0,1,2,
