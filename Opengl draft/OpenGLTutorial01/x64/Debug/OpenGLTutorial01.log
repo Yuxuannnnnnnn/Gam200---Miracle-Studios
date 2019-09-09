@@ -1,4 +1,23 @@
-﻿LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+﻿  collision.cpp
+D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\OpenGLTutorial01\collision\collision.cpp(13,16): warning C4101:  'dLast': unreferenced local variable
+  deltatime.cpp
+  engine.cpp
+  GameObject.cpp
+  elementbuffer.cpp
+  graphicsystem.cpp
+  vertexbuffer.cpp
+  inputsystem.cpp
+D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\OpenGLTutorial01\collision\collision.cpp(13,8): warning C4101:  'dFirst': unreferenced local variable
+D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\OpenGLTutorial01\inputsystem\inputsystem.cpp(23,75): warning C4244:  '=': conversion from 'double' to 'float', possible loss of data
+D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\OpenGLTutorial01\inputsystem\inputsystem.cpp(27,75): warning C4244:  '=': conversion from 'double' to 'float', possible loss of data
+D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\OpenGLTutorial01\inputsystem\inputsystem.cpp(31,75): warning C4244:  '=': conversion from 'double' to 'float', possible loss of data
+  main.cpp
+D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\OpenGLTutorial01\inputsystem\inputsystem.cpp(35,75): warning C4244:  '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\OpenGLTutorial01\main.cpp(307,59): warning C4244:  '=': conversion from 'double' to 'float', possible loss of data
+D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\OpenGLTutorial01\main.cpp(450): warning C4715:  'init': not all control paths return a value
+  LINK : D:\GAM200\Gam200---Sunrise-Studios\Opengl draft\x64\Debug\OpenGLTutorial01.exe not found or not built by the last incremental link; performing full link
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
 LINK : warning LNK4286: symbol '__glewBindBuffer' defined in 'glew32s.lib(glew.obj)' is imported by 'elementbuffer.obj'
 LINK : warning LNK4286: symbol '__glewBindBuffer' defined in 'glew32s.lib(glew.obj)' is imported by 'vertexbuffer.obj'
 LINK : warning LNK4286: symbol '__glewBufferData' defined in 'glew32s.lib(glew.obj)' is imported by 'elementbuffer.obj'

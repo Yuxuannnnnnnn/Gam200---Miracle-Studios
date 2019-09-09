@@ -1,10 +1,9 @@
 // MiracleEngine.cpp : Defines the entry point for the application.
 //
 
-#include "framework.h"
+#include "..\Resources\framework.h"
 #include "glew.h"
 #include <iostream>
-#include "Engine/Engine.h"
 
 
 
@@ -26,9 +25,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	window.Initialise();
 
 
-	Engine* coreEngine = new Engine;
-	coreEngine->Init();
-
     MSG msg;
 	bool loop = true;
 
@@ -49,13 +45,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			}
 
 			// engine update here
-			coreEngine->Update();
+
 		}
 	}
 	// engine exit here
-	coreEngine->Exit();
-
-
     return (int) msg.wParam;
 }
 
