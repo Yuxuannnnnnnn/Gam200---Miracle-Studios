@@ -1,6 +1,6 @@
 #pragma once
-#include "framework.h"
-#include "Resource.h"
+#include "..\..\Resources\framework.h"
+#include "..\..\Resources\Resource.h"
 
 
 #define MAX_LOADSTRING 100
