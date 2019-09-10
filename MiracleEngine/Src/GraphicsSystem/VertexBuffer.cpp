@@ -14,7 +14,6 @@ VertexBuffer::~VertexBuffer()
 	glDeleteBuffers(1, &_id);
 }
 
-
 void VertexBuffer::Select()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, _id);
