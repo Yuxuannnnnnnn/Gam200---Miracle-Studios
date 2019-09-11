@@ -227,7 +227,7 @@ bool WindowsSystem::Initialise()
 		std::cout << "Error" << std::endl;
 
 	//cout the opengl version that we are using
-	std::cout << glGetString(GL_VERSION) << std::endl;
+	std::cout << "Opengl version: " << glGetString(GL_VERSION) << std::endl;
 }
 
 HDC WindowsSystem::get_m_windowDC() const
