@@ -6,9 +6,6 @@
 #include <iostream>
 #include "Engine/Engine.h"
 
-
-
-
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -32,7 +29,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
 	bool loop = true;
 
-
+	// testing gameobject, delete later
+	objList.push_back(GameObject{});
 	// engine start here
 	while (loop)
 	{

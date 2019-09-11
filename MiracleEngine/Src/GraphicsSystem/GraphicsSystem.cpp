@@ -40,7 +40,7 @@ void GraphicsSystem::Init()
 	//GAME_ENGINE::Init();
 
 	glewInit();
-
+	
 
 }
 void GraphicsSystem::Update()
@@ -115,8 +115,9 @@ void GraphicsSystem::Update()
 
 
 
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f), glm::vec3(100, 100, 1.0f));
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(objList[0]._pos._x, objList[0]._pos._y, 0));
+	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), objList[0]._angle, glm::vec3(0, 0, 1));
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f), glm::vec3(objList[0]._scale._x, objList[0]._scale._y, 1.0f));
 
 	glm::mat4 mvp = proj * model;
 
