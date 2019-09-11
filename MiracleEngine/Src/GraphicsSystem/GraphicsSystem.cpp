@@ -73,10 +73,10 @@ void GraphicsSystem::Update()
 		2,3,0
 	};
 
-	VertexBuffer vbo(positions, 4 * 2 * sizeof(GLfloat));
+	VertexBuffer vbo(positions, 4 * 2 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
 	ElementBuffer ebo(indices, 6);
 
-
+	//_meshmanager.Update()
 
 	glEnableVertexAttribArray(0);
 
@@ -125,7 +125,13 @@ void GraphicsSystem::Update()
 
 	location = glGetUniformLocation(shader, "u_MVP");
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
+
+	// this one encapsulate into another class
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+	// gl_lines
+	// 2 vbo and ebo
+	// 1 for square and 1 for lines
 }
 void GraphicsSystem::Exit()
 {

@@ -407,6 +407,7 @@
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h" />
+    <ClInclude Include="Src\GraphicsSystem\MeshManager.h" />
     <ClInclude Include="Src\GraphicsSystem\Renderer.h" />
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />

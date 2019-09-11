@@ -4,6 +4,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "Elementbuffer.h"
 #include "VertexBuffer.h"
+#include "MeshManager.h"
 
 class GraphicsSystem
 {
@@ -12,9 +13,7 @@ public:
 	void Update();
 	void Exit();
 private:
-	VertexBuffer _vbo;
-	ElementBuffer _ebo;
 	glm::mat4 _proj;
 	GLuint _shader;
-	
+	MeshManager _meshmanager;
 };
