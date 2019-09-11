@@ -406,7 +406,9 @@
     <ClInclude Include="Dep\glm\vector_relational.hpp" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
+    <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h" />
+    <ClInclude Include="Src\GraphicsSystem\MeshManager.h" />
     <ClInclude Include="Src\GraphicsSystem\Renderer.h" />
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />
@@ -421,6 +423,7 @@
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Renderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />

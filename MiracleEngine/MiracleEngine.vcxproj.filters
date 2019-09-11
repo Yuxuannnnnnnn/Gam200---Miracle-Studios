@@ -789,7 +789,14 @@
     <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Src\GraphicsSystem\Shader.h">
+=======
+    <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\GraphicsSystem\MeshManager.h">
+>>>>>>> 6ecd5fe73e73de00fc9c596dac0176cb72bea104
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -821,7 +828,11 @@
     <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp">
+=======
+    <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp">
+>>>>>>> 6ecd5fe73e73de00fc9c596dac0176cb72bea104
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
