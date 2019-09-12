@@ -24,37 +24,19 @@ public:
 		VertexBuffer vbo(positions, 2 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
 		glPointSize(size);
 
-		std::string vertexShader =
-			"#version 330 core\n"
-			"uniform mat4 u_MVP;\n"
-			"layout(location = 0) in vec4 position;"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"gl_Position = u_MVP * position;\n"
-			"}\n";
+		Shader shader("Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag");
 
-		std::string fragmentShader =
-			"#version 330 core\n"
-			"layout(location = 0) out vec4 color;"
-			"uniform vec4 u_Color;\n"
-			"void main()\n"
-			"{\n"
-			"color = u_Color;\n"
-			"}\n";
-
-		GLuint shader = CreateShader(vertexShader, fragmentShader);
-		glUseProgram(shader);
+		shader.Select();
 
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0));
 
 
 		glm::mat4 mvp = proj * model;
 
-		int location = glGetUniformLocation(shader, "u_Color");
+		int location = glGetUniformLocation(shader._id, "u_Color");
 		glUniform4f(location, 1.0f, 0.0f, 0.0f, 1.0f);
 
-		location = glGetUniformLocation(shader, "u_MVP");
+		location = glGetUniformLocation(shader._id, "u_MVP");
 		glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
 		// this one encapsulate into another class
@@ -90,27 +72,11 @@ public:
 
 		glm::mat4 proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2, -(float)windowHeight / 2, (float)windowHeight / 2);
 
-		std::string vertexShader =
-			"#version 330 core\n"
-			"uniform mat4 u_MVP;\n"
-			"layout(location = 0) in vec4 position;"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"gl_Position = u_MVP * position;\n"
-			"}\n";
+		
 
-		std::string fragmentShader =
-			"#version 330 core\n"
-			"layout(location = 0) out vec4 color;"
-			"uniform vec4 u_Color;\n"
-			"void main()\n"
-			"{\n"
-			"color = u_Color;\n"
-			"}\n";
+		Shader shader("Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag");
 
-		GLuint shader = CreateShader(vertexShader, fragmentShader);
-		glUseProgram(shader);
+		shader.Select();
 
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 0));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), objList[0]._angle, glm::vec3(0, 0, 1));
@@ -118,11 +84,9 @@ public:
 
 		glm::mat4 mvp = proj * model;
 
-		int location = glGetUniformLocation(shader, "u_Color");
-		glUniform4f(location, 1.0f, 0.0f, 0.0f, 1.0f);
+		shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+		shader.SetUniformMat4f("u_MVP", mvp);
 
-		location = glGetUniformLocation(shader, "u_MVP");
-		glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		// this one encapsulate into another class
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
@@ -134,27 +98,9 @@ public:
 
 		glm::mat4 proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2, -(float)windowHeight / 2, (float)windowHeight / 2);
 
-		std::string vertexShader =
-			"#version 330 core\n"
-			"uniform mat4 u_MVP;\n"
-			"layout(location = 0) in vec4 position;"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"gl_Position = u_MVP * position;\n"
-			"}\n";
+		Shader shader("Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag");
 
-		std::string fragmentShader =
-			"#version 330 core\n"
-			"layout(location = 0) out vec4 color;"
-			"uniform vec4 u_Color;\n"
-			"void main()\n"
-			"{\n"
-			"color = u_Color;\n"
-			"}\n";
-
-		GLuint shader = CreateShader(vertexShader, fragmentShader);
-		glUseProgram(shader);
+		shader.Select();
 
 
 		int x = (x1 + x2) / 2;
@@ -163,10 +109,10 @@ public:
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 		glm::mat4 mvp = proj * model;
 
-		int location = glGetUniformLocation(shader, "u_Color");
+		int location = glGetUniformLocation(shader._id, "u_Color");
 		glUniform4f(location, 1.0f, 0.0f, 0.0f, 1.0f);
 
-		location = glGetUniformLocation(shader, "u_MVP");
+		location = glGetUniformLocation(shader._id, "u_MVP");
 		glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
 		GLfloat lineVertices[] =

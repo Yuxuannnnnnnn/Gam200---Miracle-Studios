@@ -424,5 +424,7 @@
     <None Include="Dep\glm\gtx\vector_angle.inl" />
     <None Include="Dep\glm\gtx\vector_query.inl" />
     <None Include="Dep\glm\gtx\wrap.inl" />
+    <None Include="Src\GraphicsSystem\Shader\basic.vert" />
+    <None Include="Src\GraphicsSystem\Shader\basic.frag" />
   </ItemGroup>
 </Project>
