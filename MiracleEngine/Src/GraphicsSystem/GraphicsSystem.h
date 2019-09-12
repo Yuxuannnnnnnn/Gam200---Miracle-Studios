@@ -6,6 +6,9 @@
 #include "VertexBuffer.h"
 #include "MeshManager.h"
 #include "../Engine/GameObject.h"
+#include <string>
+
+
 
 class GraphicsSystem
 {

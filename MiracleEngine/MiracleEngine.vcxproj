@@ -404,6 +404,7 @@
     <ClInclude Include="Dep\glm\vec3.hpp" />
     <ClInclude Include="Dep\glm\vec4.hpp" />
     <ClInclude Include="Dep\glm\vector_relational.hpp" />
+    <ClInclude Include="Src\GraphicsSystem\RendererSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\GameObject.h" />
