@@ -171,8 +171,8 @@ public:
 
 		GLfloat lineVertices[] =
 		{
-			200,100,0,
-			100,300,0
+			200,0,0,
+			-200,0,0
 		};
 
 		VertexBuffer vbo(lineVertices, 3 * 2 * sizeof(GLfloat));

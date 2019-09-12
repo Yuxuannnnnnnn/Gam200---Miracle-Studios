@@ -9,12 +9,7 @@
 
 void GraphicsSystem::Init()
 {
-
-
-	//GAME_ENGINE::Init();
-
 	glewInit();
-
 
 }
 void GraphicsSystem::Update()
