@@ -13,7 +13,8 @@ public:
 	void Select();
 	void UnSelect();
 
-	inline unsigned int GetCount() const {
+	inline unsigned int GetCount() const 
+	{
 		return _count;
 	}
 private:

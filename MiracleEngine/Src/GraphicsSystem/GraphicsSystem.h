@@ -7,7 +7,7 @@
 #include "MeshManager.h"
 #include "../Engine/GameObject.h"
 #include <string>
-
+#include "GraphicsSystem/RendererSystem.h"
 
 
 class GraphicsSystem
@@ -20,4 +20,5 @@ private:
 	glm::mat4 _proj;
 	GLuint _shader;
 	MeshManager _meshmanager;
+	RendererSystem _renderer;
 };

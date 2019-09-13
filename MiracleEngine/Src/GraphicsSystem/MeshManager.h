@@ -2,35 +2,38 @@
 #include "Elementbuffer.h"
 #include "VertexBuffer.h"
 
-class MeshManager
+class Mesh
 {
 public:
-	MeshManager()
+	virtual int GetSize() const = 0;
+};
+
+class QuadMesh : public Mesh
+{
+public:
+	QuadMesh()
 	{
 		
-		_vbo = VertexBuffer(_positions, 4 * 2 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
-		_ebo = ElementBuffer(_indices, 6);
 	}
-	void Update()
+	virtual int GetSize() const override
 	{
-		_vbo = VertexBuffer(_positions, 4 * 2 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
-		_ebo = ElementBuffer(_indices, 6);
-		_vbo.Select();
-		_ebo.Select();
+		return 4 * 2 * sizeof(GLfloat);
 	}
-private:
-	GLuint _indices[6] =
-	{
-		0,1,2,
-		2,3,0
-	};
-	GLfloat _positions[8] =
+public:
+	GLfloat positions[8] =
 	{
 		-0.5f, -0.5f, // 0
 		0.5f , -0.5f, // 1
 		0.5f , 0.5f,  // 2
 		-0.5f, 0.5f   // 3
 	};
-	VertexBuffer _vbo;
-	ElementBuffer _ebo;
+};
+
+
+class MeshManager
+{
+public:
+	QuadMesh _quadmesh;
+private:
+
 };

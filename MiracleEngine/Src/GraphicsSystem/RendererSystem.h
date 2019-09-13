@@ -1,6 +1,7 @@
 #pragma once
-// renderer System expose 3 static function to user: DrawPoint, DrawLine, DrawWireFrameQuad 
+// renderer System expose 3 function to user: DrawPoint, DrawLine, DrawWireFrameQuad 
 
+#include "../Engine/GameObject.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "Elementbuffer.h"
@@ -10,13 +11,23 @@
 
 class RendererSystem
 {
+private:
+	MeshManager _meshmanager;
+	glm::mat4 _proj;  // projection matrix
+
 public:
+	RendererSystem(int windowWidth = 800, int windowHeight = 600) 
+		: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2, 
+			-(float)windowHeight / 2, (float)windowHeight / 2) }
+	{
+
+	}
+	void Update()
+	{
+
+	}
 	void DrawPoint(int x, int y, int size)
 	{
-		int windowWidth = 800;
-		int windowHeight = 600;
-
-		glm::mat4 proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2, -(float)windowHeight / 2, (float)windowHeight / 2);
 		GLfloat positions[] =
 		{
 			0.0f, 0.0f
@@ -31,7 +42,7 @@ public:
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0));
 
 
-		glm::mat4 mvp = proj * model;
+		glm::mat4 mvp = _proj * model;
 
 		int location = glGetUniformLocation(shader._id, "u_Color");
 		glUniform4f(location, 1.0f, 0.0f, 0.0f, 1.0f);
@@ -45,13 +56,7 @@ public:
 
 	void DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 	{
-		GLfloat positions[] =
-		{
-			-0.5f, -0.5f, // 0
-			0.5f , -0.5f, // 1
-			0.5f , 0.5f,  // 2
-			-0.5f, 0.5f   // 3
-		};
+		
 
 
 		GLuint indices[] =
@@ -60,19 +65,13 @@ public:
 			2,3,0
 		};
 
-		VertexBuffer vbo(positions, 4 * 2 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
+		VertexBuffer vbo(_meshmanager._quadmesh.positions, _meshmanager._quadmesh.GetSize()); // bind vbo, bind, ebo must bind every single loop
 		ElementBuffer ebo(indices, 6);
 
 		glEnableVertexAttribArray(0);
 
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-		int windowWidth = 800;
-		int windowHeight = 600;
-
-		glm::mat4 proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2, -(float)windowHeight / 2, (float)windowHeight / 2);
-
-		
 
 		Shader shader("Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag");
 
@@ -82,7 +81,7 @@ public:
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), objList[0]._angle, glm::vec3(0, 0, 1));
 		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f), glm::vec3(xsize, ysize, 1.0f));
 
-		glm::mat4 mvp = proj * model;
+		glm::mat4 mvp = _proj * model;
 
 		shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
 		shader.SetUniformMat4f("u_MVP", mvp);
@@ -107,7 +106,7 @@ public:
 		int y = (y1 + y2) / 2;
 
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-		glm::mat4 mvp = proj * model;
+		glm::mat4 mvp = _proj * model;
 
 		int location = glGetUniformLocation(shader._id, "u_Color");
 		glUniform4f(location, 1.0f, 0.0f, 0.0f, 1.0f);
