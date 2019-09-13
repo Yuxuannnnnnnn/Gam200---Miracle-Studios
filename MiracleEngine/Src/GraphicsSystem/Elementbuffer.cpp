@@ -1,6 +1,6 @@
 #include "elementbuffer.h"
 
-ElementBuffer::ElementBuffer(unsigned int* data, unsigned int count)
+ElementBuffer::ElementBuffer(const GLuint* data, unsigned int count)
 	:_count{count}
 {
 	glGenBuffers(1, &_id);
@@ -12,11 +12,11 @@ ElementBuffer::~ElementBuffer()
 {
 	glDeleteBuffers(1, &_id);
 }
-void ElementBuffer::Select()
+void ElementBuffer::Select() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, _id);
 }
-void ElementBuffer::UnSelect()
+void ElementBuffer::UnSelect() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

@@ -12,8 +12,8 @@ public:
 	}
 	~VertexBuffer();
 
-	void Select();
-	void UnSelect();
+	void Select() const;
+	void UnSelect() const;
 private:
 
 	GLuint _id;

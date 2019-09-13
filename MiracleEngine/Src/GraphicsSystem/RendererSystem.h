@@ -24,7 +24,43 @@ public:
 	}
 	void Update()
 	{
+		for (size_t i = 0; i < objList.size(); i++)
+		{
+			GLuint indices[] =
+			{
+				0,1,2,
+				2,3,0
+			};
 
+			//_meshmanager._quadmesh.Select();
+
+			VertexBuffer vbo(_meshmanager._quadmesh._positions, _meshmanager._quadmesh.GetVBOSize()); // bind vbo, bind, ebo must bind every single loop
+			ElementBuffer ebo(indices, 6);
+
+			glEnableVertexAttribArray(0);
+
+			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+
+			Shader shader("Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag");
+
+			shader.Select();
+
+			glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(objList[i]._pos._x
+				, objList[i]._pos._y, 0));
+			glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), objList[i]._angle, glm::vec3(0, 0, 1));
+			glm::mat4 model = translate * glm::scale(glm::mat4(1.0f), 
+				glm::vec3(objList[i]._scale._x, objList[i]._scale._y, 1.0f));
+
+			glm::mat4 mvp = _proj * model;
+
+			shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+			shader.SetUniformMat4f("u_MVP", mvp);
+
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			// this one encapsulate into another class
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		}
 	}
 	void DrawPoint(int x, int y, int size)
 	{
@@ -65,7 +101,7 @@ public:
 			2,3,0
 		};
 
-		VertexBuffer vbo(_meshmanager._quadmesh.positions, _meshmanager._quadmesh.GetSize()); // bind vbo, bind, ebo must bind every single loop
+		VertexBuffer vbo(_meshmanager._quadmesh._positions, _meshmanager._quadmesh.GetVBOSize()); // bind vbo, bind, ebo must bind every single loop
 		ElementBuffer ebo(indices, 6);
 
 		glEnableVertexAttribArray(0);
@@ -89,6 +125,7 @@ public:
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		// this one encapsulate into another class
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	void DrawLine(int x1, int y1, int x2, int y2)
 	{

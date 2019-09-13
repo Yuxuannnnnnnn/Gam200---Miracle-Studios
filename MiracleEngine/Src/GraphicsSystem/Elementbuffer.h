@@ -8,10 +8,10 @@ public:
 	{
 
 	}
-	ElementBuffer(unsigned int* data, unsigned int count);
+	ElementBuffer(const GLuint* data, unsigned int count);
 	~ElementBuffer();
-	void Select();
-	void UnSelect();
+	void Select() const;
+	void UnSelect() const;
 
 	inline unsigned int GetCount() const 
 	{

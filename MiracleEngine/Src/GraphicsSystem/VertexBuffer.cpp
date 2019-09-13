@@ -16,11 +16,11 @@ VertexBuffer::~VertexBuffer()
 	glDeleteBuffers(1, &_id);
 }
 
-void VertexBuffer::Select()
+void VertexBuffer::Select() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, _id);
 }
-void VertexBuffer::UnSelect()
+void VertexBuffer::UnSelect() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

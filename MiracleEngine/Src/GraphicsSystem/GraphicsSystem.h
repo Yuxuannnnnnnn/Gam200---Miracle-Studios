@@ -8,7 +8,7 @@
 #include "../Engine/GameObject.h"
 #include <string>
 #include "GraphicsSystem/RendererSystem.h"
-
+#include "VertexArray.h"
 
 class GraphicsSystem
 {
