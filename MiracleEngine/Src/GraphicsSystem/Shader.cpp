@@ -74,19 +74,19 @@ Shader::Shader(const char* vert, const char* frag)
 	glDeleteShader(fragment);
 }
 
-void Shader::Select()
+void Shader::Select() const
 {
 	glUseProgram(_id);
 }
 
 
-void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
+void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const
 {
 	int location = glGetUniformLocation(_id, name.c_str());
 	glUniform4f(location, v0, v1, v2, v3);
 }
 
-void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix)
+void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix) const
 {
 	int location = glGetUniformLocation(_id, name.c_str());
 	glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
@@ -102,7 +102,7 @@ int Shader::CreateShader(const std::string& vertexShader, const std::string& fra
 }
 
 
-GLuint Shader::CompileShader(GLuint type, const std::string& source)
+GLuint Shader::CompileShader(GLuint type, const std::string& source) const
 {
 	///read the source code for the type of shader into the GPU
 	GLuint vs = glCreateShader(type);

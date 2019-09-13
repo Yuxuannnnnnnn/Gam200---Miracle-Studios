@@ -1,6 +1,11 @@
 
 #include "vertexbuffer.h"
 
+VertexBuffer::VertexBuffer() 
+	:_id{0}
+{
+
+}
 VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 {
 	// for batch rendering, data always changing, require texture alias

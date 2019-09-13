@@ -17,6 +17,7 @@ public:
 	void Update();
 	void Exit();
 private:
+	void ClearScreen() const;
 	glm::mat4 _proj;
 	GLuint _shader;
 	MeshManager _meshmanager;

@@ -29,13 +29,9 @@ void GraphicsSystem::Update()
 	//glEnableVertexAttribArray(0);
 
 
-	//Clear the color buffer / Clear the screen
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	glClearColor(.0f, .0f, .0f, 1.0f);
+	ClearScreen();
 
 	_renderer.Update();
-
 	_renderer.DrawPoint(10, -100, 5);
 	_renderer.DrawWireFrameQuad(0, 0, 30, 50);
 	_renderer.DrawLine(-100, -100, 100, 100);
@@ -46,4 +42,10 @@ void GraphicsSystem::Update()
 void GraphicsSystem::Exit()
 {
 
+}
+
+void GraphicsSystem::ClearScreen() const
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(.0f, .0f, .0f, 1.0f);
 }

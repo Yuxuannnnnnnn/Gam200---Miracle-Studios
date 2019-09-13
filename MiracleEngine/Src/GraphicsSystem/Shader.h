@@ -16,10 +16,10 @@ public:
 
 public:
 	Shader(const char* vert, const char* frag);
-	void Select();
+	void Select() const;
 	int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
-	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
-	void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
-	GLuint CompileShader(GLuint type, const std::string& source);
+	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const;
+	void SetUniformMat4f(const std::string& name, const glm::mat4& matrix) const;
+	GLuint CompileShader(GLuint type, const std::string& source) const;
 };
 
