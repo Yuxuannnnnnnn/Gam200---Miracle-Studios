@@ -411,7 +411,6 @@
     <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\MeshManager.h" />
-    <ClInclude Include="Src\GraphicsSystem\Renderer.h" />
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
@@ -423,12 +422,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\RendererSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\Engine\GameObject.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\Renderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
     <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\WindowsSystem\WindowsSystem.cpp" />
