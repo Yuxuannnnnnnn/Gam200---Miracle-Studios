@@ -5,7 +5,7 @@
 #include "Elementbuffer.h"
 #include "VertexBuffer.h"
 #include "MeshManager.h"
-#include "../Engine/GameObject.h"
+#include "Components/GameObject.h"
 #include <string>
 #include "GraphicsSystem/RendererSystem.h"
 #include "VertexArray.h"
@@ -17,6 +17,7 @@ public:
 	void Update();
 	void Exit();
 private:
+
 	void ClearScreen() const;
 	glm::mat4 _proj;
 	GLuint _shader;

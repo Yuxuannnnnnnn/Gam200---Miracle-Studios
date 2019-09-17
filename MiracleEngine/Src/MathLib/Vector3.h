@@ -82,13 +82,13 @@ public:
     return *this;
   }
 
-  // Return a normalized vector
-  Vector3 Normalized() const
-  {
-    Vector3 result = *this;
-    result.Normalize();
-    return result;
-  }
+  //// Return a normalized vector
+  //Vector3 Normalized() const
+  //{
+  //  Vector3 result = *this;
+  //  result.Normalize();
+  //  return result;
+  //}
 
   // Round to near whole number
   Vector3 Round()
@@ -99,13 +99,13 @@ public:
     return *this;
   }
 
-  // Get a rounded version of this vector
-  public: Vector3 Rounded() const
-  {
-    Vector3 result = *this;
-    result.Round();
-    return result;
-  }
+  //// Get a rounded version of this vector
+  //public: Vector3 Rounded() const
+  //{
+  //  Vector3 result = *this;
+  //  result.Round();
+  //  return result;
+  //}
 
   // Set the contents of the vector
   void Set(float _x = 0.f, float _y = 0.f, float _z = 0.f)

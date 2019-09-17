@@ -30,8 +30,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	bool loop = true;
 
 	// testing gameobject, delete later
-	objList.push_back(GameObject{});
-	objList.push_back(GameObject{ Vec3{100,50}, Vec3{50,50} });
+	//objList.push_back(GameObject{});
+	//objList.push_back(GameObject{ Vec3{100,50}, Vec3{50,50} });
 	// engine start here
 	while (loop)
 	{

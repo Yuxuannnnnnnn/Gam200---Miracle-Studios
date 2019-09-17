@@ -4,7 +4,6 @@
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
-    <ClCompile Include="Src\Engine\GameObject.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
@@ -13,6 +12,13 @@
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
     <ClCompile Include="Src\GraphicsSystem\RendererSystem.cpp" />
+    <ClCompile Include="Src\Tools\FileIO.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\GameObject.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\GameObjectFactory.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\GraphicComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\IComponentSystem.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\RigidBodyComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -264,7 +270,6 @@
     <ClInclude Include="Dep\glm\vector_relational.hpp" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
-    <ClInclude Include="Src\Engine\GameObject.h" />
     <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\MeshManager.h" />
@@ -277,6 +282,51 @@
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
     <ClInclude Include="Src\GraphicsSystem\RendererSystem.h" />
+    <ClInclude Include="Src\MathLib\Vector2.h" />
+    <ClInclude Include="Src\MathLib\Vector3.h" />
+    <ClInclude Include="Src\Tools\FileIO.h" />
+    <ClInclude Include="Dep\rapidjson\error\en.h" />
+    <ClInclude Include="Dep\rapidjson\error\error.h" />
+    <ClInclude Include="Dep\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="Dep\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="Dep\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="Dep\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="Dep\rapidjson\internal\itoa.h" />
+    <ClInclude Include="Dep\rapidjson\internal\meta.h" />
+    <ClInclude Include="Dep\rapidjson\internal\pow10.h" />
+    <ClInclude Include="Dep\rapidjson\internal\regex.h" />
+    <ClInclude Include="Dep\rapidjson\internal\stack.h" />
+    <ClInclude Include="Dep\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="Dep\rapidjson\internal\strtod.h" />
+    <ClInclude Include="Dep\rapidjson\internal\swap.h" />
+    <ClInclude Include="Dep\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="Dep\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="Dep\rapidjson\allocators.h" />
+    <ClInclude Include="Dep\rapidjson\cursorstreamwrapper.h" />
+    <ClInclude Include="Dep\rapidjson\document.h" />
+    <ClInclude Include="Dep\rapidjson\encodedstream.h" />
+    <ClInclude Include="Dep\rapidjson\encodings.h" />
+    <ClInclude Include="Dep\rapidjson\filereadstream.h" />
+    <ClInclude Include="Dep\rapidjson\filewritestream.h" />
+    <ClInclude Include="Dep\rapidjson\fwd.h" />
+    <ClInclude Include="Dep\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="Dep\rapidjson\memorybuffer.h" />
+    <ClInclude Include="Dep\rapidjson\memorystream.h" />
+    <ClInclude Include="Dep\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="Dep\rapidjson\pointer.h" />
+    <ClInclude Include="Dep\rapidjson\prettywriter.h" />
+    <ClInclude Include="Dep\rapidjson\rapidjson.h" />
+    <ClInclude Include="Dep\rapidjson\reader.h" />
+    <ClInclude Include="Dep\rapidjson\schema.h" />
+    <ClInclude Include="Dep\rapidjson\stream.h" />
+    <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
+    <ClInclude Include="Dep\rapidjson\writer.h" />
+    <ClInclude Include="Src\GameObjectComponents\GameObject.h" />
+    <ClInclude Include="Src\GameObjectComponents\GameObjectFactory.h" />
+    <ClInclude Include="Src\GameObjectComponents\GraphicComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\IComponentSystem.h" />
+    <ClInclude Include="Src\GameObjectComponents\RigidBodyComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
