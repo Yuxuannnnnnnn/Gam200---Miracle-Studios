@@ -8,6 +8,8 @@
 #include "VertexBuffer.h"
 #include "MeshManager.h"
 #include "Shader.h"
+#include "../GameObjectComponents/TransformComponent.h"
+#include "../GameObjectComponents/GraphicComponent.h"
 
 class RendererSystem
 {
@@ -21,5 +23,5 @@ public:
 	void DrawPoint(int x, int y, int size);
 	void DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize);
 	void DrawLine(int x1, int y1, int x2, int y2);
-	
+	void Draw(const TransformComponent& transform, const GraphicComponent& graphic);
 };

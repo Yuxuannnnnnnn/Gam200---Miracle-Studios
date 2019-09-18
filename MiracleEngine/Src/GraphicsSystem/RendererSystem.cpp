@@ -96,8 +96,8 @@ void RendererSystem::DrawLine(int x1, int y1, int x2, int y2)
 {
 	int windowWidth = 800;
 	int windowHeight = 600;
-
-	glm::mat4 proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2, -(float)windowHeight / 2, (float)windowHeight / 2);
+																															 // z-layer -100 to 100
+	glm::mat4 proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2, -(float)windowHeight / 2, (float)windowHeight / 2, -100.f, 100.f);
 
 
 	_shader.Select();
