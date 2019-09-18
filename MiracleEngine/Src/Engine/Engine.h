@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../GraphicsSystem/GraphicsSystem.h"
+#include "FrameRateController.h"
 
 class Engine
 {
@@ -10,5 +11,6 @@ public:
 	void Exit();
 private:
 	GraphicsSystem* _graphicSystem;
+	FrameRateController* _frameController;
 };
 
