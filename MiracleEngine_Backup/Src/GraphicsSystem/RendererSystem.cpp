@@ -39,6 +39,7 @@ void RendererSystem::Update()
 }
 void RendererSystem::DrawPoint(int x, int y, int size)
 {
+
 	GLfloat positions[] =
 	{
 		0.0f, 0.0f
@@ -59,6 +60,10 @@ void RendererSystem::DrawPoint(int x, int y, int size)
 
 	location = glGetUniformLocation(_shader._id, "u_MVP");
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
+
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	// this one encapsulate into another class
 	glDrawArrays(GL_POINTS, 0, 1);
