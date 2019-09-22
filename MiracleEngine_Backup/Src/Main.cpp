@@ -6,6 +6,8 @@
 #include <iostream>
 #include "Engine/Engine.h"
 
+#include "Inputsystem/InputSystem.h"
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -46,15 +48,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
-			}
-
-			
-			
+			}		
 		}
-
 		// engine update here
 		coreEngine->Update();
-
 		// swap double buffer at the end
 		::SwapBuffers(window.get_m_windowDC());
 	}

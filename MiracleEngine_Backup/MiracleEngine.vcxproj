@@ -416,6 +416,8 @@
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
     <ClInclude Include="Src\GraphicsSystem\VertexBuffer.h" />
+    <ClInclude Include="Src\Inputsystem\InputSystem.h" />
+    <ClInclude Include="Src\Inputsystem\KeyCode.h" />
     <ClInclude Include="Src\Inputsystem\keydef.h" />
     <ClInclude Include="Src\WindowsSystem\WindowsSystem.h" />
     <ClInclude Include="stb_image\stb_image.h" />
@@ -431,6 +433,7 @@
     <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
+    <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\WindowsSystem\WindowsSystem.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />

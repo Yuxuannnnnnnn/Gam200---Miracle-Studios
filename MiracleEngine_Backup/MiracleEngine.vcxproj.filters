@@ -14,6 +14,7 @@
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
     <ClCompile Include="Src\GraphicsSystem\RendererSystem.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
+    <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -279,6 +280,8 @@
     <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
     <ClInclude Include="Src\GraphicsSystem\RendererSystem.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
+    <ClInclude Include="Src\Inputsystem\KeyCode.h" />
+    <ClInclude Include="Src\Inputsystem\InputSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

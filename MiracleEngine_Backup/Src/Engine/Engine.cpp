@@ -12,7 +12,8 @@ void Engine::Init()
 {
 	_graphicSystem = new GraphicsSystem();
 	_frameController = new FrameRateController();
-
+	_inputSystem = new InputSystem();
+	_inputSystem->Init();
 	_frameController->Initialize();
 }
 
@@ -21,10 +22,15 @@ void Engine::Update()
 	std::cout.precision(dbl::max_digits10);
 	double deltaTime = _frameController->UpdateFrameTime();
 	//std::cout << deltaTime << std::endl;
-	std::cout << _frameController->GetFrameRate() << std::endl;
+	//std::cout << _frameController->GetFrameRate() << std::endl;
 
 	_graphicSystem->Update();
+	_inputSystem->Update();
 
+	if (_inputSystem->KeyDown(KEYB_A))
+	{
+		std::cout << "A pressed !" << std::endl;
+	}
 }
 
 void Engine::Exit()
