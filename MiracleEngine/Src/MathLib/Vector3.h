@@ -13,13 +13,8 @@ class Vector3
 
 public:  
 
-  // Default Constructor
-  Vector3() : x{0.f}, y{0.f}, z{0.f}
-  {
-  }
-
-  // Conversion Constructor
-  Vector3(const float& _x, const float& _y, const float& _z)
+  // Default/Conversion Constructor
+  Vector3(const float& _x = 0.f, const float& _y = 0.f, const float& _z = 0.f)
   : x{_x}, y{_y}, z{_z}
   {
   }
@@ -221,6 +216,14 @@ public:
                    this->z / _v.z);
   }
 
+  // Division operator
+  Vector3 operator/(const float& _v) const
+  {
+	  return Vector3(this->x / _v,
+		  this->y / _v,
+		  this->z / _v);
+  }
+
   // Division assignment operator
   const Vector3& operator/=(const Vector3& _v)
   {
@@ -232,11 +235,17 @@ public:
   }
 
   // Multiplication operator
-  Vector3 operator*(const Vector3& _v) const
+ /* Vector3 operator*(const Vector3& _v) const
   {
     return Vector3(this->x * _v.x,
                    this->y * _v.y,
                    this->z * _v.z);
+  }*/
+
+  // Multiplication operator
+  float operator*(const Vector3& _v) const
+  {
+	  return this->Dot(_v);
   }
 
   // Multiplication assignment operator

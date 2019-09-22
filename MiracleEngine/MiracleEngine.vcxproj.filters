@@ -20,6 +20,7 @@
     <ClCompile Include="Src\GameObjectComponents\RigidBodyComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\TransformComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponent.cpp" />
+    <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -329,6 +330,8 @@
     <ClInclude Include="Src\GameObjectComponents\RigidBodyComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\TransformComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponent.h" />
+    <ClInclude Include="Src\Inputsystem\InputSystem.h" />
+    <ClInclude Include="Src\Inputsystem\KeyCode.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

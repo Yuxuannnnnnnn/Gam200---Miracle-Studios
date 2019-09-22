@@ -3,6 +3,7 @@
 #include "../GraphicsSystem/GraphicsSystem.h"
 #include "GameObjectComponents/GameObjectFactory.h"
 
+#include "FrameRateController.h"
 
 class Engine
 {
@@ -18,5 +19,8 @@ public:
 
 	GraphicsSystem * _graphicsSystem;
 	GameObjectFactory * _gameObjectFactory;
+	FrameRateController* _frameController;
+
+private:
 };
 
