@@ -9,6 +9,9 @@
 #ifndef _BOX_COLLIDER_2D_H
 #define _BOX_COLLIDER_2D_H
 
+#include "PrecompiledHeaders.h"
+
+
 #include "GAM200-Vector3.h"
 #include "GAM200-Vector2.h"
 

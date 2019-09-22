@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+
 #include "GameObject.h"
 
 
@@ -32,7 +32,29 @@ public:
 		:_id{ 0 }
 	{}
 
-	const std::map<size_t, IGameObject*> Objectlist()
+
+	const std::map < size_t, GraphicComponent* >& getGraphicComponent() const
+	{
+		return _graphicComponents;
+	}	
+	
+	const std::map < size_t, TransformComponent* >& getTransformComponent() const
+	{
+		return _transformComponents;
+	}	
+	
+	const std::map < size_t, RigidBodyComponent* >& getRigidBodyComponent() const
+	{
+		return _rigidBodyComponents;
+	}	
+	
+	const std::map < size_t, PhysicsComponent* >& getPhysicsComponent() const
+	{
+		return _physicsComponent;
+	}
+
+
+	const std::map<size_t, IGameObject*>& getObjectlist() const
 	{
 		return _listObject;
 	}
@@ -52,17 +74,24 @@ public:
 	//Deletes all gameObjects in the gameObjectFactory
 	~GameObjectFactory() 
 	{
-		for (std::pair<size_t, IGameObject*> gameObject : _listObject)
+		for (auto gameObject : _listObject)
 		{
 			delete gameObject.second;
-			_listObject.erase(gameObject.first);
+			//_listObject.erase(gameObject.first);
 		}
+		//for (size_t i = 0; i < _listObject.size(); i++)
+		//{
+		//
+		//	std::map < size_t, IGameObject* >::iterator it = _listObject.begin();
+		//	delete it->second;
+		//	it++;
+		//}
 	}
 
 	//Create a gameObject type along with its Components
 	IGameObject* CreateGameObject(GameObjectID gameObjectID)
 	{
-		IGameObject* gameObject;
+		IGameObject* gameObject = nullptr;
 
 		switch (gameObjectID)
 		{
@@ -76,10 +105,12 @@ public:
 			_physicsComponent[_id] = dynamic_cast<PhysicsComponent*> (gameObject->addcomponent(PHYSICSCOMPONENT));
 
 			_id++;
-			return gameObject;
+			break;
 
 		//Other Objects
 		}
+
+		return gameObject;
 	}
 
 };

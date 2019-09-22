@@ -1,4 +1,5 @@
-#include "RendererSystem.h"
+#include "PrecompiledHeaders.h"
+
 
 RendererSystem::RendererSystem(int windowWidth, int windowHeight)
 	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
@@ -6,6 +7,7 @@ RendererSystem::RendererSystem(int windowWidth, int windowHeight)
 {
 
 }
+
 void RendererSystem::Update()
 {
 	for (size_t i = 0; i < objList.size(); i++)
@@ -37,6 +39,9 @@ void RendererSystem::Update()
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 }
+
+
+
 void RendererSystem::DrawPoint(int x, int y, int size)
 {
 	GLfloat positions[] =

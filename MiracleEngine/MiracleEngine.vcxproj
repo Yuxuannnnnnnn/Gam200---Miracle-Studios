@@ -99,14 +99,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep;$(SolutionDir)Resources;$(SolutionDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,8 +136,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -146,6 +145,7 @@
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep;$(SolutionDir)Resources;$(SolutionDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -440,12 +440,14 @@
     <ClInclude Include="Dep\rapidjson\stream.h" />
     <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
     <ClInclude Include="Dep\rapidjson\writer.h" />
+    <ClInclude Include="Src\Engine\FrameRateController.h" />
+    <ClInclude Include="Src\Main.h" />
+    <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\RigidBodyComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GameObjectFactory.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IComponentSystem.h" />
-    <ClInclude Include="Src\GraphicsSystem\RendererSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\GameObjectComponents\GameObject.h" />
@@ -461,7 +463,6 @@
     <ClInclude Include="Src\Inputsystem\keydef.h" />
     <ClInclude Include="Src\MathLib\Vector2.h" />
     <ClInclude Include="Src\MathLib\Vector3.h" />
-    <ClInclude Include="Src\Tools\FileIO.h" />
     <ClInclude Include="Src\WindowsSystem\WindowsSystem.h" />
     <ClInclude Include="stb_image\stb_image.h" />
     <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
@@ -469,12 +470,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
+    <ClCompile Include="Src\Engine\FrameRateController.cpp" />
+    <ClCompile Include="Src\PrecompiledHeaders.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\RigidBodyComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GameObjectFactory.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\IComponentSystem.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\RendererSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GameObject.cpp" />
@@ -483,7 +488,6 @@
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Src\Tools\FileIO.cpp" />
     <ClCompile Include="Src\WindowsSystem\WindowsSystem.cpp" />
     <ClCompile Include="stb_image\stb_image.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />

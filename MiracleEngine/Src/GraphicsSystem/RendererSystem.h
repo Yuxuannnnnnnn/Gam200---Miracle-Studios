@@ -1,17 +1,19 @@
 #pragma once
+#include "PrecompiledHeaders.h"
+
 // renderer System expose 3 function to user: DrawPoint, DrawLine, DrawWireFrameQuad 
 
-#include "GameObjectComponents/GameObject.h"
-
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-
-#include "Elementbuffer.h"
-#include "VertexBuffer.h"
-#include "MeshManager.h"
+//#include "GameObjectComponents/GameObject.h"
+//
+//#include "glm/glm.hpp"
+//#include "glm/gtc/matrix_transform.hpp"
+//
+//#include "Elementbuffer.h"
+//#include "VertexBuffer.h"
+//#include "MeshManager.h"
 #include "Shader.h"
-#include "../GameObjectComponents/TransformComponent.h"
-#include "../GameObjectComponents/GraphicComponent.h"
+#include "GameObjectComponents/TransformComponent.h"
+#include "GameObjectComponents/GraphicComponent.h"
 
 class RendererSystem
 {

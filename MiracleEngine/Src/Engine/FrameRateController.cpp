@@ -6,6 +6,7 @@
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
+#include "PrecompiledHeaders.h"
 #include "FrameRateController.h"
 
 // #include <iostream>

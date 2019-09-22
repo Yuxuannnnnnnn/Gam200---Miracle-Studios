@@ -1,3 +1,4 @@
+#include "PrecompiledHeaders.h"
 
 #include "GameObjectComponents/GameObject.h"
 // IO stuff

@@ -14,5 +14,4 @@
 #include <memory.h>
 #include <tchar.h>
 
-//Source files
-#include "WindowsSystem/WindowsSystem.h"
+

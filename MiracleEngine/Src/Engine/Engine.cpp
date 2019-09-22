@@ -1,28 +1,23 @@
-#include "Engine.h"
-#include "GraphicsSystem/VertexArray.h"
-#include "GraphicsSystem/VertexBuffer.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-
-
-#include "GraphicsSystem/GraphicsSystem.h"
-
+#include "PrecompiledHeaders.h"
 
 void Engine::Init()
 {
 	_graphicsSystem->Init();
 
-	_gameObjectFactory->CreateGameObject(PLAYER);
+	IGameObject* player = _gameObjectFactory->CreateGameObject(PLAYER);
+	_gameObjectFactory->DeleteGameObjectID(player->_id);
 
 	_frameController->Initialize();
 }
 
 void Engine::Update()
 {
-	_graphicsSystem->Update();
+	_graphicsSystem->Update(_gameObjectFactory->getTransformComponent(), _gameObjectFactory->getGraphicComponent());
 	
 	double deltaTime = _frameController->UpdateFrameTime();
 	(void)deltaTime;
+
+	 
 
 }
 

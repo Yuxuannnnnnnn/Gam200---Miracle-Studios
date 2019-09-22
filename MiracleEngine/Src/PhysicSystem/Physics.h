@@ -8,6 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef _PHYSICS_SYSTEM_H
 #define _PHYSICS_SYSTEM_H
+#include "PrecompiledHeaders.h"
 
 #include "CircleCollider2D.h"
 #include "BoxCollider2D.h"

@@ -1,5 +1,5 @@
+#include "PrecompiledHeaders.h"
 
-#include "vertexbuffer.h"
 
 VertexBuffer::VertexBuffer() 
 	:_id{0}

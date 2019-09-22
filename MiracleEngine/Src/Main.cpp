@@ -1,14 +1,11 @@
 // MiracleEngine.cpp : Defines the entry point for the application.
 //
-
-#include "framework.h"
+#include "PrecompiledHeaders.h"
+#include "Main.h"
 #include "glew.h"
-#include <iostream>
-#include "Engine/Engine.h"
 
-extern GraphicsSystem* graphicsSystem;
-extern GameObjectFactory* gameObjectFactory;
-
+GraphicsSystem* graphicsSystem;
+GameObjectFactory* gameObjectFactory;
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -26,6 +23,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//Creating the window object
 	WindowsSystem window(hInstance, nCmdShow);
 	window.Initialise();
+
 
 
 	Engine* coreEngine = new Engine();

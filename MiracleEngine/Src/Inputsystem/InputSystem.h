@@ -1,6 +1,6 @@
 #pragma once
+#include "PrecompiledHeaders.h"
 #include "KeyCode.h"
-#include <windows.h>
 
 class InputSystem
 {

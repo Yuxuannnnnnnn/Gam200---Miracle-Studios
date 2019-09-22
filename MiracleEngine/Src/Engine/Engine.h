@@ -1,8 +1,6 @@
 #pragma once
-
-#include "../GraphicsSystem/GraphicsSystem.h"
 #include "GameObjectComponents/GameObjectFactory.h"
-
+#include "GraphicsSystem/GraphicsSystem.h"
 #include "FrameRateController.h"
 
 class Engine

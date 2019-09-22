@@ -1,22 +1,16 @@
-#include "GraphicsSystem.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "GraphicsSystem/VertexBuffer.h"
-#include "Main.cpp"
+#include "PrecompiledHeaders.h"
+
 
 
 
 void GraphicsSystem::Init()
 {
-	//Check if glewinit call is successful
-	if (glewInit() != GLEW_OK)
-		std::cout << "Error" << std::endl;
-
-	//cout the opengl version that we are using
-	std::cout << "Opengl version: " << glGetString(GL_VERSION) << std::endl;
 
 }
-void GraphicsSystem::Update()
+
+
+void GraphicsSystem::Update(const std::map < size_t, TransformComponent* >& transformComponent,
+	const std::map < size_t, GraphicComponent* >& graphicComponent)
 {
 	//VertexBuffer vb((const void*)positions, sizeof(glm::vec2) * 3);
 
@@ -33,7 +27,7 @@ void GraphicsSystem::Update()
 	//glEnableVertexAttribArray(0);
 
 	ClearScreen();
-
+	/*
 	_renderer.Update();
 	_renderer.DrawPoint(10, -100, 5);
 	_renderer.DrawWireFrameQuad(0, 0, 30, 50);
@@ -41,6 +35,7 @@ void GraphicsSystem::Update()
 	// gl_lines
 	// 2 vbo and ebo
 	// 1 for square and 1 for lines
+	*/
 }
 
 

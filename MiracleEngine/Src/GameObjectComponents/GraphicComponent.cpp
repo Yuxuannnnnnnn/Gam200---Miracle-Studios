@@ -1,1 +1,2 @@
-#include "GraphicComponent.h"
+#include "PrecompiledHeaders.h"
+

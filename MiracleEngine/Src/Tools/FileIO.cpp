@@ -1,3 +1,5 @@
+#include "PrecompiledHeaders.h"
+
 #include "FileIO.h"
 
 #define MAX_CHAR_ARR_BUFFER 1000

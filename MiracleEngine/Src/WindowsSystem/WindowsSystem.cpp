@@ -1,7 +1,9 @@
-#include "WindowsSystem.h"
+#include "PrecompiledHeaders.h"
+#include "Resource.h"
+
+#include <Windows.h>
 #include <exception>
 #include "glew.h"
-#include <iostream>
 
 
 void CreateConsole()
@@ -221,6 +223,15 @@ bool WindowsSystem::Initialise()
 		ReleaseDC(mainHWND, m_windowDC);
 		return false;
 	}
+
+
+	//Check if glewinit call is successful
+	if (glewInit() != GLEW_OK)
+		std::cout << "Error" << std::endl;
+
+	//cout the opengl version that we are using
+	std::cout << "Opengl version: " << glGetString(GL_VERSION) << std::endl;
+
 }
 
 HDC WindowsSystem::get_m_windowDC() const

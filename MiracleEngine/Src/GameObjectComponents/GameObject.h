@@ -1,17 +1,10 @@
 #pragma once
 
-#include <vector>			// STL
-#include <iterator>			// stuff
-#include <map>
-
-#include "Tools/FileIO.h"	// Serialization
-#include "MathLib/Vector3.h"
-
-#include "IComponentSystem.h"
 #include "GraphicComponent.h"
 #include "RigidBodyComponent.h"
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
+
 
 enum GameObjectID {
 	UNKNOWN = 0,
@@ -60,17 +53,21 @@ public:
 		switch (componentType)
 		{
 		case TRANSFORMCOMPONENT:
-			return _ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
+			 _ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
+			 break;
 		case GRAPHICSCOMPONENT:
-			return _ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
+			 _ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
+			 break;
 		case RIGIDBODYCOMPONENT:
-			return _ComponentList[RIGIDBODYCOMPONENT] = new RigidBodyComponent();
+			 _ComponentList[RIGIDBODYCOMPONENT] = new RigidBodyComponent();
+			 break;
 		case PHYSICSCOMPONENT:
-			return _ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
+			 _ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
+			 break;
 		}
-	}
 
-protected:
+		return  _ComponentList[componentType];
+	}
 
 	//List of Components for Each GameObject
 	std::map< ComponentTypes, IComponentSystem* > _ComponentList;

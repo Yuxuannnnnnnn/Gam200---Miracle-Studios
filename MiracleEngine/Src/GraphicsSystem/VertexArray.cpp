@@ -1,6 +1,9 @@
-#include "VertexArray.h"
+#include "PrecompiledHeaders.h"
+#include "glew.h"
+
 
 VertexArray::VertexArray()
+	:_id{0}
 {
 	glGenVertexArrays(1, &_id);
 	glBindVertexArray(_id);
