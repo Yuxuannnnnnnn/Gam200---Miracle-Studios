@@ -42,11 +42,11 @@ public:
 	{
 		delete _listObject[id];
 
-		_listObject.erase[id];
-		_graphicComponents.erase[id];
-		_transformComponents.erase[id];
-		_rigidBodyComponents.erase[id];
-		_physicsComponent.erase[id];
+		_listObject.erase(id);
+		_graphicComponents.erase(id);
+		_transformComponents.erase(id);
+		_rigidBodyComponents.erase(id);
+		_physicsComponent.erase(id);
 	}
 
 	//Deletes all gameObjects in the gameObjectFactory

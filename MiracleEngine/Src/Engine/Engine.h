@@ -10,7 +10,9 @@ class Engine
 public:
 
 	Engine()
-		:_graphicsSystem{ new GraphicsSystem }, _gameObjectFactory{new GameObjectFactory}
+		:_graphicsSystem{ new GraphicsSystem() }, 
+		_gameObjectFactory{new GameObjectFactory() }, 
+		_frameController{ new FrameRateController() }
 	{}
 
 	void Init();

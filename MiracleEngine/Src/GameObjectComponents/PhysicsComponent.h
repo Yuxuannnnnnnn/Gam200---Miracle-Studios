@@ -1,5 +1,5 @@
 #pragma once
-
+#include "IComponentSystem.h"
 
 
 
@@ -11,7 +11,6 @@ public:
 	{
 		return "Physics Component";
 	}
-
 
 };
 

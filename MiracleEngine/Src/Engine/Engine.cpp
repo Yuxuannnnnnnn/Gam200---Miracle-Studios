@@ -11,8 +11,8 @@
 void Engine::Init()
 {
 	_graphicsSystem->Init();
-	_gameObjectFactory->CreateGameObject(PLAYER);
 
+	_gameObjectFactory->CreateGameObject(PLAYER);
 
 	_frameController->Initialize();
 }
