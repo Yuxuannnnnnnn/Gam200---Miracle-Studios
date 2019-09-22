@@ -13,5 +13,7 @@ private:
 	GraphicsSystem* _graphicSystem;
 	InputSystem* _inputSystem;
 	FrameRateController* _frameController;
+
+	bool keypressed;
 };
 

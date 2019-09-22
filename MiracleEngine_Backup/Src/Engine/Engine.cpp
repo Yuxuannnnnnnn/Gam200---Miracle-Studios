@@ -15,6 +15,7 @@ void Engine::Init()
 	_inputSystem = new InputSystem();
 	_inputSystem->Init();
 	_frameController->Initialize();
+	keypressed = false;
 }
 
 void Engine::Update()
@@ -27,9 +28,43 @@ void Engine::Update()
 	_graphicSystem->Update();
 	_inputSystem->Update();
 
-	if (_inputSystem->KeyDown(KEYB_A))
+	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
 	{
+		// testing gameobject, delete later
+		objList.push_back(GameObject{ Vec3{100,50}, Vec3{50,50} });
 		std::cout << "A pressed !" << std::endl;
+
+		keypressed = true;
+	}
+	else if (!_inputSystem->KeyDown(KEYB_A) && keypressed)
+	{
+		keypressed = false;
+	}
+
+	if (_inputSystem->KeyDown(KEYB_B) && !keypressed)
+	{
+		// testing gameobject, delete later
+		objList.push_back(GameObject{ Vec3{100,-50}, Vec3{50,50} });
+		std::cout << "A pressed !" << std::endl;
+
+		keypressed = true;
+	}
+	else if (!_inputSystem->KeyDown(KEYB_B) && keypressed)
+	{
+		keypressed = false;
+	}
+
+	if (_inputSystem->KeyDown(KEYB_C) && !keypressed)
+	{
+		// testing gameobject, delete later
+		objList.push_back(GameObject{ Vec3{-100,50}, Vec3{50,50} });
+		std::cout << "A pressed !" << std::endl;
+
+		keypressed = true;
+	}
+	else if (!_inputSystem->KeyDown(KEYB_C) && keypressed)
+	{
+		keypressed = false;
 	}
 }
 
