@@ -9,10 +9,10 @@
 #ifndef _CIRCLE_COLLIDER_2D_H
 #define _CIRCLE_COLLIDER_2D_H
 
-#include "../MathLib/Vector3.h"
-#include "../MathLib/Vector2.h"
+#include "GAM200-Vector3.h"
+#include "GAM200-Vector2.h"
 
-#include "CircleCollider2D.h"
+#include "Collider2D.h"
 
 // namespace MiracleEngine
 
@@ -56,7 +56,7 @@ inline float distance(Vector3 P, Vector3 Q, Vector3 R)
 	return R.Distance(S);
 }
 
-class CircleCollider2D // Renderer
+class CircleCollider2D : public Collider2D // Renderer
 {
 public:
   // Default Constructor
@@ -65,8 +65,8 @@ public:
   }
   
   // Conversion Constructor
-	CircleCollider2D(const Vector3& center, float radius) : mCenPos{center}, mRadius{radius} 
-  { 
+	CircleCollider2D(const Vector3& center, float radius) : mCenPos{center}, mRadius{radius}
+  {  
   }
   
   // Copy Constructor

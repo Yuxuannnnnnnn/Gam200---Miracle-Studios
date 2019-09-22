@@ -9,14 +9,15 @@
 #ifndef _BOX_COLLIDER_2D_H
 #define _BOX_COLLIDER_2D_H
 
-#include "../MathLib/Vector3.h"
-#include "../MathLib/Vector2.h"
+#include "GAM200-Vector3.h"
+#include "GAM200-Vector2.h"
 
 #include "CircleCollider2D.h"
+#include "Collider2D.h"
 
 // namespace MiracleEngine
 
-class BoxCollider2D // renderer
+class BoxCollider2D : public Collider2D // renderer
 {
 public:
 
