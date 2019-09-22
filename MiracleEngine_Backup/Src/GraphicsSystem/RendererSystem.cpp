@@ -84,7 +84,7 @@ void RendererSystem::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 	_shader.Select();
 
 	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 0));
-	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), objList[0]._angle, glm::vec3(0, 0, 1));
+	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
 	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f), glm::vec3(xsize, ysize, 1.0f));
 
 	glm::mat4 mvp = _proj * model;
