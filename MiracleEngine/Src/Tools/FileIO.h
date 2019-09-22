@@ -1,3 +1,4 @@
+#include "PrecompiledHeaders.h"
 
 // IO stuff
 #include <fstream>	// File IO
@@ -22,6 +23,8 @@
 //#include <map>		// use for keyword storing
 //#include <queue>	// Queue for storing input
 //#include <algorithm>// foreach
+
+
 struct Vec2 {
 	float _x{ 0.0 }, _y{ 0.0 };
 	Vec2() = default;

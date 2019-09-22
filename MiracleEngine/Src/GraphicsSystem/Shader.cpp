@@ -1,4 +1,5 @@
-#include "Shader.h"
+#include "PrecompiledHeaders.h"
+
 
 Shader::Shader(const char* vert, const char* frag)
 {

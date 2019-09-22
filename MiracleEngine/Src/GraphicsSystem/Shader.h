@@ -1,10 +1,7 @@
 #pragma once
+#include "PrecompiledHeaders.h"
 #include "glew.h"
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <glm/glm.hpp>
+//#include <glm/glm.hpp>
 
 GLuint CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
 GLuint CompileShader(const std::string& source, GLuint type);

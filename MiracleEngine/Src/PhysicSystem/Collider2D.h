@@ -9,6 +9,8 @@
 #ifndef _COLLIDER_2D_H
 #define _COLLIDER_2D_H
 
+#include "PrecompiledHeaders.h"
+
 enum ColliderType{
     
     NONE_COLLIDER,

@@ -1,4 +1,5 @@
-#include "InputSystem.h"
+#include "PrecompiledHeaders.h"
+
 
 
 bool InputSystem::KeyDown(KeyCode key)

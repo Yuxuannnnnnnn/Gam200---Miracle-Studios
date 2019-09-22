@@ -1,6 +1,6 @@
 #pragma once
-#include "framework.h"
-#include "Resource.h"
+#include "PrecompiledHeaders.h"
+
 
 
 #define MAX_LOADSTRING 100

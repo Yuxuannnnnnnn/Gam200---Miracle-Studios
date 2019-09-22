@@ -9,6 +9,9 @@
 #ifndef _CIRCLE_COLLIDER_2D_H
 #define _CIRCLE_COLLIDER_2D_H
 
+
+#include "PrecompiledHeaders.h"
+
 #include "GAM200-Vector3.h"
 #include "GAM200-Vector2.h"
 
