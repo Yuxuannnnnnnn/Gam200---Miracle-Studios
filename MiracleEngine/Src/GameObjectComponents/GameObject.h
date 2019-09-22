@@ -11,6 +11,7 @@
 #include "GraphicComponent.h"
 #include "RigidBodyComponent.h"
 #include "TransformComponent.h"
+#include "PhysicsComponent.h"
 
 enum GameObjectID {
 	UNKNOWN = 0,
@@ -26,14 +27,18 @@ enum ComponentTypes
 {
 	TRANSFORMCOMPONENT = 0,
 	GRAPHICSCOMPONENT = 1,
-	RIGIDBODYCOMPONENT = 2
+	RIGIDBODYCOMPONENT = 2,
+	PHYSICSCOMPONENT = 3
 };
 
 class IGameObject
 {
 public:
 
-	IGameObject() = default;
+	IGameObject(size_t id)
+		:_id{ id }
+	{
+	}
 
 	//deletes all Components in a Game Object
 	virtual ~IGameObject()
@@ -50,26 +55,26 @@ public:
 	virtual std::string GameObjectType() const = 0;
 
 	//Add a specific component to the GameObject
-	void addcomponent(ComponentTypes componentType)
+	IComponentSystem* addcomponent(ComponentTypes componentType)
 	{
 		switch (componentType)
 		{
 		case TRANSFORMCOMPONENT:
-			_ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
-			return;
+			return _ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
 		case GRAPHICSCOMPONENT:
-			_ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
-			return;
+			return _ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
 		case RIGIDBODYCOMPONENT:
-			_ComponentList[RIGIDBODYCOMPONENT] = new RigidBodyComponent();
-			return;
+			return _ComponentList[RIGIDBODYCOMPONENT] = new RigidBodyComponent();
+		case PHYSICSCOMPONENT:
+			return _ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
 		}
 	}
 
-private:
+protected:
 
 	//List of Components for Each GameObject
 	std::map< ComponentTypes, IComponentSystem* > _ComponentList;
+	size_t _id;
 };
 
 
@@ -77,14 +82,12 @@ class Weapon: public IGameObject
 {
 private:
 
-	unsigned int _Id;
-
 	float _FireRate{ 0.0f };
 
 public:
 	Weapon() = default;
-	Weapon(unsigned int id, float firerate) 
-		: _Id{ id }, _FireRate{ firerate } 
+	Weapon(size_t id, float firerate) 
+		: IGameObject(id), _FireRate{ firerate } 
 	{}
 
 	~Weapon() = default;
@@ -100,15 +103,19 @@ class Player : public IGameObject
 {
 private:
 
-	unsigned int _Id;
-
 	unsigned int _Health{ 0 };
 	float _Speed{ 0.0f };
 
 	std::vector<Weapon> _WeaponList;
 
 public:
-	Player() { Serialize(); }
+	Player(size_t id)
+		:IGameObject(id)
+	{ 
+		
+	}
+
+
 	~Player() {}
 
 	void Serialize() {

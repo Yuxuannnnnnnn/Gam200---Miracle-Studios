@@ -92,6 +92,7 @@ void RendererSystem::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
+
 void RendererSystem::DrawLine(int x1, int y1, int x2, int y2)
 {
 	int windowWidth = 800;

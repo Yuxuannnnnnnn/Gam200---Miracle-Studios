@@ -440,6 +440,7 @@
     <ClInclude Include="Dep\rapidjson\stream.h" />
     <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
     <ClInclude Include="Dep\rapidjson\writer.h" />
+    <ClInclude Include="Src\GameObjectComponents\PhysicsComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\RigidBodyComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GameObjectFactory.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponent.h" />
@@ -466,6 +467,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\RigidBodyComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GameObjectFactory.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponent.cpp" />

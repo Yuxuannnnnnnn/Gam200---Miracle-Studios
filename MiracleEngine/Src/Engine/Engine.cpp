@@ -9,18 +9,20 @@
 
 void Engine::Init()
 {
-	_graphicSystem = new GraphicsSystem();
+	_graphicsSystem->Init();
+	_gameObjectFactory->CreateGameObject(PLAYER);
+
 }
 
 void Engine::Update()
 {
-
-
-	_graphicSystem->Update();
-
+	_graphicsSystem->Update();
 }
 
 void Engine::Exit()
 {
-	delete _graphicSystem;
+	delete _graphicsSystem;
+
+	//delete all objects in the gameObjectFactory
+	delete _gameObjectFactory;
 }

@@ -2,14 +2,18 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "GraphicsSystem/VertexBuffer.h"
-
-
+#include "Main.cpp"
 
 
 
 void GraphicsSystem::Init()
 {
-	glewInit();
+	//Check if glewinit call is successful
+	if (glewInit() != GLEW_OK)
+		std::cout << "Error" << std::endl;
+
+	//cout the opengl version that we are using
+	std::cout << "Opengl version: " << glGetString(GL_VERSION) << std::endl;
 
 }
 void GraphicsSystem::Update()
@@ -28,7 +32,6 @@ void GraphicsSystem::Update()
 	////enable the index of the vertex attribute
 	//glEnableVertexAttribArray(0);
 
-
 	ClearScreen();
 
 	_renderer.Update();
@@ -39,10 +42,13 @@ void GraphicsSystem::Update()
 	// 2 vbo and ebo
 	// 1 for square and 1 for lines
 }
+
+
 void GraphicsSystem::Exit()
 {
 
 }
+
 
 void GraphicsSystem::ClearScreen() const
 {

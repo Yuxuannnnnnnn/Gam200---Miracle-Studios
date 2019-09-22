@@ -6,6 +6,11 @@
 #include <iostream>
 #include "Engine/Engine.h"
 
+extern GraphicsSystem* graphicsSystem;
+extern GameObjectFactory* gameObjectFactory;
+
+
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -23,8 +28,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	window.Initialise();
 
 
-	Engine* coreEngine = new Engine;
+	Engine* coreEngine = new Engine();
+	gameObjectFactory = coreEngine->_gameObjectFactory;
+	graphicsSystem = coreEngine->_graphicsSystem;
+
 	coreEngine->Init();
+
+
 
     MSG msg;
 	bool loop = true;
