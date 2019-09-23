@@ -3,19 +3,7 @@
 
 #define MAX_CHAR_ARR_BUFFER 1000
 
-namespace FilePathNames {
-	const char* path_player = "./Resources/TextFiles/player.json";
-	const char* path_init = "./Resources/TextFiles/init.json";
-	const char* path_outTest = "./Resources/TextFiles/test.txt";
-	const char* path_crashLog = "./Resources/TextFiles/crashlog.txt";
-}
 
-struct Initi { // only for taking all input stuff at once
-	int _ResX{ 0 }, _ResY{ 0 };
-	bool _Fullscreen{ false };
-	Initi() {}
-	~Initi() {}
-};
 
 // take in power, x10 by power amt
 int MultTen(int power)
@@ -104,6 +92,17 @@ void JsonDynamicStore(std::vector<unsigned int>& store, rapidjson::Value& val)
 			store.push_back(val[i].GetInt());
 	return;
 }
+void JsonDynamicStore(Vector3& store, rapidjson::Value& val)
+{
+	//Vector3 tempVec(val[0].GetFloat(), val[1].GetFloat(), 1);
+	if (val.IsArray())
+	{
+		store.X(val[0].GetFloat());
+		store.Y(val[1].GetFloat());
+		store.Z(1);
+	}
+	return;
+}
 //void JsonDynamicStore(TransformComponent* store, rapidjson::Value& val, ComponentTypes type)
 //{
 //	if (val.IsArray())
@@ -151,35 +150,40 @@ char* FileRead_FileToCharPtr(const char* FileName)
 	return nullptr;
 }
 
+
+//------------------------------------------------------------------------------------
+// stuff below need to shift to their individual actual classes
+//------------------------------------------------------------------------------------
+
 /**
 \brief Read start up info for application
 		Will get following values:
 		- Resolution (X, Y)
 		- Fullscreen On/Off
 */
-void FileRead_StartUp(Initi& initialise)
-{
-	std::cout << "FileRead_StartUp --------------------" << std::endl;
-	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_init);
-			std::cout << iBuffer << std::endl;
-	assert(iBuffer != nullptr && "error");
-	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
-
-// get values from the Document;
-	rapidjson::Value& s = d["ResX"];
-	initialise._ResX = s.GetInt();
-	s = d["ResY"];
-	initialise._ResY = s.GetInt();
-	s = d["Fullscreen"];
-	initialise._Fullscreen = s.GetBool();
-// cout for check
-	std::cout << "Inital File Input" << std::endl
-		<< "X:" << initialise._ResX << " Y:" << initialise._ResY << " Full = " << initialise._Fullscreen << std::endl
-		<< "-------------------------------------" << std::endl;
-
-	delete[] iBuffer;
-}
+//void FileRead_StartUp(Initi& initialise)
+//{
+//	std::cout << "FileRead_StartUp --------------------" << std::endl;
+//	rapidjson::Document d;
+//	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_init);
+//			std::cout << iBuffer << std::endl;
+//	assert(iBuffer != nullptr && "error");
+//	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+//
+//// get values from the Document;
+//	rapidjson::Value& s = d["ResX"];
+//	initialise._ResX = s.GetInt();
+//	s = d["ResY"];
+//	initialise._ResY = s.GetInt();
+//	s = d["Fullscreen"];
+//	initialise._Fullscreen = s.GetBool();
+//// cout for check
+//	std::cout << "Inital File Input" << std::endl
+//		<< "X:" << initialise._ResX << " Y:" << initialise._ResY << " Full = " << initialise._Fullscreen << std::endl
+//		<< "-------------------------------------" << std::endl;
+//
+//	delete[] iBuffer;
+//}
 
 /**
 \brief Read BASE-STATS for PLAYER
@@ -189,45 +193,45 @@ void FileRead_StartUp(Initi& initialise)
 		- Weapon	std::vector
 		- Alive		bool
 */
-void FileRead_Player(Player* player)
-{
-	//	// just bring over the FileRead_PlayerInfo from the FileIO.cpp
-	//	// file path can now be put here since all serailization will be done within the this cpp
-	//std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
-	//rapidjson::Document d;
-	//char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_player);
-	//std::cout << iBuffer << std::endl;
-	//assert(iBuffer != nullptr);
-	//d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
-	//// get values from the Document;
-	//rapidjson::Value& s = d["Health"];
-	//JsonDynamicStore(player->RefHealth(), s);
-
-	//s = d["Speed"];
-	//JsonDynamicStore(player->RefSpeed(), s);
-
-	//s = d["Weapons"];
-	//JsonDynamicStore(player->RefWeaponListId(), s);
-
-	//s = d["Transform"];
-	//JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_POS);
-	//s = d["Scale"];
-	//JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_SCALE);
-	//s = d["Rotation"];
-	//JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_ROTATE);
-
-	//std::cout << "-------------------------------------" << std::endl;
-
-	//delete[] iBuffer;
-}
+//void FileRead_Player(Player* player)
+//{
+//		// just bring over the FileRead_PlayerInfo from the FileIO.cpp
+//		// file path can now be put here since all serailization will be done within the this cpp
+//	std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
+//	rapidjson::Document d;
+//	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_player);
+//	std::cout << iBuffer << std::endl;
+//	assert(iBuffer != nullptr);
+//	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+//	// get values from the Document;
+//	rapidjson::Value& s = d["Health"];
+//	JsonDynamicStore(player->RefHealth(), s);
+//
+//	s = d["Speed"];
+//	JsonDynamicStore(player->RefSpeed(), s);
+//
+//	s = d["Weapons"];
+//	JsonDynamicStore(player->RefWeaponListId(), s);
+//
+//	s = d["Transform"];
+//	JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_POS);
+//	s = d["Scale"];
+//	JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_SCALE);
+//	s = d["Rotation"];
+//	JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_ROTATE);
+//
+//	std::cout << "-------------------------------------" << std::endl;
+//
+//	delete[] iBuffer;
+//}
 
 /**
 \brief Output to file a crash file with a message
 */
-void FileOut_CrashLog(const char* msg) {
-	std::fstream _file;
-	_file.open(FilePathNames::path_crashLog, std::ios_base::out, std::ios_base::trunc);
-	_file << "CRASH LOG" << std::endl
-		<< msg << std::endl;
-	_file.close();
-}
+//void FileOut_CrashLog(const char* msg) {
+//	std::fstream _file;
+//	_file.open(FilePathNames::path_crashLog, std::ios_base::out, std::ios_base::trunc);
+//	_file << "CRASH LOG" << std::endl
+//		<< msg << std::endl;
+//	_file.close();
+//}

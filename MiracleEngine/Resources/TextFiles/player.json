@@ -1,7 +1,8 @@
 {
-	"Transform": [3.2, 4.1],
+	"Position": [3.2, 4.1],
+	"Scale": [3.2, 4.1],
+	"Rotate": 1.3,
 	"Health": 10,
 	"Speed": 3.3,
-	"Weapons": [1,3,4] ,	
-	"Alive": true
+	"Weapons": [1,3,4] 
 }

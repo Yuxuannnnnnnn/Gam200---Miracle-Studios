@@ -21,6 +21,8 @@
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\PrecompiledHeaders.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
+    <ClCompile Include="Src\Tools\FileIO.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -333,6 +335,9 @@
     <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Src\Main.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
+    <ClInclude Include="Src\Tools\FileIO.h" />
+    <ClInclude Include="Src\Tools\GameState.h" />
+    <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
