@@ -1,8 +1,21 @@
 #include "PrecompiledHeaders.h"
-
 #include "FileIO.h"
 
 #define MAX_CHAR_ARR_BUFFER 1000
+
+namespace FilePathNames {
+	const char* path_player = "./Resources/TextFiles/player.json";
+	const char* path_init = "./Resources/TextFiles/init.json";
+	const char* path_outTest = "./Resources/TextFiles/test.txt";
+	const char* path_crashLog = "./Resources/TextFiles/crashlog.txt";
+}
+
+struct Initi { // only for taking all input stuff at once
+	int _ResX{ 0 }, _ResY{ 0 };
+	bool _Fullscreen{ false };
+	Initi() {}
+	~Initi() {}
+};
 
 // take in power, x10 by power amt
 int MultTen(int power)
@@ -91,22 +104,22 @@ void JsonDynamicStore(std::vector<unsigned int>& store, rapidjson::Value& val)
 			store.push_back(val[i].GetInt());
 	return;
 }
-void JsonDynamicStore(TransformComponent* store, rapidjson::Value& val, ComponentTypes type)
-{
-	if (val.IsArray())
-	{
-		Vector3 tempVec(val[0].GetFloat(), val[1].GetFloat(), 1);
-		if (type == TRANSFORMSUBCOMPONENT_POS)
-			store->SetPos(tempVec);
-		else if (type == TRANSFORMSUBCOMPONENT_SCALE)
-			store->SetScale(tempVec);
-		else
-			std::cout << "JsonDynamicStore - TransformComponent Array Error\n";
-	}
-	else // type == TRANSFORMSUBCOMP_ROTATE
-		store->SetRotate(val.GetFloat());
-	return;
-}
+//void JsonDynamicStore(TransformComponent* store, rapidjson::Value& val, ComponentTypes type)
+//{
+//	if (val.IsArray())
+//	{
+//		Vector3 tempVec(val[0].GetFloat(), val[1].GetFloat(), 1);
+//		if (type == TRANSFORMSUBCOMPONENT_POS)
+//			store->SetPos(tempVec);
+//		else if (type == TRANSFORMSUBCOMPONENT_SCALE)
+//			store->SetScale(tempVec);
+//		else
+//			std::cout << "JsonDynamicStore - TransformComponent Array Error\n";
+//	}
+//	else // type == TRANSFORMSUBCOMP_ROTATE
+//		store->SetRotate(val.GetFloat());
+//	return;
+//}
 
 /**
 \brief Function to make file input into single char[]
@@ -178,34 +191,34 @@ void FileRead_StartUp(Initi& initialise)
 */
 void FileRead_Player(Player* player)
 {
-	// just bring over the FileRead_PlayerInfo from the FileIO.cpp
-		// file path can now be put here since all serailization will be done within the this cpp
-	std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
-	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_player);
-	std::cout << iBuffer << std::endl;
-	assert(iBuffer != nullptr);
-	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
-	// get values from the Document;
-	rapidjson::Value& s = d["Health"];
-	JsonDynamicStore(player->RefHealth(), s);
+	//	// just bring over the FileRead_PlayerInfo from the FileIO.cpp
+	//	// file path can now be put here since all serailization will be done within the this cpp
+	//std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
+	//rapidjson::Document d;
+	//char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_player);
+	//std::cout << iBuffer << std::endl;
+	//assert(iBuffer != nullptr);
+	//d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+	//// get values from the Document;
+	//rapidjson::Value& s = d["Health"];
+	//JsonDynamicStore(player->RefHealth(), s);
 
-	s = d["Speed"];
-	JsonDynamicStore(player->RefSpeed(), s);
+	//s = d["Speed"];
+	//JsonDynamicStore(player->RefSpeed(), s);
 
-	s = d["Weapons"];
-	JsonDynamicStore(player->RefWeaponListId(), s);
+	//s = d["Weapons"];
+	//JsonDynamicStore(player->RefWeaponListId(), s);
 
-	s = d["Transform"];
-	JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_POS);
-	s = d["Scale"];
-	JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_SCALE);
-	s = d["Rotation"];
-	JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_ROTATE);
+	//s = d["Transform"];
+	//JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_POS);
+	//s = d["Scale"];
+	//JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_SCALE);
+	//s = d["Rotation"];
+	//JsonDynamicStore(player->GetComponentTransform(), s, TRANSFORMSUBCOMPONENT_ROTATE);
 
-	std::cout << "-------------------------------------" << std::endl;
+	//std::cout << "-------------------------------------" << std::endl;
 
-	delete[] iBuffer;
+	//delete[] iBuffer;
 }
 
 /**

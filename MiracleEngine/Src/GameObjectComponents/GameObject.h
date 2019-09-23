@@ -102,7 +102,7 @@ private:
 
 	unsigned int _Health{ 0 };
 	float _Speed{ 0.0f };
-
+	std::vector<unsigned> _WeaponListId;
 	std::vector<Weapon> _WeaponList;
 
 public:
@@ -111,9 +111,16 @@ public:
 	{ 
 		
 	}
-
-
 	~Player() {}
+
+	void ConvertWeaponIdToWeapon()
+	{
+		_WeaponList.clear();
+		std::vector<unsigned int>::iterator itr = _WeaponListId.begin();
+		while (itr != _WeaponListId.end()) {
+			_WeaponList.push_back(Weapon(*itr, 0.0f));
+		}
+	}
 
 	void Serialize() {
 		// just bring over the FileRead_PlayerInfo from the FileIO.cpp

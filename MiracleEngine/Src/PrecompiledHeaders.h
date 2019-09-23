@@ -10,9 +10,17 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
+#include <assert.h>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+
+#include "rapidjson.h"		// J
+#include "document.h"		// S
+#include "writer.h"			// O
+#include "stringbuffer.h"	// N
+#include "error/en.h"		// Json error displaying
 //------------------------------------------------------
 
 //Source files

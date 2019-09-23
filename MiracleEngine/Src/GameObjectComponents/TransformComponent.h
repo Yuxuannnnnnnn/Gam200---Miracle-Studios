@@ -26,6 +26,19 @@ public:
 
 	}
 
+		Vector3& GetPos()
+	{ return _pos; }
+	void SetPos(const Vector3& in)
+	{ _pos = in; }
+	Vector3& GetScale()
+	{ return _scale; }
+	void SetScale(const Vector3& in)
+	{ _scale = in; }
+	float& GetRotate()
+	{ return _rotationAngle; }
+	void SetRotate(const float in)
+	{ _rotationAngle = in; }
+
 	std::string ComponentName() const override
 	{
 		return "Transform Component";
