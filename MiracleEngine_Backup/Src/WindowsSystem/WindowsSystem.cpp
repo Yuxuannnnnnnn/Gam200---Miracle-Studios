@@ -2,7 +2,7 @@
 #include <exception>
 #include "glew.h"
 #include <iostream>
-
+#include "Tools/FileIO.h"
 
 void CreateConsole()
 {
@@ -130,8 +130,12 @@ BOOL WindowsSystem::InitInstance(HINSTANCE hInstance, int nCmdShow)
 	DWORD dwStyle = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW;
 	dwStyle &= ~WS_SIZEBOX;
 	dwStyle &= ~WS_MAXIMIZEBOX;
+	
+	Initi temp; // temp object for reading in info
+	FileRead_StartUp(temp);
+	RECT rect = { 0, 0, (LONG)(temp._ResX - 1), (LONG)(temp._ResY - 1) };
+	//RECT rect = { 0, 0, (LONG)(windowWidth - 1), (LONG)(windowHeight - 1) };
 
-	RECT rect = { 0, 0, (LONG)(windowWidth - 1), (LONG)(windowHeight - 1) };
 	//The AdjustWindowRect sets the exact client area without the title bar and all the extra pixels
 	//This will give us the exact resolution for the white rectangular area
 	AdjustWindowRectEx(&rect, dwStyle, FALSE, WS_EX_APPWINDOW);
@@ -170,7 +174,7 @@ bool WindowsSystem::Initialise()
 	/***************************************************************************************************/
 	//create rendering window
 	m_windowDC = GetDC(mainHWND);
-
+	
 	DEVMODE devMode = { 0 };
 	devMode.dmSize = sizeof(DEVMODE);
 	BOOL b = EnumDisplaySettings(0, ENUM_CURRENT_SETTINGS, &devMode);
