@@ -8,10 +8,12 @@
 #include "VertexBuffer.h"
 #include "MeshManager.h"
 #include "Shader.h"
+#include "QuadMesh.h"
 
 class RendererSystem
 {
 private:
+	QuadMesh _quadmesh;
 	MeshManager _meshmanager;
 	glm::mat4 _proj;  // projection matrix
 	Shader _shader{ "Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag" };

@@ -16,6 +16,7 @@
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\Tools\FileIO.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -284,6 +285,9 @@
     <ClInclude Include="Src\Inputsystem\KeyCode.h" />
     <ClInclude Include="Src\Inputsystem\InputSystem.h" />
     <ClInclude Include="Src\Tools\FileIO.h" />
+    <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
+    <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
+    <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

@@ -1,5 +1,18 @@
 #include "Shader.h"
 
+
+void Shader::SetUniform1i(const std::string& name, int value)
+{
+	int location = glGetUniformLocation(_id, name.c_str());
+	(glUniform1i(location, value));
+}
+
+void Shader::SetUniform1f(const std::string& name, float value)
+{
+	int location = glGetUniformLocation(_id, name.c_str());
+	(glUniform1f(location, value));
+}
+
 Shader::Shader(const char* vert, const char* frag)
 {
 	int success;
@@ -53,7 +66,7 @@ Shader::Shader(const char* vert, const char* frag)
 	{
 		std::cout << "ERROR::SHADER::FRAG::COMPILATION_FAILED\n" << std::endl;
 	};
-	
+
 
 	_id = glCreateProgram();
 	glAttachShader(_id, vertex);
@@ -64,7 +77,7 @@ Shader::Shader(const char* vert, const char* frag)
 	if (!success)
 	{
 		//glGetProgramInfoLog(ID, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n"  << std::endl;
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << std::endl;
 	}
 
 

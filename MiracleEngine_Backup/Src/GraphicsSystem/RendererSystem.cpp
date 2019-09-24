@@ -10,14 +10,7 @@ void RendererSystem::Update()
 {
 	for (size_t i = 0; i < objList.size(); i++)
 	{
-		//_meshmanager._quadmesh.Select();
-
-		VertexBuffer vbo(_meshmanager.GetQuadMesh()._positions, _meshmanager.GetQuadMesh().GetVBOSize()); // bind vbo, bind, ebo must bind every single loop
-		ElementBuffer ebo(_meshmanager.GetQuadMesh()._indices, _meshmanager.GetQuadMesh().GetIndicesCount());
-
-		glEnableVertexAttribArray(0);
-
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		_quadmesh.Select();
 
 		_shader.Select();
 
@@ -31,7 +24,7 @@ void RendererSystem::Update()
 
 		_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
 		_shader.SetUniformMat4f("u_MVP", mvp);
-
+		_shader.SetUniform1i("u_Texture", 0);
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		// this one encapsulate into another class
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
@@ -71,8 +64,7 @@ void RendererSystem::DrawPoint(int x, int y, int size)
 
 void RendererSystem::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 {
-	VertexBuffer vbo(_meshmanager.GetQuadMesh()._positions, _meshmanager.GetQuadMesh().GetVBOSize()); // bind vbo, bind, ebo must bind every single loop
-	ElementBuffer ebo(_meshmanager.GetQuadMesh()._indices, _meshmanager.GetQuadMesh().GetIndicesCount());
+	_quadmesh.Select();
 
 	glEnableVertexAttribArray(0);
 
