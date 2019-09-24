@@ -1,5 +1,4 @@
 #pragma once
-#include "PrecompiledHeaders.h"
 #include "IComponentSystem.h"
 
 

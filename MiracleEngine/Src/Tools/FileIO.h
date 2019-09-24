@@ -1,4 +1,3 @@
-#include "PrecompiledHeaders.h"
 
 // IO stuff
 #include <fstream>	// File IO
@@ -46,7 +45,9 @@ struct Playa {
 	float _SPD{ 0.0f };
 	std::vector<int> _Weap;
 	bool _Alive{ false };
-//namespace FilePathNames {
+//
+
+
 //	const char* path_player = "./Resources/TextFiles/player.json";
 //	const char* path_init = "./Resources/TextFiles/init.json";
 //	const char* path_outTest = "./Resources/TextFiles/test.txt";

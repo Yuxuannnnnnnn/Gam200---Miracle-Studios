@@ -84,13 +84,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep;$(SolutionDir)Resources;$(SolutionDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\PrecompiledHeaders;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep;$(SolutionDir)Resources;$(SolutionDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -117,8 +117,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -126,6 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,7 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep;$(SolutionDir)Resources;$(SolutionDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\PrecompiledHeaders;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep;$(SolutionDir)Resources;$(SolutionDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -442,7 +442,7 @@
     <ClInclude Include="Dep\rapidjson\writer.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
     <ClInclude Include="Src\Main.h" />
-    <ClInclude Include="Src\PrecompiledHeaders\PrecompiledHeaders.h" />
+    <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\RigidBodyComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GameObjectFactory.h" />
@@ -471,9 +471,15 @@
   <ItemGroup>
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
-    <ClCompile Include="Src\PrecompiledHeaders\PrecompiledHeaders.cpp">
+    <ClCompile Include="Src\PrecompiledHeaders.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PrecompiledHeaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PrecompiledHeaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PrecompiledHeaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\RigidBodyComponent.cpp" />

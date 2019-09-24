@@ -5,6 +5,9 @@
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
 
+#include <vector>
+#include <map>
+
 namespace FilePathNames {
 	const char* path_player = "./Resources/TextFiles/player.json";
 	const char* path_init = "./Resources/TextFiles/init.json";
@@ -127,7 +130,7 @@ public:
 			_WeaponList.push_back(Weapon(*itr, 0.0f));
 		}
 	}
-
+	/*
 	void Serialize() {
 		// just bring over the FileRead_PlayerInfo from the FileIO.cpp
 		// file path can now be put here since all serailization will be done within the this cpp
@@ -179,7 +182,7 @@ public:
 			<< "-------------------------------------"
 			<< std::endl;
 	}
-
+	*/
 
 	std::string GameObjectType() const override
 	{

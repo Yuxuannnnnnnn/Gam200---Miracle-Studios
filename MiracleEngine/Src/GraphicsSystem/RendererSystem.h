@@ -1,5 +1,4 @@
 #pragma once
-#include "PrecompiledHeaders.h"
 
 // renderer System expose 3 function to user: DrawPoint, DrawLine, DrawWireFrameQuad 
 

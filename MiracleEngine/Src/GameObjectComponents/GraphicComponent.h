@@ -1,6 +1,6 @@
 #pragma once
-#include "PrecompiledHeaders.h"
 #include "IComponentSystem.h"
+#include "GraphicsSystem/MeshManager.h"
 
 
 class GraphicComponent : public IComponentSystem

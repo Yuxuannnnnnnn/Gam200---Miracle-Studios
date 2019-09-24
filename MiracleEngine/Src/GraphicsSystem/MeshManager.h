@@ -1,6 +1,4 @@
 #pragma once
-#include "PrecompiledHeaders.h"
-
 #include "Elementbuffer.h"
 #include "VertexBuffer.h"
 #include "VertexArray.h"

@@ -1,7 +1,6 @@
 #ifndef GAM200_VECTOR2_
 #define GAM200_VECTOR2_
 
-#include "PrecompiledHeaders.h"
 #include <cmath>
 #include <iostream>
 #include <fstream>
