@@ -12,6 +12,7 @@
 //Define the debug break using the MS specific or general using assembly interrupt 3
 #ifdef _MSC_VER
 #define G_DEBUG_BREAK __debugbreak()
+
 #else
 #define G_DEBUG_BREAK do { __asm int 3 } while(0)
 #endif

@@ -19,8 +19,8 @@
     <ClCompile Include="Src\GameObjectComponents\TransformComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponent.cpp" />
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
-    <ClCompile Include="Src\PrecompiledHeaders.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
+    <ClCompile Include="Src\PrecompiledHeaders\PrecompiledHeaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -330,9 +330,9 @@
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponent.h" />
     <ClInclude Include="Src\Inputsystem\InputSystem.h" />
     <ClInclude Include="Src\Inputsystem\KeyCode.h" />
-    <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Src\Main.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
+    <ClInclude Include="Src\PrecompiledHeaders\PrecompiledHeaders.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

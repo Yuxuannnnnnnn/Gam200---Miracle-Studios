@@ -29,12 +29,16 @@ struct Vec2 {
 	float _x{ 0.0 }, _y{ 0.0 };
 	Vec2() = default;
 };
+
+
 struct Initi {
 	int _ResX{ 0 }, _ResY{ 0 };
 	bool _Fullscreen{ false };
 	Initi() {}
 	~Initi() {}
 };
+
+
 struct Playa {
 	
 	Vec2 _Transform;
