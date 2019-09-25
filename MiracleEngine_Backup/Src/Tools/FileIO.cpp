@@ -87,11 +87,13 @@ void JsonDynamicStore(std::vector<float>& store, rapidjson::Value& val)
 			store.push_back(val[i].GetFloat());
 	return;
 }
-void JsonDynamicStore(Vec2& store, rapidjson::Value& val)
+void JsonDynamicStore(Vector3& store, rapidjson::Value& val)
 {
-	store._x = val[0].GetFloat();
-	store._y = val[1].GetFloat();
-	return;
+	if (val.IsArray())
+	{
+		Vector3 tempVec(val[0].GetFloat(), val[1].GetFloat(), 1);
+		store = tempVec;
+	}
 }
 
 /**
@@ -164,28 +166,28 @@ void FileRead_StartUp(Initi& initialise)
 */
 void FileRead_PlayerInfo(Playa& player)
 {
-	std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
-	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_player);
-			std::cout << iBuffer << std::endl;
-	assert(iBuffer != nullptr);
-	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
-// get values from the Document;
-	rapidjson::Value& s = d["Health"];
-	JsonDynamicStore(player._HP, s);
-	s = d["Speed"];
-	JsonDynamicStore(player._SPD, s);
-	s = d["Weapons"];
-	JsonDynamicStore(player._Weap, s);
-	s = d["Alive"];
-	JsonDynamicStore(player._Alive, s);
-	s = d["Transform"];
-	JsonDynamicStore(player._Transform, s);
-// print out player info
-	player.Print();
-	std::cout << "-------------------------------------" << std::endl;
-
-	delete[] iBuffer;
+//	std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
+//	rapidjson::Document d;
+//	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_player);
+//			std::cout << iBuffer << std::endl;
+//	assert(iBuffer != nullptr);
+//	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+//// get values from the Document;
+//	rapidjson::Value& s = d["Health"];
+//	JsonDynamicStore(player._HP, s);
+//	s = d["Speed"];
+//	JsonDynamicStore(player._SPD, s);
+//	s = d["Weapons"];
+//	JsonDynamicStore(player._Weap, s);
+//	s = d["Alive"];
+//	JsonDynamicStore(player._Alive, s);
+//	s = d["Transform"];
+//	JsonDynamicStore(player._Transform, s);
+//// print out player info
+//	player.Print();
+//	std::cout << "-------------------------------------" << std::endl;
+//
+//	delete[] iBuffer;
 }
 
 /**

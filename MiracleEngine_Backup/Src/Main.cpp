@@ -5,6 +5,7 @@
 #include "glew.h"
 #include <iostream>
 #include "Engine/Engine.h"
+#include "MathLib/Vector3.h"
 
 #include "Inputsystem/InputSystem.h"
 
@@ -32,8 +33,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	bool loop = true;
 
 	// testing gameobject, delete later
-	objList.push_back(GameObject{});
-	objList.push_back(GameObject{ Vec3{100,50}, Vec3{50,50} });
+
+	objList.push_back(new GameObject{});
+	objList.push_back(new GameObject{ Vector3 {100,50}, Vector3{50,50} });
+
 	// engine start here
 	while (loop)
 	{

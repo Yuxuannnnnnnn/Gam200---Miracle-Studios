@@ -1,8 +1,10 @@
+#pragma once
 #include "Engine.h"
 #include "GraphicsSystem/VertexArray.h"
 #include "GraphicsSystem/VertexBuffer.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "MathLib/Vector3.h"
 
 #include "GraphicsSystem/GraphicsSystem.h"
  #include <limits>
@@ -16,6 +18,9 @@ void Engine::Init()
 	_inputSystem->Init();
 	_frameController->Initialize();
 	keypressed = false;
+
+	Player* player1 = new Player();
+	objList.push_back(player1);
 }
 
 void Engine::Update()
@@ -30,8 +35,8 @@ void Engine::Update()
 
 	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
 	{
-		// testing gameobject, delete later
-		objList.push_back(GameObject{ Vec3{100,50}, Vec3{50,50} });
+		// testing gameobject, delete later-
+		objList.push_back(new GameObject{ Vector3{100,50}, Vector3{50,50} });
 		std::cout << "A pressed !" << std::endl;
 
 		keypressed = true;
@@ -44,7 +49,7 @@ void Engine::Update()
 	if (_inputSystem->KeyDown(KEYB_B) && !keypressed)
 	{
 		// testing gameobject, delete later
-		objList.push_back(GameObject{ Vec3{100,-50}, Vec3{50,50} });
+		objList.push_back(new GameObject{ Vector3{100,-50}, Vector3{50,50} });
 		std::cout << "A pressed !" << std::endl;
 
 		keypressed = true;
@@ -57,7 +62,7 @@ void Engine::Update()
 	if (_inputSystem->KeyDown(KEYB_C) && !keypressed)
 	{
 		// testing gameobject, delete later
-		objList.push_back(GameObject{ Vec3{-100,50}, Vec3{50,50} });
+		objList.push_back(new GameObject{ Vector3{-100,50}, Vector3{50,50} });
 		std::cout << "A pressed !" << std::endl;
 
 		keypressed = true;
@@ -66,9 +71,23 @@ void Engine::Update()
 	{
 		keypressed = false;
 	}
+
+	std::vector<GameObject*>::iterator itr = objList.begin();
+	while (itr != objList.end())
+	{
+		GameObject* temp = *itr;
+		Player* tempP = dynamic_cast<Player*>(temp);
+		if (tempP)
+			tempP->Update();
+		itr++;
+	}
 }
 
 void Engine::Exit()
 {
+	std::vector<GameObject*>::iterator itr = objList.begin();
+	while (itr != objList.end())
+		delete *itr++;
+
 	delete _graphicSystem;
 }
