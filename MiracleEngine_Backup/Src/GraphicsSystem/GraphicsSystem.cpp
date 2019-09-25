@@ -32,9 +32,9 @@ void GraphicsSystem::Update()
 	ClearScreen();
 
 	_renderer.Update();
-	_renderer.DrawPoint(10, -100, 5);
-	_renderer.DrawWireFrameQuad(0, 0, 30, 50);
-	_renderer.DrawLine(-100, -100, 100, 100);
+	//_renderer.DrawPoint(10, -100, 5);
+	//_renderer.DrawWireFrameQuad(0, 0, 30, 50);
+	//_renderer.DrawLine(-100, -100, 100, 100);
 	// gl_lines
 	// 2 vbo and ebo
 	// 1 for square and 1 for lines

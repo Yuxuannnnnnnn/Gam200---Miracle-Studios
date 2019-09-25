@@ -405,6 +405,8 @@
     <ClInclude Include="Dep\glm\vec4.hpp" />
     <ClInclude Include="Dep\glm\vector_relational.hpp" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
+    <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
+    <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\GraphicsSystem\RendererSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
@@ -415,6 +417,7 @@
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
+    <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
     <ClInclude Include="Src\GraphicsSystem\VertexBuffer.h" />
     <ClInclude Include="Src\Inputsystem\InputSystem.h" />
     <ClInclude Include="Src\Inputsystem\KeyCode.h" />
@@ -433,6 +436,7 @@
     <ClCompile Include="Src\Engine\GameObject.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\Main.cpp" />
