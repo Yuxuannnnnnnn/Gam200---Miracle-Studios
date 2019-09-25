@@ -7,11 +7,12 @@
 
 class Vector3
 {
-  float x;
-  float y;
-  float z;
+  
 
 public:  
+	float x;
+	float y;
+	float z;
 
   // Default Constructor
   Vector3() : x{0.f}, y{0.f}, z{0.f}
@@ -201,6 +202,14 @@ public:
   }
 
   // Subtraction operator
+  Vector3 operator-() const
+  {
+	  return Vector3(-this->x,
+		  -this->y,
+		  -this->z);
+  }
+
+  // Subtraction operator
   Vector3 operator-(const Vector3& _v) const
   {
     return Vector3(this->x - _v.x,
@@ -225,14 +234,22 @@ public:
                    this->y / _v.y,
                    this->z / _v.z);
   }
-  
-  // Division operator
-  Vector3 operator/(float _v) const
+
+  Vector3 operator/(const float& _v) const
   {
-    return Vector3(this->x / _v,
-                   this->y / _v,
-                   this->z / _v);
+	  return Vector3(this->x / _v,
+		  this->y / _v,
+		  this->z / _v);
   }
+
+  
+  //// Division operator
+  //Vector3 operator/(float _v) const
+  //{
+  //  return Vector3(this->x / _v,
+  //                 this->y / _v,
+  //                 this->z / _v);
+  //}
 
   // Division assignment operator
   const Vector3& operator/=(const Vector3& _v)
@@ -258,6 +275,13 @@ public:
     return this->Dot(_v);
   }
   
+  // multiplication operator
+   Vector3 operator*(const float& _v) const
+   {
+    return Vector3(this->x * _v,
+				   this->y * _v,
+				   this->z * _v);
+   }
 
   // Multiplication assignment operator
   const Vector3& operator*=(const Vector3& _v)

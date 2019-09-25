@@ -13,7 +13,8 @@ enum ColliderType{
     
     NONE_COLLIDER,
     BOX_COLLIDER,
-    CIRCLE_COLLIDER
+    CIRCLE_COLLIDER,
+	LINE_COLLIDER
     
   };
 
@@ -26,6 +27,7 @@ public:
   ColliderType _type;
   size_t _id;
 };
+
 
 
 
