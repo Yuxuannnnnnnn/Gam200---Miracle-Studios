@@ -14,11 +14,11 @@ void RendererSystem::Update()
 
 		_shader.Select();
 
-		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(objList[i]._pos._x
-			, objList[i]._pos._y, 0));
-		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), objList[i]._angle, glm::vec3(0, 0, 1));
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(objList[i]->_pos.X()
+			, objList[i]->_pos.Y(), 0));
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), objList[i]->_angle, glm::vec3(0, 0, 1));
 		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
-			glm::vec3(objList[i]._scale._x, objList[i]._scale._y, 1.0f));
+			glm::vec3(objList[i]->_scale.X(), objList[i]->_scale.Y(), 1.0f));
 
 		glm::mat4 mvp = _proj * model;
 
