@@ -14,6 +14,7 @@
 #include "rapidjson/error/en.h"		// Json error displaying
 //#include <filereadstream.h>	// Stoof
 
+#include "MathLib/Vector3.h"
 
 // STL stuff
 #include <iterator>	// STL stuff
@@ -106,7 +107,12 @@ void FileOut_CrashLog(const char *msg);
 */
 void FileOut_PlayerInfo(Playa& player);
 
-
+void JsonDynamicStore(bool& store, rapidjson::Value& val);
+void JsonDynamicStore(float& store, rapidjson::Value& val);
+void JsonDynamicStore(int& store, rapidjson::Value& val);
+void JsonDynamicStore(std::vector<int>& store, rapidjson::Value& val);
+void JsonDynamicStore(std::vector<float>& store, rapidjson::Value& val);
+void JsonDynamicStore(Vector3& store, rapidjson::Value& val);
 
 // collection of previous nonsense below
 
