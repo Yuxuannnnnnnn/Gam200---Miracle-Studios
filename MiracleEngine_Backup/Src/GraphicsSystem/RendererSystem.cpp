@@ -6,6 +6,7 @@ RendererSystem::RendererSystem(int windowWidth, int windowHeight)
 {
 
 }
+
 void RendererSystem::Update()
 {
 	for (size_t i = 0; i < objList.size(); i++)

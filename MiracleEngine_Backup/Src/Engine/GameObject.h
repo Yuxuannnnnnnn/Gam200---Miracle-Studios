@@ -42,16 +42,22 @@ struct Player : public GameObject {
 		ASSERT(iBuffer != nullptr);
 		d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
 		// get values from the Document;
+
 		rapidjson::Value& s = d["Health"];
 		JsonDynamicStore(_Health, s);
+
 		s = d["Speed"];
 		JsonDynamicStore(_Speed, s);
+
 		s = d["Weapons"];
 		JsonDynamicStore(_WeaponListId, s);
+
 		s = d["Position"];
 		JsonDynamicStore(_pos, s);
+
 		s = d["Scale"];
 		JsonDynamicStore(_scale, s);
+
 		s = d["Rotate"];
 		JsonDynamicStore(_angle, s);
 

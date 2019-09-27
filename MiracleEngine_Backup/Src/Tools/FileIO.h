@@ -24,7 +24,18 @@
 //#include <queue>	// Queue for storing input
 //#include <algorithm>// foreach
 
-#define ASSERT(condition) { if(!(condition)){ std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; FileOut_CrashLog(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)); (_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);}}
+
+
+//prints error output to the cnosole
+//FileOut_CrashLog::prints error output to the crashlog.txt
+//_wassert:: prints an error message box 
+
+#define ASSERT(condition) { if(!(condition)) \
+{ \
+	std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; \
+	FileOut_CrashLog(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)); \
+	(_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);} \
+}
 
 
 struct Vec2 {

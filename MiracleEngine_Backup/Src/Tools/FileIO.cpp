@@ -1,5 +1,5 @@
 #include "FileIO.h"
-#include <comdef.h>
+#include <comdef.h> // For _bstr_t class, to convert const wchar_t* to const char*
 
 #define MAX_CHAR_ARR_BUFFER 1000
 
@@ -17,13 +17,14 @@ namespace FilePathNames {
 //Data - driven means serialized(Data saving / loading).
 
 // take in power, x10 by power amt
-int MultTen(int power)
-{
-	int val = 1;
-	while (--power)
-		val *= 10;
-	return val;
-}
+//int MultTen(int power)
+//{
+//	int val = 1;
+//	while (--power)
+//		val *= 10;
+//	return val;
+//}
+
 bool AsciiLetterCheck(const char c) 
 {
 	// 'A'&'Z' || 'a'&'z'
@@ -215,13 +216,16 @@ void FileOut_CrashLog(_In_z_ wchar_t const* _Message,
 	_In_z_ wchar_t const* _File,
 	_In_   unsigned       _Line) {
 
+	//conversion of wchar_t const * to const char *
 	_bstr_t a(_Message);
 	const char* message = a;
 
+	//conversion of wchar_t const * to const char *
 	_bstr_t b(_File);
 	const char* file = b;
 
 	std::fstream _file;
+	//std::ios_base::trunc forces the file to be created
 	_file.open(FilePathNames::path_crashLog, std::ios_base::out, std::ios_base::trunc);
 	_file << "CRASH LOG" << std::endl << "ASSERT FAILED: " << message << " @ " << file << " (" << _Line << ")" << std::endl;
 	_file.close();
