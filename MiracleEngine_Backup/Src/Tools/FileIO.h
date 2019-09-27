@@ -24,7 +24,7 @@
 //#include <queue>	// Queue for storing input
 //#include <algorithm>// foreach
 
-#define ASSERT(condition) { if((condition)){ std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; (_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);} }
+#define ASSERT(condition) { if(!(condition)){ std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; FileOut_CrashLog(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)); (_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);}}
 
 
 struct Vec2 {
@@ -62,8 +62,9 @@ void FileRead_StartUp(Initi& initialise);
 /**
 \brief Output to file a crash file with a message
 */
-void FileOut_CrashLog(const char *msg);
-
+void FileOut_CrashLog(_In_z_ wchar_t const* _Message,
+	_In_z_ wchar_t const* _File,
+	_In_   unsigned       _Line);
 
 void JsonDynamicStore(bool& store, rapidjson::Value& val);
 void JsonDynamicStore(float& store, rapidjson::Value& val);

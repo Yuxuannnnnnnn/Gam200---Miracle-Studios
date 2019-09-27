@@ -1,7 +1,7 @@
 #include "FileIO.h"
+#include <comdef.h>
 
 #define MAX_CHAR_ARR_BUFFER 1000
-//#define ASSERT(condition) { if((condition)){ std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; (_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);} }
 
 namespace FilePathNames {
 	const char* path_player = "./Resources/TextFiles/player.json";
@@ -76,25 +76,23 @@ void JsonDynamicStore(int& store, rapidjson::Value& val)
 }
 void JsonDynamicStore(std::vector<int> &store, rapidjson::Value& val)
 {
-	if (val.IsArray()) // check to ensure that the 'val' is also an array
+	ASSERT(val.IsArray()) // check to ensure that the 'val' is also an array
 		for (unsigned i = 0; i < val.Size(); ++i)
 			store.push_back(val[i].GetInt());
 	return;
 }
 void JsonDynamicStore(std::vector<float>& store, rapidjson::Value& val)
 {
-	if (val.IsArray())
+	ASSERT(val.IsArray())
 		for (unsigned i = 0; i < val.Size(); ++i)
 			store.push_back(val[i].GetFloat());
 	return;
 }
 void JsonDynamicStore(Vector3& store, rapidjson::Value& val)
 {
-	if (val.IsArray())
-	{
-		Vector3 tempVec(val[0].GetFloat(), val[1].GetFloat(), 1);
-		store = tempVec;
-	}
+	ASSERT(val.IsArray())
+	Vector3 tempVec(val[0].GetFloat(), val[1].GetFloat(), 1);
+	store = tempVec;
 }
 
 /**
@@ -192,7 +190,7 @@ void FileRead_StartUp(Initi& initialise)
 			std::cout << iBuffer << std::endl;
 	bool temp = iBuffer != nullptr;
 	temp = true;
-	ASSERT(iBuffer == nullptr);
+	ASSERT(iBuffer != nullptr);
 	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
 
 // get values from the Document;
@@ -213,11 +211,19 @@ void FileRead_StartUp(Initi& initialise)
 /**
 \brief Output to file a crash file with a message
 */
-void FileOut_CrashLog(const char* msg) {
+void FileOut_CrashLog(_In_z_ wchar_t const* _Message,
+	_In_z_ wchar_t const* _File,
+	_In_   unsigned       _Line) {
+
+	_bstr_t a(_Message);
+	const char* message = a;
+
+	_bstr_t b(_File);
+	const char* file = b;
+
 	std::fstream _file;
 	_file.open(FilePathNames::path_crashLog, std::ios_base::out, std::ios_base::trunc);
-	_file << "CRASH LOG" << std::endl
-		<< msg << std::endl;
+	_file << "CRASH LOG" << std::endl << "ASSERT FAILED: " << message << " @ " << file << " (" << _Line << ")" << std::endl;
 	_file.close();
 }
 
