@@ -39,7 +39,7 @@ struct Player : public GameObject {
 		rapidjson::Document d;
 		char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/player.json");
 		std::cout << iBuffer << std::endl;
-		assert(iBuffer != nullptr);
+		ASSERT(iBuffer != nullptr);
 		d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
 		// get values from the Document;
 		rapidjson::Value& s = d["Health"];

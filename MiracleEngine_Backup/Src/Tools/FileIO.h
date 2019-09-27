@@ -20,9 +20,13 @@
 #include <iterator>	// STL stuff
 #include <string>	// strings
 #include <vector>	// vectors
-//#include <map>		// use for keyword storing
+#include <map>		// use for keyword storing
 //#include <queue>	// Queue for storing input
 //#include <algorithm>// foreach
+
+#define ASSERT(condition) { if((condition)){ std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; (_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);} }
+
+
 struct Vec2 {
 	float _x{ 0.0 }, _y{ 0.0 };
 	Vec2() = default;
@@ -33,49 +37,10 @@ struct Initi {
 	Initi() {}
 	~Initi() {}
 };
-struct Playa {
-	
-	Vec2 _Transform;
-	int _HP{ 0 };
-	float _SPD{ 0.0f };
-	std::vector<int> _Weap;
-	bool _Alive{ false };
-
-	Playa() {}
-	~Playa() {}
-	Playa(const Playa& rhs) = delete;
-	Playa& operator= (const Playa& rhs) = delete;
-
-	void Print() {
-		std::cout
-			<< "Trans: " << _Transform._x << " " << _Transform._y << std::endl
-			<< "HP: " << _HP << std::endl
-			<< "SPD: " << _SPD << std::endl
-			<< "ALIVE: " << _Alive << std::endl
-			<< "Weaps:";
-		std::vector<int>::iterator itr = _Weap.begin();
-		while (itr != _Weap.end())
-			std::cout << *itr++;
-		std::cout << std::endl;
-	}
-
-	friend std::ostream& operator<<(std::ostream& os, Playa& player) {
-		os << "{\n"
-			<< "\t\"Health\": " << player._HP << ",\n"
-			<< "\t\"Speed\": " << player._SPD << ",\n"
-			<< "\t\"Weapons\": [";
-		std::vector<int>::iterator itr = player._Weap.begin();
-		while (itr != player._Weap.end())
-		{
-			os << *itr++;
-			if (itr != player._Weap.end())
-				os << ',';	// note for actual use, the array cannot have the trailing ','
-		}
-		os << "],\n"
-			<< "\t\"Alive\": " << (player._Alive ? "true" : "false") << '\n'
-			<< '}';
-		return os;
-	}
+struct Transform {
+	Vector3 pos;
+	Vector3 scale;
+	float rot;
 };
 
 /**
@@ -83,29 +48,22 @@ struct Playa {
 */
 char* FileRead_FileToCharPtr(const char* FileName);
 /**
+\brief Function to make file input into single char[]
+*/
+void FileRead_Level(const char* FileName);
+/**
 \brief Read start up info for application
 		Will get following values:
 		- Resolution (X, Y)
 		- Fullscreen On/Off
 */
 void FileRead_StartUp(Initi& initialise);
-/**
-\brief Read BASE-STATS for PLAYER
-		Will get following values:
-		- HP		int
-		- Speed		float
-		- Weapon	std::vector
-		- Alive		bool
-*/
-void FileRead_PlayerInfo(Playa& player);
+
 /**
 \brief Output to file a crash file with a message
 */
 void FileOut_CrashLog(const char *msg);
-/**
-\brief WIP: Output player in json format
-*/
-void FileOut_PlayerInfo(Playa& player);
+
 
 void JsonDynamicStore(bool& store, rapidjson::Value& val);
 void JsonDynamicStore(float& store, rapidjson::Value& val);

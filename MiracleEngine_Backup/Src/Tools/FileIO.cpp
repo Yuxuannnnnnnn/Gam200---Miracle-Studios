@@ -1,6 +1,7 @@
 #include "FileIO.h"
 
 #define MAX_CHAR_ARR_BUFFER 1000
+//#define ASSERT(condition) { if((condition)){ std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; (_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);} }
 
 namespace FilePathNames {
 	const char* path_player = "./Resources/TextFiles/player.json";
@@ -127,6 +128,57 @@ char* FileRead_FileToCharPtr(const char* FileName)
 }
 
 /**
+\brief Function to make file input into single char[]
+*/
+void FileRead_Level(const char* FileName)
+{
+	std::fstream _file;
+	//_file.open(FileName, std::ios_base::in | std::ios_base::binary);
+
+	//std::string objectArchetype;
+	//Vec2 objectPosition;
+	//float objectRotation;
+
+//------------------------------------------------------
+
+	//std::fstream _file;
+	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
+
+	std::map <std::string , std::vector<Transform*>> dill;
+
+	if (_file.is_open())
+	{
+		// each loop read 4 lines, Type Pos Scale Rot
+		// find 
+
+
+
+		// read file
+		char* iBuffer = new char[MAX_CHAR_ARR_BUFFER];
+		int count = 0;
+		while ((_file.good()))
+		{
+			_file.getline(iBuffer,'\n');
+			if (count == MAX_CHAR_ARR_BUFFER)
+			{
+				std::cout << "MAX_CHAR_ARR_BUFFER REACHED!!!!!!!!!!!!!\n";
+				break;
+			}
+			char c = static_cast<char>(_file.get());
+			if (jsonParseChecker(c))
+			{
+				iBuffer[count] = c;
+				++count;
+			}
+		}
+		iBuffer[count] = '\0';
+		_file.close();
+	}
+	std::cout << "! WARNING !! File Cannot Open!!!\n";
+	return;
+}
+
+/**
 \brief Read start up info for application
 		Will get following values:
 		- Resolution (X, Y)
@@ -138,7 +190,9 @@ void FileRead_StartUp(Initi& initialise)
 	rapidjson::Document d;
 	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_init);
 			std::cout << iBuffer << std::endl;
-	assert(iBuffer != nullptr && "error");
+	bool temp = iBuffer != nullptr;
+	temp = true;
+	ASSERT(iBuffer == nullptr);
 	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
 
 // get values from the Document;
@@ -157,40 +211,6 @@ void FileRead_StartUp(Initi& initialise)
 }
 
 /**
-\brief Read BASE-STATS for PLAYER
-		Will get following values:
-		- HP		int
-		- Speed		float
-		- Weapon	std::vector
-		- Alive		bool
-*/
-void FileRead_PlayerInfo(Playa& player)
-{
-//	std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
-//	rapidjson::Document d;
-//	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_player);
-//			std::cout << iBuffer << std::endl;
-//	assert(iBuffer != nullptr);
-//	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
-//// get values from the Document;
-//	rapidjson::Value& s = d["Health"];
-//	JsonDynamicStore(player._HP, s);
-//	s = d["Speed"];
-//	JsonDynamicStore(player._SPD, s);
-//	s = d["Weapons"];
-//	JsonDynamicStore(player._Weap, s);
-//	s = d["Alive"];
-//	JsonDynamicStore(player._Alive, s);
-//	s = d["Transform"];
-//	JsonDynamicStore(player._Transform, s);
-//// print out player info
-//	player.Print();
-//	std::cout << "-------------------------------------" << std::endl;
-//
-//	delete[] iBuffer;
-}
-
-/**
 \brief Output to file a crash file with a message
 */
 void FileOut_CrashLog(const char* msg) {
@@ -199,38 +219,6 @@ void FileOut_CrashLog(const char* msg) {
 	_file << "CRASH LOG" << std::endl
 		<< msg << std::endl;
 	_file.close();
-}
-
-void FileOut_PlayerInfo(Playa& player)
-{
-	// EXAMPLE FROM rapidJson.org
-//// 1. Parse a JSON string into DOM.
-//const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
-//rapidjson::Document d;
-//d.Parse(json);
-//// 2. Modify it by DOM.
-//rapidjson::Value& s = d["stars"];
-//s.SetInt(s.GetInt() + 1);
-//// 3. Stringify the DOM
-//rapidjson::StringBuffer buffer;
-//rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-//d.Accept(writer);
-//// Output {"project":"rapidjson","stars":11}
-//std::cout << buffer.GetString() << std::endl;
-
-	std::fstream _file;
-	_file.open(FilePathNames::path_outTest, std::ios_base::out, std::ios_base::trunc);
-	//_file << "{\n"
-	//	<< "\t\"Health\": " << player._HP << ",\n"
-	//	<< "\t\"Speed\": " << player._SPD << ",\n"
-	//	<< "\t\"Alive\": " << player._Alive << ",\n"
-	//	<< "\t\"Weapons\": [" << player._Alive << "]\n"
-	//	<< "}";
-	_file << player;
-	_file.close();
-	//player.Print();
-													// could use map to use dataTypeEnum to get string?
-	// continue with output to file
 }
 
 
