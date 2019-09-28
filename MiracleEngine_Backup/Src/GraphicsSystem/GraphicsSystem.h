@@ -11,6 +11,7 @@
 #include "VertexArray.h"
 #include "Engine/FrameRateController.h"
 
+#include "InstancedSystem.h"
 
 class GraphicsSystem
 {
@@ -26,4 +27,5 @@ private:
 	RendererSystem _renderer;
 	
 	FrameRateController _frameController;
+	InstancedSystem _instancedRenderer;
 };

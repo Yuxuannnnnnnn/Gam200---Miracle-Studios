@@ -4,12 +4,13 @@
 #include "GraphicsSystem/VertexBuffer.h"
 
 #include "../Imgui/imgui.h"
+#include "InstancedSystem.h"
 
 
 
 void GraphicsSystem::Init()
 {
-
+	
 }
 
 
@@ -35,6 +36,7 @@ void GraphicsSystem::Update()
 	ClearScreen();
 
 	_renderer.Update();
+	_instancedRenderer.Update();
 	//_renderer.DrawPoint(10, -100, 5);
 	//_renderer.DrawWireFrameQuad(0, 0, 30, 50);
 	//_renderer.DrawLine(-100, -100, 100, 100);
