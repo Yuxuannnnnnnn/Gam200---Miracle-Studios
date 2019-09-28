@@ -8,6 +8,10 @@
 #include "MathLib/Vector3.h"
 
 #include "Inputsystem/InputSystem.h"
+#include "../Imgui/imgui.h"
+#include "../Imgui/imgui_impl_win32.h"
+#include "../Imgui/imgui_impl_opengl3.h"
+#include "../Imgui/imgui_internal.h"
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -37,6 +41,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	objList.push_back(new GameObject{});
 	objList.push_back(new GameObject{ Vector3 {100,50}, Vector3{50,50} });
 
+
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();  (void)io;
+
+	//Init Win32
+	ImGui_ImplWin32_Init(window.Get_hwnd());
+
+	//Init OpenGL Imgui Implementation
+	// GL 3.0 + GLSL 130
+	const char* glsl_version = "#version 130";
+	ImGui_ImplOpenGL3_Init(glsl_version);
+
+	//Set Window bg color
+	ImVec4 clear_color = ImVec4(1.000F, 1.000F, 1.000F, 1.0F);
+
+	// Setup style
+	ImGui::StyleColorsDark();
 	// engine start here
 	while (loop)
 	{
@@ -47,17 +68,43 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			if (msg.message == WM_QUIT)
 				loop = false;
 
-			if (!TranslateAccelerator(msg.hwnd, window.get_hAccelTable() , &msg))
+			if (!TranslateAccelerator(msg.hwnd, window.get_hAccelTable(), &msg))
 			{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
-			}		
+			}
+
+			// Start the Dear ImGui frame
+
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplWin32_NewFrame();
+			ImGui::NewFrame();
+
+			//show Main Window
+			ImGui::ShowDemoWindow();
+
+			// Rendering
+
+			// frame buffer object
+
+			// engine update here
+
+
+			coreEngine->Update();
+
+			ImGui::Render();
+
+
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+			// swap double buffer at the end
+			::SwapBuffers(window.get_m_windowDC());
 		}
-		// engine update here
-		coreEngine->Update();
-		// swap double buffer at the end
-		::SwapBuffers(window.get_m_windowDC());
 	}
+
+	// Cleanup
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui::DestroyContext();
+	ImGui_ImplWin32_Shutdown();
 	// engine exit here
 	coreEngine->Exit();
 
