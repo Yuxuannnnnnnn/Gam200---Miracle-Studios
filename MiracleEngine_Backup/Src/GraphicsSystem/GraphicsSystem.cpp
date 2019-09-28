@@ -3,7 +3,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "GraphicsSystem/VertexBuffer.h"
 
-
+#include "../Imgui/imgui.h"
 
 
 
@@ -28,7 +28,9 @@ void GraphicsSystem::Update()
 
 	////enable the index of the vertex attribute
 	//glEnableVertexAttribArray(0);
+	_frameController.UpdateFrameTime();
 
+	ImGui::Text("Graphics FPS: %.8f ", _frameController.GetFrameRate());
 
 	ClearScreen();
 

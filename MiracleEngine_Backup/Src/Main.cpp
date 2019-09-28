@@ -14,6 +14,9 @@
 #include "../Imgui/imgui_internal.h"
 
 
+InputSystem* inputsystem;
+
+
 void showWindowBegin()
 {
 
@@ -84,6 +87,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	Engine* coreEngine = new Engine;
 	coreEngine->Init();
+	inputsystem = coreEngine->_inputSystem;
 
     MSG msg;
 	bool loop = true;

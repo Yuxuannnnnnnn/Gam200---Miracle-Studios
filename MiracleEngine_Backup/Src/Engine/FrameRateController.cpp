@@ -44,7 +44,7 @@ double FrameRateController::UpdateFrameTime()
 
 	TotalTime += FrameTime.count(); // Increment TotalTime count
 
-  FrameRate = 1000.0 / (double)FrameTime.count();
+	FrameRate = 1000.0 / (double)FrameTime.count();
 
 	return (double)FrameTime.count() / 1000.0;
 }

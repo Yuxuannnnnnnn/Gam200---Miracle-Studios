@@ -1,6 +1,7 @@
 #pragma once
 #include "KeyCode.h"
 #include <windows.h>
+#include "Engine/FrameRateController.h"
 
 class InputSystem
 {
@@ -13,4 +14,6 @@ public:
 private:
 	unsigned char _currBuffer[256];
 	unsigned char _prevBuffer[256];
+
+	FrameRateController _frameController;
 };

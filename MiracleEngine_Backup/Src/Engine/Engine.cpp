@@ -48,12 +48,12 @@ void Engine::Update()
 	double deltaTime = _frameController->UpdateFrameTime();
 	//std::cout << deltaTime << std::endl;
 	//std::cout << _frameController->GetFrameRate() << std::endl;
+	ImGui::Text("Engine FPS: %.8f ", _frameController->GetFrameRate());
 
 	//Update all the systems
 	_graphicSystem->Update();
 	_inputSystem->Update();
 
-	ImGui::Text("Engine FPS: %.8f ", _frameController->GetFrameRate());
 	//ImGui::Text("Graphic System FPS: %.5f ", value);
 	//ImGui::Text("Input System FPS: %.5f ", value);
 
