@@ -12,11 +12,15 @@
 
 void Engine::Init()
 {
+	//Creation of the Systems
 	_graphicSystem = new GraphicsSystem();
 	_frameController = new FrameRateController();
 	_inputSystem = new InputSystem();
+
+	//Initialisation of Systems
 	_inputSystem->Init();
 	_frameController->Initialize();
+
 	keypressed = false;
 	
 	// get Fabs
@@ -32,10 +36,12 @@ void Engine::Init()
 
 void Engine::Update()
 {
+	//Print out Delta time on the console
 	std::cout.precision(dbl::max_digits10);
 	double deltaTime = _frameController->UpdateFrameTime();
 	//std::cout << deltaTime << std::endl;
 	//std::cout << _frameController->GetFrameRate() << std::endl;
+
 
 	_graphicSystem->Update();
 	_inputSystem->Update();
