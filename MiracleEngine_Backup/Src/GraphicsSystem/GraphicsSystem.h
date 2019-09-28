@@ -9,6 +9,7 @@
 #include <string>
 #include "GraphicsSystem/RendererSystem.h"
 #include "VertexArray.h"
+#include "InstancedSystem.h"
 
 class GraphicsSystem
 {
@@ -22,4 +23,5 @@ private:
 	GLuint _shader;
 	MeshManager _meshmanager;
 	RendererSystem _renderer;
+	InstancedSystem _instancedRenderer;
 };
