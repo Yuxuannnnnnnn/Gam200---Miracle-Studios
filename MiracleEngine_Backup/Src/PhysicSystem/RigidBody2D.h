@@ -8,29 +8,28 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef _RIGIDBODY_2D_H
 #define _RIGIDBODY_2D_H
-#include "../Engine/GameObject.h"
 
-#include "..//MathLib/Vector3.h"
+#include "MathLib/SYMath.h"
+#include "Engine/GameObject.h"
 
-class RigidBody2D : public GameObject
+class RigidBody2D
 {
 public:
-	Vector3 Vec;
-	Vector3 AppliedVec;
-	Vector3 Dir;
-	float angle;
-	float mass;
-	float fiction;
+	GameObject* _gameObject;
+
+	Vector3 _velocity;
+	Vector3 _direction;
+	Vector3 _appliedForce;
+	float _angle;
+	float _mass;
+	float _fictionVal;
 	bool _static;
 
+	RigidBody2D();
+	~RigidBody2D() = default;
 
-	void Update(double dt)
-	{
-		Vec = AppliedVec;
-		_pos += Vec * dt;
-		AppliedVec = Vector3{};
-	}
-	
+	void UpdateVec(double dt);
+	void UpdatePos(double dt);
 };
 
 #endif

@@ -1,5 +1,5 @@
 #pragma once
-#include "MathLib/Vector3.h"
+#include "MathLib/SYMath.h"
 #include <vector>
 #include "Inputsystem/inputsystem.h"
 #include "Tools/FileIO.h"
@@ -13,7 +13,7 @@ struct GameObject
 
 	}
 	Vector3 _pos{ Vector3() };
-	Vector3 _scale{ Vector3() };
+	Vector3 _scale{ Vector3(1.f,1.f,1.f) };
 	float _angle{ 0.0f };
 
 	virtual void Update() {
