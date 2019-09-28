@@ -9,9 +9,10 @@
 
 void GraphicsSystem::Init()
 {
-	glewInit();
 
 }
+
+
 void GraphicsSystem::Update()
 {
 	//VertexBuffer vb((const void*)positions, sizeof(glm::vec2) * 3);

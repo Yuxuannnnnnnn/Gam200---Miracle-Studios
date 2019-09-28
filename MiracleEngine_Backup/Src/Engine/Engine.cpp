@@ -36,48 +36,10 @@ void Engine::Update()
 	//std::cout << deltaTime << std::endl;
 	//std::cout << _frameController->GetFrameRate() << std::endl;
 
-
+	//Update all the systems
 	_graphicSystem->Update();
 	_inputSystem->Update();
 
-	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
-	{
-		// testing gameobject, delete later-
-		objList.push_back(new GameObject{ Vector3{100,50}, Vector3{50,50} });
-		std::cout << "A pressed !" << std::endl;
-
-		keypressed = true;
-	}
-	else if (!_inputSystem->KeyDown(KEYB_A) && keypressed)
-	{
-		keypressed = false;
-	}
-
-	if (_inputSystem->KeyDown(KEYB_B) && !keypressed)
-	{
-		// testing gameobject, delete later
-		objList.push_back(new GameObject{ Vector3{100,-50}, Vector3{50,50} });
-		std::cout << "A pressed !" << std::endl;
-
-		keypressed = true;
-	}
-	else if (!_inputSystem->KeyDown(KEYB_B) && keypressed)
-	{
-		keypressed = false;
-	}
-
-	if (_inputSystem->KeyDown(KEYB_C) && !keypressed)
-	{
-		// testing gameobject, delete later
-		objList.push_back(new GameObject{ Vector3{-100,50}, Vector3{50,50} });
-		std::cout << "A pressed !" << std::endl;
-
-		keypressed = true;
-	}
-	else if (!_inputSystem->KeyDown(KEYB_C) && keypressed)
-	{
-		keypressed = false;
-	}
 
 	std::vector<GameObject*>::iterator itr = objList.begin();
 	while (itr != objList.end())
@@ -97,4 +59,6 @@ void Engine::Exit()
 		delete *itr++;
 
 	delete _graphicSystem;
+	delete _inputSystem;
+	delete _frameController;
 }
