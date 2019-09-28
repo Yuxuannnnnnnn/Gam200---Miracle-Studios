@@ -1,4 +1,10 @@
 #pragma once
+
+#include "../Imgui/imgui.h"
+#include "../Imgui/imgui_impl_win32.h"
+#include "../Imgui/imgui_impl_opengl3.h"
+#include "../Imgui/imgui_internal.h"
+
 #include "Engine.h"
 #include "GraphicsSystem/VertexArray.h"
 #include "GraphicsSystem/VertexBuffer.h"
@@ -9,6 +15,7 @@
 #include "GraphicsSystem/GraphicsSystem.h"
  #include <limits>
  typedef std::numeric_limits< double > dbl;
+
 
 void Engine::Init()
 {
@@ -46,6 +53,9 @@ void Engine::Update()
 	_graphicSystem->Update();
 	_inputSystem->Update();
 
+	ImGui::Text("Engine FPS: %.8f ", _frameController->GetFrameRate());
+	//ImGui::Text("Graphic System FPS: %.5f ", value);
+	//ImGui::Text("Input System FPS: %.5f ", value);
 
 	std::vector<GameObject*>::iterator itr = objList.begin();
 	while (itr != objList.end())

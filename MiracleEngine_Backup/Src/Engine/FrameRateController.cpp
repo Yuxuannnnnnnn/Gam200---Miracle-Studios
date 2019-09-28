@@ -39,8 +39,7 @@ double FrameRateController::UpdateFrameTime()
 	// Recalculate the current time the frame's been running.
 	FrameTime = std::chrono::duration_cast<ms>(CurrTime - PrevTime);
 
-
-
+	//Record the start for the frame
 	PrevTime = Time::now();
 
 	TotalTime += FrameTime.count(); // Increment TotalTime count
