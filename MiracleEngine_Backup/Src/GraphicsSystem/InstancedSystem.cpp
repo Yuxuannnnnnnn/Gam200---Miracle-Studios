@@ -57,6 +57,6 @@ void InstancedSystem::Update()
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		// this one encapsulate into another class
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, numOfObject);
+		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr, (GLsizei)numOfObject);
 	}
 }
