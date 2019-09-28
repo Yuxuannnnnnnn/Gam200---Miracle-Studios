@@ -227,8 +227,7 @@ bool WindowsSystem::Initialise()
 	}
 
 	//Check if glewinit call is successful
-	if (glewInit() != GLEW_OK)
-		std::cout << "Error" << std::endl;
+	ASSERT(glewInit() == GLEW_OK);
 
 	//cout the opengl version that we are using
 	std::cout << "Opengl version: " << glGetString(GL_VERSION) << std::endl;
