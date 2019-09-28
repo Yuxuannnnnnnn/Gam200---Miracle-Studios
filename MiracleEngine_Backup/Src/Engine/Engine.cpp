@@ -78,7 +78,7 @@ void Engine::Update()
 
 		ballCollider->_gameObject = ball;
 		ballCollider->_body = ballBody;
-		
+
 
 
 		objList.push_back(ball);
@@ -89,17 +89,18 @@ void Engine::Update()
 	else if (!_inputSystem->KeyDown(KEYB_A) && keypressed)
 	{
 		keypressed = false;
-	//ImGui::Text("Graphic System FPS: %.5f ", value);
-	//ImGui::Text("Input System FPS: %.5f ", value);
+		//ImGui::Text("Graphic System FPS: %.5f ", value);
+		//ImGui::Text("Input System FPS: %.5f ", value);
 
-	std::vector<GameObject*>::iterator itr = objList.begin();
-	while (itr != objList.end())
-	{
-		GameObject* temp = *itr;
-		Player* tempP = dynamic_cast<Player*>(temp);
-		if (tempP)
-			tempP->Update();
-		itr++;
+		std::vector<GameObject*>::iterator itr = objList.begin();
+		while (itr != objList.end())
+		{
+			GameObject* temp = *itr;
+			Player* tempP = dynamic_cast<Player*>(temp);
+			if (tempP)
+				tempP->Update();
+			itr++;
+		}
 	}
 }
 

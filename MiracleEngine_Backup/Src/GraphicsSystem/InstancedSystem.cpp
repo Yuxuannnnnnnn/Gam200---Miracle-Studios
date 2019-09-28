@@ -17,9 +17,9 @@ InstancedSystem::InstancedSystem(int windowWidth, int windowHeight)
 
 	for (size_t j = 0; j < 1500; j++)
 	{
-		modelMatrices[j] = glm::translate(glm::mat4(1.0f), glm::vec3(objList[j]->_pos.x
-			, objList[j]->_pos.y, 0)) * glm::scale(glm::mat4(1.0f),
-				glm::vec3(objList[j]->_scale.x, objList[j]->_scale.y, 1.0f));
+		modelMatrices[j] = glm::translate(glm::mat4(1.0f), glm::vec3(objList[j]->_pos._x
+			, objList[j]->_pos._y, 0)) * glm::scale(glm::mat4(1.0f),
+				glm::vec3(objList[j]->_scale._x, objList[j]->_scale._y, 1.0f));
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, _instanceBufferID);
