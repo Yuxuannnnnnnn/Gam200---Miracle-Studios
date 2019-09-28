@@ -24,6 +24,16 @@
     <ClCompile Include="Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\GraphicsSystem\InstancedSystem.cpp" />
+    <ClCompile Include="Src\PhysicSystem\BoxCollider2D.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CircleCollider2D.cpp" />
+    <ClCompile Include="Src\PhysicSystem\Collision.cpp" />
+    <ClCompile Include="Src\PhysicSystem\EdgeCollider2D.cpp" />
+    <ClCompile Include="Src\PhysicSystem\EventHandler.cpp" />
+    <ClCompile Include="Src\PhysicSystem\Physics.cpp" />
+    <ClCompile Include="Src\PhysicSystem\RigidBody2D.cpp" />
+    <ClCompile Include="Src\MathLib\SYMath.cpp" />
+    <ClCompile Include="Src\MathLib\Vector2.cpp" />
+    <ClCompile Include="Src\MathLib\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -304,6 +314,18 @@
     <ClInclude Include="Imgui\imstb_textedit.h" />
     <ClInclude Include="Imgui\imstb_truetype.h" />
     <ClInclude Include="Src\GraphicsSystem\InstancedSystem.h" />
+    <ClInclude Include="Src\PhysicSystem\BoxCollider2D.h" />
+    <ClInclude Include="Src\PhysicSystem\CircleCollider2D.h" />
+    <ClInclude Include="Src\PhysicSystem\Collider2D.h" />
+    <ClInclude Include="Src\PhysicSystem\Collision.h" />
+    <ClInclude Include="Src\PhysicSystem\EdgeCollider2D.h" />
+    <ClInclude Include="Src\PhysicSystem\EventHandler.h" />
+    <ClInclude Include="Src\PhysicSystem\ISingleton.h" />
+    <ClInclude Include="Src\PhysicSystem\Physics.h" />
+    <ClInclude Include="Src\PhysicSystem\RigidBody2D.h" />
+    <ClInclude Include="Src\MathLib\SYMath.h" />
+    <ClInclude Include="Src\MathLib\Vector2.h" />
+    <ClInclude Include="Src\MathLib\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

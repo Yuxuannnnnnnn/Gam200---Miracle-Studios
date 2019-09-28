@@ -14,7 +14,7 @@
 #include "rapidjson/error/en.h"		// Json error displaying
 //#include <filereadstream.h>	// Stoof
 
-#include "MathLib/Vector3.h"
+#include "MathLib/SYMath.h"
 
 // STL stuff
 #include <iterator>	// STL stuff

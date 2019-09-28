@@ -1,5 +1,5 @@
 #pragma once
-#include "MathLib/Vector3.h"
+#include "MathLib/SYMath.h"
 #include <vector>
 #include "Inputsystem/inputsystem.h"
 #include "Tools/FileIO.h"

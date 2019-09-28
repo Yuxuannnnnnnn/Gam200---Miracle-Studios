@@ -5,7 +5,7 @@
 #include "glew.h"
 #include <iostream>
 #include "Engine/Engine.h"
-#include "MathLib/Vector3.h"
+#include "MathLib/SYMath.h"
 
 #include "Inputsystem/InputSystem.h"
 #include "../Imgui/imgui.h"

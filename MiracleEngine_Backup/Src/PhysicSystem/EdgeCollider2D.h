@@ -9,9 +9,6 @@
 #ifndef _LINE_COLLIDER_2D_H
 #define _LINE_COLLIDER_2D_H
 
-#include "../MathLib/Vector3.h"
-#include "../MathLib/Vector2.h"
-
 #include "Collider2D.h"
 
 // namespace MiracleEngine
@@ -23,7 +20,7 @@ public:
 	Vector3	m_pt1;
 	Vector3	m_normal;
 
-	EdgeCollider2D() {}
+	EdgeCollider2D();
 
 	EdgeCollider2D(const Vector3& pos, float scale, float dir);
 
