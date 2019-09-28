@@ -48,14 +48,15 @@ void showWindowBegin()
 	if (no_bring_to_front)  window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
 	if (no_close)           p_open = NULL; // Don't pass our bool* to Begin
 
+	ImGui::Begin("Debug Console", p_open, window_flags);
 
 	// Main body of the Demo window starts here.
-	if (!ImGui::Begin("Debug Console", p_open, window_flags))
-	{
-		// Early out if the window is collapsed, as an optimization.
-		ImGui::End();
-		return;
-	}
+	//if (!ImGui::Begin("Debug Console", p_open, window_flags))
+	//{
+	//	// Early out if the window is collapsed, as an optimization.
+	//	ImGui::End();
+	//	return;
+	//}
 
 }
 
