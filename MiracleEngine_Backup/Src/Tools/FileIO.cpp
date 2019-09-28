@@ -8,22 +8,8 @@ namespace FilePathNames {
 	const char* path_init = "./Resources/TextFiles/init.json";
 	const char* path_outTest = "./Resources/TextFiles/test.txt";
 	const char* path_crashLog = "./Resources/TextFiles/crashlog.txt";
+	const char* path_level = "./Resources/TextFiles/TestLevel.txt";
 }
-
-//Data - driven means serialized(Data saving / loading).
-//Configurationand tweaking data means a config data file 
-//where you can load general game application info(e.g.windowresolution).
-//Game objects are not data - driven using factories.
-//Data - driven means serialized(Data saving / loading).
-
-// take in power, x10 by power amt
-//int MultTen(int power)
-//{
-//	int val = 1;
-//	while (--power)
-//		val *= 10;
-//	return val;
-//}
 
 bool AsciiLetterCheck(const char c) 
 {
@@ -61,18 +47,17 @@ bool jsonParseChecker(const char c)
 */
 void JsonDynamicStore(bool& store, rapidjson::Value &val)
 {
-	if (typeid(store).name() == typeid(bool).name())
+	ASSERT(typeid(store).name() == typeid(bool).name())
 		store = static_cast<bool>(val.GetBool());
-	return;
 }
 void JsonDynamicStore(float& store, rapidjson::Value& val)
 {
-	if (typeid(store).name() == typeid(float).name())
+	ASSERT(typeid(store).name() == typeid(float).name())
 		store = static_cast<float>(val.GetFloat());
 }
 void JsonDynamicStore(int& store, rapidjson::Value& val)
 {
-	if (typeid(store).name() == typeid(int).name())
+	ASSERT(typeid(store).name() == typeid(int).name())
 		store = static_cast<int>(val.GetInt());
 }
 void JsonDynamicStore(std::vector<int> &store, rapidjson::Value& val)
@@ -80,14 +65,12 @@ void JsonDynamicStore(std::vector<int> &store, rapidjson::Value& val)
 	ASSERT(val.IsArray()) // check to ensure that the 'val' is also an array
 		for (unsigned i = 0; i < val.Size(); ++i)
 			store.push_back(val[i].GetInt());
-	return;
 }
 void JsonDynamicStore(std::vector<float>& store, rapidjson::Value& val)
 {
 	ASSERT(val.IsArray())
 		for (unsigned i = 0; i < val.Size(); ++i)
 			store.push_back(val[i].GetFloat());
-	return;
 }
 void JsonDynamicStore(Vector3& store, rapidjson::Value& val)
 {
@@ -124,57 +107,6 @@ char* FileRead_FileToCharPtr(const char* FileName)
 	}
 	std::cout << "! WARNING !! File Cannot Open!!!\n";
 	return nullptr;
-}
-
-/**
-\brief Function to make file input into single char[]
-*/
-void FileRead_Level(const char* FileName)
-{
-	std::fstream _file;
-	//_file.open(FileName, std::ios_base::in | std::ios_base::binary);
-
-	//std::string objectArchetype;
-	//Vec2 objectPosition;
-	//float objectRotation;
-
-//------------------------------------------------------
-
-	//std::fstream _file;
-	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
-
-	std::map <std::string , std::vector<Transform*>> dill;
-
-	if (_file.is_open())
-	{
-		// each loop read 4 lines, Type Pos Scale Rot
-		// find 
-
-
-
-		// read file
-		char* iBuffer = new char[MAX_CHAR_ARR_BUFFER];
-		int count = 0;
-		while ((_file.good()))
-		{
-			_file.getline(iBuffer,'\n');
-			if (count == MAX_CHAR_ARR_BUFFER)
-			{
-				std::cout << "MAX_CHAR_ARR_BUFFER REACHED!!!!!!!!!!!!!\n";
-				break;
-			}
-			char c = static_cast<char>(_file.get());
-			if (jsonParseChecker(c))
-			{
-				iBuffer[count] = c;
-				++count;
-			}
-		}
-		iBuffer[count] = '\0';
-		_file.close();
-	}
-	std::cout << "! WARNING !! File Cannot Open!!!\n";
-	return;
 }
 
 /**
@@ -257,75 +189,3 @@ void FileOut_CrashLog(_In_z_ wchar_t const* _Message,
 //		fprintf(stderr, "\nError(offset %u): %s\n",
 //			(unsigned)d.GetErrorOffset(),
 //			rapidjson::GetParseError_En(d.GetParseError()));
-
-/******************************************************************************/
-/**
-\brief Read info for Player class
-		Will get following values:
-		- _HP_Player	// HP
-		- _SPD_Player	// Speed
-		- _FR_Player	// Fire rate
-*/
-/******************************************************************************/
-//void FileRead_PlayerInfo() // Func to read initialization file
-//{
-//	//std::ifstream _file; // the input stream
-//	//_file.open("player.txt", std::ios_base::in | std::ios_base::binary);
-//	//if (!_file.is_open()) // file cannot be opened
-//	//{
-//	//	std::cout << "! WARNING !! Using default parameters!!!\n";
-//	//	_HP_Player = _SPD_Player = _FR_Player = 0;
-//	//}
-//	//else // read info from file
-//	//{
-//	//	// 'global' varibles
-//	//	int arrElement[MAX_ARR_SIZE] = { 0 };
-//	//	std::string arrKey[MAX_ARR_SIZE];
-//	//	int count = 0; // for use in storing elements into arrays
-//
-//	//	while (!_file.eof()) // while not eof
-//	//	{
-//	//		std::string line;
-//	//		std::queue<int> queNum;
-//	//		int pos = 0; // for substr position
-//
-//	//		getline(_file, line);
-//	//		for (std::string::iterator itr = line.begin(); itr != line.end(); ++itr) {
-//	//			// FIND mapKey
-//	//			++pos; // find position of first non-alphabet, while counting cause need position
-//	//			if (!AsciiLetterCheck(*itr))
-//	//				arrKey[count] = line.substr(0, --pos);
-//	//			// FIND mapElement
-//	//			if (AsciiNumberCheck(*itr)) // only allow '.' and ASCII numbers
-//	//				queNum.push(*itr);
-//	//		}
-//	//		// calc actual value stored in Queue
-//	//		while (queNum.size()) {
-//	//			int mult = MultTen(static_cast<int>(queNum.size())); // using MultTen to get the 1XXXX multiplier
-//	//			int val = queNum.front() - 48; // -48 cause ASCII
-//	//			queNum.pop();
-//	//			val *= mult;
-//	//			arrElement[count] += val;
-//	//		}
-//	//		++count;
-//	//		pos = 0;
-//	//	}
-//
-//	//	// cout all varibles
-//	//	for (int i = 0; i < MAX_ARR_SIZE; ++i)
-//	//		std::cout << arrKey[i] << " " << arrElement[i] << '\n';
-//	//	std::cout << '\n';
-//	//	// TODO save all data into a MAP
-//	//}
-//
-//	//// cout windows settings for debug
-//	//	//std::cout << "- DEBUG --       ResX = " << _ResX << "\n";
-//	//	//std::cout << "- DEBUG --       ResY = " << _ResY << "\n";
-//	//	//std::cout << "- DEBUG -- FullScreen = " << _Fullscreen<< "\n";
-//
-//	//	// proceed to call Windows_Init()
-//	//	// OR
-//	//	// exit function so Windows_Init can execute
-//
-//	return;
-//}

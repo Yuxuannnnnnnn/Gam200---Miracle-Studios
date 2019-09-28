@@ -22,10 +22,16 @@ void Engine::Init()
 	_frameController->Initialize();
 
 	keypressed = false;
+	
+	// get Fabs
+		Player* temp = new Player();
+		temp->Serialize();
+	objFab.insert(std::pair<std::string, GameObject*>("Wall", new Wall()));
+	objFab.insert(std::pair<std::string, GameObject*>("Floor", new Floor()));
+	objFab.insert(std::pair<std::string, GameObject*>("Player", temp));
 
-	//Create a new player and adds the player obj to the objlist
-	Player* player1 = new Player();
-	objList.push_back(player1);
+	// instantiate world from LevelTest.txt
+	objList = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
 }
 
 void Engine::Update()
