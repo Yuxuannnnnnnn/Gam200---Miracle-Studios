@@ -4,14 +4,35 @@
 #include "Inputsystem/inputsystem.h"
 #include "Tools/FileIO.h"
 
+extern InputSystem* inputsystem;
+
+
+enum GameObjectType {
+	UNKOWN = 0,
+	PLAYER,
+	WALL,
+	FLOOR,
+	MISC,
+};
+
+struct TempGO {
+	int id{ 0 };
+	Vector3 pos{ Vector3() };
+	Vector3 scale{ Vector3() };
+	float rot{ 0.0f };
+	TempGO() {}
+	~TempGO() {}
+};
+
 struct GameObject
 {
-	int _id{ 0 };
+	int _id{ UNKOWN };
+
 	GameObject(Vector3 pos = Vector3{ 0,0 }, Vector3 scale = Vector3{ 20,20 }, float angle = 0) :
 		_pos{pos}, _scale{scale}, _angle{angle}
 	{
-
 	}
+	virtual ~GameObject() = default;
 	Vector3 _pos{ Vector3() };
 	Vector3 _scale{ Vector3(1.f,1.f,1.f) };
 	float _angle{ 0.0f };
@@ -19,19 +40,55 @@ struct GameObject
 	virtual void Update() {
 		std::cout << "A !" << std::endl;
 	};
+	virtual GameObject* Clone(Vector3 pos, Vector3 scale, float rotate)
+	{
+		return new GameObject();
+	}
+};
+
+struct Wall : public GameObject {
+	Wall()
+	{
+		_id = WALL;
+	}
+	~Wall() {}
+
+	void Update() override
+	{}
+
+	Wall* Clone(Vector3 pos, Vector3 scale, float rotate) override;
+};
+
+struct Floor : public GameObject {
+	Floor()
+	{
+		_id = FLOOR;
+	}
+	~Floor() {}
+
+	void Update() override
+	{}
+
+	Floor* Clone(Vector3 pos, Vector3 scale, float rotate) override;
 };
 
 struct Player : public GameObject {
-	InputSystem keyboard;
-
-	Player() {
-		_id = 1;
-		Serialize();
-	}
-
 	int _Health{ 0 };
 	float _Speed{ 0.0f };
 	std::vector<int> _WeaponListId;
+
+	Player() 
+	{
+		_id = PLAYER;
+	}
+	~Player() {}
+
+	virtual void Update()
+	{
+		Movement();
+	}
+	Player* Clone(Vector3 pos, Vector3 scale, float rotate) override;
+
 
 	void Serialize()
 	{
@@ -66,30 +123,28 @@ struct Player : public GameObject {
 		delete[] iBuffer;
 	}
 
-	virtual void Update()
-	{
-		keyboard.Update();
-		Movement();
-	}
-
 	void Movement()
 	{
 		Vector3 move;
 		// based on key pressed, move player
-		if (keyboard.KeyDown(KEYB_UP))
+		if (inputsystem->KeyDown(KEYB_UP))
 			move.Y(1);
-		if (keyboard.KeyDown(KEYB_DOWN))
+		if (inputsystem->KeyDown(KEYB_DOWN))
 			move.Y(-1);
-		if (keyboard.KeyDown(KEYB_RIGHT))
+		if (inputsystem->KeyDown(KEYB_RIGHT))
 			move.X(1);
-		if (keyboard.KeyDown(KEYB_LEFT))
+		if (inputsystem->KeyDown(KEYB_LEFT))
 			move.X(-1);
-		if (keyboard.KeyDown(KEYB_O))
+		if (inputsystem->KeyDown(KEYB_O))
 			_angle+=3;
-		if (keyboard.KeyDown(KEYB_P))
+		if (inputsystem->KeyDown(KEYB_P))
 			_angle -= 3;
 		_pos += move;
 	}
+	
 };
 
+std::vector<GameObject*> FileRead_Level(const char* FileName);
+
 extern std::vector<GameObject*> objList;
+extern std::map <std::string, GameObject*> objFab;

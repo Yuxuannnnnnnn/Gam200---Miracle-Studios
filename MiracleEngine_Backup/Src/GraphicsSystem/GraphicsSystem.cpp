@@ -3,15 +3,17 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "GraphicsSystem/VertexBuffer.h"
 
-
+#include "../Imgui/imgui.h"
+#include "InstancedSystem.h"
 
 
 
 void GraphicsSystem::Init()
 {
-	glewInit();
-
+	
 }
+
+
 void GraphicsSystem::Update()
 {
 	//VertexBuffer vb((const void*)positions, sizeof(glm::vec2) * 3);
@@ -27,11 +29,14 @@ void GraphicsSystem::Update()
 
 	////enable the index of the vertex attribute
 	//glEnableVertexAttribArray(0);
+	_frameController.UpdateFrameTime();
 
+	ImGui::Text("Graphics FPS: %.8f ", _frameController.GetFrameRate());
 
 	ClearScreen();
 
 	_renderer.Update();
+	_instancedRenderer.Update();
 	//_renderer.DrawPoint(10, -100, 5);
 	//_renderer.DrawWireFrameQuad(0, 0, 30, 50);
 	//_renderer.DrawLine(-100, -100, 100, 100);

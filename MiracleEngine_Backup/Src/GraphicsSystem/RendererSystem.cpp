@@ -39,7 +39,7 @@ void RendererSystem::DrawPoint(int x, int y, int size)
 		0.0f, 0.0f
 	};
 	VertexBuffer vbo(positions, 2 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
-	glPointSize(size);
+	glPointSize((float)size);
 
 
 	_shader.Select();

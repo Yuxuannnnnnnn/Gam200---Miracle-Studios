@@ -404,8 +404,17 @@
     <ClInclude Include="Dep\glm\vec3.hpp" />
     <ClInclude Include="Dep\glm\vec4.hpp" />
     <ClInclude Include="Dep\glm\vector_relational.hpp" />
+    <ClInclude Include="Imgui\imconfig.h" />
+    <ClInclude Include="Imgui\imgui.h" />
+    <ClInclude Include="Imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Imgui\imgui_impl_win32.h" />
+    <ClInclude Include="Imgui\imgui_internal.h" />
+    <ClInclude Include="Imgui\imstb_rectpack.h" />
+    <ClInclude Include="Imgui\imstb_textedit.h" />
+    <ClInclude Include="Imgui\imstb_truetype.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
+    <ClInclude Include="Src\GraphicsSystem\InstancedSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\GraphicsSystem\RendererSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
@@ -429,7 +438,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
+    <ClCompile Include="Imgui\imgui.cpp" />
+    <ClCompile Include="Imgui\imgui_demo.cpp" />
+    <ClCompile Include="Imgui\imgui_draw.cpp" />
+    <ClCompile Include="Imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\InstancedSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\RendererSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
@@ -592,6 +608,8 @@
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
+    <None Include="Src\GraphicsSystem\Shader\instanced.frag" />
+    <None Include="Src\GraphicsSystem\Shader\instanced.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
