@@ -29,7 +29,7 @@ void Engine::Init()
 	keypressed = false;
 
 
-	GameObject* newTop = new GameObject{ Vector3{0,100}, Vector3{100,1} };
+	GameObject* newTop =  new GameObject{ Vector3{0,100}, Vector3{100,1} };
 	GameObject* newDown = new GameObject{ Vector3{0,-100}, Vector3{100,1} };
 	GameObject* newRight = new GameObject{ Vector3{100,0}, Vector3{1,100} };
 	GameObject* newLeft = new GameObject{ Vector3{-100,}, Vector3{1,100} };
@@ -38,16 +38,15 @@ void Engine::Init()
 	topCollider->_gameObject = newTop;
 	Collider2D* downCollider = _physicSystem->CreateEdgeCollider(newDown->_pos, newDown->_scale._x, 0);
 	downCollider->_gameObject = newDown;
-	Collider2D* rightCollider = _physicSystem->CreateEdgeCollider(newRight->_pos, newRight->_scale._y, PI / 2);
+	Collider2D* rightCollider = _physicSystem->CreateEdgeCollider(newRight->_pos, newRight->_scale._y, PI/2);
 	rightCollider->_gameObject = newRight;
-	Collider2D* leftCollider = _physicSystem->CreateEdgeCollider(newLeft->_pos, newLeft->_scale._y, PI / 2);
+	Collider2D* leftCollider = _physicSystem->CreateEdgeCollider(newLeft->_pos, newLeft->_scale._y, PI/2);
 	leftCollider->_gameObject = newLeft;
 
 	objList.push_back(newTop);
 	objList.push_back(newDown);
 	objList.push_back(newRight);
 	objList.push_back(newLeft);
-
 
 	// get Fabs
 	Player* temp = new Player();
@@ -74,6 +73,7 @@ void Engine::Update()
 	_inputSystem->Update();
 	_physicSystem->Update(deltaTime);
 
+
 	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
 	{
 		GameObject* ball = new GameObject{ Vector3{0,0}, Vector3{30,30} };
@@ -99,6 +99,8 @@ void Engine::Update()
 	else if (!_inputSystem->KeyDown(KEYB_A) && keypressed)
 	{
 		keypressed = false;
+		//ImGui::Text("Graphic System FPS: %.5f ", value);
+		//ImGui::Text("Input System FPS: %.5f ", value);
 	}
 
 	std::vector<GameObject*>::iterator itr = objList.begin();

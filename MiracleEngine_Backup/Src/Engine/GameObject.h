@@ -34,7 +34,7 @@ struct GameObject
 	}
 	virtual ~GameObject() = default;
 	Vector3 _pos{ Vector3() };
-	Vector3 _scale{ Vector3() };
+	Vector3 _scale{ Vector3(1.f,1.f,1.f) };
 	float _angle{ 0.0f };
 
 	virtual void Update() {
