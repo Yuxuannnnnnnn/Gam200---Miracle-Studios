@@ -33,7 +33,7 @@ public:
 	BOOL InitInstance(HINSTANCE hInstance, int nCmdShow);
 	bool Initialise();
 
-
+	HWND Get_hwnd() const{return mainHWND;}
 	//Getter function
 	HACCEL get_hAccelTable() const;
 	HDC get_m_windowDC() const;
