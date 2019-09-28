@@ -7,8 +7,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "Physics.h"
+#include "BoxCollider2D.h"
 
-Physics::Physics() :_ListCollider2D{}, _count{ 0 }
+Physics::Physics() :_ListCollider2D{}, _ListRigidBody2D{}, _count{ 0 }
 {
 
 }
@@ -21,19 +22,24 @@ Physics::~Physics()
 		delete* iterator;
 		iterator++;
 	}
+
+	std::vector<RigidBody2D*>::iterator iterator2 = _ListRigidBody2D.begin();
+	while (iterator2 != _ListRigidBody2D.end())
+	{
+		//delete* iterator2;
+		iterator2++;
+	}
 }
 
 void Physics::Update(double dt)
 {
-	(void)dt;
-
 	std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 
 	std::vector<RigidBody2D*>::iterator iterator = _ListRigidBody2D.begin();
 
 	while (iterator != _ListRigidBody2D.end())
 	{
-
+		(*iterator)->Update(dt);
 		iterator++;
 	}
 

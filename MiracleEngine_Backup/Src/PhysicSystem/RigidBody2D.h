@@ -26,7 +26,9 @@ public:
 
 	void Update(double dt)
 	{
-		//_pos += Vec;
+		Vec = AppliedVec;
+		_pos += Vec * dt;
+		AppliedVec = Vector3{};
 	}
 	
 };

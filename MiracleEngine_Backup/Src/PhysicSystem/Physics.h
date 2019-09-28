@@ -9,8 +9,7 @@
 #ifndef _PHYSICS_SYSTEM_H
 #define _PHYSICS_SYSTEM_H
 
-#include "CircleCollider2D.h"
-#include "BoxCollider2D.h"
+#include "Collider2D.h"
 #include "RigidBody2D.h"
 
 #include<iostream>
@@ -22,12 +21,13 @@
 class Physics final
 {
 	//Dynamic array of GameObjects
+	
+
+  size_t _count;
+public:
 	std::vector<Collider2D*> _ListCollider2D;
 	std::vector<RigidBody2D*> _ListRigidBody2D;
 
-  size_t _count;
-  
-public:
 	//No replication of class object
 	Physics(const Physics& rhs) = delete;
 	Physics& operator= (const Physics& rhs) = delete;

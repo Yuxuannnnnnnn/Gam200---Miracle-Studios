@@ -7,6 +7,22 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "BoxCollider2D.h"
 
+bool TestCircleVsBox(const CircleCollider2D& cc, const BoxCollider2D& aabb)
+{
+	BoxCollider2D box = aabb;
+
+	if (box.TestBoxVsPoint(cc.mCenPos))
+		return true;
+
+	if (distance(aabb.mMinPos, Vector3(aabb.mMinPos.X(), aabb.mMaxPos.Y()), cc.mCenPos) <= cc.mRadius ||
+		distance(Vector3(aabb.mMinPos.X(), aabb.mMaxPos.Y()), aabb.mMaxPos, cc.mCenPos) <= cc.mRadius ||
+		distance(aabb.mMaxPos, Vector3(aabb.mMaxPos.X(), aabb.mMinPos.Y()), cc.mCenPos) <= cc.mRadius ||
+		distance(Vector3(aabb.mMaxPos.X(), aabb.mMinPos.Y()), aabb.mMinPos, cc.mCenPos) <= cc.mRadius)
+		return true;
+
+	return false;
+}
+
 BoxCollider2D::BoxCollider2D()
 {
 }
