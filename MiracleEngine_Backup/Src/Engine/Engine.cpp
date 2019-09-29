@@ -73,35 +73,38 @@ void Engine::Update()
 	_inputSystem->Update();
 	_physicSystem->Update(deltaTime);
 
+// keyboard check for different level loading
+	//// press 0 to delete all GOs
+	//if (inputsystem->KeyDown(KEYB_0))
+	//{
+	//	std::vector<GameObject*>::iterator itr = objList.begin();
+	//	while (itr != objList.end())
+	//		delete* itr++;
+	//	//objList.resize(0);
+	//}
+	//// 1 to load levelText1
+	//if (inputsystem->KeyDown(KEYB_1))
+	//{
+	//	std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
+	//	std::vector<GameObject*>::iterator itr = temp.begin();
+	//	while (itr != temp.end())
+	//	{
+	//		objList.push_back(*itr);
+	//		delete* itr++;
+	//	}
 
-	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
-	{
-		GameObject* ball = new GameObject{ Vector3{0,0}, Vector3{30,30} };
-
-		RigidBody2D* ballBody = _physicSystem->CreateRigidBody2D();
-		ballBody->_velocity = Vector3{ 100.f,0,0.f };
-		//ballBody->_appliedForce = Vector3{ 0.f,100.f,0.f };
-		ballBody->_static = false;
-		ballBody->_gameObject = ball;
-
-		Collider2D* ballCollider = _physicSystem->CreateCircleCollider(ball->_pos, ball->_scale._x / 2);
-
-		ballCollider->_gameObject = ball;
-		ballCollider->_body = ballBody;
-
-
-
-		objList.push_back(ball);
-		std::cout << "A pressed !" << std::endl;
-
-		keypressed = true;
-	}
-	else if (!_inputSystem->KeyDown(KEYB_A) && keypressed)
-	{
-		keypressed = false;
-		//ImGui::Text("Graphic System FPS: %.5f ", value);
-		//ImGui::Text("Input System FPS: %.5f ", value);
-	}
+	//}
+	//// 2 to load levelText2
+	//if (inputsystem->KeyDown(KEYB_2))
+	//{
+	//	std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
+	//	std::vector<GameObject*>::iterator itr = temp.begin();
+	//	while (itr != temp.end())
+	//	{
+	//		objList.push_back(*itr);
+	//		delete* itr++;
+	//	}
+	//}
 
 	std::vector<GameObject*>::iterator itr = objList.begin();
 	while (itr != objList.end())
