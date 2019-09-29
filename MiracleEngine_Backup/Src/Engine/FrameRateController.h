@@ -6,6 +6,8 @@
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
+
+
 #ifndef _FRAME_RATE_CONTROLLER_H
 #define _FRAME_RATE_CONTROLLER_H
 
