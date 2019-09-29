@@ -33,6 +33,8 @@ public:
 	double GetTotalRunTime() const;
 	double GetFrameRate() const;
 	double GetFrameTime() const;
+	ms GetFrameTimeMS() const;
+
 private:
 	unsigned long long TotalTime;
 	double FrameRate;

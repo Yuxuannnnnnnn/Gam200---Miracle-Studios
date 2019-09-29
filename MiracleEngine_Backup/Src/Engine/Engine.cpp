@@ -26,7 +26,7 @@ void Engine::Init()
 	_inputSystem = new InputSystem();
 	_physicSystem = new Physics();
 	_inputSystem->Init();
-	_frameController->Initialize();
+	FrameRateController::GetInstance().Initialize();
 	keypressed = false;
 
 
@@ -64,20 +64,17 @@ void Engine::Update()
 {
 	//Print out Delta time on the console
 	std::cout.precision(dbl::max_digits10);
-	double deltaTime = 0.0;//FrameRateController::Ge_frameController->UpdateFrameTime();
+	double deltaTime = FrameRateController::GetInstance().UpdateFrameTime();
 	//std::cout << deltaTime << std::endl;
 	//std::cout << _frameController->GetFrameRate() << std::endl;
-	ImGui::Text("Engine FPS: %.8f ", _frameController->GetFrameRate());
+	ImGui::Text("Engine FPS: %.8f ", FrameRateController::GetInstance().GetFrameRate());
 
 	//Update all the systems
 	_graphicSystem->Update();
 	_inputSystem->Update();
 	_physicSystem->Update(deltaTime);
 
-	if (_inputSystem->KeyDown(KEYB_B) )
-	{
-		_frameController->GetFrameTime();
-	}
+
 	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
 	{
 		GameObject* ball = new GameObject{ Vector3{0,0}, Vector3{30,30} };

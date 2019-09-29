@@ -16,7 +16,6 @@ private:
 	unsigned char _currBuffer[256];
 	unsigned char _prevBuffer[256];
 
-	FrameRateController _frameController;
 
 	TimePoint PrevTime;
 	TimePoint CurrTime;

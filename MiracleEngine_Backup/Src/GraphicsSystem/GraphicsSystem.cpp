@@ -5,6 +5,7 @@
 
 #include "../Imgui/imgui.h"
 #include "InstancedSystem.h"
+#include "Engine/FrameRateController.h"
 
 
 
@@ -32,7 +33,7 @@ void GraphicsSystem::Update()
 
 	// Recalculate the current time the frame's been running.
 
-	PrevTime = Time::now();
+	FrameRateController::GetInstance().StartTimeCounter();
 
 
 	ClearScreen();
@@ -47,12 +48,16 @@ void GraphicsSystem::Update()
 	// 2 vbo and ebo
 	// 1 for square and 1 for lines
 
-	CurrTime = Time::now();
 
-	FrameTime = std::chrono::duration_cast<ms>(CurrTime - PrevTime);
+	//float percentage = (FrameTime / (FrameRateController::GetInstance().GetFrameTimeMS()) * 100.0f);
+	//
+	//ImGui::Text("Graphics per Frame Percentage: %.3f %", percentage);
 
-	ImGui::Text("Graphics FPS: %.8f ", (FrameTime/FrameRateController::GetFrameRate() * 100));
+	float time = FrameRateController::GetInstance().EndTimeCounter() / FrameRateController::GetInstance().GetFrameTime() * 100;
+	ImGui::Text("Graphic per Frame Percentage: %.3f %", time);
 }
+
+
 void GraphicsSystem::Exit()
 {
 

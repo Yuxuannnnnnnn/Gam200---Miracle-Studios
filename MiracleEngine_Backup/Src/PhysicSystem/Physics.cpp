@@ -39,7 +39,7 @@ Physics::~Physics()
 void Physics::Update(double dt)
 {
 
-	PrevTime = Time::now();
+	FrameRateController::GetInstance().StartTimeCounter();
 
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 	std::vector<RigidBody2D*>::iterator iterator = _ListRigidBody2D.begin();
@@ -111,10 +111,10 @@ void Physics::Update(double dt)
 	EventHandler::GetInstance().UpdateEvent();
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 
-	CurrTime = Time::now();
-	FrameTime = std::chrono::duration_cast<ms>(CurrTime - PrevTime);
+	float time = FrameRateController::GetInstance().EndTimeCounter() / FrameRateController::GetInstance().GetFrameTime() * 100;
+	ImGui::Text("Physics per Frame Percentage: %.3f %", time);
 
-	ImGui::Text("Physics FPS: %.8f ", (FrameTime / FrameRateController::GetFrameRate() * 100));
+
 }
 
 Collider2D* Physics::CreateCircleCollider(const Vector3& _v, const float& r)

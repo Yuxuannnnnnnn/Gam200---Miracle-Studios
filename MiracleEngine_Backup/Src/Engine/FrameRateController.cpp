@@ -66,6 +66,12 @@ double FrameRateController::GetFrameTime() const
 	return (double)FrameTime_Main.count();
 }
 
+
+ms FrameRateController::GetFrameTimeMS() const
+{
+	return FrameTime_Main;
+}
+
 void FrameRateController::StartTimeCounter()
 {
 	PrevTime_Sub = Time::now();
@@ -77,6 +83,6 @@ double FrameRateController::EndTimeCounter()
 
 	FrameTime_Sub = std::chrono::duration_cast<ms>(CurrTime_Sub - PrevTime_Sub);
 
-	return (double)FrameTime_Main.count();
+	return (double)FrameTime_Sub.count();
 }
 
