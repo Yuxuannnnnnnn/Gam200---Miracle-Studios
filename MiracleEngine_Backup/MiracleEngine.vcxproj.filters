@@ -331,6 +331,7 @@
     <ClInclude Include="Src\PhysicSystem\Physics.h" />
     <ClInclude Include="Src\PhysicSystem\RigidBody2D.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

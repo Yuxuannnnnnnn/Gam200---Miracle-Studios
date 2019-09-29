@@ -73,7 +73,10 @@ void Engine::Update()
 	_inputSystem->Update();
 	_physicSystem->Update(deltaTime);
 
-  
+	if (_inputSystem->KeyDown(KEYB_B) )
+	{
+		_frameController->GetFrameTime();
+	}
 	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
 	{
 		GameObject* ball = new GameObject{ Vector3{0,0}, Vector3{30,30} };

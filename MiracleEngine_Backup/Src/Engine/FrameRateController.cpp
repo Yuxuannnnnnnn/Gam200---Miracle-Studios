@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "FrameRateController.h"
 
-// #include <iostream>
+ #include <iostream>
 // #include <limits>
 // typedef std::numeric_limits< double > dbl;
 
@@ -62,5 +62,6 @@ double FrameRateController::GetFrameRate() const
 
 ms FrameRateController::GetFrameTime() const
 {
+	std::cout << (double)FrameTime.count() << std::endl;
 	return FrameTime;
 }

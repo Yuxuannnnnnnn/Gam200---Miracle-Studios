@@ -3,6 +3,7 @@
 #include <vector>
 #include "Inputsystem/inputsystem.h"
 #include "Tools/FileIO.h"
+#include <string>
 
 extern InputSystem* inputsystem;
 
@@ -19,14 +20,15 @@ struct GameObject
 {
 	int _id{ UNKOWN };
 
-	GameObject(Vector3 pos = Vector3{ 0,0 }, Vector3 scale = Vector3{ 20,20 }, float angle = 0) :
-		_pos{pos}, _scale{scale}, _angle{angle}
+	GameObject(Vector3 pos = Vector3{ 0,0 }, Vector3 scale = Vector3{ 20,20 }, float angle = 0, std::string name = "zombie") :
+		_pos{pos}, _scale{scale}, _angle{angle}, _name{name}
 	{
 	}
 	virtual ~GameObject() = default;
 	Vector3 _pos{ Vector3() };
 	Vector3 _scale{ Vector3(1.f,1.f,1.f) };
 	float _angle{ 0.0f };
+	std::string _name;
 
 	virtual void Update() {
 		std::cout << "A !" << std::endl;
