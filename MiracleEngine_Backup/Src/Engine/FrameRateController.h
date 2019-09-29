@@ -11,23 +11,19 @@
 
 #include <chrono>
 #include <thread>
+#include "PhysicSystem/ISingleton.h"
 
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::high_resolution_clock::time_point TimePoint;
 typedef std::chrono::milliseconds ms;
 using namespace std::chrono_literals;
 
-class FrameRateController
+class FrameRateController : public ISingleton<FrameRateController>
 {
 public:
 	FrameRateController();
 
 	void Initialize();
-  double UpdateFrameTime();
-  double GetTotalRunTime() const;
-  double GetFrameRate() const;
-  ms GetFrameTime() const;
-
 	double UpdateFrameTime();
 
 	void StartTimeCounter();
@@ -38,12 +34,16 @@ public:
 	double GetFrameTime() const;
 
 private:
-	TimePoint PrevTime;
-	TimePoint CurrTime;
 	unsigned long long TotalTime;
-	ms FrameTime;
-  double FrameRate;
+	double FrameRate;
 
+	TimePoint PrevTime_Main;
+	TimePoint CurrTime_Main;
+	ms FrameTime_Main;
+
+	TimePoint PrevTime_Sub;
+	TimePoint CurrTime_Sub;
+	ms FrameTime_Sub;
 };
 
 
