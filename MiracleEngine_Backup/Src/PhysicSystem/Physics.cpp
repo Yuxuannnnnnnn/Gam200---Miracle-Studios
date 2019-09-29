@@ -8,6 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "Physics.h"
 #include "Collision.h"
+#include "../Imgui/imgui.h"
 
 Physics::Physics() : 
 	_ListCollider2D{}, 

@@ -21,7 +21,6 @@ void Engine::Init()
 {
 	//Creation of the Systems
 	_graphicSystem = new GraphicsSystem();
-	_frameController = new FrameRateController();
 	_inputSystem = new InputSystem();
 	_physicSystem = new Physics();
 	_inputSystem->Init();

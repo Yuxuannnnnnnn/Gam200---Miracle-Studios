@@ -16,7 +16,6 @@ public:
 	
 	GraphicsSystem* _graphicSystem;
 	InputSystem* _inputSystem;
-	FrameRateController* _frameController;
 	Physics* _physicSystem;
 
 	bool keypressed;

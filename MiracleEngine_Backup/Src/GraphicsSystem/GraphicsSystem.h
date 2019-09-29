@@ -9,7 +9,6 @@
 #include <string>
 #include "GraphicsSystem/RendererSystem.h"
 #include "VertexArray.h"
-#include "Engine/FrameRateController.h"
 
 #include "InstancedSystem.h"
 #include "DebugRenderer.h"
@@ -27,7 +26,6 @@ private:
 	MeshManager _meshmanager;
 	RendererSystem _renderer;
 	
-	FrameRateController _frameController;
 	InstancedSystem _instancedRenderer;
 	DebugRenderer _debugrenderer;
 };

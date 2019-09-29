@@ -98,7 +98,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	objList.push_back(new GameObject{});
 	objList.push_back(new GameObject{ Vector3 {100,50}, Vector3{50,50} });
 
-
+	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();  (void)io;
 
@@ -123,7 +123,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		{
 
 			if (msg.message == WM_QUIT)
-				loop = false;
+			{
+				//loop = false;
+
+				// Cleanup
+				ImGui_ImplOpenGL3_Shutdown();
+				ImGui_ImplWin32_Shutdown();
+				ImGui::DestroyContext();
+				// engine exit here
+				coreEngine->Exit();
+
+
+				return (int)msg.wParam;
+			}
 
 			if (!TranslateAccelerator(msg.hwnd, window.get_hAccelTable(), &msg))
 			{
@@ -134,7 +146,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 
 		// Start the Dear ImGui frame
-
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
@@ -158,15 +169,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		// swap double buffer at the end
 		::SwapBuffers(window.get_m_windowDC());
+
+		if (inputsystem->KeyDown(KEYB_ESCAPE))
+		{
+			loop = false;
+		}
+
 	}
 
 	// Cleanup
 	ImGui_ImplOpenGL3_Shutdown();
-	ImGui::DestroyContext();
 	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 	// engine exit here
 	coreEngine->Exit();
-
 
     return (int) msg.wParam;
 }
