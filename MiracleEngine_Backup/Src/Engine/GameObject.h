@@ -12,15 +12,6 @@ enum GameObjectType {
 	MISC,
 };
 
-struct TempGO {
-	int id{ 0 };
-	Vector3 pos{ Vector3() };
-	Vector3 scale{ Vector3() };
-	float rot{ 0.0f };
-	TempGO() {}
-	~TempGO() {}
-};
-
 struct GameObject
 {
 	int _id{ UNKOWN };
@@ -48,7 +39,9 @@ struct Wall : public GameObject {
 	{
 		_id = WALL;
 	}
-	~Wall() {}
+	~Wall()
+	{
+	}
 
 	void Update() override
 	{}
@@ -61,7 +54,9 @@ struct Floor : public GameObject {
 	{
 		_id = FLOOR;
 	}
-	~Floor() {}
+	~Floor()
+	{
+	}
 
 	void Update() override
 	{}
@@ -77,9 +72,12 @@ struct Player : public GameObject {
 
 	Player() 
 	{
+		keyboard.Init();
 		_id = PLAYER;
 	}
-	~Player() {}
+	~Player()
+	{
+	}
 
 	virtual void Update()
 	{
@@ -122,9 +120,9 @@ struct Player : public GameObject {
 		delete[] iBuffer;
 	}
 
-	void Movement()
+	void Movement() // will move to LogicComponent->Player
 	{
-		Vector3 move;
+		Vector3 move, scale;
 		// based on key pressed, move player
 		if (keyboard.KeyDown(KEYB_UP))
 			move.Y(1);
@@ -134,11 +132,20 @@ struct Player : public GameObject {
 			move.X(1);
 		if (keyboard.KeyDown(KEYB_LEFT))
 			move.X(-1);
+		if (keyboard.KeyDown(KEYB_U))
+			_angle += 3;
 		if (keyboard.KeyDown(KEYB_O))
-			_angle+=3;
-		if (keyboard.KeyDown(KEYB_P))
 			_angle -= 3;
+		if (keyboard.KeyDown(KEYB_I))
+			scale.Y(1);
+		if (keyboard.KeyDown(KEYB_K))
+			scale.Y(-1);
+		if (keyboard.KeyDown(KEYB_J))
+			scale.X(1);
+		if (keyboard.KeyDown(KEYB_L))
+			scale.X(-1);
 		_pos += move;
+		_scale += scale;
 	}
 	
 };

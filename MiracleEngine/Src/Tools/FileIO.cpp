@@ -149,6 +149,28 @@ char* FileRead_FileToCharPtr(const char* FileName)
 	std::cout << "! WARNING !! File Cannot Open!!!\n";
 	return nullptr;
 }
+/**
+\brief Function to make file input into std::vector<string>
+*/
+std::vector<std::string> FileRead_FileToStringVector(const char* FileName)
+{
+	std::vector<std::string> stringVec;
+	char* strType = new char[20];
+	// open file
+	std::fstream _file;
+	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
+	if (!_file.is_open())
+	{
+		std::cout << "! WARNING !! File Cannot Open!!!\n";
+		return stringVec;
+	}
+	while (_file.good())
+	{
+		//_file >> strType;
+		stringVec.push_back(_file.getline());
+	}
+	_file.close();
+}
 
 
 //------------------------------------------------------------------------------------

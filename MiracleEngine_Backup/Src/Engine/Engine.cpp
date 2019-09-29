@@ -102,5 +102,8 @@ void Engine::Exit()
 	while (itr != objList.end())
 		delete *itr++;
 
+	objFab.erase("Wall");
+	objFab.erase("Floor");
+	objFab.erase("Player");
 	delete _graphicSystem;
 }

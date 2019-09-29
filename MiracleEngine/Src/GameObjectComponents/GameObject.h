@@ -4,6 +4,7 @@
 #include "RigidBodyComponent.h"
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
+#include "Tools/FileIO.h"
 
 #include <vector>
 #include <map>
@@ -13,6 +14,7 @@ namespace FilePathNames {
 	const char* path_init = "./Resources/TextFiles/init.json";
 	const char* path_outTest = "./Resources/TextFiles/test.txt";
 	const char* path_crashLog = "./Resources/TextFiles/crashlog.txt";
+	const char* path_GameObjectList = "./Resources/TextFiles/ListOfGameObjects.txt";
 }
 
 enum GameObjectID {
@@ -36,12 +38,14 @@ enum ComponentTypes
 class IGameObject
 {
 public:
+	//List of Components for Each GameObject
+	std::map< ComponentTypes, IComponentSystem* > _ComponentList;
+	size_t _id;
 
 	IGameObject(size_t id)
 		:_id{ id }
 	{
 	}
-
 	//deletes all Components in a Game Object
 	virtual ~IGameObject()
 	{
@@ -52,6 +56,9 @@ public:
 			iterator++;
 		}
 	}
+	virtual void Init() {}
+	virtual void Update() {}
+	virtual void Exit() {}
 
 	//Return GameObjectType Name
 	virtual std::string GameObjectType() const = 0;
@@ -77,10 +84,6 @@ public:
 
 		return  _ComponentList[componentType];
 	}
-
-	//List of Components for Each GameObject
-	std::map< ComponentTypes, IComponentSystem* > _ComponentList;
-	size_t _id;
 };
 
 
@@ -121,6 +124,16 @@ public:
 		
 	}
 	~Player() {}
+
+	virtual void Init() override {
+
+	}
+	virtual void Update() override {
+
+	}
+	virtual void Exit() override {
+
+	}
 
 	void ConvertWeaponIdToWeapon()
 	{

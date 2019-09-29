@@ -44,7 +44,7 @@ Player* Player::Clone(Vector3 pos, Vector3 scale, float rotate)
 }
 
 std::vector<GameObject*> FileRead_Level(const char* FileName)
-{
+{ // will move to ObjectFactory
 	std::fstream _file;
 	_file.open("./Resources/TextFiles/TestLevel.txt", std::ios_base::in | std::ios_base::binary);
 	if (!_file.is_open())
@@ -101,7 +101,6 @@ std::vector<GameObject*> FileRead_Level(const char* FileName)
 	std::vector<TempGO>::iterator itr = GOVec.begin();
 	while (itr != GOVec.end())
 	{
-		//GameObject* tempGO = nullptr;
 		TempGO temp = *itr;
 		if (temp.id == PLAYER)
 			ret.push_back(objFab["Player"]->Clone(temp.pos,temp.scale,temp.rot));
@@ -110,11 +109,6 @@ std::vector<GameObject*> FileRead_Level(const char* FileName)
 		else if (temp.id == WALL)
 			ret.push_back(objFab["Wall"]->Clone(temp.pos, temp.scale, temp.rot));
 		else;
-		//if (tempGO)
-		//{
-		//	tempGO->Clone(temp.pos, temp.scale, temp.rot);
-		//	ret.push_back(tempGO);
-		//}
 		++itr;
 	}
 	return ret;

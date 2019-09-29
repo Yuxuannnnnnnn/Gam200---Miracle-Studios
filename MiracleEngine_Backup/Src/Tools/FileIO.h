@@ -48,7 +48,14 @@ struct Initi {
 	Initi() {}
 	~Initi() {}
 };
-
+struct TempGO {
+	int id{ 0 };
+	Vector3 pos{ Vector3() };
+	Vector3 scale{ Vector3() };
+	float rot{ 0.0f };
+	TempGO() {}
+	~TempGO() {}
+};
 
 /**
 \brief Function to make file input into single char[]

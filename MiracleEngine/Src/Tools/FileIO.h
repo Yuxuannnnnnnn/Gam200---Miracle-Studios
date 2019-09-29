@@ -39,13 +39,13 @@ struct Initi {
 
 
 struct Playa {
-	
+
 	Vec2 _Transform;
 	int _HP{ 0 };
 	float _SPD{ 0.0f };
 	std::vector<int> _Weap;
 	bool _Alive{ false };
-//
+};
 
 
 //	const char* path_player = "./Resources/TextFiles/player.json";
@@ -80,6 +80,10 @@ void JsonDynamicStore(Vector3&store, rapidjson::Value& val);
 \brief Function to make file input into single char[]
 */
 char* FileRead_FileToCharPtr(const char* FileName);
+/**
+\brief Function to make file input into std::vector<string>
+*/
+std::vector<std::string>& FileRead_FileToStringVector(const char* FileName);
 
 /**
 \brief Read start up info for application
