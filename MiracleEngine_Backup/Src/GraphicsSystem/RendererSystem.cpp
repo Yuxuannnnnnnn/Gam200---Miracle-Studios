@@ -4,28 +4,11 @@ RendererSystem::RendererSystem(int windowWidth, int windowHeight)
 	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2) }
 {
-	background = new GameObject(Vector3{}, Vector3{ 800, 600, 0 });
+
 }
 
 void RendererSystem::Update()
 {
-	_shader.Select();
-	_backgroundmesh.Select();
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(background->_pos.X()
-		, background->_pos.Y(), 0));
-	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), background->_angle, glm::vec3(0, 0, 1));
-	glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
-		glm::vec3(background->_scale.X(), background->_scale.Y(), 1.0f));
-
-	glm::mat4 mvp = _proj * model;
-
-	_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
-	_shader.SetUniformMat4f("u_MVP", mvp);
-	_shader.SetUniform1i("u_Texture", 0);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	// this one encapsulate into another class
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
 	for (size_t i = 0; i < objList.size(); i++)
 	{
 	
@@ -86,6 +69,9 @@ void RendererSystem::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 	glEnableVertexAttribArray(0);
 
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+
+
 
 	_shader.Select();
 

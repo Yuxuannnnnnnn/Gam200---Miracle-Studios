@@ -27,11 +27,7 @@ private:
 	MeshManager _meshmanager;
 	RendererSystem _renderer;
 	
+	FrameRateController _frameController;
 	InstancedSystem _instancedRenderer;
 	DebugRenderer _debugrenderer;
-
-
-	TimePoint PrevTime;
-	TimePoint CurrTime;
-	ms FrameTime;
 };

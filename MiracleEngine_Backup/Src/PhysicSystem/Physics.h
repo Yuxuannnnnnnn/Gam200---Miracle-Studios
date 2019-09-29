@@ -42,11 +42,6 @@ private:
 	//No replication of class object
 	Physics(const Physics& rhs) = delete;
 	Physics& operator= (const Physics& rhs) = delete;
-
-
-	TimePoint PrevTime;
-	TimePoint CurrTime;
-	ms FrameTime;
 };
 
 #endif

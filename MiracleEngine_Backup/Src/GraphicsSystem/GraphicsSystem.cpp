@@ -35,7 +35,6 @@ void GraphicsSystem::Update()
 
 	FrameRateController::GetInstance().StartTimeCounter();
 
-
 	ClearScreen();
 
 	

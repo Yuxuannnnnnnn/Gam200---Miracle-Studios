@@ -3,7 +3,6 @@
 #include <vector>
 #include "Inputsystem/inputsystem.h"
 #include "Tools/FileIO.h"
-#include <string>
 
 extern InputSystem* inputsystem;
 
@@ -20,15 +19,14 @@ struct GameObject
 {
 	int _id{ UNKOWN };
 
-	GameObject(Vector3 pos = Vector3{ 0,0 }, Vector3 scale = Vector3{ 20,20 }, float angle = 0, std::string name = "zombie") :
-		_pos{pos}, _scale{scale}, _angle{angle}, _name{name}
+	GameObject(Vector3 pos = Vector3{ 0,0 }, Vector3 scale = Vector3{ 20,20 }, float angle = 0) :
+		_pos{pos}, _scale{scale}, _angle{angle}
 	{
 	}
 	virtual ~GameObject() = default;
 	Vector3 _pos{ Vector3() };
 	Vector3 _scale{ Vector3(1.f,1.f,1.f) };
 	float _angle{ 0.0f };
-	std::string _name;
 
 	virtual void Update() {
 		std::cout << "A !" << std::endl;
@@ -76,7 +74,6 @@ struct Player : public GameObject {
 
 	Player() 
 	{
-		inputsystem->Init();
 		_id = PLAYER;
 	}
 	~Player()
@@ -128,17 +125,17 @@ struct Player : public GameObject {
 		Vector3 move, scale;
 		// based on key pressed, move player
 		if (inputsystem->KeyDown(KEYB_UP))
-			move.Y(1);
+			move.Y(_Speed);
 		if (inputsystem->KeyDown(KEYB_DOWN))
-			move.Y(-1);
+			move.Y(-_Speed);
 		if (inputsystem->KeyDown(KEYB_RIGHT))
-			move.X(1);
+			move.X(_Speed);
 		if (inputsystem->KeyDown(KEYB_LEFT))
-			move.X(-1);
+			move.X(-_Speed);
 		if (inputsystem->KeyDown(KEYB_U))
-			_angle += 3;
+			_angle += 0.1f;
 		if (inputsystem->KeyDown(KEYB_O))
-			_angle -= 3;
+			_angle -= 0.1f;
 		if (inputsystem->KeyDown(KEYB_I))
 			scale.Y(1);
 		if (inputsystem->KeyDown(KEYB_K))

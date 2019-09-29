@@ -12,20 +12,17 @@
 // #include <limits>
 // typedef std::numeric_limits< double > dbl;
 
-FrameRateController::FrameRateController() :
-	TotalTime{ 0 },
-	FrameRate{ 0 }
+FrameRateController::FrameRateController()
 {
-	FrameTime_Main = ms(0);
-	FrameTime_Sub = ms(0);
+	FrameTime = ms(0);              // Initialize the last frame time
 }
 
 void FrameRateController::Initialize()
 {
-	PrevTime_Main = Time::now();
-	CurrTime_Main = Time::now();
-	TotalTime = 0;
-	FrameRate = 0;
+	PrevTime = Time::now();
+	CurrTime = Time::now();
+  TotalTime = 0;
+  FrameRate = 0;
 }
 
 
@@ -37,18 +34,20 @@ double FrameRateController::UpdateFrameTime()
   // std::cout<< (double)FrameTime.count() / 1000.0 << std::endl;
   
 	// Record the ending time for the frame.
-	CurrTime_Main = Time::now();
+	CurrTime = Time::now();
 
 	// Recalculate the current time the frame's been running.
-	FrameTime_Main = std::chrono::duration_cast<ms>(CurrTime_Main - PrevTime_Main);
+	FrameTime = std::chrono::duration_cast<ms>(CurrTime - PrevTime);
 
-	PrevTime_Main = Time::now();
 
-	TotalTime += FrameTime_Main.count(); // Increment TotalTime count
 
-  FrameRate = 1000.0 / (double)FrameTime_Main.count();
+	PrevTime = Time::now();
 
-	return (double)FrameTime_Main.count() / 1000.0;
+	TotalTime += FrameTime.count(); // Increment TotalTime count
+
+  FrameRate = 1000.0 / (double)FrameTime.count();
+
+	return (double)FrameTime.count() / 1000.0;
 }
 
 double FrameRateController::GetTotalRunTime() const
@@ -67,14 +66,10 @@ double FrameRateController::GetFrameTime() const
 }
 
 
-ms FrameRateController::GetFrameTimeMS() const
-{
-	return FrameTime_Main;
-}
 
 void FrameRateController::StartTimeCounter()
 {
-	PrevTime_Sub = Time::now();
+	return FrameTime;
 }
 
 double FrameRateController::EndTimeCounter()

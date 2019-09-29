@@ -12,8 +12,6 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "MathLib/SYMath.h"
 
-#include "FrameRateController.h"
-
 #include "GraphicsSystem/GraphicsSystem.h"
  #include <limits>
  typedef std::numeric_limits< double > dbl;
@@ -23,6 +21,7 @@ void Engine::Init()
 {
 	//Creation of the Systems
 	_graphicSystem = new GraphicsSystem();
+	_frameController = new FrameRateController();
 	_inputSystem = new InputSystem();
 	_physicSystem = new Physics();
 	_inputSystem->Init();
@@ -30,10 +29,10 @@ void Engine::Init()
 	keypressed = false;
 
 
-	GameObject* newTop =  new GameObject{ Vector3{0,100}, Vector3{300,1} };
-	GameObject* newDown = new GameObject{ Vector3{0,-100}, Vector3{300,1} };
-	GameObject* newRight = new GameObject{ Vector3{100,0}, Vector3{1,300} };
-	GameObject* newLeft = new GameObject{ Vector3{-100,}, Vector3{1,300} };
+	GameObject* newTop =  new GameObject{ Vector3{0,100}, Vector3{100,1} };
+	GameObject* newDown = new GameObject{ Vector3{0,-100}, Vector3{100,1} };
+	GameObject* newRight = new GameObject{ Vector3{100,0}, Vector3{1,100} };
+	GameObject* newLeft = new GameObject{ Vector3{-100,}, Vector3{1,100} };
 
 	Collider2D* topCollider = _physicSystem->CreateEdgeCollider(newTop->_pos, newTop->_scale._x, 0);
 	topCollider->_gameObject = newTop;
@@ -57,7 +56,7 @@ void Engine::Init()
 	objFab.insert(std::pair<std::string, GameObject*>("Player", temp));
 
 	// instantiate world from LevelTest.txt
-	objList = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
+	//objList = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
 }
 
 void Engine::Update()
@@ -65,6 +64,7 @@ void Engine::Update()
 	//Print out Delta time on the console
 	std::cout.precision(dbl::max_digits10);
 	double deltaTime = FrameRateController::GetInstance().UpdateFrameTime();
+
 	//std::cout << deltaTime << std::endl;
 	//std::cout << _frameController->GetFrameRate() << std::endl;
 	ImGui::Text("Engine FPS: %.8f ", FrameRateController::GetInstance().GetFrameRate());
@@ -75,35 +75,35 @@ void Engine::Update()
 	_physicSystem->Update(deltaTime);
 
 
-	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
+// keyboard check for different level loading
+	// press 0 to delete all GOs
+	if (inputsystem->KeyDown(KEYB_0))
 	{
-		GameObject* ball = new GameObject{ Vector3{0,0}, Vector3{30,30} };
-
-		RigidBody2D* ballBody = _physicSystem->CreateRigidBody2D();
-		ballBody->_velocity = Vector3{ 200.f,30.f,0.f };
-		//ballBody->_appliedForce = Vector3{ 0.f,100.f,0.f };
-		ballBody->_static = false;
-		ballBody->_gameObject = ball;
-
-		Collider2D* ballCollider = _physicSystem->CreateCircleCollider(ball->_pos, ball->_scale._x / 2);
-
-		ballCollider->_gameObject = ball;
-		ballCollider->_body = ballBody;
-
-
-
-		objList.push_back(ball);
-		std::cout << "A pressed !" << std::endl;
-
-		keypressed = true;
+		std::vector<GameObject*>::iterator itr = objList.begin();
+		while (itr != objList.end())
+			delete* itr++;
+		objList.resize(0);
 	}
-	else if (!_inputSystem->KeyDown(KEYB_A) && keypressed)
+	// 1 to load levelText1
+	if (inputsystem->KeyDown(KEYB_1))
 	{
-		keypressed = false;
-		//ImGui::Text("Graphic System FPS: %.5f ", value);
-		//ImGui::Text("Input System FPS: %.5f ", value);
+		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
+		objList.insert(objList.end(), temp.begin(), temp.end());
+	}
+	// 2 to load levelText1
+	if (inputsystem->KeyDown(KEYB_2))
+	{
+		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel1.txt");
+		objList.insert(objList.end(), temp.begin(), temp.end());
+	}
+	// 3 to load levelText1
+	if (inputsystem->KeyDown(KEYB_3))
+	{
+		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel2.txt");
+		objList.insert(objList.end(), temp.begin(), temp.end());
 	}
 
+// Update for all current game objects
 	std::vector<GameObject*>::iterator itr = objList.begin();
 	while (itr != objList.end())
 	{

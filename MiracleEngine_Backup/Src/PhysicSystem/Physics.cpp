@@ -8,8 +8,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "Physics.h"
 #include "Collision.h"
-#include "../Imgui/imgui.h"
-
 
 Physics::Physics() : 
 	_ListCollider2D{}, 
@@ -17,7 +15,6 @@ Physics::Physics() :
 {
 
 }
-
 
 Physics::~Physics()
 {
@@ -113,7 +110,6 @@ void Physics::Update(double dt)
 
 	float time = FrameRateController::GetInstance().EndTimeCounter() / FrameRateController::GetInstance().GetFrameTime() * 100;
 	ImGui::Text("Physics per Frame Percentage: %.3f %", time);
-
 
 }
 

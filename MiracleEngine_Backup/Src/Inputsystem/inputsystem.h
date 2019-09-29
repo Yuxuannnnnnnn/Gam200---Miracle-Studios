@@ -3,7 +3,6 @@
 #include <windows.h>
 #include "Engine/FrameRateController.h"
 
-
 class InputSystem
 {
 public:
@@ -17,7 +16,4 @@ private:
 	unsigned char _prevBuffer[256];
 
 
-	TimePoint PrevTime;
-	TimePoint CurrTime;
-	ms FrameTime;
 };

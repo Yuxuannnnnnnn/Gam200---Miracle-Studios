@@ -46,7 +46,7 @@ Player* Player::Clone(Vector3 pos, Vector3 scale, float rotate)
 std::vector<GameObject*> FileRead_Level(const char* FileName)
 { // will move to ObjectFactory
 	std::fstream _file;
-	_file.open("./Resources/TextFiles/TestLevel.txt", std::ios_base::in | std::ios_base::binary);
+	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
 	if (!_file.is_open())
 	{
 		std::cout << "! WARNING !! File Cannot Open!!!" << std::endl

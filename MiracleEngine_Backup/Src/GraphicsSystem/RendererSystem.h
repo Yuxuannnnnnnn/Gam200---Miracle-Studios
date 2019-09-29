@@ -14,11 +14,9 @@ class RendererSystem
 {
 private:
 	QuadMesh _quadmesh;
-	Background _backgroundmesh;
 	MeshManager _meshmanager;
 	glm::mat4 _proj;  // projection matrix
 	Shader _shader{ "Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag" };
-	GameObject* background;
 public:
 	RendererSystem(int windowWidth = 800, int windowHeight = 600);
 	void Update();
