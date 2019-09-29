@@ -12,6 +12,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "MathLib/SYMath.h"
 
+#include "FrameRateController.h"
+
 #include "GraphicsSystem/GraphicsSystem.h"
  #include <limits>
  typedef std::numeric_limits< double > dbl;
@@ -21,7 +23,6 @@ void Engine::Init()
 {
 	//Creation of the Systems
 	_graphicSystem = new GraphicsSystem();
-	_frameController = new FrameRateController();
 	_inputSystem = new InputSystem();
 	_physicSystem = new Physics();
 	_inputSystem->Init();
@@ -63,7 +64,7 @@ void Engine::Update()
 {
 	//Print out Delta time on the console
 	std::cout.precision(dbl::max_digits10);
-	double deltaTime = _frameController->UpdateFrameTime();
+	double deltaTime = 0.0;//FrameRateController::Ge_frameController->UpdateFrameTime();
 	//std::cout << deltaTime << std::endl;
 	//std::cout << _frameController->GetFrameRate() << std::endl;
 	ImGui::Text("Engine FPS: %.8f ", _frameController->GetFrameRate());
@@ -73,7 +74,10 @@ void Engine::Update()
 	_inputSystem->Update();
 	_physicSystem->Update(deltaTime);
 
-  
+	if (_inputSystem->KeyDown(KEYB_B) )
+	{
+		_frameController->GetFrameTime();
+	}
 	if (_inputSystem->KeyDown(KEYB_A) && !keypressed)
 	{
 		GameObject* ball = new GameObject{ Vector3{0,0}, Vector3{30,30} };
@@ -128,5 +132,4 @@ void Engine::Exit()
 	delete _physicSystem;
 	delete _graphicSystem;
 	delete _inputSystem;
-	delete _frameController;
 }

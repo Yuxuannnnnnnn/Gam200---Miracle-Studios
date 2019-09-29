@@ -428,6 +428,7 @@
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
     <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
+    <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
     <ClInclude Include="Src\GraphicsSystem\VertexBuffer.h" />
     <ClInclude Include="Src\Inputsystem\InputSystem.h" />
     <ClInclude Include="Src\Inputsystem\KeyCode.h" />
