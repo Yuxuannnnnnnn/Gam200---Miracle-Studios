@@ -6,8 +6,6 @@
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-
-
 #ifndef _FRAME_RATE_CONTROLLER_H
 #define _FRAME_RATE_CONTROLLER_H
 
@@ -28,6 +26,7 @@ public:
   double UpdateFrameTime();
   double GetTotalRunTime() const;
   double GetFrameRate() const;
+  ms GetFrameTime() const;
 
 private:
 	TimePoint PrevTime;

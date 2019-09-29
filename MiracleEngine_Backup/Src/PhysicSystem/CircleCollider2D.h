@@ -40,11 +40,8 @@ public:
 	bool TestCircleVsPoint(const Vector3& p) const;
 
 	bool TestCircleVsCircle(const CircleCollider2D& cc) const;
-  
-	
 
-	
-	friend bool	TestCircleVsBox(const CircleCollider2D&, const BoxCollider2D&);
+	friend bool	TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box);
 };
 
 

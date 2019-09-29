@@ -28,7 +28,7 @@ namespace mathLib {
 
 	public:
 		// Default Constructor
-		Vector3() = default;
+		Vector3();
 		// Conversion Constructor
 		Vector3(const float& x, const float& y = 0.f, const float& z = 0.f); 
 		// Copy constructor

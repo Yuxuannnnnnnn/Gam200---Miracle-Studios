@@ -14,7 +14,7 @@ EdgeCollider2D::EdgeCollider2D(const Vector3& pos, float scale, float dir)
 	Vector3 directionVec(cosf(dir), sinf(dir));
 	directionVec.Round();
 
-	std::cout << pos << " : " << directionVec << std::endl;
+	//std::cout << pos << " : " << directionVec << std::endl;
 
 	//Get line segment normal
 	m_normal._x = directionVec._y;
