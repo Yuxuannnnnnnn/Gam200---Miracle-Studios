@@ -74,7 +74,7 @@ struct Player : public GameObject {
 
 	Player() 
 	{
-		keyboard.Init();
+		inputsystem->Init();
 		_id = PLAYER;
 	}
 	~Player()
@@ -133,17 +133,17 @@ struct Player : public GameObject {
 			move.X(1);
 		if (inputsystem->KeyDown(KEYB_LEFT))
 			move.X(-1);
-		if (keyboard.KeyDown(KEYB_U))
+		if (inputsystem->KeyDown(KEYB_U))
 			_angle += 3;
-		if (keyboard.KeyDown(KEYB_O))
+		if (inputsystem->KeyDown(KEYB_O))
 			_angle -= 3;
-		if (keyboard.KeyDown(KEYB_I))
+		if (inputsystem->KeyDown(KEYB_I))
 			scale.Y(1);
-		if (keyboard.KeyDown(KEYB_K))
+		if (inputsystem->KeyDown(KEYB_K))
 			scale.Y(-1);
-		if (keyboard.KeyDown(KEYB_J))
+		if (inputsystem->KeyDown(KEYB_J))
 			scale.X(1);
-		if (keyboard.KeyDown(KEYB_L))
+		if (inputsystem->KeyDown(KEYB_L))
 			scale.X(-1);
 		_pos += move;
 		_scale += scale;

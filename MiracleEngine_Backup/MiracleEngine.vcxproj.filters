@@ -24,7 +24,6 @@
     <ClCompile Include="Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\GraphicsSystem\InstancedSystem.cpp" />
-    
     <ClCompile Include="Src\MathLib\SYMath.cpp" />
     <ClCompile Include="Src\MathLib\Vector2.cpp" />
     <ClCompile Include="Src\MathLib\Vector3.cpp" />
@@ -38,7 +37,7 @@
     <ClCompile Include="Src\MathLib\SYMath.cpp" />
     <ClCompile Include="Src\MathLib\Vector2.cpp" />
     <ClCompile Include="Src\MathLib\Vector3.cpp" />
-
+    <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -319,7 +318,6 @@
     <ClInclude Include="Imgui\imstb_textedit.h" />
     <ClInclude Include="Imgui\imstb_truetype.h" />
     <ClInclude Include="Src\GraphicsSystem\InstancedSystem.h" />
-
     <ClInclude Include="Src\MathLib\SYMath.h" />
     <ClInclude Include="Src\MathLib\Vector2.h" />
     <ClInclude Include="Src\MathLib\Vector3.h" />
@@ -332,7 +330,7 @@
     <ClInclude Include="Src\PhysicSystem\ISingleton.h" />
     <ClInclude Include="Src\PhysicSystem\Physics.h" />
     <ClInclude Include="Src\PhysicSystem\RigidBody2D.h" />
-
+    <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -483,5 +481,7 @@
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\instanced.frag" />
     <None Include="Src\GraphicsSystem\Shader\instanced.vert" />
+    <None Include="Src\GraphicsSystem\Shader\debug.vert" />
+    <None Include="Src\GraphicsSystem\Shader\debug.frag" />
   </ItemGroup>
 </Project>

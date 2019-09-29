@@ -12,6 +12,7 @@
 #include "Engine/FrameRateController.h"
 
 #include "InstancedSystem.h"
+#include "DebugRenderer.h"
 
 class GraphicsSystem
 {
@@ -28,4 +29,5 @@ private:
 	
 	FrameRateController _frameController;
 	InstancedSystem _instancedRenderer;
+	DebugRenderer _debugrenderer;
 };
