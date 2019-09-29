@@ -56,7 +56,7 @@ void Engine::Init()
 	objFab.insert(std::pair<std::string, GameObject*>("Player", temp));
 
 	// instantiate world from LevelTest.txt
-	objList = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
+	//objList = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
 }
 
 void Engine::Update()
@@ -74,38 +74,34 @@ void Engine::Update()
 	_physicSystem->Update(deltaTime);
 
 // keyboard check for different level loading
-	//// press 0 to delete all GOs
-	//if (inputsystem->KeyDown(KEYB_0))
-	//{
-	//	std::vector<GameObject*>::iterator itr = objList.begin();
-	//	while (itr != objList.end())
-	//		delete* itr++;
-	//	//objList.resize(0);
-	//}
-	//// 1 to load levelText1
-	//if (inputsystem->KeyDown(KEYB_1))
-	//{
-	//	std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
-	//	std::vector<GameObject*>::iterator itr = temp.begin();
-	//	while (itr != temp.end())
-	//	{
-	//		objList.push_back(*itr);
-	//		delete* itr++;
-	//	}
+	// press 0 to delete all GOs
+	if (inputsystem->KeyDown(KEYB_0))
+	{
+		std::vector<GameObject*>::iterator itr = objList.begin();
+		while (itr != objList.end())
+			delete* itr++;
+		objList.resize(0);
+	}
+	// 1 to load levelText1
+	if (inputsystem->KeyDown(KEYB_1))
+	{
+		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
+		objList.insert(objList.end(), temp.begin(), temp.end());
+	}
+	// 2 to load levelText1
+	if (inputsystem->KeyDown(KEYB_2))
+	{
+		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel1.txt");
+		objList.insert(objList.end(), temp.begin(), temp.end());
+	}
+	// 3 to load levelText1
+	if (inputsystem->KeyDown(KEYB_3))
+	{
+		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel2.txt");
+		objList.insert(objList.end(), temp.begin(), temp.end());
+	}
 
-	//}
-	//// 2 to load levelText2
-	//if (inputsystem->KeyDown(KEYB_2))
-	//{
-	//	std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
-	//	std::vector<GameObject*>::iterator itr = temp.begin();
-	//	while (itr != temp.end())
-	//	{
-	//		objList.push_back(*itr);
-	//		delete* itr++;
-	//	}
-	//}
-
+// Update for all current game objects
 	std::vector<GameObject*>::iterator itr = objList.begin();
 	while (itr != objList.end())
 	{

@@ -125,17 +125,17 @@ struct Player : public GameObject {
 		Vector3 move, scale;
 		// based on key pressed, move player
 		if (inputsystem->KeyDown(KEYB_UP))
-			move.Y(1);
+			move.Y(_Speed);
 		if (inputsystem->KeyDown(KEYB_DOWN))
-			move.Y(-1);
+			move.Y(-_Speed);
 		if (inputsystem->KeyDown(KEYB_RIGHT))
-			move.X(1);
+			move.X(_Speed);
 		if (inputsystem->KeyDown(KEYB_LEFT))
-			move.X(-1);
+			move.X(-_Speed);
 		if (inputsystem->KeyDown(KEYB_U))
-			_angle += 3;
+			_angle += 0.1f;
 		if (inputsystem->KeyDown(KEYB_O))
-			_angle -= 3;
+			_angle -= 0.1f;
 		if (inputsystem->KeyDown(KEYB_I))
 			scale.Y(1);
 		if (inputsystem->KeyDown(KEYB_K))
