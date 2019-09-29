@@ -46,186 +46,53 @@ void Physics::Update(double dt)
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 	std::vector<Collider2D*> tempList = _ListCollider2D;
 
-	std::vector<Collider2D*>::iterator iterator2 = tempList.begin();
-
-	while(iterator2 != tempList.end())
+	while(!tempList.empty())
 	{
-		
+		std::vector<Collider2D*>::iterator iterator2 = tempList.begin();
 
 		if (!(*iterator2)->_enable)
 		{
-			iterator2++;
+			tempList.erase(iterator2);
 			continue;
 		}
-
-		GameObject* gameObject = (*iterator2)->_gameObject;
-		RigidBody2D* gameBody = (*iterator2)->_body;
-
-		Vector3 posNext = gameObject->_pos;
-		Vector3 velA;
-		
-		
-
-		if(gameBody)
-			velA = gameBody->_velocity * (float)dt;
-
-			posNext += velA;
-
-			Vector3 interPtA;
-			Vector3 interPtB;
-			float interTime;
-
-			Vector3 normalAtCollision;
 
 		for (auto it3 : tempList)
 		{
 			if (!it3->_enable || *iterator2 == it3)
 				continue;
-				
-
-			Vector3 velB;
 
 			if ((*iterator2)->_type == BOX_COLLIDER)
 			{
-				BoxCollider2D* box = dynamic_cast<BoxCollider2D*>((*iterator2));
-				box->Update(gameObject->_pos, gameObject->_scale);
-
 				if (it3->_type == BOX_COLLIDER)
-				{
-					BoxCollider2D* box2 = dynamic_cast<BoxCollider2D*>(it3);
-					GameObject* gameObject2 = box2->_gameObject;
-					RigidBody2D* gameBody2 = it3->_body;
-
-
-					velB = gameBody2->_velocity * (float)dt;
-
-
-					if (BoxBox_Intersection(*box, velA, *box2, velB, interPtA, interPtB, interTime))
-					{
-						Vector3 normal;
-						normal = interPtA - gameObject2->_pos;
-						normal.Normalize();
-
-						Vector3 reflectedVecNor;
-
-						BoxPillar_Response(normal, interTime, gameObject->_pos, interPtA,
-							posNext, reflectedVecNor);
-
-
-						gameBody->_velocity = reflectedVecNor;
-
-						//reflect the other ball
-						Vector3 posNextB;//not used yet, even though computed below
-						normal._x = -normal._x;
-						normal._y = -normal._y;
-
-						BoxPillar_Response(normal, interTime, gameObject2->_pos, interPtA,
-							posNextB, reflectedVecNor);
-
-						gameBody2->_velocity = reflectedVecNor;
-					}
-				}
+					UpdateCollision(BOX_BOX, (*iterator2), it3, dt);
 				else if (it3->_type == CIRCLE_COLLIDER)
-				{
-					CircleCollider2D* circle2 = dynamic_cast<CircleCollider2D*>(it3);
-					RigidBody2D* gameBody2 = it3->_body;
-
-				}
+					UpdateCollision(CIRCLE_BOX, it3, (*iterator2), dt);
 				else if (it3->_type == LINE_COLLIDER)
-				{
-
-				}
+					UpdateCollision(BOX_LINE, (*iterator2), it3, dt);
 			}
 			else if ((*iterator2)->_type == CIRCLE_COLLIDER)
 			{
-				CircleCollider2D* circle = dynamic_cast<CircleCollider2D*>((*iterator2));
-				circle->Update(gameObject->_pos, gameObject->_scale._x/2);
-
-
-
 				if (it3->_type == BOX_COLLIDER)
-				{
-
-				}
+					UpdateCollision(CIRCLE_BOX, (*iterator2), it3, dt);
 				else if (it3->_type == CIRCLE_COLLIDER)
-				{
-					CircleCollider2D* circle2 = dynamic_cast<CircleCollider2D*>(it3);
-					GameObject* gameObject2 = circle2->_gameObject;
-					RigidBody2D* gameBody2 = it3->_body;
-
-
-					velB = gameBody2->_velocity * (float)dt;
-
-
-
-					if (CircleCircle_Intersection(*circle, velA, *circle2, velB, interPtA, interPtB, interTime))
-					{
-						Vector3 normal;
-						normal = interPtA - gameObject2->_pos;
-						normal.Normalize();
-
-						Vector3 reflectedVecNor;
-
-						CirclePillar_Response(normal, interTime, gameObject->_pos, interPtA,
-							posNext, reflectedVecNor);
-
-
-						gameBody->_velocity = reflectedVecNor;
-
-						//reflect the other ball
-						Vector3 posNextB;//not used yet, even though computed below
-						normal._x = -normal._x;
-						normal._y = -normal._y;
-
-						CirclePillar_Response(normal, interTime, gameObject2->_pos, interPtA,
-							posNextB, reflectedVecNor);
-
-						gameBody2->_velocity = reflectedVecNor;
-					}
-				}
+					UpdateCollision(CIRCLE_CIRCLE, (*iterator2), it3, dt);
 				else if (it3->_type == LINE_COLLIDER)
-				{
-					EdgeCollider2D* line = dynamic_cast<EdgeCollider2D*>(it3);
-
-					bool _true = true;
-
-					
-
-					if (CircleEdge_Intersection(*circle, posNext, *line, interPtA, normalAtCollision, interTime, _true))
-					{
-						/*Vector3 reflectedVec;
-
-						CircleEdge_Response(interPtA, normalAtCollision, posNext, reflectedVec);
-
-						gameBody->_velocity = reflectedVec;*/
-						gameBody->_velocity = Vector3::Vec3Zero;
-
-					}
-					//std::cout << "YES2" << std::endl;
-				}
+					UpdateCollision(CIRCLE_LINE, (*iterator2), it3, dt);
 			}
 			else if ((*iterator2)->_type == LINE_COLLIDER)
 			{
-				//EdgeCollider2D* line = dynamic_cast<EdgeCollider2D*>((*iterator2));
-
-				continue;
-
 				if (it3->_type == BOX_COLLIDER)
-				{
-
-				}
+					UpdateCollision(BOX_LINE, it3, (*iterator2), dt);
 				else if (it3->_type == CIRCLE_COLLIDER)
-				{
-
-				}
+					UpdateCollision(CIRCLE_LINE, it3, (*iterator2), dt);
 				else if (it3->_type == LINE_COLLIDER)
 					continue;
 			}
-
-			
 		}
-		iterator2++;
+
+		tempList.erase(iterator2);
 	}
+
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 	std::vector<RigidBody2D*>::iterator iterator4 = _ListRigidBody2D.begin();
 
@@ -251,9 +118,9 @@ Collider2D* Physics::CreateCircleCollider(const Vector3& _v, const float& r)
 	return result;
 }
 
-Collider2D* Physics::CreateBoxCollider(const Vector3& _cenPos, const Vector3& _scale)
+Collider2D* Physics::CreateBoxCollider(const Vector3& _cenPos, const Vector3& _scale, float angle)
 {
-	BoxCollider2D* newBox = new BoxCollider2D{ _cenPos, _scale };
+	BoxCollider2D* newBox = new BoxCollider2D{ _cenPos, _scale, angle};
 	newBox->_type = BOX_COLLIDER;
 
 	Collider2D* result = dynamic_cast<Collider2D*>(newBox);

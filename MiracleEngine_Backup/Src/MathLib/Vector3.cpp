@@ -16,6 +16,12 @@ namespace mathLib {
 	const Vector3 Vector3::Vec3EY = Vector3{ 0.f,1.f,0.f };
 	const Vector3 Vector3::Vec3EZ = Vector3{ 0.f,0.f,1.f };
 
+	Vector3::Vector3()
+		: _x{ 0.f }, _y{ 0.f }, _z{ 0.f }
+	{
+
+	}
+
 	// Conversion Constructor
 	Vector3::Vector3(const float& x, const float& y, const float& z)
 		: _x{ x }, _y{ y }, _z{ z }
@@ -284,7 +290,7 @@ namespace mathLib {
 		// Equal to operator
 		bool Vector3::operator==(const Vector3& v) const
 		{
-			return this->_x == v._x || this->_y == v._y || this->_z == v._z;
+			return this->_x == v._x && this->_y == v._y && this->_z == v._z;
 		}
 
 		// Not equal to operator

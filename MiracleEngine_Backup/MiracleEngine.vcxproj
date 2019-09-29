@@ -414,6 +414,7 @@
     <ClInclude Include="Imgui\imstb_truetype.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
+    <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\InstancedSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\GraphicsSystem\RendererSystem.h" />
@@ -457,6 +458,7 @@
     <ClCompile Include="Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\InstancedSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\RendererSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
@@ -630,6 +632,8 @@
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
+    <None Include="Src\GraphicsSystem\Shader\debug.frag" />
+    <None Include="Src\GraphicsSystem\Shader\debug.vert" />
     <None Include="Src\GraphicsSystem\Shader\instanced.frag" />
     <None Include="Src\GraphicsSystem\Shader\instanced.vert" />
   </ItemGroup>

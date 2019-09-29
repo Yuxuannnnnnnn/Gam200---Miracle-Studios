@@ -8,12 +8,177 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "Collision.h"
 
-int BoxBox_Intersection(const BoxCollider2D& circleA,				//CircleA data - input
-	const Vector3& velA,														//CircleA velocity - input
-	const BoxCollider2D& circleB,													//CircleB data - input
-	const Vector3& velB,														//CircleA velocity - input
-	Vector3& interPtA,														//Intersection point of CircleA at collision time - output
-	Vector3& interPtB,														//Intersection point of CircleB at collision time - output
+void UpdateCollision(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, double dt)
+{
+	GameObject* gameObjectA = nullptr;
+	GameObject* gameObjectB = nullptr;
+	RigidBody2D *gameBodyA = nullptr; 
+	RigidBody2D* gameBodyB = nullptr;
+
+	Vector3 posNextA = Vector3::Vec3Zero;
+	Vector3 posNextB = Vector3::Vec3Zero;
+	Vector3 velA = Vector3::Vec3Zero; 
+	Vector3 velB = Vector3::Vec3Zero;
+	Vector3 interPtA = Vector3::Vec3Zero;
+	Vector3 interPtB = Vector3::Vec3Zero;
+	Vector3 reflectedVecA = Vector3::Vec3Zero; 
+	Vector3 reflectedVecB = Vector3::Vec3Zero;
+	Vector3 normal = Vector3::Vec3Zero; 
+	Vector3 normalAtCollision = Vector3::Vec3Zero;
+
+	float interTime = 0.f;
+
+
+	switch (type)
+	{
+	case BOX_BOX:
+	{
+		BoxCollider2D* boxA = dynamic_cast<BoxCollider2D*>(rhs);
+		BoxCollider2D* boxB = dynamic_cast<BoxCollider2D*>(lhs);
+
+		gameObjectA = boxA->_gameObject;
+		gameBodyA = boxA->_body;
+
+		if (gameBodyA)
+		{
+			velA = gameBodyA->_velocity * (float)dt;
+			posNextA = gameObjectA->_pos + velA;
+		}
+		else
+			posNextA = gameObjectA->_pos;
+
+		boxA->Update(gameObjectA->_pos, gameObjectA->_scale, gameObjectA->_angle);
+
+		gameObjectB = boxB->_gameObject;
+		gameBodyB = boxB->_body;
+
+		if (gameBodyB)
+			velB = gameBodyB->_velocity * (float)dt;
+
+		if (BoxBox_Intersection(*boxA, velA, *boxB, velB, interPtA, interPtB, interTime))
+		{
+			normal = interPtA - interPtB;
+			normal.Normalize();
+
+			BoxBox_Response(normal, interTime, velA, 1, interPtA, velB, 1, interPtB,
+				reflectedVecA, posNextA, reflectedVecB, posNextB);
+
+			gameBodyA->_velocity = reflectedVecA;
+			gameBodyB->_velocity = reflectedVecB;
+		}
+
+		break;
+	}
+	case CIRCLE_CIRCLE:
+	{
+		CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(rhs);
+		CircleCollider2D* circleB = dynamic_cast<CircleCollider2D*>(lhs);
+
+		gameObjectA = circleA->_gameObject;
+		gameBodyA = circleA->_body;
+
+		if (gameBodyA)
+		{
+			velA = gameBodyA->_velocity * (float)dt;
+			posNextA = gameObjectA->_pos + velA;
+		}
+		else
+			posNextA = gameObjectA->_pos;
+
+		circleA->Update(gameObjectA->_pos, gameObjectA->_scale._x / 2);
+
+		gameObjectB = circleB->_gameObject;
+		gameBodyB = circleB->_body;
+
+		if (gameBodyB)
+		{
+			velB = gameBodyB->_velocity * (float)dt;
+			posNextB = gameObjectB->_pos + velB;
+		}
+		else
+			posNextB = gameObjectB->_pos;
+
+		circleB->Update(gameObjectB->_pos, gameObjectB->_scale._x / 2);
+
+		if (CircleCircle_Intersection(*circleA, velA, *circleB, velB, interPtA, interPtB, interTime))
+		{
+			normal = interPtA - interPtB;
+			normal.Normalize();
+
+			reflectedVecA = velA;
+			reflectedVecB = velB;
+
+			std::cout << "collided" << std::endl;
+
+			CircleCircle_Response(normal, interTime, velA, 1, interPtA, velB, 1, interPtB,
+				reflectedVecA, posNextA, reflectedVecB, posNextB);
+
+			if (gameBodyA)
+				gameBodyA->_velocity = reflectedVecA * gameBodyA->_velocity.Length();
+
+			if (gameBodyB)
+				gameBodyB->_velocity = reflectedVecB * gameBodyB->_velocity.Length();
+		}
+
+
+		break;
+	}
+	case CIRCLE_LINE:
+	{
+		CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(rhs);
+		EdgeCollider2D* lineB = dynamic_cast<EdgeCollider2D*>(lhs);
+
+		gameObjectA = circleA->_gameObject;
+		gameBodyA = circleA->_body;
+
+		if (gameBodyA)
+		{
+			velA = gameBodyA->_velocity * (float)dt;
+			posNextA = gameObjectA->_pos + velA;
+		}
+		else
+			posNextA = gameObjectA->_pos;
+
+		circleA->Update(gameObjectA->_pos, gameObjectA->_scale._x / 2);
+
+		bool t = true;
+
+		if (CircleEdge_Intersection(*circleA, posNextA, *lineB, interPtA, normalAtCollision, interTime, t))
+		{
+			CircleEdge_Response(interPtA, normalAtCollision, posNextA, reflectedVecA);
+
+			gameBodyA->_velocity = reflectedVecA * gameBodyA->_velocity.Length();
+		}
+
+		break;
+	}
+	case CIRCLE_BOX:
+	{
+		CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(rhs);
+		BoxCollider2D* boxB = dynamic_cast<BoxCollider2D*>(lhs);
+
+		break;
+	}
+	case BOX_LINE:
+	{
+		BoxCollider2D* boxA = dynamic_cast<BoxCollider2D*>(rhs);
+		EdgeCollider2D* lineB = dynamic_cast<EdgeCollider2D*>(lhs);
+
+		break;
+	}
+	default:
+		break;
+	}
+
+}
+
+
+int BoxBox_Intersection(const BoxCollider2D& circleA,			
+	const Vector3& velA,									
+	const BoxCollider2D& circleB,							
+	const Vector3& velB,									
+	Vector3& interPtA,											
+	Vector3& interPtB,											
 	float& interTime)														//intersection time - output
 {
 	(void)circleA;
@@ -29,12 +194,12 @@ int BoxBox_Intersection(const BoxCollider2D& circleA,				//CircleA data - input
 
 
 
-int BoxEdge_Intersection(const BoxCollider2D& circle,			//Circle data - input
-	const Vector3& ptEnd,													//End circle position - input
-	const EdgeCollider2D& lineSeg,												//Line segment - input
-	Vector3& interPt,														//Intersection position of the circle - output 
-	Vector3& normalAtCollision,												//Normal vector at collision time - output
-	float& interTime,														//Intersection time ti - output
+int BoxEdge_Intersection(const BoxCollider2D& circle,		
+	const Vector3& ptEnd,													
+	const EdgeCollider2D& lineSeg,										
+	Vector3& interPt,												
+	Vector3& normalAtCollision,										
+	float& interTime,										
 	bool& checkLineEdges)													//The last parameter is new - for Extra Credits: true = check collision with line segment edges
 {
 	(void)circle;
@@ -48,13 +213,12 @@ int BoxEdge_Intersection(const BoxCollider2D& circle,			//Circle data - input
 	return 0;
 }
 
-// Extra credits
-int CheckMovingBoxToEdge(bool withinBothLines,						//Flag stating that the circle is starting from between 2 imaginary line segments distant +/- Radius respectively - input
-	const BoxCollider2D& circle,													//Circle data - input
-	const Vector3& ptEnd,													//End circle position - input
-	const EdgeCollider2D& lineSeg,												//Line segment - input
-	Vector3& interPt,														//Intersection position of the circle - output 
-	Vector3& normalAtCollision,												//Normal vector at collision time - output
+int BoxLine_Intersection(bool withinBothLines,					
+	const BoxCollider2D& circle,												
+	const Vector3& ptEnd,													
+	const EdgeCollider2D& lineSeg,											
+	Vector3& interPt,														
+	Vector3& normalAtCollision,											
 	float& interTime)														//Intersection time ti - output
 {
 	(void)withinBothLines;
@@ -68,8 +232,8 @@ int CheckMovingBoxToEdge(bool withinBothLines,						//Flag stating that the circ
 	return 0;
 }
 
-int RayBox_Intersection(const Ray& ray,							//A ray containing the data of the moving dot - input
-	const BoxCollider2D& circle,													//Static circle data - input
+int RayBox_Intersection(const Ray& ray,	
+	const BoxCollider2D& circle,
 	float& interTime)														//Intersection time - output
 {
 	(void)ray;
@@ -79,10 +243,9 @@ int RayBox_Intersection(const Ray& ray,							//A ray containing the data of the
 	return 0;
 }
 
-// RESPONSE FUNCTIONS
-void BoxEdge_Response(const Vector3& ptInter,				//Intersection position of the circle - input
-	const Vector3& normal,													//Normal vector of reflection on collision time - input
-	Vector3& ptEnd,															//Final position of the circle after reflection - output
+void BoxEdge_Response(const Vector3& ptInter,				
+	const Vector3& normal,												
+	Vector3& ptEnd,															
 	Vector3& reflected)														//Normalized reflection vector direction - output
 {
 	(void)ptInter;
@@ -91,11 +254,11 @@ void BoxEdge_Response(const Vector3& ptInter,				//Intersection position of the 
 	(void)reflected;
 }
 
-void BoxPillar_Response(const Vector3& normal,					//Normal vector of reflection on collision time - input
-	const float& interTime,													//Intersection time - input
-	const Vector3& ptStart,													//Starting position of the circle - input
-	const Vector3& ptInter,													//Intersection position of the circle - input
-	Vector3& ptEnd,															//Final position of the circle after reflection - output
+void BoxStaticBox_Response(const Vector3& normal,
+	const float& interTime,	
+	const Vector3& ptStart,
+	const Vector3& ptInter,	
+	Vector3& ptEnd,		
 	Vector3& reflectedVectorNormalized)										//Normalized reflection vector - output
 {
 	(void)normal;
@@ -106,18 +269,17 @@ void BoxPillar_Response(const Vector3& normal,					//Normal vector of reflection
 	(void)reflectedVectorNormalized;
 }
 
-// Extra credits
-void BoxBox_Response(Vector3& normal,							//Normal vector of reflection on collision time - input
-	const float interTime,													//Intersection time - input
-	Vector3& velA,															//Velocity of CircleA - input
-	const float& massA,														//Mass of CircleA - input
-	Vector3& interPtA,														//Intersection position of circle A at collision time - input
-	Vector3& velB,															//Velocity of CircleB - input
-	const float& massB,														//Mass of CircleB - input
-	Vector3& interPtB,														//Intersection position of circle B at collision time - input
-	Vector3& reflectedVectorA,												//Non-Normalized reflected vector of Circle A - output
-	Vector3& ptEndA,															//Final position of the circle A after reflection - output
-	Vector3& reflectedVectorB,												//Non-Normalized reflected vector of Circle B - output
+void BoxBox_Response(Vector3& normal,	
+	const float interTime,										
+	Vector3& velA,									
+	const float& massA,											
+	Vector3& interPtA,													
+	Vector3& velB,										
+	const float& massB,								
+	Vector3& interPtB,													
+	Vector3& reflectedVectorA,								
+	Vector3& ptEndA,										
+	Vector3& reflectedVectorB,						
 	Vector3& ptEndB)														//Final position of the circle B after reflection - output
 {
 	(void)normal;
@@ -134,24 +296,18 @@ void BoxBox_Response(Vector3& normal,							//Normal vector of reflection on col
 	(void)ptEndB;
 }
 
-/******************************************************************************/
-/*!
-	Check for collision between a line and circle.
- */
- /******************************************************************************/
-int CircleEdge_Intersection(const CircleCollider2D& circle,			//Circle data - input
-	const Vector3& ptEnd,													//End circle position - input
-	const EdgeCollider2D& lineSeg,												//Line segment - input
-	Vector3& interPt,														//Intersection position of the circle - output 
-	Vector3& normalAtCollision,												//Normal vector at collision time - output
-	float& interTime,														//Intersection time ti - output
+
+int CircleEdge_Intersection(const CircleCollider2D& circle,			
+	const Vector3& ptEnd,													
+	const EdgeCollider2D& lineSeg,											
+	Vector3& interPt,														
+	Vector3& normalAtCollision,												
+	float& interTime,														
 	bool& checkLineEdges)
 {
 	//Velocity vector and normal
 	Vector3 velocity = ptEnd - circle.mCenPos;
 	Vector3 velNormal(velocity._y, -velocity._x);
-
-
 
 	//N.P0 - N.Bs
 	float dist = lineSeg.m_normal.Dot(lineSeg.m_pt0 - circle.mCenPos);
@@ -185,14 +341,6 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,			//Circle data - in
 			{
 				interPt = circle.mCenPos + velocity * interTime;
 				normalAtCollision = -lineSeg.m_normal;
-
-				std::cout << "velocity !" << velocity << std::endl;
-
-				std::cout << "dist !" << dist << std::endl;
-				std::cout << "circle.mRadius !" << circle.mRadius << std::endl;
-
-				std::cout << "DDDDDDDDDD !" << interPt << std::endl;
-				std::cout << lineSeg.m_normal << std::endl;
 				return 1;
 			}
 			return 0;
@@ -201,7 +349,7 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,			//Circle data - in
 		{
 			
 			if (checkLineEdges)
-				return CheckMovingCircleToEdge(false, circle, ptEnd, lineSeg, interPt, normalAtCollision, interTime);
+				return CircleLine_Intersection(false, circle, ptEnd, lineSeg, interPt, normalAtCollision, interTime);
 			else
 				return 0;
 		}
@@ -234,7 +382,6 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,			//Circle data - in
 
 			if (0 <= interTime && interTime <= 1)
 			{
-				std::cout << "AAAAAAAAA !" << std::endl;
 				interPt = circle.mCenPos + velocity * interTime;
 				normalAtCollision = lineSeg.m_normal;
 				return 1;
@@ -245,7 +392,7 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,			//Circle data - in
 		{
 			
 			if (checkLineEdges)
-				return CheckMovingCircleToEdge(false, circle, ptEnd, lineSeg, interPt, normalAtCollision, interTime);
+				return CircleLine_Intersection(false, circle, ptEnd, lineSeg, interPt, normalAtCollision, interTime);
 			else
 				return 0;
 		}
@@ -253,23 +400,21 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,			//Circle data - in
 	else
 	{
 		if (checkLineEdges)
-			return CheckMovingCircleToEdge(true, circle, ptEnd, lineSeg, interPt, normalAtCollision, interTime);
+			return CircleLine_Intersection(true, circle, ptEnd, lineSeg, interPt, normalAtCollision, interTime);
 		else
 			return 0;
 	}
+
+	return 0;
 }
 
-/******************************************************************************/
-/*!
-	Check for collision with a line edge. Extra credit.
-*/
-/******************************************************************************/
-int CheckMovingCircleToEdge(bool withinBothLines,						//Flag stating that the circle is starting from between 2 imaginary line segments distant +/- Radius respectively - input
-	const CircleCollider2D& circle,													//Circle data - input
-	const Vector3& ptEnd,													//End circle position - input
-	const EdgeCollider2D& lineSeg,												//Line segment - input
-	Vector3& interPt,														//Intersection position of the circle - output 
-	Vector3& normalAtCollision,												//Normal vector at collision time - output
+
+int CircleLine_Intersection(bool withinBothLines,						
+	const CircleCollider2D& circle,													
+	const Vector3& ptEnd,													
+	const EdgeCollider2D& lineSeg,											
+	Vector3& interPt,														
+	Vector3& normalAtCollision,												
 	float& interTime)
 {
 	bool p0inter = true;
@@ -337,7 +482,6 @@ int CheckMovingCircleToEdge(bool withinBothLines,						//Flag stating that the c
 			float ti = fminf(tiFirst, tiSecond);
 			if (0 <= ti && ti <= 1)
 			{
-				std::cout << "CCCCCCCC !" << std::endl;
 				interPt = circle.mCenPos + (relVel * ti);
 				normalAtCollision = interPt - lineSeg.m_pt0;
 				normalAtCollision.Normalize();
@@ -354,7 +498,6 @@ int CheckMovingCircleToEdge(bool withinBothLines,						//Flag stating that the c
 			float ti = fminf(tiFirst, tiSecond);
 			if (0 <= ti && ti <= 1)
 			{
-				std::cout << "BBBBBBBBBB !" << std::endl;
 				interPt = circle.mCenPos + (relVel * ti);
 				normalAtCollision = interPt - lineSeg.m_pt1;
 				normalAtCollision.Normalize();
@@ -423,17 +566,13 @@ int CheckMovingCircleToEdge(bool withinBothLines,						//Flag stating that the c
 	return 0;//no collision
 }
 
-/******************************************************************************/
-/*!
-	Check collision between dynamic/static circles.
- */
- /******************************************************************************/
-int CircleCircle_Intersection(const CircleCollider2D& circleA,				//CircleA data - input
-	const Vector3& velA,														//CircleA velocity - input
-	const CircleCollider2D& circleB,													//CircleB data - input
-	const Vector3& velB,														//CircleA velocity - input
-	Vector3& interPtA,														//Intersection point of CircleA at collision time - output
-	Vector3& interPtB,														//Intersection point of CircleB at collision time - output
+
+int CircleCircle_Intersection(const CircleCollider2D& circleA,				
+	const Vector3& velA,													
+	const CircleCollider2D& circleB,											
+	const Vector3& velB,													
+	Vector3& interPtA,													
+	Vector3& interPtB,														
 	float& interTime)
 {
 	CircleCollider2D c;
@@ -476,13 +615,9 @@ int CircleCircle_Intersection(const CircleCollider2D& circleA,				//CircleA data
 	}
 }
 
-/******************************************************************************/
-/*!
-	Helper function with collision between circles.
- */
- /******************************************************************************/
-int RayCircle_Intersection(const Ray& ray,							//A ray containing the data of the moving dot - input
-	const CircleCollider2D& circle,													//Static circle data - input
+
+int RayCircle_Intersection(const Ray& ray,							
+	const CircleCollider2D& circle,								
 	float& interTime)
 {
 	// your code goes here
@@ -494,11 +629,6 @@ int RayCircle_Intersection(const Ray& ray,							//A ray containing the data of 
 }
 
 
-/******************************************************************************/
-/*!
-	Calculate the collision response between circle and line.
- */
- /******************************************************************************/
 void CircleEdge_Response(const Vector3& ptInter,
 	const Vector3& normal,
 	Vector3& ptEnd,
@@ -523,12 +653,7 @@ void CircleEdge_Response(const Vector3& ptInter,
 	reflected.Normalize();
 }
 
-/******************************************************************************/
-/*!
-	Calculate collision response between circle and static circle.
- */
- /******************************************************************************/
-void CirclePillar_Response(const Vector3& normal,
+void CircleStaticCircle_Response(const Vector3& normal,
 	const float& interTime,
 	const Vector3& ptStart,
 	const Vector3& ptInter,
@@ -557,11 +682,7 @@ void CirclePillar_Response(const Vector3& normal,
 	reflectedVectorNormalized.Normalize();
 }
 
-/******************************************************************************/
-/*!
-	Extra credits
- */
- /******************************************************************************/
+
 void CircleCircle_Response(Vector3& normal,
 	const float interTime,
 	Vector3& velA,
@@ -575,8 +696,11 @@ void CircleCircle_Response(Vector3& normal,
 	Vector3& reflectedVectorB,
 	Vector3& ptEndB)
 {
-	reflectedVectorA = velA - normal * (((2 * (velA._x - velB._x)) / (massA + massB)) * massB);
-	reflectedVectorB = velB + normal * (((2 * (velA._x - velB._x)) / (massA + massB)) * massA);
+
+	float p = normal * ((velA - velB) * 2 / (massA + massB));
+
+	reflectedVectorA = velA - normal * p * massB;
+	reflectedVectorB = velB + normal * p * massA;
 
 	float velLengthA;
 	velLengthA = reflectedVectorA.Length();
@@ -588,6 +712,14 @@ void CircleCircle_Response(Vector3& normal,
 	Vector3 relVelNormalB = reflectedVectorB;
 	relVelNormalB.Normalize();
 
+	//Calculate point after reflection
 	ptEndA = interPtA + relVelNormalA * (velLengthA * (1.f - interTime));
 	ptEndB = interPtB + relVelNormalB * (velLengthB * (1.f - interTime));
+
+
+	//Calculation normalized reflection vector
+	reflectedVectorA = ptEndA - interPtA;
+	reflectedVectorA.Normalize();
+	reflectedVectorB = ptEndB - interPtB;
+	reflectedVectorB.Normalize();
 }
