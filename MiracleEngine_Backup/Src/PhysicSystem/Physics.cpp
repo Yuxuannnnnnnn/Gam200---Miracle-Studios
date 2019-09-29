@@ -8,6 +8,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "Physics.h"
 #include "Collision.h"
+#include "../Imgui/imgui.h"
+
 
 Physics::Physics() : 
 	_ListCollider2D{}, 
@@ -15,6 +17,7 @@ Physics::Physics() :
 {
 
 }
+
 
 Physics::~Physics()
 {
@@ -35,6 +38,9 @@ Physics::~Physics()
 
 void Physics::Update(double dt)
 {
+
+	PrevTime = Time::now();
+
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 	std::vector<RigidBody2D*>::iterator iterator = _ListRigidBody2D.begin();
 
@@ -104,6 +110,11 @@ void Physics::Update(double dt)
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 	EventHandler::GetInstance().UpdateEvent();
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
+
+	CurrTime = Time::now();
+	FrameTime = std::chrono::duration_cast<ms>(CurrTime - PrevTime);
+
+	ImGui::Text("Physics FPS: %.8f ", (FrameTime / FrameRateController::GetFrameRate() * 100));
 }
 
 Collider2D* Physics::CreateCircleCollider(const Vector3& _v, const float& r)

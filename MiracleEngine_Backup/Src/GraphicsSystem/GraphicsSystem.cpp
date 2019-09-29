@@ -29,9 +29,11 @@ void GraphicsSystem::Update()
 
 	////enable the index of the vertex attribute
 	//glEnableVertexAttribArray(0);
-	_frameController.UpdateFrameTime();
 
-	ImGui::Text("Graphics FPS: %.8f ", _frameController.GetFrameRate());
+	// Recalculate the current time the frame's been running.
+
+	PrevTime = Time::now();
+
 
 	ClearScreen();
 
@@ -44,6 +46,12 @@ void GraphicsSystem::Update()
 	// gl_lines
 	// 2 vbo and ebo
 	// 1 for square and 1 for lines
+
+	CurrTime = Time::now();
+
+	FrameTime = std::chrono::duration_cast<ms>(CurrTime - PrevTime);
+
+	ImGui::Text("Graphics FPS: %.8f ", (FrameTime/FrameRateController::GetFrameRate() * 100));
 }
 void GraphicsSystem::Exit()
 {

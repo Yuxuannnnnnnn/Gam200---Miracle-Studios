@@ -27,6 +27,7 @@ public:
   double GetTotalRunTime() const;
   double GetFrameRate() const;
   ms GetFrameTime() const;
+  
 
 private:
 	TimePoint PrevTime;

@@ -14,9 +14,11 @@ void InputSystem::Init()
 
 void InputSystem::Update()
 {
+	PrevTime = Time::now();
+
+
 	_frameController.UpdateFrameTime();
 
-	ImGui::Text("Input FPS: %.8f ", _frameController.GetFrameRate());
 	memcpy(_prevBuffer, _currBuffer, sizeof(unsigned char) * 256);
 	//memset(currBuff, 0, sizeof(unsigned char) * 256);
 	//GetKeyState(0);
@@ -24,6 +26,13 @@ void InputSystem::Update()
 	//Get current keyboard state
 	GetKeyState(0);
 	GetKeyboardState(_currBuffer);
+
+
+	CurrTime = Time::now();
+
+	FrameTime = std::chrono::duration_cast<ms>(CurrTime - PrevTime);
+
+	ImGui::Text("Input FPS: %.8f ", (FrameTime / FrameRateController::GetFrameRate() * 100));
 }
 
 void InputSystem::Exit()

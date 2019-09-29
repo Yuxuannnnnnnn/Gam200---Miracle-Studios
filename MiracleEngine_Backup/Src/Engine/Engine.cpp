@@ -29,10 +29,10 @@ void Engine::Init()
 	keypressed = false;
 
 
-	GameObject* newTop =  new GameObject{ Vector3{0,100}, Vector3{100,1} };
-	GameObject* newDown = new GameObject{ Vector3{0,-100}, Vector3{100,1} };
-	GameObject* newRight = new GameObject{ Vector3{100,0}, Vector3{1,100} };
-	GameObject* newLeft = new GameObject{ Vector3{-100,}, Vector3{1,100} };
+	GameObject* newTop =  new GameObject{ Vector3{0,100}, Vector3{300,1} };
+	GameObject* newDown = new GameObject{ Vector3{0,-100}, Vector3{300,1} };
+	GameObject* newRight = new GameObject{ Vector3{100,0}, Vector3{1,300} };
+	GameObject* newLeft = new GameObject{ Vector3{-100,}, Vector3{1,300} };
 
 	Collider2D* topCollider = _physicSystem->CreateEdgeCollider(newTop->_pos, newTop->_scale._x, 0);
 	topCollider->_gameObject = newTop;
