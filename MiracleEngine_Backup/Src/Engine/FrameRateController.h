@@ -16,6 +16,10 @@
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::high_resolution_clock::time_point TimePoint;
 typedef std::chrono::milliseconds ms;
+typedef std::chrono::seconds s;
+
+#define oneSec s(1)
+
 using namespace std::chrono_literals;
 
 class FrameRateController : public ISingleton<FrameRateController>
@@ -23,19 +27,27 @@ class FrameRateController : public ISingleton<FrameRateController>
 public:
 	FrameRateController();
 
-	void Initialize();
+	void Initialize(short FPS = 0);
 	double UpdateFrameTime();
 
 	void StartTimeCounter();
 	double EndTimeCounter();
 
 	double GetTotalRunTime() const;
-	double GetFrameRate() const;
 	double GetFrameTime() const;
+	double GetFrameRate() const;
+
+	short GetFPS() const;
+
+private:
+	void UpdateFPS();
 
 private:
 	unsigned long long TotalTime;
-	double FrameRate;
+	short FramePerSec;
+	short LockedFPS;
+	short FrameCounter;
+	ms FrameTimeCounter;
 
 	TimePoint PrevTime_Main;
 	TimePoint CurrTime_Main;
