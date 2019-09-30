@@ -413,9 +413,11 @@
     <ClInclude Include="Imgui\imstb_textedit.h" />
     <ClInclude Include="Imgui\imstb_truetype.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
+    <ClInclude Include="Src\GraphicsSystem\Animation.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\InstancedSystem.h" />
+    <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\GraphicsSystem\RendererSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
@@ -459,6 +461,7 @@
     <ClCompile Include="Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Animation.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\InstancedSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\RendererSystem.cpp" />

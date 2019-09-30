@@ -76,7 +76,7 @@ void Engine::Update()
 	ImGui::Text("Engine FPS: %d ", FrameRateController::GetInstance().GetFPS());
 
 	//Update all the systems
-	_graphicSystem->Update();
+	_graphicSystem->Update(deltaTime);
 	_inputSystem->Update();
 	_physicSystem->Update(deltaTime);
 

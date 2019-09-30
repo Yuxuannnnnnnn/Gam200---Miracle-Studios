@@ -6,16 +6,28 @@ RendererSystem::RendererSystem(int windowWidth, int windowHeight)
 		-(float)windowHeight / 2, (float)windowHeight / 2) }
 {
 	objList.push_back(new GameObject(Vector3{}, Vector3{ 800,600,1 }, 0, "background"));
+	objList.push_back(new GameObject(Vector3{350,20}, Vector3{ 50, 50,1 }, 0, "idle"));
 }
 
-void RendererSystem::Update()
+void RendererSystem::Update(double dt)
 {
 	for (size_t i = 0; i < objList.size(); i++)
 	{
 	
-		_shader.Select();
-		_quadmesh.Select();
-		_textureManager._textureMap[objList[i]->_name]->Select();
+		if (objList[i]->_name != "idle")
+		{
+			_shader.Select();
+			_quadmesh.Select();
+			_textureManager._textureMap[objList[i]->_name]->Select();
+		}
+		else
+		{
+			_shader.Select();
+			
+			_playermesh.Select(dt);
+		}
+		
+
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(objList[i]->_pos.X()
 			, objList[i]->_pos.Y(), 0));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), objList[i]->_angle, glm::vec3(0, 0, 1));

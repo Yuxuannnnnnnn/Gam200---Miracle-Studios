@@ -109,7 +109,7 @@ void Physics::Update(double dt)
 	EventHandler::GetInstance().UpdateEvent();
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 
-	float time = FrameRateController::GetInstance().EndTimeCounter() / FrameRateController::GetInstance().GetFrameTime() * 100;
+//	float time = FrameRateController::GetInstance().EndTimeCounter() / FrameRateController::GetInstance().GetFrameTime() * 100;
 	ImGui::Text("Physics per Frame Percentage: %.3f %", time);
 
 }

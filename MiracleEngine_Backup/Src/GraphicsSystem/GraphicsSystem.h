@@ -17,7 +17,7 @@ class GraphicsSystem
 {
 public:
 	void Init();
-	void Update();
+	void Update(double dt);
 	void Exit();
 private:
 	void ClearScreen() const;

@@ -9,16 +9,16 @@ Texture2D::Texture2D(const std::string& path)
 	stbi_set_flip_vertically_on_load(1);
 	_LocalBuffer = stbi_load(path.c_str(), &_Width, &_Height, &_BPP, 4);
 
-	(glGenTextures(1, &_id));
-	(glBindTexture(GL_TEXTURE_2D, _id));
+	glGenTextures(1, &_id);
+	glBindTexture(GL_TEXTURE_2D, _id);
 
-	(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-	(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
-	(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-	(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _Width, _Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _LocalBuffer));
-	(glBindTexture(GL_TEXTURE_2D, 0));
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _Width, _Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _LocalBuffer);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	if (_LocalBuffer)
 		stbi_image_free(_LocalBuffer);
