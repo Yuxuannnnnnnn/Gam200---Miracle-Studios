@@ -9,10 +9,12 @@
 #include "MeshManager.h"
 #include "Shader.h"
 #include "QuadMesh.h"
+#include "TextureManager.h"
 
 class RendererSystem
 {
 private:
+	TextureManager _textureManager;
 	QuadMesh _quadmesh;
 	MeshManager _meshmanager;
 	glm::mat4 _proj;  // projection matrix

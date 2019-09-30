@@ -1,6 +1,7 @@
 #pragma once
 #include "MathLib/SYMath.h"
 #include <vector>
+#include <string>
 #include "Inputsystem/inputsystem.h"
 #include "Tools/FileIO.h"
 
@@ -19,14 +20,16 @@ struct GameObject
 {
 	int _id{ UNKOWN };
 
-	GameObject(Vector3 pos = Vector3{ 0,0 }, Vector3 scale = Vector3{ 20,20 }, float angle = 0) :
-		_pos{pos}, _scale{scale}, _angle{angle}
+	GameObject(Vector3 pos = Vector3{ 0,0 }, Vector3 scale = Vector3{ 20,20 }, float angle = 0, const std::string& name = "zombie", bool isanimated = false) :
+		_pos{pos}, _scale{scale}, _angle{angle}, _name{name}, _isAnimated{isanimated}
 	{
 	}
 	virtual ~GameObject() = default;
 	Vector3 _pos{ Vector3() };
 	Vector3 _scale{ Vector3(1.f,1.f,1.f) };
 	float _angle{ 0.0f };
+	std::string _name;
+	bool _isAnimated;
 
 	virtual void Update() {
 		std::cout << "A !" << std::endl;
