@@ -23,29 +23,35 @@
 //#include <queue>	// Queue for storing input
 //#include <algorithm>// foreach
 
+#define ASSERT(condition) { if(!(condition)) \
+{ \
+	std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; \
+	FileOut_CrashLog(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)); \
+	(_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);} \
+}
 
-struct Vec2 {
-	float _x{ 0.0 }, _y{ 0.0 };
-	Vec2() = default;
-};
-
-
-struct Initi {
-	int _ResX{ 0 }, _ResY{ 0 };
-	bool _Fullscreen{ false };
-	Initi() {}
-	~Initi() {}
-};
-
-
-struct Playa {
-
-	Vec2 _Transform;
-	int _HP{ 0 };
-	float _SPD{ 0.0f };
-	std::vector<int> _Weap;
-	bool _Alive{ false };
-};
+//struct Vec2 {
+//	float _x{ 0.0 }, _y{ 0.0 };
+//	Vec2() = default;
+//};
+//
+//
+//struct Initi {
+//	int _ResX{ 0 }, _ResY{ 0 };
+//	bool _Fullscreen{ false };
+//	Initi() {}
+//	~Initi() {}
+//};
+//
+//
+//struct Playa {
+//
+//	Vec2 _Transform;
+//	int _HP{ 0 };
+//	float _SPD{ 0.0f };
+//	std::vector<int> _Weap;
+//	bool _Alive{ false };
+//};
 
 
 //	const char* path_player = "./Resources/TextFiles/player.json";
@@ -62,6 +68,23 @@ struct Playa {
 //};	// need move to somewhere in the init stuff
 
 
+
+
+/**
+\brief Function to make file input into single char[]
+*/
+char* FileRead_FileToCharPtr(const char* FileName);
+/**
+\brief Function to make file input into std::vector<string>
+*/
+std::vector<std::string>& FileRead_FileToStringVector(const char* FileName);
+/**
+\brief Output to file a crash file with a message
+*/
+void FileOut_CrashLog(_In_z_ wchar_t const* _Message,
+	_In_z_ wchar_t const* _File,
+	_In_   unsigned       _Line);
+
 /**
 \brief Functions to make allow use of single func to allow different input type
 	originally did as template, but kept getting warning of info loss on conversion of int/float to typeT
@@ -73,41 +96,5 @@ void JsonDynamicStore(unsigned int& store, rapidjson::Value& val);
 void JsonDynamicStore(std::vector<int>& store, rapidjson::Value& val);
 void JsonDynamicStore(std::vector<float>& store, rapidjson::Value& val);
 void JsonDynamicStore(std::vector<unsigned int>& store, rapidjson::Value& val);
-void JsonDynamicStore(Vector3&store, rapidjson::Value& val);
+void JsonDynamicStore(Vector3& store, rapidjson::Value& val);
 //void JsonDynamicStore(TransformComponent* store, rapidjson::Value& val, ComponentTypes type);
-
-/**
-\brief Function to make file input into single char[]
-*/
-char* FileRead_FileToCharPtr(const char* FileName);
-/**
-\brief Function to make file input into std::vector<string>
-*/
-std::vector<std::string>& FileRead_FileToStringVector(const char* FileName);
-
-/**
-\brief Read start up info for application
-		Will get following values:
-		- Resolution (X, Y)
-		- Fullscreen On/Off
-*/
-//void FileRead_StartUp(Initi& initialise);
-
-/**
-\brief Read BASE-STATS for PLAYER
-		Will get following values:
-		- HP		int
-		- Speed		float
-		- Weapon	std::vector
-		- Alive		bool
-*/
-//void FileRead_Player(Player* player);
-/**
-\brief WIP: Output player in json format
-*/
-//void FileOut_PlayerInfo(Playa& player);
-
-/**
-\brief Output to file a crash file with a message
-*/
-//void FileOut_CrashLog(const char* msg);
