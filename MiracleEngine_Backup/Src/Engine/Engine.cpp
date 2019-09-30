@@ -19,6 +19,13 @@
 
 void Engine::Init()
 {
+	for (int i = 0; i < 39; i++)
+	{
+		for (int j = 0; j < 39; j++)
+		{
+			objStressTestList.push_back(new GameObject{ {(float)((i - 20) * 15), float((j - 20) * 15) }, {5,5} });
+		}
+	}
 	//Creation of the Systems
 	_graphicSystem = new GraphicsSystem();
 	_inputSystem = new InputSystem();

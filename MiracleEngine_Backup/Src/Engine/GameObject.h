@@ -153,4 +153,5 @@ struct Player : public GameObject {
 std::vector<GameObject*> FileRead_Level(const char* FileName);
 
 extern std::vector<GameObject*> objList;
+extern std::vector<GameObject*> objStressTestList;
 extern std::map <std::string, GameObject*> objFab;

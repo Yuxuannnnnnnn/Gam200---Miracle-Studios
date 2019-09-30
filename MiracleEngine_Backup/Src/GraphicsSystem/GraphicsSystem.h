@@ -25,7 +25,6 @@ private:
 	GLuint _shader;
 	MeshManager _meshmanager;
 	RendererSystem _renderer;
-	
 	InstancedSystem _instancedRenderer;
 	DebugRenderer _debugrenderer;
 };
