@@ -24,7 +24,7 @@ void Engine::Init()
 	_inputSystem = new InputSystem();
 	_physicSystem = new Physics();
 	_inputSystem->Init();
-	FrameRateController::GetInstance().Initialize();
+	FrameRateController::GetInstance().Initialize(60);
 	keypressed = false;
 
 
@@ -66,7 +66,7 @@ void Engine::Update()
 
 	//std::cout << deltaTime << std::endl;
 	//std::cout << _frameController->GetFrameRate() << std::endl;
-	ImGui::Text("Engine FPS: %.8f ", FrameRateController::GetInstance().GetFrameRate());
+	ImGui::Text("Engine FPS: %d ", FrameRateController::GetInstance().GetFPS());
 
 	//Update all the systems
 	_graphicSystem->Update();

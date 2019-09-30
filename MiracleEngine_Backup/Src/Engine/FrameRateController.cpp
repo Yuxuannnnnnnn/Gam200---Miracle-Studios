@@ -53,8 +53,6 @@ double FrameRateController::UpdateFrameTime()
 	// Recalculate the current time the frame's been running.
 	FrameTime_Main = std::chrono::duration_cast<ms>(CurrTime_Main - PrevTime_Main);
 
-	PrevTime_Main = Time::now();
-
 	// Increment TotalTime count
 	TotalTime += FrameTime_Main.count();
 
@@ -78,6 +76,8 @@ double FrameRateController::UpdateFrameTime()
 			UpdateFPS();
 		}
 	}
+
+	PrevTime_Main = Time::now();
 
 	return (double)FrameTime_Main.count() / 1000.0;
 }
@@ -108,7 +108,10 @@ double FrameRateController::GetFrameTime() const
 
 double FrameRateController::GetFrameRate() const
 {
-	return (double)(1000 / FrameTime_Main.count());
+	if(FrameTime_Main.count())
+		return (double)(1000 / FrameTime_Main.count());
+
+	return 0;
 }
 
 
