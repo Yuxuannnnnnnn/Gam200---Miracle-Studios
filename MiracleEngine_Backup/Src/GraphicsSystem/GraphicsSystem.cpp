@@ -23,8 +23,8 @@ void GraphicsSystem::Update(double dt)
 	//_debugrenderer.DrawLine(0, 0, 150, 150);
 	if (_renderMode == Instance)
 		_instancedRenderer.Update();
-
-	DisplayText();
+	if (_renderMode == Font)
+		DisplayText();
 	// gl_lines
 	// 2 vbo and ebo
 	// 1 for square and 1 for lines

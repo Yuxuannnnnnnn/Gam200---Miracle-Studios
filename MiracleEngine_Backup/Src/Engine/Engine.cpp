@@ -217,6 +217,13 @@ void Engine::Update()
 			_graphicSystem->num = 2;
 		}
 	}
+	else if (inputsystem->KeyDown(KEYB_X))
+	{
+		if (!keypressed)
+		{
+			_graphicSystem->_renderMode = Font;
+		}
+	}
 	else
 		keypressed = false;
 

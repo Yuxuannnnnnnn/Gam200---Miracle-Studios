@@ -15,7 +15,8 @@
 enum RenderMode
 {
 	None,
-	Instance
+	Instance,
+	Font
 };
 class GraphicsSystem
 {
