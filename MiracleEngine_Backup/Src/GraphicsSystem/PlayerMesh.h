@@ -9,7 +9,7 @@
 class PlayerMesh
 {
 public:
-	void Select(float dt, int num)
+	void Select(double dt, int num)
 	{
 		_vao->Select();
 		_ebo->Select();

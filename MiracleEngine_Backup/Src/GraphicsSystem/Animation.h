@@ -16,7 +16,7 @@ public:
 private:
 
 	GLuint _id;
-	float _frame = 1.0f;
-	float _timer = 1.0f;
+	double _frame = 1.0f;
+	double _timer = 1.0f;
 
 };
