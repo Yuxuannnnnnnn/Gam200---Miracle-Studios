@@ -9,7 +9,7 @@ RendererSystem::RendererSystem(int windowWidth, int windowHeight)
 	objList.push_back(new GameObject(Vector3{350,20}, Vector3{ 50, 50,1 }, 0, "idle"));
 }
 
-void RendererSystem::Update(double dt)
+void RendererSystem::Update(double dt, int num)
 {
 	for (size_t i = 0; i < objList.size(); i++)
 	{
@@ -24,7 +24,7 @@ void RendererSystem::Update(double dt)
 		{
 			_shader.Select();
 			
-			_playermesh.Select(dt);
+			_playermesh.Select(dt, num);
 		}
 		
 

@@ -49,7 +49,7 @@ void Animation::Select(double dt)
 	_timer -= dt;
 	if (_timer < 0.0f)
 	{
-		_timer = 15000.0f;
+		_timer = 0.5f;
 		++i;
 	}
 }

@@ -248,8 +248,12 @@ namespace mathLib {
 		// Division assignment operator
 		const Vector3& Vector3::operator/=(const Vector3& v)
 		{
-			this->_x /= v._x;
+			if (v._x)
+				this->_x /= v._x;
+		
+			if (v._y)
 			this->_y /= v._y;
+			if (v._z)
 			this->_z /= v._z;
 
 			return *this;

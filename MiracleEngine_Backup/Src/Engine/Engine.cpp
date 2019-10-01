@@ -14,8 +14,8 @@
 #include "PhysicSystem/Coin.h"
 
 #include "GraphicsSystem/GraphicsSystem.h"
- #include <limits>
- typedef std::numeric_limits< double > dbl;
+#include <limits>
+typedef std::numeric_limits< double > dbl;
 
 
 void Engine::Init()
@@ -30,7 +30,7 @@ void Engine::Init()
 
 			RigidBody2D* newBody = _physicSystem->CreateRigidBody2D();
 			newBody->_gameObject = newGO;
-			newBody->_velocity = Vector3{10.f,10.f,0};
+			newBody->_velocity = Vector3{ 10.f,10.f,0 };
 			newBody->_static = true;
 
 			objStressTestList.push_back(newGO);
@@ -42,7 +42,7 @@ void Engine::Init()
 	_inputSystem = new InputSystem();
 	_inputSystem->Init();
 	_fController = new FrameRateController();
-	_fController->Initialize(60);
+	_fController->Initialize();
 	_pUsage = new PerformanceUsage();
 	keypressed = false;
 
@@ -82,8 +82,8 @@ void Engine::Update()
 	_physicSystem->Update(deltaTime);
 	_pUsage->PhysicFrameTime = _fController->EndTimeCounter();
 
-// keyboard check for different level loading
-	// press 0 to delete all GOs
+	// keyboard check for different level loading
+		// press 0 to delete all GOs
 	if (inputsystem->KeyDown(KEYB_0))
 	{
 		if (!keypressed)
@@ -134,7 +134,7 @@ void Engine::Update()
 		{
 			_physicSystem->Clear();
 
-			Collider2D* topCollider = _physicSystem->CreateEdgeCollider(Vector3{ 0,200 },400, 0);
+			Collider2D* topCollider = _physicSystem->CreateEdgeCollider(Vector3{ 0,200 }, 400, 0);
 			Collider2D* downCollider = _physicSystem->CreateEdgeCollider(Vector3{ 0,-200 }, 400, 0);
 			Collider2D* rightCollider = _physicSystem->CreateEdgeCollider(Vector3{ 200,0 }, 400, PI / 2);
 			Collider2D* leftCollider = _physicSystem->CreateEdgeCollider(Vector3{ -200, }, 400, PI / 2);
@@ -148,14 +148,14 @@ void Engine::Update()
 		{
 			//_physicSystem->Clear();
 
-			GameObject* ball = new GameObject(Vector3{0,0,0}, Vector3{ 30,30,0});
+			GameObject* ball = new GameObject(Vector3{ 0,0,0 }, Vector3{ 30,30,0 });
 
 			RigidBody2D* ballBody = _physicSystem->CreateRigidBody2D();
 			ballBody->_gameObject = ball;
 			ballBody->_velocity = Vector3{ 200,80,0 };
 			ballBody->_static = false;
 
-			Collider2D* ballCollider = _physicSystem->CreateCircleCollider(ball->_pos, ball->_scale._x/2);
+			Collider2D* ballCollider = _physicSystem->CreateCircleCollider(ball->_pos, ball->_scale._x / 2);
 			ballCollider->_gameObject = ball;
 			ballCollider->_body = ballBody;
 
@@ -182,12 +182,47 @@ void Engine::Update()
 			keypressed = true;
 		}
 	}
+	else if (inputsystem->KeyDown(KEYB_M))
+	{
+		if (!keypressed)
+		{
+			_graphicSystem->_renderMode = None;
+		}
+	}
+	else if (inputsystem->KeyDown(KEYB_N))
+	{
+		if (!keypressed)
+		{
+			_graphicSystem->_renderMode = Instance;
+		}
+	}
+	else if (inputsystem->KeyDown(KEYB_B))
+	{
+		if (!keypressed)
+		{
+			_graphicSystem->num = 0;
+		}
+	}
+	else if (inputsystem->KeyDown(KEYB_V))
+	{
+		if (!keypressed)
+		{
+			_graphicSystem->num = 1;
+		}
+	}
+	else if (inputsystem->KeyDown(KEYB_C))
+	{
+		if (!keypressed)
+		{
+			_graphicSystem->num = 2;
+		}
+	}
 	else
 		keypressed = false;
 
 	_fController->StartTimeCounter();
 
-// Update for all current game objects
+	// Update for all current game objects
 	std::vector<GameObject*>::iterator itr = objList.begin();
 	while (itr != objList.end())
 	{
@@ -205,7 +240,7 @@ void Engine::Exit()
 {
 	std::vector<GameObject*>::iterator itr = objList.begin();
 	while (itr != objList.end())
-		delete *itr++;
+		delete* itr++;
 
 
 	objFab.erase("Wall");

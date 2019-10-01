@@ -9,11 +9,11 @@
 class PlayerMesh
 {
 public:
-	void Select(float dt)
+	void Select(float dt, int num)
 	{
 		_vao->Select();
 		_ebo->Select();
-		_texture->Select();
+		_texture[num]->Select();
 		_vbo->Select(dt);
 	}
 	PlayerMesh()
@@ -43,8 +43,9 @@ public:
 		_vbo = new Animation(_positions, 4 * 5 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
 		_vao->AddBuffer(*_vbo, layout);
 		_ebo = new ElementBuffer(_indices, 6);
-		_texture = new Texture2D("Image/catidle.png");
-
+		_texture[0] = new Texture2D("Image/catidle.png");
+		_texture[1] = new Texture2D("Image/catrun.png");
+		_texture[2] = new Texture2D("Image/catjump.png");
 		(glEnable(GL_BLEND));
 		(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 	}
@@ -52,5 +53,5 @@ private:
 	VertexArray* _vao;
 	Animation* _vbo;
 	ElementBuffer* _ebo;
-	Texture2D* _texture;
+	Texture2D* _texture[3];
 };

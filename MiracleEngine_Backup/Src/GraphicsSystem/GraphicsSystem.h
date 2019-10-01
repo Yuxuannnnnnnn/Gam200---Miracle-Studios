@@ -12,13 +12,19 @@
 
 #include "InstancedSystem.h"
 #include "DebugRenderer.h"
-
+enum RenderMode
+{
+	None,
+	Instance
+};
 class GraphicsSystem
 {
 public:
 	void Init();
 	void Update(double dt);
 	void Exit();
+	RenderMode _renderMode = None;
+	int num = 0;
 private:
 	void ClearScreen() const;
 	glm::mat4 _proj;
@@ -27,4 +33,5 @@ private:
 	RendererSystem _renderer;
 	InstancedSystem _instancedRenderer;
 	DebugRenderer _debugrenderer;
+	
 };
