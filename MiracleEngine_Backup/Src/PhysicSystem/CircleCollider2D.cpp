@@ -43,3 +43,7 @@ bool CircleCollider2D::TestCircleVsCircle(const CircleCollider2D& circle) const
 	return (mCenPos.Distance(circle.mCenPos) <= (mRadius + circle.mRadius));
 }
 
+void CircleCollider2D::Draw()
+{
+	DrawLine(mCenPos._x, mCenPos._y, mCenPos._x, mCenPos._y);
+}

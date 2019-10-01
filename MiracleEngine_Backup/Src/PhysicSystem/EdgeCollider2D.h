@@ -24,6 +24,7 @@ public:
 
 	EdgeCollider2D(const Vector3& pos, float scale, float dir);
 
+	void Draw();
 
 };
 

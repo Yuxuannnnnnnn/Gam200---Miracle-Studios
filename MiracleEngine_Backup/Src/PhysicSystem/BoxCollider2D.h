@@ -38,7 +38,7 @@ public:
   
   // Copy Constructor
 	BoxCollider2D(const BoxCollider2D& _bc);
-  
+	void Draw();
 	void Update(const Vector3& cenPos, const Vector3& scale, float angle);
 
 	void ComputeAxes();

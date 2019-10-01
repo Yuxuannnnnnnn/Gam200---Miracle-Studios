@@ -51,7 +51,7 @@ namespace mathLib {
 		// Return a normalized vector
 		Vector3& Normalized() const;
 		// Round to near whole number
-		Vector3 Round(); 
+		Vector3& Round(); 
 		// Get a rounded version of this vector
 		Vector3 Rounded() const;
 			// Set the contents of the vector

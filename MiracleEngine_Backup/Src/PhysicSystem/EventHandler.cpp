@@ -7,7 +7,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "EventHandler.h"
-#include "Engine/GameObject.h"
+#include "Coin.h"
 
 void EventHandler::UpdateEvent()
 {
@@ -22,7 +22,6 @@ void EventHandler::UpdateStaticCollisionEvent()
 		if (!it.first->_enable)
 			continue;
 
-		GameObject* object = it.first->_gameObject;
 		//object->StaticCollisionCheck(it.second);
 	}
 
@@ -53,8 +52,9 @@ void EventHandler::UpdateCollisionEvent()
 				if (!it2->first->_enable)
 					continue;
 
-				GameObject* object = it->first->_gameObject;
-				//object->OnCollisionStay(it->second);
+				Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+				if (object)
+					object->OnCollision2DStay(it->second);
 
 				tempQueue.insert(*it);
 
@@ -78,7 +78,9 @@ void EventHandler::UpdateCollisionEvent()
 			continue;
 		}
 
-		GameObject* object = it->first->_gameObject;
+		Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DExit(it->second);
 		//object->OnCollisionExit(it->second);
 
 		RemoveCollisionEventPre(it->first, it->second);
@@ -96,7 +98,9 @@ void EventHandler::UpdateCollisionEvent()
 			continue;
 		}
 
-		GameObject* object = it->first->_gameObject;
+		Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DTrigger(it->second);
 		//object->OnCollisionTrigger(it->second);
 
 		tempQueue.insert(*it);

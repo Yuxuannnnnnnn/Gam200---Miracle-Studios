@@ -5,6 +5,8 @@
 #include "Inputsystem/inputsystem.h"
 #include "Tools/FileIO.h"
 
+
+
 extern InputSystem* inputsystem;
 
 
@@ -70,7 +72,7 @@ struct Floor : public GameObject {
 	Floor* Clone(Vector3 pos, Vector3 scale, float rotate) override;
 };
 
-struct Player : public GameObject {
+struct Player : public GameObject{
 	int _Health{ 0 };
 	float _Speed{ 0.0f };
 	std::vector<int> _WeaponListId;

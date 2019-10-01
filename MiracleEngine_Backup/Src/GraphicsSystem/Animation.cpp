@@ -46,7 +46,7 @@ void Animation::Select(double dt)
 	glBindBuffer(GL_ARRAY_BUFFER, _id);
 	glBufferData(GL_ARRAY_BUFFER, 4 * 5 * sizeof(GLfloat), _pos, GL_DYNAMIC_DRAW);
 	//std::cout << (double)FrameRateController::GetInstance().GetFrameRate() 
-	_timer -= FrameRateController::GetInstance().GetFrameRate() ;
+	_timer -= dt;
 	if (_timer < 0.0f)
 	{
 		_timer = 15000.0f;

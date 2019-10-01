@@ -91,7 +91,7 @@ double FrameRateController::EndTimeCounter()
 {
 	CurrTime_Sub = Time::now();
 
-	FrameTime_Sub = std::chrono::duration_cast<ms>(CurrTime_Sub - PrevTime_Sub);
+	FrameTime_Sub = std::chrono::duration_cast<ns>(CurrTime_Sub - PrevTime_Sub);
 
 	return (double)FrameTime_Sub.count();
 }

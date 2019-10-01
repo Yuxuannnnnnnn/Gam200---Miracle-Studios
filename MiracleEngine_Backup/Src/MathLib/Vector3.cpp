@@ -91,7 +91,7 @@ namespace mathLib {
 	}
 
 	// Round to near whole number
-	Vector3 Vector3::Round()
+	Vector3& Vector3::Round()
 	{
 		this->_x = std::nearbyint(this->_x);
 		this->_y = std::nearbyint(this->_y);
@@ -286,6 +286,7 @@ namespace mathLib {
 
 			return *this;
 		}
+
 
 		// Equal to operator
 		bool Vector3::operator==(const Vector3& v) const

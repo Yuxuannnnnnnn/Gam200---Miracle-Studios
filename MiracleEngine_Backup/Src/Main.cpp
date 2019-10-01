@@ -93,11 +93,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
 	bool loop = true;
 
-	// testing gameobject, delete later
-
-	objList.push_back(new GameObject{});
-	objList.push_back(new GameObject{ Vector3 {100,50}, Vector3{50,50} });
-
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();  (void)io;

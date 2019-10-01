@@ -204,3 +204,11 @@ bool TestCircleVsOOBB(const CircleCollider2D& circle, const BoxCollider2D& oobb)
 {
 	return oobb.TestOOBBVsPoint(circle.mCenPos);
 }
+
+void BoxCollider2D::Draw()
+{
+	DrawLine(mCorner[0]._x, mCorner[0]._y, mCorner[1]._x, mCorner[1]._y);
+	DrawLine(mCorner[1]._x, mCorner[1]._y, mCorner[2]._x, mCorner[2]._y);
+	DrawLine(mCorner[2]._x, mCorner[2]._y, mCorner[3]._x, mCorner[3]._y);
+	DrawLine(mCorner[3]._x, mCorner[3]._y, mCorner[0]._x, mCorner[0]._y);
+}

@@ -39,6 +39,7 @@
     <ClCompile Include="Src\MathLib\Vector3.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Animation.cpp" />
+    <ClCompile Include="Src\PhysicSystem\PerformanceUsage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -335,6 +336,9 @@
     <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
     <ClInclude Include="Src\GraphicsSystem\Animation.h" />
     <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
+    <ClInclude Include="Src\PhysicSystem\PerformanceUsage.h" />
+    <ClInclude Include="Src\PhysicSystem\IColliderHandler.h" />
+    <ClInclude Include="Src\PhysicSystem\Coin.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

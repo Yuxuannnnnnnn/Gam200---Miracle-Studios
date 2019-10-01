@@ -12,6 +12,7 @@
 #include "MathLib/SYMath.h"
 #include "Engine/GameObject.h"
 #include "RigidBody2D.h"
+#include "GraphicsSystem/DebugRenderer.h"
 
 enum ColliderType{
     
@@ -33,7 +34,7 @@ namespace {
 	const int	COLLISION_RIGHT_BOTTOM = 0x0000020; //10 0000
 }
 
-class Collider2D {
+class Collider2D : public DebugRenderer {
 
 public:
 	GameObject* _gameObject;
@@ -56,6 +57,9 @@ public:
 	}
 
 	virtual ~Collider2D() {}
+
+	virtual void Draw() = 0;
+
 
 	void SnapToCell(int flag, Vector2 cellSize) 
 	{

@@ -11,6 +11,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "MathLib/SYMath.h"
+#include "PhysicSystem/Coin.h"
 
 #include "GraphicsSystem/GraphicsSystem.h"
  #include <limits>
@@ -19,40 +20,31 @@
 
 void Engine::Init()
 {
+	_physicSystem = new Physics();
+
 	for (int i = 0; i < 39; i++)
 	{
 		for (int j = 0; j < 39; j++)
 		{
-			objStressTestList.push_back(new GameObject{ {(float)((i - 20) * 15), float((j - 20) * 15) }, {5,5} });
+			GameObject* newGO = new GameObject{ {(float)((i - 20) * 15), float((j - 20) * 15) }, {5,5} };
+
+			RigidBody2D* newBody = _physicSystem->CreateRigidBody2D();
+			newBody->_gameObject = newGO;
+			newBody->_velocity = Vector3{10.f,10.f,0};
+			newBody->_static = true;
+
+			objStressTestList.push_back(newGO);
 		}
 	}
+
 	//Creation of the Systems
 	_graphicSystem = new GraphicsSystem();
 	_inputSystem = new InputSystem();
-	_physicSystem = new Physics();
 	_inputSystem->Init();
-	FrameRateController::GetInstance().Initialize(60);
+	_fController = new FrameRateController();
+	_fController->Initialize(60);
+	_pUsage = new PerformanceUsage();
 	keypressed = false;
-
-
-	GameObject* newTop =  new GameObject{ Vector3{0,100}, Vector3{100,1} };
-	GameObject* newDown = new GameObject{ Vector3{0,-100}, Vector3{100,1} };
-	GameObject* newRight = new GameObject{ Vector3{100,0}, Vector3{1,100} };
-	GameObject* newLeft = new GameObject{ Vector3{-100,}, Vector3{1,100} };
-
-	Collider2D* topCollider = _physicSystem->CreateEdgeCollider(newTop->_pos, newTop->_scale._x, 0);
-	topCollider->_gameObject = newTop;
-	Collider2D* downCollider = _physicSystem->CreateEdgeCollider(newDown->_pos, newDown->_scale._x, 0);
-	downCollider->_gameObject = newDown;
-	Collider2D* rightCollider = _physicSystem->CreateEdgeCollider(newRight->_pos, newRight->_scale._y, PI/2);
-	rightCollider->_gameObject = newRight;
-	Collider2D* leftCollider = _physicSystem->CreateEdgeCollider(newLeft->_pos, newLeft->_scale._y, PI/2);
-	leftCollider->_gameObject = newLeft;
-
-	objList.push_back(newTop);
-	objList.push_back(newDown);
-	objList.push_back(newRight);
-	objList.push_back(newLeft);
 
 	// get Fabs
 	Player* temp = new Player();
@@ -67,47 +59,133 @@ void Engine::Init()
 
 void Engine::Update()
 {
+	_pUsage->PrintPerformanceUsage();
+
 	//Print out Delta time on the console
 	std::cout.precision(dbl::max_digits10);
-	double deltaTime = FrameRateController::GetInstance().UpdateFrameTime();
+	double deltaTime = _fController->UpdateFrameTime();
 
-	//std::cout << deltaTime << std::endl;
-	//std::cout << _frameController->GetFrameRate() << std::endl;
-	ImGui::Text("Engine FPS: %d ", FrameRateController::GetInstance().GetFPS());
+	_pUsage->PerFrameTime = _fController->GetFrameTime();
+	_pUsage->FPS = _fController->GetFPS();
+	_pUsage->FrameRate = _fController->GetFrameRate();
 
 	//Update all the systems
+	_fController->StartTimeCounter();
 	_graphicSystem->Update(deltaTime);
-	_inputSystem->Update();
-	_physicSystem->Update(deltaTime);
+	_pUsage->GraphicFrameTime = _fController->EndTimeCounter();
 
+	_fController->StartTimeCounter();
+	_inputSystem->Update();
+	_pUsage->InputFrameTime = _fController->EndTimeCounter();
+
+	_fController->StartTimeCounter();
+	_physicSystem->Update(deltaTime);
+	_pUsage->PhysicFrameTime = _fController->EndTimeCounter();
 
 // keyboard check for different level loading
 	// press 0 to delete all GOs
 	if (inputsystem->KeyDown(KEYB_0))
 	{
-		std::vector<GameObject*>::iterator itr = objList.begin();
-		while (itr != objList.end())
-			delete* itr++;
-		objList.resize(0);
+		if (!keypressed)
+		{
+			std::vector<GameObject*>::iterator itr = objList.begin();
+			while (itr != objList.end())
+				delete* itr++;
+			objList.resize(0);
+			_physicSystem->Clear();
+
+			keypressed = true;
+		}
 	}
 	// 1 to load levelText1
-	if (inputsystem->KeyDown(KEYB_1))
+	else if (inputsystem->KeyDown(KEYB_1))
 	{
-		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
-		objList.insert(objList.end(), temp.begin(), temp.end());
+		if (!keypressed)
+		{
+			std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel.txt");
+			objList.insert(objList.end(), temp.begin(), temp.end());
+			keypressed = true;
+		}
 	}
 	// 2 to load levelText1
-	if (inputsystem->KeyDown(KEYB_2))
+	else if (inputsystem->KeyDown(KEYB_2))
 	{
-		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel1.txt");
-		objList.insert(objList.end(), temp.begin(), temp.end());
+		if (!keypressed)
+		{
+			std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel1.txt");
+			objList.insert(objList.end(), temp.begin(), temp.end());
+			keypressed = true;
+		}
 	}
 	// 3 to load levelText1
-	if (inputsystem->KeyDown(KEYB_3))
+	else if (inputsystem->KeyDown(KEYB_3))
 	{
-		std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel2.txt");
-		objList.insert(objList.end(), temp.begin(), temp.end());
+		if (!keypressed)
+		{
+			std::vector<GameObject*>temp = FileRead_Level("./Resources/TextFiles/TestLevel2.txt");
+			objList.insert(objList.end(), temp.begin(), temp.end());
+			keypressed = true;
+		}
 	}
+	// create walls
+	else if (inputsystem->KeyDown(KEYB_4))
+	{
+		if (!keypressed)
+		{
+			_physicSystem->Clear();
+
+			Collider2D* topCollider = _physicSystem->CreateEdgeCollider(Vector3{ 0,200 },400, 0);
+			Collider2D* downCollider = _physicSystem->CreateEdgeCollider(Vector3{ 0,-200 }, 400, 0);
+			Collider2D* rightCollider = _physicSystem->CreateEdgeCollider(Vector3{ 200,0 }, 400, PI / 2);
+			Collider2D* leftCollider = _physicSystem->CreateEdgeCollider(Vector3{ -200, }, 400, PI / 2);
+
+			keypressed = true;
+		}
+	}
+	else if (inputsystem->KeyDown(KEYB_5))
+	{
+		if (!keypressed)
+		{
+			//_physicSystem->Clear();
+
+			GameObject* ball = new GameObject(Vector3{0,0,0}, Vector3{ 30,30,0});
+
+			RigidBody2D* ballBody = _physicSystem->CreateRigidBody2D();
+			ballBody->_gameObject = ball;
+			ballBody->_velocity = Vector3{ 200,80,0 };
+			ballBody->_static = false;
+
+			Collider2D* ballCollider = _physicSystem->CreateCircleCollider(ball->_pos, ball->_scale._x/2);
+			ballCollider->_gameObject = ball;
+			ballCollider->_body = ballBody;
+
+			objList.push_back(ball);
+
+			keypressed = true;
+		}
+	}
+	else if (inputsystem->KeyDown(KEYB_6))
+	{
+		if (!keypressed)
+		{
+			//_physicSystem->Clear();
+
+			GameObject* coin = new Coin();
+			coin->_pos = Vector3{ 100,100,0 };
+			coin->_scale = Vector3{ 40,40,0 };
+
+			Collider2D* coinCollider = _physicSystem->CreateBoxCollider(coin->_pos, coin->_scale, 0);
+			coinCollider->_gameObject = coin;
+
+			objList.push_back(coin);
+
+			keypressed = true;
+		}
+	}
+	else
+		keypressed = false;
+
+	_fController->StartTimeCounter();
 
 // Update for all current game objects
 	std::vector<GameObject*>::iterator itr = objList.begin();
@@ -119,6 +197,8 @@ void Engine::Update()
 			tempP->Update();
 		itr++;
 	}
+
+	_pUsage->LogicFrameTime = _fController->EndTimeCounter();
 }
 
 void Engine::Exit()
@@ -132,6 +212,8 @@ void Engine::Exit()
 	objFab.erase("Floor");
 	objFab.erase("Player");
 
+	delete _fController;
+	delete _pUsage;
 	delete _physicSystem;
 	delete _graphicSystem;
 	delete _inputSystem;
