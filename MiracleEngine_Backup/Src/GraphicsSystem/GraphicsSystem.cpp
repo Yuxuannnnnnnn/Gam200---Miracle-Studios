@@ -8,7 +8,7 @@
 #include "FontRenderer.h"
 void GraphicsSystem::Init()
 {
-
+	InitFont();
 }
 
 

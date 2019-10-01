@@ -88,24 +88,28 @@ void render_text(const std::string& str, FT_Face face, float x, float y, float s
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 	}
 }
-
-void Init()
+GLuint texture{ 0 }, sampler{ 0 };
+GLuint vbo{ 0 }, vao{ 0 };
+GLuint vs{ 0 }, fs{ 0 }, program{ 0 };
+FT_Library ft_lib{ nullptr };
+FT_Face face{ nullptr };
+void InitFont()
 {
-	
+	if (FT_Init_FreeType(&ft_lib) != 0) {
+		std::cerr << "Couldn't initialize FreeType library\n";
+		//cleanup();
 
-	// Initialize our texture and VBOs
-	
+	}
 
+	if (FT_New_Face(ft_lib, "arial.ttf", 0, &face) != 0) {
+		/*std::cerr << "Unable to load myfont.ttf\n";*/
+		//cleanup();
+	}
 }
-
 void DisplayText()
 {
-	GLuint texture{ 0 }, sampler{ 0 };
-	GLuint vbo{ 0 }, vao{ 0 };
-	GLuint vs{ 0 }, fs{ 0 }, program{ 0 };
-	FT_Library ft_lib{ nullptr };
-	FT_Face face{ nullptr };
 
+	InitFont();
 	auto cleanup = [&]() {
 		FT_Done_Face(face);
 		FT_Done_FreeType(ft_lib);
@@ -119,16 +123,7 @@ void DisplayText()
 	};
 
 	// Initialize and load our freetype face
-	if (FT_Init_FreeType(&ft_lib) != 0) {
-		std::cerr << "Couldn't initialize FreeType library\n";
-		cleanup();
-
-	}
-
-	if (FT_New_Face(ft_lib, "arial.ttf", 0, &face) != 0) {
-		std::cerr << "Unable to load myfont.ttf\n";
-		cleanup();
-	}
+	
 	glGenBuffers(1, &vbo);
 	glGenVertexArrays(1, &vao);
 	glGenTextures(1, &texture);
