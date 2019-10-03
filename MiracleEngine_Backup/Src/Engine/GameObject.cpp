@@ -5,6 +5,7 @@
 #include <string>
 
 std::vector<GameObject*> objList;
+std::vector<GameObject*> objStressTestList;
 std::map <std::string, GameObject*> objFab;
 
 Wall* Wall::Clone(Vector3 pos, Vector3 scale, float rotate)

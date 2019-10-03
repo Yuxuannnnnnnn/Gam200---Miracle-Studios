@@ -13,7 +13,7 @@ public:
 	{
 		_vao->Select();
 		_ebo->Select();
-		_texture->Select();
+		//_texture->Select();
 	}
 	QuadMesh()
 	{
@@ -40,8 +40,8 @@ public:
 		_ebo = new ElementBuffer(_indices, 6);
 		_texture = new Texture2D("zombie.png");
 
-		(glEnable(GL_BLEND));
-		(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 private:
 	VertexArray* _vao;

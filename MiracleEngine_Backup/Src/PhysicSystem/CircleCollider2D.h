@@ -34,6 +34,7 @@ public:
   
   //Default Destructor
 	~CircleCollider2D();
+	void Draw();
 
 	void Update(const Vector3& center, float radius);
 

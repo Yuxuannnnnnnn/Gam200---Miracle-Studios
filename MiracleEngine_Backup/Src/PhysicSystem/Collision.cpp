@@ -33,40 +33,6 @@ void UpdateCollision(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, doub
 	{
 	case BOX_BOX:
 	{
-		BoxCollider2D* boxA = dynamic_cast<BoxCollider2D*>(rhs);
-		BoxCollider2D* boxB = dynamic_cast<BoxCollider2D*>(lhs);
-
-		gameObjectA = boxA->_gameObject;
-		gameBodyA = boxA->_body;
-
-		if (gameBodyA)
-		{
-			velA = gameBodyA->_velocity * (float)dt;
-			posNextA = gameObjectA->_pos + velA;
-		}
-		else
-			posNextA = gameObjectA->_pos;
-
-		boxA->Update(gameObjectA->_pos, gameObjectA->_scale, gameObjectA->_angle);
-
-		gameObjectB = boxB->_gameObject;
-		gameBodyB = boxB->_body;
-
-		if (gameBodyB)
-			velB = gameBodyB->_velocity * (float)dt;
-
-		if (BoxBox_Intersection(*boxA, velA, *boxB, velB, interPtA, interPtB, interTime))
-		{
-			normal = interPtA - interPtB;
-			normal.Normalize();
-
-			BoxBox_Response(normal, interTime, velA, 1, interPtA, velB, 1, interPtB,
-				reflectedVecA, posNextA, reflectedVecB, posNextB);
-
-			gameBodyA->_velocity = reflectedVecA;
-			gameBodyB->_velocity = reflectedVecB;
-		}
-
 		break;
 	}
 	case CIRCLE_CIRCLE:
@@ -156,6 +122,12 @@ void UpdateCollision(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, doub
 	{
 		CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(rhs);
 		BoxCollider2D* boxB = dynamic_cast<BoxCollider2D*>(lhs);
+
+		if (TestCircleVsBox(*circleA, *boxB))
+		{
+			EventHandler::GetInstance().AddCollisionEvent(*rhs, *lhs);
+			EventHandler::GetInstance().AddCollisionEvent(*lhs, *rhs);
+		}
 
 		break;
 	}

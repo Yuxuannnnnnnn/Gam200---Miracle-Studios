@@ -8,7 +8,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "Physics.h"
 #include "Collision.h"
-#include "../Imgui/imgui.h"
 
 Physics::Physics() : 
 	_ListCollider2D{}, 
@@ -19,12 +18,18 @@ Physics::Physics() :
 
 Physics::~Physics()
 {
+	Clear();
+}
+
+void Physics::Clear()
+{
 	std::vector<Collider2D*>::iterator iterator = _ListCollider2D.begin();
 	while (iterator != _ListCollider2D.end())
 	{
 		delete* iterator;
 		iterator++;
 	}
+	_ListCollider2D.clear();
 
 	std::vector<RigidBody2D*>::iterator iterator2 = _ListRigidBody2D.begin();
 	while (iterator2 != _ListRigidBody2D.end())
@@ -32,13 +37,11 @@ Physics::~Physics()
 		delete* iterator2;
 		iterator2++;
 	}
+	_ListRigidBody2D.clear();
 }
 
 void Physics::Update(double dt)
 {
-
-	FrameRateController::GetInstance().StartTimeCounter();
-
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 	std::vector<RigidBody2D*>::iterator iterator = _ListRigidBody2D.begin();
 
@@ -48,6 +51,9 @@ void Physics::Update(double dt)
 		iterator++;
 	}
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
+	for (auto it : _ListCollider2D)
+		it->Draw();
+
 	std::vector<Collider2D*> tempList = _ListCollider2D;
 
 	while(!tempList.empty())
@@ -108,10 +114,6 @@ void Physics::Update(double dt)
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 	EventHandler::GetInstance().UpdateEvent();
 	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
-
-	float time = FrameRateController::GetInstance().EndTimeCounter() / FrameRateController::GetInstance().GetFrameTime() * 100;
-	ImGui::Text("Physics per Frame Percentage: %.3f %", time);
-
 }
 
 Collider2D* Physics::CreateCircleCollider(const Vector3& _v, const float& r)

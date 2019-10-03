@@ -38,6 +38,8 @@ public:
 
 	RigidBody2D* CreateRigidBody2D();
 
+	void Clear();
+
 private:
 	//No replication of class object
 	Physics(const Physics& rhs) = delete;
