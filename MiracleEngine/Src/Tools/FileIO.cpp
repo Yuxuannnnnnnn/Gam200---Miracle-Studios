@@ -1,9 +1,9 @@
+#pragma once
 #include "PrecompiledHeaders.h"
 #include "FileIO.h"
 
+
 #define MAX_CHAR_ARR_BUFFER 1000
-
-
 
 // take in power, x10 by power amt
 int MultTen(int power)
@@ -52,42 +52,42 @@ bool JsonParseChecker(const char c)
 
 void JsonDynamicStore(bool& store, rapidjson::Value &val)
 {
-	if (typeid(store).name() == typeid(bool).name())
+	ASSERT(typeid(store).name() == typeid(bool).name())
 		store = static_cast<bool>(val.GetBool());
 	return;
 }
 void JsonDynamicStore(float& store, rapidjson::Value& val)
 {
-	if (typeid(store).name() == typeid(float).name())
+	ASSERT(typeid(store).name() == typeid(float).name())
 		store = static_cast<float>(val.GetFloat());
 }
 void JsonDynamicStore(int& store, rapidjson::Value& val)
 {
-	if (typeid(store).name() == typeid(int).name())
+	ASSERT(typeid(store).name() == typeid(int).name())
 		store = static_cast<int>(val.GetInt());
 }
 void JsonDynamicStore(unsigned int& store, rapidjson::Value& val)
 {
-	if (typeid(store).name() == typeid(int).name())
+	ASSERT(typeid(store).name() == typeid(unsigned int).name())
 		store = static_cast<unsigned int>(val.GetInt());
 }
 void JsonDynamicStore(std::vector<int> &store, rapidjson::Value& val)
 {
-	if (val.IsArray()) // check to ensure that the 'val' is also an array
+	ASSERT(val.IsArray()) // check to ensure that the 'val' is also an array
 		for (unsigned int i = 0; i < val.Size(); ++i)
 			store.push_back(val[i].GetInt());
 	return;
 }
 void JsonDynamicStore(std::vector<float>& store, rapidjson::Value& val)
 {
-	if (val.IsArray())
+	ASSERT(val.IsArray())
 		for (unsigned int i = 0; i < val.Size(); ++i)
 			store.push_back(val[i].GetFloat());
 	return;
 }
 void JsonDynamicStore(std::vector<unsigned int>& store, rapidjson::Value& val)
 {
-	if (val.IsArray())
+	ASSERT(val.IsArray())
 		for (unsigned int i = 0; i < val.Size(); ++i)
 			store.push_back(val[i].GetInt());
 	return;
@@ -95,7 +95,7 @@ void JsonDynamicStore(std::vector<unsigned int>& store, rapidjson::Value& val)
 void JsonDynamicStore(Vector3& store, rapidjson::Value& val)
 {
 	//Vector3 tempVec(val[0].GetFloat(), val[1].GetFloat(), 1);
-	if (val.IsArray())
+	ASSERT(val.IsArray())
 	{
 		store.X(val[0].GetFloat());
 		store.Y(val[1].GetFloat());
@@ -167,13 +167,14 @@ std::vector<std::string> FileRead_FileToStringVector(const char* FileName)
 	while (_file.good())
 	{
 		//_file >> strType;
-		stringVec.push_back(_file.getline());
+		//stringVec.push_back(_file.getline());
 	}
 	_file.close();
+	return stringVec;
 }
 
 /**
-\brief Output to file a crash file with a message
+\brief Output to file a crash file with a message, // TODO : Move to DebugSys
 */
 void FileOut_CrashLog(_In_z_ wchar_t const* _Message,
 	_In_z_ wchar_t const* _File,
@@ -189,7 +190,9 @@ void FileOut_CrashLog(_In_z_ wchar_t const* _Message,
 
 	std::fstream _file;
 	//std::ios_base::trunc forces the file to be created
-	_file.open(FilePathNames::path_crashLog, std::ios_base::out, std::ios_base::trunc);
+	_file.open("./Resources/TextFiles/crashlog.txt", std::ios_base::out, std::ios_base::trunc);
 	_file << "CRASH LOG" << std::endl << "ASSERT FAILED: " << message << " @ " << file << " (" << _Line << ")" << std::endl;
 	_file.close();
 }
+
+

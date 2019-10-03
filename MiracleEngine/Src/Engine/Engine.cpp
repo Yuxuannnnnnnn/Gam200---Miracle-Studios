@@ -5,7 +5,7 @@ void Engine::Init()
 	_graphicsSystem->Init();
 
 	IGameObject* player = _gameObjectFactory->CreateGameObject(PLAYER);
-	_gameObjectFactory->DeleteGameObjectID(player->_id);
+	_gameObjectFactory->DeleteGameObjectID(player->_uId);
 
 	_frameController->Initialize();
 }

@@ -26,7 +26,7 @@ public:
 
 	}
 
-		Vector3& GetPos()
+	Vector3& GetPos()
 	{ return _pos; }
 	void SetPos(const Vector3& in)
 	{ _pos = in; }

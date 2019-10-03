@@ -12,6 +12,7 @@
 #include <iostream>
 #include <iomanip>
 #include <assert.h>
+#include <comdef.h>			// For _bstr_t class, to convert const wchar_t* to const char*
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -36,10 +37,9 @@
 
 #include "Engine/FrameRateController.h"
 
-//#include "Tools/FileIO.h"	// Serialization
+#include "Tools/FileIO.h"
 
 #include "MathLib/Vector3.h"
-
 
 #include "Engine/Engine.h"
 
@@ -52,3 +52,9 @@
 #include "GameObjectComponents/PhysicsComponent.h"
 #include "GameObjectComponents/GameObject.h"
 #include "GameObjectComponents/GameObjectFactory.h"
+
+/**
+\brief Constructor for background
+\param data, width, height, depth
+\return float
+*/
