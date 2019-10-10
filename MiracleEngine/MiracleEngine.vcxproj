@@ -404,6 +404,14 @@
     <ClInclude Include="Dep\glm\vec3.hpp" />
     <ClInclude Include="Dep\glm\vec4.hpp" />
     <ClInclude Include="Dep\glm\vector_relational.hpp" />
+    <ClInclude Include="Dep\Imgui\imconfig.h" />
+    <ClInclude Include="Dep\Imgui\imgui.h" />
+    <ClInclude Include="Dep\Imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Dep\Imgui\imgui_impl_win32.h" />
+    <ClInclude Include="Dep\Imgui\imgui_internal.h" />
+    <ClInclude Include="Dep\Imgui\imstb_rectpack.h" />
+    <ClInclude Include="Dep\Imgui\imstb_textedit.h" />
+    <ClInclude Include="Dep\Imgui\imstb_truetype.h" />
     <ClInclude Include="Dep\rapidjson\allocators.h" />
     <ClInclude Include="Dep\rapidjson\cursorstreamwrapper.h" />
     <ClInclude Include="Dep\rapidjson\document.h" />
@@ -463,13 +471,20 @@
     <ClInclude Include="Src\Inputsystem\keydef.h" />
     <ClInclude Include="Src\MathLib\Vector2.h" />
     <ClInclude Include="Src\MathLib\Vector3.h" />
+    <ClInclude Include="Src\Tools\FileIO.h" />
     <ClInclude Include="Src\WindowsSystem\WindowsSystem.h" />
-    <ClInclude Include="stb_image\stb_image.h" />
+    <ClInclude Include="Dep\stb_image\stb_image.h" />
     <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
     <ClInclude Include="Src\GameObjectComponents\TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
+    <ClCompile Include="Dep\Imgui\imgui.cpp" />
+    <ClCompile Include="Dep\Imgui\imgui_demo.cpp" />
+    <ClCompile Include="Dep\Imgui\imgui_draw.cpp" />
+    <ClCompile Include="Dep\Imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Dep\Imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Dep\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />
     <ClCompile Include="Src\PrecompiledHeaders.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -494,8 +509,9 @@
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\Main.cpp" />
+    <ClCompile Include="Src\Tools\FileIO.cpp" />
     <ClCompile Include="Src\WindowsSystem\WindowsSystem.cpp" />
-    <ClCompile Include="stb_image\stb_image.cpp" />
+    <ClCompile Include="Dep\stb_image\stb_image.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
     <ClCompile Include="Src\GameObjectComponents\TransformComponent.cpp" />
   </ItemGroup>

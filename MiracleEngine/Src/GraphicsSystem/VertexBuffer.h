@@ -1,6 +1,7 @@
 #pragma once
 
 #include "glew.h"
+#include "stb_image/stb_image.h"
 
 class VertexBuffer
 {
