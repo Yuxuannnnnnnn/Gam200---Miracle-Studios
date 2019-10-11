@@ -29,7 +29,7 @@
     <ClCompile Include="Dep\Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Dep\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PreFabManager.cpp" />
-    <ClCompile Include="ImguiAPI.cpp" />
+    <ClCompile Include="Src\Tools\ImGuiWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -352,7 +352,7 @@
     <ClInclude Include="Dep\Imgui\imstb_textedit.h" />
     <ClInclude Include="Dep\Imgui\imstb_truetype.h" />
     <ClInclude Include="Src\GameObjectComponents\PreFabManager.h" />
-    <ClInclude Include="ImguiAPI.h" />
+    <ClInclude Include="Src\Tools\ImGuiWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
