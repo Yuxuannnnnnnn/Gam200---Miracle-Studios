@@ -5,6 +5,7 @@
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
 #include "Tools/FileIO.h"
+#include <unordered_map>
 
 
 //namespace FilePathNames {
@@ -42,7 +43,9 @@ class IGameObject : public ISerial
 {
 public:
 
-	std::map< ComponentTypes, IComponentSystem* > _ComponentList;
+	std::unordered_map < ComponentTypes, IComponentSystem* > _ComponentList;
+
+
 	unsigned _typeId;	// GameObject Type
 	unsigned _uId;		// Unique ID
 	// Ctor : Inits w/ a Unique id
@@ -76,7 +79,7 @@ private:
 
 public:
 	Weapon() = default;
-	Weapon(size_t id, float firerate) 
+	Weapon(unsigned id, float firerate) 
 		: IGameObject(id), _FireRate{ firerate } 
 	{}
 
@@ -96,7 +99,7 @@ class Player : public IGameObject
 	std::vector<unsigned> _WeaponListId;
 	std::vector<Weapon> _WeaponList;
 public:
-	Player(size_t id)
+	Player(unsigned id)
 		:IGameObject(id)
 	{
 		SerialInPrefab();

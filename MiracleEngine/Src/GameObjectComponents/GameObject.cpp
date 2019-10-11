@@ -12,7 +12,7 @@ IGameObject::IGameObject(unsigned uId)
 
 IGameObject::~IGameObject()
 {
-	std::map< ComponentTypes, IComponentSystem* >::iterator iterator = _ComponentList.begin();
+	std::unordered_map< ComponentTypes, IComponentSystem* >::iterator iterator = _ComponentList.begin();
 	while (iterator != _ComponentList.end())
 	{
 		delete iterator->second;

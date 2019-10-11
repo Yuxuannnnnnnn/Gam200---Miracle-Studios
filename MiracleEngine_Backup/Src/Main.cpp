@@ -49,9 +49,9 @@ void showWindowBegin()
 	if (no_close)           p_open = NULL; // Don't pass our bool* to Begin
 
 	ImGui::Begin("Debug Console", p_open, window_flags);
-
+	ImGui::End();
 	// Main body of the Demo window starts here.
-	//if (!ImGui::Begin("Debug Console", p_open, window_flags))
+	if (!ImGui::Begin("Debug Console1", p_open, window_flags));
 	//{
 	//	// Early out if the window is collapsed, as an optimization.
 	//	ImGui::End();
@@ -111,6 +111,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Setup style
 	ImGui::StyleColorsDark();
 	// engine start here
+	auto& IO = ImGui::GetIO();
+
+	IO.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	IO.ConfigDockingWithShift = true;
+
 	while (loop)
 	{
 		// Main message loop:
@@ -144,8 +149,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+		
 
-
+		ImGui::ShowDemoWindow();
 		//show Main Window
 		showWindowBegin();
 		// Rendering

@@ -3,6 +3,8 @@
 #include "GameObject.h"
 //#include "Tools/FileIO.h"
 
+
+
 //No inheritance 
 //Static object
 class GameObjectFactory final
@@ -16,6 +18,7 @@ private:
 
 	//Unique ID for the next newly created object
 	size_t _id;
+
 	//Array of GraphicComponents for GraphicsSystem
 	std::map < size_t, GraphicComponent* >  _graphicComponents;
 	//Array of TransformComponents for GraphicsSystem
@@ -30,49 +33,19 @@ public:
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
 	GameObjectFactory& operator= (const GameObjectFactory& rhs) = delete;
 
-	GameObjectFactory() 
-		:_id{ 0 }
-	{
-		Init();
-	}
+	//Constructor
+	GameObjectFactory();
+
+	//Destructor
 	//Deletes all gameObjects in the gameObjectFactory
-	~GameObjectFactory()
-	{
-		for (auto gameObject : _listObject)
-		{
-			delete gameObject.second;
-			//_listObject.erase(gameObject.first);
-		}
-		//for (size_t i = 0; i < _listObject.size(); i++)
-		//{
-		//
-		//	std::map < size_t, IGameObject* >::iterator it = _listObject.begin();
-		//	delete it->second;
-		//	it++;
-		//}
-	}
+	~GameObjectFactory();
 
-	const std::map < size_t, GraphicComponent* >& getGraphicComponent() const
-	{
-		return _graphicComponents;
-	}	
-	const std::map < size_t, TransformComponent* >& getTransformComponent() const
-	{
-		return _transformComponents;
-	}	
-	const std::map < size_t, RigidBodyComponent* >& getRigidBodyComponent() const
-	{
-		return _rigidBodyComponents;
-	}	
-	const std::map < size_t, PhysicsComponent* >& getPhysicsComponent() const
-	{
-		return _physicsComponent;
-	}
+	const std::map < size_t, GraphicComponent* >& getGraphicComponent() const;
+	const std::map < size_t, TransformComponent* >& getTransformComponent() const;
+	const std::map < size_t, RigidBodyComponent* >& getRigidBodyComponent() const;
+	const std::map < size_t, PhysicsComponent* >& getPhysicsComponent() const;
 
-	const std::map<size_t, IGameObject*>& getObjectlist() const
-	{
-		return _listObject;
-	}
+	const std::map<size_t, IGameObject*>& getObjectlist() const;
 
 	//Deleting a gameObject entirely from the gameObjectFactory
 	void DeleteGameObjectID(size_t id)
