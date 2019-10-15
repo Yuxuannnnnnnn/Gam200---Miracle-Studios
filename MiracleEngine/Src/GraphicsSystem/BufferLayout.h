@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "glew.h"
-
+#include "PrecompiledHeaders.h"
 struct VertexBufferElement
 {
 	unsigned int type;

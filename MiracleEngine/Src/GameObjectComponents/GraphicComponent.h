@@ -18,7 +18,7 @@ public:
 	GraphicComponent()
 		: _shaderID{0},
 		  _textureID{0},
-		_pmesh{ new QuadMesh()}
+		_pmesh{ new Mesh()}
 	{
 	}
 

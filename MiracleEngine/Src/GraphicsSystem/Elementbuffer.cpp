@@ -1,5 +1,5 @@
 #include "elementbuffer.h"
-
+#include "PrecompiledHeaders.h"
 ElementBuffer::ElementBuffer()
 	:_id{ 0 }, _count{0}
 {

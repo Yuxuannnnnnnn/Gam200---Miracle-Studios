@@ -23,7 +23,7 @@
     <ProjectGuid>{87AACDF0-2D7E-405C-9D17-3303C4045C9A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MiracleEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -448,6 +448,10 @@
     <ClInclude Include="Dep\rapidjson\stream.h" />
     <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
     <ClInclude Include="Dep\rapidjson\writer.h" />
+    <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
+    <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
+    <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\Tools\ImGuiWindow.h" />
     <ClInclude Include="Src\GameObjectComponents\PreFabManager.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
@@ -487,6 +491,10 @@
     <ClCompile Include="Dep\Imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Dep\Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Dep\Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\MeshManager.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\PlayerMesh.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
     <ClCompile Include="Src\Tools\ImGuiWindow.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PreFabManager.cpp" />
     <ClCompile Include="Src\Engine\FrameRateController.cpp" />

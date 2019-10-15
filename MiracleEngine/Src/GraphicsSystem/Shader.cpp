@@ -1,5 +1,5 @@
 #include "Shader.h"
-
+#include "PrecompiledHeaders.h"
 
 void Shader::SetUniform1i(const std::string& name, int value)
 {

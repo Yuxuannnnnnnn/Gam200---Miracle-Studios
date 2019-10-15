@@ -1,5 +1,5 @@
 #include "PlayerMesh.h"
-
+#include "PrecompiledHeaders.h"
 void PlayerMesh::Select(double dt, int num)
 {
 	_vao->Select();

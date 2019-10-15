@@ -1,5 +1,5 @@
 #include "DebugRenderer.h"
-
+#include "PrecompiledHeaders.h"
 DebugRenderer::DebugRenderer(int windowWidth, int windowHeight)
 	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2) }
