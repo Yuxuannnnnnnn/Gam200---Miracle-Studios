@@ -57,9 +57,9 @@ void IGameObject::SerialAddComponent
 		_ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
 		temp = _ComponentList[TRANSFORMCOMPONENT];
 		s = d["Position"];
-		JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
+		//JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
 		s = d["Scale"];
-		JsonDynamicStore(((TransformComponent*)temp)->GetScale(), s);
+		//JsonDynamicStore(((TransformComponent*)temp)->GetScale(), s);
 		s = d["Rotate"];
 		JsonDynamicStore(((TransformComponent*)temp)->GetRotate(), s);
 		return;
