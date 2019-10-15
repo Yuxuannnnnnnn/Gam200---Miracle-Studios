@@ -30,7 +30,7 @@ public:
 private:
 	void ClearScreen() const;
 	MeshManager _meshmanager;
-	RendererSystem _renderer;
-	InstancedSystem _instancedRenderer;
+	//RendererSystem _renderer;
+	//InstancedSystem _instancedRenderer;
 	
 };

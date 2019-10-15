@@ -21,8 +21,8 @@ void GraphicsSystem::Update(const TransformComponent* transform, const GraphicCo
 	//_renderer.DrawWireFrameQuad(0, 0, 30, 50);
 	
 	//_debugrenderer.DrawLine(0, 0, 150, 150);
-	if (_renderMode == Instance)
-		_instancedRenderer.Update();
+	/*if (_renderMode == Instance)
+		_instancedRenderer.Update();*/
 
 	// gl_lines
 	// 2 vbo and ebo

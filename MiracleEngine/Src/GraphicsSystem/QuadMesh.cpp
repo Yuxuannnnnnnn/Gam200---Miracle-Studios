@@ -29,7 +29,7 @@ QuadMesh::QuadMesh()
 	_vbo = new VertexBuffer(_positions, 4 * 5 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
 	_vao->AddBuffer(*_vbo, layout);
 	_ebo = new ElementBuffer(_indices, 6);
-	_texture = new Texture2D("zombie.png");
+	//_texture = new Texture2D("zombie.png");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -40,5 +40,5 @@ QuadMesh::~QuadMesh()
 	delete _vao;
 	delete _vbo;
 	delete _ebo;
-	delete _texture;
+	//delete _texture;
 }
