@@ -11,14 +11,12 @@
 #include "QuadMesh.h"
 #include "TextureManager.h"
 
-#include "PlayerMesh.h"
 
 class RendererSystem
 {
 private:
 	TextureManager _textureManager;
 	QuadMesh _quadmesh;
-	PlayerMesh _playermesh;
 	MeshManager _meshmanager;
 	glm::mat4 _proj;  // projection matrix
 	Shader _shader{ "Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag" };

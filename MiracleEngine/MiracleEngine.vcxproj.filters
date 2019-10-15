@@ -30,9 +30,7 @@
     <ClCompile Include="Dep\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PreFabManager.cpp" />
     <ClCompile Include="Src\Tools\ImGuiWindow.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\MeshManager.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\PlayerMesh.cpp" />
     <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -358,8 +356,6 @@
     <ClInclude Include="Src\GameObjectComponents\PreFabManager.h" />
     <ClInclude Include="Src\Tools\ImGuiWindow.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
-    <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
   </ItemGroup>
   <ItemGroup>

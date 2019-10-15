@@ -12,7 +12,7 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	_graphicsSystem->Update(_gameObjectFactory->getTransformComponent(), _gameObjectFactory->getGraphicComponent());
+	//_graphicsSystem->Update(_gameObjectFactory->getTransformComponent(), _gameObjectFactory->getGraphicComponent());
 	
 	double deltaTime = _frameController->UpdateFrameTime();
 	(void)deltaTime;

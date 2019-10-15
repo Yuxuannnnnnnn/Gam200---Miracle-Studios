@@ -1,5 +1,8 @@
+#pragma once
+
 #include "DebugRenderer.h"
 #include "PrecompiledHeaders.h"
+
 DebugRenderer::DebugRenderer(int windowWidth, int windowHeight)
 	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2) }
@@ -10,6 +13,7 @@ DebugRenderer::DebugRenderer(int windowWidth, int windowHeight)
 	layout.Push<float>(3);
 	_vao->AddBuffer(*_vbo, layout);
 }
+
 DebugRenderer::~DebugRenderer()
 {
 	delete _vao;

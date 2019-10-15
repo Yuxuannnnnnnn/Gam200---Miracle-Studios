@@ -2,7 +2,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "GraphicsSystem/VertexBuffer.h"
-
+#include "PrecompiledHeaders.h"
 #include "../Imgui/imgui.h"
 #include "InstancedSystem.h"
 
@@ -12,14 +12,14 @@ void GraphicsSystem::Init()
 }
 
 
-void GraphicsSystem::Update(double dt)
+void GraphicsSystem::Update(const TransformComponent* transform, const GraphicComponent* graphic)
 {
 	ClearScreen();
 
 
 	//_renderer.DrawPoint(10, -100, 5);
 	//_renderer.DrawWireFrameQuad(0, 0, 30, 50);
-	_renderer.Update(dt, num);
+	
 	//_debugrenderer.DrawLine(0, 0, 150, 150);
 	if (_renderMode == Instance)
 		_instancedRenderer.Update();

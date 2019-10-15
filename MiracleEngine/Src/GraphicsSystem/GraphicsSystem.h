@@ -8,8 +8,10 @@
 #include <string>
 #include "GraphicsSystem/RendererSystem.h"
 #include "VertexArray.h"
-
+#include "PrecompiledHeaders.h"
 #include "InstancedSystem.h"
+#include "../GameObjectComponents/TransformComponent.h"
+#include "../GameObjectComponents/GraphicComponent.h"
 enum RenderMode
 {
 	None,
@@ -21,7 +23,7 @@ class GraphicsSystem
 {
 public:
 	void Init();
-	void Update(double dt);
+	void Update(const TransformComponent* transform, const GraphicComponent* graphic);
 	void Exit();
 	RenderMode _renderMode = None;
 	int num = 0;
