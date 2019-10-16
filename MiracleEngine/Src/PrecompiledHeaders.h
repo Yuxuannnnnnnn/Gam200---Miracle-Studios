@@ -42,7 +42,7 @@
 
 #include "Tools/FileIO.h"
 
-#include "MathLib/Vector3.h"
+#include "MathLib/SYMath.h"
 
 #include "Engine/Engine.h"
 
@@ -55,6 +55,8 @@
 #include "GameObjectComponents/PhysicsComponent.h"
 #include "GameObjectComponents/GameObject.h"
 #include "GameObjectComponents/GameObjectFactory.h"
+
+#include "Tools/FrameRateController.h"
 
 /**
 \brief Constructor for background

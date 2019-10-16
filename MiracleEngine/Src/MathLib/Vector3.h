@@ -1,375 +1,210 @@
-#ifndef GAM200_VECTOR3_
-#define GAM200_VECTOR3_
+///////////////////////////////////////////////////////////////////////////////////////
+//
+//	Vector3.h
+//	
+//	Authors: yinshuyu
+//	Copyright 2019, Digipen Institute of Technology
+//
+///////////////////////////////////////////////////////////////////////////////////////
+#ifndef _SHUYU_VECTOR3_H
+#define _SHUYU_VECTOR3_H
 
 #include <cmath>
-#include <iostream>
 #include <fstream>
 
-class Vector3
-{
-  float x;
-  float y;
-  float z;
+namespace mathLib {
 
-public:  
+	class Vector3 final {
 
-  // Default/Conversion Constructor
-  Vector3(const float& _x = 0.f, const float& _y = 0.f, const float& _z = 0.f)
-  : x{_x}, y{_y}, z{_z}
-  {
-  }
+	public:
+		float _x;
+		float _y;
+		float _z;
 
-  // Copy constructor
-  Vector3(const Vector3& _v)
-  : x{_v.x}, y{_v.y}, z{_v.z}
-  {
-  }
+		static const Vector3 Vec3Zero;
+		static const Vector3 Vec3EX;
+		static const Vector3 Vec3EY;
+		static const Vector3 Vec3EZ;
 
-  // Default Destructor
-  virtual ~Vector3() {}
+	public:
+		// Default Constructor
+		Vector3();
+		// Conversion Constructor
+		Vector3(const float& x, const float& y = 0.f, const float& z = 0.f); 
+		// Copy constructor
+		Vector3(const Vector3& v); 
+		// Default Destructor
+		~Vector3() {} 
 
-  // Return the sum of the values
-  float Sum() const
-  {
-    return this->x + this->y + this->z;
-  }
+		// Return the sum of the values
+		float Sum() const; 
+		// Calculation distance to the given point
+		float Distance(const Vector3& pt) const; 
+		// Calculation distance to the given point
+		float Distance(float x, float y, float z) const; 
+		// Returns the length (magnitude) of the vector
+		float Length() const; 
+		// Return the square of the length (magnitude) of the vector
+		float SquaredLength() const;
+		// Normalize the vector length
+		Vector3& Normalize();
+		// Return a normalized vector
+		Vector3& Normalized() const;
+		// Round to near whole number
+		Vector3& Round(); 
+		// Get a rounded version of this vector
+		Vector3 Rounded() const;
+			// Set the contents of the vector
+		void Set(float x = 0.f, float y = 0.f, float z = 0.f); 
+		// Return the cross product of this vector with another vector.
+		Vector3 Cross(const Vector3& v) const;
+		// Return the dot product of this vector and another vector
+		float Dot(const Vector3& v) const; 
 
-  // Calculation distance to the given point
-  float Distance(const Vector3& _pt) const
-  {
-    return std::sqrt((this->x - _pt.x)*(this->x - _pt.x) +
-                     (this->y - _pt.y)*(this->y - _pt.y) +
-                     (this->z - _pt.z)*(this->z - _pt.z));
-  }
+			// Return the absolute dot product of this vector and
+			// another vector. This is similar to the Dot function, except the
+			// absolute value of each component of the vector is used.
+		float AbsDot(const Vector3& v) const;
 
-  // Calculation distance to the given point
-  float Distance(float _x, float _y, float _z) const
-  {
-    return this->Distance(Vector3(_x, _y, _z));
-  }
-
-  // Returns the length (magnitude) of the vector
-  float Length() const
-  {
-    return std::sqrt(this->SquaredLength());
-  }
-
-  // Return the square of the length (magnitude) of the vector
-  float SquaredLength() const
-  {
-    return std::pow(this->x, 2.f)
-         + std::pow(this->y, 2.f)
-         + std::pow(this->z, 2.f);
-  }
-
-  // Normalize the vector length
-  Vector3 Normalize()
-  {
-    float d = this->Length();
-
-    if (*this != Vector3(0.f,0.f,0.f))
-    {
-      this->x /= d;
-      this->y /= d;
-      this->z /= d;
-    }
-
-    return *this;
-  }
-
-  //// Return a normalized vector
-  //Vector3 Normalized() const
-  //{
-  //  Vector3 result = *this;
-  //  result.Normalize();
-  //  return result;
-  //}
-
-  // Round to near whole number
-  Vector3 Round()
-  {
-    this->x = std::nearbyint(this->x);
-    this->y = std::nearbyint(this->y);
-    this->z = std::nearbyint(this->z);
-    return *this;
-  }
-
-  //// Get a rounded version of this vector
-  //public: Vector3 Rounded() const
-  //{
-  //  Vector3 result = *this;
-  //  result.Round();
-  //  return result;
-  //}
-
-  // Set the contents of the vector
-  void Set(float _x = 0.f, float _y = 0.f, float _z = 0.f)
-  {
-    this->x = _x;
-    this->y = _y;
-    this->z = _z;
-  }
-
-  // Return the cross product of this vector with another vector.
-  Vector3 Cross(const Vector3& _v) const
-  {
-    return Vector3(this->y * _v.z - this->z * _v.y,
-                   this->z * _v.x - this->x * _v.z,
-                   this->x * _v.y - this->y * _v.x);
-  }
-
-  // Return the dot product of this vector and another vector
-  float Dot(const Vector3& _v) const
-  {
-    return this->x * _v.x +
-           this->y * _v.y +
-           this->z * _v.z;
-  }
-
-  // Return the absolute dot product of this vector and
-  // another vector. This is similar to the Dot function, except the
-  // absolute value of each component of the vector is used.
-  float AbsDot(const Vector3& _v) const
-  {
-    return std::abs(this->x * _v.x) +
-           std::abs(this->y * _v.y) +
-           std::abs(this->z * _v.z);
-  }
-
-  // Get the absolute value of the vector
-  Vector3 Abs() const
-  {
-    return Vector3(std::abs(this->x),
-                   std::abs(this->y),
-                   std::abs(this->z));
-  }
+			// Get the absolute value of the vector
+		Vector3 Abs() const;
 
 
-  // Get a normal vector to a triangle
-  static Vector3 Normal(const Vector3& _v1, const Vector3& _v2, const Vector3& _v3)
-  {
-    Vector3 a = _v2 - _v1;
-    Vector3 b = _v3 - _v1;
-    Vector3 n = a.Cross(b);
-    return n.Normalize();
-  }
+			// Get a normal vector to a triangle
+		static Vector3 Normal(const Vector3& v1, const Vector3& v2, const Vector3& v3);
 
-  // Get distance to a line
-  float DistToLine(const Vector3& _pt1, const Vector3& _pt2)
-  {
-    float d = ((*this) - _pt1).Cross((*this) - _pt2).Length();
-    d = d / (_pt2 - _pt1).Length();
-    return d;
-  }
+			// Get distance to a line
+		float DistToLine(const Vector3& pt1, const Vector3& pt2);
 
-  // Assignment operator
-  Vector3& operator=(const Vector3& _v)
-  {
-    this->x = _v.x;
-    this->y = _v.y;
-    this->z = _v.z;
+			// Assignment operator
+		Vector3& operator=(const Vector3& v);
 
-    return *this;
-  }
+			// Addition operator
+		Vector3 operator+(const Vector3& v) const;
 
-  // Addition operator
-  Vector3 operator+(const Vector3& _v) const
-  {
-    return Vector3(this->x + _v.x,
-                   this->y + _v.y,
-                   this->z + _v.z);
-  }
+			// Addition assignment operator
+		const Vector3& operator+=(const Vector3& v);
 
-  // Addition assignment operator
-  const Vector3& operator+=(const Vector3& _v)
-  {
-    this->x += _v.x;
-    this->y += _v.y;
-    this->z += _v.z;
+			// Subtraction operator
+		Vector3 operator-() const;
 
-    return *this;
-  }
+			// Subtraction operator
+		Vector3 operator-(const Vector3& v) const;
 
-  // Subtraction operator
-  Vector3 operator-(const Vector3& _v) const
-  {
-    return Vector3(this->x - _v.x,
-                   this->y - _v.y,
-                   this->z - _v.z);
-  }
+			// Subtraction assignment operator
+		const Vector3& operator-=(const Vector3& v);
 
-  // Subtraction assignment operator
-  const Vector3& operator-=(const Vector3& _v)
-  {
-    this->x -= _v.x;
-    this->y -= _v.y;
-    this->z -= _v.z;
+			// Division operator
+		Vector3 operator/(const Vector3& v) const;
 
-    return *this;
-  }
+		Vector3 operator/(const float& v) const;
 
-  // Division operator
-  Vector3 operator/(const Vector3& _v) const
-  {
-    return Vector3(this->x / _v.x,
-                   this->y / _v.y,
-                   this->z / _v.z);
-  }
 
-  // Division operator
-  Vector3 operator/(const float& _v) const
-  {
-	  return Vector3(this->x / _v,
-		  this->y / _v,
-		  this->z / _v);
-  }
+			//// Division operator
+			//Vector3 operator/(float _v) const
+			//{
+			//  return Vector3(this->x / _v,
+			//                 this->y / _v,
+			//                 this->z / _v);
+			//}
 
-  // Division assignment operator
-  const Vector3& operator/=(const Vector3& _v)
-  {
-    this->x /= _v.x;
-    this->y /= _v.y;
-    this->z /= _v.z;
+			// Division assignment operator
+		const Vector3& operator/=(const Vector3& v);
 
-    return *this;
-  }
+			// multiplication operator
+			  // Vector3 operator*(const Vector3& _v) const
+			  // {
+			   // return vector3(this->x * _v.x,
+							  // this->y * _v.y,
+							  // this->z * _v.z);
+			  // }
 
-  // Multiplication operator
- /* Vector3 operator*(const Vector3& _v) const
-  {
-    return Vector3(this->x * _v.x,
-                   this->y * _v.y,
-                   this->z * _v.z);
-  }*/
+			  // Multiplication operator
+		float operator*(const Vector3& v) const;
 
-  // Multiplication operator
-  float operator*(const Vector3& _v) const
-  {
-	  return this->Dot(_v);
-  }
+			// multiplication operator
+		Vector3 operator*(const float& v) const;
 
-  // Multiplication assignment operator
-  const Vector3& operator*=(const Vector3& _v)
-  {
-    this->x *= _v.x;
-    this->y *= _v.y;
-    this->z *= _v.z;
+			// Multiplication assignment operator
+		const Vector3& operator*=(const Vector3& v);
 
-    return *this;
-  }
+			// Equal to operator
+		bool operator==(const Vector3& v) const;
 
-  // Equal to operator
-  bool operator==(const Vector3& _v) const
-  {
-    return this->x == _v.x || this->y == _v.y || this->z == _v.z;
-  }
+			// Not equal to operator
+		bool operator!=(const Vector3& v) const;
 
-  // Not equal to operator
-  bool operator!=(const Vector3& _v) const
-  {
-    return !(*this == _v);
-  }
+			// See if a point is finite (e.g., not nan)
+		bool IsFinite() const;
 
-  // See if a point is finite (e.g., not nan)
-  bool IsFinite() const
-  {
-    return std::isfinite(this->x) && 
-           std::isfinite(this->y) && 
-           std::isfinite(this->z);
-  }
+			// Array subscript operator.
+		float operator[](size_t index) const;
 
-  // Array subscript operator.
-  float operator[](size_t index) const
-  {
-    if(index == 0)
-      return this->x;
-    else if(index == 1)
-      return this->y;
-    else if(index == 2)
-      return this->z;
-    
-    return 0.f;
-  }
+			
+			// Less than operator.
+		bool operator<(const Vector3& v) const;
 
-  // Get the x value.
-  float X() const
-  {
-    return this->x;
-  }
+			// Stream extraction operator, output stream
+		friend std::ostream& operator<<(std::ostream& out, const Vector3& v);
 
-  // Get the y value.
-  float Y() const
-  {
-    return this->y;
-  }
+			// Stream insertion operator, input stream
+		friend std::istream& operator>>(std::istream& in, Vector3& v);
 
-  // Get the z value.
-  float Z() const
-  {
-    return this->z;
-  }
+		// Get the x value.
+		float X() const
+		{
+			return this->_x;
+		}
 
-  // Get a mutable reference to the x value.
-  float& X()
-  {
-    return this->x;
-  }
+		// Get the y value.
+		float Y() const
+		{
+			return this->_y;
+		}
 
-  // Get a mutable reference to the y value.
-  float& Y()
-  {
-    return this->y;
-  }
+		// Get the z value.
+		float Z() const
+		{
+			return this->_z;
+		}
 
-  //Get a mutable reference to the z value.
-  float& Z()
-  {
-    return this->z;
-  }
+		// Get a mutable reference to the x value.
+		float& X()
+		{
+			return this->_x;
+		}
 
-  // Set the x value.
-  void X(const float& _x)
-  {
-    this->x = _x;
-  }
+		// Get a mutable reference to the y value.
+		float& Y()
+		{
+			return this->_y;
+		}
 
-  // Set the y value.
-  void Y(const float& _y)
-  {
-    this->y = _y;
-  }
-  
-  // Set the z value.
-  void Z(const float& _z)
-  {
-    this->z = _z;
-  }
+		//Get a mutable reference to the z value.
+		float& Z()
+		{
+			return this->_z;
+		}
 
-  // Less than operator.
-  bool operator<(const Vector3& _v) const
-  {
-    return this->x < _v.x || this->y < _v.y || this->z < _v.z;
-  }
+		// Set the x value.
+		void X(const float& x)
+		{
+			this->_x = x;
+		}
 
-  // Stream extraction operator, output stream
-  friend std::ostream& operator<<(std::ostream& _out, const Vector3& _v)
-  {
-    _out << _v.x << " " << _v.y << " " << _v.z;
-    return _out;
-  }
+		// Set the y value.
+		void Y(const float& y)
+		{
+			this->_y = y;
+		}
 
-  // Stream insertion operator, input stream
-  friend std::istream& operator>>(std::istream& _in, Vector3& _v)
-  {
-    float x, y, z;
+		// Set the z value.
+		void Z(const float& z)
+		{
+			this->_z = z;
+		}
 
-    // Skip white spaces
-    _in.setf(std::ios_base::skipws);    
-    _in >> x >> y >> z;
-    _v.Set(x, y, z);
-    return _in;
-  }
-
-};
+	};
+}
 
 #endif

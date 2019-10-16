@@ -18,7 +18,6 @@
     <ClCompile Include="Src\GameObjectComponents\TransformComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponent.cpp" />
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
-    <ClCompile Include="Src\Engine\FrameRateController.cpp" />
     <ClCompile Include="Src\PrecompiledHeaders.cpp" />
     <ClCompile Include="Dep\stb_image\stb_image.cpp" />
     <ClCompile Include="Src\Tools\FileIO.cpp" />
@@ -32,6 +31,20 @@
     <ClCompile Include="Src\Tools\ImGuiWindow.cpp" />
     <ClCompile Include="Src\GraphicsSystem\MeshManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
+    <ClCompile Include="Src\PhysicSystem\Collision.cpp" />
+    <ClCompile Include="Src\PhysicSystem\Physics.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionComponent\BoxCollider2D.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionComponent\CircleCollider2D.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionComponent\EdgeCollider2D.cpp" />
+    <ClCompile Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.cpp" />
+    <ClCompile Include="Src\Tools\FrameRateController.cpp" />
+    <ClCompile Include="Src\Tools\MemoryManager.cpp" />
+    <ClCompile Include="Src\Tools\PerformanceUsage.cpp" />
+    <ClCompile Include="Src\Tools\EventHandler.cpp" />
+    <ClCompile Include="Src\MathLib\Matrix3x3.cpp" />
+    <ClCompile Include="Src\MathLib\SYMath.cpp" />
+    <ClCompile Include="Src\MathLib\Vector2.cpp" />
+    <ClCompile Include="Src\MathLib\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -357,6 +370,22 @@
     <ClInclude Include="Src\Tools\ImGuiWindow.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
+    <ClInclude Include="Src\PhysicSystem\Collision.h" />
+    <ClInclude Include="Src\PhysicSystem\Physics.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionComponent\BoxCollider2D.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionComponent\CircleCollider2D.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionComponent\Collider2D.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionComponent\EdgeCollider2D.h" />
+    <ClInclude Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.h" />
+    <ClInclude Include="Src\Tools\IColliderHandler.h" />
+    <ClInclude Include="Src\Tools\FrameRateController.h" />
+    <ClInclude Include="Src\Tools\GameState.h" />
+    <ClInclude Include="Src\Tools\ISingleton.h" />
+    <ClInclude Include="Src\Tools\MemoryManager.h" />
+    <ClInclude Include="Src\Tools\PerformanceUsage.h" />
+    <ClInclude Include="Src\Tools\EventHandler.h" />
+    <ClInclude Include="Src\MathLib\Matrix3x3.h" />
+    <ClInclude Include="Src\MathLib\SYMath.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

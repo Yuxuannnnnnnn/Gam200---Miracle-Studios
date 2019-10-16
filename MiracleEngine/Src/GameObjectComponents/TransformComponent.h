@@ -1,6 +1,6 @@
 #pragma once
 #include "IComponentSystem.h"
-#include "MathLib/Vector3.h"
+#include "MathLib/SYMath.h"
 
 class TransformComponent: public IComponentSystem
 {
