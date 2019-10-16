@@ -40,8 +40,6 @@
 #include "GraphicsSystem/Elementbuffer.h"
 #include "GraphicsSystem/Shader.h"
 
-#include "Engine/FrameRateController.h"
-
 #include "Tools/FileIO.h"
 
 #include "MathLib/Vector3.h"
