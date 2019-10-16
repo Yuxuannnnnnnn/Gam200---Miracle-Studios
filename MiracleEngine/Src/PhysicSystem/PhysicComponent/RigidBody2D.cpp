@@ -14,6 +14,7 @@ RigidBody2D::RigidBody2D() :
 	_velocity{},
 	_appliedForce{},
 	_direction{ 1.f,0.f,0.f },
+	_position{},
 	_angle{ 0.f },
 	_mass{ 1.f },
 	_fictionVal{ 0.f },
@@ -30,8 +31,8 @@ void RigidBody2D::UpdateVec(double dt)
 	Vector3 newVel{ 0.f, 0.f , 0.f};
 
 	// newVel = a * dt + currVel;;
-	newVel = _appliedForce * (float)dt;
-	newVel += _velocity;
+	newVel = _appliedForce * _mass;
+	newVel = _velocity + newVel * (float)dt;
 
 	// newVel = newVel * firction;
 	newVel = newVel * (1.f - _fictionVal);
@@ -46,7 +47,7 @@ void RigidBody2D::UpdateVec(double dt)
 void RigidBody2D::UpdatePos(double dt)
 {
 	// newPos = newVel * dt + currPos;
-	//_gameObject->_pos += _velocity * (float)dt;
+	_position += _velocity * (float)dt;
 }
 
 void RigidBody2D::Draw()

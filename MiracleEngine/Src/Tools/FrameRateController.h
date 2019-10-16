@@ -38,11 +38,16 @@ public:
 
 	short GetFPS() const;
 
+	int GetSteps() const;
+
 private:
 
 private:
 	unsigned long long TotalTime;
-	
+	long long accumulatedTime;
+
+	int currentNumberOfSteps;
+
 	long long LockedFPS;
 	short FramePerSec;
 

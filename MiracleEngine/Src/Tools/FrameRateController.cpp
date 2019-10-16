@@ -17,6 +17,8 @@
 
 FrameRateController::FrameRateController() :
 	TotalTime{ 0 },
+	accumulatedTime{ 0 },
+	currentNumberOfSteps{ 0 },
 	LockedFPS{ 0 },
 	FramePerSec{ 0 },
 	PrevTime_Main{},
@@ -50,6 +52,7 @@ double FrameRateController::UpdateFrameTime()
 
 	// Record the ending time for the frame.
 	CurrTime_Main = Time::now();
+	currentNumberOfSteps = 0;
 
 	// Recalculate the current time the frame's been running.
 	FrameTime_Main = std::chrono::duration_cast<ns>(CurrTime_Main - PrevTime_Main);
@@ -57,17 +60,30 @@ double FrameRateController::UpdateFrameTime()
 	deltaTime = FrameTime_Main;
 
 	// FPS section
-	if (LockedFPS && FrameTime_Main.count() < LockedFPS)
+	/*if (LockedFPS && FrameTime_Main.count() < LockedFPS)
 	{
 		ns waitTime(LockedFPS - FrameTime_Main.count());
 
 		std::this_thread::sleep_for(waitTime);
 
 		deltaTime += waitTime;
-	}
+	}*/
 
 	// Increment TotalTime count
 	TotalTime += deltaTime.count();
+
+	if (LockedFPS)
+	{
+		accumulatedTime += deltaTime.count();
+
+		while (accumulatedTime >= LockedFPS)
+		{
+			accumulatedTime -= LockedFPS;
+			currentNumberOfSteps++;
+		}
+
+	}
+	
 
 	FramePerSec = (short)(oneSecNs / deltaTime.count());
 	
@@ -103,4 +119,9 @@ double FrameRateController::GetFrameTime() const
 short FrameRateController::GetFPS() const
 {
 	return FramePerSec;
+}
+
+int FrameRateController::GetSteps() const
+{
+	return currentNumberOfSteps;
 }
