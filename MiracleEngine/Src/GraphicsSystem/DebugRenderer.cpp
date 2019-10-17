@@ -1,7 +1,7 @@
 #pragma once
 
-#include "DebugRenderer.h"
 #include "PrecompiledHeaders.h"
+#include "DebugRenderer.h"
 
 DebugRenderer::DebugRenderer(int windowWidth, int windowHeight)
 	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
@@ -29,7 +29,7 @@ void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 	_vao->Select();
 
 	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 0));
-	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2-x1, y2-y1, 0));
+	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2 - x1, y2 - y1, 0));
 	glm::mat4 mvp = _proj * model;
 
 	int location = glGetUniformLocation(_shader._id, "u_Color");

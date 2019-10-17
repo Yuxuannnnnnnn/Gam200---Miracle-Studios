@@ -49,6 +49,7 @@
     <ClCompile Include="Src\LogicSystem\LogicSystem.cpp" />
     <ClCompile Include="Src\LogicSystem\Script.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -395,6 +396,7 @@
     <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
     <ClInclude Include="Src\LogicSystem\Script.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
+    <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

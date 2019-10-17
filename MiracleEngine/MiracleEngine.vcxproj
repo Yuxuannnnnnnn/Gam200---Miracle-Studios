@@ -450,6 +450,7 @@
     <ClInclude Include="Dep\rapidjson\writer.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
+    <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\LogicSystem\AI.h" />
     <ClInclude Include="Src\LogicSystem\GameState.h" />
@@ -511,6 +512,7 @@
     <ClCompile Include="Dep\Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Dep\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\MeshManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
     <ClCompile Include="Src\LogicSystem\AI.cpp" />
