@@ -1,9 +1,9 @@
 #pragma once
 #include "PrecompiledHeaders.h"
-#include "MathLib/Vector3.h"
-#include "Inputsystem/InputSystem.h" // keyboard class
-#include "GameObject.h" // player class
-#include "IComponentSystem.h"
+//#include "MathLib/Vector3.h"
+//#include "Inputsystem/InputSystem.h" // keyboard class
+//#include "GameObject.h" // player class
+//#include "IComponentSystem.h"
 
 enum Logic_Keyboard_Style {
 	OFF = 0,
@@ -25,7 +25,8 @@ enum Logic_Keyboard_Style {
 class LogicComponent: public IComponentSystem
 {
 private:
-	InputSystem keyboard;				// need to be able to get one from InputSystem
+	size_t _Parent;
+	//InputSystem keyboard;				// need to be able to get one from InputSystem
 	Logic_Keyboard_Style _InputStyle{ OFF };	// keep track of keyboard input style
 public:
 	LogicComponent() {}

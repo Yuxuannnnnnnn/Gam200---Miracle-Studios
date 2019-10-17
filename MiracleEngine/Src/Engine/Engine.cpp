@@ -3,9 +3,12 @@
 void Engine::Init()
 {
 	_graphicsSystem->Init();
+	_gameObjectFactory->Init();
 
-	IGameObject* player = _gameObjectFactory->CreateGameObject(PLAYER);
+	GameObject* player = _gameObjectFactory->CreateGameObject(PLAYER);
 	_gameObjectFactory->DeleteGameObjectID(player->_uId);
+
+	
 }
 
 void Engine::Update()

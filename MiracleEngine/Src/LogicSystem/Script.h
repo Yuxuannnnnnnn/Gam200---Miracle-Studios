@@ -1,7 +1,7 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 
-enum ScriptNames {
+enum ScriptId {
 	// note, this is supposed to co-relate to the
 	// list of scripts in bottom half of this file
 	EMPTY = 0,
@@ -13,12 +13,12 @@ enum ScriptNames {
 class Script
 {
 	// list of scripts
-	ScriptNames _ScriptName;
+	ScriptId _ScriptId;
 public:
 	Script() = default;
-	Script(ScriptNames script)
+	Script(ScriptId scriptId)
 	{
-		SetScript(script);
+		SetScript(scriptId);
 	}
 	~Script() = default;
 	Script(const Script& rhs) = default;
@@ -27,10 +27,10 @@ public:
 	void Init()
 	{
 	}
-	void Update(ScriptNames scriptName)
+	void Update(ScriptId scriptId)
 	{
 		// depending of _ScriptName, run that particular script
-		switch ((ScriptNames)scriptName)
+		switch ((ScriptId)scriptId)
 		{
 		case EMPTY:
 			Test();
@@ -54,11 +54,11 @@ public:
 	// GetSet
 	unsigned GetScript()
 	{
-		return (unsigned)_ScriptName;
+		return (unsigned)_ScriptId;
 	}
 	void SetScript(unsigned scriptName)
 	{
-		_ScriptName = (ScriptNames)scriptName;
+		_ScriptId = (ScriptId)scriptName;
 	}
 //////////////////////////////////////////////////////////////
 // All Script()s below
@@ -82,12 +82,12 @@ public:
 
 
 class TestGO {
-	Script script;
+	Script scriptId;
 public:
 	TestGO() = default;
-	TestGO(ScriptNames in)
+	TestGO(ScriptId in)
 	{
-		script = Script(in);
+		scriptId = Script(in);
 	}
 	~TestGO() = default;
 };

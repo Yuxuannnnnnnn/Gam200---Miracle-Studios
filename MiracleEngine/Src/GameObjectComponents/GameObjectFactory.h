@@ -1,8 +1,87 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 #include "GameObject.h"
-//#include "Tools/FileIO.h"
 
+class ResourceManager
+{
+	//	start with the basic resources manager, single class that ctrl all loading freeing of HDD stuff
+	//	not absolutely necessary to load ALL resources at start.
+	//	GOFac should have a resources manager, which based on which level im loading, which assets I should load
+	//	level file, at the top, should have a list of all assets to load, then loadand then continue the instancing of the level
+	//	can worry about this after segment
+	//	when saving a level in editor, it should save the assets necessary, and then save the instancing of the objects
+	//	will have func() to load things like texture, obj prefabbing, audio, etc
+};
+
+typedef std::unordered_map<GameObjectTypeID, GameObject*> PrototypeList;
+class GameObjectProrotype // : ISingleton ????
+{
+	//Dynaic array of GameObject Prototypes
+	PrototypeList _listObjectPrototype;
+public:
+	GameObjectProrotype() {}
+	~GameObjectProrotype()
+	{
+		for (auto gameObject : _listObjectPrototype)
+			delete gameObject.second;
+	}
+	PrototypeList& GetPrototypeList()
+	{
+		return _listObjectPrototype;
+	}
+
+	//Create a gameObject type along with its Components
+	GameObject* PrefabGameObject(GameObjectTypeID typeId)
+	{
+		size_t uId = 0;
+		GameObject* gameObject = nullptr;
+		switch (typeId)
+		{
+		case PLAYER:
+			gameObject = new Player(uId);
+			gameObject->SerialInPrefab();
+			break;
+		case WALL:
+			break;
+			//Other Objects
+		}
+		return gameObject;
+	}
+
+	//Create a gameObject type along with its Components
+	GameObject* CloneGameObject(GameObjectTypeID typeId)
+	{
+		GameObject* gameObject = nullptr;
+
+		switch (typeId)
+		{
+		case PLAYER:
+			gameObject = new Player(0);
+			gameObject->SerialInPrefab();
+			break;
+		case WALL:
+			break;
+			//Other Objects
+		}
+		return gameObject;
+	}
+
+	// call on start up
+	void Init() {
+		// get all prorotypes and save it into the _listObjectPrototype(map)
+		// get list of all objects
+	//	std::vector<std::string>listOfObjs =
+	//		FileRead_FileToStringVector("./Resources/TextFiles/ListOfGameObjects.txt");
+				//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(PLAYER, CreateGameObject(PLAYER)));
+				//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(WALL, CreateGameObject(WALL)));
+		// serialise each object
+	}
+	void Update() { // works as Load()
+
+	}
+	void Exit() {
+	}
+};
 
 
 //No inheritance 
@@ -12,19 +91,19 @@ class GameObjectFactory final
 private:
 
 	//Dynamic array of GameObjects
-	std::map < size_t, IGameObject* > _listObject;
+	std::map < size_t, GameObject* > _listObject;
 	//Dynaic array of GameObject Prototypes
-	std::map < GameObjectTypeID, IGameObject* > _listObjectPrototype;
+	std::map < GameObjectTypeID, GameObject* > _listObjectPrototype;
 
 	//Unique ID for the next newly created object
-	size_t _id;
+	size_t _uId;
 
 	//Array of GraphicComponents for GraphicsSystem
 	std::map < size_t, GraphicComponent* >  _graphicComponents;
 	//Array of TransformComponents for GraphicsSystem
-	std::map < size_t, TransformComponent* >  _transformComponents;	
+	std::map < size_t, TransformComponent* >  _transformComponents;
 	//Array of RigidBodyComponent 
-	std::map < size_t, RigidBodyComponent* >  _rigidBodyComponents;	
+	std::map < size_t, RigidBodyComponent* >  _rigidBodyComponents;
 	//Array of PhysicsComponent 
 	std::map < size_t, PhysicsComponent* >  _physicsComponent;
 
@@ -45,7 +124,7 @@ public:
 	const std::map < size_t, RigidBodyComponent* >& getRigidBodyComponent() const;
 	const std::map < size_t, PhysicsComponent* >& getPhysicsComponent() const;
 
-	const std::map<size_t, IGameObject*>& getObjectlist() const;
+	const std::map<size_t, GameObject*>& getObjectlist() const;
 
 	//Deleting a gameObject entirely from the gameObjectFactory
 	void DeleteGameObjectID(size_t id)
@@ -60,32 +139,33 @@ public:
 	}
 
 	//Create a gameObject type along with its Components
-	IGameObject* CreateGameObject(GameObjectTypeID typeId)
+	GameObject* CreateGameObject(GameObjectTypeID typeId)
 	{
-		IGameObject* gameObject = nullptr;
+		GameObject* gameObject = nullptr;
 
 		switch (typeId)
 		{
 		case PLAYER:
-			gameObject = new Player(_id);
-			_listObject[_id] = gameObject;
+			gameObject = new Player(_uId);
+			_listObject[_uId] = gameObject;
 
-			_transformComponents[_id] = dynamic_cast<TransformComponent*> (gameObject->addcomponent(TRANSFORMCOMPONENT));
-			_graphicComponents[_id] = dynamic_cast<GraphicComponent*> (gameObject->addcomponent(GRAPHICSCOMPONENT));
-			_rigidBodyComponents[_id] = dynamic_cast<RigidBodyComponent*> (gameObject->addcomponent(RIGIDBODYCOMPONENT));
-			_physicsComponent[_id] = dynamic_cast<PhysicsComponent*> (gameObject->addcomponent(PHYSICSCOMPONENT));
+			_transformComponents[_uId] = dynamic_cast<TransformComponent*> (gameObject->addcomponent(TRANSFORMCOMPONENT));
+			_graphicComponents[_uId] = dynamic_cast<GraphicComponent*> (gameObject->addcomponent(GRAPHICSCOMPONENT));
+			_rigidBodyComponents[_uId] = dynamic_cast<RigidBodyComponent*> (gameObject->addcomponent(RIGIDBODYCOMPONENT));
+			_physicsComponent[_uId] = dynamic_cast<PhysicsComponent*> (gameObject->addcomponent(PHYSICSCOMPONENT));
 
-			_id++;
+			_uId++;
 			break;
 		case WALL:
 			break;
-		//Other Objects
+			//Other Objects
 		}
 		return gameObject;
 	}
 	//Create a gameObject type along with its Components
-	IGameObject* CloneGameObject(GameObjectTypeID gameObjectTypeID)
+	GameObject* CloneGameObject(GameObjectTypeID gameObjectTypeID)
 	{
+		(void)gameObjectTypeID;
 		_listObjectPrototype[PLAYER];
 	}
 	void ObjectClone()
@@ -100,8 +180,8 @@ public:
 		// get list of all objects
 	//	std::vector<std::string>listOfObjs =
 	//		FileRead_FileToStringVector("./Resources/TextFiles/ListOfGameObjects.txt");
-		_listObjectPrototype.insert(std::pair < GameObjectTypeID, IGameObject*>(PLAYER, CreateGameObject(PLAYER)));
-		_listObjectPrototype.insert(std::pair < GameObjectTypeID, IGameObject*>(WALL, CreateGameObject(WALL)));
+		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(PLAYER, CreateGameObject(PLAYER)));
+		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(WALL, CreateGameObject(WALL)));
 		// serialise each object
 	}
 	void Update() { // works as Load()
@@ -122,7 +202,7 @@ public:
 	/**
 	\brief Read LevelText and Instantiate GObj
 	*/
-	std::vector<IGameObject*> FileRead_Level(const char* FileName)
+	std::vector<GameObject*> FileRead_Level(const char* FileName)
 	{ // will move to ObjectFactory
 		std::fstream _file;
 		_file.open(FileName, std::ios_base::in | std::ios_base::binary);
@@ -130,7 +210,7 @@ public:
 		{
 			std::cout << "! WARNING !! File Cannot Open!!!" << std::endl
 				<< ". // Resources // TextFiles // TestLevel.txt" << std::endl;
-			std::vector<IGameObject*> null;
+			std::vector<GameObject*> null;
 			return null;
 		}
 		char* strType = new char[20];
@@ -176,7 +256,7 @@ public:
 		delete[] strNum2;
 
 		// instantiate objs into objList
-		std::vector<IGameObject*> ret;
+		std::vector<GameObject*> ret;
 		std::vector<TempGO>::iterator itr = GOVec.begin();
 		while (itr != GOVec.end())
 		{

@@ -48,6 +48,7 @@
     <ClCompile Include="Src\LogicSystem\AI.cpp" />
     <ClCompile Include="Src\LogicSystem\LogicSystem.cpp" />
     <ClCompile Include="Src\LogicSystem\Script.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -393,6 +394,7 @@
     <ClInclude Include="Src\LogicSystem\GameState.h" />
     <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
     <ClInclude Include="Src\LogicSystem\Script.h" />
+    <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

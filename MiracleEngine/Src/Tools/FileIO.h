@@ -1,27 +1,6 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 
-//// IO stuff
-//#include <fstream>	// File IO
-//#include <iostream>	// Console Shite
-//#include <iomanip>	// setw, setprecision
-//#include <assert.h>	// Very assertive indeed
-////#include <limits>	// std::numeric_limits
-//
-//// rapidJson stuff
-//#include "rapidjson.h"		// J
-//#include "document.h"		// S
-//#include "writer.h"			// O
-//#include "stringbuffer.h"	// N
-//#include "error/en.h"		// Json error displaying
-////#include <filereadstream.h>	// Stoof
-//
-//
-//// STL stuff
-//#include <iterator>	// STL stuff
-//#include <string>	// strings
-//#include <vector>	// vectors
-
 #define ASSERT(condition) { if(!(condition)) \
 { \
 	std::cerr << "ASSERT FAILED: " << #condition << " @ " << __FILE__ << " (" << __LINE__ << ")" << std::endl; \
@@ -29,44 +8,12 @@
 	(_wassert(_CRT_WIDE(#condition), _CRT_WIDE(__FILE__), (unsigned)(__LINE__)), 0);} \
 }
 
-//struct Vec2 {
-//	float _x{ 0.0 }, _y{ 0.0 };
-//	Vec2() = default;
-//};
-//
-//
-//struct Initi {
-//	int _ResX{ 0 }, _ResY{ 0 };
-//	bool _Fullscreen{ false };
-//	Initi() {}
-//	~Initi() {}
-//};
-//
-//
-//struct Playa {
-//
-//	Vec2 _Transform;
-//	int _HP{ 0 };
-//	float _SPD{ 0.0f };
-//	std::vector<int> _Weap;
-//	bool _Alive{ false };
-//};
-
 
 //	const char* path_player = "./Resources/TextFiles/player.json";
 //	const char* path_init = "./Resources/TextFiles/init.json";
 //	const char* path_outTest = "./Resources/TextFiles/test.txt";
 //	const char* path_crashLog = "./Resources/TextFiles/crashlog.txt";
 //}
-
-//struct Initi { // only for taking all input stuff at once
-//	int _ResX{ 0 }, _ResY{ 0 };
-//	bool _Fullscreen{ false };
-//	Initi() {}
-//	~Initi() {}
-//};	// need move to somewhere in the init stuff
-
-
 
 
 /**
@@ -96,7 +43,7 @@ void JsonDynamicStore(unsigned int& store, rapidjson::Value& val);
 void JsonDynamicStore(std::vector<int>& store, rapidjson::Value& val);
 void JsonDynamicStore(std::vector<float>& store, rapidjson::Value& val);
 void JsonDynamicStore(std::vector<unsigned int>& store, rapidjson::Value& val);
-//void JsonDynamicStore(Vector3& store, rapidjson::Value& val);
+void JsonDynamicStore(Vector3& store, rapidjson::Value& val);
 //void JsonDynamicStore(TransformComponent* store, rapidjson::Value& val, ComponentTypes type);
 
 class ISerial {

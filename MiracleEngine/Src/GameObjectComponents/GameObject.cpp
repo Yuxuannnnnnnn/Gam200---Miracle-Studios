@@ -2,15 +2,15 @@
 #include "GameObject.h"
 
 //-----------------------------------
-// IGameObject : ISerial
+// GameObject : ISerial
 // START
 //-----------------------------------
-IGameObject::IGameObject(unsigned uId)
-	:_uId{ uId }
+GameObject::GameObject(size_t uId, size_t typeId)
+	:_uId{ uId }, _typeId{ typeId }
 {
 }
 
-IGameObject::~IGameObject()
+GameObject::~GameObject()
 {
 	std::unordered_map< ComponentTypes, IComponentSystem* >::iterator iterator = _ComponentList.begin();
 	while (iterator != _ComponentList.end())
@@ -20,13 +20,13 @@ IGameObject::~IGameObject()
 	}
 }
 
-std::string IGameObject::GameObjectType() const
+std::string GameObject::GameObjectType() const
 {
 	return "test";
 }
 
 //Add a specific component to the GameObject
-IComponentSystem* IGameObject::addcomponent(ComponentTypes componentType)
+IComponentSystem* GameObject::addcomponent(ComponentTypes componentType)
 {
 	switch (componentType)
 	{
@@ -47,8 +47,8 @@ IComponentSystem* IGameObject::addcomponent(ComponentTypes componentType)
 }
 
 // 'addcomponent' Varient for Serialization, allows addComponent during serialization
-void IGameObject::SerialAddComponent
-	(ComponentTypes componentType, rapidjson::Value& s, rapidjson::Document& d)
+void GameObject::SerialAddComponent
+(ComponentTypes componentType, rapidjson::Value& s, rapidjson::Document& d)
 {
 	switch (componentType)
 	{
@@ -57,9 +57,9 @@ void IGameObject::SerialAddComponent
 		_ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
 		temp = _ComponentList[TRANSFORMCOMPONENT];
 		s = d["Position"];
-		//JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
+		JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
 		s = d["Scale"];
-		//JsonDynamicStore(((TransformComponent*)temp)->GetScale(), s);
+		JsonDynamicStore(((TransformComponent*)temp)->GetScale(), s);
 		s = d["Rotate"];
 		JsonDynamicStore(((TransformComponent*)temp)->GetRotate(), s);
 		return;
@@ -76,14 +76,15 @@ void IGameObject::SerialAddComponent
 }
 
 // Cloning IGO
-IGameObject* IGameObject::Clone(Vector3 pos, Vector3 scale, float rotate)
+GameObject* GameObject::Clone(Vector3 pos, Vector3 scale, float rotate)
 {
-	return new IGameObject();
+	(void)pos; (void)scale; (void)rotate;
+	return new Player(0);
 }
 
 //-----------------------------------
 // END
-// IGameObject
+// GameObject
 //-----------------------------------
 
 

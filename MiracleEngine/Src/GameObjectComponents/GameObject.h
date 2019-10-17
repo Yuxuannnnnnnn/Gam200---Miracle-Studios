@@ -21,14 +21,10 @@
 */
 enum GameObjectTypeID {
 	UNKNOWN = 0,
-
-	WALL = 1, FLOOR = 2, OBSTACLE = 3, //Setting
-
-	PLAYER = 4, ENEMY = 5, //Mobile objects
-
-	PISTOL = 6, SHOTGUN = 7, SNIPER = 8, RPG = 9 //Weapons
+	WALL, FLOOR, OBSTACLE, //Setting
+	PLAYER, ENEMY, //Mobile objects
+	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
 };
-
 
 enum ComponentTypes
 {
@@ -39,39 +35,42 @@ enum ComponentTypes
 };
 
 
-class IGameObject : public ISerial
+class GameObject : public ISerial
 {
 public:
-
+	// Component List
 	std::unordered_map < ComponentTypes, IComponentSystem* > _ComponentList;
+	// GameObject Type
+	size_t _typeId;
+	// Unique ID
+	size_t _uId;
 
-
-	unsigned _typeId;	// GameObject Type
-	unsigned _uId;		// Unique ID
 	// Ctor : Inits w/ a Unique id
-	IGameObject(unsigned uId = 0);
+	GameObject(size_t uId = 0, size_t typeId = 0);
 	// Dtor : Deletes all Components in a Game Object
-	virtual ~IGameObject();
-	
-	virtual void Init() {}
-	virtual void Update() {}
-	virtual void Exit() {}
-
-	//Return GameObjectType Name
+	virtual ~GameObject();
+	// Return GameObjectType Name
 	virtual std::string GameObjectType() const;
-
-	//Add a specific component to the GameObject
+	// InUpEx
+	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }
+	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }
+	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }
+	// Components
+		//Add a specific component to the GameObject
 	IComponentSystem* addcomponent(ComponentTypes componentType);
-
 	// 'addcomponent' Varient for Serialization, allows addComponent during serialization
 	void SerialAddComponent
 	(ComponentTypes componentType, rapidjson::Value& s, rapidjson::Document& d);
+	// based on ComponentIdList, copy from original and create new ones for a given obj
+	void CopyComponent
+	(std::map< ComponentTypes, IComponentSystem* > original);
+	// Cloning
+	virtual GameObject* Clone(Vector3 pos, Vector3 scale, float rotate);
 
-	virtual IGameObject* Clone(Vector3 pos, Vector3 scale, float rotate);
 };
 
 
-class Weapon: public IGameObject
+class Weapon: public GameObject
 {
 private:
 
@@ -79,8 +78,8 @@ private:
 
 public:
 	Weapon() = default;
-	Weapon(unsigned id, float firerate) 
-		: IGameObject(id), _FireRate{ firerate } 
+	Weapon(size_t id, float firerate)
+		: GameObject(id, WEAPON), _FireRate{ firerate }
 	{}
 
 	~Weapon() = default;
@@ -92,36 +91,45 @@ public:
 };
 
 
-class Player : public IGameObject
+class Player : public GameObject
 {
 	unsigned int _Health{ 0 };
 	float _Speed{ 0.0f };
-	std::vector<unsigned> _WeaponListId;
+	std::vector<int> _WeaponListId;
 	std::vector<Weapon> _WeaponList;
 public:
-	Player(unsigned id)
-		:IGameObject(id)
+	// Ctor
+	Player(size_t uId)
+		:GameObject(uId, PLAYER) // init with uId & type::PLAYER
 	{
+	}
+	// Dtor
+	~Player() {}
+	// InUpEx
+	virtual void Init() override {
 		SerialInPrefab();
 	}
-	~Player() {}
-
+	virtual void Update() override {
+	}
+	virtual void Exit() override {
+	}
+	// FileIO
 	virtual void SerialInPrefab() override {
-	// Get & Parse File
+		// Get & Parse File
 		std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
 		rapidjson::Document d;
 		char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/playerNew.json");
 		ASSERT(iBuffer != nullptr);
 		std::cout << iBuffer << std::endl;
 		d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
-	// Component List
+		// Component List
 		rapidjson::Value& s = d["ComponentList"];
 		std::vector<int> compList;
-		JsonDynamicStore(compList,s);
+		JsonDynamicStore(compList, s);
 		std::vector<int>::iterator itr = compList.begin();
 		while (itr != compList.end())
-			SerialAddComponent((ComponentTypes) *itr++, s, d);
-	// Other Values
+			SerialAddComponent((ComponentTypes)* itr++, s, d);
+		// Other Values
 		s = d["Health"];
 		JsonDynamicStore(_Health, s);
 		s = d["Speed"];
@@ -134,22 +142,24 @@ public:
 		PrintStats(); // for checking serialisation
 	}
 	virtual void SerialInLevel() override {
+	}
+	// Cloning
+	Player& Clone(Player& original, unsigned id, Vector3 pos, Vector3 scale, float rotate)
+	{
+		(void)id; (void)pos; (void)scale; (void)rotate;
 
+		Player temp = original;
+		return temp;
 	}
-	virtual void Init() override {
-	}
-	virtual void Update() override {
-	}
-	virtual void Exit() override {
-	}
-
+	// Others - WeapID to Weap helper()
 	void ConvertWeaponIdToWeapon() {
 		_WeaponList.clear();
-		std::vector<unsigned int>::iterator itr = _WeaponListId.begin();
+		std::vector<int>::iterator itr = _WeaponListId.begin();
 		while (itr != _WeaponListId.end()) {
 			_WeaponList.push_back(Weapon(*itr, 0.0f));
 		}
 	}
+	// Others - print to check seriaisation
 	void PrintStats() {
 		TransformComponent* tempTrans =
 			dynamic_cast<TransformComponent*>(_ComponentList[TRANSFORMCOMPONENT]);
@@ -161,66 +171,15 @@ public:
 			<< "Health :    " << _Health << std::endl
 			<< "Speed :     " << _Speed << std::endl
 			<< "Weapons :   ";
-		std::vector<unsigned>::iterator itr = _WeaponListId.begin();
+		std::vector<int>::iterator itr = _WeaponListId.begin();
 		while (itr != _WeaponListId.end())
 			std::cout << *itr++;
 		std::cout << std::endl
 			<< "-------------------------------------"
 			<< std::endl;
 	}
-	/*
-	void Serialize() {
-		// just bring over the FileRead_PlayerInfo from the FileIO.cpp
-		// file path can now be put here since all serailization will be done within the this cpp
 
-	// just bring over the FileRead_PlayerInfo from the FileIO.cpp
-	// file path can now be put here since all serailization will be done within the this cpp
-	std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
-	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr(FilePathNames::path_player);
-	std::cout << iBuffer << std::endl;
-	assert(iBuffer != nullptr);
-	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
-// get values from the Document;
-	rapidjson::Value& s = d["Health"];
-		JsonDynamicStore(_Health, s);
-	s = d["Speed"];
-		JsonDynamicStore(_Speed, s);
-	s = d["Weapons"];
-		JsonDynamicStore(_WeaponListId, s);
-	TransformComponent* tempTrans =
-		dynamic_cast<TransformComponent*>(_ComponentList[TRANSFORMCOMPONENT]);
-	s = d["Position"];
-		JsonDynamicStore(tempTrans->GetPos(), s);
-	s = d["Scale"];
-		JsonDynamicStore(tempTrans->GetScale(), s);		
-	s = d["Rotation"];
-		JsonDynamicStore(tempTrans->GetRotate(), s);
 
-	std::cout << "-------------------------------------" << std::endl;
-
-	delete[] iBuffer;
-	}
-
-	void PrintStats() {
-		TransformComponent* tempTrans =
-			dynamic_cast<TransformComponent*>(_ComponentList[TRANSFORMCOMPONENT]);
-		std::cout
-			<< "FilePrint_PlayerInfo ----------------" << std::endl
-			<< "Trans.Pos : " << tempTrans->GetPos() << std::endl
-			<< "Trans.Sca : " << tempTrans->GetScale() << std::endl
-			<< "Trans.Rot : " << tempTrans->GetRotate() << std::endl
-			<< "Health :    " << _Health << std::endl
-			<< "Speed :     " << _Speed << std::endl
-			<< "Weapons :   ";
-		std::vector<unsigned>::iterator itr = _WeaponListId.begin();
-		while (itr != _WeaponListId.end())
-			std::cout << *itr++;
-		std::cout << std::endl
-			<< "-------------------------------------"
-			<< std::endl;
-	}
-	*/
 
 	std::string GameObjectType() const override
 	{
