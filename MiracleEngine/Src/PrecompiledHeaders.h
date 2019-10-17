@@ -53,13 +53,13 @@
 #include "GameObjectComponents/RigidBodyComponent.h"
 #include "GameObjectComponents/TransformComponent.h"
 #include "GameObjectComponents/PhysicsComponent.h"
+#include "GameObjectComponents/LogicComponent.h"
 #include "GameObjectComponents/GameObject.h"
 #include "GameObjectComponents/GameObjectFactory.h"
 
 #include "Tools/FrameRateController.h"
 
-/**
-\brief Constructor for background
-\param data, width, height, depth
-\return float
-*/
+#include "LogicSystem/LogicSystem.h"
+#include "LogicSystem/Script.h"
+#include "LogicSystem/AI.h"
+#include "LogicSystem/GameState.h"

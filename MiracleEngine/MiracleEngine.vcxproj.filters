@@ -45,6 +45,9 @@
     <ClCompile Include="Src\MathLib\SYMath.cpp" />
     <ClCompile Include="Src\MathLib\Vector2.cpp" />
     <ClCompile Include="Src\MathLib\Vector3.cpp" />
+    <ClCompile Include="Src\LogicSystem\AI.cpp" />
+    <ClCompile Include="Src\LogicSystem\LogicSystem.cpp" />
+    <ClCompile Include="Src\LogicSystem\Script.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -386,6 +389,10 @@
     <ClInclude Include="Src\Tools\EventHandler.h" />
     <ClInclude Include="Src\MathLib\Matrix3x3.h" />
     <ClInclude Include="Src\MathLib\SYMath.h" />
+    <ClInclude Include="Src\LogicSystem\AI.h" />
+    <ClInclude Include="Src\LogicSystem\GameState.h" />
+    <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
+    <ClInclude Include="Src\LogicSystem\Script.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

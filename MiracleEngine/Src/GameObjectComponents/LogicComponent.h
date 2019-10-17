@@ -37,13 +37,11 @@ public:
 
 	void Init()
 	{
-		keyboard.Init();
 		_InputStyle = INGAME;
 	}
 	void Update() // supposedly all components should have an Init,Update,Exit(), so need add override
 	{
-		keyboard.Update(); // get new keyboard state
-		Logic_Input(keyboard, _InputStyle);
+
 	}
 
 
