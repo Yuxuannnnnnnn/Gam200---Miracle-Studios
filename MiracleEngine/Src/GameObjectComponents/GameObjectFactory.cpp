@@ -1,17 +1,12 @@
 #include "PrecompiledHeaders.h"
 #include "GameObjectFactory.h"
 
-//void GameObjectFactory::Init() 
-
-
 //Constructor
 GameObjectFactory::GameObjectFactory()
 	:_uId{ 0 }
 {
 	Init();
 }
-
-
 
 //Destructor
 //Deletes all gameObjects in the gameObjectFactory
@@ -31,32 +26,36 @@ GameObjectFactory::~GameObjectFactory()
 	//}
 }
 
+GameObjectFactory* GameObjectFactory::GetGOFac()
+{
+	return this;
+}
 
-const std::map < size_t, GraphicComponent* >&
+const std::unordered_map < size_t, GraphicComponent* >&
 GameObjectFactory::getGraphicComponent() const
 {
 	return _graphicComponents;
 }
 
-const std::map < size_t, TransformComponent* >&
+const std::unordered_map < size_t, TransformComponent* >&
 GameObjectFactory::getTransformComponent() const
 {
 	return _transformComponents;
 }
 
-const std::map < size_t, RigidBodyComponent* >&
+const std::unordered_map < size_t, RigidBodyComponent* >&
 GameObjectFactory::getRigidBodyComponent() const
 {
 	return _rigidBodyComponents;
 }
 
-const std::map < size_t, PhysicsComponent* >&
+const std::unordered_map < size_t, PhysicsComponent* >&
 GameObjectFactory::getPhysicsComponent() const
 {
 	return _physicsComponent;
 }
 
-const std::map<size_t, GameObject*>&
+const std::unordered_map<size_t, GameObject*>&
 GameObjectFactory::getObjectlist() const
 {
 	return _listObject;

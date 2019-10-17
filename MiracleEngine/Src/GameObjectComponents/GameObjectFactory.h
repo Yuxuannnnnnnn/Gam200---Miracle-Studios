@@ -14,6 +14,7 @@ class ResourceManager
 };
 
 typedef std::unordered_map<GameObjectTypeID, GameObject*> PrototypeList;
+
 class GameObjectProrotype // : ISingleton ????
 {
 	//Dynaic array of GameObject Prototypes
@@ -90,43 +91,45 @@ class GameObjectFactory final
 {
 private:
 
-	//Dynamic array of GameObjects
-	std::map < size_t, GameObject* > _listObject;
-	//Dynaic array of GameObject Prototypes
-	std::map < GameObjectTypeID, GameObject* > _listObjectPrototype;
+//Dynamic array of GameObjects
+	std::unordered_map < size_t, GameObject* > _listObject;
+//Dynaic array of GameObject Prototypes
+	PrototypeList _listObjectPrototype;
 
-	//Unique ID for the next newly created object
+//Unique ID for the next newly created object
 	size_t _uId;
 
-	//Array of GraphicComponents for GraphicsSystem
-	std::map < size_t, GraphicComponent* >  _graphicComponents;
-	//Array of TransformComponents for GraphicsSystem
-	std::map < size_t, TransformComponent* >  _transformComponents;
-	//Array of RigidBodyComponent 
-	std::map < size_t, RigidBodyComponent* >  _rigidBodyComponents;
-	//Array of PhysicsComponent 
-	std::map < size_t, PhysicsComponent* >  _physicsComponent;
+//Array of GraphicComponents for GraphicsSystem
+	std::unordered_map < size_t, GraphicComponent* >  _graphicComponents;
+//Array of TransformComponents for GraphicsSystem
+	std::unordered_map < size_t, TransformComponent* >  _transformComponents;
+//Array of RigidBodyComponent 
+	std::unordered_map < size_t, RigidBodyComponent* >  _rigidBodyComponents;
+//Array of PhysicsComponent 
+	std::unordered_map < size_t, PhysicsComponent* >  _physicsComponent;
+//Array of LogicComponent 
+	std::unordered_map < size_t, LogicComponent* >  _logicComponent;
 
 public:
-	//No replication of class object
+//No replication of class object
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
 	GameObjectFactory& operator= (const GameObjectFactory& rhs) = delete;
 
-	//Constructor
+//Constructor
 	GameObjectFactory();
-
-	//Destructor
-	//Deletes all gameObjects in the gameObjectFactory
+//Destructor
 	~GameObjectFactory();
+//Get self
+	GameObjectFactory* GetGOFac();
+//Get Components
+	const std::unordered_map < size_t, GraphicComponent* >& getGraphicComponent() const;
+	const std::unordered_map < size_t, TransformComponent* >& getTransformComponent() const;
+	const std::unordered_map < size_t, RigidBodyComponent* >& getRigidBodyComponent() const;
+	const std::unordered_map < size_t, PhysicsComponent* >& getPhysicsComponent() const;
 
-	const std::map < size_t, GraphicComponent* >& getGraphicComponent() const;
-	const std::map < size_t, TransformComponent* >& getTransformComponent() const;
-	const std::map < size_t, RigidBodyComponent* >& getRigidBodyComponent() const;
-	const std::map < size_t, PhysicsComponent* >& getPhysicsComponent() const;
+	const std::unordered_map < size_t, GameObject*>& getObjectlist() const;
 
-	const std::map<size_t, GameObject*>& getObjectlist() const;
-
-	//Deleting a gameObject entirely from the gameObjectFactory
+//Deleting a gameObject entirely from the gameObjectFactory
 	void DeleteGameObjectID(size_t id)
 	{
 		delete _listObject[id];
@@ -138,7 +141,7 @@ public:
 		_physicsComponent.erase(id);
 	}
 
-	//Create a gameObject type along with its Components
+//Create a gameObject type along with its Components
 	GameObject* CreateGameObject(GameObjectTypeID typeId)
 	{
 		GameObject* gameObject = nullptr;
@@ -162,7 +165,7 @@ public:
 		}
 		return gameObject;
 	}
-	//Create a gameObject type along with its Components
+//Create a gameObject type along with its Components
 	GameObject* CloneGameObject(GameObjectTypeID gameObjectTypeID)
 	{
 		(void)gameObjectTypeID;

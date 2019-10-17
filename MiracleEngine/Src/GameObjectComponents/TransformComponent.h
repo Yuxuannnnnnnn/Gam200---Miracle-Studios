@@ -5,6 +5,7 @@
 class TransformComponent: public IComponentSystem
 {
 private:
+	size_t _ParentId;
 	Vector3 _pos;
 	Vector3 _scale;
 	float _rotationAngle;
@@ -26,6 +27,11 @@ public:
 
 	}
 
+// GetPID
+	size_t GetParentId() const override
+	{
+		return _ParentId;
+	}
 	Vector3& GetPos()
 	{ return _pos; }
 	void SetPos(const Vector3& in)

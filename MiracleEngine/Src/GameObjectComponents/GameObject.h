@@ -4,6 +4,7 @@
 #include "RigidBodyComponent.h"
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
+#include "LogicComponent.h"
 #include "Tools/FileIO.h"
 #include <unordered_map>
 
@@ -38,25 +39,25 @@ enum ComponentTypes
 class GameObject : public ISerial
 {
 public:
-	// Component List
+// Component List
 	std::unordered_map < ComponentTypes, IComponentSystem* > _ComponentList;
-	// GameObject Type
+// GameObject Type
 	size_t _typeId;
-	// Unique ID
+// Unique ID
 	size_t _uId;
 
-	// Ctor : Inits w/ a Unique id
+// Ctor : Inits w/ a Unique id
 	GameObject(size_t uId = 0, size_t typeId = 0);
-	// Dtor : Deletes all Components in a Game Object
+// Dtor : Deletes all Components in a Game Object
 	virtual ~GameObject();
-	// Return GameObjectType Name
+// Return GameObjectType Name
 	virtual std::string GameObjectType() const;
-	// InUpEx
+// InUpEx
 	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }
 	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }
 	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }
-	// Components
-		//Add a specific component to the GameObject
+// Components
+	//Add a specific component to the GameObject
 	IComponentSystem* addcomponent(ComponentTypes componentType);
 	// 'addcomponent' Varient for Serialization, allows addComponent during serialization
 	void SerialAddComponent
@@ -64,7 +65,7 @@ public:
 	// based on ComponentIdList, copy from original and create new ones for a given obj
 	void CopyComponent
 	(std::map< ComponentTypes, IComponentSystem* > original);
-	// Cloning
+// Cloning
 	virtual GameObject* Clone(Vector3 pos, Vector3 scale, float rotate);
 
 };

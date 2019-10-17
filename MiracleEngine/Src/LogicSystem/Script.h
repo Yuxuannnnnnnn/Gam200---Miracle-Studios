@@ -1,93 +1,94 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 
-enum ScriptId {
-	// note, this is supposed to co-relate to the
-	// list of scripts in bottom half of this file
-	EMPTY = 0,
-	TEST1 = 1,
-	MOVE,
-	HEALTHMINUS,
-};
+namespace Script1 {
+	void Update()
+	{
+		std::cout << "SCRIPT - 1" << std::endl;
+	}
+}
 
-class Script
-{
-	// list of scripts
-	ScriptId _ScriptId;
-public:
-	Script() = default;
-	Script(ScriptId scriptId)
+namespace Script2 {
+	void Update()
 	{
-		SetScript(scriptId);
+		std::cout << "SCRIPT - 2" << std::endl;
 	}
-	~Script() = default;
-	Script(const Script& rhs) = default;
-	Script& operator=(const Script& rhs) = default;
-// InUpEx
-	void Init()
+}
+
+namespace InputScript {
+	enum Logic_Keyboard_Style {
+		OFF = 0,
+
+		MAIN_MENU,
+
+		INGAME,
+		INGAME_PAUSE_ESCAPE,
+		INGAME_PAUSE_LEVELUP,
+	};
+
+	Logic_Keyboard_Style _InputStyle{ OFF };
+	InputSystem keyboard;
+
+	// functions to check key UpDownHold for chosen keys
+	// GetKeyDown(AE_LEFT); GetKeyUp(ESCAPE); GetKeyHold(MB_RIGHT);
+	void Logic_Input_MainMenu(InputSystem keyboard) // for menu input
 	{
+		// for MainMenu
 	}
-	void Update(ScriptId scriptId)
+	Vector3 Logic_Input_Ingame(InputSystem keyboard) // for in game input
 	{
-		// depending of _ScriptName, run that particular script
-		switch ((ScriptId)scriptId)
+		Vector3 moveResult; // for throwing resultant movement force to player
+
+	// OTHERS
+		if (keyboard.KeyDown(KEYB_ESCAPE)) // open pause menu
+			_InputStyle = INGAME_PAUSE_ESCAPE;
+		// MOVEMENT		// in future need to do a speed multi OR leave it to phy to do it?
+		if (keyboard.KeyDown(KEYB_W))
+			moveResult.Y(1.0f);
+		if (keyboard.KeyDown(KEYB_S))
+			moveResult.Y(-1.0f);
+		if (keyboard.KeyDown(KEYB_D))
+			moveResult.X(1.0f);
+		if (keyboard.KeyDown(KEYB_A))
+			moveResult.X(-1.0f);
+		// MOUSE
+		if (keyboard.KeyDown(MOUSE_LBUTTON))
+			(void)1; // Shoot	
+		if (keyboard.KeyDown(MOUSE_RBUTTON))
+			(void)1; // Do something
+
+	// give resultant to player
+		return moveResult;
+	}
+	void Logic_Input_IngamePause(InputSystem keyboard) // for ingame pause
+	{
+		// for InGame on Death, Upgrade, Levelup, EscapeKeyPress
+
+		if (keyboard.KeyDown(KEYB_ESCAPE)) // exit pause menu
+			_InputStyle = INGAME;
+	}
+
+	void Update(int inputStyle)
+	{
+		std::cout << "SCRIPT - InputScript" << std::endl;
+
+		_InputStyle = (Logic_Keyboard_Style)inputStyle;
+
+		switch (_InputStyle)
 		{
-		case EMPTY:
-			Test();
+		case OFF:
 			return;
-		case TEST1:
-			Test1();
-			return;			
-		case MOVE:
-			//script = (void*)Move;
-			//void* (*funcPointerC)() = reinterpret_cast<void* (*)()>(funcInt);
+		case MAIN_MENU:
+			Logic_Input_MainMenu(keyboard);
 			return;
-		case HEALTHMINUS:
+		case INGAME:
+			Logic_Input_Ingame(keyboard);
+			return;
+		case INGAME_PAUSE_ESCAPE:
+			Logic_Input_IngamePause(keyboard);
+			return;
+		default:
 			return;
 		}
 	}
-	void Exit()
-	{
-		// ?
-	}
-// Others
-	// GetSet
-	unsigned GetScript()
-	{
-		return (unsigned)_ScriptId;
-	}
-	void SetScript(unsigned scriptName)
-	{
-		_ScriptId = (ScriptId)scriptName;
-	}
-//////////////////////////////////////////////////////////////
-// All Script()s below
-	void Test()
-	{
-		std::cout << "Script - Test()" << std::endl;
-	}
-	void Test1(int x = 10)
-	{
-		std::cout << "Script - Test1() " << x << std::endl;
-	}
-	void Move(Vector3& move)
-	{
-		// take parent GO, move by a vector
-	}
-	void HealthMius(int val)
-	{
-		// take parent GO, get its HP, minus by 'val'
-	}
-};
-
-
-class TestGO {
-	Script scriptId;
-public:
-	TestGO() = default;
-	TestGO(ScriptId in)
-	{
-		scriptId = Script(in);
-	}
-	~TestGO() = default;
-};
+}
