@@ -57,8 +57,8 @@ public:
 		switch (typeId)
 		{
 		case PLAYER:
-			gameObject = new Player(0);
-			gameObject->SerialInPrefab();
+			//gameObject = new Player(0);
+			//gameObject->SerialInPrefab();
 			break;
 		case WALL:
 			break;
@@ -199,6 +199,8 @@ public:
 		Vector3 pos{ Vector3() };
 		Vector3 scale{ Vector3() };
 		float rot{ 0.0f };
+		//int scriptId{ 0 };
+	// funcs()
 		TempGO() {}
 		~TempGO() {}
 	};

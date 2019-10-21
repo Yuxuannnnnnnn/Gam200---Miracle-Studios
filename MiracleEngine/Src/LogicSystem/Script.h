@@ -27,45 +27,45 @@ namespace InputScript {
 	};
 
 	Logic_Keyboard_Style _InputStyle{ OFF };
-	InputSystem keyboard;
+	//InputSystem keyboard;
 
 	// functions to check key UpDownHold for chosen keys
 	// GetKeyDown(AE_LEFT); GetKeyUp(ESCAPE); GetKeyHold(MB_RIGHT);
-	void Logic_Input_MainMenu(InputSystem keyboard) // for menu input
+	void Logic_Input_MainMenu() // for menu input
 	{
 		// for MainMenu
 	}
-	Vector3 Logic_Input_Ingame(InputSystem keyboard) // for in game input
+	Vector3 Logic_Input_Ingame() // for in game input
 	{
 		Vector3 moveResult; // for throwing resultant movement force to player
 
 	// OTHERS
-		if (keyboard.KeyDown(KEYB_ESCAPE)) // open pause menu
-			_InputStyle = INGAME_PAUSE_ESCAPE;
-		// MOVEMENT		// in future need to do a speed multi OR leave it to phy to do it?
-		if (keyboard.KeyDown(KEYB_W))
-			moveResult.Y(1.0f);
-		if (keyboard.KeyDown(KEYB_S))
-			moveResult.Y(-1.0f);
-		if (keyboard.KeyDown(KEYB_D))
-			moveResult.X(1.0f);
-		if (keyboard.KeyDown(KEYB_A))
-			moveResult.X(-1.0f);
-		// MOUSE
-		if (keyboard.KeyDown(MOUSE_LBUTTON))
-			(void)1; // Shoot	
-		if (keyboard.KeyDown(MOUSE_RBUTTON))
-			(void)1; // Do something
+		//if (keyboard.KeyDown(KEYB_ESCAPE)) // open pause menu
+		//	_InputStyle = INGAME_PAUSE_ESCAPE;
+		//// MOVEMENT		// in future need to do a speed multi OR leave it to phy to do it?
+		//if (keyboard.KeyDown(KEYB_W))
+		//	moveResult.Y(1.0f);
+		//if (keyboard.KeyDown(KEYB_S))
+		//	moveResult.Y(-1.0f);
+		//if (keyboard.KeyDown(KEYB_D))
+		//	moveResult.X(1.0f);
+		//if (keyboard.KeyDown(KEYB_A))
+		//	moveResult.X(-1.0f);
+		//// MOUSE
+		//if (keyboard.KeyDown(MOUSE_LBUTTON))
+		//	(void)1; // Shoot	
+		//if (keyboard.KeyDown(MOUSE_RBUTTON))
+		//	(void)1; // Do something
 
 	// give resultant to player
 		return moveResult;
 	}
-	void Logic_Input_IngamePause(InputSystem keyboard) // for ingame pause
+	void Logic_Input_IngamePause() // for ingame pause
 	{
 		// for InGame on Death, Upgrade, Levelup, EscapeKeyPress
 
-		if (keyboard.KeyDown(KEYB_ESCAPE)) // exit pause menu
-			_InputStyle = INGAME;
+		//if (keyboard.KeyDown(KEYB_ESCAPE)) // exit pause menu
+		//	_InputStyle = INGAME;
 	}
 
 	void Update(int inputStyle)
@@ -79,13 +79,13 @@ namespace InputScript {
 		case OFF:
 			return;
 		case MAIN_MENU:
-			Logic_Input_MainMenu(keyboard);
+			Logic_Input_MainMenu();
 			return;
 		case INGAME:
-			Logic_Input_Ingame(keyboard);
+			Logic_Input_Ingame();
 			return;
 		case INGAME_PAUSE_ESCAPE:
-			Logic_Input_IngamePause(keyboard);
+			Logic_Input_IngamePause();
 			return;
 		default:
 			return;

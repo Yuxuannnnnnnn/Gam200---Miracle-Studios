@@ -18,6 +18,7 @@
 #include <iomanip>
 #include <assert.h>
 #include <comdef.h>			// For _bstr_t class, to convert const wchar_t* to const char*
+#include <functional>		// using for funcPtrs
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"

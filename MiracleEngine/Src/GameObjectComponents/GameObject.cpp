@@ -42,6 +42,9 @@ IComponentSystem* GameObject::addcomponent(ComponentTypes componentType)
 	case PHYSICSCOMPONENT:
 		_ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
 		break;
+	case LOGICCOMPONENT:
+		_ComponentList[LOGICCOMPONENT] = new LogicComponent();
+		break;
 	}
 	return  _ComponentList[componentType];
 }
@@ -71,6 +74,12 @@ void GameObject::SerialAddComponent
 		return;
 	case PHYSICSCOMPONENT:
 		_ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
+		return;
+	case LOGICCOMPONENT:
+		_ComponentList[LOGICCOMPONENT] = new LogicComponent();
+		temp = _ComponentList[LOGICCOMPONENT];
+		s = d["ScriptId"];
+		JsonDynamicStore(((LogicComponent*)temp)->GetScriptId(), s);
 		return;
 	}
 }
