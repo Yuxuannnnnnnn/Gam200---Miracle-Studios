@@ -15,16 +15,20 @@
 namespace mathLib
 {
 
-	Matrix3x3::Matrix3x3()
+	Matrix3x3::Matrix3x3() :
+		m00{ 0.f }, m01{ 0.f }, m02{ 0.f },
+		m10{ 0.f }, m11{ 0.f }, m12{ 0.f },
+		m20{ 0.f }, m21{ 0.f }, m22{ 0.f }
 	{
-		for (int i = 0; i < 9; ++i)
-			m[i] = 0.f;
 	}
   
-	Matrix3x3::Matrix3x3(const float* pArr)
+	Matrix3x3::Matrix3x3(const float* pArr) :
+		m00{ 0.f }, m01{ 0.f }, m02{ 0.f },
+		m10{ 0.f }, m11{ 0.f }, m12{ 0.f },
+		m20{ 0.f }, m21{ 0.f }, m22{ 0.f }
 	{
-	for (int i = 0; i < 9; ++i)
-		m[i] = pArr[i];
+		for (int i = 0; i < 9; ++i)
+			m[i] = pArr[i];
 
 	}
   
@@ -40,10 +44,13 @@ namespace mathLib
 
 	Matrix3x3& Matrix3x3::operator=(const Matrix3x3& rhs)
 	{
-	for (int i = 0; i < 9; ++i)
-		m[i] = rhs.m[i];
+		if (this == &rhs)
+			return *this;
 
-	return *this;
+		for (int i = 0; i < 9; ++i)
+			m[i] = rhs.m[i];
+
+		return *this;
 	}
   
 
