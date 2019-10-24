@@ -6,9 +6,9 @@ void Engine::Init()
 	//_logicSystem->Init();
 	_graphicsSystem->Init();
 
-	GameObject* player = _gameObjectFactory->CreateGameObject(TYPE_PLAYER);
-	_gameObjectFactory->DeleteGameObjectID(player->_uId);
-
+	//GameObject* player = _gameObjectFactory->CreateGameObject(TYPE_PLAYER);
+	//_gameObjectFactory->DeleteGameObjectID(player->_uId);
+	_gameObjectFactory->TEST_AddGameObjects();
 	
 }
 

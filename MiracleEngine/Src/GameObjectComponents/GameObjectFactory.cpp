@@ -5,7 +5,6 @@
 GameObjectFactory::GameObjectFactory()
 	:_uId{ 0 }
 {
-	Init();
 }
 
 //Destructor

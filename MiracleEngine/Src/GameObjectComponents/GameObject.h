@@ -64,12 +64,11 @@ public:
 	void SerialAddComponent
 	(ComponentTypes componentType, rapidjson::Value& s, rapidjson::Document& d);
 	// based on ComponentIdList, copy from original and create new ones for a given obj
-	void CopyComponent
-	(std::map< ComponentTypes, IComponentSystem* > original);
+	void CopyComponent(std::unordered_map< ComponentTypes, IComponentSystem* >& original);
 	// delete all components in _ComponentList
 	void DeleteAllComponents();
 // Cloning
-	virtual GameObject* Clone(Vector3 pos, Vector3 scale, float rotate);
+	virtual GameObject* Clone();
 
 };
 

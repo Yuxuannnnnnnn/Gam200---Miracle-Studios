@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "LogicSystem/GameState.h"
 
+
 class ResourceManager
 {
 	//	start with the basic resources manager, single class that ctrl all loading freeing of HDD stuff
@@ -79,6 +80,7 @@ public:
 				//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(PLAYER, CreateGameObject(PLAYER)));
 				//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(WALL, CreateGameObject(WALL)));
 		// serialise each object
+
 	}
 	void Update() { // works as Load()
 	}
@@ -137,6 +139,7 @@ public:
 //Deleting a gameObject entirely from the gameObjectFactory
 	void DeleteGameObjectID(size_t id)
 	{
+		std::cout << "DeleteGameObjectID(" << id << ")" << std::endl;
 		delete _listObject[id];
 
 		_listObject.erase(id);
@@ -149,6 +152,7 @@ public:
 //Create a gameObject type along with its Components
 	GameObject* CreateGameObject(GameObjectTypeID typeId)
 	{
+		std::cout << "CreateGameObject(" << typeId << ")" << std::endl;
 		GameObject* gameObject = nullptr;
 
 		switch (typeId)
@@ -171,10 +175,23 @@ public:
 		return gameObject;
 	}
 //Create a gameObject type along with its Components
-	GameObject* CloneGameObject(GameObjectTypeID gameObjectTypeID)
+	void CloneGameObject(GameObjectTypeID gameObjectTypeID)
 	{
-		(void)gameObjectTypeID;
-		_listObjectPrototype[TYPE_PLAYER];
+		std::cout << "\t CloneGameObject(" << gameObjectTypeID << ")" << std::endl;
+		GameObject* temp = nullptr;
+		switch (gameObjectTypeID)
+		{
+		case TYPE_PLAYER:
+			temp = _listObjectPrototype[TYPE_PLAYER]->Clone();
+			break;
+		default:
+			break;
+		}
+		// add 'temp' to the _listObj;
+		if (temp)
+			_listObject.insert(std::pair<size_t, GameObject*>(_uId++, temp));
+		// based on temp's _ComponentList, add the components into GOFac's different systems
+			// TODO
 	}
 	void ObjectClone()
 	{
@@ -184,7 +201,7 @@ public:
 
 //InUpEx
 	void Init() {
-		
+		std::cout << "GOFac Init" << std::endl;
 		_state.Init();
 
 		// get all prorotypes and save it into the _listObjectPrototype(map)
@@ -200,6 +217,10 @@ public:
 		// load initial level
 	}
 	void Update() {
+		
+		//std::cout << "GOFac Update" << std::endl;
+
+
 		// run through all GOs, run their Update()s in order
 			//std::unordered_map< size_t, GameObject* >::iterator itr = _listObject.begin();
 			//while (itr != _listObject.end())
@@ -219,7 +240,7 @@ public:
 		}
 	}
 	void Exit() {
-
+		std::cout << "GOFac Exit" << std::endl;
 	}
 
 	struct TempGO {
@@ -237,6 +258,7 @@ public:
 	*/
 	std::vector<GameObject*> FileRead_Level(const char* FileName)
 	{ // will move to ObjectFactory
+		std::cout << "FileRead_Level(" << FileName << ")" << std::endl;
 		std::fstream _file;
 		_file.open(FileName, std::ios_base::in | std::ios_base::binary);
 		if (!_file.is_open())
@@ -294,15 +316,25 @@ public:
 		while (itr != GOVec.end())
 		{
 			TempGO temp = *itr;
-			if (temp.id == TYPE_PLAYER)
-				ret.push_back(_listObjectPrototype[TYPE_PLAYER]->Clone(temp.pos, temp.scale, temp.rot));
-			else if (temp.id == TYPE_FLOOR)
-				ret.push_back(_listObjectPrototype[TYPE_FLOOR]->Clone(temp.pos, temp.scale, temp.rot));
-			else if (temp.id == TYPE_WALL)
-				ret.push_back(_listObjectPrototype[TYPE_WALL]->Clone(temp.pos, temp.scale, temp.rot));
-			else;
+//if (temp.id == TYPE_PLAYER)
+//	ret.push_back(_listObjectPrototype[TYPE_PLAYER]->Clone(temp.pos, temp.scale, temp.rot));
+//else if (temp.id == TYPE_FLOOR)
+//	ret.push_back(_listObjectPrototype[TYPE_FLOOR]->Clone(temp.pos, temp.scale, temp.rot));
+//else if (temp.id == TYPE_WALL)
+//	ret.push_back(_listObjectPrototype[TYPE_WALL]->Clone(temp.pos, temp.scale, temp.rot));
+//else;
 			++itr;
 		}
 		return ret;
+	}
+
+
+
+	// TEST FUNCTION TO ADD SOME GAME OBJECTS 'DYNAMICALLY'
+	void TEST_AddGameObjects()
+	{
+		std::cout << "TEST_AddGameObjects()" << std::endl;
+		CloneGameObject(TYPE_PLAYER);
+		CloneGameObject(TYPE_PLAYER);
 	}
 };
