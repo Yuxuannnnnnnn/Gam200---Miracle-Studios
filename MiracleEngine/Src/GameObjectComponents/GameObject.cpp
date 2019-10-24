@@ -20,9 +20,9 @@ GameObject::~GameObject()
 	}
 }
 
-std::string GameObject::GameObjectType() const
+GameObjectTypeID GameObject::GameObjectType() const
 {
-	return "test";
+	return (GameObjectTypeID)_typeId;
 }
 
 //Add a specific component to the GameObject
@@ -80,7 +80,20 @@ void GameObject::SerialAddComponent
 		temp = _ComponentList[LOGICCOMPONENT];
 		s = d["ScriptId"];
 		JsonDynamicStore(((LogicComponent*)temp)->GetScriptId(), s);
+		s = d["Health"];
+		JsonDynamicStore(((LogicComponent*)temp)->GetHealth(), s);
+		s = d["Speed"];
+		JsonDynamicStore(((LogicComponent*)temp)->GetSpeed(), s);
 		return;
+	}
+}
+
+// delete all components in _ComponentList
+void GameObject::DeleteAllComponents()
+{
+	for (auto comp : _ComponentList)
+	{
+		delete comp.second;
 	}
 }
 

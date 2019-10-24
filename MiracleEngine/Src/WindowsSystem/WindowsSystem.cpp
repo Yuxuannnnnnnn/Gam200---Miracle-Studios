@@ -107,7 +107,47 @@ ATOM WindowsSystem::MyRegisterClass(HINSTANCE hInstance)
 }
 
 
+// struct for handling window size
+struct ScreenSize final {
+	int _ResX{ 0 }, _ResY{ 0 };
+	bool _Fullscreen{ false };
 
+	ScreenSize() {}
+	~ScreenSize() {}
+	ScreenSize(const ScreenSize&) = delete;
+	ScreenSize& operator=(const ScreenSize&) = delete;
+	/**
+	\brief Read start up info for application
+			Will get following values:
+			- Resolution (X, Y)
+			- Fullscreen On/Off
+	*/
+	void FileRead_StartUp()
+	{
+		std::cout << "FileRead_StartUp --------------------" << std::endl;
+		rapidjson::Document d;
+		char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/init.json");
+		std::cout << iBuffer << std::endl;
+		bool temp = iBuffer != nullptr;
+		temp = true;
+		ASSERT(iBuffer != nullptr);
+		d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+
+		// get values from the Document;
+		rapidjson::Value& s = d["ResX"];
+		_ResX = s.GetInt();
+		s = d["ResY"];
+		_ResY = s.GetInt();
+		s = d["Fullscreen"];
+		_Fullscreen = s.GetBool();
+		// cout for check
+		std::cout << "Inital File Input" << std::endl
+			<< "X:" << _ResX << " Y:" << _ResY << " Full = " << _Fullscreen << std::endl
+			<< "-------------------------------------" << std::endl;
+
+		delete[] iBuffer;
+	}
+};
 
 //
 //   FUNCTION: InitInstance(HINSTANCE, int)
@@ -133,7 +173,10 @@ BOOL WindowsSystem::InitInstance(HINSTANCE hInstance, int nCmdShow)
 	dwStyle &= ~WS_SIZEBOX;
 	dwStyle &= ~WS_MAXIMIZEBOX;
 
-	RECT rect = { 0, 0, (LONG)(windowWidth - 1), (LONG)(windowHeight - 1) };
+	ScreenSize temp; // temp object for reading in info
+	temp.FileRead_StartUp();
+
+	RECT rect = { 0, 0, (LONG)(temp._ResX - 1), (LONG)(temp._ResY - 1) };
 	//The AdjustWindowRect sets the exact client area without the title bar and all the extra pixels
 	//This will give us the exact resolution for the white rectangular area
 	AdjustWindowRectEx(&rect, dwStyle, FALSE, WS_EX_APPWINDOW);
@@ -163,7 +206,6 @@ HACCEL WindowsSystem::get_hAccelTable() const
 {
 	return hAccelTable;
 }
-
 
 
 

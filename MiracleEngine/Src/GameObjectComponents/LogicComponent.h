@@ -8,7 +8,8 @@ enum ScriptId {
 	EMPTY = 0,
 	SCRIPT_1 = 1,
 	SCRIPT_2 = 2,
-	SCRIPT_INPUT = 3,
+	SCRIPT_HEALTH,
+	SCRIPT_INPUT,
 };
 
 class LogicComponent : public IComponentSystem
@@ -17,7 +18,12 @@ class LogicComponent : public IComponentSystem
 	size_t _ParentId;
 // list of scripts
 	//int _scriptId;
-	std::vector<int> _ScriptList;
+	std::vector<int> _scriptList;
+// Logic Related Stats
+	int _health{ 0 };
+	int _speed{ 0 };
+	int _lifetime{ 0 };
+
 public:
 	LogicComponent(size_t id = 0) : _ParentId{ id } {}
 	~LogicComponent() = default;
@@ -37,33 +43,59 @@ public:
 	void Init()
 	{
 	}
-	void Update(ScriptId scriptId)
+	void Update()
 	{
-		// updatePtr for accessing script's Update()
 		std::function<void(void)> updatePtr;
-		switch (scriptId)
+		std::function<void(int&, int)> updatePtrHealth;
+		for (int scriptId : _scriptList)
 		{
-		case SCRIPT_1:
-			updatePtr = Script1::Update;
-			break;
-		case SCRIPT_2:
-			updatePtr = Script2::Update;
-			break;
-		case SCRIPT_INPUT:
-			break;
-		default:
-			break;
+			// updatePtr for accessing script's Update()
+			switch (scriptId)
+			{
+			case SCRIPT_1:
+				updatePtr = Script_1::Update;
+				break;
+			case SCRIPT_2:
+				updatePtr = Script_2::Update;
+				break;
+			case SCRIPT_HEALTH:
+				Script_HealthMinus::Update(_health, 1);
+				break;
+			case SCRIPT_INPUT:
+				//Script_Input::Update(INGAME);
+				updatePtr = nullptr;
+				break;
+			default:
+				updatePtr = nullptr;
+				break;
+			}
+			if (updatePtr)
+				updatePtr();
 		}
-		updatePtr();
 	}
 	void Exit()
 	{
 		// ?
 	}
 // Others
-// Get
+// GetScript
 	std::vector<int>& GetScriptId()
 	{
-		return _ScriptList;
+		return _scriptList;
+	}
+// GetHealth
+	int& GetHealth()
+	{
+		return _health;
+	}
+// GetHealth
+	int& GetSpeed()
+	{
+		return _speed;
+	}
+// GetHealth
+	int& GetLifetie()
+	{
+		return _lifetime;
 	}
 };

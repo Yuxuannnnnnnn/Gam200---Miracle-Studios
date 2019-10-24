@@ -21,10 +21,10 @@
 \brief GameObjectTypeID
 */
 enum GameObjectTypeID {
-	UNKNOWN = 0,
-	WALL, FLOOR, OBSTACLE, //Setting
-	PLAYER, ENEMY, //Mobile objects
-	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
+	TYPE_UNKNOWN = 0,
+	TYPE_WALL, TYPE_FLOOR, TYPE_OBSTACLE, //Setting
+	TYPE_PLAYER, TYPE_ENEMY, //Mobile objects
+	TYPE_WEAPON, TYPE_PISTOL, TYPE_SHOTGUN, TYPE_SNIPER, TYPE_RPG, //Weapons	
 };
 
 enum ComponentTypes
@@ -52,7 +52,7 @@ public:
 // Dtor : Deletes all Components in a Game Object
 	virtual ~GameObject();
 // Return GameObjectType Name
-	virtual std::string GameObjectType() const;
+	virtual GameObjectTypeID GameObjectType() const;
 // InUpEx
 	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }
 	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }
@@ -66,6 +66,8 @@ public:
 	// based on ComponentIdList, copy from original and create new ones for a given obj
 	void CopyComponent
 	(std::map< ComponentTypes, IComponentSystem* > original);
+	// delete all components in _ComponentList
+	void DeleteAllComponents();
 // Cloning
 	virtual GameObject* Clone(Vector3 pos, Vector3 scale, float rotate);
 
@@ -81,14 +83,14 @@ private:
 public:
 	Weapon() = default;
 	Weapon(size_t id, float firerate)
-		: GameObject(id, WEAPON), _FireRate{ firerate }
+		: GameObject(id, TYPE_WEAPON), _FireRate{ firerate }
 	{}
 
 	~Weapon() = default;
 
-	std::string GameObjectType() const override
+	GameObjectTypeID GameObjectType() const override
 	{
-		return "Weapon";
+		return TYPE_WEAPON;
 	}
 };
 
@@ -101,13 +103,13 @@ class Player : public GameObject
 	std::vector<Weapon> _WeaponList;
 public:
 	// Ctor
-	Player(size_t uId)
-		:GameObject(uId, PLAYER) // init with uId & type::PLAYER
+Player(size_t uId)
+		:GameObject(uId, TYPE_PLAYER) // init with uId & type::PLAYER
 	{
 	}
-	// Dtor
+// Dtor
 	~Player() {}
-	// InUpEx
+// InUpEx
 	virtual void Init() override {
 		SerialInPrefab();
 	}
@@ -115,37 +117,37 @@ public:
 	}
 	virtual void Exit() override {
 	}
-	// FileIO
+// FileIO
 	virtual void SerialInPrefab() override {
-		// Get & Parse File
+	// Get & Parse File
 		std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
 		rapidjson::Document d;
 		char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/playerNew.json");
 		ASSERT(iBuffer != nullptr);
 		std::cout << iBuffer << std::endl;
 		d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
-		// Component List
+	// Component List
 		rapidjson::Value& s = d["ComponentList"];
 		std::vector<int> compList;
 		JsonDynamicStore(compList, s);
 		std::vector<int>::iterator itr = compList.begin();
 		while (itr != compList.end())
 			SerialAddComponent((ComponentTypes)* itr++, s, d);
-		// Other Values
+	// Other Values
 		s = d["Health"];
 		JsonDynamicStore(_Health, s);
 		s = d["Speed"];
 		JsonDynamicStore(_Speed, s);
 		s = d["Weapons"];
 		JsonDynamicStore(_WeaponListId, s);
-		// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
+	// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
 		std::cout << "-------------------------------------" << std::endl;
 		delete[] iBuffer;
 		PrintStats(); // for checking serialisation
 	}
 	virtual void SerialInLevel() override {
 	}
-	// Cloning
+// Cloning
 	Player& Clone(Player& original, unsigned id, Vector3 pos, Vector3 scale, float rotate)
 	{
 		(void)id; (void)pos; (void)scale; (void)rotate;
@@ -153,7 +155,7 @@ public:
 		Player temp = original;
 		return temp;
 	}
-	// Others - WeapID to Weap helper()
+// Others - WeapID to Weap helper()
 	void ConvertWeaponIdToWeapon() {
 		_WeaponList.clear();
 		std::vector<int>::iterator itr = _WeaponListId.begin();
@@ -161,7 +163,7 @@ public:
 			_WeaponList.push_back(Weapon(*itr, 0.0f));
 		}
 	}
-	// Others - print to check seriaisation
+// Others - print to check seriaisation
 	void PrintStats() {
 		TransformComponent* tempTrans =
 			dynamic_cast<TransformComponent*>(_ComponentList[TRANSFORMCOMPONENT]);
@@ -181,10 +183,8 @@ public:
 			<< std::endl;
 	}
 
-
-
-	std::string GameObjectType() const override
+	GameObjectTypeID GameObjectType() const override
 	{
-		return "Player";
+		return TYPE_PLAYER;
 	}
 };

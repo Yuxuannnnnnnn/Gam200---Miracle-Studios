@@ -1,6 +1,7 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 #include "GameObject.h"
+#include "LogicSystem/GameState.h"
 
 class ResourceManager
 {
@@ -11,6 +12,8 @@ class ResourceManager
 	//	can worry about this after segment
 	//	when saving a level in editor, it should save the assets necessary, and then save the instancing of the objects
 	//	will have func() to load things like texture, obj prefabbing, audio, etc
+
+	std::vector<std::string*> VecFilePaths; // for future use for dynamic file path getting	
 };
 
 typedef std::unordered_map<GameObjectTypeID, GameObject*> PrototypeList;
@@ -38,11 +41,11 @@ public:
 		GameObject* gameObject = nullptr;
 		switch (typeId)
 		{
-		case PLAYER:
+		case TYPE_PLAYER:
 			gameObject = new Player(uId);
 			gameObject->SerialInPrefab();
 			break;
-		case WALL:
+		case TYPE_WALL:
 			break;
 			//Other Objects
 		}
@@ -56,11 +59,11 @@ public:
 
 		switch (typeId)
 		{
-		case PLAYER:
+		case TYPE_PLAYER:
 			//gameObject = new Player(0);
 			//gameObject->SerialInPrefab();
 			break;
-		case WALL:
+		case TYPE_WALL:
 			break;
 			//Other Objects
 		}
@@ -78,9 +81,9 @@ public:
 		// serialise each object
 	}
 	void Update() { // works as Load()
-
 	}
 	void Exit() {
+		// remove all GOs
 	}
 };
 
@@ -90,7 +93,8 @@ public:
 class GameObjectFactory final
 {
 private:
-
+//Current GameState
+	GameState _state;
 //Dynamic array of GameObjects
 	std::unordered_map < size_t, GameObject* > _listObject;
 //Dynaic array of GameObject Prototypes
@@ -126,6 +130,7 @@ public:
 	const std::unordered_map < size_t, TransformComponent* >& getTransformComponent() const;
 	const std::unordered_map < size_t, RigidBodyComponent* >& getRigidBodyComponent() const;
 	const std::unordered_map < size_t, PhysicsComponent* >& getPhysicsComponent() const;
+	const std::unordered_map < size_t, LogicComponent* >& getLogicComponent() const;
 
 	const std::unordered_map < size_t, GameObject*>& getObjectlist() const;
 
@@ -148,7 +153,7 @@ public:
 
 		switch (typeId)
 		{
-		case PLAYER:
+		case TYPE_PLAYER:
 			gameObject = new Player(_uId);
 			_listObject[_uId] = gameObject;
 
@@ -159,7 +164,7 @@ public:
 
 			_uId++;
 			break;
-		case WALL:
+		case TYPE_WALL:
 			break;
 			//Other Objects
 		}
@@ -169,7 +174,7 @@ public:
 	GameObject* CloneGameObject(GameObjectTypeID gameObjectTypeID)
 	{
 		(void)gameObjectTypeID;
-		_listObjectPrototype[PLAYER];
+		_listObjectPrototype[TYPE_PLAYER];
 	}
 	void ObjectClone()
 	{
@@ -177,18 +182,41 @@ public:
 
 	}
 
-	// call on start up
+//InUpEx
 	void Init() {
+		
+		_state.Init();
+
 		// get all prorotypes and save it into the _listObjectPrototype(map)
 		// get list of all objects
 	//	std::vector<std::string>listOfObjs =
 	//		FileRead_FileToStringVector("./Resources/TextFiles/ListOfGameObjects.txt");
-		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(PLAYER, CreateGameObject(PLAYER)));
-		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(WALL, CreateGameObject(WALL)));
+		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_PLAYER, CreateGameObject(TYPE_PLAYER)));
+		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_WALL, CreateGameObject(TYPE_WALL)));
 		// serialise each object
-	}
-	void Update() { // works as Load()
 
+
+
+		// load initial level
+	}
+	void Update() {
+		// run through all GOs, run their Update()s in order
+			//std::unordered_map< size_t, GameObject* >::iterator itr = _listObject.begin();
+			//while (itr != _listObject.end())
+			//{
+			//	GameObject* temp = itr->second;
+			//	temp->Update();
+			//	itr++;
+			//}		
+
+		// detect any level changes
+		_state.Update();
+		if (_state.GetCurrState() == GS_LEVELCHANGE)
+		{
+			// remove all GOs
+
+			// load new level
+		}
 	}
 	void Exit() {
 
@@ -231,11 +259,11 @@ public:
 			//_file.getline(strType, 20, '\n\r');
 			_file >> strType;
 			if (std::strcmp(strType, "Wall") == 0)
-				obj.id = WALL;
+				obj.id = TYPE_WALL;
 			if (std::strcmp(strType, "Floor") == 0)
-				obj.id = FLOOR;
+				obj.id = TYPE_FLOOR;
 			if (std::strcmp(strType, "Player") == 0)
-				obj.id = PLAYER;
+				obj.id = TYPE_PLAYER;
 			// get Position
 			ASSERT(_file.getline(strNum1, 10, ','));
 			ASSERT(_file.getline(strNum2, 10));
@@ -266,12 +294,12 @@ public:
 		while (itr != GOVec.end())
 		{
 			TempGO temp = *itr;
-			if (temp.id == PLAYER)
-				ret.push_back(_listObjectPrototype[PLAYER]->Clone(temp.pos, temp.scale, temp.rot));
-			else if (temp.id == FLOOR)
-				ret.push_back(_listObjectPrototype[FLOOR]->Clone(temp.pos, temp.scale, temp.rot));
-			else if (temp.id == WALL)
-				ret.push_back(_listObjectPrototype[WALL]->Clone(temp.pos, temp.scale, temp.rot));
+			if (temp.id == TYPE_PLAYER)
+				ret.push_back(_listObjectPrototype[TYPE_PLAYER]->Clone(temp.pos, temp.scale, temp.rot));
+			else if (temp.id == TYPE_FLOOR)
+				ret.push_back(_listObjectPrototype[TYPE_FLOOR]->Clone(temp.pos, temp.scale, temp.rot));
+			else if (temp.id == TYPE_WALL)
+				ret.push_back(_listObjectPrototype[TYPE_WALL]->Clone(temp.pos, temp.scale, temp.rot));
 			else;
 			++itr;
 		}

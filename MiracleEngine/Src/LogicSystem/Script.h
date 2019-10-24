@@ -1,32 +1,39 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 
-namespace Script1 {
+namespace Script_1 {
 	void Update()
 	{
 		std::cout << "SCRIPT - 1" << std::endl;
 	}
 }
 
-namespace Script2 {
+namespace Script_2 {
 	void Update()
 	{
 		std::cout << "SCRIPT - 2" << std::endl;
 	}
 }
 
-namespace InputScript {
+namespace Script_HealthMinus {
+	void Update(int& health, int changeVal)
+	{
+		std::cout << "SCRIPT - 3" << std::endl;
+	}
+}
+
+namespace Script_Input {
 	enum Logic_Keyboard_Style {
-		OFF = 0,
+		INPUT_OFF = 0,
 
-		MAIN_MENU,
+		INPUT_MAIN_MENU,
 
-		INGAME,
-		INGAME_PAUSE_ESCAPE,
-		INGAME_PAUSE_LEVELUP,
+		INPUT_INGAME,
+		INPUT_INGAME_PAUSE_ESCAPE,
+		INPUT_INGAME_PAUSE_LEVELUP,
 	};
 
-	Logic_Keyboard_Style _InputStyle{ OFF };
+	Logic_Keyboard_Style _InputStyle{ INPUT_OFF };
 	//InputSystem keyboard;
 
 	// functions to check key UpDownHold for chosen keys
@@ -66,6 +73,7 @@ namespace InputScript {
 
 		//if (keyboard.KeyDown(KEYB_ESCAPE)) // exit pause menu
 		//	_InputStyle = INGAME;
+		return;
 	}
 
 	void Update(int inputStyle)
@@ -76,15 +84,15 @@ namespace InputScript {
 
 		switch (_InputStyle)
 		{
-		case OFF:
+		case INPUT_OFF:
 			return;
-		case MAIN_MENU:
+		case INPUT_MAIN_MENU:
 			Logic_Input_MainMenu();
 			return;
-		case INGAME:
+		case INPUT_INGAME:
 			Logic_Input_Ingame();
 			return;
-		case INGAME_PAUSE_ESCAPE:
+		case INPUT_INGAME_PAUSE_ESCAPE:
 			Logic_Input_IngamePause();
 			return;
 		default:

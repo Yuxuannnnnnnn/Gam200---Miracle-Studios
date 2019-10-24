@@ -6,75 +6,97 @@
 	- Pausing of application
 */
 
-enum Game_States {
-	TEST = 0,
+enum GameStateId {
+	GS_TEST = 0,
 // Intro
-	SPLASH,
-	DIGI_LOGO,
+	GS_SPLASH,
+	GS_DIGI_LOGO,
 // Main Menu
-	MENU_MAIN,
-	MENU_OPTIONS,
-	MENU_STATS,
-	MENU_QUIT,
+	GS_MENU_MAIN,
+	GS_MENU_OPTIONS,
+	GS_MENU_STATS,
+	GS_MENU_QUIT,
 // In Game
-	IG_RUNNING,
-	IG_PAUSED_ESCAPE,
-	IG_PAUSE_LEVELUP,
-	IG_PAUSE_STORY,
-	IG_STOPPING_DEATH,
-	IG_STOPPING_LEVELEND,
+	GS_IG_RUNNING,
+	GS_IG_PAUSED_ESCAPE,
+	GS_IG_PAUSE_LEVELUP,
+	GS_IG_PAUSE_STORY,
+	GS_IG_STOPPING_DEATH,
+	GS_IG_STOPPING_LEVELEND,
+// Level Changing
+	GS_LEVELCHANGE, // will stay in this state until load complete
 };
 
 class GameState {
-	unsigned _currState{ TEST };
+	GameStateId _currState{ GS_TEST };
+	GameStateId _prevState{ GS_TEST };
+	GameStateId _nextState{ GS_TEST };
 public:
 	GameState() = default;
 	~GameState() {}
-
-	void Init() {}
+// InUpEx
+	void Init()
+	{
+		_currState = _prevState = _nextState = GS_TEST;
+	}
 	void Update()
 	{
 		UpdateState();
 	}
 	void Exit() {}
-	
+// Get
+	GameStateId GetCurrState()
+	{
+		return _currState;
+	}
+// Other - UpdateState
 	void UpdateState()
 	{
-		switch (_currState)
+		if (_currState == _nextState)
 		{
-// INTRO
-		case SPLASH:
-			return;
-		case DIGI_LOGO:
-			return;
-// MAIN MENU
-		case MENU_MAIN:
+			switch (_currState)
+			{
+		// INTRO
+			case GS_SPLASH:
+				return;
+			case GS_DIGI_LOGO:
+				return;
+		// MAIN MENU
+			case GS_MENU_MAIN:
 			// set Logic_Keyboard_Style control to MAIN_MENU
-			return;
-		case MENU_OPTIONS:
-			return;
-		case MENU_STATS:
-			return;
-		case MENU_QUIT:
-			return;
-// IN GAME
-		case IG_RUNNING:
+				return;
+			case GS_MENU_OPTIONS:
+				return;
+			case GS_MENU_STATS:
+				return;
+			case GS_MENU_QUIT:
+				return;
+		// IN GAME
+			case GS_IG_RUNNING:
 			// set Logic_Keyboard_Style control to INGAME
-			return;
-		case IG_PAUSED_ESCAPE:
+				return;
+			case GS_IG_PAUSED_ESCAPE:
 			// set Logic_Keyboard_Style control to INGAME_PAUSE
-			return;
-		case IG_PAUSE_LEVELUP:
-			return;
-		case IG_PAUSE_STORY:
-			return;
-		case IG_STOPPING_DEATH:
-			return;
-		case IG_STOPPING_LEVELEND:
-			return;
+				return;
+			case GS_IG_PAUSE_LEVELUP:
+				return;
+			case GS_IG_PAUSE_STORY:
+				return;
+			case GS_IG_STOPPING_DEATH:
+				return;
+			case GS_IG_STOPPING_LEVELEND:
+				return;
+		// LEVEL CHANGE
+			case GS_LEVELCHANGE:
+				return;
 
-		default:
-			return;
+			default:
+				return;
+			}
+		}
+		else
+		{
+			_currState = _nextState;
 		}
 	}
 };

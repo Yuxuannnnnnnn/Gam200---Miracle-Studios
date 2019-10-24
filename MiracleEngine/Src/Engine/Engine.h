@@ -6,9 +6,9 @@ class Engine
 {
 public:
 
-	Engine()
-		:_graphicsSystem{ new GraphicsSystem() }, 
-		_gameObjectFactory{new GameObjectFactory() }
+	Engine() :
+		_graphicsSystem{ new GraphicsSystem() }, 
+		_gameObjectFactory{ new GameObjectFactory() }
 	{}
 
 	void Init();
@@ -17,6 +17,7 @@ public:
 
 	GraphicsSystem * _graphicsSystem;
 	GameObjectFactory * _gameObjectFactory;
+	//LogicSystem* _logicSystem;
 
 private:
 };
