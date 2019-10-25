@@ -26,11 +26,6 @@ public:
 		delete _pmesh;
 	}
 
-// GetPID
-	size_t GetParentId() const override
-	{
-		return _ParentId;
-	}
 	std::string ComponentName() const override
 	{
 		return "Graphic Component";

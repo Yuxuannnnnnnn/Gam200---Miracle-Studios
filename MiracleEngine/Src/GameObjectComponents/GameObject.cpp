@@ -1,10 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "GameObject.h"
 
-//-----------------------------------
-// GameObject : ISerial
-// START
-//-----------------------------------
 GameObject::GameObject(size_t uId, size_t typeId)
 	:_uId{ uId }, _typeId{ typeId }
 {
@@ -27,7 +23,7 @@ GameObjectTypeID GameObject::GameObjectType() const
 	return (GameObjectTypeID)_typeId;
 }
 
-//Add a specific component to the GameObject
+// DEPRECIATED - Add a specific component to the GameObject
 IComponentSystem* GameObject::addcomponent(ComponentTypes componentType)
 {
 	switch (componentType)
@@ -51,7 +47,7 @@ IComponentSystem* GameObject::addcomponent(ComponentTypes componentType)
 	return  _ComponentList[componentType];
 }
 
-// 'addcomponent' Varient for Serialization, allows addComponent during serialization
+// AddComponent for during Serialisation
 void GameObject::SerialAddComponent
 	(ComponentTypes componentType, rapidjson::Value& s, rapidjson::Document& d)
 {
@@ -110,6 +106,7 @@ void GameObject::SerialAddComponent
 	std::cout << std::endl;
 }
 
+// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
 void GameObject::CopyComponent
 	(std::unordered_map< ComponentTypes, IComponentSystem* >& original)
 {
@@ -170,15 +167,6 @@ void GameObject::CopyComponent
 	std::cout << std::endl;
 }
 
-// delete all components in _ComponentList
-void GameObject::DeleteAllComponents()
-{
-	for (auto comp : _ComponentList)
-	{
-		delete comp.second;
-	}
-}
-
 // Cloning IGO
 GameObject* GameObject::Clone()
 {
@@ -190,28 +178,66 @@ GameObject* GameObject::Clone()
 	return temp;
 }
 
-//-----------------------------------
-// END
-// GameObject
-//-----------------------------------
+void GameObject::SerialInPrefab_Player()
+{
+// Get & Parse File
+	std::cout << std::endl << "FileRead_PlayerInfo -----------------" << std::endl;
+	rapidjson::Document d;
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/playerNew.json");
+	ASSERT(iBuffer != nullptr);
+	std::cout << iBuffer << std::endl;
+	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+// Component List
+	rapidjson::Value& s = d["ComponentList"];
+	std::vector<int> compList;
+	JsonDynamicStore(compList, s);
+	std::vector<int>::iterator itr = compList.begin();
+	while (itr != compList.end())
+		SerialAddComponent((ComponentTypes)* itr++, s, d);
+// Other Values
+		//s = d["Weapons"];
+		//JsonDynamicStore(_WeaponListId, s);
+		// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
+	std::cout << "-------------------------------------" << std::endl;
+	delete[] iBuffer;
+//Serialisation Check
+	PrintStats_Player();
+}
 
-
-
-//-----------------------------------
-// Weapon : IGO
-// START
-//-----------------------------------
-//-----------------------------------
-// END
-// Weapon : IGO
-//-----------------------------------
-
-
-//-----------------------------------
-// PLAYER : IGO
-// START
-//-----------------------------------
-//-----------------------------------
-// END
-// PLAYER : IGO
-//-----------------------------------
+void GameObject::PrintStats_Player() {
+	IComponentSystem* temp = nullptr;
+	temp = _ComponentList[TRANSFORMCOMPONENT];
+	std::cout
+		<< "FilePrint_PlayerInfo ----------------" << std::endl
+		<< "\tTrans.Pos      :  " << ((TransformComponent*)temp)->GetPos() << std::endl
+		<< "\tTrans.Sca      :  " << ((TransformComponent*)temp)->GetScale() << std::endl
+		<< "\tTrans.Rot      :  " << ((TransformComponent*)temp)->GetRotate() << std::endl;
+	temp = _ComponentList[GRAPHICSCOMPONENT];
+	std::cout
+		<< "\tGraphics       :  " << "[placeHolder] " << std::endl;
+	temp = _ComponentList[RIGIDBODYCOMPONENT];
+	std::cout
+		<< "\tRBod.Mass      :  " << ((RigidBody2D*)temp)->_mass << std::endl
+		<< "\tRBod.Friction  :  " << ((RigidBody2D*)temp)->_fictionVal << std::endl
+		<< "\tRBod.Static    :  " << ((RigidBody2D*)temp)->_static << std::endl;
+	temp = _ComponentList[COLLIDERCOMPONENT];
+	std::cout
+		<< "\tCollider.TypId :  " << ((Collider2D*)temp)->_type << std::endl;
+	temp = _ComponentList[LOGICCOMPONENT];
+	std::cout
+		<< "\tLogic.Health   :  " << ((LogicComponent*)temp)->GetHealth() << std::endl
+		<< "\tLogic.Speed    :  " << ((LogicComponent*)temp)->GetSpeed() << std::endl
+		<< "\tLogic.Lifetime :  " << ((LogicComponent*)temp)->GetLifetime() << std::endl
+		<< "\tLogic.ScriptIds:  ";
+	std::vector<int> tempScriptList = ((LogicComponent*)temp)->GetScriptId();
+	std::vector<int>::iterator itr = tempScriptList.begin();
+	while (itr != tempScriptList.end())
+		std::cout << *itr++ << " ";
+	//	<< "Weapons :   ";
+//std::vector<int>::iterator itr = _WeaponListId.begin();
+//while (itr != _WeaponListId.end())
+//	std::cout << *itr++;
+	std::cout << std::endl
+		<< "-------------------------------------"
+		<< std::endl << std::endl;
+}

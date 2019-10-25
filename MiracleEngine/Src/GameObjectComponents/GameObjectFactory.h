@@ -43,7 +43,7 @@ public:
 		switch (typeId)
 		{
 		case TYPE_PLAYER:
-			gameObject = new Player(uId);
+			gameObject = new GameObject(uId, TYPE_PLAYER);
 			gameObject->SerialInPrefab_Player();
 			break;
 		case TYPE_WALL:

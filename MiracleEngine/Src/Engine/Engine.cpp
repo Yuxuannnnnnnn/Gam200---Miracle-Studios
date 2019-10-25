@@ -7,6 +7,7 @@ void Engine::Init()
 	_graphicsSystem->Init();
 	_logicSystem->Init(); // does nothing for now
 
+	// TESTING GO creation 
 	if (true)
 	{
 		_gameObjectFactory->TEST_AddGameObjects();
@@ -17,18 +18,18 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	if (false)
+	// TESTING mem leak for objects
+	if (true)
 	{
 		_gameObjectFactory->TEST_AddGameObjects();
 		_gameObjectFactory->TEST_DisplayAllGameObj();
 		_gameObjectFactory->TEST_DeleteAllGameObjects();
 		_gameObjectFactory->Update();
-		return;
 	}
 // Input
 	_gameObjectFactory->Update();
 // Logic
-	if (false)
+	if (true)
 	{
 	using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
 	LogicCompMap temp = _gameObjectFactory->getLogicComponent();

@@ -31,7 +31,6 @@ public:
 
 	void Draw();
 
-	size_t GetParentId() const override;
 	std::string ComponentName() const override;
 };
 

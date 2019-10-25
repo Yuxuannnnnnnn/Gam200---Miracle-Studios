@@ -9,7 +9,8 @@ public:
 
 	Engine() :
 		_graphicsSystem{ new GraphicsSystem() }, 
-		_gameObjectFactory{ new GameObjectFactory() }
+		_gameObjectFactory{ new GameObjectFactory() },
+		_logicSystem{new LogicSystem()}
 	{}
 
 	void Init();
