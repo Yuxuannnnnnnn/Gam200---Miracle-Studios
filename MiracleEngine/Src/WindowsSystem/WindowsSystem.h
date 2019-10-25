@@ -34,6 +34,7 @@ public:
 
 
 	//Getter function
+	HWND Get_hwnd() const;
 	HACCEL get_hAccelTable() const;
 	HDC get_m_windowDC() const;
 

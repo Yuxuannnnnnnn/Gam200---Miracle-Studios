@@ -1,5 +1,7 @@
 #pragma once
 #include "PrecompiledHeaders.h"
+#include "MathLib/SYMath.h"
+#include "rapidjson.h"
 
 #define ASSERT(condition) { if(!(condition)) \
 { \

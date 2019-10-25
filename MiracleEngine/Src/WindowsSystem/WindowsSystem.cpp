@@ -199,16 +199,6 @@ BOOL WindowsSystem::InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 
 
-
-
-//Getter function
-HACCEL WindowsSystem::get_hAccelTable() const
-{
-	return hAccelTable;
-}
-
-
-
 bool WindowsSystem::Initialise()
 {
 	/***************************************************************************************************/
@@ -276,7 +266,24 @@ bool WindowsSystem::Initialise()
 
 }
 
+
+//Getter function
+HWND WindowsSystem::Get_hwnd() const
+{ 
+	return mainHWND; 
+}
+
+
+//Getter function
 HDC WindowsSystem::get_m_windowDC() const
 {
 	return m_windowDC;
+}
+
+
+
+//Getter function
+HACCEL WindowsSystem::get_hAccelTable() const
+{
+	return hAccelTable;
 }

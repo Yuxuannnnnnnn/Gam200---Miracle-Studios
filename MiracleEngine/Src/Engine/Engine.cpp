@@ -17,15 +17,15 @@ void Engine::Update()
 // Input
 	_gameObjectFactory->Update();
 // Logic
-	using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
-	LogicCompMap temp = _gameObjectFactory->getLogicComponent();
-	LogicCompMap::iterator itr = temp.begin();
-	while (itr != temp.end())
-	{
-		// TODO-Brandon, shift this to the actual LogicSystem.h Update()
-		itr->second->Update(); // supposed to call each GO's logicComp and run it's update
-		++itr;
-	}
+	//using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
+	//LogicCompMap temp = _gameObjectFactory->getLogicComponent();
+	//LogicCompMap::iterator itr = temp.begin();
+	//while (itr != temp.end())
+	//{
+	//	// TODO-Brandon, shift this to the actual LogicSystem.h Update()
+	//	itr->second->Update(); // supposed to call each GO's logicComp and run it's update
+	//	++itr;
+	//}
 // Phy & Coll
 
 // Audio
