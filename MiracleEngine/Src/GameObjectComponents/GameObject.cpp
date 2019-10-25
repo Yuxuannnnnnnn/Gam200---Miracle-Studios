@@ -39,10 +39,10 @@ IComponentSystem* GameObject::addcomponent(ComponentTypes componentType)
 		_ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
 		break;
 	case RIGIDBODYCOMPONENT:
-		_ComponentList[RIGIDBODYCOMPONENT] = new RigidBodyComponent();
+		_ComponentList[RIGIDBODYCOMPONENT] = new RigidBody2D();
 		break;
-	case PHYSICSCOMPONENT:
-		_ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
+	case COLLIDERCOMPONENT:
+		_ComponentList[COLLIDERCOMPONENT] = new Collider2D();
 		break;
 	case LOGICCOMPONENT:
 		_ComponentList[LOGICCOMPONENT] = new LogicComponent();
@@ -76,11 +76,21 @@ void GameObject::SerialAddComponent
 		break;
 	case RIGIDBODYCOMPONENT:
 		std::cout << "R. Body";
-		_ComponentList[RIGIDBODYCOMPONENT] = new RigidBodyComponent();
+		_ComponentList[RIGIDBODYCOMPONENT] = new RigidBody2D();
+		temp = _ComponentList[RIGIDBODYCOMPONENT];
+		s = d["Mass"];
+		JsonDynamicStore(((RigidBody2D*)temp)->_mass, s);
+		s = d["Friction"];
+		JsonDynamicStore(((RigidBody2D*)temp)->_fictionVal, s);
+		s = d["Static"];
+		JsonDynamicStore(((RigidBody2D*)temp)->_static, s);
 		break;
-	case PHYSICSCOMPONENT:
-		std::cout << "Physics";
-		_ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
+	case COLLIDERCOMPONENT:
+		std::cout << "Collider";
+		_ComponentList[COLLIDERCOMPONENT] = new Collider2D();
+		temp = _ComponentList[COLLIDERCOMPONENT];
+		s = d["ColliderTypeId"];
+		JsonDynamicStore(((Collider2D*)temp)->_type, s);
 		break;
 	case LOGICCOMPONENT:
 		std::cout << "Logic";
@@ -99,6 +109,7 @@ void GameObject::SerialAddComponent
 	}
 	std::cout << std::endl;
 }
+
 void GameObject::CopyComponent
 	(std::unordered_map< ComponentTypes, IComponentSystem* >& original)
 {
@@ -114,15 +125,7 @@ void GameObject::CopyComponent
 			temp = new TransformComponent(
 				*((TransformComponent*)itr->second)
 			); // using copyCtor to copy var, idk if it works
-			_ComponentList[PHYSICSCOMPONENT] =  temp;
-
-			//temp = _ComponentList[TRANSFORMCOMPONENT];
-			//s = d["Position"];
-			//JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
-			//s = d["Scale"];
-			//JsonDynamicStore(((TransformComponent*)temp)->GetScale(), s);
-			//s = d["Rotate"];
-			//JsonDynamicStore(((TransformComponent*)temp)->GetRotate(), s);
+			_ComponentList[TRANSFORMCOMPONENT] =  temp;
 			break;
 		case GRAPHICSCOMPONENT:
 			std::cout << "Graphics, ";
@@ -130,17 +133,23 @@ void GameObject::CopyComponent
 			break;
 		case RIGIDBODYCOMPONENT:
 			std::cout << "R. Body, ";
-			_ComponentList[RIGIDBODYCOMPONENT] = new RigidBodyComponent();
+			temp = new RigidBodyComponent(
+				*((RigidBodyComponent*)itr->second)
+			);
+			_ComponentList[RIGIDBODYCOMPONENT] = temp;
 			break;
-		case PHYSICSCOMPONENT:
-			std::cout << "Physics, ";
-			_ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
+		case COLLIDERCOMPONENT:
+			std::cout << "Collider, ";
+			temp = new Collider2D(
+				*((Collider2D*)itr->second)
+			);
+			_ComponentList[COLLIDERCOMPONENT] = temp;
 			break;
 		case LOGICCOMPONENT:
 			std::cout << "Logic, ";
 			temp = new LogicComponent(
 				*((LogicComponent*)itr->second)
-			); // using copyCtor to copy var, idk if it works
+			);
 			_ComponentList[LOGICCOMPONENT] = temp;
 
 			//_ComponentList[LOGICCOMPONENT] = new LogicComponent();

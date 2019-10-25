@@ -5,6 +5,8 @@
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
 #include "LogicComponent.h"
+#include "PhysicSystem/CollisionComponent/Collider2D.h"
+#include "PhysicSystem/PhysicComponent/RigidBody2D.h"
 #include "Tools/FileIO.h"
 #include <unordered_map>
 
@@ -32,12 +34,12 @@ enum ComponentTypes
 	TRANSFORMCOMPONENT = 0,
 	GRAPHICSCOMPONENT = 1,
 	RIGIDBODYCOMPONENT = 2,
-	PHYSICSCOMPONENT = 3,
+	COLLIDERCOMPONENT = 3,
 	LOGICCOMPONENT = 4,
 };
 
 
-class GameObject : public ISerial
+class GameObject
 {
 public:
 // Component List
@@ -95,23 +97,34 @@ public:
 		PrintStats_Player(); // for checking serialisation
 	}
 	void PrintStats_Player() {
-		TransformComponent* tempTrans =
-			dynamic_cast<TransformComponent*>(_ComponentList[TRANSFORMCOMPONENT]);
-		LogicComponent* tempLogic =
-			dynamic_cast<LogicComponent*>(_ComponentList[LOGICCOMPONENT]);
+		IComponentSystem* temp = nullptr;
+		temp = _ComponentList[TRANSFORMCOMPONENT];
 		std::cout
 			<< "FilePrint_PlayerInfo ----------------" << std::endl
-			<< "Trans.Pos :  " << tempTrans->GetPos() << std::endl
-			<< "Trans.Sca :  " << tempTrans->GetScale() << std::endl
-			<< "Trans.Rot :  " << tempTrans->GetRotate() << std::endl
-			<< "Health :     " << tempLogic->GetHealth() << std::endl
-			<< "Speed :      " << tempLogic->GetSpeed() << std::endl
-			<< "Lifetime :   " << tempLogic->GetLifetime() << std::endl
-			<< "Script Ids : ";
-		std::vector<int> tempScriptList = tempLogic->GetScriptId();
+			<< "\tTrans.Pos      :  " << ((TransformComponent*)temp)->GetPos() << std::endl
+			<< "\tTrans.Sca      :  " << ((TransformComponent*)temp)->GetScale() << std::endl
+			<< "\tTrans.Rot      :  " << ((TransformComponent*)temp)->GetRotate() << std::endl;
+		temp = _ComponentList[GRAPHICSCOMPONENT];
+		std::cout
+			<< "\tGraphics       :  " << "[placeHolder] " << std::endl;
+		temp = _ComponentList[RIGIDBODYCOMPONENT];
+		std::cout
+			<< "\tRBod.Mass      :  " << ((RigidBody2D*)temp)->_mass << std::endl
+			<< "\tRBod.Friction  :  " << ((RigidBody2D*)temp)->_fictionVal << std::endl
+			<< "\tRBod.Static    :  " << ((RigidBody2D*)temp)->_static << std::endl;
+		temp = _ComponentList[COLLIDERCOMPONENT];
+		std::cout
+			<< "\tCollider.TypId :  " << ((Collider2D*)temp)->_type << std::endl;
+		temp = _ComponentList[LOGICCOMPONENT];
+		std::cout
+			<< "\tLogic.Health   :  " << ((LogicComponent*)temp)->GetHealth() << std::endl
+			<< "\tLogic.Speed    :  " << ((LogicComponent*)temp)->GetSpeed() << std::endl
+			<< "\tLogic.Lifetime :  " << ((LogicComponent*)temp)->GetLifetime() << std::endl
+			<< "\tLogic.ScriptIds:  ";
+		std::vector<int> tempScriptList = ((LogicComponent*)temp)->GetScriptId();
 		std::vector<int>::iterator itr = tempScriptList.begin();
 		while (itr != tempScriptList.end())
-			std::cout << *itr++;
+			std::cout << *itr++ << " ";
 			//	<< "Weapons :   ";
 		//std::vector<int>::iterator itr = _WeaponListId.begin();
 		//while (itr != _WeaponListId.end())
@@ -167,7 +180,7 @@ Player(size_t uId)
 	virtual void Exit() override {
 	}
 // FileIO
-	virtual void SerialInPrefab() override {
+	virtual void SerialInPrefab() {
 	// Get & Parse File
 		std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
 		rapidjson::Document d;
@@ -194,7 +207,7 @@ Player(size_t uId)
 		delete[] iBuffer;
 		PrintStats(); // for checking serialisation
 	}
-	virtual void SerialInLevel() override {
+	virtual void SerialInLevel() {
 	}
 // Cloning
 	Player& Clone(Player& original, unsigned id, Vector3 pos, Vector3 scale, float rotate)

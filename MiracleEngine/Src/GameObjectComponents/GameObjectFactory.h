@@ -44,7 +44,7 @@ public:
 		{
 		case TYPE_PLAYER:
 			gameObject = new Player(uId);
-			gameObject->SerialInPrefab();
+			gameObject->SerialInPrefab_Player();
 			break;
 		case TYPE_WALL:
 			break;
@@ -110,9 +110,9 @@ private:
 //Array of TransformComponents for GraphicsSystem
 	std::unordered_map < size_t, TransformComponent* >  _transformComponents;
 //Array of RigidBodyComponent 
-	std::unordered_map < size_t, RigidBodyComponent* >  _rigidBodyComponents;
+	std::unordered_map < size_t, RigidBody2D* >  _rigidBody2dComponents;
 //Array of PhysicsComponent 
-	std::unordered_map < size_t, PhysicsComponent* >  _physicsComponents;
+	std::unordered_map < size_t, Collider2D* >  _collider2dComponents;
 //Array of LogicComponent 
 	std::unordered_map < size_t, LogicComponent* >  _logicComponents;
 
@@ -130,8 +130,8 @@ public:
 //Get Components
 	const std::unordered_map < size_t, GraphicComponent* >& getGraphicComponent() const;
 	const std::unordered_map < size_t, TransformComponent* >& getTransformComponent() const;
-	const std::unordered_map < size_t, RigidBodyComponent* >& getRigidBodyComponent() const;
-	const std::unordered_map < size_t, PhysicsComponent* >& getPhysicsComponent() const;
+	const std::unordered_map < size_t, RigidBody2D* >& getRigidBodyComponent() const;
+	const std::unordered_map < size_t, Collider2D* >& getCollider2dComponent() const;
 	const std::unordered_map < size_t, LogicComponent* >& getLogicComponent() const;
 
 	const std::unordered_map < size_t, GameObject*>& getObjectlist() const;
@@ -145,34 +145,35 @@ public:
 		_listObject.erase(id);
 		_graphicComponents.erase(id);
 		_transformComponents.erase(id);
-		_rigidBodyComponents.erase(id);
-		_physicsComponents.erase(id);
+		_rigidBody2dComponents.erase(id);
+		_collider2dComponents.erase(id);
 	}
 
 //Create a gameObject type along with its Components
 	GameObject* CreateGameObject(GameObjectTypeID typeId)
 	{
-		std::cout << "CreateGameObject(" << typeId << ")" << std::endl;
-		GameObject* gameObject = nullptr;
+		//std::cout << "CreateGameObject(" << typeId << ")" << std::endl;
+		//GameObject* gameObject = nullptr;
 
-		switch (typeId)
-		{
-		case TYPE_PLAYER:
-			gameObject = new Player(_uId);
-			_listObject[_uId] = gameObject;
+		//switch (typeId)
+		//{
+		//case TYPE_PLAYER:
+		//	gameObject = new Player(_uId);
+		//	_listObject[_uId] = gameObject;
 
-			_transformComponents[_uId] = dynamic_cast<TransformComponent*> (gameObject->addcomponent(TRANSFORMCOMPONENT));
-			_graphicComponents[_uId] = dynamic_cast<GraphicComponent*> (gameObject->addcomponent(GRAPHICSCOMPONENT));
-			_rigidBodyComponents[_uId] = dynamic_cast<RigidBodyComponent*> (gameObject->addcomponent(RIGIDBODYCOMPONENT));
-			_physicsComponents[_uId] = dynamic_cast<PhysicsComponent*> (gameObject->addcomponent(PHYSICSCOMPONENT));
+		//	_transformComponents[_uId] = dynamic_cast<TransformComponent*> (gameObject->addcomponent(TRANSFORMCOMPONENT));
+		//	_graphicComponents[_uId] = dynamic_cast<GraphicComponent*> (gameObject->addcomponent(GRAPHICSCOMPONENT));
+		//	_rigidBodyComponents[_uId] = dynamic_cast<RigidBodyComponent*> (gameObject->addcomponent(RIGIDBODYCOMPONENT));
+		//	_physicsComponents[_uId] = dynamic_cast<PhysicsComponent*> (gameObject->addcomponent(PHYSICSCOMPONENT));
 
-			_uId++;
-			break;
-		case TYPE_WALL:
-			break;
-			//Other Objects
-		}
-		return gameObject;
+		//	_uId++;
+		//	break;
+		//case TYPE_WALL:
+		//	break;
+		//	//Other Objects
+		//}
+		//return gameObject;
+		return nullptr;
 	}
 //Create a gameObject type along with its Components
 	void CloneGameObject(GameObjectTypeID gameObjectTypeID)
@@ -204,10 +205,10 @@ public:
 				_graphicComponents[_uId] = (GraphicComponent*)itr->second;
 				break;
 			case RIGIDBODYCOMPONENT:
-				_rigidBodyComponents[_uId] = (RigidBodyComponent*)itr->second;
+				_rigidBody2dComponents[_uId] = (RigidBody2D*)itr->second;
 				break;
-			case PHYSICSCOMPONENT:
-				_physicsComponents[_uId] = (PhysicsComponent*)itr->second;
+			case COLLIDERCOMPONENT:
+				_collider2dComponents[_uId] = (Collider2D*)itr->second;
 				break;
 			case LOGICCOMPONENT:
 				_logicComponents[_uId] = (LogicComponent*)itr->second;
@@ -373,9 +374,10 @@ public:
 		while (itr != _listObject.end())
 		{
 			delete _listObject[itr->first];
-			_listObject.erase(itr->first);
 			++itr;
 		}
+		_listObject.clear();
+		
 		/*for (auto gameObject : _listObject)
 		{
 			delete gameObject.second;

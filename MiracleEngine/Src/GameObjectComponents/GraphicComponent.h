@@ -6,7 +6,6 @@
 class GraphicComponent : public IComponentSystem
 {
 private:
-	size_t _ParentId;
 	int _shaderID;
 	int _textureID;
 	Mesh* _pmesh;

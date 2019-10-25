@@ -14,8 +14,6 @@ enum ScriptId {
 
 class LogicComponent : public IComponentSystem
 {
-// _Parent
-	size_t _ParentId;
 // list of scripts
 	//int _scriptId;
 	std::vector<int> _scriptList;
@@ -25,7 +23,10 @@ class LogicComponent : public IComponentSystem
 	int _lifetime{ 0 };
 
 public:
-	LogicComponent(size_t id = 0) : _ParentId{ id } {}
+	LogicComponent(size_t id = 0)
+	{
+		_ParentId = id;
+	}
 	~LogicComponent() = default;
 	LogicComponent(const LogicComponent& rhs) = default;
 	LogicComponent& operator=(const LogicComponent& rhs) = default;

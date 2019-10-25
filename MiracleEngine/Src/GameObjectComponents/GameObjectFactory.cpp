@@ -42,16 +42,16 @@ GameObjectFactory::getTransformComponent() const
 	return _transformComponents;
 }
 
-const std::unordered_map < size_t, RigidBodyComponent* >&
+const std::unordered_map < size_t, RigidBody2D* >&
 GameObjectFactory::getRigidBodyComponent() const
 {
-	return _rigidBodyComponents;
+	return _rigidBody2dComponents;
 }
 
-const std::unordered_map < size_t, PhysicsComponent* >&
-GameObjectFactory::getPhysicsComponent() const
+const std::unordered_map < size_t, Collider2D* >&
+GameObjectFactory::getCollider2dComponent() const
 {
-	return _physicsComponents;
+	return _collider2dComponents;
 }
 
 const std::unordered_map < size_t, LogicComponent* >&

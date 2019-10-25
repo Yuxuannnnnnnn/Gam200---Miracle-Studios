@@ -9,8 +9,8 @@
   "COMPONENT 1": "GRAPHICS",
 
   "COMPONENT 2": "RIGID BODY",
-  "Mass": 10,
-  "Friction": 11,
+  "Mass": 10.0,
+  "Friction": 11.0,
   "Static": true,
 
   "COMPONENT 3": "COLLIDERcreate different Collider type depending on this ID ",

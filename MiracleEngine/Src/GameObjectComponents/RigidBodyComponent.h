@@ -6,7 +6,6 @@
 class RigidBodyComponent : public IComponentSystem
 {
 private:
-	size_t _ParentId;
 	bool _collidable;
 
 public:
