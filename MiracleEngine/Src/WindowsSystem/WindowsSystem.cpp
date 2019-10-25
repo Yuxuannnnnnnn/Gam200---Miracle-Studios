@@ -124,7 +124,7 @@ struct ScreenSize final {
 	*/
 	void FileRead_StartUp()
 	{
-		std::cout << "FileRead_StartUp --------------------" << std::endl;
+		std::cout << std::endl << "FileRead_StartUp --------------------" << std::endl;
 		rapidjson::Document d;
 		char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/init.json");
 		std::cout << iBuffer << std::endl;
@@ -143,7 +143,7 @@ struct ScreenSize final {
 		// cout for check
 		std::cout << "Inital File Input" << std::endl
 			<< "X:" << _ResX << " Y:" << _ResY << " Full = " << _Fullscreen << std::endl
-			<< "-------------------------------------" << std::endl;
+			<< "-------------------------------------" << std::endl << std::endl;
 
 		delete[] iBuffer;
 	}

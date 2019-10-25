@@ -5,7 +5,6 @@
 class TransformComponent: public IComponentSystem
 {
 private:
-	size_t _ParentId;
 	Vector3 _pos;
 	Vector3 _scale;
 	float _rotationAngle;

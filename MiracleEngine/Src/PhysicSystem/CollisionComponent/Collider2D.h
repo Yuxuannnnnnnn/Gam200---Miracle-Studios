@@ -13,11 +13,11 @@
 
 enum ColliderType{
     
-    NONE_COLLIDER,
-    BOX_COLLIDER,
-    CIRCLE_COLLIDER,
-	LINE_COLLIDER
-    
+    NONE_COLLIDER = 0,
+    BOX_COLLIDER = 1,
+    CIRCLE_COLLIDER = 2,
+	LINE_COLLIDER = 3,
+
   };
 
 namespace {
@@ -31,10 +31,10 @@ namespace {
 	const int	COLLISION_RIGHT_BOTTOM = 0x0000020; //10 0000
 }
 
-class Collider2D //: public DebugRenderer 
+class Collider2D : public IComponentSystem //: public DebugRenderer 
 {
 public:
-	ColliderType _type;
+	unsigned _type;
 	unsigned _layer;
 
 	bool _enable;
@@ -50,7 +50,7 @@ public:
 
 	virtual ~Collider2D() {}
 
-	virtual void Draw() = 0;
+	virtual void Draw() {};
 
 	virtual void update() {}
 
@@ -59,6 +59,16 @@ public:
 	{
 		(void)flag;
 		(void)cellSize;
+	}
+
+	// GetPID
+	size_t GetParentId() const override
+	{
+		return _ParentId;
+	}
+	std::string ComponentName() const override
+	{
+		return "ColliderComponent";
 	}
 };
 

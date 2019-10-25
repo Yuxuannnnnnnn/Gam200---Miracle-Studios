@@ -11,7 +11,7 @@
 
 #include "MathLib/SYMath.h"
 
-class RigidBody2D
+class RigidBody2D : public IComponentSystem
 {
 public:
 	Vector3 _velocity;
@@ -30,6 +30,9 @@ public:
 	void UpdatePos(double dt);
 
 	void Draw();
+
+	size_t GetParentId() const override;
+	std::string ComponentName() const override;
 };
 
 #endif

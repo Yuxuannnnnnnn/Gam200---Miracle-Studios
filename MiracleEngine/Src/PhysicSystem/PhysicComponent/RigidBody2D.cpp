@@ -60,3 +60,13 @@ void RigidBody2D::Draw()
 
 	//DebugRenderer::GetInstance().DrawLine(_gameObject->_pos._x, _gameObject->_pos._y, _gameObject->_pos._x + newVel._x * length, _gameObject->_pos._y + newVel._y * length);
 }
+
+
+size_t RigidBody2D::GetParentId() const
+{
+	return _ParentId;
+}
+std::string RigidBody2D::ComponentName() const
+{
+	return "RigidBody2D Component";
+}

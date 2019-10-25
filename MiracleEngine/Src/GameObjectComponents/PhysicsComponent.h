@@ -5,7 +5,6 @@
 
 class PhysicsComponent: public IComponentSystem
 {
-	size_t _ParentId;
 public:
 // GetPID
 	size_t GetParentId() const override
