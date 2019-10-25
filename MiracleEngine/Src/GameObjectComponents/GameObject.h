@@ -1,5 +1,12 @@
 #pragma once
 #include "PrecompiledHeaders.h"
+ 
+#include "rapidjson.h"		// J
+#include "document.h"		// S
+#include "writer.h"			// O
+#include "stringbuffer.h"	// N
+#include "error/en.h"		// Json error displaying
+
 #include "GraphicComponent.h"
 #include "RigidBodyComponent.h"
 #include "TransformComponent.h"
@@ -7,7 +14,9 @@
 #include "LogicComponent.h"
 #include "PhysicSystem/CollisionComponent/Collider2D.h"
 #include "PhysicSystem/PhysicComponent/RigidBody2D.h"
+
 #include "Tools/FileIO.h"
+
 #include <unordered_map>
 
 
