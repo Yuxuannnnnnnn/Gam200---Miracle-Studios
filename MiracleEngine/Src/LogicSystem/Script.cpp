@@ -1,6 +1,29 @@
 #include "PrecompiledHeaders.h"
 #include "Script.h"
 
+namespace Script_1 {
+	void Update()
+	{
+		std::cout << "SCRIPT - 1" << std::endl;
+	}
+}
+
+namespace Script_2 {
+	void Update()
+	{
+		std::cout << "SCRIPT - 2" << std::endl;
+	}
+}
+
+namespace Script_HealthMinus {
+	void Update(int& health, int changeVal)
+	{
+		std::cout << "SCRIPT - 321212" << std::endl;
+	}
+}
+
+
+
 
 
 //#pragma once

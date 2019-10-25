@@ -8,8 +8,8 @@ enum ScriptId {
 	EMPTY = 0,
 	SCRIPT_1 = 1,
 	SCRIPT_2 = 2,
-	SCRIPT_HEALTH,
-	SCRIPT_INPUT,
+	SCRIPT_HEALTH = 3,
+	SCRIPT_INPUT = 4,
 };
 
 class LogicComponent : public IComponentSystem
@@ -94,7 +94,7 @@ public:
 		return _speed;
 	}
 // GetHealth
-	int& GetLifetie()
+	int& GetLifetime()
 	{
 		return _lifetime;
 	}

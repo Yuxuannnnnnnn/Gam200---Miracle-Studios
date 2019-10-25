@@ -70,6 +70,56 @@ public:
 // Cloning
 	virtual GameObject* Clone();
 
+// Serialisation
+	virtual void SerialInPrefab_Player() {
+	// Get & Parse File
+		std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
+		rapidjson::Document d;
+		char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/playerNew.json");
+		ASSERT(iBuffer != nullptr);
+		std::cout << iBuffer << std::endl;
+		d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+	// Component List
+		rapidjson::Value& s = d["ComponentList"];
+		std::vector<int> compList;
+		JsonDynamicStore(compList, s);
+		std::vector<int>::iterator itr = compList.begin();
+		while (itr != compList.end())
+			SerialAddComponent((ComponentTypes)* itr++, s, d);
+	// Other Values
+		//s = d["Weapons"];
+		//JsonDynamicStore(_WeaponListId, s);
+		// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
+		std::cout << "-------------------------------------" << std::endl;
+		delete[] iBuffer;
+		PrintStats_Player(); // for checking serialisation
+	}
+	void PrintStats_Player() {
+		TransformComponent* tempTrans =
+			dynamic_cast<TransformComponent*>(_ComponentList[TRANSFORMCOMPONENT]);
+		LogicComponent* tempLogic =
+			dynamic_cast<LogicComponent*>(_ComponentList[LOGICCOMPONENT]);
+		std::cout
+			<< "FilePrint_PlayerInfo ----------------" << std::endl
+			<< "Trans.Pos :  " << tempTrans->GetPos() << std::endl
+			<< "Trans.Sca :  " << tempTrans->GetScale() << std::endl
+			<< "Trans.Rot :  " << tempTrans->GetRotate() << std::endl
+			<< "Health :     " << tempLogic->GetHealth() << std::endl
+			<< "Speed :      " << tempLogic->GetSpeed() << std::endl
+			<< "Lifetime :   " << tempLogic->GetLifetime() << std::endl
+			<< "Script Ids : ";
+		std::vector<int> tempScriptList = tempLogic->GetScriptId();
+		std::vector<int>::iterator itr = tempScriptList.begin();
+		while (itr != tempScriptList.end())
+			std::cout << *itr++;
+			//	<< "Weapons :   ";
+		//std::vector<int>::iterator itr = _WeaponListId.begin();
+		//while (itr != _WeaponListId.end())
+		//	std::cout << *itr++;
+		std::cout << std::endl
+			<< "-------------------------------------"
+			<< std::endl;
+	}
 };
 
 

@@ -112,9 +112,9 @@ private:
 //Array of RigidBodyComponent 
 	std::unordered_map < size_t, RigidBodyComponent* >  _rigidBodyComponents;
 //Array of PhysicsComponent 
-	std::unordered_map < size_t, PhysicsComponent* >  _physicsComponent;
+	std::unordered_map < size_t, PhysicsComponent* >  _physicsComponents;
 //Array of LogicComponent 
-	std::unordered_map < size_t, LogicComponent* >  _logicComponent;
+	std::unordered_map < size_t, LogicComponent* >  _logicComponents;
 
 public:
 //No replication of class object
@@ -146,7 +146,7 @@ public:
 		_graphicComponents.erase(id);
 		_transformComponents.erase(id);
 		_rigidBodyComponents.erase(id);
-		_physicsComponent.erase(id);
+		_physicsComponents.erase(id);
 	}
 
 //Create a gameObject type along with its Components
@@ -164,7 +164,7 @@ public:
 			_transformComponents[_uId] = dynamic_cast<TransformComponent*> (gameObject->addcomponent(TRANSFORMCOMPONENT));
 			_graphicComponents[_uId] = dynamic_cast<GraphicComponent*> (gameObject->addcomponent(GRAPHICSCOMPONENT));
 			_rigidBodyComponents[_uId] = dynamic_cast<RigidBodyComponent*> (gameObject->addcomponent(RIGIDBODYCOMPONENT));
-			_physicsComponent[_uId] = dynamic_cast<PhysicsComponent*> (gameObject->addcomponent(PHYSICSCOMPONENT));
+			_physicsComponents[_uId] = dynamic_cast<PhysicsComponent*> (gameObject->addcomponent(PHYSICSCOMPONENT));
 
 			_uId++;
 			break;
@@ -188,10 +188,33 @@ public:
 			break;
 		}
 		// add 'temp' to the _listObj;
-		if (temp)
-			_listObject.insert(std::pair<size_t, GameObject*>(_uId++, temp));
+		if (!temp)
+			return;
+		_listObject.insert(std::pair<size_t, GameObject*>(++_uId, temp));
 		// based on temp's _ComponentList, add the components into GOFac's different systems
-			// TODO
+		std::unordered_map< ComponentTypes, IComponentSystem* >::iterator itr = temp->_ComponentList.begin();
+		while (itr != temp->_ComponentList.end())
+		{
+			switch (itr->first)
+			{
+			case TRANSFORMCOMPONENT:
+				_transformComponents[_uId] = (TransformComponent*)itr->second;
+				break;
+			case GRAPHICSCOMPONENT:
+				_graphicComponents[_uId] = (GraphicComponent*)itr->second;
+				break;
+			case RIGIDBODYCOMPONENT:
+				_rigidBodyComponents[_uId] = (RigidBodyComponent*)itr->second;
+				break;
+			case PHYSICSCOMPONENT:
+				_physicsComponents[_uId] = (PhysicsComponent*)itr->second;
+				break;
+			case LOGICCOMPONENT:
+				_logicComponents[_uId] = (LogicComponent*)itr->second;
+				break;
+			}
+			++itr;
+		}
 	}
 	void ObjectClone()
 	{
@@ -208,11 +231,13 @@ public:
 		// get list of all objects
 	//	std::vector<std::string>listOfObjs =
 	//		FileRead_FileToStringVector("./Resources/TextFiles/ListOfGameObjects.txt");
-		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_PLAYER, CreateGameObject(TYPE_PLAYER)));
-		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_WALL, CreateGameObject(TYPE_WALL)));
-		// serialise each object
-
-
+		GameObject* temp = nullptr;
+	// Prototype_Player
+		temp = new GameObject(0, TYPE_PLAYER);
+		temp->SerialInPrefab_Player();
+		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_PLAYER, temp));
+		
+			//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_WALL, CreateGameObject(TYPE_WALL)));
 
 		// load initial level
 	}
@@ -243,6 +268,7 @@ public:
 		std::cout << "GOFac Exit" << std::endl;
 	}
 
+	// TempGO for Serialising from LevelText.txt
 	struct TempGO {
 		int id{ 0 };
 		Vector3 pos{ Vector3() };
@@ -330,11 +356,23 @@ public:
 
 
 
-	// TEST FUNCTION TO ADD SOME GAME OBJECTS 'DYNAMICALLY'
+	// TEST FUNCTION - to add some GOs 'dyamically'
 	void TEST_AddGameObjects()
 	{
 		std::cout << "TEST_AddGameObjects()" << std::endl;
 		CloneGameObject(TYPE_PLAYER);
 		CloneGameObject(TYPE_PLAYER);
+	}
+	// TEST FUNCTION - to see all GOs in _listObj
+	void TEST_DisplayAllGameObj()
+	{
+		std::cout << "TEST_DisplayAllGameObj()" << std::endl;
+		std::unordered_map < size_t, GameObject* >::iterator itr = _listObject.begin();
+		while (itr != _listObject.end())
+		{
+			std::cout << " " << itr->first << " : " << itr->second->_typeId;
+			++itr;
+		}
+	std::cout << std::endl;
 	}
 };

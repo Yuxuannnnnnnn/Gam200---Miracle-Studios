@@ -51,13 +51,13 @@ GameObjectFactory::getRigidBodyComponent() const
 const std::unordered_map < size_t, PhysicsComponent* >&
 GameObjectFactory::getPhysicsComponent() const
 {
-	return _physicsComponent;
+	return _physicsComponents;
 }
 
 const std::unordered_map < size_t, LogicComponent* >&
 GameObjectFactory::getLogicComponent() const
 {
-	return _logicComponent;
+	return _logicComponents;
 }
 
 const std::unordered_map<size_t, GameObject*>&

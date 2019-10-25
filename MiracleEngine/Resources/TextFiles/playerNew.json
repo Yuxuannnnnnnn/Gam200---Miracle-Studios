@@ -9,6 +9,6 @@
 
 
   "Health": 10,
-  "Speed": 3.3,
+  "Speed": 3,
   "Weapons": [ 1, 3, 4 ]
 }

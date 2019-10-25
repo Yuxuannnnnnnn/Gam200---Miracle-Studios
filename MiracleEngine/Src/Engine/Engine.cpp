@@ -5,11 +5,10 @@ void Engine::Init()
 	_gameObjectFactory->Init();
 	//_logicSystem->Init();
 	_graphicsSystem->Init();
+	_logicSystem->Init(); // does nothing for now
 
-	//GameObject* player = _gameObjectFactory->CreateGameObject(TYPE_PLAYER);
-	//_gameObjectFactory->DeleteGameObjectID(player->_uId);
 	_gameObjectFactory->TEST_AddGameObjects();
-	
+	_gameObjectFactory->TEST_DisplayAllGameObj();
 }
 
 
@@ -23,7 +22,8 @@ void Engine::Update()
 	LogicCompMap::iterator itr = temp.begin();
 	while (itr != temp.end())
 	{
-		// itr->second->Update(); // supposed to call each GO's logicComp and run it's update
+		// TODO-Brandon, shift this to the actual LogicSystem.h Update()
+		itr->second->Update(); // supposed to call each GO's logicComp and run it's update
 		++itr;
 	}
 // Phy & Coll

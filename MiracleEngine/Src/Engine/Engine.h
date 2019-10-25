@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObjectComponents/GameObjectFactory.h"
 #include "GraphicsSystem/GraphicsSystem.h"
+#include "LogicSystem/LogicSystem.h"
 
 class Engine
 {
@@ -17,7 +18,7 @@ public:
 
 	GraphicsSystem * _graphicsSystem;
 	GameObjectFactory * _gameObjectFactory;
-	//LogicSystem* _logicSystem;
+	LogicSystem* _logicSystem;
 
 private:
 };

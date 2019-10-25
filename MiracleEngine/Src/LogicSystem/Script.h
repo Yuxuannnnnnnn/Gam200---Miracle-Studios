@@ -2,24 +2,15 @@
 #include "PrecompiledHeaders.h"
 
 namespace Script_1 {
-	void Update()
-	{
-		std::cout << "SCRIPT - 1" << std::endl;
-	}
+	void Update();
 }
 
 namespace Script_2 {
-	void Update()
-	{
-		std::cout << "SCRIPT - 2" << std::endl;
-	}
+	void Update();
 }
 
 namespace Script_HealthMinus {
-	void Update(int& health, int changeVal)
-	{
-		std::cout << "SCRIPT - 3" << std::endl;
-	}
+	void Update(int& health, int changeVal);
 }
 
 namespace Script_Input {

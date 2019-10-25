@@ -52,23 +52,23 @@ bool JsonParseChecker(const char c)
 
 void JsonDynamicStore(bool& store, rapidjson::Value &val)
 {
-	ASSERT(typeid(store).name() == typeid(bool).name())
+	ASSERT(val.IsBool())
 		store = static_cast<bool>(val.GetBool());
 	return;
 }
 void JsonDynamicStore(float& store, rapidjson::Value& val)
 {
-	ASSERT(typeid(store).name() == typeid(float).name())
+	ASSERT(val.IsFloat())
 		store = static_cast<float>(val.GetFloat());
 }
 void JsonDynamicStore(int& store, rapidjson::Value& val)
 {
-	ASSERT(typeid(store).name() == typeid(int).name())
+	ASSERT(val.IsInt())
 		store = static_cast<int>(val.GetInt());
 }
 void JsonDynamicStore(unsigned int& store, rapidjson::Value& val)
 {
-	ASSERT(typeid(store).name() == typeid(unsigned int).name())
+	ASSERT(val.IsInt())
 		store = static_cast<unsigned int>(val.GetInt());
 }
 void JsonDynamicStore(std::vector<int> &store, rapidjson::Value& val)

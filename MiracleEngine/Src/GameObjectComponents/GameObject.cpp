@@ -60,7 +60,7 @@ void GameObject::SerialAddComponent
 	{
 		IComponentSystem* temp;
 	case TRANSFORMCOMPONENT:
-		std::cout << "Transform, ";
+		std::cout << "Transform";
 		_ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
 		temp = _ComponentList[TRANSFORMCOMPONENT];
 		s = d["Position"];
@@ -69,21 +69,21 @@ void GameObject::SerialAddComponent
 		JsonDynamicStore(((TransformComponent*)temp)->GetScale(), s);
 		s = d["Rotate"];
 		JsonDynamicStore(((TransformComponent*)temp)->GetRotate(), s);
-		return;
+		break;
 	case GRAPHICSCOMPONENT:
-		std::cout << "Graphics, ";
+		std::cout << "Graphics";
 		_ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
-		return;
+		break;
 	case RIGIDBODYCOMPONENT:
-		std::cout << "R. Body, ";
+		std::cout << "R. Body";
 		_ComponentList[RIGIDBODYCOMPONENT] = new RigidBodyComponent();
-		return;
+		break;
 	case PHYSICSCOMPONENT:
-		std::cout << "Physics, ";
+		std::cout << "Physics";
 		_ComponentList[PHYSICSCOMPONENT] = new PhysicsComponent();
-		return;
+		break;
 	case LOGICCOMPONENT:
-		std::cout << "Logic, ";
+		std::cout << "Logic";
 		_ComponentList[LOGICCOMPONENT] = new LogicComponent();
 		temp = _ComponentList[LOGICCOMPONENT];
 		s = d["ScriptId"];
@@ -92,9 +92,10 @@ void GameObject::SerialAddComponent
 		JsonDynamicStore(((LogicComponent*)temp)->GetHealth(), s);
 		s = d["Speed"];
 		JsonDynamicStore(((LogicComponent*)temp)->GetSpeed(), s);
-		return;
+		break;
 	default:
 		temp = nullptr;
+		break;
 	}
 	std::cout << std::endl;
 }
