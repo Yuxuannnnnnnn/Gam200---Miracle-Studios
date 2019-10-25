@@ -14,6 +14,8 @@ GameObjectFactory* gameObjectFactory;
 
 
 
+
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -59,8 +61,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ImGui::StyleColorsDark();
 
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;// Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
-	io.ConfigDockingWithShift = true;
+	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+	//io.ConfigDockingWithShift = true;
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; //Enable Multi - Viewport / Platform Windows
 	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 	//ImGuiStyle& style = ImGui::GetStyle();
@@ -94,7 +96,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 				return (int)msg.wParam;
 			}
 
-			if (!TranslateAccelerator(msg.hwnd, window.get_hAccelTable() , &msg))
+			if (!TranslateAccelerator(msg.hwnd, window.get_hAccelTable(), &msg))
 			{
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
@@ -106,22 +108,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			ImGui_ImplWin32_NewFrame();
 			ImGui::NewFrame();
 
-			bool show_demo_window = true;
-			ImGui::ShowDemoWindow(&show_demo_window);
+			ImGui::ShowDemoWindow();
+
 
 			// engine update here
 			coreEngine->Update();
 
 			// Rendering
 			ImGui::Render();
-
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 			//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 			//{
 			//	ImGui::UpdatePlatformWindows();
 			//	ImGui::RenderPlatformWindowsDefault();
 			//}
-
 			// swap double buffer at the end
 			::SwapBuffers(window.get_m_windowDC());
 		}
