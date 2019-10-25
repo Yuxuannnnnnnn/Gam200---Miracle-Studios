@@ -1,3 +1,4 @@
+
 // dear imgui, v1.74 WIP
 // (demo code)
 
@@ -53,7 +54,6 @@ Index of this file:
 // [SECTION] Example App: Documents Handling / ShowExampleAppDocuments()
 
 */
-#include "PrecompiledHeaders.h"
 
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS

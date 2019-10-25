@@ -23,7 +23,7 @@
     <ProjectGuid>{87AACDF0-2D7E-405C-9D17-3303C4045C9A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MiracleEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -91,6 +91,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Resources;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\rapidjson;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glm;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glew-2.1.0\include\GL;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Src\PrecompiledHeaders;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep;$(SolutionDir)Resources;$(SolutionDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Resources;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\rapidjson;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glm;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glew-2.1.0\include\GL;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -126,6 +127,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Resources;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\rapidjson;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glm;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glew-2.1.0\include\GL;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Src\PrecompiledHeaders;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep;$(SolutionDir)Resources;$(SolutionDir)Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Resources;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\rapidjson;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glm;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glew-2.1.0\include\GL;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -448,6 +450,8 @@
     <ClInclude Include="Dep\rapidjson\stream.h" />
     <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
     <ClInclude Include="Dep\rapidjson\writer.h" />
+    <ClInclude Include="ImguiSystem.h" />
+    <ClInclude Include="ImguiWindow.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
@@ -505,12 +509,44 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
-    <ClCompile Include="Dep\Imgui\imgui.cpp" />
-    <ClCompile Include="Dep\Imgui\imgui_demo.cpp" />
-    <ClCompile Include="Dep\Imgui\imgui_draw.cpp" />
-    <ClCompile Include="Dep\Imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Dep\Imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="Dep\Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Dep\Imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dep\Imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dep\Imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dep\Imgui\imgui_impl_opengl3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dep\Imgui\imgui_impl_win32.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dep\Imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ImguiSystem.cpp" />
+    <ClCompile Include="ImguiWindow.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\MeshManager.cpp" />
@@ -559,7 +595,12 @@
     <ClCompile Include="Src\Tools\MemoryManager.cpp" />
     <ClCompile Include="Src\Tools\PerformanceUsage.cpp" />
     <ClCompile Include="Src\WindowsSystem\WindowsSystem.cpp" />
-    <ClCompile Include="Dep\stb_image\stb_image.cpp" />
+    <ClCompile Include="Dep\stb_image\stb_image.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
     <ClCompile Include="Src\GameObjectComponents\TransformComponent.cpp" />
   </ItemGroup>

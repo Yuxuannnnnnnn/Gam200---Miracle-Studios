@@ -29,7 +29,7 @@ void Engine::Update()
 // Input
 	_gameObjectFactory->Update();
 // Logic
-	if (true)
+	if (false)
 	{
 	using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
 	LogicCompMap temp = _gameObjectFactory->getLogicComponent();

@@ -22,7 +22,7 @@ private:
 	HGLRC m_wglDC;//OpenGL-device context
 
 	unsigned int windowWidth = 800; //1920
-	unsigned int windowHeight = 600;  //1080
+	unsigned int windowHeight = 600;  //91080
 
 public:
 
