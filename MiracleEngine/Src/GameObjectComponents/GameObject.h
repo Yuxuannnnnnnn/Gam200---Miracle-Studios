@@ -73,7 +73,7 @@ public:
 // Serialisation
 	virtual void SerialInPrefab_Player() {
 	// Get & Parse File
-		std::cout << "FileRead_PlayerInfo -----------------" << std::endl;
+		std::cout << std::endl << "FileRead_PlayerInfo -----------------" << std::endl;
 		rapidjson::Document d;
 		char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/playerNew.json");
 		ASSERT(iBuffer != nullptr);
@@ -118,7 +118,7 @@ public:
 		//	std::cout << *itr++;
 		std::cout << std::endl
 			<< "-------------------------------------"
-			<< std::endl;
+			<< std::endl << std::endl;
 	}
 };
 

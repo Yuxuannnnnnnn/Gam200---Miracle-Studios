@@ -7,13 +7,23 @@ void Engine::Init()
 	_graphicsSystem->Init();
 	_logicSystem->Init(); // does nothing for now
 
-	_gameObjectFactory->TEST_AddGameObjects();
-	_gameObjectFactory->TEST_DisplayAllGameObj();
+	//_gameObjectFactory->TEST_AddGameObjects();
+	//_gameObjectFactory->TEST_DisplayAllGameObj();
 }
 
 
 void Engine::Update()
 {
+	bool testing = false;
+
+	if (testing)
+	{
+		_gameObjectFactory->TEST_AddGameObjects();
+		_gameObjectFactory->TEST_DisplayAllGameObj();
+		_gameObjectFactory->TEST_DeleteAllGameObjects();
+		_gameObjectFactory->Update();
+		return;
+	}
 // Input
 	_gameObjectFactory->Update();
 // Logic

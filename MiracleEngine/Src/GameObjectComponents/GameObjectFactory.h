@@ -359,13 +359,34 @@ public:
 	// TEST FUNCTION - to add some GOs 'dyamically'
 	void TEST_AddGameObjects()
 	{
+		std::cout << std::endl << "-------------------------------------" << std::endl;
 		std::cout << "TEST_AddGameObjects()" << std::endl;
 		CloneGameObject(TYPE_PLAYER);
 		CloneGameObject(TYPE_PLAYER);
+		std::cout << std::endl << "-------------------------------------" << std::endl;
+	}
+	void TEST_DeleteAllGameObjects()
+	{
+		std::cout << std::endl << "-------------------------------------" << std::endl;
+		std::cout << "TEST_DeleteAllGameObjects()" << std::endl;
+		std::unordered_map < size_t, GameObject* >::iterator itr = _listObject.begin();
+		while (itr != _listObject.end())
+		{
+			delete _listObject[itr->first];
+			_listObject.erase(itr->first);
+			++itr;
+		}
+		/*for (auto gameObject : _listObject)
+		{
+			delete gameObject.second;
+			_listObject.erase(gameObject.first);
+		}*/
+		std::cout << std::endl << "-------------------------------------" << std::endl;
 	}
 	// TEST FUNCTION - to see all GOs in _listObj
 	void TEST_DisplayAllGameObj()
 	{
+		std::cout << std::endl << "-------------------------------------" << std::endl;
 		std::cout << "TEST_DisplayAllGameObj()" << std::endl;
 		std::unordered_map < size_t, GameObject* >::iterator itr = _listObject.begin();
 		while (itr != _listObject.end())
@@ -373,6 +394,6 @@ public:
 			std::cout << " " << itr->first << " : " << itr->second->_typeId;
 			++itr;
 		}
-	std::cout << std::endl;
+		std::cout << std::endl << "-------------------------------------" << std::endl;
 	}
 };
