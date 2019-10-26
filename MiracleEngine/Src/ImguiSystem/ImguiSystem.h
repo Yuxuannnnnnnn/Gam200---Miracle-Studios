@@ -9,11 +9,10 @@ class ImguiSystem
 {
 private:
 	ImVec4 clear_color;//for clearing opengl
+	const Window& _window;
 
 public:
-	ImguiSystem();
-
-	void Init(const WindowsSystem& window); //Imgui system is initialised
+	ImguiSystem(const Window& window);
 
 	void UpdateFrame();	//Calls new frames for Imgui every loop
 

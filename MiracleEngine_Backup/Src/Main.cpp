@@ -95,7 +95,28 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();  (void)io;
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;// Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+	io.ConfigDockingWithShift = true;
+	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; //Enable Multi - Viewport / Platform Windows
+
+
+
+	//Set Window bg color
+	ImVec4 clear_color = ImVec4(1.000F, 1.000F, 1.000F, 1.0F);
+
+	// Setup style
+	ImGui::StyleColorsDark();
+
+	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+	//ImGuiStyle& style = ImGui::GetStyle();
+	//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	//{
+	//	style.WindowRounding = 0.0f;
+	//	style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	//}
+
 
 	//Init Win32
 	ImGui_ImplWin32_Init(window.Get_hwnd());
@@ -105,16 +126,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	const char* glsl_version = "#version 130";
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
-	//Set Window bg color
-	ImVec4 clear_color = ImVec4(1.000F, 1.000F, 1.000F, 1.0F);
-
-	// Setup style
-	ImGui::StyleColorsDark();
-	// engine start here
-	auto& IO = ImGui::GetIO();
-
-	IO.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	IO.ConfigDockingWithShift = true;
 
 	while (loop)
 	{
@@ -168,6 +179,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		// Update and Render additional Platform Windows
+		//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		//{
+		//	ImGui::UpdatePlatformWindows();
+		//	ImGui::RenderPlatformWindowsDefault();
+		//}
+
 		// swap double buffer at the end
 		::SwapBuffers(window.get_m_windowDC());
 

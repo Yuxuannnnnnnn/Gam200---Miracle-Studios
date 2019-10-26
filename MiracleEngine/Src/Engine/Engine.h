@@ -6,6 +6,8 @@
 #include "WindowsSystem/WindowsSystem.h"
 
 #include "ImguiSystem.h"
+#include "WindowsSystem.h"
+#include "Console.h"
 
 
 
@@ -13,29 +15,37 @@ class Engine
 {
 public:
 
-	Engine() :
-		_imguiSystem{ new ImguiSystem() },
+	Engine(HINSTANCE hInstance, int nCmdShow):
+		_console{ new Console()}, //Create a Logging console
+		_windowSystem{ new WindowsSystem(hInstance, nCmdShow) }, //Create Window object in it
+		_imguiSystem{ new ImguiSystem(_windowSystem->getWindow()) },
+
 
 		_inputSystem{ new InputSystem() },
 		_logicSystem{ new LogicSystem() },
 		_graphicsSystem{ new GraphicsSystem() }, 
 
+
 		_gameObjectFactory{ new GameObjectFactory() }
 	{}
 
 	void Init();
-	void Update(WindowsSystem& window);
-	void Exit();
+	void Update();
+	int Exit();
 
 
+	Console* _console; 
+	WindowsSystem* _windowSystem;
 	ImguiSystem* _imguiSystem;
+
 
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
 	GraphicsSystem* _graphicsSystem;
 
+
 	GameObjectFactory* _gameObjectFactory;
 
-private:
+
 };
 
