@@ -25,7 +25,7 @@ void InputSystem::Init()
 
 }
 
-void InputSystem::Update(/*WindowsSystem& window*/)
+void InputSystem::Update(WindowsSystem& window)
 {
 	memcpy(_prevBuffer, _currBuffer, sizeof(unsigned char) * 256);
 	//memset(currBuff, 0, sizeof(unsigned char) * 256);
@@ -35,6 +35,9 @@ void InputSystem::Update(/*WindowsSystem& window*/)
 	GetKeyState(0);
 	int ret = GetKeyboardState(_currBuffer);
 	(void)ret;
+
+	GetCursorPos(&_p);
+	ScreenToClient(window.Get_hwnd(), &_p);
 	//memcpy(_prevBuffer, _currBuffer, sizeof(unsigned char) * 256);
 	////memset(currBuff, 0, sizeof(unsigned char) * 256);
 	////GetKeyState(0);
@@ -43,9 +46,7 @@ void InputSystem::Update(/*WindowsSystem& window*/)
 	//GetKeyState(0);
 	//int ret = GetKeyboardState(_currBuffer);
 	//(void)ret;
-	//GetCursorPos(&_p);
-
-	//ScreenToClient(window.Get_hwnd(), &_p);
+	
 }
 
 POINT InputSystem::GetMousePos() const

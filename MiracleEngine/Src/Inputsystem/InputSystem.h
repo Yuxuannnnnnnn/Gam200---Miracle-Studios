@@ -11,7 +11,7 @@ public:
 	bool KeyRelease(KeyCode key);
 
 	void Init();
-	void Update(/*WindowsSystem& window*/);
+	void Update(WindowsSystem& window);
 	void Exit();
 
 

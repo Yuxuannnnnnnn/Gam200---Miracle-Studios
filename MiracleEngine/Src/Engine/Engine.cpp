@@ -17,7 +17,7 @@ void Engine::Init()
 }
 
 
-void Engine::Update()
+void Engine::Update(WindowsSystem& window)
 {
 	// TESTING mem leak for objects
 	if (true)
@@ -28,7 +28,7 @@ void Engine::Update()
 		_gameObjectFactory->Update();
 	}
 // Input
-	_inputSystem->Update();
+	_inputSystem->Update(window);
 	
 	/*if (_inputSystem->KeyRelease(KEYB_Z))
 		std::cout << "Z Released";

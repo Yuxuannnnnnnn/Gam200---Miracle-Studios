@@ -3,7 +3,7 @@
 #include "GraphicsSystem/GraphicsSystem.h"
 #include "LogicSystem/LogicSystem.h"
 #include "Inputsystem/InputSystem.h"
-
+#include "WindowsSystem/WindowsSystem.h"
 class Engine
 {
 public:
@@ -16,7 +16,7 @@ public:
 	{}
 
 	void Init();
-	void Update();
+	void Update(WindowsSystem& window);
 	void Exit();
 
 	GraphicsSystem * _graphicsSystem;

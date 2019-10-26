@@ -112,7 +112,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 			// engine update here
-			coreEngine->Update();
+			coreEngine->Update(window);
 
 			// Rendering
 			ImGui::Render();
