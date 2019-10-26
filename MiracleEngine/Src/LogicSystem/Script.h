@@ -33,7 +33,7 @@ namespace Script_Input {
 	{
 		// for MainMenu
 	}
-	Vector3 Logic_Input_Ingame() // for in game input
+	void Logic_Input_Ingame() // for in game input
 	{
 		Vector3 moveResult; // for throwing resultant movement force to player
 
@@ -56,7 +56,7 @@ namespace Script_Input {
 		//	(void)1; // Do something
 
 	// give resultant to player
-		return moveResult;
+		//return moveResult;
 	}
 	void Logic_Input_IngamePause() // for ingame pause
 	{

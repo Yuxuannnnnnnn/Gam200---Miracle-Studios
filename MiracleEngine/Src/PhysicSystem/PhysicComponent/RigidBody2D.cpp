@@ -62,10 +62,6 @@ void RigidBody2D::Draw()
 }
 
 
-size_t RigidBody2D::GetParentId() const
-{
-	return _ParentId;
-}
 std::string RigidBody2D::ComponentName() const
 {
 	return "RigidBody2D Component";

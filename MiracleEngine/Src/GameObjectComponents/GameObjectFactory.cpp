@@ -14,15 +14,8 @@ GameObjectFactory::~GameObjectFactory()
 	for (auto gameObject : _listObject)
 	{
 		delete gameObject.second;
-		//_listObject.erase(gameObject.first);
 	}
-	//for (size_t i = 0; i < _listObject.size(); i++)
-	//{
-	//
-	//	std::map < size_t, GameObject* >::iterator it = _listObject.begin();
-	//	delete it->second;
-	//	it++;
-	//}
+	_listObject.clear();
 }
 
 GameObjectFactory* GameObjectFactory::GetGOFac()

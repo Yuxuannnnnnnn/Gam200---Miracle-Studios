@@ -27,10 +27,7 @@ public:
 	}
 
 // GetPID
-	size_t GetParentId() const override
-	{
-		return _ParentId;
-	}
+
 	Vector3& GetPos()
 	{ return _pos; }
 	void SetPos(const Vector3& in)

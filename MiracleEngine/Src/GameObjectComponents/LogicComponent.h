@@ -30,13 +30,9 @@ public:
 	~LogicComponent() = default;
 	LogicComponent(const LogicComponent& rhs) = default;
 	LogicComponent& operator=(const LogicComponent& rhs) = default;
-// GetPID
-	size_t GetParentId() const override
-	{
-		return _ParentId;
-	}
+
 // CompName
-	std::string ComponentName() const
+	std::string ComponentName() const override
 	{
 		return "Logic Component";
 	}
@@ -46,32 +42,35 @@ public:
 	}
 	void Update()
 	{
-		std::function<void(void)> updatePtr;
-		std::function<void(int&, int)> updatePtrHealth;
-		for (int scriptId : _scriptList)
+		if (_scriptList.empty()) // makeSure script is !empty()
 		{
-			// updatePtr for accessing script's Update()
-			switch (scriptId)
+			std::function<void(void)> updatePtr;
+			std::function<void(int&, int)> updatePtrHealth;
+			for (int scriptId : _scriptList)
 			{
-			case SCRIPT_1:
-				updatePtr = Script_1::Update;
-				break;
-			case SCRIPT_2:
-				updatePtr = Script_2::Update;
-				break;
-			case SCRIPT_HEALTH:
-				Script_HealthMinus::Update(_health, 1);
-				break;
-			case SCRIPT_INPUT:
-				//Script_Input::Update(INGAME);
-				updatePtr = nullptr;
-				break;
-			default:
-				updatePtr = nullptr;
-				break;
+				// updatePtr for accessing script's Update()
+				switch (scriptId)
+				{
+				case SCRIPT_1:
+					updatePtr = Script_1::Update;
+					break;
+				case SCRIPT_2:
+					updatePtr = Script_2::Update;
+					break;
+				case SCRIPT_HEALTH:
+					Script_HealthMinus::Update(_health, 1);
+					break;
+				case SCRIPT_INPUT:
+					//Script_Input::Update(INGAME);
+					updatePtr = nullptr;
+					break;
+				default:
+					updatePtr = nullptr;
+					break;
+				}
+				if (updatePtr)
+					updatePtr();
 			}
-			if (updatePtr)
-				updatePtr();
 		}
 	}
 	void Exit()

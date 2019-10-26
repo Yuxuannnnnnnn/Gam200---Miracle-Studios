@@ -4,9 +4,11 @@ void Engine::Init()
 {
 	_gameObjectFactory->Init();
 	//_logicSystem->Init();
+	_inputSystem->Init();
 	_graphicsSystem->Init();
 	_logicSystem->Init(); // does nothing for now
 
+	// TESTING GO creation 
 	if (true)
 	{
 		_gameObjectFactory->TEST_AddGameObjects();
@@ -15,47 +17,43 @@ void Engine::Init()
 }
 
 
-void Engine::Update()
+void Engine::Update(WindowsSystem& window)
 {
-	if (false)
+	// TESTING mem leak for objects
+	if (true)
 	{
 		_gameObjectFactory->TEST_AddGameObjects();
 		_gameObjectFactory->TEST_DisplayAllGameObj();
 		_gameObjectFactory->TEST_DeleteAllGameObjects();
 		_gameObjectFactory->Update();
-		return;
 	}
-// Input
+	// Input
+	_inputSystem->Update(window);
+
+	/*if (_inputSystem->KeyRelease(KEYB_Z))
+		std::cout << "Z Released";
+	*/
 	_gameObjectFactory->Update();
-// Logic
-	//using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
-	//LogicCompMap temp = _gameObjectFactory->getLogicComponent();
-	//LogicCompMap::iterator itr = temp.begin();
-	//while (itr != temp.end())
-	//{
-	//	// TODO-Brandon, shift this to the actual LogicSystem.h Update()
-	//	itr->second->Update(); // supposed to call each GO's logicComp and run it's update
-	//	++itr;
-	//}
+	// Logic
 	if (false)
 	{
-	using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
-	LogicCompMap temp = _gameObjectFactory->getLogicComponent();
-	LogicCompMap::iterator itr = temp.begin();
-	while (itr != temp.end())
-	{
-		// TODO-Brandon, shift this to the actual LogicSystem.h Update()
-		itr->second->Update(); // supposed to call each GO's logicComp and run it's update
-		++itr;
+		using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
+		LogicCompMap temp = _gameObjectFactory->getLogicComponent();
+		LogicCompMap::iterator itr = temp.begin();
+		while (itr != temp.end())
+		{
+			// TODO-Brandon, shift this to the actual LogicSystem.h Update()
+			itr->second->Update(); // supposed to call each GO's logicComp and run it's update
+			++itr;
+		}
 	}
-	}
 
-// Phy & Coll
+	// Phy & Coll
 
-// Audio
+	// Audio
 
-// Graphics
-	//_graphicsSystem->Update(_gameObjectFactory->getTransformComponent(), _gameObjectFactory->getGraphicComponent());
+	// Graphics
+	_graphicsSystem->Update(_gameObjectFactory->getGraphicComponent());
 
 }
 

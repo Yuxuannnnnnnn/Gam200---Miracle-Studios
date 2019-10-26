@@ -2,10 +2,17 @@
 #include "IComponentSystem.h"
 #include "GraphicsSystem/MeshManager.h"
 
+enum class TypeIdGraphic {
+	NONE = 0,
+
+};
 
 class GraphicComponent : public IComponentSystem
 {
 private:
+	TypeIdGraphic _typeIdGraphic;
+	std::string _fileName;
+
 	int _shaderID;
 	int _textureID;
 	Mesh* _pmesh;
@@ -14,26 +21,9 @@ private:
 	//Store the vb, ib, vao, shader
 
 public:
-	GraphicComponent()
-		: _shaderID{0},
-		  _textureID{0},
-		_pmesh{ new Mesh()}
-	{
-	}
+	GraphicComponent();
+	~GraphicComponent();
 
-	~GraphicComponent()
-	{
-		delete _pmesh;
-	}
-
-// GetPID
-	size_t GetParentId() const override
-	{
-		return _ParentId;
-	}
-	std::string ComponentName() const override
-	{
-		return "Graphic Component";
-	}
+	std::string ComponentName() const override;
 };
 

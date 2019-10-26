@@ -1,11 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "GameObject.h"
 
-//-----------------------------------
-// GameObject : ISerial
-// START
-//-----------------------------------
-GameObject::GameObject(size_t uId, size_t typeId)
+GameObject::GameObject(size_t uId, unsigned typeId)
 	:_uId{ uId }, _typeId{ typeId }
 {
 	std::cout << "GameObject::GameObject()" << std::endl;
@@ -14,7 +10,7 @@ GameObject::GameObject(size_t uId, size_t typeId)
 GameObject::~GameObject()
 {
 	std::cout << "GameObject::~GameObject()" << std::endl;
-	std::unordered_map< ComponentTypes, IComponentSystem* >::iterator iterator = _ComponentList.begin();
+	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator iterator = _ComponentList.begin();
 	while (iterator != _ComponentList.end())
 	{
 		delete iterator->second;
@@ -22,47 +18,48 @@ GameObject::~GameObject()
 	}
 }
 
-GameObjectTypeID GameObject::GameObjectType() const
+
+unsigned GameObject::GameObjectType() const
 {
-	return (GameObjectTypeID)_typeId;
+	return _typeId;
 }
 
-//Add a specific component to the GameObject
-IComponentSystem* GameObject::addcomponent(ComponentTypes componentType)
+// DEPRECIATED - Add a specific component to the GameObject
+IComponentSystem* GameObject::addcomponent(TypeIdComponent componentType)
 {
 	switch (componentType)
 	{
-	case TRANSFORMCOMPONENT:
-		_ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
+	case TypeIdComponent::TRANSFORMCOMPONENT:
+		_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent();
 		break;
-	case GRAPHICSCOMPONENT:
-		_ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
+	case TypeIdComponent::GRAPHICSCOMPONENT:
+		_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
 		break;
-	case RIGIDBODYCOMPONENT:
-		_ComponentList[RIGIDBODYCOMPONENT] = new RigidBody2D();
+	case TypeIdComponent::RIGIDBODYCOMPONENT:
+		_ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
 		break;
-	case COLLIDERCOMPONENT:
-		_ComponentList[COLLIDERCOMPONENT] = new Collider2D();
+	case TypeIdComponent::COLLIDERCOMPONENT:
+		_ComponentList[TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
 		break;
-	case LOGICCOMPONENT:
-		_ComponentList[LOGICCOMPONENT] = new LogicComponent();
+	case TypeIdComponent::LOGICCOMPONENT:
+		_ComponentList[TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
 		break;
 	}
 	return  _ComponentList[componentType];
 }
 
-// 'addcomponent' Varient for Serialization, allows addComponent during serialization
+// AddComponent for during Serialisation
 void GameObject::SerialAddComponent
-	(ComponentTypes componentType, rapidjson::Value& s, rapidjson::Document& d)
+	(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d)
 {
-	std::cout << "\t GameObject::SerialAddComponent(" << componentType << ") : ";
+	std::cout << "\t GameObject::SerialAddComponent(" << (unsigned)componentType << ") : ";
 	switch (componentType)
 	{
 		IComponentSystem* temp;
-	case TRANSFORMCOMPONENT:
+	case TypeIdComponent::TRANSFORMCOMPONENT:
 		std::cout << "Transform";
-		_ComponentList[TRANSFORMCOMPONENT] = new TransformComponent();
-		temp = _ComponentList[TRANSFORMCOMPONENT];
+		_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent();
+		temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
 		s = d["Position"];
 		JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
 		s = d["Scale"];
@@ -70,14 +67,14 @@ void GameObject::SerialAddComponent
 		s = d["Rotate"];
 		JsonDynamicStore(((TransformComponent*)temp)->GetRotate(), s);
 		break;
-	case GRAPHICSCOMPONENT:
+	case TypeIdComponent::GRAPHICSCOMPONENT:
 		std::cout << "Graphics";
-		_ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
+		_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
 		break;
-	case RIGIDBODYCOMPONENT:
+	case TypeIdComponent::RIGIDBODYCOMPONENT:
 		std::cout << "R. Body";
-		_ComponentList[RIGIDBODYCOMPONENT] = new RigidBody2D();
-		temp = _ComponentList[RIGIDBODYCOMPONENT];
+		_ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
+		temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
 		s = d["Mass"];
 		JsonDynamicStore(((RigidBody2D*)temp)->_mass, s);
 		s = d["Friction"];
@@ -85,17 +82,17 @@ void GameObject::SerialAddComponent
 		s = d["Static"];
 		JsonDynamicStore(((RigidBody2D*)temp)->_static, s);
 		break;
-	case COLLIDERCOMPONENT:
+	case TypeIdComponent::COLLIDERCOMPONENT:
 		std::cout << "Collider";
-		_ComponentList[COLLIDERCOMPONENT] = new Collider2D();
-		temp = _ComponentList[COLLIDERCOMPONENT];
+		_ComponentList[TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
+		temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
 		s = d["ColliderTypeId"];
 		JsonDynamicStore(((Collider2D*)temp)->_type, s);
 		break;
-	case LOGICCOMPONENT:
+	case TypeIdComponent::LOGICCOMPONENT:
 		std::cout << "Logic";
-		_ComponentList[LOGICCOMPONENT] = new LogicComponent();
-		temp = _ComponentList[LOGICCOMPONENT];
+		_ComponentList[TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
+		temp = _ComponentList[TypeIdComponent::LOGICCOMPONENT];
 		s = d["ScriptId"];
 		JsonDynamicStore(((LogicComponent*)temp)->GetScriptId(), s);
 		s = d["Health"];
@@ -110,47 +107,48 @@ void GameObject::SerialAddComponent
 	std::cout << std::endl;
 }
 
+// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
 void GameObject::CopyComponent
-	(std::unordered_map< ComponentTypes, IComponentSystem* >& original)
+	(std::unordered_map< TypeIdComponent, IComponentSystem* >& original)
 {
 	std::cout << "\t\t GameObject::CopyComponent() : ";
-	std::unordered_map< ComponentTypes, IComponentSystem* >::iterator itr = original.begin();
+	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = original.begin();
 	while (itr != original.end())
 	{
 		IComponentSystem* temp;
 		switch (itr->first)
 		{
-		case TRANSFORMCOMPONENT:
+		case TypeIdComponent::TRANSFORMCOMPONENT:
 			std::cout << "Transform, ";
 			temp = new TransformComponent(
 				*((TransformComponent*)itr->second)
 			); // using copyCtor to copy var, idk if it works
-			_ComponentList[TRANSFORMCOMPONENT] =  temp;
+			_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] =  temp;
 			break;
-		case GRAPHICSCOMPONENT:
+		case TypeIdComponent::GRAPHICSCOMPONENT:
 			std::cout << "Graphics, ";
-			_ComponentList[GRAPHICSCOMPONENT] = new GraphicComponent();
+			_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
 			break;
-		case RIGIDBODYCOMPONENT:
+		case TypeIdComponent::RIGIDBODYCOMPONENT:
 			std::cout << "R. Body, ";
 			temp = new RigidBodyComponent(
 				*((RigidBodyComponent*)itr->second)
 			);
-			_ComponentList[RIGIDBODYCOMPONENT] = temp;
+			_ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT] = temp;
 			break;
-		case COLLIDERCOMPONENT:
+		case TypeIdComponent::COLLIDERCOMPONENT:
 			std::cout << "Collider, ";
 			temp = new Collider2D(
 				*((Collider2D*)itr->second)
 			);
-			_ComponentList[COLLIDERCOMPONENT] = temp;
+			_ComponentList[TypeIdComponent::COLLIDERCOMPONENT] = temp;
 			break;
-		case LOGICCOMPONENT:
+		case TypeIdComponent::LOGICCOMPONENT:
 			std::cout << "Logic, ";
 			temp = new LogicComponent(
 				*((LogicComponent*)itr->second)
 			);
-			_ComponentList[LOGICCOMPONENT] = temp;
+			_ComponentList[TypeIdComponent::LOGICCOMPONENT] = temp;
 
 			//_ComponentList[LOGICCOMPONENT] = new LogicComponent();
 			//temp = _ComponentList[LOGICCOMPONENT];
@@ -170,15 +168,6 @@ void GameObject::CopyComponent
 	std::cout << std::endl;
 }
 
-// delete all components in _ComponentList
-void GameObject::DeleteAllComponents()
-{
-	for (auto comp : _ComponentList)
-	{
-		delete comp.second;
-	}
-}
-
 // Cloning IGO
 GameObject* GameObject::Clone()
 {
@@ -190,28 +179,66 @@ GameObject* GameObject::Clone()
 	return temp;
 }
 
-//-----------------------------------
-// END
-// GameObject
-//-----------------------------------
+void GameObject::SerialInPrefab_Player()
+{
+// Get & Parse File
+	std::cout << std::endl << "FileRead_PlayerInfo -----------------" << std::endl;
+	rapidjson::Document d;
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/playerNew.json");
+	ASSERT(iBuffer != nullptr);
+	std::cout << iBuffer << std::endl;
+	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+// Component List
+	rapidjson::Value& s = d["ComponentList"];
+	std::vector<int> compList;
+	JsonDynamicStore(compList, s);
+	std::vector<int>::iterator itr = compList.begin();
+	while (itr != compList.end())
+		SerialAddComponent((TypeIdComponent)* itr++, s, d);
+// Other Values
+		//s = d["Weapons"];
+		//JsonDynamicStore(_WeaponListId, s);
+		// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
+	std::cout << "-------------------------------------" << std::endl;
+	delete[] iBuffer;
+//Serialisation Check
+	PrintStats_Player();
+}
 
-
-
-//-----------------------------------
-// Weapon : IGO
-// START
-//-----------------------------------
-//-----------------------------------
-// END
-// Weapon : IGO
-//-----------------------------------
-
-
-//-----------------------------------
-// PLAYER : IGO
-// START
-//-----------------------------------
-//-----------------------------------
-// END
-// PLAYER : IGO
-//-----------------------------------
+void GameObject::PrintStats_Player() {
+	IComponentSystem* temp = nullptr;
+	temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
+	std::cout
+		<< "FilePrint_PlayerInfo ----------------" << std::endl
+		<< "\tTrans.Pos      :  " << ((TransformComponent*)temp)->GetPos() << std::endl
+		<< "\tTrans.Sca      :  " << ((TransformComponent*)temp)->GetScale() << std::endl
+		<< "\tTrans.Rot      :  " << ((TransformComponent*)temp)->GetRotate() << std::endl;
+	temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
+	std::cout
+		<< "\tGraphics       :  " << "[placeHolder] " << std::endl;
+	temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
+	std::cout
+		<< "\tRBod.Mass      :  " << ((RigidBody2D*)temp)->_mass << std::endl
+		<< "\tRBod.Friction  :  " << ((RigidBody2D*)temp)->_fictionVal << std::endl
+		<< "\tRBod.Static    :  " << ((RigidBody2D*)temp)->_static << std::endl;
+	temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
+	std::cout
+		<< "\tCollider.TypId :  " << ((Collider2D*)temp)->_type << std::endl;
+	temp = _ComponentList[TypeIdComponent::LOGICCOMPONENT];
+	std::cout
+		<< "\tLogic.Health   :  " << ((LogicComponent*)temp)->GetHealth() << std::endl
+		<< "\tLogic.Speed    :  " << ((LogicComponent*)temp)->GetSpeed() << std::endl
+		<< "\tLogic.Lifetime :  " << ((LogicComponent*)temp)->GetLifetime() << std::endl
+		<< "\tLogic.ScriptIds:  ";
+	std::vector<int> tempScriptList = ((LogicComponent*)temp)->GetScriptId();
+	std::vector<int>::iterator itr = tempScriptList.begin();
+	while (itr != tempScriptList.end())
+		std::cout << *itr++ << " ";
+	//	<< "Weapons :   ";
+//std::vector<int>::iterator itr = _WeaponListId.begin();
+//while (itr != _WeaponListId.end())
+//	std::cout << *itr++;
+	std::cout << std::endl
+		<< "-------------------------------------"
+		<< std::endl << std::endl;
+}
