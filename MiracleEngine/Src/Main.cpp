@@ -59,6 +59,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
+	ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;// Enable Keyboard Controls
 	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
@@ -116,6 +117,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 			// Rendering
 			ImGui::Render();
+			glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 			//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 			//{
