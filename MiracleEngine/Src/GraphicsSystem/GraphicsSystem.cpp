@@ -4,30 +4,26 @@
 #include "GraphicsSystem/VertexBuffer.h"
 #include "PrecompiledHeaders.h"
 #include "../Imgui/imgui.h"
-#include "InstancedSystem.h"
+
 
 void GraphicsSystem::Init()
 {
-	
+
 }
 
-
-void GraphicsSystem::Update(const TransformComponent* transform, const GraphicComponent* graphic)
+void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent* >& graphicmap)
 {
 	ClearScreen();
 
+	Test();
 
-	//_renderer.DrawPoint(10, -100, 5);
-	//_renderer.DrawWireFrameQuad(0, 0, 30, 50);
-	
-	//_debugrenderer.DrawLine(0, 0, 150, 150);
-	/*if (_renderMode == Instance)
-		_instancedRenderer.Update();*/
+	// loop through every element in graphic component
+	// get texture ID and shader ID
+	// get its transform component 
+	for (auto const& e : graphicmap)
+	{
 
-	// gl_lines
-	// 2 vbo and ebo
-	// 1 for square and 1 for lines
-	
+	}
 }
 
 
@@ -40,4 +36,24 @@ void GraphicsSystem::ClearScreen() const
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(.0f, .0f, .0f, 1.0f);
+}
+
+
+void GraphicsSystem::Test()
+{
+	_quadmesh.Select();
+	_shader.Select();
+
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0
+		, 0, 0));
+	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(50, 50, 1.0f));
+
+	glm::mat4 mvp = _proj * model;
+
+	_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+	_shader.SetUniformMat4f("u_MVP", mvp);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

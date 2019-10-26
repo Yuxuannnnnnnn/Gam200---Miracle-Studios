@@ -5,11 +5,16 @@
 class InputSystem
 {
 public:
+
+	bool KeyDown(KeyCode key);
+	bool KeyHold(KeyCode key);
+	bool KeyRelease(KeyCode key);
+
 	void Init();
 	void Update(WindowsSystem& window);
 	void Exit();
 
-	bool KeyDown(KeyCode key);
+
 	POINT GetMousePos() const;
 private:
 	unsigned char _currBuffer[256];
