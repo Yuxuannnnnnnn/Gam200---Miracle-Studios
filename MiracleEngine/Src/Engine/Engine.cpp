@@ -4,6 +4,7 @@ void Engine::Init()
 {
 	_gameObjectFactory->Init();
 	//_logicSystem->Init();
+	_inputSystem->Init();
 	_graphicsSystem->Init();
 	_logicSystem->Init(); // does nothing for now
 
@@ -27,6 +28,11 @@ void Engine::Update()
 		_gameObjectFactory->Update();
 	}
 // Input
+	_inputSystem->Update();
+	
+	/*if (_inputSystem->KeyRelease(KEYB_Z))
+		std::cout << "Z Released";
+	*/
 	_gameObjectFactory->Update();
 // Logic
 	if (false)
