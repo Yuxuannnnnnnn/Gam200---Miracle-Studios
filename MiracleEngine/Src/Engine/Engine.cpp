@@ -2,11 +2,17 @@
 
 void Engine::Init()
 {
-	_gameObjectFactory->Init();
-	//_logicSystem->Init();
+//Please do not change the Order of the Systems Initialisation
+	_imguiSystem->Init();
+
 	_inputSystem->Init();
-	_graphicsSystem->Init();
 	_logicSystem->Init(); // does nothing for now
+	//_PhysicsSystem->Init();
+	//_AudioSystem->Init();
+	_graphicsSystem->Init();
+	
+	_gameObjectFactory->Init();
+//-------------------------------------------------------------
 
 	// TESTING GO creation 
 	if (true)
@@ -19,6 +25,8 @@ void Engine::Init()
 
 void Engine::Update(WindowsSystem& window)
 {
+	_imguiSystem->UpdateFrame(); //Calls new frames for Imgui every loop
+
 	// TESTING mem leak for objects
 	if (true)
 	{
@@ -55,10 +63,14 @@ void Engine::Update(WindowsSystem& window)
 	// Graphics
 	_graphicsSystem->Update(_gameObjectFactory->getGraphicComponent());
 
+	_imguiSystem->Render(); //Renders Imgui Windows and clears opengl buffer
+
 }
 
 void Engine::Exit()
 {
+	delete _imguiSystem; //Shutdown ImGui System
+
 	delete _graphicsSystem;
 
 	//delete all objects in the gameObjectFactory

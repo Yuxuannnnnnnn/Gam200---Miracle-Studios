@@ -9,6 +9,8 @@
 #include "imgui_impl_win32.h"
 #include "imgui_internal.h"
 
+
+
 GraphicsSystem* graphicsSystem;
 GameObjectFactory* gameObjectFactory;
 
@@ -44,22 +46,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	bool loop = true;
 
 
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();  (void)io;
-
-
-	//Init Win32
-	ImGui_ImplWin32_Init(window.Get_hwnd());
-	//Init OpenGL Imgui Implementation
-	// GL 3.0 + GLSL 130
-	const char* glsl_version = "#version 130";
-	ImGui_ImplOpenGL3_Init(glsl_version);
-
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;// Enable Keyboard Controls
 	//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
@@ -87,10 +73,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			{
 				//loop = false;
 
-				// Cleanup
-				ImGui_ImplOpenGL3_Shutdown();
-				ImGui_ImplWin32_Shutdown();
-				ImGui::DestroyContext();
 				// engine exit here
 				coreEngine->Exit();
 				
@@ -104,23 +86,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			}
 
 
-			// Start the Dear ImGui frame
-			ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplWin32_NewFrame();
-			ImGui::NewFrame();
-
-			ImGui::ShowDemoWindow();
-
-
 			// engine update here
 			coreEngine->Update(window);
 
-			// Rendering
-			ImGui::Render();
-			glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-			glClear(GL_COLOR_BUFFER_BIT);
+			//Show Demo Window
+			ImGui::ShowDemoWindow();
 
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+
+
 			//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 			//{
 			//	ImGui::UpdatePlatformWindows();
@@ -131,10 +105,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 	}
 
-	// Cleanup
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
 
 	// engine exit here
 	coreEngine->Exit();

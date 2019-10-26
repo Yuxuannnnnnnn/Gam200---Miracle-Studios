@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
-    <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
@@ -50,9 +49,10 @@
     <ClCompile Include="Src\LogicSystem\Script.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
-    <ClCompile Include="ImguiWindow.cpp" />
-    <ClCompile Include="ImguiSystem.cpp" />
     <ClCompile Include="Src\GameObjectComponents\AudioComponent.cpp" />
+    <ClCompile Include="Src\ImguiSystem\ImguiWindow.cpp" />
+    <ClCompile Include="Src\ImguiSystem\ImguiSystem.cpp" />
+    <ClCompile Include="Src\Engine\Engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -400,9 +400,9 @@
     <ClInclude Include="Src\LogicSystem\Script.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
-    <ClInclude Include="ImguiWindow.h" />
-    <ClInclude Include="ImguiSystem.h" />
     <ClInclude Include="Src\GameObjectComponents\AudioComponent.h" />
+    <ClInclude Include="Src\ImguiSystem\ImguiWindow.h" />
+    <ClInclude Include="Src\ImguiSystem\ImguiSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

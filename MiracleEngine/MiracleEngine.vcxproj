@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glew-2.1.0\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Resources;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\rapidjson;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glm;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glew-2.1.0\include\GL;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dep\glew-2.1.0\include;$(SolutionDir)\Resources;$(SolutionDir)\Src;$(SolutionDir)\Dep\rapidjson;$(SolutionDir)\Dep;$(SolutionDir)\Dep\glm;$(SolutionDir)\Dep\glew-2.1.0\include\GL;$(SolutionDir)\Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -127,7 +127,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glew-2.1.0\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Resources;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\rapidjson;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glm;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\glew-2.1.0\include\GL;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dep\glew-2.1.0\include;$(SolutionDir)\Resources;$(SolutionDir)\Src;$(SolutionDir)\Dep\rapidjson;$(SolutionDir)\Dep;$(SolutionDir)\Dep\glm;$(SolutionDir)\Dep\glew-2.1.0\include\GL;$(SolutionDir)\Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -450,8 +450,8 @@
     <ClInclude Include="Dep\rapidjson\stream.h" />
     <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
     <ClInclude Include="Dep\rapidjson\writer.h" />
-    <ClInclude Include="ImguiSystem.h" />
-    <ClInclude Include="ImguiWindow.h" />
+    <ClInclude Include="Src\ImguiSystem\ImguiSystem.h" />
+    <ClInclude Include="Src\ImguiSystem\ImguiWindow.h" />
     <ClInclude Include="Src\GameObjectComponents\AudioComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
@@ -546,8 +546,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ImguiSystem.cpp" />
-    <ClCompile Include="ImguiWindow.cpp" />
+    <ClCompile Include="Src\ImguiSystem\ImguiSystem.cpp" />
+    <ClCompile Include="Src\ImguiSystem\ImguiWindow.cpp" />
     <ClCompile Include="Src\GameObjectComponents\AudioComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
