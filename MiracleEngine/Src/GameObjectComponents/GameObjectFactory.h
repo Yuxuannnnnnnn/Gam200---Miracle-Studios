@@ -17,7 +17,7 @@ class ResourceManager
 	std::vector<std::string*> VecFilePaths; // for future use for dynamic file path getting	
 };
 
-typedef std::unordered_map<GameObjectTypeID, GameObject*> PrototypeList;
+typedef std::unordered_map<TypeIdGO, GameObject*> PrototypeList;
 
 class GameObjectProrotype // : ISingleton ????
 {
@@ -36,17 +36,17 @@ public:
 	}
 
 	//Create a gameObject type along with its Components
-	GameObject* PrefabGameObject(GameObjectTypeID typeId)
+	GameObject* PrefabGameObject(TypeIdGO typeId)
 	{
 		size_t uId = 0;
 		GameObject* gameObject = nullptr;
 		switch (typeId)
 		{
-		case TYPE_PLAYER:
-			gameObject = new GameObject(uId, TYPE_PLAYER);
+		case TypeIdGO::TYPE_PLAYER:
+			gameObject = new GameObject(uId, (unsigned)TypeIdGO::TYPE_PLAYER);
 			gameObject->SerialInPrefab_Player();
 			break;
-		case TYPE_WALL:
+		case TypeIdGO::TYPE_WALL:
 			break;
 			//Other Objects
 		}
@@ -54,17 +54,17 @@ public:
 	}
 
 	//Create a gameObject type along with its Components
-	GameObject* CloneGameObject(GameObjectTypeID typeId)
+	GameObject* CloneGameObject(TypeIdGO typeId)
 	{
 		GameObject* gameObject = nullptr;
 
 		switch (typeId)
 		{
-		case TYPE_PLAYER:
+		case TypeIdGO::TYPE_PLAYER:
 			//gameObject = new Player(0);
 			//gameObject->SerialInPrefab();
 			break;
-		case TYPE_WALL:
+		case TypeIdGO::TYPE_WALL:
 			break;
 			//Other Objects
 		}
@@ -150,7 +150,7 @@ public:
 	}
 
 //Create a gameObject type along with its Components
-	GameObject* CreateGameObject(GameObjectTypeID typeId)
+	GameObject* CreateGameObject(TypeIdGO typeId)
 	{
 		//std::cout << "CreateGameObject(" << typeId << ")" << std::endl;
 		//GameObject* gameObject = nullptr;
@@ -176,14 +176,14 @@ public:
 		return nullptr;
 	}
 //Create a gameObject type along with its Components
-	void CloneGameObject(GameObjectTypeID gameObjectTypeID)
+	void CloneGameObject(TypeIdGO gameObjectTypeID)
 	{
-		std::cout << "\t CloneGameObject(" << gameObjectTypeID << ")" << std::endl;
+		std::cout << "\t CloneGameObject(" << (unsigned)gameObjectTypeID << ")" << std::endl;
 		GameObject* temp = nullptr;
 		switch (gameObjectTypeID)
 		{
-		case TYPE_PLAYER:
-			temp = _listObjectPrototype[TYPE_PLAYER]->Clone();
+		case TypeIdGO::TYPE_PLAYER:
+			temp = _listObjectPrototype[TypeIdGO::TYPE_PLAYER]->Clone();
 			break;
 		default:
 			break;
@@ -193,24 +193,24 @@ public:
 			return;
 		_listObject.insert(std::pair<size_t, GameObject*>(++_uId, temp));
 		// based on temp's _ComponentList, add the components into GOFac's different systems
-		std::unordered_map< ComponentTypes, IComponentSystem* >::iterator itr = temp->_ComponentList.begin();
+		std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = temp->_ComponentList.begin();
 		while (itr != temp->_ComponentList.end())
 		{
 			switch (itr->first)
 			{
-			case TRANSFORMCOMPONENT:
+			case TypeIdComponent::TRANSFORMCOMPONENT:
 				_transformComponents[_uId] = (TransformComponent*)itr->second;
 				break;
-			case GRAPHICSCOMPONENT:
+			case TypeIdComponent::GRAPHICSCOMPONENT:
 				_graphicComponents[_uId] = (GraphicComponent*)itr->second;
 				break;
-			case RIGIDBODYCOMPONENT:
+			case TypeIdComponent::RIGIDBODYCOMPONENT:
 				_rigidBody2dComponents[_uId] = (RigidBody2D*)itr->second;
 				break;
-			case COLLIDERCOMPONENT:
+			case TypeIdComponent::COLLIDERCOMPONENT:
 				_collider2dComponents[_uId] = (Collider2D*)itr->second;
 				break;
-			case LOGICCOMPONENT:
+			case TypeIdComponent::LOGICCOMPONENT:
 				_logicComponents[_uId] = (LogicComponent*)itr->second;
 				break;
 			}
@@ -234,9 +234,9 @@ public:
 	//		FileRead_FileToStringVector("./Resources/TextFiles/ListOfGameObjects.txt");
 		GameObject* temp = nullptr;
 	// Prototype_Player
-		temp = new GameObject(0, TYPE_PLAYER);
+		temp = new GameObject(0, (unsigned)TypeIdGO::TYPE_PLAYER);
 		temp->SerialInPrefab_Player();
-		_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_PLAYER, temp));
+		_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::TYPE_PLAYER, temp));
 		
 			//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_WALL, CreateGameObject(TYPE_WALL)));
 
@@ -308,11 +308,11 @@ public:
 			//_file.getline(strType, 20, '\n\r');
 			_file >> strType;
 			if (std::strcmp(strType, "Wall") == 0)
-				obj.id = TYPE_WALL;
+				obj.id = (unsigned)TypeIdGO::TYPE_WALL;
 			if (std::strcmp(strType, "Floor") == 0)
-				obj.id = TYPE_FLOOR;
+				obj.id = (unsigned)TypeIdGO::TYPE_FLOOR;
 			if (std::strcmp(strType, "Player") == 0)
-				obj.id = TYPE_PLAYER;
+				obj.id = (unsigned)TypeIdGO::TYPE_PLAYER;
 			// get Position
 			ASSERT(_file.getline(strNum1, 10, ','));
 			ASSERT(_file.getline(strNum2, 10));
@@ -362,8 +362,8 @@ public:
 	{
 		std::cout << std::endl << "-------------------------------------" << std::endl;
 		std::cout << "TEST_AddGameObjects()" << std::endl;
-		CloneGameObject(TYPE_PLAYER);
-		CloneGameObject(TYPE_PLAYER);
+		CloneGameObject(TypeIdGO::TYPE_PLAYER);
+		CloneGameObject(TypeIdGO::TYPE_PLAYER);
 		std::cout << std::endl << "-------------------------------------" << std::endl;
 	}
 	void TEST_DeleteAllGameObjects()

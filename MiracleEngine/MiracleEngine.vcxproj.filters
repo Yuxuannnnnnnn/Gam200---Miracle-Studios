@@ -52,6 +52,7 @@
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="ImguiWindow.cpp" />
     <ClCompile Include="ImguiSystem.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\AudioComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -401,6 +402,7 @@
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
     <ClInclude Include="ImguiWindow.h" />
     <ClInclude Include="ImguiSystem.h" />
+    <ClInclude Include="Src\GameObjectComponents\AudioComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
