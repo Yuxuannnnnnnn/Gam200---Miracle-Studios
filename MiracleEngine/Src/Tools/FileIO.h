@@ -51,6 +51,7 @@ void JsonDynamicStore(std::vector<int>& store, rapidjson::Value& val);
 void JsonDynamicStore(std::vector<float>& store, rapidjson::Value& val);
 void JsonDynamicStore(std::vector<unsigned int>& store, rapidjson::Value& val);
 void JsonDynamicStore(Vector3& store, rapidjson::Value& val);
+void JsonDynamicStore(std::string& store, rapidjson::Value& val);
 //void JsonDynamicStore(TransformComponent* store, rapidjson::Value& val, ComponentTypes type);
 
 class ISerial {

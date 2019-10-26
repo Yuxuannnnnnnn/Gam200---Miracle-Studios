@@ -1,4 +1,0 @@
-Wall
-Floor
-Player
-Enemy

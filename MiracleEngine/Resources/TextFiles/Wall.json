@@ -1,0 +1,18 @@
+{
+  "ComponentList": [ 0, 1, 2, 3 ],
+
+  "COMPONENT 0": "TRANSFORM",
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 1.0, 1.0 ],
+  "Rotate": 0.0,
+
+  "COMPONENT 1": "GRAPHICS",
+
+  "COMPONENT 2": "RIGID BODY",
+  "Mass": 0.0,
+  "Friction": 0.0,
+  "Static": true,
+
+  "COMPONENT 3": "COLLIDER",
+  "ColliderTypeId": 1
+}

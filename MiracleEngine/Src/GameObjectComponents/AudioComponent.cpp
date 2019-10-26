@@ -5,7 +5,7 @@
 
 
 AudioComponent::AudioComponent() :
-	_typeIdAudio{ TypeIdAudio::NONE },
+	_typeIdAudio{ (unsigned)TypeIdAudio::NONE },
 	_fileName { std::string() },
 	_fileTrackLength{ 0 },
 	_lifetimeCurrent{ 0 },

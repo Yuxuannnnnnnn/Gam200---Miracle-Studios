@@ -1,15 +1,16 @@
 #include "PrecompiledHeaders.h"
 #include "GameObject.h"
 
+
 GameObject::GameObject(size_t uId, unsigned typeId)
 	:_uId{ uId }, _typeId{ typeId }
 {
-	std::cout << "GameObject::GameObject()" << std::endl;
+	//std::cout << "GameObject::GameObject()" << std::endl;
 }
 
 GameObject::~GameObject()
 {
-	std::cout << "GameObject::~GameObject()" << std::endl;
+	//std::cout << "GameObject::~GameObject()" << std::endl;
 	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator iterator = _ComponentList.begin();
 	while (iterator != _ComponentList.end())
 	{
@@ -52,14 +53,17 @@ IComponentSystem* GameObject::addcomponent(TypeIdComponent componentType)
 void GameObject::SerialAddComponent
 	(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d)
 {
-	std::cout << "\t GameObject::SerialAddComponent(" << (unsigned)componentType << ") : ";
+	std::cout << "- GameObject::SerialAddComponent(" << (unsigned)componentType << ") : ";
 	switch (componentType)
 	{
 		IComponentSystem* temp;
 	case TypeIdComponent::TRANSFORMCOMPONENT:
 		std::cout << "Transform";
+		// create new component
 		_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent();
+		// 'temp' to access new component
 		temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
+		// store values needed
 		s = d["Position"];
 		JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
 		s = d["Scale"];
@@ -70,6 +74,11 @@ void GameObject::SerialAddComponent
 	case TypeIdComponent::GRAPHICSCOMPONENT:
 		std::cout << "Graphics";
 		_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
+		temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
+		s = d["G.TypeId"];
+		JsonDynamicStore(((GraphicComponent*)temp)->GetTypeId(), s);
+		s = d["G.FileName"];
+		JsonDynamicStore(((GraphicComponent*)temp)->GetFileName(), s);
 		break;
 	case TypeIdComponent::RIGIDBODYCOMPONENT:
 		std::cout << "R. Body";
@@ -100,6 +109,15 @@ void GameObject::SerialAddComponent
 		s = d["Speed"];
 		JsonDynamicStore(((LogicComponent*)temp)->GetSpeed(), s);
 		break;
+	case TypeIdComponent::AUDIOCOMPONENT:
+		std::cout << "Audio";
+		_ComponentList[TypeIdComponent::AUDIOCOMPONENT] = new AudioComponent();
+		temp = _ComponentList[TypeIdComponent::AUDIOCOMPONENT];
+		s = d["A.TypeId"];
+		JsonDynamicStore(((AudioComponent*)temp)->GetTypeId(), s);
+		s = d["A.FileName"];
+		JsonDynamicStore(((AudioComponent*)temp)->GetFileName(), s);
+		break;
 	default:
 		temp = nullptr;
 		break;
@@ -111,7 +129,7 @@ void GameObject::SerialAddComponent
 void GameObject::CopyComponent
 	(std::unordered_map< TypeIdComponent, IComponentSystem* >& original)
 {
-	std::cout << "\t\t GameObject::CopyComponent() : ";
+	std::cout << "\t GameObject::CopyComponent() : ";
 	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = original.begin();
 	while (itr != original.end())
 	{
@@ -127,7 +145,10 @@ void GameObject::CopyComponent
 			break;
 		case TypeIdComponent::GRAPHICSCOMPONENT:
 			std::cout << "Graphics, ";
-			_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
+			temp = new GraphicComponent(
+				*((GraphicComponent*)itr->second)
+			);
+			_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = temp;
 			break;
 		case TypeIdComponent::RIGIDBODYCOMPONENT:
 			std::cout << "R. Body, ";
@@ -149,15 +170,13 @@ void GameObject::CopyComponent
 				*((LogicComponent*)itr->second)
 			);
 			_ComponentList[TypeIdComponent::LOGICCOMPONENT] = temp;
-
-			//_ComponentList[LOGICCOMPONENT] = new LogicComponent();
-			//temp = _ComponentList[LOGICCOMPONENT];
-			//s = d["ScriptId"];
-			//JsonDynamicStore(((LogicComponent*)temp)->GetScriptId(), s);
-			//s = d["Health"];
-			//JsonDynamicStore(((LogicComponent*)temp)->GetHealth(), s);
-			//s = d["Speed"];
-			//JsonDynamicStore(((LogicComponent*)temp)->GetSpeed(), s);
+			break;
+		case TypeIdComponent::AUDIOCOMPONENT:
+			std::cout << "Audio, ";
+			temp = new AudioComponent(
+				*((AudioComponent*)itr->second)
+			);
+			_ComponentList[TypeIdComponent::AUDIOCOMPONENT] = temp;
 			break;
 		default:
 			temp = nullptr;
@@ -168,7 +187,7 @@ void GameObject::CopyComponent
 	std::cout << std::endl;
 }
 
-// Cloning IGO
+// Cloning GO
 GameObject* GameObject::Clone()
 {
 	std::cout << "GameObject::Clone()" << std::endl;
@@ -182,11 +201,14 @@ GameObject* GameObject::Clone()
 void GameObject::SerialInPrefab_Player()
 {
 // Get & Parse File
-	std::cout << std::endl << "FileRead_PlayerInfo -----------------" << std::endl;
+	std::cout
+		<< std::endl
+		<< "-------------------------------------" << std::endl
+		<< "FileRead_PlayerInfo -----------------" << std::endl;
 	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/playerNew.json");
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Player.json");
 	ASSERT(iBuffer != nullptr);
-	std::cout << iBuffer << std::endl;
+		//std::cout << iBuffer << std::endl; // show buffer, use to check
 	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
 // Component List
 	rapidjson::Value& s = d["ComponentList"];
@@ -204,41 +226,101 @@ void GameObject::SerialInPrefab_Player()
 //Serialisation Check
 	PrintStats_Player();
 }
-
 void GameObject::PrintStats_Player() {
 	IComponentSystem* temp = nullptr;
+	std::string a;
 	temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
 	std::cout
 		<< "FilePrint_PlayerInfo ----------------" << std::endl
-		<< "\tTrans.Pos      :  " << ((TransformComponent*)temp)->GetPos() << std::endl
-		<< "\tTrans.Sca      :  " << ((TransformComponent*)temp)->GetScale() << std::endl
-		<< "\tTrans.Rot      :  " << ((TransformComponent*)temp)->GetRotate() << std::endl;
+		<< "- Trans.Pos         : " << ((TransformComponent*)temp)->GetPos() << std::endl
+		<< "- Trans.Sca         : " << ((TransformComponent*)temp)->GetScale() << std::endl
+		<< "- Trans.Rot         : " << ((TransformComponent*)temp)->GetRotate() << std::endl;
 	temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
 	std::cout
-		<< "\tGraphics       :  " << "[placeHolder] " << std::endl;
+		<< "- Graphics.typeId   : " << ((GraphicComponent*)temp)->GetTypeId() << std::endl
+		<< "- Graphics.filename : " << ((GraphicComponent*)temp)->GetFileName() << std::endl;
 	temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
 	std::cout
-		<< "\tRBod.Mass      :  " << ((RigidBody2D*)temp)->_mass << std::endl
-		<< "\tRBod.Friction  :  " << ((RigidBody2D*)temp)->_fictionVal << std::endl
-		<< "\tRBod.Static    :  " << ((RigidBody2D*)temp)->_static << std::endl;
+		<< "- RBod.Mass         : " << ((RigidBody2D*)temp)->_mass << std::endl
+		<< "- RBod.Friction     : " << ((RigidBody2D*)temp)->_fictionVal << std::endl
+		<< "- RBod.Static       : " << ((RigidBody2D*)temp)->_static << std::endl;
 	temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
 	std::cout
-		<< "\tCollider.TypId :  " << ((Collider2D*)temp)->_type << std::endl;
+		<< "- Collider.TypId    : " << ((Collider2D*)temp)->_type << std::endl;
 	temp = _ComponentList[TypeIdComponent::LOGICCOMPONENT];
 	std::cout
-		<< "\tLogic.Health   :  " << ((LogicComponent*)temp)->GetHealth() << std::endl
-		<< "\tLogic.Speed    :  " << ((LogicComponent*)temp)->GetSpeed() << std::endl
-		<< "\tLogic.Lifetime :  " << ((LogicComponent*)temp)->GetLifetime() << std::endl
-		<< "\tLogic.ScriptIds:  ";
+		<< "- Logic.Health      : " << ((LogicComponent*)temp)->GetHealth() << std::endl
+		<< "- Logic.Speed       : " << ((LogicComponent*)temp)->GetSpeed() << std::endl
+		<< "- Logic.Lifetime    : " << ((LogicComponent*)temp)->GetLifetime() << std::endl
+		<< "- Logic.ScriptIds   : ";
 	std::vector<int> tempScriptList = ((LogicComponent*)temp)->GetScriptId();
 	std::vector<int>::iterator itr = tempScriptList.begin();
 	while (itr != tempScriptList.end())
 		std::cout << *itr++ << " ";
-	//	<< "Weapons :   ";
-//std::vector<int>::iterator itr = _WeaponListId.begin();
-//while (itr != _WeaponListId.end())
-//	std::cout << *itr++;
+	std::cout << std::endl;
+					//	<< "Weapons :   ";
+				//std::vector<int>::iterator itr = _WeaponListId.begin();
+				//while (itr != _WeaponListId.end())
+				//	std::cout << *itr++;
+	temp = _ComponentList[TypeIdComponent::AUDIOCOMPONENT];
+	std::cout
+		<< "- Audio.typeId      : " << ((AudioComponent*)temp)->GetTypeId() << std::endl
+		<< "- Audio.filename    : " << ((AudioComponent*)temp)->GetFileName() << std::endl;
 	std::cout << std::endl
-		<< "-------------------------------------"
-		<< std::endl << std::endl;
+		<< "-------------------------------------" << std::endl
+		<< "-------------------------------------" << std::endl;
+}
+
+void GameObject::SerialInPrefab_Wall()
+{
+// Get & Parse File
+	std::cout
+		<< std::endl
+		<< "-------------------------------------" << std::endl
+		<< "FileRead_WallInfo -------------------" << std::endl;
+	rapidjson::Document d;
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Player.json");
+	ASSERT(iBuffer != nullptr);
+		//std::cout << iBuffer << std::endl; // show buffer, use to check
+	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+// Component List
+	rapidjson::Value& s = d["ComponentList"];
+	std::vector<int> compList;
+	JsonDynamicStore(compList, s);
+	std::vector<int>::iterator itr = compList.begin();
+	while (itr != compList.end())
+		SerialAddComponent((TypeIdComponent)* itr++, s, d);
+// Other Values
+			//s = d["Weapons"];
+			//JsonDynamicStore(_WeaponListId, s);
+			// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
+	std::cout << "-------------------------------------" << std::endl;
+	delete[] iBuffer;
+//Serialisation Check
+	PrintStats_Wall();
+}
+
+void GameObject::PrintStats_Wall() {
+	IComponentSystem* temp = nullptr;
+	temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
+	std::cout
+		<< "FilePrint_WallInfo ------------------" << std::endl
+		<< "- Trans.Pos      :  " << ((TransformComponent*)temp)->GetPos() << std::endl
+		<< "- Trans.Sca      :  " << ((TransformComponent*)temp)->GetScale() << std::endl
+		<< "- Trans.Rot      :  " << ((TransformComponent*)temp)->GetRotate() << std::endl;
+	temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
+	std::cout
+		<< "- Graphics       :  " << "[placeHolder] " << std::endl;
+	temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
+	std::cout
+		<< "- RBod.Mass      :  " << ((RigidBody2D*)temp)->_mass << std::endl
+		<< "- RBod.Friction  :  " << ((RigidBody2D*)temp)->_fictionVal << std::endl
+		<< "- RBod.Static    :  " << ((RigidBody2D*)temp)->_static << std::endl;
+	temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
+	std::cout
+		<< "- Collider.TypId :  " << ((Collider2D*)temp)->_type << std::endl;
+	std::cout
+		<< "-------------------------------------" << std::endl
+		<< "-------------------------------------" << std::endl
+		<< std::endl;
 }

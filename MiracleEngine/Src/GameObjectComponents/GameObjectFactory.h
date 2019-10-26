@@ -18,75 +18,29 @@ class ResourceManager
 };
 
 typedef std::unordered_map<TypeIdGO, GameObject*> PrototypeList;
-
-class GameObjectProrotype // : ISingleton ????
+class GameObjectProrotype final // : ISingleton ????
 {
 	//Dynaic array of GameObject Prototypes
 	PrototypeList _listObjectPrototype;
 public:
-	GameObjectProrotype() {}
-	~GameObjectProrotype()
-	{
-		for (auto gameObject : _listObjectPrototype)
-			delete gameObject.second;
-	}
-	PrototypeList& GetPrototypeList()
-	{
-		return _listObjectPrototype;
-	}
+	GameObjectProrotype();
+	~GameObjectProrotype();
+	GameObjectProrotype(const GameObjectProrotype& rhs) = delete;
+	GameObjectProrotype& operator=(const GameObjectProrotype& rhs) = delete;
 
-	//Create a gameObject type along with its Components
-	GameObject* PrefabGameObject(TypeIdGO typeId)
-	{
-		size_t uId = 0;
-		GameObject* gameObject = nullptr;
-		switch (typeId)
-		{
-		case TypeIdGO::TYPE_PLAYER:
-			gameObject = new GameObject(uId, (unsigned)TypeIdGO::TYPE_PLAYER);
-			gameObject->SerialInPrefab_Player();
-			break;
-		case TypeIdGO::TYPE_WALL:
-			break;
-			//Other Objects
-		}
-		return gameObject;
-	}
+// Get _listObjectProrotype
+	PrototypeList& GetPrototypeList();
 
-	//Create a gameObject type along with its Components
-	GameObject* CloneGameObject(TypeIdGO typeId)
-	{
-		GameObject* gameObject = nullptr;
+// Create a gameObject type along with its Components
+	GameObject* PrefabGameObject(TypeIdGO typeId);
 
-		switch (typeId)
-		{
-		case TypeIdGO::TYPE_PLAYER:
-			//gameObject = new Player(0);
-			//gameObject->SerialInPrefab();
-			break;
-		case TypeIdGO::TYPE_WALL:
-			break;
-			//Other Objects
-		}
-		return gameObject;
-	}
+// Create a gameObject type along with its Components
+	GameObject* CloneGameObject(TypeIdGO typeId);
 
-	// call on start up
-	void Init() {
-		// get all prorotypes and save it into the _listObjectPrototype(map)
-		// get list of all objects
-	//	std::vector<std::string>listOfObjs =
-	//		FileRead_FileToStringVector("./Resources/TextFiles/ListOfGameObjects.txt");
-				//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(PLAYER, CreateGameObject(PLAYER)));
-				//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(WALL, CreateGameObject(WALL)));
-		// serialise each object
-
-	}
-	void Update() { // works as Load()
-	}
-	void Exit() {
-		// remove all GOs
-	}
+// InUpEx
+	void Init();
+	void Update();
+	void Exit();
 };
 
 
@@ -100,270 +54,59 @@ private:
 //Dynamic array of GameObjects
 	std::unordered_map < size_t, GameObject* > _listObject;
 //Dynaic array of GameObject Prototypes
-	PrototypeList _listObjectPrototype;
+	GameObjectProrotype _prototypes;
 
 //Unique ID for the next newly created object
 	size_t _uId;
 
-//Array of GraphicComponents for GraphicsSystem
+//Array of Components
 	std::unordered_map < size_t, GraphicComponent* >  _graphicComponents;
-//Array of TransformComponents for GraphicsSystem
 	std::unordered_map < size_t, TransformComponent* >  _transformComponents;
-//Array of RigidBodyComponent 
 	std::unordered_map < size_t, RigidBody2D* >  _rigidBody2dComponents;
-//Array of PhysicsComponent 
 	std::unordered_map < size_t, Collider2D* >  _collider2dComponents;
-//Array of LogicComponent 
 	std::unordered_map < size_t, LogicComponent* >  _logicComponents;
 
 public:
-//No replication of class object
+	GameObjectFactory();
+	~GameObjectFactory();
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
 	GameObjectFactory& operator= (const GameObjectFactory& rhs) = delete;
-
-//Constructor
-	GameObjectFactory();
-//Destructor
-	~GameObjectFactory();
-//Get self
-	GameObjectFactory* GetGOFac();
+//Get Self
+	GameObjectFactory& GetGOFac();
 //Get Components
 	const std::unordered_map < size_t, GraphicComponent* >& getGraphicComponent() const;
 	const std::unordered_map < size_t, TransformComponent* >& getTransformComponent() const;
 	const std::unordered_map < size_t, RigidBody2D* >& getRigidBodyComponent() const;
 	const std::unordered_map < size_t, Collider2D* >& getCollider2dComponent() const;
 	const std::unordered_map < size_t, LogicComponent* >& getLogicComponent() const;
-
+//Get _listObject
 	const std::unordered_map < size_t, GameObject*>& getObjectlist() const;
 
 //Deleting a gameObject entirely from the gameObjectFactory
-	void DeleteGameObjectID(size_t id)
-	{
-		std::cout << "DeleteGameObjectID(" << id << ")" << std::endl;
-		delete _listObject[id];
-
-		_listObject.erase(id);
-		_graphicComponents.erase(id);
-		_transformComponents.erase(id);
-		_rigidBody2dComponents.erase(id);
-		_collider2dComponents.erase(id);
-	}
+	void DeleteGameObjectID(size_t id);
 
 //Create a gameObject type along with its Components
-	GameObject* CreateGameObject(TypeIdGO typeId)
-	{
-		//std::cout << "CreateGameObject(" << typeId << ")" << std::endl;
-		//GameObject* gameObject = nullptr;
-
-		//switch (typeId)
-		//{
-		//case TYPE_PLAYER:
-		//	gameObject = new Player(_uId);
-		//	_listObject[_uId] = gameObject;
-
-		//	_transformComponents[_uId] = dynamic_cast<TransformComponent*> (gameObject->addcomponent(TRANSFORMCOMPONENT));
-		//	_graphicComponents[_uId] = dynamic_cast<GraphicComponent*> (gameObject->addcomponent(GRAPHICSCOMPONENT));
-		//	_rigidBodyComponents[_uId] = dynamic_cast<RigidBodyComponent*> (gameObject->addcomponent(RIGIDBODYCOMPONENT));
-		//	_physicsComponents[_uId] = dynamic_cast<PhysicsComponent*> (gameObject->addcomponent(PHYSICSCOMPONENT));
-
-		//	_uId++;
-		//	break;
-		//case TYPE_WALL:
-		//	break;
-		//	//Other Objects
-		//}
-		//return gameObject;
-		return nullptr;
-	}
+	GameObject* CreateGameObject(TypeIdGO typeId);
 //Create a gameObject type along with its Components
-	void CloneGameObject(TypeIdGO gameObjectTypeID)
-	{
-		std::cout << "\t CloneGameObject(" << (unsigned)gameObjectTypeID << ")" << std::endl;
-		GameObject* temp = nullptr;
-		switch (gameObjectTypeID)
-		{
-		case TypeIdGO::TYPE_PLAYER:
-			temp = _listObjectPrototype[TypeIdGO::TYPE_PLAYER]->Clone();
-			break;
-		default:
-			break;
-		}
-		// add 'temp' to the _listObj;
-		if (!temp)
-			return;
-		_listObject.insert(std::pair<size_t, GameObject*>(++_uId, temp));
-		// based on temp's _ComponentList, add the components into GOFac's different systems
-		std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = temp->_ComponentList.begin();
-		while (itr != temp->_ComponentList.end())
-		{
-			switch (itr->first)
-			{
-			case TypeIdComponent::TRANSFORMCOMPONENT:
-				_transformComponents[_uId] = (TransformComponent*)itr->second;
-				break;
-			case TypeIdComponent::GRAPHICSCOMPONENT:
-				_graphicComponents[_uId] = (GraphicComponent*)itr->second;
-				break;
-			case TypeIdComponent::RIGIDBODYCOMPONENT:
-				_rigidBody2dComponents[_uId] = (RigidBody2D*)itr->second;
-				break;
-			case TypeIdComponent::COLLIDERCOMPONENT:
-				_collider2dComponents[_uId] = (Collider2D*)itr->second;
-				break;
-			case TypeIdComponent::LOGICCOMPONENT:
-				_logicComponents[_uId] = (LogicComponent*)itr->second;
-				break;
-			}
-			++itr;
-		}
-	}
-	void ObjectClone()
-	{
-		// clone from prototype, based on desired type
-
-	}
+	void CloneGameObject(TypeIdGO gameObjectTypeID);
 
 //InUpEx
-	void Init() {
-		std::cout << "GOFac Init" << std::endl;
-		_state.Init();
+	void Init();
+	void Update();
+	void Exit();
 
-		// get all prorotypes and save it into the _listObjectPrototype(map)
-		// get list of all objects
-	//	std::vector<std::string>listOfObjs =
-	//		FileRead_FileToStringVector("./Resources/TextFiles/ListOfGameObjects.txt");
-		GameObject* temp = nullptr;
-	// Prototype_Player
-		temp = new GameObject(0, (unsigned)TypeIdGO::TYPE_PLAYER);
-		temp->SerialInPrefab_Player();
-		_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::TYPE_PLAYER, temp));
-		
-			//_listObjectPrototype.insert(std::pair < GameObjectTypeID, GameObject*>(TYPE_WALL, CreateGameObject(TYPE_WALL)));
-
-		// load initial level
-	}
-	void Update() {
-		
-		//std::cout << "GOFac Update" << std::endl;
-
-
-		// run through all GOs, run their Update()s in order
-			//std::unordered_map< size_t, GameObject* >::iterator itr = _listObject.begin();
-			//while (itr != _listObject.end())
-			//{
-			//	GameObject* temp = itr->second;
-			//	temp->Update();
-			//	itr++;
-			//}		
-
-		// detect any level changes
-		_state.Update();
-		if (_state.GetCurrState() == GS_LEVELCHANGE)
-		{
-			// remove all GOs
-
-			// load new level
-		}
-	}
-	void Exit() {
-		std::cout << "GOFac Exit" << std::endl;
-	}
-
-	// TempGO for Serialising from LevelText.txt
-	struct TempGO {
-		int id{ 0 };
-		Vector3 pos{ Vector3() };
-		Vector3 scale{ Vector3() };
-		float rot{ 0.0f };
-		//int scriptId{ 0 };
-	// funcs()
-		TempGO() {}
-		~TempGO() {}
-	};
-	/**
-	\brief Read LevelText and Instantiate GObj
-	*/
-	std::vector<GameObject*> FileRead_Level(const char* FileName)
-	{ // will move to ObjectFactory
-		std::cout << "FileRead_Level(" << FileName << ")" << std::endl;
-		std::fstream _file;
-		_file.open(FileName, std::ios_base::in | std::ios_base::binary);
-		if (!_file.is_open())
-		{
-			std::cout << "! WARNING !! File Cannot Open!!!" << std::endl
-				<< ". // Resources // TextFiles // TestLevel.txt" << std::endl;
-			std::vector<GameObject*> null;
-			return null;
-		}
-		char* strType = new char[20];
-		char* strNum1 = new char[10];
-		char* strNum2 = new char[10];
-		std::vector<TempGO> GOVec;
-		float num1, num2;
-		TempGO obj;
-
-		while (_file.good()) // each loop read 4 lines: Type, Pos, Scale, Rot
-		{
-			// get Type
-			//_file.getline(strType, 20, '\n\r');
-			_file >> strType;
-			if (std::strcmp(strType, "Wall") == 0)
-				obj.id = (unsigned)TypeIdGO::TYPE_WALL;
-			if (std::strcmp(strType, "Floor") == 0)
-				obj.id = (unsigned)TypeIdGO::TYPE_FLOOR;
-			if (std::strcmp(strType, "Player") == 0)
-				obj.id = (unsigned)TypeIdGO::TYPE_PLAYER;
-			// get Position
-			ASSERT(_file.getline(strNum1, 10, ','));
-			ASSERT(_file.getline(strNum2, 10));
-			num1 = std::stof(strNum1);
-			num2 = std::stof(strNum2);
-			obj.pos = Vector3(num1, num2, 1);
-			// get Scale
-			ASSERT(_file.getline(strNum1, 10, ','));
-			ASSERT(_file.getline(strNum2, 10));
-			num1 = std::stof(strNum1);
-			num2 = std::stof(strNum2);
-			obj.scale = Vector3(num1, num2, 1);
-			// get Rotate
-			ASSERT(_file.getline(strNum1, 10));
-			num1 = std::stof(strNum1);
-			obj.rot = num1;
-			// push into tempVec
-			GOVec.push_back(obj);
-		}
-		_file.close();
-		delete[] strType;
-		delete[] strNum1;
-		delete[] strNum2;
-
-		// instantiate objs into objList
-		std::vector<GameObject*> ret;
-		std::vector<TempGO>::iterator itr = GOVec.begin();
-		while (itr != GOVec.end())
-		{
-			TempGO temp = *itr;
-//if (temp.id == TYPE_PLAYER)
-//	ret.push_back(_listObjectPrototype[TYPE_PLAYER]->Clone(temp.pos, temp.scale, temp.rot));
-//else if (temp.id == TYPE_FLOOR)
-//	ret.push_back(_listObjectPrototype[TYPE_FLOOR]->Clone(temp.pos, temp.scale, temp.rot));
-//else if (temp.id == TYPE_WALL)
-//	ret.push_back(_listObjectPrototype[TYPE_WALL]->Clone(temp.pos, temp.scale, temp.rot));
-//else;
-			++itr;
-		}
-		return ret;
-	}
+//Read LevelText and Instantiate GObj
+	std::vector<GameObject*> FileRead_Level(const char* FileName);
 
 
 
-	// TEST FUNCTION - to add some GOs 'dyamically'
+// TEST FUNCTION - to add some GOs 'dyamically'
 	void TEST_AddGameObjects()
 	{
 		std::cout << std::endl << "-------------------------------------" << std::endl;
 		std::cout << "TEST_AddGameObjects()" << std::endl;
-		CloneGameObject(TypeIdGO::TYPE_PLAYER);
-		CloneGameObject(TypeIdGO::TYPE_PLAYER);
+		CloneGameObject(TypeIdGO::PLAYER);
+		CloneGameObject(TypeIdGO::PLAYER);
 		std::cout << std::endl << "-------------------------------------" << std::endl;
 	}
 	void TEST_DeleteAllGameObjects()
@@ -377,15 +120,10 @@ public:
 			++itr;
 		}
 		_listObject.clear();
-		
-		/*for (auto gameObject : _listObject)
-		{
-			delete gameObject.second;
-			_listObject.erase(gameObject.first);
-		}*/
+
 		std::cout << std::endl << "-------------------------------------" << std::endl;
 	}
-	// TEST FUNCTION - to see all GOs in _listObj
+// TEST FUNCTION - to see all GOs in _listObj
 	void TEST_DisplayAllGameObj()
 	{
 		std::cout << std::endl << "-------------------------------------" << std::endl;

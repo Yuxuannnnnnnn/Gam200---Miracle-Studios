@@ -28,7 +28,7 @@ void Engine::Update(WindowsSystem& window)
 	_imguiSystem->UpdateFrame(); //Calls new frames for Imgui every loop
 
 	// TESTING mem leak for objects
-	if (true)
+	if (false)
 	{
 		_gameObjectFactory->TEST_AddGameObjects();
 		_gameObjectFactory->TEST_DisplayAllGameObj();
