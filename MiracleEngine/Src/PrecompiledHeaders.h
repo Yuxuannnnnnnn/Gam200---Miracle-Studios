@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef PRECOMPILEHEADER_H
+#define PRECOMPILEHEADER_H
 
 #include <Windows.h>
 
@@ -16,14 +18,14 @@
 #include <comdef.h>			// For _bstr_t class, to convert const wchar_t* to const char*
 #include <functional>		// using for funcPtrs
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-
-#include "rapidjson.h"		// J
-#include "document.h"		// S
-#include "writer.h"			// O
-#include "stringbuffer.h"	// N
-#include "error/en.h"		// Json error displaying
+//#include "glm/glm.hpp"
+//#include "glm/gtc/matrix_transform.hpp"
+//
+//#include "rapidjson.h"		// J
+//#include "document.h"		// S
+//#include "writer.h"			// O
+//#include "stringbuffer.h"	// N
+//#include "error/en.h"		// Json error displaying
 //------------------------------------------------------
 
 //Source files
@@ -63,3 +65,5 @@
 
 #include "PhysicSystem/CollisionComponent/Collider2D.h"
 #include "PhysicSystem/PhysicComponent/RigidBody2D.h"
+
+#endif

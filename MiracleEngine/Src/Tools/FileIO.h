@@ -1,7 +1,12 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 #include "MathLib/SYMath.h"
-#include "rapidjson.h"
+
+#include "rapidjson.h"		// J
+#include "document.h"		// S
+#include "writer.h"			// O
+#include "stringbuffer.h"	// N
+#include "error/en.h"		// Json error displaying
 
 #define ASSERT(condition) { if(!(condition)) \
 { \

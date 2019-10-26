@@ -17,12 +17,6 @@
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\Tools\FileIO.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
-    <ClCompile Include="Imgui\imgui.cpp" />
-    <ClCompile Include="Imgui\imgui_demo.cpp" />
-    <ClCompile Include="Imgui\imgui_draw.cpp" />
-    <ClCompile Include="Imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\GraphicsSystem\InstancedSystem.cpp" />
     <ClCompile Include="Src\MathLib\SYMath.cpp" />
     <ClCompile Include="Src\MathLib\Vector2.cpp" />
@@ -40,6 +34,12 @@
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Animation.cpp" />
     <ClCompile Include="Src\PhysicSystem\PerformanceUsage.cpp" />
+    <ClCompile Include="Imgui\imgui.cpp" />
+    <ClCompile Include="Imgui\imgui_demo.cpp" />
+    <ClCompile Include="Imgui\imgui_draw.cpp" />
+    <ClCompile Include="Imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -311,14 +311,6 @@
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
     <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
-    <ClInclude Include="Imgui\imconfig.h" />
-    <ClInclude Include="Imgui\imgui.h" />
-    <ClInclude Include="Imgui\imgui_impl_opengl3.h" />
-    <ClInclude Include="Imgui\imgui_impl_win32.h" />
-    <ClInclude Include="Imgui\imgui_internal.h" />
-    <ClInclude Include="Imgui\imstb_rectpack.h" />
-    <ClInclude Include="Imgui\imstb_textedit.h" />
-    <ClInclude Include="Imgui\imstb_truetype.h" />
     <ClInclude Include="Src\GraphicsSystem\InstancedSystem.h" />
     <ClInclude Include="Src\MathLib\SYMath.h" />
     <ClInclude Include="Src\MathLib\Vector2.h" />
@@ -390,6 +382,14 @@
     <ClInclude Include="Dep\freetype\include\freetype\tttables.h" />
     <ClInclude Include="Dep\freetype\include\freetype\tttags.h" />
     <ClInclude Include="Dep\freetype\include\ft2build.h" />
+    <ClInclude Include="Imgui\imconfig.h" />
+    <ClInclude Include="Imgui\imgui.h" />
+    <ClInclude Include="Imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Imgui\imgui_impl_win32.h" />
+    <ClInclude Include="Imgui\imgui_internal.h" />
+    <ClInclude Include="Imgui\imstb_rectpack.h" />
+    <ClInclude Include="Imgui\imstb_textedit.h" />
+    <ClInclude Include="Imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
