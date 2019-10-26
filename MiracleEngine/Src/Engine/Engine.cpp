@@ -19,7 +19,7 @@ void Engine::Init()
 void Engine::Update()
 {
 	// TESTING mem leak for objects
-	if (true)
+	if (false)
 	{
 		_gameObjectFactory->TEST_AddGameObjects();
 		_gameObjectFactory->TEST_DisplayAllGameObj();

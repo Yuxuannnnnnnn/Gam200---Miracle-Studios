@@ -2,23 +2,23 @@
   "ComponentList": [ 0, 1, 2, 3, 4 ],
 
   "COMPONENT 0": "TRANSFORM",
-  "Position": [ 3.2, 4.1 ],
-  "Scale": [ 3.2, 4.1 ],
-  "Rotate": 1.3,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 1.0, 1.0 ],
+  "Rotate": 0.0,
 
   "COMPONENT 1": "GRAPHICS",
 
   "COMPONENT 2": "RIGID BODY",
   "Mass": 10.0,
-  "Friction": 11.0,
-  "Static": true,
+  "Friction": 5.0,
+  "Static": false,
 
-  "COMPONENT 3": "COLLIDERcreate different Collider type depending on this ID ",
+  "COMPONENT 3": "COLLIDER",
   "ColliderTypeId": 1,
 
   "COMPONENT 4": "LOGIC",
   "ScriptId": [ 1, 2, 3 ],
-  "Health": 10,
-  "Speed": 3,
+  "Health": 5,
+  "Speed": 2,
   "Weapons": [ 1, 3, 4 ]
 }

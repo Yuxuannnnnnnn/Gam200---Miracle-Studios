@@ -10,7 +10,7 @@ enum class TypeIdGraphic {
 class GraphicComponent : public IComponentSystem
 {
 private:
-	TypeIdGraphic _typeIdGraphic;
+	unsigned _typeIdGraphic;
 	std::string _fileName;
 
 	int _shaderID;
@@ -25,5 +25,14 @@ public:
 	~GraphicComponent();
 
 	std::string ComponentName() const override;
+
+	unsigned& GetTypeId()
+	{
+		return _typeIdGraphic;
+	}
+	std::string& GetFileName()
+	{
+		return _fileName;
+	}
 };
 

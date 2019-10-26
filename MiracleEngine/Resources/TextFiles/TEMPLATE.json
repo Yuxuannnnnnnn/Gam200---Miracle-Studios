@@ -8,7 +8,7 @@
 
   "COMPONENT 1": "GRAPHICS",
   "G.TypeId": 0,
-  "G.FileName": "sprite_player.png",
+  "G.FileName": ".png",
 
   "COMPONENT 2": "RIGID BODY",
   "Mass": 10.0,
@@ -26,5 +26,5 @@
   
   "COMPONENT 5": "AUDIO",
   "A.TypeId": 0,
-  "A.FileName": "audio_player.ogg"
+  "A.FileName": ".ogg",
 }

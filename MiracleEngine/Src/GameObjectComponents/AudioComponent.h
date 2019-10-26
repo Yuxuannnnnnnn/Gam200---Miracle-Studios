@@ -12,7 +12,7 @@ enum class TypeIdAudio {
 class AudioComponent : public IComponentSystem
 {
 private:
-	TypeIdAudio _typeIdAudio;
+	unsigned _typeIdAudio;
 	std::string _fileName;
 
 	unsigned _fileTrackLength;
@@ -24,5 +24,14 @@ public:
 	~AudioComponent();
 
 	std::string ComponentName() const override;
+
+	unsigned& GetTypeId()
+	{
+		return _typeIdAudio;
+	}
+	std::string& GetFileName()
+	{
+		return _fileName;
+	}
 };
 

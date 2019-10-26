@@ -68,8 +68,8 @@ void JsonDynamicStore(int& store, rapidjson::Value& val)
 }
 void JsonDynamicStore(unsigned int& store, rapidjson::Value& val)
 {
-	ASSERT(val.IsInt())
-		store = static_cast<unsigned int>(val.GetInt());
+	ASSERT(val.IsUint())
+		store = static_cast<unsigned int>(val.GetUint());
 }
 void JsonDynamicStore(std::vector<int> &store, rapidjson::Value& val)
 {
@@ -100,6 +100,15 @@ void JsonDynamicStore(Vector3& store, rapidjson::Value& val)
 		store.X(val[0].GetFloat());
 		store.Y(val[1].GetFloat());
 		store.Z(1);
+	}
+	return;
+}
+void JsonDynamicStore(std::string& store, rapidjson::Value& val)
+{
+	ASSERT(val.IsString())
+	{
+		store.clear();
+		store = val.GetString();
 	}
 	return;
 }

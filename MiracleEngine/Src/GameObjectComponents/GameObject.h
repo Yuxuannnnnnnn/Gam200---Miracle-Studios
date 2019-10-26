@@ -26,24 +26,20 @@
 //	const char* path_GameObjectList = "./Resources/TextFiles/ListOfGameObjects.txt";
 //}
 
-/**
-\brief TypeIdGO
-*/
 enum class TypeIdGO {
-	TYPE_UNKNOWN = 0,
-	TYPE_WALL, TYPE_FLOOR, TYPE_OBSTACLE, //Setting
-	TYPE_PLAYER, TYPE_ENEMY, //Mobile objects
-	TYPE_WEAPON, TYPE_PISTOL, TYPE_SHOTGUN, TYPE_SNIPER, TYPE_RPG, //Weapons	
+	NONE = 0,
+	WALL, FLOOR, OBSTACLE, //Setting
+	PLAYER, ENEMY, BULLET, //Mobile objects
+	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
 };
-
 enum class TypeIdComponent {
 	TRANSFORMCOMPONENT = 0,
 	GRAPHICSCOMPONENT = 1,
 	RIGIDBODYCOMPONENT = 2,
 	COLLIDERCOMPONENT = 3,
 	LOGICCOMPONENT = 4,
+	AUDIOCOMPONENT = 5,
 };
-
 
 class GameObject
 {
@@ -68,18 +64,26 @@ public:
 // Components
 	// DEPRECIATED - Add a specific component to the GameObject
 	IComponentSystem* addcomponent(TypeIdComponent componentType);
-	// AddComponent for during Serialisation
+// AddComponent for during Serialisation
 	void SerialAddComponent
 		(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d);
-	// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
+// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
 	void CopyComponent
 		(std::unordered_map< TypeIdComponent, IComponentSystem* >& original);
 // Cloning
 	virtual GameObject* Clone();
-// Serialisation
+// Obj PLAYER
 	void SerialInPrefab_Player();
-// Output for Serialisation Check
 	void PrintStats_Player();
+// Obj Enemy
+	void SerialInPrefab_Enemy();	// TODO
+	void PrintStats_Enemy();		// TODO
+// Obj Wall
+	void SerialInPrefab_Wall();
+	void PrintStats_Wall();
+// Obj Bullet
+	void SerialInPrefab_Bullet();	// TODO
+	void PrintStats_Bullet();		// TODO
 };
 
 
@@ -92,18 +96,19 @@ private:
 public:
 	Weapon() = default;
 	Weapon(size_t id, float firerate)
-		: GameObject(id, (unsigned)TypeIdGO::TYPE_WEAPON), _FireRate{ firerate }
+		: GameObject(id, (unsigned)TypeIdGO::WEAPON), _FireRate{ firerate }
 	{}
 
 	~Weapon() = default;
 
 	unsigned GameObjectType() const override
 	{
-		return (unsigned)TypeIdGO::TYPE_WEAPON;
+		return (unsigned)TypeIdGO::WEAPON;
 	}
 };
 
 
+//			no more player class, now Player is identified via _typeId
 //class Player : public GameObject
 //{
 //	unsigned int _Health{ 0 };
@@ -113,7 +118,7 @@ public:
 //public:
 //	// Ctor
 //Player(size_t uId)
-//		:GameObject(uId, TYPE_PLAYER) // init with uId & type::PLAYER
+//		:GameObject(uId, PLAYER) // init with uId & type::PLAYER
 //	{
 //	}
 //// Dtor
@@ -194,6 +199,6 @@ public:
 //
 //	GameObjectTypeID GameObjectType() const override
 //	{
-//		return TYPE_PLAYER;
+//		return PLAYER;
 //	}
 //};
