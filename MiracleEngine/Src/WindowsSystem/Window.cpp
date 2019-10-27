@@ -2,6 +2,8 @@
 #include "Window.h"
 #include "wglew.h"
 
+#include "Main.h"
+
 
 
 
@@ -130,26 +132,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
-	case WM_COMMAND:
-	{
-		int wmId = LOWORD(wParam);
-		// Parse the menu selections:
-		switch (wmId)
+		case WM_COMMAND:
 		{
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
+			int wmId = LOWORD(wParam);
+			// Parse the menu selections:
+			switch (wmId)
+			{
+				case IDM_EXIT:
+					DestroyWindow(hWnd);
+					break;
+				default:
+					return DefWindowProc(hWnd, message, wParam, lParam);
+			}
 			break;
+		}
+
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
-		}
-	}
-
-	break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 
 	return 0;

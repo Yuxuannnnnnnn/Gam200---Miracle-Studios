@@ -41,9 +41,7 @@ enum class TypeIdComponent {
 	RIGIDBODYCOMPONENT = 2,
 	COLLIDERCOMPONENT = 3,
 	LOGICCOMPONENT = 4,
-	AUDIOCOMPONENT = 5,
-
-	IMGUIWINDOWCOMPONENT = 6
+	AUDIOCOMPONENT = 5
 };
 
 typedef std::unordered_map < TypeIdComponent, IComponentSystem* > Map_ComponentList;

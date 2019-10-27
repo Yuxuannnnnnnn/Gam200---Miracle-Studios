@@ -11,11 +11,18 @@ GameObject::GameObject(size_t uId, unsigned typeId)
 GameObject::~GameObject()
 {
 	//std::cout << "GameObject::~GameObject()" << std::endl;
-	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator iterator = _ComponentList.begin();
-	while (iterator != _ComponentList.end())
+
+	//std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator iterator = _ComponentList.begin();
+	//while (iterator != _ComponentList.end())
+	//{
+	//	delete iterator->second;
+	//	iterator++;
+	//}
+
+
+	for (auto component : _ComponentList)
 	{
-		delete iterator->second;
-		iterator++;
+		delete component.second;
 	}
 }
 
@@ -45,9 +52,7 @@ IComponentSystem* GameObject::addcomponent(TypeIdComponent componentType)
 	case TypeIdComponent::LOGICCOMPONENT:
 		_ComponentList[TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
 		break;
-	//case TypeIdComponent::IMGUIWINDOWCOMPONENT:
-	//	const char * 
-	//	_ComponentList[TypeIdComponent::IMGUIWINDOWCOMPONENT] = new ImguiWindowComponent();
+
 	}
 
 	return  _ComponentList[componentType];

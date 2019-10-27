@@ -17,6 +17,7 @@ class Engine
 public:
 
 	Engine(HINSTANCE hInstance, int nCmdShow):
+		_loop{true},
 		_console{ new Console()}, //Create a Logging console
 		_windowSystem{ new WindowsSystem(hInstance, nCmdShow) }, //Create Window object in it
 		_imguiSystem{ new ImguiSystem(_windowSystem->getWindow()) },
@@ -34,8 +35,13 @@ public:
 	void Update();
 	int Exit();
 
+private:
 
-	Console* _console; 
+	bool _loop; //for engine update loop
+
+public:
+
+	Console* _console;
 	WindowsSystem* _windowSystem;
 	ImguiSystem* _imguiSystem;
 

@@ -88,7 +88,7 @@ GameObjectFactory::~GameObjectFactory()
 	{
 		delete gameObject.second;
 	}
-	_listObject.clear();
+	_listObject.clear(); 
 }
 
 GameObjectFactory& GameObjectFactory::GetGOFac()

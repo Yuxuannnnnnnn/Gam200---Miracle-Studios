@@ -1,5 +1,8 @@
 #include "PrecompiledHeaders.h"
 
+
+
+
 void Engine::Init()
 {
 //--Init replaced by Constructor?---------------------------
@@ -26,12 +29,11 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	bool loop = true;
-	bool open = true;
+	bool open = true; //for imgui show demo, to be deleted later
 
-	while (loop)
+	while (_loop)
 	{
-		loop = _windowSystem->Update(); //Update the window Object - reads all messages received in this window objects
+		_loop = _windowSystem->Update(); //Update the window Object - reads all messages received in this window objects
 
 
 //--Systems update here----- Please do not change the Order of the Systems Update--------------------------
@@ -112,6 +114,6 @@ int Engine::Exit()
 	delete _imguiSystem; //Shutdown ImGui System
 
 
-	int wparam = _windowSystem->Get_msg().wParam;
-	return (int) wparam;
+
+	return (int)_windowSystem->Get_msg().wParam;
 }

@@ -10,7 +10,6 @@ GraphicComponent::GraphicComponent() :
 }
 
 GraphicComponent::~GraphicComponent()
-
 {
 	delete _pmesh;
 }

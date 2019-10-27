@@ -1,12 +1,14 @@
 // MiracleEngine.cpp : Defines the entry point for the application.
 //
 #include "PrecompiledHeaders.h"
-#include "Main.h"
+#include "Main.h" //For Global pointers
 
+
+//Global pointers----------------------------------------------------
 
 GraphicsSystem* graphicsSystem;
 GameObjectFactory* gameObjectFactory;
-
+//--------------------------------------------------------------------
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -19,7 +21,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 
-
 	Engine* coreEngine = new Engine(hInstance, nCmdShow); //Engine Creation: Creation of all systems
 
 	gameObjectFactory = coreEngine->_gameObjectFactory;
@@ -28,6 +29,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	coreEngine->Init(); // Engine Initialise all systems --Init replaced by Constructor?--------------
 	coreEngine->Update(); 	// engine update here
+
 	return coreEngine->Exit(); 	// engine exit here
 
 

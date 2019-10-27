@@ -1,6 +1,8 @@
 #include "PrecompiledHeaders.h"
 #include "ImguiSystem.h"
 
+#include "HierarchyImguiWindow.h"
+
 
 
 ImguiSystem::ImguiSystem(const Window& window)
@@ -38,8 +40,9 @@ ImguiSystem::ImguiSystem(const Window& window)
 
 
 	//New All ImguiWindows
+	
+	//_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)] = new HierarchyImguiWindow();
 	/*
-	_ImguiWindows[ImguiWindows::HIERARCHY] = new Hierarchy();
 	_ImguiWindows[ImguiWindows::INSPECTOR] = new Inspector();
 	_ImguiWindows[ImguiWindows::SCENE] = new Scene();
 	*/
@@ -64,9 +67,9 @@ void ImguiSystem::UpdateFrame()
 				ImGui::End();	// Early out if the window is collapsed, as an optimization.
 				return;
 			}
-
+	
 			_ImguiWindows[i]->Update(); //Update the contents of each window
-
+	
 			ImGui::End();									//End of window body
 		}
 	}

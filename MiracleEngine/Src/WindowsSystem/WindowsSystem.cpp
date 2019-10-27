@@ -17,7 +17,7 @@ bool WindowsSystem::Update()
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	{
 
-		if (msg.message == WM_QUIT)
+		if (msg.message == WM_QUIT )
 		{
 			//loop = false;
 			return false;

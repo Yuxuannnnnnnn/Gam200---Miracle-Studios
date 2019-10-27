@@ -5,7 +5,7 @@
 #include "imgui_internal.h"
 
 
-enum class ImguiWindows  //The List of ImguiWindows 
+enum class ImguiWindows //The List of ImguiWindows 
 {
 	//HIERARCHY = 0,
 	//INSPECTOR = 1,
