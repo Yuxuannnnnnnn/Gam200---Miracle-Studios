@@ -45,34 +45,38 @@ IComponentSystem* GameObject::addcomponent(TypeIdComponent componentType)
 	case TypeIdComponent::LOGICCOMPONENT:
 		_ComponentList[TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
 		break;
+	case TypeIdComponent::IMGUIWINDOWCOMPONENT:
+		_ComponentList[TypeIdComponent::IMGUIWINDOWCOMPONENT] = new ImguiWindowComponent();
 	}
+
 	return  _ComponentList[componentType];
 }
+
 
 // AddComponent for during Serialisation
 void GameObject::SerialAddComponent
 	(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d)
 {
 	std::cout << "- GameObject::SerialAddComponent(" << (unsigned)componentType << ") : ";
+
 	switch (componentType)
 	{
 		IComponentSystem* temp;
-	case TypeIdComponent::TRANSFORMCOMPONENT:
-		std::cout << "Transform";
-		// create new component
-		_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent();
-		// 'temp' to access new component
-		temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
-		// store values needed
-		s = d["Position"];
+
+	case TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform";	
+
+		_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent(); 	// create new component
+		temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];		// 'temp' to access new component
+		s = d["Position"];												// store values needed
 		JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
 		s = d["Scale"];
 		JsonDynamicStore(((TransformComponent*)temp)->GetScale(), s);
 		s = d["Rotate"];
 		JsonDynamicStore(((TransformComponent*)temp)->GetRotate(), s);
 		break;
-	case TypeIdComponent::GRAPHICSCOMPONENT:
-		std::cout << "Graphics";
+
+	case TypeIdComponent::GRAPHICSCOMPONENT:	std::cout << "Graphics";
+
 		_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
 		temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
 		s = d["G.TypeId"];
@@ -80,8 +84,9 @@ void GameObject::SerialAddComponent
 		s = d["G.FileName"];
 		JsonDynamicStore(((GraphicComponent*)temp)->GetFileName(), s);
 		break;
-	case TypeIdComponent::RIGIDBODYCOMPONENT:
-		std::cout << "R. Body";
+
+	case TypeIdComponent::RIGIDBODYCOMPONENT:	std::cout << "R. Body";
+
 		_ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
 		temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
 		s = d["Mass"];
@@ -91,15 +96,17 @@ void GameObject::SerialAddComponent
 		s = d["Static"];
 		JsonDynamicStore(((RigidBody2D*)temp)->_static, s);
 		break;
-	case TypeIdComponent::COLLIDERCOMPONENT:
-		std::cout << "Collider";
+
+	case TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider";
+
 		_ComponentList[TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
 		temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
 		s = d["ColliderTypeId"];
 		JsonDynamicStore(((Collider2D*)temp)->_type, s);
 		break;
-	case TypeIdComponent::LOGICCOMPONENT:
-		std::cout << "Logic";
+
+	case TypeIdComponent::LOGICCOMPONENT:		std::cout << "Logic";
+
 		_ComponentList[TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
 		temp = _ComponentList[TypeIdComponent::LOGICCOMPONENT];
 		s = d["ScriptId"];
@@ -109,8 +116,9 @@ void GameObject::SerialAddComponent
 		s = d["Speed"];
 		JsonDynamicStore(((LogicComponent*)temp)->GetSpeed(), s);
 		break;
-	case TypeIdComponent::AUDIOCOMPONENT:
-		std::cout << "Audio";
+
+	case TypeIdComponent::AUDIOCOMPONENT:		std::cout << "Audio";
+
 		_ComponentList[TypeIdComponent::AUDIOCOMPONENT] = new AudioComponent();
 		temp = _ComponentList[TypeIdComponent::AUDIOCOMPONENT];
 		s = d["A.TypeId"];
@@ -118,6 +126,7 @@ void GameObject::SerialAddComponent
 		s = d["A.FileName"];
 		JsonDynamicStore(((AudioComponent*)temp)->GetFileName(), s);
 		break;
+
 	default:
 		temp = nullptr;
 		break;
@@ -125,59 +134,67 @@ void GameObject::SerialAddComponent
 	std::cout << std::endl;
 }
 
-// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
-void GameObject::CopyComponent
-	(std::unordered_map< TypeIdComponent, IComponentSystem* >& original)
+
+void GameObject::CopyComponent	// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
+	(std::unordered_map< TypeIdComponent, IComponentSystem* >& original) 
 {
 	std::cout << "\t GameObject::CopyComponent() : ";
+
 	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = original.begin();
+
 	while (itr != original.end())
 	{
 		IComponentSystem* temp;
 		switch (itr->first)
 		{
-		case TypeIdComponent::TRANSFORMCOMPONENT:
-			std::cout << "Transform, ";
+		case TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform, ";
+
 			temp = new TransformComponent(
 				*((TransformComponent*)itr->second)
 			); // using copyCtor to copy var, idk if it works
 			_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] =  temp;
 			break;
-		case TypeIdComponent::GRAPHICSCOMPONENT:
-			std::cout << "Graphics, ";
+
+		case TypeIdComponent::GRAPHICSCOMPONENT:	std::cout << "Graphics, ";
+
 			temp = new GraphicComponent(
 				*((GraphicComponent*)itr->second)
 			);
 			_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = temp;
 			break;
-		case TypeIdComponent::RIGIDBODYCOMPONENT:
-			std::cout << "R. Body, ";
+
+		case TypeIdComponent::RIGIDBODYCOMPONENT:	std::cout << "R. Body, ";
+
 			temp = new RigidBodyComponent(
 				*((RigidBodyComponent*)itr->second)
 			);
 			_ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT] = temp;
 			break;
-		case TypeIdComponent::COLLIDERCOMPONENT:
-			std::cout << "Collider, ";
+
+		case TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider, ";
+
 			temp = new Collider2D(
 				*((Collider2D*)itr->second)
 			);
 			_ComponentList[TypeIdComponent::COLLIDERCOMPONENT] = temp;
 			break;
-		case TypeIdComponent::LOGICCOMPONENT:
-			std::cout << "Logic, ";
+
+		case TypeIdComponent::LOGICCOMPONENT:		std::cout << "Logic, ";
+
 			temp = new LogicComponent(
 				*((LogicComponent*)itr->second)
 			);
 			_ComponentList[TypeIdComponent::LOGICCOMPONENT] = temp;
 			break;
-		case TypeIdComponent::AUDIOCOMPONENT:
-			std::cout << "Audio, ";
+
+		case TypeIdComponent::AUDIOCOMPONENT:		std::cout << "Audio, ";
+
 			temp = new AudioComponent(
 				*((AudioComponent*)itr->second)
 			);
 			_ComponentList[TypeIdComponent::AUDIOCOMPONENT] = temp;
 			break;
+
 		default:
 			temp = nullptr;
 			break;

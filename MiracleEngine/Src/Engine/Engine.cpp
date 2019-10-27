@@ -27,10 +27,12 @@ void Engine::Init()
 void Engine::Update()
 {
 	bool loop = true;
+	bool open = true;
 
 	while (loop)
 	{
 		loop = _windowSystem->Update(); //Update the window Object - reads all messages received in this window objects
+
 
 //--Systems update here----- Please do not change the Order of the Systems Update--------------------------
 		_imguiSystem->UpdateFrame(); //Calls new frames for Imgui every loop
@@ -79,8 +81,11 @@ void Engine::Update()
 
 		DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
 		DebugRenderer::GetInstance().DrawCircle(50, 50, 50);
-		//Show Demo Window
-		ImGui::ShowDemoWindow();
+
+		if (open)
+		{
+			ImGui::ShowDemoWindow(&open); 		//Show Demo Window
+		}
 
 
 		//All Imgui windows should be created before this line

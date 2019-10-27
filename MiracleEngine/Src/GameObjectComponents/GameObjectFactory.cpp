@@ -1,9 +1,10 @@
 #include "PrecompiledHeaders.h"
 #include "GameObjectFactory.h"
 
-GameObjectProrotype::GameObjectProrotype()
+GameObjectPrototype::GameObjectPrototype()
 {}
-GameObjectProrotype::~GameObjectProrotype()
+
+GameObjectPrototype::~GameObjectPrototype()
 {
 	for (auto gameObject : _listObjectPrototype)
 		delete gameObject.second;
@@ -11,16 +12,17 @@ GameObjectProrotype::~GameObjectProrotype()
 }
 
 // Get _listObjectProrotype
-PrototypeList& GameObjectProrotype::GetPrototypeList()
+PrototypeList& GameObjectPrototype::GetPrototypeList()
 {
 	return _listObjectPrototype;
 }
 
-//Create a gameObject type along with its Components
-GameObject* GameObjectProrotype::PrefabGameObject(TypeIdGO typeId)
+
+GameObject* GameObjectPrototype::PrefabGameObject(TypeIdGO typeId)	 //Create a gameObject type along with its Components
 {
 	size_t uId = 0;
 	GameObject* gameObject = nullptr;
+
 	switch (typeId)
 	{
 	case TypeIdGO::PLAYER:
@@ -36,28 +38,34 @@ GameObject* GameObjectProrotype::PrefabGameObject(TypeIdGO typeId)
 	return gameObject;
 }
 
-// call on start up
-void GameObjectProrotype::Init()
+
+void GameObjectPrototype::Init()	// call on start up
 {
 	GameObject* temp = nullptr;
+
 // Prototype_Player
 	temp = new GameObject(0, (unsigned)TypeIdGO::PLAYER);
 	temp->SerialInPrefab_Player();
 	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::PLAYER, temp));
+
 // Prototype_Enemy
 	temp = new GameObject(0, (unsigned)TypeIdGO::ENEMY);
 	temp->SerialInPrefab_Enemy();
 	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::ENEMY, temp));
+
 // Prototype_Wall
 	temp = new GameObject(0, (unsigned)TypeIdGO::WALL);
 	temp->SerialInPrefab_Wall();
 	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::WALL, temp));
 }
-void GameObjectProrotype::Update()
+
+
+void GameObjectPrototype::Update()
 {
 	// works as Load()
 }
-void GameObjectProrotype::Exit()
+
+void GameObjectPrototype::Exit()
 {
 	// remove all GOs
 }
@@ -70,6 +78,7 @@ GameObjectFactory::GameObjectFactory()
 	:_uId{ 0 }
 {
 }
+
 
 //Destructor
 //Deletes all gameObjects in the gameObjectFactory
@@ -123,8 +132,7 @@ GameObjectFactory::getObjectlist() const
 	return _listObject;
 }
 
-//Deleting a gameObject entirely from the gameObjectFactory
-void GameObjectFactory::DeleteGameObjectID(size_t id)
+void GameObjectFactory::DeleteGameObjectID(size_t id)	//Deleting a gameObject entirely from the gameObjectFactory
 {
 	std::cout << "DeleteGameObjectID(" << id << ")" << std::endl;
 	delete _listObject[id];
@@ -136,8 +144,8 @@ void GameObjectFactory::DeleteGameObjectID(size_t id)
 	_collider2dComponents.erase(id);
 }
 
-//Create a gameObject type along with its Components
-GameObject* GameObjectFactory::CreateGameObject(TypeIdGO typeId)
+
+GameObject* GameObjectFactory::CreateGameObject(TypeIdGO typeId)	//Create a gameObject type along with its Components
 {
 	//std::cout << "CreateGameObject(" << typeId << ")" << std::endl;
 	//GameObject* gameObject = nullptr;
@@ -162,8 +170,8 @@ GameObject* GameObjectFactory::CreateGameObject(TypeIdGO typeId)
 	//return gameObject;
 	return nullptr;
 }
-//Create a gameObject type along with its Components
-GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)
+
+GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Create a gameObject type along with its Components
 {
 	std::cout << "\t CloneGameObject(" << (unsigned)gameObjectTypeID << ")" << std::endl;
 	GameObject* temp = nullptr;
@@ -212,6 +220,7 @@ GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)
 	return temp;
 }
 
+
 //InUpEx
 void GameObjectFactory::Init() {
 	std::cout << "GOFac Init" << std::endl;
@@ -221,6 +230,8 @@ void GameObjectFactory::Init() {
 
 	// load initial level
 }
+
+
 void GameObjectFactory::Update() {
 
 	//std::cout << "GOFac Update" << std::endl;
@@ -244,6 +255,8 @@ void GameObjectFactory::Update() {
 		// load new level
 	}
 }
+
+
 void GameObjectFactory::Exit() {
 	std::cout << "GOFac Exit" << std::endl;
 }

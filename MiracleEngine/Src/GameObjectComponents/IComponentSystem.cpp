@@ -1,5 +1,8 @@
 #include "PrecompiledHeaders.h"
 
+
+
+
 std::string IComponentSystem::ComponentName() const
 {
 	std::cout << "IComponentSystem::ComponentName()" << std::endl;

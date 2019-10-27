@@ -33,6 +33,8 @@ enum class TypeIdGO {
 	PLAYER, ENEMY, BULLET, //Mobile objects
 	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
 };
+
+
 enum class TypeIdComponent {
 	TRANSFORMCOMPONENT = 0,
 	GRAPHICSCOMPONENT = 1,
@@ -40,45 +42,51 @@ enum class TypeIdComponent {
 	COLLIDERCOMPONENT = 3,
 	LOGICCOMPONENT = 4,
 	AUDIOCOMPONENT = 5,
+
+	IMGUIWINDOWCOMPONENT = 6
 };
 
 typedef std::unordered_map < TypeIdComponent, IComponentSystem* > Map_ComponentList;
+
+
+
 class GameObject
 {
 public:
-// Component List
-	Map_ComponentList _ComponentList;
-// GameObject Type
-	unsigned _typeId;
-// Unique ID
-	size_t _uId;
+	Map_ComponentList _ComponentList; // Component List
 
-// Ctor : Inits w/ a Unique id
-	GameObject(size_t uId = 0, unsigned typeId = 0);
-// Dtor : Deletes all Components in a Game Object
-	virtual ~GameObject();
-// Return GameObjectType Name
-	virtual unsigned GameObjectType() const;
-// InUpEx
-	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }
-	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }
-	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }
-// Get ComponentList
-	Map_ComponentList& GetComponentList()
+	unsigned _typeId; // GameObject Type
+
+	size_t _uId; // Unique ID
+
+	GameObject(size_t uId = 0, unsigned typeId = 0); // Ctor : Inits w/ a Unique id
+
+	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
+
+	virtual unsigned GameObjectType() const; // Return GameObjectType Name
+
+	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }			// InUpEx
+	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }		//
+	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }			//
+		
+
+	Map_ComponentList& GetComponentList() // Get ComponentList
 	{
 		return _ComponentList;
 	}
+
 // Components
-	// DEPRECIATED - Add a specific component to the GameObject
-	IComponentSystem* addcomponent(TypeIdComponent componentType);
-	// AddComponent for during Serialisation
-	void SerialAddComponent
-		(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d);
-	// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
-	void CopyComponent
-		(std::unordered_map< TypeIdComponent, IComponentSystem* >& original);
+	IComponentSystem* addcomponent(TypeIdComponent componentType); 	// DEPRECATED - Add a specific component to the GameObject
+
+	void SerialAddComponent // AddComponent for during Serialisation
+		(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d); 	
+
+	void CopyComponent // Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
+		(std::unordered_map< TypeIdComponent, IComponentSystem* >& original); 	
+
 // Cloning
 	virtual GameObject* Clone();
+
 // Serialisation
 	void SerialInPrefab_Player();
 	void PrintStats_Player();

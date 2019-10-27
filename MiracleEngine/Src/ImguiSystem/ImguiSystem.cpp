@@ -4,8 +4,7 @@
 
 
 ImguiSystem::ImguiSystem(const Window& window)
-	:_window{ window }, clear_color {ImVec4(0.0f, 0.0f, 0.0f, 0.0f)
-}
+	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -34,6 +33,9 @@ ImguiSystem::ImguiSystem(const Window& window)
 	// GL 3.0 + GLSL 130
 	const char* glsl_version = "#version 130";
 	ImGui_ImplOpenGL3_Init(glsl_version);
+
+	IM_ASSERT(ImGui::GetCurrentContext() != NULL && "Missing dear imgui context. Refer to examples app!"); // Exceptionally add an extra assert here for people confused with initial dear imgui setup
+
 }
 
 
@@ -44,6 +46,8 @@ void ImguiSystem::UpdateFrame()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+
 }
 
 

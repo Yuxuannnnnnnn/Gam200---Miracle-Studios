@@ -4,8 +4,10 @@
 
 class IComponentSystem
 {
-public:
+protected:
 	size_t _ParentId{ 0 };
+
+public:
 	virtual std::string ComponentName() const;
 	virtual size_t GetParentId() const;
 };
