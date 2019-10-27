@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObjectComponents/GameObjectFactory.h"
+#include "GameObjectFactory/GameObjectFactory.h"
 #include "GraphicsSystem/GraphicsSystem.h"
 #include "GraphicsSystem/DebugRenderer.h"
 #include "LogicSystem/LogicSystem.h"

@@ -41,6 +41,7 @@ void Engine::Update()
 		if (false)
 		{
 			_gameObjectFactory->TEST_AddGameObjects();
+			_gameObjectFactory->FileRead_Level("./Resources/TextFiles/TestLevel.txt");
 			_gameObjectFactory->TEST_DisplayAllGameObj();
 			_gameObjectFactory->TEST_DeleteAllGameObjects();
 			_gameObjectFactory->Update();

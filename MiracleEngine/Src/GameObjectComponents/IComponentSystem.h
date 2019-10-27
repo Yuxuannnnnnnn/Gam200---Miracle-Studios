@@ -1,13 +1,17 @@
 #pragma once
 #include <string>
-#include "IComponentSystem.h"
+#include "PrecompiledHeaders.h"
+
+class GameObjectFactory;
 
 class IComponentSystem
 {
-protected:
+public:
+	GameObjectFactory* _factoryPtr;
 	size_t _ParentId{ 0 };
 
-public:
+	virtual ~IComponentSystem();
+
 	virtual std::string ComponentName() const;
 	virtual size_t GetParentId() const;
 };
