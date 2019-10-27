@@ -482,7 +482,7 @@
     <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\RigidBodyComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\GameObjectFactory.h" />
+    <ClInclude Include="Src\GameObjectFactory\GameObjectFactory.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IComponentSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
@@ -585,7 +585,7 @@
     </ClCompile>
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\RigidBodyComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GameObjectFactory.cpp" />
+    <ClCompile Include="Src\GameObjectFactory\GameObjectFactory.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\IComponentSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />

@@ -9,7 +9,6 @@
     <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GameObject.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GameObjectFactory.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\IComponentSystem.cpp" />
     <ClCompile Include="Src\GameObjectComponents\RigidBodyComponent.cpp" />
@@ -55,6 +54,7 @@
     <ClCompile Include="Src\WindowsSystem\ScreenSize.cpp" />
     <ClCompile Include="Src\WindowsSystem\Window.cpp" />
     <ClCompile Include="Src\WindowsSystem\WIndowsSystem.cpp" />
+    <ClCompile Include="Src\GameObjectFactory\GameObjectFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -354,7 +354,6 @@
     <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
     <ClInclude Include="Dep\rapidjson\writer.h" />
     <ClInclude Include="Src\GameObjectComponents\GameObject.h" />
-    <ClInclude Include="Src\GameObjectComponents\GameObjectFactory.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IComponentSystem.h" />
     <ClInclude Include="Src\GameObjectComponents\RigidBodyComponent.h" />
@@ -407,6 +406,7 @@
     <ClInclude Include="Src\WindowsSystem\ScreenSize.h" />
     <ClInclude Include="Src\WindowsSystem\Window.h" />
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
+    <ClInclude Include="Src\GameObjectFactory\GameObjectFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

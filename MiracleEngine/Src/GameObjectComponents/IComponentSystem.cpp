@@ -1,4 +1,10 @@
 #include "PrecompiledHeaders.h"
+#include "IComponentSystem.h"
+
+IComponentSystem::~IComponentSystem()
+{
+	delete _factoryPtr;
+}
 
 std::string IComponentSystem::ComponentName() const
 {

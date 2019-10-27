@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObjectComponents/GameObjectFactory.h"
+#include "GameObjectFactory/GameObjectFactory.h"
 
 
 extern GraphicsSystem* graphicsSystem;

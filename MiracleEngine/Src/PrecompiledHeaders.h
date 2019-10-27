@@ -48,6 +48,8 @@
 
 #include "Inputsystem/InputSystem.h"
 
+#include "GameObjectFactory/GameObjectFactory.h"
+
 #include "GameObjectComponents/IComponentSystem.h"
 #include "GameObjectComponents/GraphicComponent.h"
 #include "GameObjectComponents/RigidBodyComponent.h"
@@ -56,7 +58,6 @@
 #include "GameObjectComponents/LogicComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
 #include "GameObjectComponents/GameObject.h"
-#include "GameObjectComponents/GameObjectFactory.h"
 
 #include "Tools/FrameRateController.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "PrecompiledHeaders.h"
-#include "GameObject.h"
+#include "GameObjectComponents/GameObject.h"
 #include "LogicSystem/GameState.h"
 
 
@@ -140,7 +140,7 @@ public:
 				<< " || " << std::endl;
 			++itr;
 		}
-		std::cout << std::endl
+		std::cout
 			<< "-------------------------------------" << std::endl;
 	}
 };
