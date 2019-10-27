@@ -17,85 +17,81 @@ class ResourceManager
 	std::vector<std::string*> VecFilePaths; // for future use for dynamic file path getting	
 };
 
+
 typedef std::unordered_map<TypeIdGO, GameObject*> PrototypeList;
-class GameObjectProrotype final // : ISingleton ????
+
+
+class GameObjectPrototype final // : ISingleton ????
 {
-	//Dynaic array of GameObject Prototypes
-	PrototypeList _listObjectPrototype;
+	PrototypeList _listObjectPrototype;		//Dynaic array of GameObject Prototypes
+
 public:
-	GameObjectProrotype();
-	~GameObjectProrotype();
-	GameObjectProrotype(const GameObjectProrotype& rhs) = delete;
-	GameObjectProrotype& operator=(const GameObjectProrotype& rhs) = delete;
+	GameObjectPrototype();
+	~GameObjectPrototype();
+	GameObjectPrototype(const GameObjectPrototype& rhs) = delete;
+	GameObjectPrototype& operator=(const GameObjectPrototype& rhs) = delete;
 
-// Get _listObjectProrotype
-	PrototypeList& GetPrototypeList();
+	PrototypeList& GetPrototypeList();	// Get _listObjectProrotype
 
-// Create a gameObject type along with its Components
-	GameObject* PrefabGameObject(TypeIdGO typeId);
+	GameObject* PrefabGameObject(TypeIdGO typeId);	// Create a gameObject type along with its Components
 
-// InUpEx
-	void Init();
-	void Update();
-	void Exit();
+	void Init();	// InUpEx
+	void Update();	//
+	void Exit();	//
 };
 
 
-//No inheritance 
-//Static object
-class GameObjectFactory final
+
+class GameObjectFactory final	//No inheritance - Static object
 {
 private:
-//Current GameState
-	GameState _state;
-//Dynamic array of GameObjects
-	std::unordered_map < size_t, GameObject* > _listObject;
-//Dynaic array of GameObject Prototypes
-	GameObjectProrotype _prototypes;
-//Unique ID for the next newly created object
-	size_t _uId;
 
-//Array of Components
-	std::unordered_map < size_t, GraphicComponent* >  _graphicComponents;
-	std::unordered_map < size_t, TransformComponent* >  _transformComponents;
-	std::unordered_map < size_t, RigidBody2D* >  _rigidBody2dComponents;
-	std::unordered_map < size_t, Collider2D* >  _collider2dComponents;
-	std::unordered_map < size_t, LogicComponent* >  _logicComponents;
+	GameState _state; //Current GameState
+
+	std::unordered_map < size_t, GameObject* > _listObject; //Dynamic array of GameObjects
+
+	GameObjectPrototype _prototypes; //Dynaic array of GameObject Prototypes
+
+	size_t _uId; //Unique ID for the next newly created object
+
+	std::unordered_map < size_t, GraphicComponent* >  _graphicComponents;		//Array of Components
+	std::unordered_map < size_t, TransformComponent* >  _transformComponents;	//
+	std::unordered_map < size_t, RigidBody2D* >  _rigidBody2dComponents;		//
+	std::unordered_map < size_t, Collider2D* >  _collider2dComponents;			//
+	std::unordered_map < size_t, LogicComponent* >  _logicComponents;			//
 
 public:
+
 	GameObjectFactory();
 	~GameObjectFactory();
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
 	GameObjectFactory& operator= (const GameObjectFactory& rhs) = delete;
-//Get Self
-	GameObjectFactory& GetGOFac();
-//Get Components
-	const std::unordered_map < size_t, GraphicComponent* >& getGraphicComponent() const;
-	const std::unordered_map < size_t, TransformComponent* >& getTransformComponent() const;
-	const std::unordered_map < size_t, RigidBody2D* >& getRigidBodyComponent() const;
-	const std::unordered_map < size_t, Collider2D* >& getCollider2dComponent() const;
-	const std::unordered_map < size_t, LogicComponent* >& getLogicComponent() const;
-//Get _listObject
-	const std::unordered_map < size_t, GameObject*>& getObjectlist() const;
 
-//Deleting a gameObject entirely from the gameObjectFactory
-	void DeleteGameObjectID(size_t id);
 
-//Create a gameObject type along with its Components
-	GameObject* CreateGameObject(TypeIdGO typeId);
-//Create a gameObject type along with its Components
-	GameObject* CloneGameObject(TypeIdGO gameObjectTypeID);
+	GameObjectFactory& GetGOFac(); //Get Self
 
-//InUpEx
-	void Init();
-	void Update();
-	void Exit();
+	const std::unordered_map < size_t, GraphicComponent* >& getGraphicComponent() const;		//Get Components
+	const std::unordered_map < size_t, TransformComponent* >& getTransformComponent() const;	//	
+	const std::unordered_map < size_t, RigidBody2D* >& getRigidBodyComponent() const;			//
+	const std::unordered_map < size_t, Collider2D* >& getCollider2dComponent() const;			//
+	const std::unordered_map < size_t, LogicComponent* >& getLogicComponent() const;			//
 
-//Read LevelText and Instantiate GObj
-	void FileRead_Level(const char* FileName);
 
-// TEST FUNCTION - to add some GOs 'dyamically'
-	void TEST_AddGameObjects()
+	const std::unordered_map < size_t, GameObject*>& getObjectlist() const; //Get _listObject
+
+	void DeleteGameObjectID(size_t id); //Deleting a gameObject entirely from the gameObjectFactory
+
+	GameObject* CreateGameObject(TypeIdGO typeId); //Create a gameObject type along with its Components
+
+	GameObject* CloneGameObject(TypeIdGO gameObjectTypeID); //Create a gameObject type along with its Components
+
+	void Init();	//InUpEx
+	void Update();	//
+	void Exit();	//
+
+	void FileRead_Level(const char* FileName); //Read LevelText and Instantiate GObj
+
+	void TEST_AddGameObjects()	// TEST FUNCTION - to add some GOs 'dyamically'
 	{
 		std::cout << std::endl
 			<< "-------------------------------------" << std::endl;
@@ -109,6 +105,7 @@ public:
 		std::cout
 			<< "-------------------------------------" << std::endl;
 	}
+
 	void TEST_DeleteAllGameObjects()
 	{
 		std::cout << std::endl
@@ -125,8 +122,8 @@ public:
 		std::cout << std::endl
 			<< "-------------------------------------" << std::endl;
 	}
-// TEST FUNCTION - to see all GOs in _listObj
-	void TEST_DisplayAllGameObj()
+
+	void TEST_DisplayAllGameObj()	// TEST FUNCTION - to see all GOs in _listObj
 	{
 		std::cout << std::endl
 			<< "-------------------------------------" << std::endl;

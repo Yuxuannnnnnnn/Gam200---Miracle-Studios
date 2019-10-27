@@ -11,6 +11,7 @@ public:
 	size_t _ParentId{ 0 };
 
 	virtual ~IComponentSystem();
+
 	virtual std::string ComponentName() const;
 	virtual size_t GetParentId() const;
 };

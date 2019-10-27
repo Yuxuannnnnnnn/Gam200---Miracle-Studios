@@ -4,12 +4,14 @@
 #include "imgui_impl_win32.h"
 #include "imgui_internal.h"
 
+#include "ImguiWindow.h"
 
 class ImguiSystem
 {
 private:
 	ImVec4 clear_color;//for clearing opengl
 	const Window& _window;
+
 
 public:
 	ImguiSystem(const Window& window);

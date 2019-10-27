@@ -6,6 +6,9 @@ IComponentSystem::~IComponentSystem()
 	delete _factoryPtr;
 }
 
+
+
+
 std::string IComponentSystem::ComponentName() const
 {
 	std::cout << "IComponentSystem::ComponentName()" << std::endl;
