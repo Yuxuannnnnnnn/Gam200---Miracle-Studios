@@ -12,6 +12,23 @@ DebugRenderer::DebugRenderer(int windowWidth, int windowHeight)
 	BufferLayout layout;
 	layout.Push<float>(3);
 	_vao->AddBuffer(*_vbo, layout);
+
+
+
+	float radius = 0.5f;
+	std::vector<float> vertexBuffer;
+	for (double i = 0; i < 2 * M_PI; i += 2 * M_PI / NUMBER_OF_VERTICES) {
+		vertexBuffer.push_back(cos(i) * radius);    //X coordinate
+		vertexBuffer.push_back(sin(i) * radius);    //Y coordinate
+		vertexBuffer.push_back(0.0);                //Z coordinate
+	}
+
+	_vaoCircle = new VertexArray();
+	_vboCircle = new VertexBuffer((void*)vertexBuffer.data(), vertexBuffer.size() * sizeof(float));
+	BufferLayout layout2;
+	layout2.Push<float>(3);
+	_vaoCircle->AddBuffer(*_vboCircle, layout2);
+
 }
 
 DebugRenderer::~DebugRenderer()
@@ -23,6 +40,39 @@ void DebugRenderer::Update()
 {
 
 }
+
+void DebugRenderer::DrawCircle(float x, float y, float radiusin)
+{
+	//float radius = 0.5f;
+	//std::vector<float> vertexBuffer;
+	//for (double i = 0; i < 2 * M_PI; i += 2 * M_PI / NUMBER_OF_VERTICES) {
+	//	vertexBuffer.push_back(cos(i) * radius);    //X coordinate
+	//	vertexBuffer.push_back(sin(i) * radius);    //Y coordinate
+	//	vertexBuffer.push_back(0.0);                //Z coordinate
+	//}
+
+	//glGenBuffers(1, &_vboCircle);
+	//glBindBuffer(GL_ARRAY_BUFFER, _vboCircle);
+	//glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(float), vertexBuffer.data(), GL_DYNAMIC_DRAW);
+	_vaoCircle->Select();
+	_shader.Select();
+
+	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0));
+	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(radiusin * 2, radiusin * 2, 0));
+	glm::mat4 mvp = _proj * model;
+	//glm::mat4 mvp = _proj * trans;
+	int location = glGetUniformLocation(_shader._id, "u_Color");
+	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
+
+	location = glGetUniformLocation(_shader._id, "u_MVP");
+	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
+
+	/*glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
+
+	glDrawArrays(GL_LINE_LOOP, 0, NUMBER_OF_VERTICES);
+}
+
 void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 {
 	_shader.Select();

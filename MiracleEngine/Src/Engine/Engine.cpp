@@ -74,6 +74,11 @@ void Engine::Update()
 		// Graphics
 		_graphicsSystem->Update(_gameObjectFactory->getGraphicComponent());
 
+
+		// example to draw debug line and circle, to remove later
+
+		DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
+		DebugRenderer::GetInstance().DrawCircle(50, 50, 50);
 		//Show Demo Window
 		ImGui::ShowDemoWindow();
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObjectComponents/GameObjectFactory.h"
 #include "GraphicsSystem/GraphicsSystem.h"
+#include "GraphicsSystem/DebugRenderer.h"
 #include "LogicSystem/LogicSystem.h"
 #include "Inputsystem/InputSystem.h"
 #include "WindowsSystem/WindowsSystem.h"
