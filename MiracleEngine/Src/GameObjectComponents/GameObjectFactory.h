@@ -34,9 +34,6 @@ public:
 // Create a gameObject type along with its Components
 	GameObject* PrefabGameObject(TypeIdGO typeId);
 
-// Create a gameObject type along with its Components
-	GameObject* CloneGameObject(TypeIdGO typeId);
-
 // InUpEx
 	void Init();
 	void Update();
@@ -55,7 +52,6 @@ private:
 	std::unordered_map < size_t, GameObject* > _listObject;
 //Dynaic array of GameObject Prototypes
 	GameObjectProrotype _prototypes;
-
 //Unique ID for the next newly created object
 	size_t _uId;
 
@@ -88,7 +84,7 @@ public:
 //Create a gameObject type along with its Components
 	GameObject* CreateGameObject(TypeIdGO typeId);
 //Create a gameObject type along with its Components
-	void CloneGameObject(TypeIdGO gameObjectTypeID);
+	GameObject* CloneGameObject(TypeIdGO gameObjectTypeID);
 
 //InUpEx
 	void Init();
@@ -96,22 +92,27 @@ public:
 	void Exit();
 
 //Read LevelText and Instantiate GObj
-	std::vector<GameObject*> FileRead_Level(const char* FileName);
-
-
+	void FileRead_Level(const char* FileName);
 
 // TEST FUNCTION - to add some GOs 'dyamically'
 	void TEST_AddGameObjects()
 	{
-		std::cout << std::endl << "-------------------------------------" << std::endl;
+		std::cout << std::endl
+			<< "-------------------------------------" << std::endl;
 		std::cout << "TEST_AddGameObjects()" << std::endl;
 		CloneGameObject(TypeIdGO::PLAYER);
-		CloneGameObject(TypeIdGO::PLAYER);
-		std::cout << std::endl << "-------------------------------------" << std::endl;
+		CloneGameObject(TypeIdGO::ENEMY);
+		CloneGameObject(TypeIdGO::ENEMY);
+		CloneGameObject(TypeIdGO::WALL);
+		CloneGameObject(TypeIdGO::WALL);
+		CloneGameObject(TypeIdGO::WALL);
+		std::cout
+			<< "-------------------------------------" << std::endl;
 	}
 	void TEST_DeleteAllGameObjects()
 	{
-		std::cout << std::endl << "-------------------------------------" << std::endl;
+		std::cout << std::endl
+			<< "-------------------------------------" << std::endl;
 		std::cout << "TEST_DeleteAllGameObjects()" << std::endl;
 		std::unordered_map < size_t, GameObject* >::iterator itr = _listObject.begin();
 		while (itr != _listObject.end())
@@ -121,19 +122,25 @@ public:
 		}
 		_listObject.clear();
 
-		std::cout << std::endl << "-------------------------------------" << std::endl;
+		std::cout << std::endl
+			<< "-------------------------------------" << std::endl;
 	}
 // TEST FUNCTION - to see all GOs in _listObj
 	void TEST_DisplayAllGameObj()
 	{
-		std::cout << std::endl << "-------------------------------------" << std::endl;
+		std::cout << std::endl
+			<< "-------------------------------------" << std::endl;
 		std::cout << "TEST_DisplayAllGameObj()" << std::endl;
 		std::unordered_map < size_t, GameObject* >::iterator itr = _listObject.begin();
 		while (itr != _listObject.end())
 		{
-			std::cout << " " << itr->first << " : " << itr->second->_typeId;
+			std::cout
+				<< " || "
+				<< itr->first << " : " << itr->second->_typeId
+				<< " || " << std::endl;
 			++itr;
 		}
-		std::cout << std::endl << "-------------------------------------" << std::endl;
+		std::cout << std::endl
+			<< "-------------------------------------" << std::endl;
 	}
 };

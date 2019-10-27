@@ -21,6 +21,7 @@
 //namespace FilePathNames {
 //	const char* path_player = "./Resources/TextFiles/player.json";
 //	const char* path_init = "./Resources/TextFiles/init.json";
+//	const char* path_level = "./Resources/TextFiles/TestLevel.txt";
 //	const char* path_outTest = "./Resources/TextFiles/test.txt";
 //	const char* path_crashLog = "./Resources/TextFiles/crashlog.txt";
 //	const char* path_GameObjectList = "./Resources/TextFiles/ListOfGameObjects.txt";
@@ -41,11 +42,12 @@ enum class TypeIdComponent {
 	AUDIOCOMPONENT = 5,
 };
 
+typedef std::unordered_map < TypeIdComponent, IComponentSystem* > Map_ComponentList;
 class GameObject
 {
 public:
 // Component List
-	std::unordered_map < TypeIdComponent, IComponentSystem* > _ComponentList;
+	Map_ComponentList _ComponentList;
 // GameObject Type
 	unsigned _typeId;
 // Unique ID
@@ -61,27 +63,29 @@ public:
 	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }
 	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }
 	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }
+// Get ComponentList
+	Map_ComponentList& GetComponentList()
+	{
+		return _ComponentList;
+	}
 // Components
 	// DEPRECIATED - Add a specific component to the GameObject
 	IComponentSystem* addcomponent(TypeIdComponent componentType);
-// AddComponent for during Serialisation
+	// AddComponent for during Serialisation
 	void SerialAddComponent
 		(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d);
-// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
+	// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
 	void CopyComponent
 		(std::unordered_map< TypeIdComponent, IComponentSystem* >& original);
 // Cloning
 	virtual GameObject* Clone();
-// Obj PLAYER
+// Serialisation
 	void SerialInPrefab_Player();
 	void PrintStats_Player();
-// Obj Enemy
-	void SerialInPrefab_Enemy();	// TODO
-	void PrintStats_Enemy();		// TODO
-// Obj Wall
+	void SerialInPrefab_Enemy();
+	void PrintStats_Enemy();
 	void SerialInPrefab_Wall();
 	void PrintStats_Wall();
-// Obj Bullet
 	void SerialInPrefab_Bullet();	// TODO
 	void PrintStats_Bullet();		// TODO
 };

@@ -7,6 +7,8 @@
   "Rotate": 0.0,
 
   "COMPONENT 1": "GRAPHICS",
+  "G.TypeId": 0,
+  "G.FileName": "sprite_wall.png",
 
   "COMPONENT 2": "RIGID BODY",
   "Mass": 0.0,
@@ -14,5 +16,5 @@
   "Static": true,
 
   "COMPONENT 3": "COLLIDER",
-  "ColliderTypeId": 1
+  "ColliderTypeId": 2
 }

@@ -11,6 +11,7 @@ void Engine::Init()
 	// TESTING GO creation 
 	if (true)
 	{
+		_gameObjectFactory->FileRead_Level("./Resources/TextFiles/TestLevel.txt");
 		_gameObjectFactory->TEST_AddGameObjects();
 		_gameObjectFactory->TEST_DisplayAllGameObj();
 	}

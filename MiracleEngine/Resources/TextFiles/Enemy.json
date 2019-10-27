@@ -1,5 +1,5 @@
 {
-  "ComponentList": [ 0, 1, 2, 3, 4 ],
+  "ComponentList": [ 0, 1, 2, 3, 4, 5 ],
 
   "COMPONENT 0": "TRANSFORM",
   "Position": [ 0.0, 0.0 ],
@@ -7,6 +7,8 @@
   "Rotate": 0.0,
 
   "COMPONENT 1": "GRAPHICS",
+  "G.TypeId": 0,
+  "G.FileName": "sprite_enemy.png",
 
   "COMPONENT 2": "RIGID BODY",
   "Mass": 10.0,
@@ -17,8 +19,11 @@
   "ColliderTypeId": 1,
 
   "COMPONENT 4": "LOGIC",
-  "ScriptId": [ 1, 2, 3 ],
+  "ScriptId": [ 9, 6 ],
   "Health": 5,
-  "Speed": 2,
-  "Weapons": [ 1, 3, 4 ]
+  "Speed": 1,
+  
+  "COMPONENT 5": "AUDIO",
+  "A.TypeId": 0,
+  "A.FileName": "audio_enemy.ogg"
 }

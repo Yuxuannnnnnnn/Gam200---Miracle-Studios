@@ -36,33 +36,19 @@ GameObject* GameObjectProrotype::PrefabGameObject(TypeIdGO typeId)
 	return gameObject;
 }
 
-//Create a gameObject type along with its Components
-GameObject* GameObjectProrotype::CloneGameObject(TypeIdGO typeId)
-{
-	GameObject* gameObject = nullptr;
-
-	switch (typeId)
-	{
-	case TypeIdGO::PLAYER:
-		//gameObject = new Player(0);
-		//gameObject->SerialInPrefab();
-		break;
-	case TypeIdGO::WALL:
-		break;
-		//Other Objects
-	}
-	return gameObject;
-}
-
 // call on start up
 void GameObjectProrotype::Init()
 {
 	GameObject* temp = nullptr;
-	// Prototype_Player
+// Prototype_Player
 	temp = new GameObject(0, (unsigned)TypeIdGO::PLAYER);
 	temp->SerialInPrefab_Player();
 	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::PLAYER, temp));
-	// Prototype_Player
+// Prototype_Enemy
+	temp = new GameObject(0, (unsigned)TypeIdGO::ENEMY);
+	temp->SerialInPrefab_Enemy();
+	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::ENEMY, temp));
+// Prototype_Wall
 	temp = new GameObject(0, (unsigned)TypeIdGO::WALL);
 	temp->SerialInPrefab_Wall();
 	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::WALL, temp));
@@ -177,7 +163,7 @@ GameObject* GameObjectFactory::CreateGameObject(TypeIdGO typeId)
 	return nullptr;
 }
 //Create a gameObject type along with its Components
-void GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)
+GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)
 {
 	std::cout << "\t CloneGameObject(" << (unsigned)gameObjectTypeID << ")" << std::endl;
 	GameObject* temp = nullptr;
@@ -186,12 +172,18 @@ void GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)
 	case TypeIdGO::PLAYER:
 		temp = _prototypes.GetPrototypeList()[TypeIdGO::PLAYER]->Clone();
 		break;
+	case TypeIdGO::ENEMY:
+		temp = _prototypes.GetPrototypeList()[TypeIdGO::ENEMY]->Clone();
+		break;
+	case TypeIdGO::WALL:
+		temp = _prototypes.GetPrototypeList()[TypeIdGO::WALL]->Clone();
+		break;
 	default:
 		break;
 	}
 	// add 'temp' to the _listObj;
 	if (!temp)
-		return;
+		return temp;
 	_listObject.insert(std::pair<size_t, GameObject*>(++_uId, temp));
 	// based on temp's _ComponentList, add the components into GOFac's different systems
 	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = temp->_ComponentList.begin();
@@ -217,6 +209,7 @@ void GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)
 		}
 		++itr;
 	}
+	return temp;
 }
 
 //InUpEx
@@ -255,86 +248,62 @@ void GameObjectFactory::Exit() {
 	std::cout << "GOFac Exit" << std::endl;
 }
 
-// TempGO for Serialising from LevelText.txt
-struct TempGO {
-	int id{ 0 };
-	Vector3 pos{ Vector3() };
-	Vector3 scale{ Vector3() };
-	float rot{ 0.0f };
-	//int scriptId{ 0 };
-// funcs()
-	TempGO() {}
-	~TempGO() {}
-};
 //Read LevelText and Instantiate GObj
-std::vector<GameObject*> GameObjectFactory::FileRead_Level(const char* FileName)
+void GameObjectFactory::FileRead_Level(const char* FileName)
 { // will move to ObjectFactory
-	std::cout << "FileRead_Level(" << FileName << ")" << std::endl;
+	std::cout << "FileRead_Level( " << FileName << " )" << std::endl;
 	std::fstream _file;
 	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
 	if (!_file.is_open())
 	{
 		std::cout << "! WARNING !! File Cannot Open!!!" << std::endl
-			<< ". // Resources // TextFiles // TestLevel.txt" << std::endl;
-		std::vector<GameObject*> null;
-		return null;
+			<< FileName << std::endl;
+		return;
 	}
-	char* strType = new char[20];
+	char* strType = new char[20]; // for Type
+	// for any input (max inputs)
 	char* strNum1 = new char[10];
 	char* strNum2 = new char[10];
-	std::vector<TempGO> GOVec;
 	float num1, num2;
-	TempGO obj;
+	GameObject* tempGO = nullptr;
+	IComponentSystem* tempComp = nullptr;
 
 	while (_file.good()) // each loop read 4 lines: Type, Pos, Scale, Rot
 	{
-		// get Type
+	// Get Type
 		//_file.getline(strType, 20, '\n\r');
 		_file >> strType;
-		if (std::strcmp(strType, "Wall") == 0)
-			obj.id = (unsigned)TypeIdGO::WALL;
-		if (std::strcmp(strType, "Floor") == 0)
-			obj.id = (unsigned)TypeIdGO:: FLOOR;
 		if (std::strcmp(strType, "Player") == 0)
-			obj.id = (unsigned)TypeIdGO::PLAYER;
-		// get Position
+			tempGO = CloneGameObject(TypeIdGO::PLAYER);
+		else if (std::strcmp(strType, "Enemy") == 0)
+			tempGO = CloneGameObject(TypeIdGO::ENEMY);
+		else if (std::strcmp(strType, "Wall") == 0)
+			tempGO = CloneGameObject(TypeIdGO::WALL);
+		else
+			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
+	// TransformComponent from 'temp'
+		tempComp = tempGO->GetComponentList()[TypeIdComponent::TRANSFORMCOMPONENT];
+	// get Position
 		ASSERT(_file.getline(strNum1, 10, ','));
 		ASSERT(_file.getline(strNum2, 10));
 		num1 = std::stof(strNum1);
 		num2 = std::stof(strNum2);
-		obj.pos = Vector3(num1, num2, 1);
-		// get Scale
+		((TransformComponent*)tempComp)->GetPos() = Vector3(num1, num2, 1);
+	// get Scale
 		ASSERT(_file.getline(strNum1, 10, ','));
 		ASSERT(_file.getline(strNum2, 10));
 		num1 = std::stof(strNum1);
 		num2 = std::stof(strNum2);
-		obj.scale = Vector3(num1, num2, 1);
-		// get Rotate
+		((TransformComponent*)tempComp)->GetScale() = Vector3(num1, num2, 1);
+	// get Rotate
 		ASSERT(_file.getline(strNum1, 10));
 		num1 = std::stof(strNum1);
-		obj.rot = num1;
-		// push into tempVec
-		GOVec.push_back(obj);
+		((TransformComponent*)tempComp)->GetRotate() = num1;
 	}
+
 	_file.close();
 	delete[] strType;
 	delete[] strNum1;
 	delete[] strNum2;
-
-	// instantiate objs into objList
-	std::vector<GameObject*> ret;
-	std::vector<TempGO>::iterator itr = GOVec.begin();
-	while (itr != GOVec.end())
-	{
-		TempGO temp = *itr;
-		//if (temp.id == PLAYER)
-		//	ret.push_back(_listObjectPrototype[PLAYER]->Clone(temp.pos, temp.scale, temp.rot));
-		//else if (temp.id ==  FLOOR)
-		//	ret.push_back(_listObjectPrototype[ FLOOR]->Clone(temp.pos, temp.scale, temp.rot));
-		//else if (temp.id == WALL)
-		//	ret.push_back(_listObjectPrototype[WALL]->Clone(temp.pos, temp.scale, temp.rot));
-		//else;
-		++itr;
-	}
-	return ret;
+	return;
 }
