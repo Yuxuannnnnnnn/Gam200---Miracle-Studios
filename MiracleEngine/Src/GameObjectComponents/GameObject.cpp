@@ -45,8 +45,9 @@ IComponentSystem* GameObject::addcomponent(TypeIdComponent componentType)
 	case TypeIdComponent::LOGICCOMPONENT:
 		_ComponentList[TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
 		break;
-	case TypeIdComponent::IMGUIWINDOWCOMPONENT:
-		_ComponentList[TypeIdComponent::IMGUIWINDOWCOMPONENT] = new ImguiWindowComponent();
+	//case TypeIdComponent::IMGUIWINDOWCOMPONENT:
+	//	const char * 
+	//	_ComponentList[TypeIdComponent::IMGUIWINDOWCOMPONENT] = new ImguiWindowComponent();
 	}
 
 	return  _ComponentList[componentType];
