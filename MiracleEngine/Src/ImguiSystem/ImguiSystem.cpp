@@ -36,29 +36,53 @@ ImguiSystem::ImguiSystem(const Window& window)
 
 	IM_ASSERT(ImGui::GetCurrentContext() != NULL && "Missing dear imgui context. Refer to examples app!"); // Exceptionally add an extra assert here for people confused with initial dear imgui setup
 
+
+	//New All ImguiWindows
+	/*
+	_ImguiWindows[ImguiWindows::HIERARCHY] = new Hierarchy();
+	_ImguiWindows[ImguiWindows::INSPECTOR] = new Inspector();
+	_ImguiWindows[ImguiWindows::SCENE] = new Scene();
+	*/
 }
 
 
 
 void ImguiSystem::UpdateFrame()
 {
-	// Start the Dear ImGui frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();	// Start the Dear ImGui frame
+	ImGui_ImplWin32_NewFrame();		//
+	ImGui::NewFrame();				//
 
+
+	for (int i = 0; i < (int)ImguiWindows::COUNT; i++)	//Update all Imgui Windows
+	{
+		if (_ImguiWindows[i]->GetOpen()) //if false, window will not be created
+		{
+			if (!ImGui::Begin(_ImguiWindows[i]->GetName(),	// Start of Main window body.
+				&(_ImguiWindows[i]->GetOpen()),	_ImguiWindows[i]->GetFlags()))	
+			{
+				ImGui::End();	// Early out if the window is collapsed, as an optimization.
+				return;
+			}
+
+			_ImguiWindows[i]->Update(); //Update the contents of each window
+
+			ImGui::End();									//End of window body
+		}
+	}
 
 }
 
 
 void ImguiSystem::Render()
 {
-	ImGui::Render(); // Rendering
 
 
 	//Clear opengl buffer - graphic will clear, otherwise wont render
 	/*glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 	glClear(GL_COLOR_BUFFER_BIT);*/
+
+	ImGui::Render(); // Rendering
 
 	
 	ImGuiIO& io = ImGui::GetIO(); (void)io;

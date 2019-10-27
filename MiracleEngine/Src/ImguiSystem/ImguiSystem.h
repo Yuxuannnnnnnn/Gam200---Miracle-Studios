@@ -1,20 +1,17 @@
 #pragma once
-#include "imgui.h"
-#include "imgui_impl_opengl3.h"
-#include "imgui_impl_win32.h"
-#include "imgui_internal.h"
 
-#include "ImguiWindow.h"
+#include "IBaseImguiWindow.h"
 
 class ImguiSystem
 {
 private:
-	ImVec4 clear_color;//for clearing opengl
-	const Window& _window;
+	ImVec4 clear_color;//For clearing opengl
+	const Window& _window; //Reference to win32
 
+	std::unordered_map<int, IBaseImguiWindow*> _ImguiWindows; //List of all ImGuiWindows
 
 public:
-	ImguiSystem(const Window& window);
+	ImguiSystem(const Window& window); //Initialise ImguiSystem
 
 	void UpdateFrame();	//Calls new frames for Imgui every loop
 

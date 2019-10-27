@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
     <ClInclude Include="Src\WindowsSystem\ScreenSize.h" />
     <ClInclude Include="Src\WindowsSystem\Console.h" />
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -453,7 +454,7 @@
     <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
     <ClInclude Include="Dep\rapidjson\writer.h" />
     <ClInclude Include="Src\ImguiSystem\ImguiSystem.h" />
-    <ClInclude Include="Src\ImguiSystem\ImguiWindow.h" />
+    <ClInclude Include="Src\ImguiSystem\IBaseImguiWindow.h" />
     <ClInclude Include="Src\GameObjectComponents\AudioComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
@@ -511,6 +512,7 @@
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
     <ClCompile Include="Src\WindowsSystem\ScreenSize.cpp" />
     <ClCompile Include="Src\WindowsSystem\Console.cpp" />
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
@@ -551,7 +553,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\ImguiSystem\ImguiSystem.cpp" />
-    <ClCompile Include="Src\ImguiSystem\ImguiWindow.cpp" />
+    <ClCompile Include="Src\ImguiSystem\IBaseImguiWindow.cpp" />
     <ClCompile Include="Src\GameObjectComponents\AudioComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />

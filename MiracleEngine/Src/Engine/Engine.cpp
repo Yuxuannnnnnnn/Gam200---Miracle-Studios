@@ -4,11 +4,11 @@ void Engine::Init()
 {
 //--Init replaced by Constructor?---------------------------
 
-	_inputSystem->Init();
+	_inputSystem->Init();	//does nothing?
 	_logicSystem->Init(); // does nothing for now
 	//_PhysicsSystem->Init();
 	//_AudioSystem->Init();
-	_graphicsSystem->Init();
+	_graphicsSystem->Init(); //does nothing?
 	
 
 	_gameObjectFactory->Init();
@@ -35,7 +35,6 @@ void Engine::Update()
 
 
 //--Systems update here----- Please do not change the Order of the Systems Update--------------------------
-		_imguiSystem->UpdateFrame(); //Calls new frames for Imgui every loop
 
 		// TESTING mem leak for objects
 		if (false)
@@ -74,14 +73,17 @@ void Engine::Update()
 
 		// Audio
 
+
+		_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
+
 		// Graphics
 		_graphicsSystem->Update(_gameObjectFactory->getGraphicComponent());
 
 
 		// example to draw debug line and circle, to remove later
-
 		DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
 		DebugRenderer::GetInstance().DrawCircle(50, 50, 50);
+
 
 		if (open)
 		{
@@ -89,12 +91,9 @@ void Engine::Update()
 		}
 
 
-		//All Imgui windows should be created before this line
-		//Renders Imgui Windows and clears opengl buffer
-		_imguiSystem->Render(); 
+		_imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 
-		// swap double buffer at the end
-		::SwapBuffers(_windowSystem->getWindow().get_m_windowDC());
+		::SwapBuffers(_windowSystem->getWindow().get_m_windowDC()); 		// swap double buffer at the end
 //-------------------------------------------------------------------------------------------------------------
 
 	}
@@ -111,6 +110,7 @@ int Engine::Exit()
 	delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 
 	delete _imguiSystem; //Shutdown ImGui System
+
 
 	int wparam = _windowSystem->Get_msg().wParam;
 	return (int) wparam;
