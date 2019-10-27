@@ -1,42 +1,22 @@
 #pragma once
-
-
-
-#define MAX_LOADSTRING 100
-
-void CreateConsole();
-
+#include "Window.h"
 
 class WindowsSystem
 {
 private:
-	// Global Variables:
-	HINSTANCE hInst;                      // current instance
-	WCHAR szTitle[MAX_LOADSTRING];        // The title bar text
-	WCHAR szWindowClass[MAX_LOADSTRING];  // the main window class name
+	
 	HACCEL hAccelTable;
-	HWND mainHWND;
-
-	HDC m_windowDC;//global Window-device context
-	HGLRC m_wglDC;//OpenGL-device context
-
-	unsigned int windowWidth = 800; //1920
-	unsigned int windowHeight = 600;  //1080
+	MSG msg;
+	Window window;
 
 public:
 
 	WindowsSystem(HINSTANCE hInstance, int nCmdShow);
 
-	// Forward declarations of functions included in this code module:
-	ATOM MyRegisterClass(HINSTANCE hInstance);
-	BOOL InitInstance(HINSTANCE hInstance, int nCmdShow);
-	bool Initialise();
+	bool Update();//Update the window Object - reads all messages received in this window objects
 
-
-	//Getter function
-	HWND Get_hwnd() const;
-	HACCEL get_hAccelTable() const;
-	HDC get_m_windowDC() const;
+	Window& getWindow(); //Getter function
+	MSG& Get_msg();	//Setter and getter function
 
 };
 

@@ -4,25 +4,48 @@
 #include "LogicSystem/LogicSystem.h"
 #include "Inputsystem/InputSystem.h"
 #include "WindowsSystem/WindowsSystem.h"
+
+#include "ImguiSystem.h"
+#include "WindowsSystem.h"
+#include "Console.h"
+
+
+
 class Engine
 {
 public:
 
-	Engine() :
+	Engine(HINSTANCE hInstance, int nCmdShow):
+		_console{ new Console()}, //Create a Logging console
+		_windowSystem{ new WindowsSystem(hInstance, nCmdShow) }, //Create Window object in it
+		_imguiSystem{ new ImguiSystem(_windowSystem->getWindow()) },
+
+
+		_inputSystem{ new InputSystem() },
+		_logicSystem{ new LogicSystem() },
 		_graphicsSystem{ new GraphicsSystem() }, 
-		_gameObjectFactory{ new GameObjectFactory() },
-		_logicSystem{new LogicSystem()},
-		_inputSystem{new InputSystem()}
+
+
+		_gameObjectFactory{ new GameObjectFactory() }
 	{}
 
 	void Init();
-	void Update(WindowsSystem& window);
-	void Exit();
+	void Update();
+	int Exit();
 
-	GraphicsSystem * _graphicsSystem;
-	GameObjectFactory * _gameObjectFactory;
-	LogicSystem* _logicSystem;
+
+	Console* _console; 
+	WindowsSystem* _windowSystem;
+	ImguiSystem* _imguiSystem;
+
+
 	InputSystem* _inputSystem;
-private:
+	LogicSystem* _logicSystem;
+	GraphicsSystem* _graphicsSystem;
+
+
+	GameObjectFactory* _gameObjectFactory;
+
+
 };
 

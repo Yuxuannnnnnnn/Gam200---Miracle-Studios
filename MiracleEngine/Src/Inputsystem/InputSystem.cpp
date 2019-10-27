@@ -25,7 +25,7 @@ void InputSystem::Init()
 
 }
 
-void InputSystem::Update(WindowsSystem& window)
+void InputSystem::Update(Window& window)
 {
 	memcpy(_prevBuffer, _currBuffer, sizeof(unsigned char) * 256);
 	//memset(currBuff, 0, sizeof(unsigned char) * 256);
