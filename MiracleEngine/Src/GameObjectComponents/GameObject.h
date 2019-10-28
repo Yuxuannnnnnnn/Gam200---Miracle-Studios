@@ -18,6 +18,11 @@
 
 #include "Tools/FileIO.h"
 
+
+
+#ifndef GAMEOBJECT_H
+#define	GAMEOBJECT_H
+
 //namespace FilePathNames {
 //	const char* path_player = "./Resources/TextFiles/player.json";
 //	const char* path_init = "./Resources/TextFiles/init.json";
@@ -256,3 +261,4 @@ public:
 //	}
 //};
 
+#endif
