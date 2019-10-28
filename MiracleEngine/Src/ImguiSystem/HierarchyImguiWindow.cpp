@@ -28,6 +28,13 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 {
 	const std::unordered_map<size_t, GameObject*>& objlist = gameObjectFactory->getObjectlist();
 
+	size_t objListSize = objlist.size(); //number of total gameObjects in the list
+	std::string totalGameObjects("Total Number of GameObjects in this level is: ");
+	totalGameObjects += std::to_string(objListSize);  //"Total Number of GameObjects in this level is: objListSize" string
+	
+	ImGui::Text(totalGameObjects.c_str());	//Shows Total Number of GameObjects in this level on Imgui Window
+
+
 	for (auto& gameObjectPair : objlist)
 	{
 		GameObject* gameObject = gameObjectPair.second; //Get GameObject* from std::pair
