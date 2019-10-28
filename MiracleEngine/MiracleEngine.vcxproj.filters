@@ -17,7 +17,6 @@
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\PrecompiledHeaders.cpp" />
     <ClCompile Include="Dep\stb_image\stb_image.cpp" />
-    <ClCompile Include="Src\Tools\FileIO.cpp" />
     <ClCompile Include="Dep\Imgui\imgui.cpp" />
     <ClCompile Include="Dep\Imgui\imgui_demo.cpp" />
     <ClCompile Include="Dep\Imgui\imgui_draw.cpp" />
@@ -33,10 +32,6 @@
     <ClCompile Include="Src\PhysicSystem\CollisionComponent\CircleCollider2D.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionComponent\EdgeCollider2D.cpp" />
     <ClCompile Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.cpp" />
-    <ClCompile Include="Src\Tools\FrameRateController.cpp" />
-    <ClCompile Include="Src\Tools\MemoryManager.cpp" />
-    <ClCompile Include="Src\Tools\PerformanceUsage.cpp" />
-    <ClCompile Include="Src\Tools\EventHandler.cpp" />
     <ClCompile Include="Src\MathLib\Matrix3x3.cpp" />
     <ClCompile Include="Src\MathLib\SYMath.cpp" />
     <ClCompile Include="Src\MathLib\Vector2.cpp" />
@@ -57,6 +52,12 @@
     <ClCompile Include="Src\ImguiSystem\IBaseImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
+    <ClCompile Include="Src\Tools\EventHandler\EventHandler.cpp" />
+    <ClCompile Include="Src\Tools\FileIO\FileIO.cpp" />
+    <ClCompile Include="Src\Tools\MemoryManager\MemoryManager.cpp" />
+    <ClCompile Include="Src\Tools\ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="Src\Tools\DebugTools\FrameRateController.cpp" />
+    <ClCompile Include="Src\Tools\DebugTools\PerformanceUsage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -367,7 +368,6 @@
     <ClInclude Include="Src\Engine\FrameRateController.h" />
     <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
-    <ClInclude Include="Src\Tools\FileIO.h" />
     <ClInclude Include="Dep\Imgui\imconfig.h" />
     <ClInclude Include="Dep\Imgui\imgui.h" />
     <ClInclude Include="Dep\Imgui\imgui_impl_opengl3.h" />
@@ -386,13 +386,6 @@
     <ClInclude Include="Src\PhysicSystem\CollisionComponent\Collider2D.h" />
     <ClInclude Include="Src\PhysicSystem\CollisionComponent\EdgeCollider2D.h" />
     <ClInclude Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.h" />
-    <ClInclude Include="Src\Tools\IColliderHandler.h" />
-    <ClInclude Include="Src\Tools\FrameRateController.h" />
-    <ClInclude Include="Src\Tools\GameState.h" />
-    <ClInclude Include="Src\Tools\ISingleton.h" />
-    <ClInclude Include="Src\Tools\MemoryManager.h" />
-    <ClInclude Include="Src\Tools\PerformanceUsage.h" />
-    <ClInclude Include="Src\Tools\EventHandler.h" />
     <ClInclude Include="Src\MathLib\Matrix3x3.h" />
     <ClInclude Include="Src\MathLib\SYMath.h" />
     <ClInclude Include="Src\LogicSystem\AI.h" />
@@ -411,6 +404,15 @@
     <ClInclude Include="Src\ImguiSystem\IBaseImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
+    <ClInclude Include="Src\Tools\EventHandler\EventHandler.h" />
+    <ClInclude Include="Src\Tools\FileIO\FileIO.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\MemoryManager.h" />
+    <ClInclude Include="Src\Tools\GameStateManager\GameStateManager.h" />
+    <ClInclude Include="Src\Tools\ResourceManager\ResourceManager.h" />
+    <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
+    <ClInclude Include="Src\ISingleton.h" />
+    <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
+    <ClInclude Include="Src\Tools\DebugTools\PerformanceUsage.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

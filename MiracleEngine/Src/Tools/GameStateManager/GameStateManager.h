@@ -25,12 +25,12 @@ enum Game_States {
 	IG_STOPPING_LEVELEND,
 };
 
-class GameState {
+class GameStateManager {
 
 	unsigned _currState{ TEST };
 public:
-	GameState() = default;
-	~GameState() {}
+	GameStateManager() = default;
+	~GameStateManager() {}
 
 	void Init() {}
 	void Update()

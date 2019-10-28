@@ -12,7 +12,7 @@
 #include "CollisionComponent/BoxCollider2D.h"
 #include "CollisionComponent/EdgeCollider2D.h"
 
-#include "../Tools/EventHandler.h"
+#include "Tools/EventHandler/EventHandler.h"
 
 enum COLLISION_TYPE {
 	BOX_BOX,

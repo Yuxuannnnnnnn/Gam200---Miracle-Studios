@@ -6,7 +6,7 @@
 #include "Shader.h"
 #include "VertexArray.h"
 #include "QuadMesh.h"
-#include "../Tools/ISingleton.h"
+#include "ISingleton.h"
 
 #define NUMBER_OF_VERTICES 16
 #define M_PI 3.1415926

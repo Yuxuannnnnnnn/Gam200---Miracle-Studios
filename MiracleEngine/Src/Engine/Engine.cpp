@@ -8,7 +8,7 @@ void Engine::Init()
 //--Init replaced by Constructor?---------------------------
 
 	_inputSystem->Init();	//does nothing?
-	_logicSystem->Init(); // does nothing for now
+	_logicSystem->Init();	// does nothing for now
 	//_PhysicsSystem->Init();
 	//_AudioSystem->Init();
 	_graphicsSystem->Init(); //does nothing?

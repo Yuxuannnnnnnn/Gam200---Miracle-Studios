@@ -40,7 +40,7 @@
 #include "GraphicsSystem/Elementbuffer.h"
 #include "GraphicsSystem/Shader.h"
 
-#include "Tools/FileIO.h"
+#include "Tools/FileIO/FileIO.h"
 
 #include "MathLib/SYMath.h"
 
@@ -59,7 +59,7 @@
 #include "GameObjectComponents/AudioComponent.h"
 #include "GameObjectComponents/GameObject.h"
 
-#include "Tools/FrameRateController.h"
+#include "Tools/DebugTools/FrameRateController.h"
 
 #include "LogicSystem/LogicSystem.h"
 #include "LogicSystem/Script.h"
