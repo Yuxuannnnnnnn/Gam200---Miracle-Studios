@@ -6,13 +6,45 @@
 #include "../Imgui/imgui.h"
 
 
+
+
 void GraphicsSystem::Init()
 {
 
 }
 
-void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent* >& graphicmap)
+void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent* >& graphicmap, 
+	 std::unordered_map < size_t, TransformComponent* >& transformmap)	//Cannot Const for transformmap Param -	
+																		//Or else cannot use subscript operator for the transformmap
 {
+	//Example
+	//Check for Graphic component first then get Transform COmponent
+	for (auto& graphicComponentpair : graphicmap)
+	{
+		GraphicComponent* graphicComponent = graphicComponentpair.second;
+		size_t objID = graphicComponentpair.first;	//Get GameObjectID
+		TransformComponent* transformComponent = transformmap[objID]; //Get transform from GameObjectID
+
+
+		//Whatever graphic rendering for each graphic component of each object.
+	}
+
+
+
+	//Dont Do the other way - Not check for Transform Comopnent first - GameObject with Transform Component may not have Graphic Component
+	//for (auto& transformComponentpair : transformmap)
+	//{
+	//	TransformComponent * transformComponent = transformComponentpair.second;
+	//	size_t objID = transformComponentpair.first;	//Get GameObjectID
+	//	GraphicComponent* graphicComponent = graphicmap[objID]; //Get transform from GameObjectID
+	//
+	//
+	//}
+
+
+
+
+
 	ClearScreen();
 
 	Test();

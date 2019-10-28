@@ -24,7 +24,8 @@ class GraphicsSystem
 {
 public:
 	void Init();
-	void Update(const std::unordered_map < size_t, GraphicComponent* >& graphicmap);
+	void Update(const std::unordered_map < size_t, GraphicComponent* >& graphicmap,
+		std::unordered_map < size_t, TransformComponent* >& transformmap);
 	void Exit();
 	//RenderMode _renderMode = None;
 	int num = 0;
