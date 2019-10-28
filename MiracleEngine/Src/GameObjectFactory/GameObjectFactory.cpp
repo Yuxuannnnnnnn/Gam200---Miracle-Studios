@@ -103,7 +103,7 @@ GameObjectFactory::getGraphicComponent() const
 }
 
 std::unordered_map < size_t, TransformComponent* >&
-GameObjectFactory::getTransformComponent() const
+GameObjectFactory::getTransformComponent()
 {
 	return _transformComponents;
 }

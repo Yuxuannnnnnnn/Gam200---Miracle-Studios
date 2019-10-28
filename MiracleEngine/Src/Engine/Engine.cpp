@@ -79,7 +79,7 @@ void Engine::Update()
 		_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
 
 		// Graphics
-		_graphicsSystem->Update(_gameObjectFactory->getGraphicComponent());
+		_graphicsSystem->Update(_gameObjectFactory->getGraphicComponent(), _gameObjectFactory->getTransformComponent());
 
 
 		// example to draw debug line and circle, to remove later
