@@ -2,6 +2,10 @@
 #include "IBaseImguiWindow.h"
 
 
+
+//Hierarchy window should display all the GameObjects present in the current level when data file is loaded, 
+//as well as the ability to remove or add objects
+//When removing objects, make sure to remove child object along with parent object
 class HierarchyImguiWindow : public IBaseImguiWindow
 {
 public:

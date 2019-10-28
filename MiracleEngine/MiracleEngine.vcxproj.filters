@@ -56,6 +56,7 @@
     <ClCompile Include="Src\GameObjectFactory\GameObjectFactory.cpp" />
     <ClCompile Include="Src\ImguiSystem\IBaseImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
+    <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -409,6 +410,7 @@
     <ClInclude Include="Src\GameObjectFactory\GameObjectFactory.h" />
     <ClInclude Include="Src\ImguiSystem\IBaseImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
+    <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

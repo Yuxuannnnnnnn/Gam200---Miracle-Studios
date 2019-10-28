@@ -49,7 +49,7 @@ ImguiSystem::ImguiSystem(const Window& window)
 }
 
 
-
+//Imgui must save file
 void ImguiSystem::UpdateFrame()
 {
 	ImGui_ImplOpenGL3_NewFrame();	// Start the Dear ImGui frame
