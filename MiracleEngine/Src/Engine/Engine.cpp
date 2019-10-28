@@ -27,35 +27,32 @@ void Engine::Init()
 void Engine::Update()
 {
 	bool open = true; //for imgui show demo, to be deleted later
-	bool _loop = true;
 
-	//while (_gameStateManager->GetCurrState() != GameStateId::GS_QUIT)
-	//{
-	//
-	//}
 
-	while (_loop)
+	while (_gameStateManager->CheckIfCurrStateQuit())	//GameState Logic Starts here
 	{
 
+		_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
 
-		_gameObjectFactory->FileRead_Level("./Resources/TextFiles/TestLevel.txt");
 
-
-		while (_loop)	//In Game Level
+		while (_gameStateManager->CheckIfCurrNextStateSame())	//In Game Level
 		{
-		//WindowsSystem -> InputSystem -> Logic System -> Physics System -> AudioSytem -> ImguiSystem UpdateFrame -> GraphicSystem ->  ImguiSystem Render
-		//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
+			//WindowsSystem -> InputSystem -> Logic System -> Physics System -> AudioSytem -> ImguiSystem UpdateFrame -> GraphicSystem ->  ImguiSystem Render
+			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
-			// TESTING mem leak for objects
-			//if (false)
-			//{
-			//	_gameObjectFactory->TEST_AddGameObjects();
-			//	_gameObjectFactory->FileRead_Level("./Resources/TextFiles/TestLevel.txt");
-			//	_gameObjectFactory->TEST_DisplayAllGameObj();
-			//	_gameObjectFactory->TEST_DeleteAllGameObjects();
-			//	//_gameObjectFactory->Update();
-			//}
-			_loop = _windowSystem->Update(); //Update the window Object - reads all messages received in this window objects
+				// TESTING mem leak for objects
+				//if (false)
+				//{
+				//	_gameObjectFactory->TEST_AddGameObjects();
+				//	_gameObjectFactory->FileRead_Level("./Resources/TextFiles/TestLevel.txt");
+				//	_gameObjectFactory->TEST_DisplayAllGameObj();
+				//	_gameObjectFactory->TEST_DeleteAllGameObjects();
+				//	//_gameObjectFactory->Update();
+				//}
+			if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
+			{
+				_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
+			}
 
 			_inputSystem->Update(_windowSystem->getWindow());
 
@@ -63,7 +60,7 @@ void Engine::Update()
 				std::cout << "Z Released";
 			*/
 
-			// Logic
+			// Logic - Changes the Game State - When user press buttons to change state - Need to pass in GameStateManager?
 			//if (false)
 			//{
 			//	using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
@@ -77,7 +74,7 @@ void Engine::Update()
 			//	}
 			//}
 
-			// Phy & Coll
+			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 
 			// Audio
 
@@ -102,6 +99,8 @@ void Engine::Update()
 	//-------------------------------------------------------------------------------------------------------------
 		}
 
+
+		_gameStateManager->UpdateState(); //current state = next state
 
 		_gameObjectFactory->DeleteLevel();
 

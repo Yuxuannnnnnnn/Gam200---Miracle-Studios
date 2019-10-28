@@ -237,7 +237,7 @@ void GameObject::SerialInPrefab_Player()
 		<< "FileRead_PlayerInfo -----------------" << std::endl;
 
 	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Player.json"); //Read in whole file as char pointer
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/GameObjects/Player.json"); //Read in whole file as char pointer
 	ASSERT(iBuffer != nullptr);			//std::cout << iBuffer << std::endl; //Show buffer, use to check
 	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);					 //Read whole file in RapidJson format
 
@@ -313,7 +313,7 @@ void GameObject::SerialInPrefab_Enemy()
 		<< "FileRead_EnemyInfo ------------------" << std::endl;
 
 	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Enemy.json");
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/GameObjects/Enemy.json");
 	ASSERT(iBuffer != nullptr);
 
 //std::cout << iBuffer << std::endl; // show buffer, use to check
@@ -384,7 +384,7 @@ void GameObject::SerialInPrefab_Wall()
 		<< "-------------------------------------" << std::endl
 		<< "FileRead_WallInfo -------------------" << std::endl;
 	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Wall.json");
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/GameObjects/Wall.json");
 	ASSERT(iBuffer != nullptr);
 		//std::cout << iBuffer << std::endl; // show buffer, use to check
 	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);

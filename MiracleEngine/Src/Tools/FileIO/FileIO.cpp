@@ -199,7 +199,7 @@ void FileOut_CrashLog(_In_z_ wchar_t const* _Message,
 
 	std::fstream _file;
 	//std::ios_base::trunc forces the file to be created
-	_file.open("./Resources/TextFiles/crashlog.txt", std::ios_base::out, std::ios_base::trunc);
+	_file.open("./Resources/TextFiles/Debug/crashlog.txt", std::ios_base::out, std::ios_base::trunc);
 	_file << "CRASH LOG" << std::endl << "ASSERT FAILED: " << message << " @ " << file << " (" << _Line << ")" << std::endl;
 	_file.close();
 }

@@ -13,7 +13,7 @@ void ScreenSize::FileRead_StartUp()
 {
 	std::cout << std::endl << "FileRead_StartUp --------------------" << std::endl;
 	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/init.json");
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Window/init.json");
 	std::cout << iBuffer << std::endl;
 	bool temp = iBuffer != nullptr;
 	temp = true;

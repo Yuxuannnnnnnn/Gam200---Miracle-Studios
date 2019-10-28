@@ -49,10 +49,11 @@ private:
 	GameStateId _prevState;
 	GameStateId _nextState;
 
+
 public:
-	GameStateManager(GameStateId currState = GameStateId::GS_DIGI_LOGO
-		, GameStateId prevState = GameStateId::GS_DIGI_LOGO,
-		GameStateId nextState = GameStateId::GS_DIGI_LOGO);
+	GameStateManager(GameStateId currState = GameStateId::GS_MAIN_MENU
+		, GameStateId prevState = GameStateId::GS_MAIN_MENU,
+		GameStateId nextState = GameStateId::GS_MAIN_MENU);
 
 	~GameStateManager() = default;
 
@@ -64,6 +65,11 @@ public:
 	GameStateId GetCurrState() const;
 	GameStateId GetNextState() const;
 	GameStateId GetPrevState() const;
+
+	void SetNextGameState(GameStateId state);
+
+	bool CheckIfCurrStateQuit() const;
+	bool CheckIfCurrNextStateSame() const;
 	
 // UpdateState
 	void UpdateState();
