@@ -235,18 +235,20 @@ void GameObject::SerialInPrefab_Player()
 		<< std::endl
 		<< "-------------------------------------" << std::endl
 		<< "FileRead_PlayerInfo -----------------" << std::endl;
+
 	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Player.json");
-	ASSERT(iBuffer != nullptr);
-		//std::cout << iBuffer << std::endl; // show buffer, use to check
-	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Player.json"); //Read in whole file as char pointer
+	ASSERT(iBuffer != nullptr);			//std::cout << iBuffer << std::endl; //Show buffer, use to check
+	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);					 //Read whole file in RapidJson format
+
 // Component List
-	rapidjson::Value& s = d["ComponentList"];
-	std::vector<int> compList;
-	JsonDynamicStore(compList, s);
-	std::vector<int>::iterator itr = compList.begin();
+	rapidjson::Value& s = d["ComponentList"];			//Get Numberlist of Component Data in RapidJson Format	
+	std::vector<int> compList;				
+	JsonDynamicStore(compList, s);						//Convert Numberlist of Component Data to stl dynamic list format
+	std::vector<int>::iterator itr = compList.begin();	
 	while (itr != compList.end())
 		SerialAddComponent((TypeIdComponent)* itr++, s, d);
+
 // Other Values
 		//s = d["Weapons"];
 		//JsonDynamicStore(_WeaponListId, s);
@@ -256,6 +258,8 @@ void GameObject::SerialInPrefab_Player()
 //Serialisation Check
 	PrintStats_Player();
 }
+
+
 void GameObject::PrintStats_Player() {
 	IComponentSystem* temp = nullptr;
 	std::string a;
@@ -304,15 +308,17 @@ void GameObject::PrintStats_Player() {
 void GameObject::SerialInPrefab_Enemy()
 {
 // Get & Parse File
-	std::cout
-		<< std::endl
-		<< "-------------------------------------" << std::endl
+	std::cout << std::endl 
+		<< "-------------------------------------" << std::endl 
 		<< "FileRead_EnemyInfo ------------------" << std::endl;
+
 	rapidjson::Document d;
 	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Enemy.json");
 	ASSERT(iBuffer != nullptr);
+
 //std::cout << iBuffer << std::endl; // show buffer, use to check
 	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+
 // Component List
 	rapidjson::Value& s = d["ComponentList"];
 	std::vector<int> compList;
@@ -398,6 +404,10 @@ void GameObject::SerialInPrefab_Wall()
 //Serialisation Check
 	PrintStats_Wall();
 }
+
+
+
+
 void GameObject::PrintStats_Wall() {
 	IComponentSystem* temp = nullptr;
 	temp = _ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];

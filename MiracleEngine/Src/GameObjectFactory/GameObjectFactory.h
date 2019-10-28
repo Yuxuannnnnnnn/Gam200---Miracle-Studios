@@ -1,61 +1,35 @@
 #pragma once
 #include "PrecompiledHeaders.h"
-#include "GameObjectComponents/GameObject.h"
+#include "GameObject.h"
 #include "GameStateManager/GameStateManager.h"
-#include "ISingleton.h"
-
-
-typedef std::unordered_map<TypeIdGO, GameObject*> PrototypeList;
-
-
-class GameObjectPrototype final 
-{
-	PrototypeList _listObjectPrototype;		//Dynaic array of GameObject Prototypes
-
-public:
-	GameObjectPrototype();
-	~GameObjectPrototype();
-	GameObjectPrototype(const GameObjectPrototype& rhs) = delete;
-	GameObjectPrototype& operator=(const GameObjectPrototype& rhs) = delete;
-
-	PrototypeList& GetPrototypeList();	// Get _listObjectProrotype
-
-	GameObject* PrefabGameObject(TypeIdGO typeId);	// Create a gameObject type along with its Components
-
-	void Init();	// InUpEx
-	void Update();	//
-	void Exit();	//
-};
+#include "GameObjectPrototype.h"
 
 
 
-class GameObjectFactory final : public ISingleton<GameObjectFactory>	//No inheritance - Static object
+class GameObjectFactory final
 {
 private:
-
-	//GameStateManager _state; //Current GameState
+	GameObjectPrototype _prototypes;						//Dynamic array of GameObject Prototypes
 
 	std::unordered_map < size_t, GameObject* > _listObject; //Dynamic array of GameObjects
 
-	GameObjectPrototype _prototypes; //Dynaic array of GameObject Prototypes
+	size_t _uId;											//Unique ID for the next newly created object
 
-	size_t _uId; //Unique ID for the next newly created object
-
-	std::unordered_map < size_t, GraphicComponent* >  _graphicComponents;		//Array of Components
+	std::unordered_map < size_t, GraphicComponent* >	 _graphicComponents;	//Array of Components
 	std::unordered_map < size_t, TransformComponent* >  _transformComponents;	//
-	std::unordered_map < size_t, RigidBody2D* >  _rigidBody2dComponents;		//
-	std::unordered_map < size_t, Collider2D* >  _collider2dComponents;			//
-	std::unordered_map < size_t, LogicComponent* >  _logicComponents;			//
+	std::unordered_map < size_t, RigidBody2D* >			_rigidBody2dComponents;	//
+	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;	//
+	std::unordered_map < size_t, LogicComponent* >		_logicComponents;		//
 
 public:
-
-	GameObjectFactory();
-	~GameObjectFactory();
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
 	GameObjectFactory& operator= (const GameObjectFactory& rhs) = delete;
 
 
-	GameObjectFactory& GetGOFac(); //Get Self
+	GameObjectFactory();
+	~GameObjectFactory();
+
+	//GameObjectFactory& GetGOFac(); //Get Self
 
 	const std::unordered_map < size_t, GraphicComponent* >& getGraphicComponent() const;		//Get Components
 	std::unordered_map < size_t, TransformComponent* >& getTransformComponent();				//	
@@ -66,19 +40,14 @@ public:
 
 	const std::unordered_map < size_t, GameObject*>& getObjectlist() const; //Get _listObject
 
-	//const GameStateManager& getGameState();
+	void FileRead_Level(const char* FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
+	void DeleteLevel();								//Level is Deleted when out of In-GameState
 
-	void DeleteGameObjectID(size_t id); //Deleting a gameObject entirely from the gameObjectFactory
-
-	//GameObject* CreateGameObject(TypeIdGO typeId); //Create a gameObject type along with its Components
 
 	GameObject* CloneGameObject(TypeIdGO gameObjectTypeID); //Create a gameObject type along with its Components
+	void DeleteGameObjectID(size_t id);						//Deleting a gameObject from _listObject
 
-	void Init();	//InUpEx
-	void Update();	//
-	void Exit();	//
 
-	void FileRead_Level(const char* FileName); //Read LevelText and Instantiate GObj
 
 	void TEST_AddGameObjects()	// TEST FUNCTION - to add some GOs 'dyamically'
 	{

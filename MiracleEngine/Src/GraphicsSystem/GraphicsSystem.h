@@ -9,8 +9,8 @@
 #include "GraphicsSystem/RendererSystem.h"
 #include "VertexArray.h"
 #include "PrecompiledHeaders.h"
-#include "../GameObjectComponents/TransformComponent.h"
-#include "../GameObjectComponents/GraphicComponent.h"
+#include "GameObjectComponents/GraphicComponents/TransformComponent.h"
+#include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
 #include "Shader.h"
 #include "QuadMesh.h"
 enum RenderMode

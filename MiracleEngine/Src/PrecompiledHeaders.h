@@ -49,15 +49,15 @@
 #include "Inputsystem/InputSystem.h"
 
 #include "GameObjectFactory/GameObjectFactory.h"
+#include "GameObjectFactory/GameObject.h"
 
 #include "GameObjectComponents/IComponentSystem.h"
-#include "GameObjectComponents/GraphicComponent.h"
-#include "GameObjectComponents/RigidBodyComponent.h"
-#include "GameObjectComponents/TransformComponent.h"
-#include "GameObjectComponents/PhysicsComponent.h"
+#include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
+#include "GameObjectComponents/GraphicComponents/TransformComponent.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBodyComponent.h"
+#include "GameObjectComponents/PhysicsComponents/PhysicsComponent.h"
 #include "GameObjectComponents/LogicComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
-#include "GameObjectComponents/GameObject.h"
 
 #include "Tools/DebugTools/FrameRateController.h"
 

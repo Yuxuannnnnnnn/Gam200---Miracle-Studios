@@ -1,100 +1,34 @@
 #include "PrecompiledHeaders.h"
 #include "GameObjectFactory.h"
 
-GameObjectPrototype::GameObjectPrototype()
-{}
-
-GameObjectPrototype::~GameObjectPrototype()
-{
-	for (auto gameObject : _listObjectPrototype)
-		delete gameObject.second;
-	_listObjectPrototype.clear();
-}
-
-// Get _listObjectProrotype
-PrototypeList& GameObjectPrototype::GetPrototypeList()
-{
-	return _listObjectPrototype;
-}
-
-
-GameObject* GameObjectPrototype::PrefabGameObject(TypeIdGO typeId)	 //Create a gameObject type along with its Components
-{
-	size_t uId = 0;
-	GameObject* gameObject = nullptr;
-
-	switch (typeId)
-	{
-	case TypeIdGO::PLAYER:
-		gameObject = new GameObject(uId, (unsigned)TypeIdGO::PLAYER);
-		gameObject->SerialInPrefab_Player();
-		break;
-	case TypeIdGO::WALL:
-		gameObject = new GameObject(uId, (unsigned)TypeIdGO::WALL);
-		gameObject->SerialInPrefab_Wall();
-		break;
-		//Other Objects
-	}
-	return gameObject;
-}
-
-
-void GameObjectPrototype::Init()	// call on start up
-{
-	GameObject* temp = nullptr;
-
-// Prototype_Player
-	temp = new GameObject(0, (unsigned)TypeIdGO::PLAYER);
-	temp->SerialInPrefab_Player();
-	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::PLAYER, temp));
-
-// Prototype_Enemy
-	temp = new GameObject(0, (unsigned)TypeIdGO::ENEMY);
-	temp->SerialInPrefab_Enemy();
-	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::ENEMY, temp));
-
-// Prototype_Wall
-	temp = new GameObject(0, (unsigned)TypeIdGO::WALL);
-	temp->SerialInPrefab_Wall();
-	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::WALL, temp));
-}
-
-
-void GameObjectPrototype::Update()
-{
-	// works as Load()
-}
-
-void GameObjectPrototype::Exit()
-{
-	// remove all GOs
-}
 
 
 
-
-//Constructor
+//Constructor - Same as Initialisation
+//Prototypes initialised - Prototypes Used for during entire Game, Only when Quit Game State then delete Prototypes
 GameObjectFactory::GameObjectFactory()
-	:_uId{ 0 }
+	:_prototypes(), _uId{ 0 }
 {
+	std::cout << "GOFac Init" << std::endl;
+
+
 }
 
 
-//Destructor
-//Deletes all gameObjects in the gameObjectFactory
+//Destructor - When QuitGameState, destruct all Prototypes
 GameObjectFactory::~GameObjectFactory()
 {
-	for (auto &gameObject : _listObject)
-	{
-		delete gameObject.second;
-	}
-	_listObject.clear(); 
+	//for (auto &gameObject : _listObject)
+	//{
+	//	delete gameObject.second;
+	//}
+	//_listObject.clear(); 
 }
 
-GameObjectFactory& GameObjectFactory::GetGOFac()
-{
-	return *this;
-}
+//GameObjectFactory& GameObjectFactory::GetGOFac()
+//{
+//	return *this;
+//}
 
 const std::unordered_map < size_t, GraphicComponent* >&
 GameObjectFactory::getGraphicComponent() const
@@ -221,18 +155,8 @@ GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Crea
 }
 
 
-//InUpEx
-void GameObjectFactory::Init() {
-	std::cout << "GOFac Init" << std::endl;
-	//_state.Init();
 
-	_prototypes.Init();
-
-	// load initial level
-}
-
-
-void GameObjectFactory::Update() {
+//void GameObjectFactory::Update() {
 
 	//std::cout << "GOFac Update" << std::endl;
 
@@ -254,14 +178,17 @@ void GameObjectFactory::Update() {
 	//
 	//	// load new level
 	//}
-}
+//}
 
 
-void GameObjectFactory::Exit() {
-	std::cout << "GOFac Exit" << std::endl;
-}
+//void GameObjectFactory::Exit() {
+//	std::cout << "GOFac Exit" << std::endl;
+//}
 
-//Read LevelText and Instantiate GObj
+
+
+
+//Read LevelText and Instantiate GObj - When Next Game State is In-Game, Create all level objects
 void GameObjectFactory::FileRead_Level(const char* FileName)
 { // will move to ObjectFactory
 	std::cout << "FileRead_Level( " << FileName << " )" << std::endl;
@@ -320,3 +247,22 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 	delete[] strNum2;
 	return;
 }
+
+
+
+
+
+void GameObjectFactory::DeleteLevel()
+{
+	for (auto &gameObject : _listObject)
+	{
+		delete gameObject.second;
+	}
+	_listObject.clear();
+
+	std::cout << "All Game Objects of Map 1" /*<< Show what type of map <<*/ "is deleted" << std::endl;
+}
+
+
+
+ 
