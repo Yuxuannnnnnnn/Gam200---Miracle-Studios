@@ -72,7 +72,7 @@ public:
 	GameObjectFactory& GetGOFac(); //Get Self
 
 	const std::unordered_map < size_t, GraphicComponent* >& getGraphicComponent() const;		//Get Components
-	const std::unordered_map < size_t, TransformComponent* >& getTransformComponent() const;	//	
+	std::unordered_map < size_t, TransformComponent* >& getTransformComponent() const;	//	
 	const std::unordered_map < size_t, RigidBody2D* >& getRigidBodyComponent() const;			//
 	const std::unordered_map < size_t, Collider2D* >& getCollider2dComponent() const;			//
 	const std::unordered_map < size_t, LogicComponent* >& getLogicComponent() const;			//
