@@ -58,6 +58,7 @@
     <ClCompile Include="Src\Tools\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Src\Tools\DebugTools\FrameRateController.cpp" />
     <ClCompile Include="Src\Tools\DebugTools\PerformanceUsage.cpp" />
+    <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -389,7 +390,6 @@
     <ClInclude Include="Src\MathLib\Matrix3x3.h" />
     <ClInclude Include="Src\MathLib\SYMath.h" />
     <ClInclude Include="Src\LogicSystem\AI.h" />
-    <ClInclude Include="Src\LogicSystem\GameState.h" />
     <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
     <ClInclude Include="Src\LogicSystem\Script.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
@@ -407,12 +407,12 @@
     <ClInclude Include="Src\Tools\EventHandler\EventHandler.h" />
     <ClInclude Include="Src\Tools\FileIO\FileIO.h" />
     <ClInclude Include="Src\Tools\MemoryManager\MemoryManager.h" />
-    <ClInclude Include="Src\Tools\GameStateManager\GameStateManager.h" />
     <ClInclude Include="Src\Tools\ResourceManager\ResourceManager.h" />
     <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
     <ClInclude Include="Src\ISingleton.h" />
     <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
     <ClInclude Include="Src\Tools\DebugTools\PerformanceUsage.h" />
+    <ClInclude Include="Src\GameStateManager\GameStateManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

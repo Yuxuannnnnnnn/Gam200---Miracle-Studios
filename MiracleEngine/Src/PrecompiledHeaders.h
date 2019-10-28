@@ -64,7 +64,8 @@
 #include "LogicSystem/LogicSystem.h"
 #include "LogicSystem/Script.h"
 #include "LogicSystem/AI.h"
-#include "LogicSystem/GameState.h"
+
+#include "GameStateManager/GameStateManager.h"
 
 #include "PhysicSystem/CollisionComponent/Collider2D.h"
 #include "PhysicSystem/PhysicComponent/RigidBody2D.h"

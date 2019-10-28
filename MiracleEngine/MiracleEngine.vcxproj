@@ -463,7 +463,7 @@
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\LogicSystem\AI.h" />
-    <ClInclude Include="Src\LogicSystem\GameState.h" />
+    <ClInclude Include="Src\GameStateManager\GameStateManager.h" />
     <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
     <ClInclude Include="Src\LogicSystem\Script.h" />
     <ClInclude Include="Src\MathLib\Matrix3x3.h" />
@@ -477,7 +477,6 @@
     <ClInclude Include="Src\PhysicSystem\Physics.h" />
     <ClInclude Include="Src\Tools\EventHandler\EventHandler.h" />
     <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
-    <ClInclude Include="Src\Tools\GameStateManager\GameStateManager.h" />
     <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
     <ClInclude Include="Src\GameObjectComponents\PreFabManager.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
@@ -514,6 +513,7 @@
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
     <ClCompile Include="Src\Tools\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />

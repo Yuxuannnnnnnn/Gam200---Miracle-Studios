@@ -224,7 +224,7 @@ GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Crea
 //InUpEx
 void GameObjectFactory::Init() {
 	std::cout << "GOFac Init" << std::endl;
-	_state.Init();
+	//_state.Init();
 
 	_prototypes.Init();
 
@@ -247,13 +247,13 @@ void GameObjectFactory::Update() {
 		//}		
 
 	// detect any level changes
-	_state.Update();
-	if (_state.GetCurrState() == GS_LEVELCHANGE)
-	{
-		// remove all GOs
-
-		// load new level
-	}
+	//_state.Update();
+	//if (_state.GetCurrState() == GameStateId::GS_LEVELCHANGE)
+	//{
+	//	// remove all GOs
+	//
+	//	// load new level
+	//}
 }
 
 

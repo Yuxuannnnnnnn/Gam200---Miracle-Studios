@@ -16,12 +16,12 @@ class Engine
 {
 public:
 
-	Engine(HINSTANCE hInstance, int nCmdShow):
-		_loop{true},
-		_console{ new Console()}, //Create a Logging console
+	Engine(HINSTANCE hInstance, int nCmdShow) :
+		_console{ new Console() }, //Create a Logging console
 		_windowSystem{ new WindowsSystem(hInstance, nCmdShow) }, //Create Window object in it
-		_imguiSystem{ new ImguiSystem(_windowSystem->getWindow())},
+		_imguiSystem{ new ImguiSystem(_windowSystem->getWindow()) },
 
+		_gameStateManager{ new GameStateManager() },
 
 		_inputSystem{ new InputSystem() },
 		_logicSystem{ new LogicSystem() },
@@ -36,9 +36,6 @@ public:
 	void Update();
 	int Exit();
 
-private:
-
-	bool _loop; //for engine update loop
 
 public:
 
@@ -46,6 +43,7 @@ public:
 	WindowsSystem* _windowSystem;
 	ImguiSystem* _imguiSystem;
 
+	GameStateManager* _gameStateManager;
 
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
@@ -53,7 +51,6 @@ public:
 
 
 	GameObjectFactory* _gameObjectFactory;
-
 
 };
 

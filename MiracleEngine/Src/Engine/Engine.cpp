@@ -29,6 +29,12 @@ void Engine::Init()
 void Engine::Update()
 {
 	bool open = true; //for imgui show demo, to be deleted later
+	bool _loop = true;
+
+	//while (_gameStateManager->GetCurrState() != GameStateId::GS_QUIT)
+	//{
+	//
+	//}
 
 	while (_loop)
 	{

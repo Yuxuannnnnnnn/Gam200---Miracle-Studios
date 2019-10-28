@@ -1,7 +1,7 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 #include "GameObjectComponents/GameObject.h"
-#include "LogicSystem/GameState.h"
+#include "GameStateManager/GameStateManager.h"
 #include "ISingleton.h"
 
 
@@ -33,7 +33,7 @@ class GameObjectFactory final : public ISingleton<GameObjectFactory>	//No inheri
 {
 private:
 
-	GameState _state; //Current GameState
+	//GameStateManager _state; //Current GameState
 
 	std::unordered_map < size_t, GameObject* > _listObject; //Dynamic array of GameObjects
 
@@ -66,7 +66,7 @@ public:
 
 	const std::unordered_map < size_t, GameObject*>& getObjectlist() const; //Get _listObject
 
-	const GameState& getGameState();
+	//const GameStateManager& getGameState();
 
 	void DeleteGameObjectID(size_t id); //Deleting a gameObject entirely from the gameObjectFactory
 
