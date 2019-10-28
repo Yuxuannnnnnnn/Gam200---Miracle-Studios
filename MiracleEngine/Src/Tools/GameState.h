@@ -26,6 +26,7 @@ enum Game_States {
 };
 
 class GameState {
+
 	unsigned _currState{ TEST };
 public:
 	GameState() = default;

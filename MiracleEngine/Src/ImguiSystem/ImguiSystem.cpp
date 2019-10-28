@@ -41,7 +41,7 @@ ImguiSystem::ImguiSystem(const Window& window)
 
 	//New All ImguiWindows
 	
-	//_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)] = new HierarchyImguiWindow();
+	_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)] = new HierarchyImguiWindow();
 	/*
 	_ImguiWindows[ImguiWindows::INSPECTOR] = new Inspector();
 	_ImguiWindows[ImguiWindows::SCENE] = new Scene();

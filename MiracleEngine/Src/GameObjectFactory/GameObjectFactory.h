@@ -79,9 +79,11 @@ public:
 
 	const std::unordered_map < size_t, GameObject*>& getObjectlist() const; //Get _listObject
 
+	const GameState& getGameState();
+
 	void DeleteGameObjectID(size_t id); //Deleting a gameObject entirely from the gameObjectFactory
 
-	GameObject* CreateGameObject(TypeIdGO typeId); //Create a gameObject type along with its Components
+	//GameObject* CreateGameObject(TypeIdGO typeId); //Create a gameObject type along with its Components
 
 	GameObject* CloneGameObject(TypeIdGO gameObjectTypeID); //Create a gameObject type along with its Components
 

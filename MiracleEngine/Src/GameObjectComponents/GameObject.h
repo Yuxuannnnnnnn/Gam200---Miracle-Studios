@@ -34,6 +34,25 @@ enum class TypeIdGO {
 	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
 };
 
+inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const char* - For Use only in Imgui
+{
+	switch (type)
+	{
+	case TypeIdGO::WALL:		return "Wall";
+	case TypeIdGO::FLOOR:		return "Floor";
+	case TypeIdGO::OBSTACLE:	return "Obstacle";
+	case TypeIdGO::PLAYER:		return "Player";
+	case TypeIdGO::ENEMY:		return "Enemy";
+	case TypeIdGO::BULLET:		return "Bullet";
+	case TypeIdGO::WEAPON:		return "Weapon";
+	case TypeIdGO::PISTOL:		return "Pistol";
+	case TypeIdGO::SHOTGUN:		return "Shotgun";
+	case TypeIdGO::SNIPER:		return "Sniper";
+	case TypeIdGO::RPG:			return "RPG";
+
+	default:      return "[Unknown TypeIdGO]";
+	}
+}
 
 enum class TypeIdComponent {
 	TRANSFORMCOMPONENT = 0,
@@ -43,6 +62,22 @@ enum class TypeIdComponent {
 	LOGICCOMPONENT = 4,
 	AUDIOCOMPONENT = 5
 };
+
+
+//inline const char* ToString(TypeIdComponent type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui
+//{
+//	switch (type)
+//	{
+//	case TypeIdComponent::TRANSFORMCOMPONENT:	return "Transform Component";
+//	case TypeIdComponent::GRAPHICSCOMPONENT: 	return "Graphics Component";
+//	case TypeIdComponent::RIGIDBODYCOMPONENT:	return "RigidBoody Component";
+//	case TypeIdComponent::COLLIDERCOMPONENT: 	return "Collider Component";
+//	case TypeIdComponent::LOGICCOMPONENT:		return "Logic Component";
+//	case TypeIdComponent::AUDIOCOMPONENT:		return "Audio Component";
+//
+//	default:      return "[Unknown TypeIdComponent]";
+//	}
+//}
 
 typedef std::unordered_map < TypeIdComponent, IComponentSystem* > Map_ComponentList;
 
@@ -57,11 +92,12 @@ public:
 
 	size_t _uId; // Unique ID
 
-	GameObject(size_t uId = 0, unsigned typeId = 0); // Ctor : Inits w/ a Unique id
+	GameObject(size_t uId, unsigned typeId = 0); // Ctor : Inits w/ a Unique id
 
 	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
 
 	virtual unsigned GameObjectType() const; // Return GameObjectType Name
+	size_t Get_uID() const; // Return _uId
 
 	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }			// InUpEx
 	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }		//
@@ -83,7 +119,7 @@ public:
 		(std::unordered_map< TypeIdComponent, IComponentSystem* >& original); 	
 
 // Cloning
-	virtual GameObject* Clone();
+	virtual GameObject* Clone(size_t uId);
 
 // Serialisation
 	void SerialInPrefab_Player();

@@ -84,7 +84,7 @@ GameObjectFactory::GameObjectFactory()
 //Deletes all gameObjects in the gameObjectFactory
 GameObjectFactory::~GameObjectFactory()
 {
-	for (auto gameObject : _listObject)
+	for (auto &gameObject : _listObject)
 	{
 		delete gameObject.second;
 	}
@@ -145,8 +145,8 @@ void GameObjectFactory::DeleteGameObjectID(size_t id)	//Deleting a gameObject en
 }
 
 
-GameObject* GameObjectFactory::CreateGameObject(TypeIdGO typeId)	//Create a gameObject type along with its Components
-{
+//GameObject* GameObjectFactory::CreateGameObject(TypeIdGO typeId)	//Create a gameObject type along with its Components
+//{
 	//std::cout << "CreateGameObject(" << typeId << ")" << std::endl;
 	//GameObject* gameObject = nullptr;
 
@@ -168,8 +168,8 @@ GameObject* GameObjectFactory::CreateGameObject(TypeIdGO typeId)	//Create a game
 	//	//Other Objects
 	//}
 	//return gameObject;
-	return nullptr;
-}
+//	return nullptr;
+//}
 
 GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Create a gameObject type along with its Components
 {
@@ -178,13 +178,13 @@ GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Crea
 	switch (gameObjectTypeID)
 	{
 	case TypeIdGO::PLAYER:
-		temp = _prototypes.GetPrototypeList()[TypeIdGO::PLAYER]->Clone();
+		temp = _prototypes.GetPrototypeList()[TypeIdGO::PLAYER]->Clone(_uId);
 		break;
 	case TypeIdGO::ENEMY:
-		temp = _prototypes.GetPrototypeList()[TypeIdGO::ENEMY]->Clone();
+		temp = _prototypes.GetPrototypeList()[TypeIdGO::ENEMY]->Clone(_uId);
 		break;
 	case TypeIdGO::WALL:
-		temp = _prototypes.GetPrototypeList()[TypeIdGO::WALL]->Clone();
+		temp = _prototypes.GetPrototypeList()[TypeIdGO::WALL]->Clone(_uId);
 		break;
 	default:
 		break;
@@ -192,7 +192,7 @@ GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Crea
 	// add 'temp' to the _listObj;
 	if (!temp)
 		return temp;
-	_listObject.insert(std::pair<size_t, GameObject*>(++_uId, temp));
+	_listObject.insert(std::pair<size_t, GameObject*>(_uId++, temp));
 	// based on temp's _ComponentList, add the components into GOFac's different systems
 	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = temp->_ComponentList.begin();
 	while (itr != temp->_ComponentList.end())

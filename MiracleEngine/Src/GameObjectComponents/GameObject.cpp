@@ -20,7 +20,7 @@ GameObject::~GameObject()
 	//}
 
 
-	for (auto component : _ComponentList)
+	for (auto& component : _ComponentList)
 	{
 		delete component.second;
 	}
@@ -30,6 +30,11 @@ GameObject::~GameObject()
 unsigned GameObject::GameObjectType() const
 {
 	return _typeId;
+}
+
+size_t GameObject::Get_uID() const
+{
+	return _uId;
 }
 
 // DEPRECIATED - Add a specific component to the GameObject
@@ -211,10 +216,10 @@ void GameObject::CopyComponent	// Copy all components from 'original'(Prototype/
 }
 
 // Cloning GO
-GameObject* GameObject::Clone()
+GameObject* GameObject::Clone(size_t uId)
 {
 	//std::cout << "GameObject::Clone()" << std::endl;
-	GameObject* temp = new GameObject(_uId, _typeId);
+	GameObject* temp = new GameObject(uId, _typeId);
 	// copy _ComponentList;
 	temp->CopyComponent(_ComponentList);
 	// return GO so that can put into GOFac's _listObj
