@@ -79,9 +79,7 @@ enum class TypeIdComponent {
 //	}
 //}
 
-typedef std::unordered_map < TypeIdComponent, IComponentSystem* > Map_ComponentList;
-
-
+typedef std::unordered_map < unsigned, IComponentSystem* > Map_ComponentList;
 
 class GameObject
 {
@@ -116,7 +114,7 @@ public:
 		(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d); 	
 
 	void CopyComponent // Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
-		(std::unordered_map< TypeIdComponent, IComponentSystem* >& original); 	
+		(Map_ComponentList& original);
 
 // Cloning
 	virtual GameObject* Clone(size_t uId);
@@ -132,26 +130,35 @@ public:
 	void PrintStats_Bullet();		// TODO
 };
 
+// Definition for ChildGetCompList() in IComponentSystem
+//std::unordered_map < unsigned, IComponentSystem* >IComponentSystem::ChildGetCompList(GameObject* obj)
+//{
+//	//std::unordered_map < unsigned, IComponentSystem* > a;
+//
+//	return obj->GetComponentList();
+//}
 
-class Weapon: public GameObject
-{
-private:
 
-	float _FireRate{ 0.0f };
 
-public:
-	Weapon() = default;
-	Weapon(size_t id, float firerate)
-		: GameObject(id, (unsigned)TypeIdGO::WEAPON), _FireRate{ firerate }
-	{}
-
-	~Weapon() = default;
-
-	unsigned GameObjectType() const override
-	{
-		return (unsigned)TypeIdGO::WEAPON;
-	}
-};
+//class Weapon: public GameObject
+//{
+//private:
+//
+//	float _FireRate{ 0.0f };
+//
+//public:
+//	Weapon() = default;
+//	Weapon(size_t id, float firerate)
+//		: GameObject(id, (unsigned)TypeIdGO::WEAPON), _FireRate{ firerate }
+//	{}
+//
+//	~Weapon() = default;
+//
+//	unsigned GameObjectType() const override
+//	{
+//		return (unsigned)TypeIdGO::WEAPON;
+//	}
+//};
 
 
 //			no more player class, now Player is identified via _typeId

@@ -109,7 +109,9 @@ int Engine::Exit()
 
 	delete _graphicsSystem;
 
-	delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
+		// inheriting ISingleton, will cause crash from double delete
+		// need check how singleton is deleting cause its not running the destructor for GOFac
+	//delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 
 	delete _imguiSystem; //Shutdown ImGui System
 

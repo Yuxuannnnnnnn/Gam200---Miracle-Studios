@@ -43,24 +43,24 @@ IComponentSystem* GameObject::addcomponent(TypeIdComponent componentType)
 	switch (componentType)
 	{
 	case TypeIdComponent::TRANSFORMCOMPONENT:
-		_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent();
+		_ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent();
 		break;
 	case TypeIdComponent::GRAPHICSCOMPONENT:
-		_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
+		_ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
 		break;
 	case TypeIdComponent::RIGIDBODYCOMPONENT:
-		_ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
+		_ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
 		break;
 	case TypeIdComponent::COLLIDERCOMPONENT:
-		_ComponentList[TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
+		_ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
 		break;
 	case TypeIdComponent::LOGICCOMPONENT:
-		_ComponentList[TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
+		_ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
 		break;
 
 	}
 
-	return  _ComponentList[componentType];
+	return  _ComponentList[(unsigned)componentType];
 }
 
 
@@ -70,14 +70,14 @@ void GameObject::SerialAddComponent
 {
 	std::cout << "- GameObject::SerialAddComponent(" << (unsigned)componentType << ") : ";
 
+	IComponentSystem* temp;
 	switch (componentType)
-	{
-		IComponentSystem* temp;
+	{	
 
 	case TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform";	
 
-		_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent(); 	// create new component
-		temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];		// 'temp' to access new component
+		_ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent(); 	// create new component
+		temp = _ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];		// 'temp' to access new component
 		s = d["Position"];												// store values needed
 		JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
 		s = d["Scale"];
@@ -88,8 +88,8 @@ void GameObject::SerialAddComponent
 
 	case TypeIdComponent::GRAPHICSCOMPONENT:	std::cout << "Graphics";
 
-		_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
-		temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
+		_ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
+		temp = _ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT];
 		s = d["G.TypeId"];
 		JsonDynamicStore(((GraphicComponent*)temp)->GetTypeId(), s);
 		s = d["G.FileName"];
@@ -98,8 +98,8 @@ void GameObject::SerialAddComponent
 
 	case TypeIdComponent::RIGIDBODYCOMPONENT:	std::cout << "R. Body";
 
-		_ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
-		temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
+		_ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
+		temp = _ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT];
 		s = d["Mass"];
 		JsonDynamicStore(((RigidBody2D*)temp)->_mass, s);
 		s = d["Friction"];
@@ -110,16 +110,16 @@ void GameObject::SerialAddComponent
 
 	case TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider";
 
-		_ComponentList[TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
-		temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
+		_ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
+		temp = _ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT];
 		s = d["ColliderTypeId"];
 		JsonDynamicStore(((Collider2D*)temp)->_type, s);
 		break;
 
 	case TypeIdComponent::LOGICCOMPONENT:		std::cout << "Logic";
 
-		_ComponentList[TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
-		temp = _ComponentList[TypeIdComponent::LOGICCOMPONENT];
+		_ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
+		temp = _ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT];
 		s = d["ScriptId"];
 		JsonDynamicStore(((LogicComponent*)temp)->GetScriptId(), s);
 		s = d["Health"];
@@ -130,8 +130,8 @@ void GameObject::SerialAddComponent
 
 	case TypeIdComponent::AUDIOCOMPONENT:		std::cout << "Audio";
 
-		_ComponentList[TypeIdComponent::AUDIOCOMPONENT] = new AudioComponent();
-		temp = _ComponentList[TypeIdComponent::AUDIOCOMPONENT];
+		_ComponentList[(unsigned)TypeIdComponent::AUDIOCOMPONENT] = new AudioComponent();
+		temp = _ComponentList[(unsigned)TypeIdComponent::AUDIOCOMPONENT];
 		s = d["A.TypeId"];
 		JsonDynamicStore(((AudioComponent*)temp)->GetTypeId(), s);
 		s = d["A.FileName"];
@@ -142,74 +142,76 @@ void GameObject::SerialAddComponent
 		temp = nullptr;
 		break;
 	}
+	temp->_ParentPtr = this; // set ParentPtr
 	std::cout << std::endl;
 }
 
 
 void GameObject::CopyComponent	// Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
-	(std::unordered_map< TypeIdComponent, IComponentSystem* >& original) 
+	(Map_ComponentList& original)
 {
 	std::cout << "\t GameObject::CopyComponent() : ";
 
-	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = original.begin();
+	Map_ComponentList::iterator itr = original.begin();
 
 	while (itr != original.end())
 	{
 		IComponentSystem* temp;
 		switch (itr->first)
 		{
-		case TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform, ";
+		case (unsigned)TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform, ";
 
 			temp = new TransformComponent(
 				*((TransformComponent*)itr->second)
 			); // using copyCtor to copy var, idk if it works
-			_ComponentList[TypeIdComponent::TRANSFORMCOMPONENT] =  temp;
+			_ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT] =  temp;
 			break;
 
-		case TypeIdComponent::GRAPHICSCOMPONENT:	std::cout << "Graphics, ";
+		case (unsigned)TypeIdComponent::GRAPHICSCOMPONENT:	std::cout << "Graphics, ";
 
 			temp = new GraphicComponent(
 				*((GraphicComponent*)itr->second)
 			);
-			_ComponentList[TypeIdComponent::GRAPHICSCOMPONENT] = temp;
+			_ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT] = temp;
 			break;
 
-		case TypeIdComponent::RIGIDBODYCOMPONENT:	std::cout << "R. Body, ";
+		case (unsigned)TypeIdComponent::RIGIDBODYCOMPONENT:	std::cout << "R. Body, ";
 
 			temp = new RigidBodyComponent(
 				*((RigidBodyComponent*)itr->second)
 			);
-			_ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT] = temp;
+			_ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT] = temp;
 			break;
 
-		case TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider, ";
+		case (unsigned)TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider, ";
 
 			temp = new Collider2D(
 				*((Collider2D*)itr->second)
 			);
-			_ComponentList[TypeIdComponent::COLLIDERCOMPONENT] = temp;
+			_ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT] = temp;
 			break;
 
-		case TypeIdComponent::LOGICCOMPONENT:		std::cout << "Logic, ";
+		case (unsigned)TypeIdComponent::LOGICCOMPONENT:		std::cout << "Logic, ";
 
 			temp = new LogicComponent(
 				*((LogicComponent*)itr->second)
 			);
-			_ComponentList[TypeIdComponent::LOGICCOMPONENT] = temp;
+			_ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT] = temp;
 			break;
 
-		case TypeIdComponent::AUDIOCOMPONENT:		std::cout << "Audio, ";
+		case (unsigned)TypeIdComponent::AUDIOCOMPONENT:		std::cout << "Audio, ";
 
 			temp = new AudioComponent(
 				*((AudioComponent*)itr->second)
 			);
-			_ComponentList[TypeIdComponent::AUDIOCOMPONENT] = temp;
+			_ComponentList[(unsigned)TypeIdComponent::AUDIOCOMPONENT] = temp;
 			break;
 
 		default:
 			temp = nullptr;
 			break;
 		}
+		temp->_ParentPtr = this; // reset ParentPtr
 		++itr;
 	}
 	std::cout << std::endl;
@@ -257,25 +259,25 @@ void GameObject::SerialInPrefab_Player()
 void GameObject::PrintStats_Player() {
 	IComponentSystem* temp = nullptr;
 	std::string a;
-	temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];
 	std::cout
 		<< "FilePrint_PlayerInfo ----------------" << std::endl
 		<< "- Trans.Pos         : " << ((TransformComponent*)temp)->GetPos() << std::endl
 		<< "- Trans.Sca         : " << ((TransformComponent*)temp)->GetScale() << std::endl
 		<< "- Trans.Rot         : " << ((TransformComponent*)temp)->GetRotate() << std::endl;
-	temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT];
 	std::cout
 		<< "- Graphics.typeId   : " << ((GraphicComponent*)temp)->GetTypeId() << std::endl
 		<< "- Graphics.filename : " << ((GraphicComponent*)temp)->GetFileName() << std::endl;
-	temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT];
 	std::cout
 		<< "- RBod.Mass         : " << ((RigidBody2D*)temp)->_mass << std::endl
 		<< "- RBod.Friction     : " << ((RigidBody2D*)temp)->_fictionVal << std::endl
 		<< "- RBod.Static       : " << ((RigidBody2D*)temp)->_static << std::endl;
-	temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT];
 	std::cout
 		<< "- Collider.TypId    : " << ((Collider2D*)temp)->_type << std::endl;
-	temp = _ComponentList[TypeIdComponent::LOGICCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT];
 	std::cout
 		<< "- Logic.Health      : " << ((LogicComponent*)temp)->GetHealth() << std::endl
 		<< "- Logic.Speed       : " << ((LogicComponent*)temp)->GetSpeed() << std::endl
@@ -290,7 +292,7 @@ void GameObject::PrintStats_Player() {
 				//std::vector<int>::iterator itr = _WeaponListId.begin();
 				//while (itr != _WeaponListId.end())
 				//	std::cout << *itr++;
-	temp = _ComponentList[TypeIdComponent::AUDIOCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::AUDIOCOMPONENT];
 	std::cout
 		<< "- Audio.typeId      : " << ((AudioComponent*)temp)->GetTypeId() << std::endl
 		<< "- Audio.filename    : " << ((AudioComponent*)temp)->GetFileName() << std::endl;
@@ -330,25 +332,25 @@ void GameObject::SerialInPrefab_Enemy()
 void GameObject::PrintStats_Enemy() {
 	IComponentSystem* temp = nullptr;
 	std::string a;
-	temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];
 	std::cout
 		<< "FilePrint_EnemyInfo ----------------" << std::endl
 		<< "- Trans.Pos         : " << ((TransformComponent*)temp)->GetPos() << std::endl
 		<< "- Trans.Sca         : " << ((TransformComponent*)temp)->GetScale() << std::endl
 		<< "- Trans.Rot         : " << ((TransformComponent*)temp)->GetRotate() << std::endl;
-	temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT];
 	std::cout
 		<< "- Graphics.typeId   : " << ((GraphicComponent*)temp)->GetTypeId() << std::endl
 		<< "- Graphics.filename : " << ((GraphicComponent*)temp)->GetFileName() << std::endl;
-	temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT];
 	std::cout
 		<< "- RBod.Mass         : " << ((RigidBody2D*)temp)->_mass << std::endl
 		<< "- RBod.Friction     : " << ((RigidBody2D*)temp)->_fictionVal << std::endl
 		<< "- RBod.Static       : " << ((RigidBody2D*)temp)->_static << std::endl;
-	temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT];
 	std::cout
 		<< "- Collider.TypId    : " << ((Collider2D*)temp)->_type << std::endl;
-	temp = _ComponentList[TypeIdComponent::LOGICCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT];
 	std::cout
 		<< "- Logic.Health      : " << ((LogicComponent*)temp)->GetHealth() << std::endl
 		<< "- Logic.Speed       : " << ((LogicComponent*)temp)->GetSpeed() << std::endl
@@ -359,7 +361,7 @@ void GameObject::PrintStats_Enemy() {
 	while (itr != tempScriptList.end())
 		std::cout << *itr++ << " ";
 	std::cout << std::endl;
-	temp = _ComponentList[TypeIdComponent::AUDIOCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::AUDIOCOMPONENT];
 	std::cout
 		<< "- Audio.typeId      : " << ((AudioComponent*)temp)->GetTypeId() << std::endl
 		<< "- Audio.filename    : " << ((AudioComponent*)temp)->GetFileName() << std::endl;
@@ -398,21 +400,21 @@ void GameObject::SerialInPrefab_Wall()
 }
 void GameObject::PrintStats_Wall() {
 	IComponentSystem* temp = nullptr;
-	temp = _ComponentList[TypeIdComponent::TRANSFORMCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];
 	std::cout
 		<< "FilePrint_WallInfo ------------------" << std::endl
 		<< "- Trans.Pos      :  " << ((TransformComponent*)temp)->GetPos() << std::endl
 		<< "- Trans.Sca      :  " << ((TransformComponent*)temp)->GetScale() << std::endl
 		<< "- Trans.Rot      :  " << ((TransformComponent*)temp)->GetRotate() << std::endl;
-	temp = _ComponentList[TypeIdComponent::GRAPHICSCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT];
 	std::cout
 		<< "- Graphics       :  " << "[placeHolder] " << std::endl;
-	temp = _ComponentList[TypeIdComponent::RIGIDBODYCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT];
 	std::cout
 		<< "- RBod.Mass      :  " << ((RigidBody2D*)temp)->_mass << std::endl
 		<< "- RBod.Friction  :  " << ((RigidBody2D*)temp)->_fictionVal << std::endl
 		<< "- RBod.Static    :  " << ((RigidBody2D*)temp)->_static << std::endl;
-	temp = _ComponentList[TypeIdComponent::COLLIDERCOMPONENT];
+	temp = _ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT];
 	std::cout
 		<< "- Collider.TypId :  " << ((Collider2D*)temp)->_type << std::endl;
 	std::cout

@@ -1,14 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "IComponentSystem.h"
 
-IComponentSystem::~IComponentSystem()
-{
-	delete _factoryPtr;
-}
-
-
-
-
 std::string IComponentSystem::ComponentName() const
 {
 	std::cout << "IComponentSystem::ComponentName()" << std::endl;
@@ -18,4 +10,26 @@ std::string IComponentSystem::ComponentName() const
 size_t IComponentSystem::GetParentId() const
 {
 	return _ParentId;
+}
+
+//std::unordered_map < unsigned, IComponentSystem* >ChildGetCompList(GameObject* obj)
+//{
+//	return obj->GetComponentList();
+//}
+
+GameObject* IComponentSystem::GetParentPtr()
+{
+	return _ParentPtr;
+}
+
+IComponentSystem* IComponentSystem::GetSibilingComponent(unsigned _componentId)
+{
+	//_ParentPtr->GameObjectFactory::getRigidBodyComponent();
+
+	//return ChildGetCompList(_ParentPtr)[_componentId];
+	//ChildGetCompList(_ParentPtr)[_componentId];
+
+	std::unordered_map < unsigned, IComponentSystem* > temp
+		= _ParentPtr->GetComponentList();
+	return temp[_componentId];
 }

@@ -18,7 +18,7 @@ public:
 
 
 	void ShowGameObjects(); //Show Every GameObject in the GameObjectList
-	void ShowGameObjectComponents(std::unordered_map < TypeIdComponent, IComponentSystem* > ComponentList); //Show every Component of a GameObject
+	void ShowGameObjectComponents(std::unordered_map < unsigned, IComponentSystem* > ComponentList); //Show every Component of a GameObject
 
 
 	void ShowTransformComponent(IComponentSystem* component);

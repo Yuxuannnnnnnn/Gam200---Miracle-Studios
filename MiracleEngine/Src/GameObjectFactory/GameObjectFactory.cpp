@@ -194,24 +194,24 @@ GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Crea
 		return temp;
 	_listObject.insert(std::pair<size_t, GameObject*>(_uId++, temp));
 	// based on temp's _ComponentList, add the components into GOFac's different systems
-	std::unordered_map< TypeIdComponent, IComponentSystem* >::iterator itr = temp->_ComponentList.begin();
+	Map_ComponentList::iterator itr = temp->_ComponentList.begin();
 	while (itr != temp->_ComponentList.end())
 	{
 		switch (itr->first)
 		{
-		case TypeIdComponent::TRANSFORMCOMPONENT:
+		case (unsigned)TypeIdComponent::TRANSFORMCOMPONENT:
 			_transformComponents[_uId] = (TransformComponent*)itr->second;
 			break;
-		case TypeIdComponent::GRAPHICSCOMPONENT:
+		case (unsigned)TypeIdComponent::GRAPHICSCOMPONENT:
 			_graphicComponents[_uId] = (GraphicComponent*)itr->second;
 			break;
-		case TypeIdComponent::RIGIDBODYCOMPONENT:
+		case (unsigned)TypeIdComponent::RIGIDBODYCOMPONENT:
 			_rigidBody2dComponents[_uId] = (RigidBody2D*)itr->second;
 			break;
-		case TypeIdComponent::COLLIDERCOMPONENT:
+		case (unsigned)TypeIdComponent::COLLIDERCOMPONENT:
 			_collider2dComponents[_uId] = (Collider2D*)itr->second;
 			break;
-		case TypeIdComponent::LOGICCOMPONENT:
+		case (unsigned)TypeIdComponent::LOGICCOMPONENT:
 			_logicComponents[_uId] = (LogicComponent*)itr->second;
 			break;
 		}
@@ -295,7 +295,7 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 		else
 			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
 	// TransformComponent from 'temp'
-		tempComp = tempGO->GetComponentList()[TypeIdComponent::TRANSFORMCOMPONENT];
+		tempComp = tempGO->GetComponentList()[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];
 	// get Position
 		ASSERT(_file.getline(strNum1, 10, ','));
 		ASSERT(_file.getline(strNum2, 10));

@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "HierarchyImguiWindow.h"
 
-#include "GameObject.h"
+#include "GameObjectComponents/GameObject.h"
 #include "Main.h" //Use GameObjectFactory Global pointer
 #include <string> //std::string
 
@@ -46,7 +46,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 		if (ImGui::CollapsingHeader(string.c_str()))	//Start of Each Object Hierarchy
 		{
-			std::unordered_map < TypeIdComponent, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+			std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 			ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 		}
 	}
@@ -55,12 +55,12 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 
 void HierarchyImguiWindow::ShowGameObjectComponents(
-	std::unordered_map < TypeIdComponent, IComponentSystem* > componentList)	//Show every Component of a GameObject - Used in ShowGameObjects()
+	std::unordered_map < unsigned, IComponentSystem* > componentList)	//Show every Component of a GameObject - Used in ShowGameObjects()
 {
 	for (auto& iComponentPair : componentList)
 	{
 		IComponentSystem* component = iComponentPair.second;	//Get component* from std::pair
-		TypeIdComponent componentType = iComponentPair.first;	//Get ComponentType from std::pair
+		unsigned componentType = iComponentPair.first;	//Get ComponentType from std::pair
 
 
 		if (ImGui::TreeNode(component->ComponentName().c_str()))
@@ -68,12 +68,12 @@ void HierarchyImguiWindow::ShowGameObjectComponents(
 
 			switch (componentType)	//Calls the Suitable Show Component function that the Object has
 			{
-			case TypeIdComponent::TRANSFORMCOMPONENT:	ShowTransformComponent(component); break;
-			case TypeIdComponent::GRAPHICSCOMPONENT:	ShowGraphicsComponent(component);  break;
-			case TypeIdComponent::RIGIDBODYCOMPONENT:	ShowRigidBodyComponent(component); break;
-			case TypeIdComponent::COLLIDERCOMPONENT:	ShowColliderComponent(component);  break;
-			case TypeIdComponent::LOGICCOMPONENT:		ShowLogicComponent(component);	   break;
-			case TypeIdComponent::AUDIOCOMPONENT:		ShowAudioCommponent(component);	   break;
+			case (unsigned)TypeIdComponent::TRANSFORMCOMPONENT:	ShowTransformComponent(component); break;
+			case (unsigned)TypeIdComponent::GRAPHICSCOMPONENT:	ShowGraphicsComponent(component);  break;
+			case (unsigned)TypeIdComponent::RIGIDBODYCOMPONENT:	ShowRigidBodyComponent(component); break;
+			case (unsigned)TypeIdComponent::COLLIDERCOMPONENT:	ShowColliderComponent(component);  break;
+			case (unsigned)TypeIdComponent::LOGICCOMPONENT:		ShowLogicComponent(component);	   break;
+			case (unsigned)TypeIdComponent::AUDIOCOMPONENT:		ShowAudioCommponent(component);	   break;
 			}
 
 			ImGui::Text("Text");

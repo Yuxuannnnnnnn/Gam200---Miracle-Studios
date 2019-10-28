@@ -2,6 +2,7 @@
 #include "PrecompiledHeaders.h"
 #include "GameObjectComponents/GameObject.h"
 #include "LogicSystem/GameState.h"
+#include "Tools/ISingleton.h"
 
 
 class ResourceManager
@@ -42,7 +43,7 @@ public:
 
 
 
-class GameObjectFactory final	//No inheritance - Static object
+class GameObjectFactory final : public ISingleton<GameObjectFactory>	//No inheritance - Static object
 {
 private:
 
@@ -141,5 +142,30 @@ public:
 		}
 		std::cout
 			<< "-------------------------------------" << std::endl;
+
+		std::cout
+			<< "-------------------------------------" << std::endl;
+		std::cout
+			<< "-------------------------------------" << std::endl;
+		std::cout
+			<< "-------------------------------------" << std::endl;
+
+		itr = _listObject.begin();
+		while (itr != _listObject.end())
+		{
+			std::cout << " || ";
+
+			//Map_ComponentList a = (itr->second)->GetComponentList();
+			//a[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT]->GetOtherComponent(0);
+			//((GraphicComponent*)a[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT])->TEST_getTransform();
+
+			// get graphicsComp
+			GraphicComponent* a = (GraphicComponent*)(itr->second)->GetComponentList()[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT];
+			a->TEST_getTransform();
+			// access the TEST_getTransform from graphicsComp
+
+			std::cout << " || " << std::endl;
+			++itr;
+		}
 	}
 };
