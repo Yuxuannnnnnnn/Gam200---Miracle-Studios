@@ -26,8 +26,8 @@ private:
 	HDC m_windowDC;//global Window-device context
 	HGLRC m_wglDC;//OpenGL-device context
 
-	unsigned int windowWidth = 800; //1920
-	unsigned int windowHeight = 600;  //1080
+	unsigned _windowWidth; //1920
+	unsigned _windowHeight;//1080
 
 
 public:
@@ -42,11 +42,14 @@ public:
 
 	HWND CreateFullscreenWindow();
 	
-	//Getter functions
-	HWND Get_hwnd() const;
-	HDC get_m_windowDC() const;
-	//HACCEL get_hAccelTable() const;
-	HGLRC Get_m_wglDC() const;
+
+	HWND Get_hwnd() const;					//Getter functions
+	HDC get_m_windowDC() const;				//
+	//HACCEL get_hAccelTable() const;		//
+	HGLRC Get_m_wglDC() const;				//
+											//
+	unsigned GetWindowWidth() const;		//
+	unsigned GetWindowHeight() const;		//
 
 };
 

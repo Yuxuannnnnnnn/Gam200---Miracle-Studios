@@ -23,13 +23,15 @@ enum RenderMode
 class GraphicsSystem
 {
 public:
-	void Init();
+
 	void Update(const std::unordered_map < size_t, GraphicComponent* >& graphicmap,
 		std::unordered_map < size_t, TransformComponent* >& transformmap);
 	void Exit();
 	//RenderMode _renderMode = None;
 	int num = 0;
-	GraphicsSystem(int windowWidth = 800, int windowHeight = 600) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
+
+
+	GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2) }
 	{
 

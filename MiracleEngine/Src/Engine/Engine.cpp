@@ -11,7 +11,6 @@ void Engine::Init()
 	_logicSystem->Init();	// does nothing for now
 	//_PhysicsSystem->Init();
 	//_AudioSystem->Init();
-	_graphicsSystem->Init(); //does nothing?
 	
 
 	_gameObjectFactory->Init();

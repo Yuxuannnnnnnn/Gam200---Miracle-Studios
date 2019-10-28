@@ -8,11 +8,6 @@
 
 
 
-void GraphicsSystem::Init()
-{
-
-}
-
 void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent* >& graphicmap, 
 	 std::unordered_map < size_t, TransformComponent* >& transformmap)	//Cannot Const for transformmap Param -	
 																		//Or else cannot use subscript operator for the transformmap

@@ -20,12 +20,13 @@ public:
 		_loop{true},
 		_console{ new Console()}, //Create a Logging console
 		_windowSystem{ new WindowsSystem(hInstance, nCmdShow) }, //Create Window object in it
-		_imguiSystem{ new ImguiSystem(_windowSystem->getWindow()) },
+		_imguiSystem{ new ImguiSystem(_windowSystem->getWindow())},
 
 
 		_inputSystem{ new InputSystem() },
 		_logicSystem{ new LogicSystem() },
-		_graphicsSystem{ new GraphicsSystem() }, 
+		_graphicsSystem{ new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), 
+											_windowSystem->getWindow().GetWindowHeight())},
 
 
 		_gameObjectFactory{ new GameObjectFactory() }
