@@ -1,5 +1,6 @@
 #pragma once
 #include "PrecompiledHeaders.h"
+#include "GameObjectComponents/IComponentSystem.h"
 
 namespace Script_1 {
 	void Update();

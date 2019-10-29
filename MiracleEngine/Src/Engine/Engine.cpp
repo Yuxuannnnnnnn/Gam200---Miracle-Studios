@@ -38,7 +38,7 @@ void Engine::Update()
 
 //--Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
-		// TESTING mem leak for objects
+		// TESTING mem leak for objects - BRANDON
 		if (false)
 		{
 			_gameObjectFactory->TEST_AddGameObjects();
@@ -58,18 +58,10 @@ void Engine::Update()
 
 
 		// Logic
-		if (false)
-		{
-			using LogicCompMap = std::unordered_map < size_t, LogicComponent* >;
-			LogicCompMap temp = _gameObjectFactory->getLogicComponent();
-			LogicCompMap::iterator itr = temp.begin();
-			while (itr != temp.end())
-			{
-				// TODO-Brandon, shift this to the actual LogicSystem.h Update()
-				itr->second->Update(); // supposed to call each GO's logicComp and run it's update
-				++itr;
-			}
-		}
+		_logicSystem->Update(_gameObjectFactory->getLogicComponent());
+
+
+
 
 		// Phy & Coll
 
@@ -109,9 +101,7 @@ int Engine::Exit()
 
 	delete _graphicsSystem;
 
-		// inheriting ISingleton, will cause crash from double delete
-		// need check how singleton is deleting cause its not running the destructor for GOFac
-	//delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
+	delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 
 	delete _imguiSystem; //Shutdown ImGui System
 

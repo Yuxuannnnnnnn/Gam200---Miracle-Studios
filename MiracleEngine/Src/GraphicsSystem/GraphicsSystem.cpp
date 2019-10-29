@@ -22,7 +22,12 @@ void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent*
 	// get its transform component 
 	for (auto const& e : graphicmap)
 	{
-
+		TransformComponent* tempTrans
+			= (TransformComponent*)e.second->GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT);
+		tempTrans->GetPos();
+		LogicComponent* tempLogic
+			= (LogicComponent*)e.second->GetSibilingComponent((unsigned)TypeIdComponent::LOGICCOMPONENT);
+		tempLogic->GetHealth();
 	}
 }
 

@@ -43,7 +43,7 @@ public:
 
 
 
-class GameObjectFactory final : public ISingleton<GameObjectFactory>	//No inheritance - Static object
+class GameObjectFactory final	//No inheritance - Static object
 {
 private:
 

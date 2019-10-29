@@ -54,16 +54,6 @@ inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const
 	}
 }
 
-enum class TypeIdComponent {
-	TRANSFORMCOMPONENT = 0,
-	GRAPHICSCOMPONENT = 1,
-	RIGIDBODYCOMPONENT = 2,
-	COLLIDERCOMPONENT = 3,
-	LOGICCOMPONENT = 4,
-	AUDIOCOMPONENT = 5
-};
-
-
 //inline const char* ToString(TypeIdComponent type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui
 //{
 //	switch (type)

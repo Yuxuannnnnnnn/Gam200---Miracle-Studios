@@ -1,6 +1,9 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 
+//#ifndef LOGICSYSTEM_H
+//#define LOGICSYSTEM_H
+
 typedef void (*scriptptr)(GameObject*);
 class LogicSystem final
 {
@@ -13,39 +16,16 @@ public:
 	LogicSystem(const LogicSystem& rhs) = delete;
 	LogicSystem& operator=(const LogicSystem& rhs) = delete;
 // InUpEx
-	void Init()
-	{
-		// attach all scripts to objects
-		
-		// load all GOs with logic component into private:list
-	}
-	void Update(const std::map < size_t, LogicComponent* >& lcmap)
-	{
-		// run through 'list' and update the logic
-			// update scripts
-				// access std::vector<script> from GO
-				// itr through and run all scripts
-			// update AI
-
-		GameObject* tmp = nullptr;
-		for (auto const& x : lcmap)
-		{
-			//tmp = x.second->GetOwner();
-			//_scriptList[x.second->GetID()](tmp);
-		}
-	}
-	void Exit()
-	{
-		// unload list ?
-	}
+	void Init();
+	void Update(const std::unordered_map < size_t, LogicComponent* >& lcmap);
+	void Exit();
 // Others
 	// add GO to list
 	
 	// add script
-	void AddScript(int ID, scriptptr script)
-	{
-		_ScriptList.push_back(script);
-	}
+	void AddScript(int ID, scriptptr script);
 	// update for scripts
 
 };
+
+//#endif //unrecognised preprocessor directive

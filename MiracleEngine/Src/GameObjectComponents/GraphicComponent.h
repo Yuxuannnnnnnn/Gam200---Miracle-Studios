@@ -42,13 +42,13 @@ public:
 		//	= ChildGetCompList(_ParentPtr);
 		//TransformComponent* temp = (TransformComponent * )a[0];
 
-
+		// 
 		TransformComponent* tempTrans = (TransformComponent*)
-			GetSibilingComponent((unsigned)TypeIdSiblingComp::TRANSFORMCOMPONENT);
+			GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT);
 		if (tempTrans)
 		{
 			std::cout
-				<< "/tSibling Trans"
+				<< "\tSibling Trans"
 				<< tempTrans->GetPos()._x << ","
 				<< tempTrans->GetPos()._y << ","
 				<< tempTrans->GetPos()._z << ","
@@ -60,18 +60,6 @@ public:
 				<< tempTrans->GetRotate()
 				<< std::endl;			
 		}
-
-		//LogicComponent* tempLogic = nullptr;// = (LogicComponent*)
-			//GetSibilingComponent((unsigned)TypeIdSiblingComp::LOGICCOMPONENT);
-		//if (tempRigid)
-		//{
-		//	std::cout
-		//		<< "/tSibling Logic"
-		//		<< tempLogic->GetHealth()
-		//		<< tempLogic->GetLifetime()
-		//		<< tempLogic->GetSpeed()
-		//		<< std::endl;
-		//}
 	}
 };
 

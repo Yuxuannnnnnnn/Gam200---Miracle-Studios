@@ -2,7 +2,7 @@
 #include <string>
 #include "PrecompiledHeaders.h"
 
-enum class TypeIdSiblingComp { // direct copy of the one in GameObject
+enum class TypeIdComponent {
 	TRANSFORMCOMPONENT = 0,
 	GRAPHICSCOMPONENT = 1,
 	RIGIDBODYCOMPONENT = 2,
