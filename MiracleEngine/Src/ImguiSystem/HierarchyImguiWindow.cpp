@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "HierarchyImguiWindow.h"
 
-#include "GameObjectComponents/GameObject.h"
+#include "GameObjectFactory/GameObject.h"
 #include "Main.h" //Use GameObjectFactory Global pointer
 #include <string> //std::string
 

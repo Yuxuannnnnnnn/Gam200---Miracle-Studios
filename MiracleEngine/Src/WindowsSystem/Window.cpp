@@ -220,7 +220,10 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 	ScreenSize temp; // temp object for reading in info
 	temp.FileRead_StartUp();
 
-	RECT rect = { 0, 0, (LONG)(temp._ResX - 1), (LONG)(temp._ResY - 1) };
+	_windowWidth = temp.GetResX();
+	_windowHeight = temp.GetResY();
+
+	RECT rect = { 0, 0, (LONG)(temp.GetResX() - 1), (LONG)(temp.GetResY() - 1) };
 	//The AdjustWindowRect sets the exact client area without the title bar and all the extra pixels
 	//This will give us the exact resolution for the white rectangular area
 	AdjustWindowRectEx(&rect, dwStyle, FALSE, WS_EX_APPWINDOW);
@@ -263,6 +266,16 @@ HDC Window::get_m_windowDC() const
 HGLRC Window::Get_m_wglDC() const
 {
 	return m_wglDC;
+}
+
+unsigned Window::GetWindowWidth() const
+{
+	return _windowWidth;
+}
+
+unsigned Window::GetWindowHeight() const
+{
+	return _windowHeight;
 }
 
 

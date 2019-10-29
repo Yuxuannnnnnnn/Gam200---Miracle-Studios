@@ -1,0 +1,2 @@
+CRASH LOG
+ASSERT FAILED: iBuffer != nullptr @ D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectFactory\GameObject.cpp (241)

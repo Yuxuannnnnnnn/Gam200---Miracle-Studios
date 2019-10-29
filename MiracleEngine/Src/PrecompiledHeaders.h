@@ -40,7 +40,7 @@
 #include "GraphicsSystem/Elementbuffer.h"
 #include "GraphicsSystem/Shader.h"
 
-#include "Tools/FileIO.h"
+#include "Tools/FileIO/FileIO.h"
 
 #include "MathLib/SYMath.h"
 
@@ -49,22 +49,23 @@
 #include "Inputsystem/InputSystem.h"
 
 #include "GameObjectFactory/GameObjectFactory.h"
+#include "GameObjectFactory/GameObject.h"
 
 #include "GameObjectComponents/IComponentSystem.h"
-#include "GameObjectComponents/GraphicComponent.h"
-#include "GameObjectComponents/RigidBodyComponent.h"
-#include "GameObjectComponents/TransformComponent.h"
-#include "GameObjectComponents/PhysicsComponent.h"
+#include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
+#include "GameObjectComponents/GraphicComponents/TransformComponent.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBodyComponent.h"
+#include "GameObjectComponents/PhysicsComponents/PhysicsComponent.h"
 #include "GameObjectComponents/LogicComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
-#include "GameObjectComponents/GameObject.h"
 
-#include "Tools/FrameRateController.h"
+#include "Tools/DebugTools/FrameRateController.h"
 
 #include "LogicSystem/LogicSystem.h"
 #include "LogicSystem/Script.h"
 #include "LogicSystem/AI.h"
-#include "LogicSystem/GameState.h"
+
+#include "GameStateManager/GameStateManager.h"
 
 #include "PhysicSystem/CollisionComponent/Collider2D.h"
 #include "PhysicSystem/PhysicComponent/RigidBody2D.h"

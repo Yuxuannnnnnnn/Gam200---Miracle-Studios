@@ -2,11 +2,18 @@
 #include "ScreenSize.h"
 
 
+
+ScreenSize::ScreenSize() 
+	: _ResX{ 0 }, _ResY{ 0 }, _Fullscreen{ false }
+{}
+
+
+
 void ScreenSize::FileRead_StartUp()
 {
 	std::cout << std::endl << "FileRead_StartUp --------------------" << std::endl;
 	rapidjson::Document d;
-	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/init.json");
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/Window/init.json");
 	std::cout << iBuffer << std::endl;
 	bool temp = iBuffer != nullptr;
 	temp = true;
@@ -26,4 +33,17 @@ void ScreenSize::FileRead_StartUp()
 		<< "-------------------------------------" << std::endl << std::endl;
 
 	delete[] iBuffer;
+}
+
+
+
+int ScreenSize::GetResX() const
+{
+	return _ResX;
+}
+
+
+int ScreenSize::GetResY() const
+{
+	return _ResY;
 }

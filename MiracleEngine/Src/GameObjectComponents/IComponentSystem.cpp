@@ -29,7 +29,6 @@ IComponentSystem* IComponentSystem::GetSibilingComponent(unsigned _componentId)
 	//return ChildGetCompList(_ParentPtr)[_componentId];
 	//ChildGetCompList(_ParentPtr)[_componentId];
 
-	std::unordered_map < unsigned, IComponentSystem* > temp
-		= _ParentPtr->GetComponentList();
+	std::unordered_map < unsigned, IComponentSystem* > temp = _ParentPtr->GetComponentList();
 	return temp[_componentId];
 }

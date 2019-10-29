@@ -7,16 +7,22 @@
 #include "stringbuffer.h"	// N
 #include "error/en.h"		// Json error displaying
 
-#include "GraphicComponent.h"
-#include "RigidBodyComponent.h"
-#include "TransformComponent.h"
-#include "PhysicsComponent.h"
-#include "LogicComponent.h"
-#include "AudioComponent.h"
+#include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
+#include "GameObjectComponents/GraphicComponents/TransformComponent.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBodyComponent.h"
+#include "GameObjectComponents/PhysicsComponents/PhysicsComponent.h"
+#include "GameObjectComponents/LogicComponent.h"
+#include "GameObjectComponents/AudioComponent.h"
+
 #include "PhysicSystem/CollisionComponent/Collider2D.h"
 #include "PhysicSystem/PhysicComponent/RigidBody2D.h"
 
-#include "Tools/FileIO.h"
+#include "Tools/FileIO/FileIO.h"
+
+
+
+#ifndef GAMEOBJECT_H
+#define	GAMEOBJECT_H
 
 //namespace FilePathNames {
 //	const char* path_player = "./Resources/TextFiles/player.json";
@@ -245,3 +251,5 @@ public:
 //		return PLAYER;
 //	}
 //};
+
+#endif

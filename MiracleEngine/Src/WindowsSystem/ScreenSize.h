@@ -4,14 +4,14 @@
 // struct for handling window size
 class ScreenSize final {
 
-public:
+private:
 	int _ResX, _ResY;
 	bool _Fullscreen;
 
-	ScreenSize(): _ResX{ 0 }, _ResY{ 0 }, _Fullscreen{ false }
-	{}
+public:
+	ScreenSize();
 
-	~ScreenSize() {}
+	~ScreenSize() = default;
 
 	ScreenSize(const ScreenSize&) = delete;
 	ScreenSize& operator=(const ScreenSize&) = delete;
@@ -22,5 +22,8 @@ public:
 			- Fullscreen On/Off
 	*/
 	void FileRead_StartUp();
+
+	int GetResX() const;
+	int GetResY() const;
 };
 

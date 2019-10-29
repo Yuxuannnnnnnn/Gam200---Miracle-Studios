@@ -159,6 +159,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
+    <ClInclude Include="Src\GameObjectFactory\GameObjectPrototype.h" />
+    <ClInclude Include="Src\Tools\ResourceManager\ResourceManager.h" />
     <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
     <ClInclude Include="Src\WindowsSystem\ScreenSize.h" />
@@ -462,7 +466,7 @@
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\LogicSystem\AI.h" />
-    <ClInclude Include="Src\LogicSystem\GameState.h" />
+    <ClInclude Include="Src\GameStateManager\GameStateManager.h" />
     <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
     <ClInclude Include="Src\LogicSystem\Script.h" />
     <ClInclude Include="Src\MathLib\Matrix3x3.h" />
@@ -474,22 +478,20 @@
     <ClInclude Include="Src\PhysicSystem\CollisionComponent\EdgeCollider2D.h" />
     <ClInclude Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.h" />
     <ClInclude Include="Src\PhysicSystem\Physics.h" />
-    <ClInclude Include="Src\Tools\EventHandler.h" />
-    <ClInclude Include="Src\Tools\FrameRateController.h" />
-    <ClInclude Include="Src\Tools\GameState.h" />
-    <ClInclude Include="Src\Tools\IColliderHandler.h" />
-    <ClInclude Include="Src\GameObjectComponents\PreFabManager.h" />
+    <ClInclude Include="Src\Tools\EventHandler\EventHandler.h" />
+    <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
+    <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
     <ClInclude Include="Src\Main.h" />
     <ClInclude Include="Src\PrecompiledHeaders.h" />
-    <ClInclude Include="Src\GameObjectComponents\PhysicsComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\RigidBodyComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\PhysicsComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\RigidBodyComponent.h" />
     <ClInclude Include="Src\GameObjectFactory\GameObjectFactory.h" />
-    <ClInclude Include="Src\GameObjectComponents\GraphicComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\GraphicComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IComponentSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\Shader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
-    <ClInclude Include="Src\GameObjectComponents\GameObject.h" />
+    <ClInclude Include="Src\GameObjectFactory\GameObject.h" />
     <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\MeshManager.h" />
@@ -502,17 +504,22 @@
     <ClInclude Include="Src\Inputsystem\keydef.h" />
     <ClInclude Include="Src\MathLib\Vector2.h" />
     <ClInclude Include="Src\MathLib\Vector3.h" />
-    <ClInclude Include="Src\Tools\FileIO.h" />
-    <ClInclude Include="Src\Tools\ISingleton.h" />
-    <ClInclude Include="Src\Tools\MemoryManager.h" />
-    <ClInclude Include="Src\Tools\PerformanceUsage.h" />
+    <ClInclude Include="Src\Tools\FileIO\FileIO.h" />
+    <ClInclude Include="Src\ISingleton.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\MemoryManager.h" />
+    <ClInclude Include="Src\Tools\DebugTools\PerformanceUsage.h" />
     <ClInclude Include="Src\WindowsSystem\Window.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
     <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
-    <ClInclude Include="Src\GameObjectComponents\TransformComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.h" />
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
+    <ClCompile Include="Src\GameObjectFactory\GameObjectPrototype.cpp" />
+    <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
+    <ClCompile Include="Src\Tools\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
     <ClCompile Include="Src\WindowsSystem\ScreenSize.cpp" />
@@ -574,9 +581,8 @@
     <ClCompile Include="Src\PhysicSystem\CollisionComponent\EdgeCollider2D.cpp" />
     <ClCompile Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.cpp" />
     <ClCompile Include="Src\PhysicSystem\Physics.cpp" />
-    <ClCompile Include="Src\Tools\EventHandler.cpp" />
-    <ClCompile Include="Src\Tools\FrameRateController.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PreFabManager.cpp" />
+    <ClCompile Include="Src\Tools\EventHandler\EventHandler.cpp" />
+    <ClCompile Include="Src\Tools\DebugTools\FrameRateController.cpp" />
     <ClCompile Include="Src\PrecompiledHeaders.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -587,22 +593,22 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PrecompiledHeaders.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\RigidBodyComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\PhysicsComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBodyComponent.cpp" />
     <ClCompile Include="Src\GameObjectFactory\GameObjectFactory.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GraphicComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\GraphicComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\IComponentSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GameObject.cpp" />
+    <ClCompile Include="Src\GameObjectFactory\GameObject.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
     <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Src\Tools\FileIO.cpp" />
-    <ClCompile Include="Src\Tools\MemoryManager.cpp" />
-    <ClCompile Include="Src\Tools\PerformanceUsage.cpp" />
+    <ClCompile Include="Src\Tools\FileIO\FileIO.cpp" />
+    <ClCompile Include="Src\Tools\MemoryManager\MemoryManager.cpp" />
+    <ClCompile Include="Src\Tools\DebugTools\PerformanceUsage.cpp" />
     <ClCompile Include="Src\WindowsSystem\Window.cpp" />
     <ClCompile Include="Dep\stb_image\stb_image.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -611,7 +617,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\TransformComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.cpp" />
     <ClCompile Include="Src\WindowsSystem\WIndowsSystem.cpp" />
   </ItemGroup>
   <ItemGroup>

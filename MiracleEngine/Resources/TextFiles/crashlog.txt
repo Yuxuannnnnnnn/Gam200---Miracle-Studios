@@ -1,2 +1,0 @@
-CRASH LOG
-ASSERT FAILED: val.IsInt() @ D:\Gam200---Miracle-Studios\MiracleEngine\Src\Tools\FileIO.cpp (66)
