@@ -1,6 +1,6 @@
 #pragma once
 #include "PrecompiledHeaders.h"
-#include "IComponentSystem.h"
+#include "GameObjectComponents/IComponentSystem.h"
 #include "LogicSystem/Script.h"
 
 enum ScriptId {

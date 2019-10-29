@@ -56,14 +56,15 @@
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
 #include "GameObjectComponents/PhysicsComponents/RigidBodyComponent.h"
 #include "GameObjectComponents/PhysicsComponents/PhysicsComponent.h"
-#include "GameObjectComponents/LogicComponent.h"
+#include "GameObjectComponents/LogicComponents/LogicComponent.h"
+#include "GameObjectComponents/LogicComponents/AiComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
 
 #include "Tools/DebugTools/FrameRateController.h"
 
 #include "LogicSystem/LogicSystem.h"
 #include "LogicSystem/Script.h"
-#include "LogicSystem/AI.h"
+#include "LogicSystem/AiSystem.h"
 
 #include "GameStateManager/GameStateManager.h"
 

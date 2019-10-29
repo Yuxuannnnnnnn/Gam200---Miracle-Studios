@@ -15,14 +15,21 @@ class GameObject; // forward declaration
 
 class IComponentSystem
 {
+private:
+
+	GameObject* _ParentPtr;
+	size_t _ParentId;
+
 public:
-	GameObject* _ParentPtr{ nullptr };
-	size_t _ParentId{ 0 };
+
+	IComponentSystem();
 
 	virtual std::string ComponentName() const;
 
 	size_t GetParentId() const;
+	void SetParentId(size_t inVal);
 	GameObject* GetParentPtr();
+	void SetParentPtr(GameObject* inVal);
 	IComponentSystem* GetSibilingComponent(unsigned _componentId);
 };
 

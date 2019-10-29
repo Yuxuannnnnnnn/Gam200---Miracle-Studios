@@ -11,7 +11,7 @@
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
 #include "GameObjectComponents/PhysicsComponents/RigidBodyComponent.h"
 #include "GameObjectComponents/PhysicsComponents/PhysicsComponent.h"
-#include "GameObjectComponents/LogicComponent.h"
+#include "GameObjectComponents/LogicComponents/LogicComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
 
 #include "PhysicSystem/CollisionComponent/Collider2D.h"
@@ -79,18 +79,20 @@ typedef std::unordered_map < unsigned, IComponentSystem* > Map_ComponentList;
 
 class GameObject
 {
-public:
+private:
+
 	Map_ComponentList _ComponentList; // Component List
-
 	unsigned _typeId; // GameObject Type
-
 	size_t _uId; // Unique ID
+
+public:
 
 	GameObject(size_t uId, unsigned typeId = 0); // Ctor : Inits w/ a Unique id
 
 	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
 
 	virtual unsigned GameObjectType() const; // Return GameObjectType Name
+	unsigned Get_typeId() const; // Return _typeId;
 	size_t Get_uID() const; // Return _uId
 
 	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }			// InUpEx
@@ -112,7 +114,7 @@ public:
 	void CopyComponent // Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
 		(Map_ComponentList& original);
 
-	IComponentSystem* GetComponent(TypeIdComponent typeId); // GetComponent
+	IComponentSystem* GetComponent(TypeIdComponent typeId); // GetChildComponent
 
 // Cloning
 	virtual GameObject* Clone(size_t uId);

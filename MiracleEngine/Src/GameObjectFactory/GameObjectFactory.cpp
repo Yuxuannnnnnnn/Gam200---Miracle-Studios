@@ -128,8 +128,8 @@ GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Crea
 		return temp;
 	_listObject.insert(std::pair<size_t, GameObject*>(_uId++, temp));
 	// based on temp's _ComponentList, add the components into GOFac's different systems
-	Map_ComponentList::iterator itr = temp->_ComponentList.begin();
-	while (itr != temp->_ComponentList.end())
+	Map_ComponentList::iterator itr = temp->GetComponentList().begin();
+	while (itr != temp->GetComponentList().end())
 	{
 		switch (itr->first)
 		{

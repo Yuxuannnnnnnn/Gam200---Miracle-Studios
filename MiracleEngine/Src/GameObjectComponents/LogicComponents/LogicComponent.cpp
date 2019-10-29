@@ -3,7 +3,7 @@
 
 LogicComponent::LogicComponent(size_t id)
 {
-	_ParentId = id;
+	SetParentId(id);
 }
 // CompName
 std::string LogicComponent::ComponentName() const
@@ -20,7 +20,7 @@ void LogicComponent::Update()
 	{
 		//std::function<void(void)> updatePtr; // dont need, just call the function directly
 		//std::function<void(int&, int)> updatePtr_Health;
-
+		std::cout << "GO id : " << this->GetParentId() << std::endl;
 		for (int scriptId : _scriptList)
 		{
 			switch (scriptId)
@@ -41,6 +41,7 @@ void LogicComponent::Update()
 				break;
 			};
 		}
+		std::cout << std::endl;
 	}
 }
 void LogicComponent::Exit()

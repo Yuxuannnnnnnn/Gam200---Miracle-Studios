@@ -161,7 +161,9 @@
   <ItemGroup>
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
     <ClInclude Include="Src\GameObjectFactory\GameObjectPrototype.h" />
+    <ClInclude Include="Src\LogicSystem\AiSystem.h" />
     <ClInclude Include="Src\Tools\ResourceManager\ResourceManager.h" />
     <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
@@ -461,11 +463,10 @@
     <ClInclude Include="Src\ImguiSystem\ImguiSystem.h" />
     <ClInclude Include="Src\ImguiSystem\IBaseImguiWindow.h" />
     <ClInclude Include="Src\GameObjectComponents\AudioComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\LogicComponents\LogicComponent.h" />
     <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
-    <ClInclude Include="Src\LogicSystem\AI.h" />
     <ClInclude Include="Src\GameStateManager\GameStateManager.h" />
     <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
     <ClInclude Include="Src\LogicSystem\Script.h" />
@@ -517,8 +518,10 @@
   <ItemGroup>
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\GameObjectFactory\GameObjectPrototype.cpp" />
     <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
+    <ClCompile Include="Src\LogicSystem\AiSystem.cpp" />
     <ClCompile Include="Src\Tools\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
@@ -564,11 +567,10 @@
     <ClCompile Include="Src\ImguiSystem\ImguiSystem.cpp" />
     <ClCompile Include="Src\ImguiSystem\IBaseImguiWindow.cpp" />
     <ClCompile Include="Src\GameObjectComponents\AudioComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\MeshManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
-    <ClCompile Include="Src\LogicSystem\AI.cpp" />
     <ClCompile Include="Src\LogicSystem\LogicSystem.cpp" />
     <ClCompile Include="Src\LogicSystem\Script.cpp" />
     <ClCompile Include="Src\MathLib\Matrix3x3.cpp" />

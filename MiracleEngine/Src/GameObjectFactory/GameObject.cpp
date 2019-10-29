@@ -31,7 +31,10 @@ unsigned GameObject::GameObjectType() const
 {
 	return _typeId;
 }
-
+unsigned GameObject::Get_typeId() const
+{
+	return _typeId;
+}
 size_t GameObject::Get_uID() const
 {
 	return _uId;
@@ -143,7 +146,7 @@ void GameObject::SerialAddComponent
 		temp = nullptr;
 		break;
 	}
-	temp->_ParentPtr = this; // set ParentPtr
+	temp->SetParentPtr(this); // set ParentPtr
 	std::cout << std::endl;
 }
 
@@ -157,7 +160,7 @@ void GameObject::CopyComponent	// Copy all components from 'original'(Prototype/
 
 	while (itr != original.end())
 	{
-		IComponentSystem* temp;
+		IComponentSystem* temp; // temp ptr, will assign in the switch below
 		switch (itr->first)
 		{
 		case (unsigned)TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform, ";
@@ -212,16 +215,14 @@ void GameObject::CopyComponent	// Copy all components from 'original'(Prototype/
 			temp = nullptr;
 			break;
 		}
-		temp->_ParentPtr = this; // reset ParentPtr
+		temp->SetParentPtr(this); // reset ParentPtr
 		++itr;
 	}
 	std::cout << std::endl;
 }
 
-
-IComponentSystem* GameObject::GetComponent(TypeIdComponent typeId)
+IComponentSystem* GameObject::GetComponent(TypeIdComponent typeId) // GetChildComponent
 {
-	
 	return _ComponentList[(unsigned)typeId];
 }
 
