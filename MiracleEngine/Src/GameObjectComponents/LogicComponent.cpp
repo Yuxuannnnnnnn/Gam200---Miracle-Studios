@@ -16,34 +16,30 @@ void LogicComponent::Init()
 }
 void LogicComponent::Update()
 {
-	if (_scriptList.empty()) // makeSure script is !empty()
+	if (!_scriptList.empty()) // make sure scriptList is !empty()
 	{
-		std::function<void(void)> updatePtr;
-		std::function<void(int&, int)> updatePtrHealth;
+		//std::function<void(void)> updatePtr; // dont need, just call the function directly
+		//std::function<void(int&, int)> updatePtr_Health;
+
 		for (int scriptId : _scriptList)
 		{
-			// updatePtr for accessing script's Update()
 			switch (scriptId)
 			{
 			case SCRIPT_1:
-				updatePtr = Script_1::Update;
+				Script_1::Update();
 				break;
 			case SCRIPT_2:
-				updatePtr = Script_2::Update;
+				Script_2::Update(this);
 				break;
 			case SCRIPT_HEALTH:
 				Script_HealthMinus::Update(_health, 1);
 				break;
 			case SCRIPT_INPUT:
 				//Script_Input::Update(INGAME);
-				updatePtr = nullptr;
 				break;
 			default:
-				updatePtr = nullptr;
 				break;
-			}
-			if (updatePtr)
-				updatePtr();
+			};
 		}
 	}
 }

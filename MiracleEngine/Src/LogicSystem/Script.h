@@ -1,13 +1,15 @@
 #pragma once
 #include "PrecompiledHeaders.h"
-#include "GameObjectComponents/IComponentSystem.h"
+#include "GameObjectComponents/IComponentSystem.h" // need to be able to access other components
+
+class LogicComponent; // forward declare
 
 namespace Script_1 {
 	void Update();
 }
 
 namespace Script_2 {
-	void Update();
+	void Update(LogicComponent* parent);
 }
 
 namespace Script_HealthMinus {

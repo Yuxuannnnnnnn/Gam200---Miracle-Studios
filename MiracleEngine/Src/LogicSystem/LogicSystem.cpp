@@ -25,7 +25,6 @@ void LogicSystem::Update(const std::unordered_map < size_t, LogicComponent* >& l
 	{
 		//tmp = x.second->GetOwner();
 		//_scriptList[x.second->GetID()](tmp);
-
 		x.second->Update();
 	}
 }

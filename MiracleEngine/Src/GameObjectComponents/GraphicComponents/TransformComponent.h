@@ -1,5 +1,5 @@
 #pragma once
-#include "IComponentSystem.h"
+#include "GameObjectComponents/IComponentSystem.h"
 #include "MathLib/SYMath.h"
 
 class TransformComponent: public IComponentSystem

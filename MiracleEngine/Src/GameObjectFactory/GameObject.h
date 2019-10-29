@@ -103,7 +103,7 @@ public:
 		return _ComponentList;
 	}
 
-// Components
+// Components<unsi
 	IComponentSystem* addcomponent(TypeIdComponent componentType); 	// DEPRECATED - Add a specific component to the GameObject
 
 	void SerialAddComponent // AddComponent for during Serialisation
@@ -111,6 +111,8 @@ public:
 
 	void CopyComponent // Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
 		(Map_ComponentList& original);
+
+	IComponentSystem* GetComponent(TypeIdComponent typeId); // GetComponent
 
 // Cloning
 	virtual GameObject* Clone(size_t uId);

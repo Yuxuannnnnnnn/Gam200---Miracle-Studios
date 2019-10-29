@@ -60,8 +60,8 @@ void Engine::Update()
 				std::cout << "Z Released";
 			*/
 
-		// Logic
-		_logicSystem->Update(_gameObjectFactory->getLogicComponent());
+			// Logic
+			_logicSystem->Update(_gameObjectFactory->getLogicComponent());
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 

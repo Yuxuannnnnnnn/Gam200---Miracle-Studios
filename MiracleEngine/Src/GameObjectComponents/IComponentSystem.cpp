@@ -31,4 +31,9 @@ IComponentSystem* IComponentSystem::GetSibilingComponent(unsigned _componentId)
 
 	std::unordered_map < unsigned, IComponentSystem* > temp = _ParentPtr->GetComponentList();
 	return temp[_componentId];
+
+	// change above to just be
+	//		return _ParentPtr->GetComponent(_componentId)
+	// func below
+	//		IComponentSystem* GameObject::GetComponent(TypeIdComponent typeId)
 }

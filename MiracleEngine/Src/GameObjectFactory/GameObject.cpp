@@ -76,7 +76,8 @@ void GameObject::SerialAddComponent
 
 	case TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform";	
 
-		_ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent(); 	// create new component
+		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::TRANSFORMCOMPONENT, new TransformComponent()));
+		//_ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent(); 	// create new component
 		temp = _ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];		// 'temp' to access new component
 		s = d["Position"];												// store values needed
 		JsonDynamicStore(((TransformComponent*)temp)->GetPos(), s);
@@ -87,8 +88,8 @@ void GameObject::SerialAddComponent
 		break;
 
 	case TypeIdComponent::GRAPHICSCOMPONENT:	std::cout << "Graphics";
-
-		_ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
+		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::GRAPHICSCOMPONENT, new GraphicComponent()));
+		//_ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT] = new GraphicComponent();
 		temp = _ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT];
 		s = d["G.TypeId"];
 		JsonDynamicStore(((GraphicComponent*)temp)->GetTypeId(), s);
@@ -97,8 +98,8 @@ void GameObject::SerialAddComponent
 		break;
 
 	case TypeIdComponent::RIGIDBODYCOMPONENT:	std::cout << "R. Body";
-
-		_ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
+		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::RIGIDBODYCOMPONENT, new RigidBody2D()));
+		//_ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT] = new RigidBody2D();
 		temp = _ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT];
 		s = d["Mass"];
 		JsonDynamicStore(((RigidBody2D*)temp)->_mass, s);
@@ -109,16 +110,16 @@ void GameObject::SerialAddComponent
 		break;
 
 	case TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider";
-
-		_ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
+		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::COLLIDERCOMPONENT, new Collider2D()));
+		//_ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
 		temp = _ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT];
 		s = d["ColliderTypeId"];
 		JsonDynamicStore(((Collider2D*)temp)->_type, s);
 		break;
 
 	case TypeIdComponent::LOGICCOMPONENT:		std::cout << "Logic";
-
-		_ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
+		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::LOGICCOMPONENT, new LogicComponent()));
+		//_ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
 		temp = _ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT];
 		s = d["ScriptId"];
 		JsonDynamicStore(((LogicComponent*)temp)->GetScriptId(), s);
@@ -129,8 +130,8 @@ void GameObject::SerialAddComponent
 		break;
 
 	case TypeIdComponent::AUDIOCOMPONENT:		std::cout << "Audio";
-
-		_ComponentList[(unsigned)TypeIdComponent::AUDIOCOMPONENT] = new AudioComponent();
+		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::AUDIOCOMPONENT, new AudioComponent()));
+		//_ComponentList[(unsigned)TypeIdComponent::AUDIOCOMPONENT] = new AudioComponent();
 		temp = _ComponentList[(unsigned)TypeIdComponent::AUDIOCOMPONENT];
 		s = d["A.TypeId"];
 		JsonDynamicStore(((AudioComponent*)temp)->GetTypeId(), s);
@@ -215,6 +216,13 @@ void GameObject::CopyComponent	// Copy all components from 'original'(Prototype/
 		++itr;
 	}
 	std::cout << std::endl;
+}
+
+
+IComponentSystem* GameObject::GetComponent(TypeIdComponent typeId)
+{
+	
+	return _ComponentList[(unsigned)typeId];
 }
 
 // Cloning GO
