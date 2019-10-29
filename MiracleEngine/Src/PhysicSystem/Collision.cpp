@@ -9,7 +9,7 @@
 #include "PrecompiledHeaders.h"
 #include "Collision.h"
 
-void UpdateCollision(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, double dt)
+void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, double dt)
 {
 	(void)type;
 	(void)rhs;

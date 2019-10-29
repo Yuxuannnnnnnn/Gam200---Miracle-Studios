@@ -31,21 +31,24 @@ public:
 	~Physics();
 
 	void Update(double dt);
-	
+
 	Collider2D* CreateCircleCollider(const Vector3& _v, const float& r);
-
 	Collider2D* CreateBoxCollider(const Vector3& _cenPos, const Vector3& _scale, float angle);
-
 	Collider2D* CreateEdgeCollider(const Vector3& pos, float scale, float dir);
-
 	RigidBody2D* CreateRigidBody2D();
 
-	void Clear();
-
-private:
 	//No replication of class object
 	Physics(const Physics& rhs) = delete;
 	Physics& operator= (const Physics& rhs) = delete;
+
+private:
+	void UpdatePhyiscs(double dt);
+	void UpdateCollision(double dt);
+	void UpdateTransform(double dt);
+	void UpdateEvents(double dt);
+
+	void Clear();
+
 };
 
 #endif

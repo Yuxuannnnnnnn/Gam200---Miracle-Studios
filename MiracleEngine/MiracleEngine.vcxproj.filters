@@ -47,7 +47,6 @@
     <ClCompile Include="Src\Tools\EventHandler\EventHandler.cpp" />
     <ClCompile Include="Src\Tools\FileIO\FileIO.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\MemoryManager.cpp" />
-    <ClCompile Include="Src\Tools\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Src\Tools\DebugTools\FrameRateController.cpp" />
     <ClCompile Include="Src\Tools\DebugTools\PerformanceUsage.cpp" />
     <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
@@ -62,6 +61,8 @@
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\LogicSystem\AiSystem.cpp" />
+    <ClCompile Include="Src\Tools\MemoryManager\ObjectAllocator.cpp" />
+    <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -402,7 +403,6 @@
     <ClInclude Include="Src\Tools\EventHandler\EventHandler.h" />
     <ClInclude Include="Src\Tools\FileIO\FileIO.h" />
     <ClInclude Include="Src\Tools\MemoryManager\MemoryManager.h" />
-    <ClInclude Include="Src\Tools\ResourceManager\ResourceManager.h" />
     <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
     <ClInclude Include="Src\ISingleton.h" />
     <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
@@ -419,6 +419,10 @@
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\LogicComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
     <ClInclude Include="Src\LogicSystem\AiSystem.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\CommonBase.h" />
+    <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
