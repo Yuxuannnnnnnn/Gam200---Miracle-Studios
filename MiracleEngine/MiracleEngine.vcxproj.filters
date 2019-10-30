@@ -60,6 +60,8 @@
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -421,6 +423,8 @@
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.h" />
+    <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
+    <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

@@ -21,7 +21,14 @@ void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent*
 		size_t objID = graphicComponentpair.first;	//Get GameObjectID
 		TransformComponent* transformComponent = transformmap[objID]; //Get transform from GameObjectID
 
-
+		if (graphicComponent->GetFileName() == "spriteplayer.png")
+		{
+			_textureManager._textureMap["zombie"]->Select();
+		}
+		else
+		{
+			_textureManager._textureMap["background"]->Select();
+		}
 		_quadmesh.Select();
 		_shader.Select();
 

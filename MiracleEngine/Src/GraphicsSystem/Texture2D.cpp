@@ -1,5 +1,5 @@
 #include "Texture2D.h"
-
+#include "PrecompiledHeaders.h"
 #include "../stb_image/stb_image.h"
 
 int Texture2D::GetWidth() const { return _width; }
