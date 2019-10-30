@@ -14,7 +14,7 @@ std::string LogicComponent::ComponentName() const
 void LogicComponent::Init()
 {
 }
-void LogicComponent::Update(GameObjectFactory* factory)
+void LogicComponent::Update(GameObjectFactory* factory, GameObject* obj, InputSystem* input)
 {
 	if (!_scriptList.empty()) // make sure scriptList is !empty()
 	{
@@ -35,7 +35,7 @@ void LogicComponent::Update(GameObjectFactory* factory)
 				Script_HealthMinus::Update(_health, 1);
 				break;
 			case SCRIPT_INPUT:
-				//Script_Input::Update(INGAME);
+				Script_Input::Update(factory, obj, input);
 				break;
 			case SCRIPT_SHOOT:
 				Script_Shoot::Update(this->GetParentPtr(), factory);
@@ -44,6 +44,10 @@ void LogicComponent::Update(GameObjectFactory* factory)
 			};
 		}
 		std::cout << std::endl;
+	}
+	if (_lifetime)
+	{
+		// kill obj if _lifetime is over
 	}
 }
 void LogicComponent::Exit()

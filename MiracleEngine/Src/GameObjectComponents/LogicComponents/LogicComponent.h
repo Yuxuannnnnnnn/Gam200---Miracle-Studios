@@ -34,7 +34,7 @@ public:
 	std::string ComponentName() const override;
 // InUpEx
 	void Init();
-	void Update(GameObjectFactory* factory);
+	void Update(GameObjectFactory* factory, GameObject* obj, InputSystem* input);
 	void Exit();
 // Others
 // GetScript

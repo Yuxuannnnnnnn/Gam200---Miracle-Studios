@@ -1,8 +1,10 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 
-//#ifndef LOGICSYSTEM_H
-//#define LOGICSYSTEM_H
+#ifndef LOGICSYSTEM_H
+#define LOGICSYSTEM_H
+
+
 
 typedef void (*scriptptr)(GameObject*);
 class LogicSystem final
@@ -17,7 +19,8 @@ public:
 	LogicSystem& operator=(const LogicSystem& rhs) = delete;
 // InUpEx
 	void Init();
-	void Update(const std::unordered_map < size_t, LogicComponent* >& lcmap, GameObjectFactory* factory);
+	void Update(const std::unordered_map < size_t, LogicComponent* >& lcmap,
+		GameObjectFactory* factory, InputSystem* input);
 	void Exit();
 // Others
 	// add GO to list
@@ -28,4 +31,4 @@ public:
 
 };
 
-//#endif //unrecognised preprocessor directive
+#endif
