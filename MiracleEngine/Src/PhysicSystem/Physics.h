@@ -9,8 +9,8 @@
 #ifndef _PHYSICS_SYSTEM_H
 #define _PHYSICS_SYSTEM_H
 
-#include "CollisionComponent/Collider2D.h"
-#include "PhysicComponent/RigidBody2D.h"
+#include "GameObjectComponents/PhysicsComponents/Collider2D.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
 
 #include<iostream>
 #include<vector>

@@ -181,11 +181,11 @@ void GameObject::CopyComponent	// Copy all components from 'original'(Prototype/
 
 		case (unsigned)TypeIdComponent::RIGIDBODYCOMPONENT:	std::cout << "R. Body, ";
 
-			temp = new RigidBodyComponent(
+		/*	temp = new RigidBodyComponent(
 				*((RigidBodyComponent*)itr->second)
 			);
-			_ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT] = temp;
-			break;
+			_ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT] = temp;*/
+			return;
 
 		case (unsigned)TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider, ";
 
