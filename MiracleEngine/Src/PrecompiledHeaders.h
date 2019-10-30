@@ -51,6 +51,7 @@
 #include "GameObjectFactory/GameObjectFactory.h"
 #include "GameObjectFactory/GameObject.h"
 
+#include "GameObjectComponents/IBase.h"
 #include "GameObjectComponents/IComponentSystem.h"
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
@@ -61,6 +62,11 @@
 #include "GameObjectComponents/AudioComponent.h"
 
 #include "Tools/DebugTools/FrameRateController.h"
+
+#include "Tools/MemoryManager/CommonBase.h"
+#include "Tools/MemoryManager/MemoryManager.h"
+#include "Tools/MemoryManager/ObjectAllocator.h"
+#include "Tools/MemoryManager/ResourceManager.h"
 
 #include "LogicSystem/LogicSystem.h"
 #include "LogicSystem/Script.h"

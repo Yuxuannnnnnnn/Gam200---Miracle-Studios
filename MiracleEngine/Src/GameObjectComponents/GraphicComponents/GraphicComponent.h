@@ -1,13 +1,14 @@
 #pragma once
 #include "GameObjectComponents/IComponentSystem.h"
 #include "GraphicsSystem/MeshManager.h"
+#include "GameObjectComponents/IBase.h"
 
 enum class TypeIdGraphic {
 	NONE = 0,
 
 };
 
-class GraphicComponent : public IComponentSystem
+class GraphicComponent : public IComponentSystem, public IBase<GraphicComponent>
 {
 private:
 	unsigned _typeIdGraphic;

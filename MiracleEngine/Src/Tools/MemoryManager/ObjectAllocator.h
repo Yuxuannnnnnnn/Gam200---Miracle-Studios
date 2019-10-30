@@ -1,21 +1,22 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	MemoryManager.h
+//	ObjectAllocator.h
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-#ifndef _MEMORY_MANAGER_H
-#define _MEMORY_MANAGER_H
+#ifndef _OBJECT_ALLOCATOR_H
+#define _OBJECT_ALLOCATOR_H
 
 #include "CommonBase.h"
-#include "../../ISingleton.h"
 
-#define DEFAULT_OBJECT_SIZE 400
-
-class MemoryManager final : public ISingleton<MemoryManager>
+template<typename T>
+class ObjectAllocator final
 {
+public:
+	typedef T ObjectTpye;
+
 private:
 	GenericObject* _PageList; //!< the beginning of the list of pages
 	GenericObject* _FreeList; //!< the beginning of the list of objects
@@ -29,8 +30,8 @@ private:
 	size_t _ObjectBlockSize;
 
 public:
-	MemoryManager(bool UseCPPMemManager = false, bool DebugOn = false);
-	virtual ~MemoryManager();
+	ObjectAllocator();
+	~ObjectAllocator();
 
 	void* Allocate();
 	void Free(void* Object);
@@ -38,11 +39,9 @@ public:
 	// check and free empty page
 	unsigned FreeEmptyPages();
 
-	MMConfig GetConfig() const;
-
 	//No replication of class object
-	MemoryManager(const MemoryManager& rhs) = delete;
-	MemoryManager& operator= (const MemoryManager& rhs) = delete;
+	ObjectAllocator(const ObjectAllocator& rhs) = delete;
+	ObjectAllocator& operator= (const ObjectAllocator& rhs) = delete;
 
 private:
 	void CreateNewPage(); // new/allocate a new page
@@ -55,5 +54,7 @@ private:
 	void RemoveEmptyObject(void* Object);
 	
 };
+
+#include "ObjectAllocator.hpp"
 
 #endif

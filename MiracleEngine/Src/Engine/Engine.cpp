@@ -52,6 +52,7 @@ void Engine::Update()
 			if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
 			{
 				_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
+				return;
 			}
 
 			_inputSystem->Update(_windowSystem->getWindow());
@@ -101,13 +102,15 @@ void Engine::Update()
 
 int Engine::Exit()
 {
-
-	delete _graphicsSystem;
-
-	delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
-
+	delete _console;
+	delete _windowSystem;
 	delete _imguiSystem; //Shutdown ImGui System
 
+	delete _gameStateManager;
+	delete _inputSystem;
+	delete _logicSystem;
+	delete _graphicsSystem;
+	delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 
 
 	return (int)_windowSystem->Get_msg().wParam;

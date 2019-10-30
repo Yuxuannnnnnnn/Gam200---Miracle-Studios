@@ -17,6 +17,10 @@ public:
 	virtual void OnCollision2DStay(Collider2D* other) { (void)other; }
 	virtual void OnCollision2DExit(Collider2D* other) { (void)other; }
 
+	virtual void OnTrigger2DEnter(Collider2D* other) { (void)other; }
+	virtual void OnTrigger2DStay(Collider2D* other) { (void)other; }
+	virtual void OnTrigger2DExit(Collider2D* other) { (void)other; }
+
 	virtual ~IColliderHandler() {}
 };
 
