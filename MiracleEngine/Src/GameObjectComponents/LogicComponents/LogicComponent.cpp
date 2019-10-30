@@ -14,7 +14,7 @@ std::string LogicComponent::ComponentName() const
 void LogicComponent::Init()
 {
 }
-void LogicComponent::Update()
+void LogicComponent::Update(GameObjectFactory* factory)
 {
 	if (!_scriptList.empty()) // make sure scriptList is !empty()
 	{
@@ -37,6 +37,8 @@ void LogicComponent::Update()
 			case SCRIPT_INPUT:
 				//Script_Input::Update(INGAME);
 				break;
+			case SCRIPT_SHOOT:
+				Script_Shoot::Update(this->GetParentPtr(), factory);
 			default:
 				break;
 			};

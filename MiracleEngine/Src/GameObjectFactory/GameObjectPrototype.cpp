@@ -21,6 +21,11 @@ GameObjectPrototype::GameObjectPrototype()
 	temp = new GameObject(0, (unsigned)TypeIdGO::WALL);
 	temp->SerialInPrefab_Wall();
 	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::WALL, temp));
+
+	// Prototype_Bullet
+	temp = new GameObject(0, (unsigned)TypeIdGO::BULLET);
+	temp->SerialInPrefab_Bullet();
+	_listObjectPrototype.insert(std::pair < TypeIdGO, GameObject*>(TypeIdGO::BULLET, temp));
 }
 
 

@@ -61,7 +61,7 @@ void Engine::Update()
 			*/
 
 			// Logic
-			_logicSystem->Update(_gameObjectFactory->getLogicComponent());
+			_logicSystem->Update(_gameObjectFactory->getLogicComponent(), _gameObjectFactory);
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 

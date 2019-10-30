@@ -11,6 +11,7 @@ enum ScriptId {
 	SCRIPT_2 = 2,
 	SCRIPT_HEALTH = 3,
 	SCRIPT_INPUT = 4,
+	SCRIPT_SHOOT = 5,
 };
 
 class LogicComponent : public IComponentSystem
@@ -33,7 +34,7 @@ public:
 	std::string ComponentName() const override;
 // InUpEx
 	void Init();
-	void Update();
+	void Update(GameObjectFactory* factory);
 	void Exit();
 // Others
 // GetScript

@@ -2,6 +2,9 @@
 #include <string>
 #include "PrecompiledHeaders.h"
 
+#ifndef ICOMPONENTSYSTEM_H
+#define	ICOMPONENTSYSTEM_H
+
 enum class TypeIdComponent {
 	TRANSFORMCOMPONENT = 0,
 	GRAPHICSCOMPONENT = 1,
@@ -33,3 +36,4 @@ public:
 	IComponentSystem* GetSibilingComponent(unsigned _componentId);
 };
 
+#endif
