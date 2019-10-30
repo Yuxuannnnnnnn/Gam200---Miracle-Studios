@@ -176,7 +176,8 @@
     <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
-    <ClInclude Include="Src\Tools\MemoryManager\CommonBase.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.hpp" />
     <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />

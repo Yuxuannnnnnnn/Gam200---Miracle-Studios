@@ -9,7 +9,7 @@
 #ifndef _OBJECT_ALLOCATOR_H
 #define _OBJECT_ALLOCATOR_H
 
-#include "CommonBase.h"
+#include "IMemoryInfo.h"
 
 template<typename T>
 class ObjectAllocator final

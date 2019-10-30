@@ -13,33 +13,29 @@
 #include <string>
 
 #include "../ISingleton.h"
+#include "IResourceInfo.h"
 #include "ObjectAllocator.h"
-
-
-class grapic {};
 
 class ResourceManager final : public ISingleton<ResourceManager>
 {
 public:
-	typedef grapic* GraphicPointer;
-	typedef std::unordered_map<std::string, GraphicPointer> GraphicMap;
+	typedef std::unordered_map<std::string, Texture2D_Resource*> Texture2DMap;
 
 private:
-	GraphicMap _GraphicResources;
-	//ObjectAllocator<grapic, sizeof(grapic)> _GraphicAllocater;
+	Texture2DMap _Texture2DMap;
+	ObjectAllocator<Texture2D_Resource> _Texture2DAllocater;
 
 public:
 	ResourceManager() {};
 	virtual ~ResourceManager();
 
-	GraphicPointer GetGraphicResource(std::string file);
-
+	unsigned char* GetTexture2DResource(std::string file, int& width, int& height, int& bpp);
 
 	//No replication of class object
 	ResourceManager(const ResourceManager& rhs) = delete;
 	ResourceManager& operator= (const ResourceManager& rhs) = delete;
 private:
-	GraphicPointer NewGraphicResource(std::string file);
+	Texture2D_Resource* NewGraphicResource(std::string file);
 
 };
 

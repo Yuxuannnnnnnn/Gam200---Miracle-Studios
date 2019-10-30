@@ -413,7 +413,6 @@
     <ClInclude Include="Src\LogicSystem\AiSystem.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />
-    <ClInclude Include="Src\Tools\MemoryManager\CommonBase.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.hpp" />
     <ClInclude Include="Src\GameObjectComponents\IBase.h" />
@@ -425,6 +424,8 @@
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.h" />
     <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
     <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

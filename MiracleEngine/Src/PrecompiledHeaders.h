@@ -63,7 +63,8 @@
 
 #include "Tools/DebugTools/FrameRateController.h"
 
-#include "Tools/MemoryManager/CommonBase.h"
+#include "Tools/MemoryManager/IMemoryInfo.h"
+#include "Tools/MemoryManager/IResourceInfo.h"
 #include "Tools/MemoryManager/MemoryManager.h"
 #include "Tools/MemoryManager/ObjectAllocator.h"
 #include "Tools/MemoryManager/ResourceManager.h"
