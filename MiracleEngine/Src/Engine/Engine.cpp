@@ -102,14 +102,15 @@ void Engine::Update()
 
 int Engine::Exit()
 {
-
-	delete _graphicsSystem;
-
-	delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
-
+	delete _console;
+	delete _windowSystem;
 	delete _imguiSystem; //Shutdown ImGui System
 
-	delete _windowSystem;
+	delete _gameStateManager;
+	delete _inputSystem;
+	delete _logicSystem;
+	delete _graphicsSystem;
+	delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 
 
 	return (int)_windowSystem->Get_msg().wParam;
