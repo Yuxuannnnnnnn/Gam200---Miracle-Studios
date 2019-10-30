@@ -30,10 +30,8 @@
     <ClCompile Include="Src\MathLib\SYMath.cpp" />
     <ClCompile Include="Src\MathLib\Vector2.cpp" />
     <ClCompile Include="Src\MathLib\Vector3.cpp" />
-    <ClCompile Include="Src\LogicSystem\AI.cpp" />
     <ClCompile Include="Src\LogicSystem\LogicSystem.cpp" />
     <ClCompile Include="Src\LogicSystem\Script.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
     <ClCompile Include="Src\GameObjectComponents\AudioComponent.cpp" />
     <ClCompile Include="Src\ImguiSystem\ImguiSystem.cpp" />
@@ -49,7 +47,6 @@
     <ClCompile Include="Src\Tools\EventHandler\EventHandler.cpp" />
     <ClCompile Include="Src\Tools\FileIO\FileIO.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\MemoryManager.cpp" />
-    <ClCompile Include="Src\Tools\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Src\Tools\DebugTools\FrameRateController.cpp" />
     <ClCompile Include="Src\Tools\DebugTools\PerformanceUsage.cpp" />
     <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
@@ -61,6 +58,11 @@
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\PhysicsComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBodyComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
+    <ClCompile Include="Src\LogicSystem\AiSystem.cpp" />
+    <ClCompile Include="Src\Tools\MemoryManager\ObjectAllocator.cpp" />
+    <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -385,10 +387,8 @@
     <ClInclude Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.h" />
     <ClInclude Include="Src\MathLib\Matrix3x3.h" />
     <ClInclude Include="Src\MathLib\SYMath.h" />
-    <ClInclude Include="Src\LogicSystem\AI.h" />
     <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
     <ClInclude Include="Src\LogicSystem\Script.h" />
-    <ClInclude Include="Src\GameObjectComponents\LogicComponent.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
     <ClInclude Include="Src\GameObjectComponents\AudioComponent.h" />
     <ClInclude Include="Src\ImguiSystem\ImguiSystem.h" />
@@ -403,7 +403,6 @@
     <ClInclude Include="Src\Tools\EventHandler\EventHandler.h" />
     <ClInclude Include="Src\Tools\FileIO\FileIO.h" />
     <ClInclude Include="Src\Tools\MemoryManager\MemoryManager.h" />
-    <ClInclude Include="Src\Tools\ResourceManager\ResourceManager.h" />
     <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
     <ClInclude Include="Src\ISingleton.h" />
     <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
@@ -417,6 +416,13 @@
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\PhysicsComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\RigidBodyComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\LogicComponents\LogicComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
+    <ClInclude Include="Src\LogicSystem\AiSystem.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\CommonBase.h" />
+    <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

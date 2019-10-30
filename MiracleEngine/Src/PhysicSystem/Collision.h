@@ -12,9 +12,9 @@
 #include "CollisionComponent/BoxCollider2D.h"
 #include "CollisionComponent/EdgeCollider2D.h"
 
-#include "Tools/EventHandler/EventHandler.h"
+#include "../Tools/EventHandler/EventHandler.h"
 
-enum COLLISION_TYPE {
+enum class COLLISION_TYPE {
 	BOX_BOX,
 	CIRCLE_CIRCLE,
 	CIRCLE_LINE,
@@ -22,7 +22,7 @@ enum COLLISION_TYPE {
 	BOX_LINE
 };
 
-void UpdateCollision(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, double dt);
+void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, double dt);
 
 
 int BoxBox_Intersection(const BoxCollider2D& circleA,				

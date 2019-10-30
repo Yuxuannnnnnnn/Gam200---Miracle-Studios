@@ -4,8 +4,6 @@
 #include "GameStateManager/GameStateManager.h"
 #include "GameObjectPrototype.h"
 
-
-
 class GameObjectFactory final
 {
 private:
@@ -91,7 +89,7 @@ public:
 		{
 			std::cout
 				<< " || "
-				<< itr->first << " : " << itr->second->_typeId
+				<< itr->first << " : " << itr->second->Get_typeId()
 				<< " || " << std::endl;
 			++itr;
 		}

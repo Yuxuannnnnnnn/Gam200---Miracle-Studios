@@ -47,38 +47,38 @@ void Physics::Update(double dt)
 	if (!_enable)
 		return;
 
-	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
+	UpdatePhyiscs(dt);
+	UpdateCollision(dt);
+	UpdateTransform(dt);
+	UpdateEvents(dt);
+}
+
+void Physics::UpdatePhyiscs(double dt)
+{
 	std::vector<RigidBody2D*>::iterator iterator = _ListRigidBody2D.begin();
 
 	while (iterator != _ListRigidBody2D.end())
 	{
-		if(!(*iterator)->_static)
+		if (!(*iterator)->_static)
 			(*iterator)->UpdateVec(dt);
-		
+
 		iterator++;
 	}
-	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
-	for (auto it : _ListCollider2D)
-		it->Draw();
-
+}
+void Physics::UpdateCollision(double dt)
+{
 	std::vector<Collider2D*> tempList = _ListCollider2D;
 
-	while(!tempList.empty())
+	while (!tempList.empty())
 	{
 		std::vector<Collider2D*>::iterator iterator2 = tempList.begin();
 
-		if (!(*iterator2)->_enable)
+		if (!(*iterator2)->_enable || (*iterator2)->_type == NONE_COLLIDER)
 		{
 			tempList.erase(iterator2);
+			//(*iterator2)->update();
 			continue;
 		}
-
-		if ((*iterator2)->_type == NONE_COLLIDER)
-		{
-			(*iterator2)->update();
-			break;
-		}
-
 
 		for (auto it3 : tempList)
 		{
@@ -88,27 +88,27 @@ void Physics::Update(double dt)
 			if ((*iterator2)->_type == BOX_COLLIDER)
 			{
 				if (it3->_type == BOX_COLLIDER)
-					UpdateCollision(BOX_BOX, (*iterator2), it3, dt);
+					Collision_Check_Response(COLLISION_TYPE::BOX_BOX, (*iterator2), it3, dt);
 				else if (it3->_type == CIRCLE_COLLIDER)
-					UpdateCollision(CIRCLE_BOX, it3, (*iterator2), dt);
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_BOX, it3, (*iterator2), dt);
 				else if (it3->_type == LINE_COLLIDER)
-					UpdateCollision(BOX_LINE, (*iterator2), it3, dt);
+					Collision_Check_Response(COLLISION_TYPE::BOX_LINE, (*iterator2), it3, dt);
 			}
 			else if ((*iterator2)->_type == CIRCLE_COLLIDER)
 			{
 				if (it3->_type == BOX_COLLIDER)
-					UpdateCollision(CIRCLE_BOX, (*iterator2), it3, dt);
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_BOX, (*iterator2), it3, dt);
 				else if (it3->_type == CIRCLE_COLLIDER)
-					UpdateCollision(CIRCLE_CIRCLE, (*iterator2), it3, dt);
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_CIRCLE, (*iterator2), it3, dt);
 				else if (it3->_type == LINE_COLLIDER)
-					UpdateCollision(CIRCLE_LINE, (*iterator2), it3, dt);
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_LINE, (*iterator2), it3, dt);
 			}
 			else if ((*iterator2)->_type == LINE_COLLIDER)
 			{
 				if (it3->_type == BOX_COLLIDER)
-					UpdateCollision(BOX_LINE, it3, (*iterator2), dt);
+					Collision_Check_Response(COLLISION_TYPE::BOX_LINE, it3, (*iterator2), dt);
 				else if (it3->_type == CIRCLE_COLLIDER)
-					UpdateCollision(CIRCLE_LINE, it3, (*iterator2), dt);
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_LINE, it3, (*iterator2), dt);
 				else if (it3->_type == LINE_COLLIDER)
 					continue;
 			}
@@ -117,7 +117,11 @@ void Physics::Update(double dt)
 		tempList.erase(iterator2);
 	}
 
-	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
+	for (auto it : _ListCollider2D)
+		it->Draw();
+}
+void Physics::UpdateTransform(double dt)
+{
 	std::vector<RigidBody2D*>::iterator iterator4 = _ListRigidBody2D.begin();
 
 	while (iterator4 != _ListRigidBody2D.end())
@@ -125,10 +129,12 @@ void Physics::Update(double dt)
 		(*iterator4)->UpdatePos(dt);
 		iterator4++;
 	}
-	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
-	EventHandler::GetInstance().UpdateEvent();
-	//std::cout << "~~~~~~~~~~~~~~~~~~" << std::endl;
 }
+void Physics::UpdateEvents(double dt)
+{
+	EventHandler::GetInstance().UpdateEvent();
+}
+
 
 Collider2D* Physics::CreateCircleCollider(const Vector3& _v, const float& r)
 {

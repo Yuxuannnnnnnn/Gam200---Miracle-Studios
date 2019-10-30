@@ -9,48 +9,35 @@
 #include "PrecompiledHeaders.h"
 #include "EventHandler.h"
 
+EventHandler::~EventHandler()
+{
+	ClearAllQueue();
+}
+
 void EventHandler::UpdateEvent()
 {
-	UpdateCollisionEvent();
-	UpdateStaticCollisionEvent();
+	UpdateCollided2DEvent();
+	UpdateTriggered2DEvent();
+
+	UpdateMouseClickEvent();
+	UpdateMouseHoverEvent();
 }
 
-void EventHandler::UpdateStaticCollisionEvent()
+void EventHandler::UpdateCollided2DEvent()
 {
-	for (auto it : _staticCollsionQueue)
+	Collide2DQueue tempQueue;
+
+	for (auto it = _Collide2DQueCurr.begin(); it != _Collide2DQueCurr.end();)
 	{
-		if (!it.first->_enable)
-			continue;
-
-		//object->StaticCollisionCheck(it.second);
-	}
-
-	_staticCollsionQueue.clear();
-}
-
-void EventHandler::UpdateCollisionEvent()
-{
-	std::multimap<Collider2D*, Collider2D*> tempQueue;
-
-
-	for (auto it = _collisionQueueCurr.begin(); it != _collisionQueueCurr.end();)
-	{
-		if (!it->first->_enable)
-		{
-			++it;
-			continue;
-		}
 
 		bool incement = true;
 
-		auto range = _collisionQueuePre.equal_range(it->first);
+		auto range = _Collide2DQuePre.equal_range(it->first);
 
 		for (auto it2 = range.first; it2 != range.second; ++it2)
 		{
 			if (it->second == it2->second)
 			{
-				if (!it2->first->_enable)
-					continue;
 
 				/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 				if (object)
@@ -58,9 +45,9 @@ void EventHandler::UpdateCollisionEvent()
 
 				tempQueue.insert(*it);
 
-				RemoveCollisionEventPre(it2->first, it2->second);
-				RemoveCollisionEventCurr(it->first, it->second);
-				it = _collisionQueueCurr.begin();
+				RemoveCollided2DEvent(_Collide2DQuePre, it2->first, it2->second);
+				RemoveCollided2DEvent(_Collide2DQueCurr, it->first, it->second);
+				it = _Collide2DQueCurr.begin();
 				incement = false;
 				break;
 			}
@@ -70,33 +57,23 @@ void EventHandler::UpdateCollisionEvent()
 			++it;
 	}
 
-	for (auto it = _collisionQueuePre.begin(); it != _collisionQueuePre.end();)
+	for (auto it = _Collide2DQuePre.begin(); it != _Collide2DQuePre.end();)
 	{
-		if (!it->first->_enable)
-		{
-			++it;
-			continue;
-		}
-
 		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 		if (object)
 			object->OnCollision2DExit(it->second);*/
 		//object->OnCollisionExit(it->second);
 
-		RemoveCollisionEventPre(it->first, it->second);
+		RemoveCollided2DEvent(_Collide2DQuePre, it->first, it->second);
 
-		it = _collisionQueuePre.begin();
+		it = _Collide2DQuePre.begin();
 	}
 
 
 
-	for (auto it = _collisionQueueCurr.begin(); it != _collisionQueueCurr.end();)
+	for (auto it = _Collide2DQueCurr.begin(); it != _Collide2DQueCurr.end();)
 	{
-		if (!it->first->_enable)
-		{
-			++it;
-			continue;
-		}
+
 
 		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 		if (object)
@@ -105,39 +82,34 @@ void EventHandler::UpdateCollisionEvent()
 
 		tempQueue.insert(*it);
 
-		RemoveCollisionEventCurr(it->first, it->second);
+		RemoveCollided2DEvent(_Collide2DQueCurr, it->first, it->second);
 
-		it = _collisionQueueCurr.begin();
+		it = _Collide2DQueCurr.begin();
 	}
 
-	_collisionQueuePre.clear();
+	_Collide2DQuePre.clear();
 
-	_collisionQueuePre = tempQueue;
+	_Collide2DQuePre = tempQueue;
 
-	_collisionQueueCurr.clear();
+	_Collide2DQueCurr.clear();
 }
 
 
-void EventHandler::AddCollisionEvent(Collider2D& first, Collider2D& second)
+void EventHandler::AddCollided2DEvent(Collider2D& first, Collider2D& second)
 {
-	_collisionQueueCurr.insert({ &first ,&second });
+	_Collide2DQueCurr.insert({ &first ,&second });
 }
 
-void EventHandler::AddStaticCollisionEvent(Collider2D& first, int second)
+void EventHandler::RemoveCollided2DEvent(Collide2DQueue& queue, Collider2D* first, Collider2D* second)
 {
-	_staticCollsionQueue.insert({ &first, second });
-}
-
-void EventHandler::RemoveCollisionEventPre(Collider2D* first, Collider2D* second)
-{
-	auto range = _collisionQueuePre.equal_range(first);
+	auto range = queue.equal_range(first);
 
 	for (auto it2 = range.first; it2 != range.second;)
 	{
 		if (it2->second == second)
 		{
-			_collisionQueuePre.erase(it2);
-			range = _collisionQueuePre.equal_range(first);
+			queue.erase(it2);
+			range = queue.equal_range(first);
 			it2 = range.first;
 		}
 		else
@@ -147,17 +119,91 @@ void EventHandler::RemoveCollisionEventPre(Collider2D* first, Collider2D* second
 	}
 }
 
-void EventHandler::RemoveCollisionEventCurr(Collider2D* first, Collider2D* second)
+void EventHandler::UpdateTriggered2DEvent()
 {
-	auto range = _collisionQueueCurr.equal_range(first);
+	Collide2DQueue tempQueue;
+
+	for (auto it = _Trigger2DQueCurr.begin(); it != _Trigger2DQueCurr.end();)
+	{
+
+		bool incement = true;
+
+		auto range = _Trigger2DQuePre.equal_range(it->first);
+
+		for (auto it2 = range.first; it2 != range.second; ++it2)
+		{
+			if (it->second == it2->second)
+			{
+				/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+				if (object)
+					object->OnCollision2DStay(it->second);*/
+
+				tempQueue.insert(*it);
+
+				RemoveTriggered2DEvent(_Trigger2DQuePre, it2->first, it2->second);
+				RemoveTriggered2DEvent(_Trigger2DQueCurr, it->first, it->second);
+				it = _Trigger2DQueCurr.begin();
+				incement = false;
+				break;
+			}
+		}
+
+		if (incement)
+			++it;
+	}
+
+	for (auto it = _Trigger2DQuePre.begin(); it != _Trigger2DQuePre.end();)
+	{
+
+		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DExit(it->second);*/
+			//object->OnCollisionExit(it->second);
+
+		RemoveTriggered2DEvent(_Trigger2DQuePre, it->first, it->second);
+
+		it = _Trigger2DQuePre.begin();
+	}
+
+
+
+	for (auto it = _Trigger2DQueCurr.begin(); it != _Trigger2DQueCurr.end();)
+	{
+
+		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DTrigger(it->second);*/
+			//object->OnCollisionTrigger(it->second);
+
+		tempQueue.insert(*it);
+
+		RemoveTriggered2DEvent(_Trigger2DQueCurr, it->first, it->second);
+
+		it = _Trigger2DQueCurr.begin();
+	}
+
+	_Trigger2DQuePre.clear();
+
+	_Trigger2DQuePre = tempQueue;
+
+	_Trigger2DQueCurr.clear();
+}
+
+void EventHandler::AddTriggered2DEvent(Collider2D& first, Collider2D& second)
+{
+	_Trigger2DQueCurr.insert({ &first ,&second });
+}
+
+void EventHandler::RemoveTriggered2DEvent(Collide2DQueue& queue, Collider2D* first, Collider2D* second)
+{
+	auto range = queue.equal_range(first);
 
 	for (auto it2 = range.first; it2 != range.second;)
 	{
 		if (it2->second == second)
 		{
-			_collisionQueueCurr.erase(it2);
-
-			range = _collisionQueueCurr.equal_range(first);
+			queue.erase(it2);
+			range = queue.equal_range(first);
 			it2 = range.first;
 		}
 		else
@@ -165,11 +211,145 @@ void EventHandler::RemoveCollisionEventCurr(Collider2D* first, Collider2D* secon
 			++it2;
 		}
 	}
+}
+
+void EventHandler::UpdateMouseClickEvent()
+{
+	MouseQueue tempQueue;
+
+	for (auto it = _MouseClickQueCurr.begin(); it != _MouseClickQueCurr.end();)
+	{
+		MouseQueue::iterator it2 = _MouseClickQuePre.find(*it);
+
+		if (it2 != _MouseClickQuePre.end())
+		{
+			tempQueue.insert(*it);
+		}
+	}
+
+	for (auto it = tempQueue.begin(); it != tempQueue.end();)
+	{
+		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DStay(it->second);*/
+
+		RemoveMouseHoverEvent(_MouseClickQuePre, *it);
+		RemoveMouseHoverEvent(_MouseClickQueCurr, *it);
+	}
+
+
+	for (auto it = _MouseClickQuePre.begin(); it != _MouseClickQuePre.end();)
+	{
+
+		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DExit(it->second);*/
+			//object->OnCollisionExit(it->second);
+	}
+
+
+
+	for (auto it = _MouseClickQueCurr.begin(); it != _MouseClickQueCurr.end();)
+	{
+		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DTrigger(it->second);*/
+			//object->OnCollisionTrigger(it->second);
+
+		tempQueue.insert(*it);
+	}
+
+	_MouseClickQuePre.clear();
+
+	_MouseClickQuePre = tempQueue;
+
+	_MouseClickQueCurr.clear();
+}
+
+void EventHandler::AddMouseClickEvent(size_t id)
+{
+	_MouseClickQueCurr.insert(id);
+}
+
+void EventHandler::RemoveMouseClickEvent(MouseQueue& queue, size_t id)
+{
+	queue.erase(id);
+}
+
+void EventHandler::UpdateMouseHoverEvent()
+{
+	MouseQueue tempQueue;
+
+	for (auto it = _MouseHoverQueCurr.begin(); it != _MouseHoverQueCurr.end();)
+	{
+		MouseQueue::iterator it2 = _MouseClickQuePre.find(*it);
+
+		if (it2 != _MouseClickQuePre.end())
+		{
+			tempQueue.insert(*it);
+		}
+	}
+
+	for (auto it = tempQueue.begin(); it != tempQueue.end();)
+	{
+		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DStay(it->second);*/
+
+		RemoveMouseHoverEvent(_MouseClickQuePre, *it);
+		RemoveMouseHoverEvent(_MouseHoverQueCurr, *it);
+	}
+
+
+	for (auto it = _MouseClickQuePre.begin(); it != _MouseClickQuePre.end();)
+	{
+
+		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DExit(it->second);*/
+			//object->OnCollisionExit(it->second);
+	}
+
+
+
+	for (auto it = _MouseHoverQueCurr.begin(); it != _MouseHoverQueCurr.end();)
+	{
+		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
+		if (object)
+			object->OnCollision2DTrigger(it->second);*/
+			//object->OnCollisionTrigger(it->second);
+
+		tempQueue.insert(*it);
+	}
+
+	_MouseClickQuePre.clear();
+
+	_MouseClickQuePre = tempQueue;
+
+	_MouseHoverQueCurr.clear();
+}
+
+void EventHandler::AddMouseHoverEvent(size_t id)
+{
+	_MouseHoverQueCurr.insert(id);
+}
+
+void EventHandler::RemoveMouseHoverEvent(MouseQueue& queue, size_t id)
+{
+	queue.erase(id);
 }
 
 void EventHandler::ClearAllQueue()
 {
-	_collisionQueuePre.clear();
-	_collisionQueueCurr.clear();
-	_staticCollsionQueue.clear();
+	_Collide2DQuePre.clear();
+	_Collide2DQueCurr.clear();
+	
+	_Trigger2DQuePre.clear();
+	_Trigger2DQueCurr.clear();
+
+	_MouseClickQuePre.clear();
+	_MouseClickQueCurr.clear();
+
+	_MouseHoverQuePre.clear();
+	_MouseHoverQueCurr.clear();
 }

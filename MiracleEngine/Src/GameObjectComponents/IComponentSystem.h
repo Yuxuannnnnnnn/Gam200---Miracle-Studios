@@ -2,7 +2,7 @@
 #include <string>
 #include "PrecompiledHeaders.h"
 
-enum class TypeIdSiblingComp { // direct copy of the one in GameObject
+enum class TypeIdComponent {
 	TRANSFORMCOMPONENT = 0,
 	GRAPHICSCOMPONENT = 1,
 	RIGIDBODYCOMPONENT = 2,
@@ -15,14 +15,21 @@ class GameObject; // forward declaration
 
 class IComponentSystem
 {
+private:
+
+	GameObject* _ParentPtr;
+	size_t _ParentId;
+
 public:
-	GameObject* _ParentPtr{ nullptr };
-	size_t _ParentId{ 0 };
+
+	IComponentSystem();
 
 	virtual std::string ComponentName() const;
 
 	size_t GetParentId() const;
+	void SetParentId(size_t inVal);
 	GameObject* GetParentPtr();
+	void SetParentPtr(GameObject* inVal);
 	IComponentSystem* GetSibilingComponent(unsigned _componentId);
 };
 

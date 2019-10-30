@@ -9,16 +9,26 @@ namespace Script_1 {
 }
 
 namespace Script_2 {
-	void Update()
+	void Update(LogicComponent* parent)
 	{
-		std::cout << "SCRIPT - 2" << std::endl;
+		std::cout << "SCRIPT - 2" << "\t :: \t";
+		TransformComponent* temp = (TransformComponent*)parent->GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT);
+		Vector3 tempVec = temp->GetPos();
+		std::cout << tempVec._x << ",";		
+		tempVec._x += 1;
+		temp->GetPos() = tempVec;
+		std::cout << tempVec._x;
+
+		RigidBody2D* tempOne = (RigidBody2D*)parent->GetSibilingComponent((unsigned)TypeIdComponent::RIGIDBODYCOMPONENT);
+		std::cout << "\t ~ " << tempOne->_angle;
+		std::cout << std::endl;
 	}
 }
 
 namespace Script_HealthMinus {
 	void Update(int& health, int changeVal)
 	{
-		std::cout << "SCRIPT - 321212" << std::endl;
+		std::cout << "SCRIPT - HealthMinus" << std::endl;
 	}
 }
 

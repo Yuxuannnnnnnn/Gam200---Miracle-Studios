@@ -11,7 +11,7 @@
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
 #include "GameObjectComponents/PhysicsComponents/RigidBodyComponent.h"
 #include "GameObjectComponents/PhysicsComponents/PhysicsComponent.h"
-#include "GameObjectComponents/LogicComponent.h"
+#include "GameObjectComponents/LogicComponents/LogicComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
 
 #include "PhysicSystem/CollisionComponent/Collider2D.h"
@@ -60,16 +60,6 @@ inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const
 	}
 }
 
-enum class TypeIdComponent {
-	TRANSFORMCOMPONENT = 0,
-	GRAPHICSCOMPONENT = 1,
-	RIGIDBODYCOMPONENT = 2,
-	COLLIDERCOMPONENT = 3,
-	LOGICCOMPONENT = 4,
-	AUDIOCOMPONENT = 5
-};
-
-
 //inline const char* ToString(TypeIdComponent type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui
 //{
 //	switch (type)
@@ -89,18 +79,20 @@ typedef std::unordered_map < unsigned, IComponentSystem* > Map_ComponentList;
 
 class GameObject
 {
-public:
+private:
+
 	Map_ComponentList _ComponentList; // Component List
-
 	unsigned _typeId; // GameObject Type
-
 	size_t _uId; // Unique ID
+
+public:
 
 	GameObject(size_t uId, unsigned typeId = 0); // Ctor : Inits w/ a Unique id
 
 	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
 
 	virtual unsigned GameObjectType() const; // Return GameObjectType Name
+	unsigned Get_typeId() const; // Return _typeId;
 	size_t Get_uID() const; // Return _uId
 
 	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }			// InUpEx
@@ -113,7 +105,7 @@ public:
 		return _ComponentList;
 	}
 
-// Components
+// Components<unsi
 	IComponentSystem* addcomponent(TypeIdComponent componentType); 	// DEPRECATED - Add a specific component to the GameObject
 
 	void SerialAddComponent // AddComponent for during Serialisation
@@ -121,6 +113,8 @@ public:
 
 	void CopyComponent // Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
 		(Map_ComponentList& original);
+
+	IComponentSystem* GetComponent(TypeIdComponent typeId); // GetChildComponent
 
 // Cloning
 	virtual GameObject* Clone(size_t uId);
