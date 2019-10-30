@@ -23,7 +23,7 @@ private:
 
 public:
 	GraphicComponent();
-	~GraphicComponent();
+	virtual ~GraphicComponent();
 
 	std::string ComponentName() const override;
 

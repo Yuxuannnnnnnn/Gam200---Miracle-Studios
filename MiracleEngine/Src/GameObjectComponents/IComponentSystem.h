@@ -26,6 +26,7 @@ private:
 public:
 
 	IComponentSystem();
+	virtual ~IComponentSystem() {}
 
 	virtual std::string ComponentName() const;
 
