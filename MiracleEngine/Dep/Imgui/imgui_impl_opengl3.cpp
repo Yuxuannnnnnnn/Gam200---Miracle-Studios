@@ -1,10 +1,10 @@
 // dear imgui: Renderer for modern OpenGL with shaders / programmatic pipeline
-// - Desktop GL: 2.x 3.x 4.x
+// - Desktop GL: 3.x 4.x
 // - Embedded GL: ES 2.0 (WebGL 1.0), ES 3.0 (WebGL 2.0)
 // This needs to be used along with a Platform Binding (e.g. GLFW, SDL, Win32, custom..)
 
 // Implemented features:
-//  [X] Renderer: User texture binding. Use 'GLuint' OpenGL texture identifier as void*/ImTextureID. Read the FAQ about ImTextureID!
+//  [X] Renderer: User texture binding. Use 'GLuint' OpenGL texture identifier as void*/ImTextureID. Read the FAQ about ImTextureID in imgui.cpp.
 //  [X] Renderer: Multi-viewport support. Enable with 'io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable'.
 //  [x] Renderer: Desktop GL only: Support for large meshes (64k+ vertices) with 16-bits indices.
 
@@ -15,8 +15,6 @@
 // CHANGELOG
 // (minor and older changes stripped away, please see git history for details)
 //  2019-XX-XX: Platform: Added support for multiple windows via the ImGuiPlatformIO interface.
-//  2019-09-22: OpenGL: Detect default GL loader using __has_include compiler facility.
-//  2019-09-16: OpenGL: Tweak initialization code to allow application calling ImGui_ImplOpenGL3_CreateFontsTexture() before the first NewFrame() call.
 //  2019-05-29: OpenGL: Desktop GL only: Added support for large mesh (64K+ vertices), enable ImGuiBackendFlags_RendererHasVtxOffset flag.
 //  2019-04-30: OpenGL: Added support for special ImDrawCallback_ResetRenderState callback to reset render state.
 //  2019-03-29: OpenGL: Not calling glBindBuffer more than necessary in the render loop.
@@ -82,21 +80,12 @@
 // Auto-detect GL version
 #if !defined(IMGUI_IMPL_OPENGL_ES2) && !defined(IMGUI_IMPL_OPENGL_ES3)
 #if (defined(__APPLE__) && (TARGET_OS_IOS || TARGET_OS_TV)) || (defined(__ANDROID__))
-#define IMGUI_IMPL_OPENGL_ES3           // iOS, Android  -> GL ES 3, "#version 300 es"
-#undef IMGUI_IMPL_OPENGL_LOADER_GL3W
-#undef IMGUI_IMPL_OPENGL_LOADER_GLEW
-#undef IMGUI_IMPL_OPENGL_LOADER_GLAD
-#undef IMGUI_IMPL_OPENGL_LOADER_CUSTOM
+#define IMGUI_IMPL_OPENGL_ES3       // iOS, Android  -> GL ES 3, "#version 300 es"
 #elif defined(__EMSCRIPTEN__)
-#define IMGUI_IMPL_OPENGL_ES2           // Emscripten    -> GL ES 2, "#version 100"
-#undef IMGUI_IMPL_OPENGL_LOADER_GL3W
-#undef IMGUI_IMPL_OPENGL_LOADER_GLEW
-#undef IMGUI_IMPL_OPENGL_LOADER_GLAD
-#undef IMGUI_IMPL_OPENGL_LOADER_CUSTOM
+#define IMGUI_IMPL_OPENGL_ES2       // Emscripten    -> GL ES 2, "#version 100"
 #endif
 #endif
 
-// GL includes
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #elif defined(IMGUI_IMPL_OPENGL_ES3)
@@ -111,7 +100,6 @@
 //  Helper libraries are often used for this purpose! Here we are supporting a few common ones (gl3w, glew, glad).
 //  You may use another loader/header of your choice (glext, glLoadGen, etc.), or chose to manually implement your own.
 #if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
-#include <GL/gl3w.h>    // Needs to be initialized with gl3wInit() in user's code
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
 #include <GL/glew.h>    // Needs to be initialized with glewInit() in user's code
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
@@ -166,23 +154,6 @@ bool    ImGui_ImplOpenGL3_Init(const char* glsl_version)
     strcpy(g_GlslVersionString, glsl_version);
     strcat(g_GlslVersionString, "\n");
 
-    // Dummy construct to make it easily visible in the IDE and debugger which GL loader has been selected.
-    // The code actually never uses the 'gl_loader' variable! It is only here so you can read it!
-    // If auto-detection fails or doesn't select the same GL loader file as used by your application,
-    // you are likely to get a crash below.
-    // You can explicitly select a loader by using '#define IMGUI_IMPL_OPENGL_LOADER_XXX' in imconfig.h or compiler command-line.
-    const char* gl_loader = "Unknown";
-    IM_UNUSED(gl_loader);
-#if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
-    gl_loader = "GL3W";
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
-    gl_loader = "GLEW";
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-    gl_loader = "GLAD";
-#else // IMGUI_IMPL_OPENGL_LOADER_CUSTOM
-    gl_loader = "Custom";
-#endif
-
     // Make a dummy GL call (we don't actually need the result)
     // IF YOU GET A CRASH HERE: it probably means that you haven't initialized the OpenGL function loader used by this code.
     // Desktop OpenGL 3/4 need a function loader. See the IMGUI_IMPL_OPENGL_LOADER_xxx explanation above.
@@ -203,7 +174,7 @@ void    ImGui_ImplOpenGL3_Shutdown()
 
 void    ImGui_ImplOpenGL3_NewFrame()
 {
-    if (!g_ShaderHandle)
+    if (!g_FontTexture)
         ImGui_ImplOpenGL3_CreateDeviceObjects();
 }
 
@@ -219,7 +190,7 @@ static void ImGui_ImplOpenGL3_SetupRenderState(ImDrawData* draw_data, int fb_wid
 #ifdef GL_POLYGON_MODE
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
-
+    
     // Setup viewport, orthographic projection matrix
     // Our visible imgui space lies from draw_data->DisplayPos (top left) to draw_data->DisplayPos+data_data->DisplaySize (bottom right). DisplayPos is (0,0) for single viewport apps.
     glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
@@ -256,7 +227,6 @@ static void ImGui_ImplOpenGL3_SetupRenderState(ImDrawData* draw_data, int fb_wid
     glVertexAttribPointer(g_AttribLocationVtxUV,    2, GL_FLOAT,         GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, uv));
     glVertexAttribPointer(g_AttribLocationVtxColor, 4, GL_UNSIGNED_BYTE, GL_TRUE,  sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
 }
-
 // OpenGL3 Render function.
 // (this used to be set in io.RenderDrawListsFn and called by ImGui::Render(), but you can now call this directly from your main loop)
 // Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly, in order to be able to run within any OpenGL engine that doesn't do so.
@@ -349,7 +319,9 @@ void    ImGui_ImplOpenGL3_RenderDrawData(ImDrawData* draw_data)
                 {
                     // Apply scissor/clipping rectangle
                     if (clip_origin_lower_left)
+                    {
                         glScissor((int)clip_rect.x, (int)(fb_height - clip_rect.w), (int)(clip_rect.z - clip_rect.x), (int)(clip_rect.w - clip_rect.y));
+                    }
                     else
                         glScissor((int)clip_rect.x, (int)clip_rect.y, (int)clip_rect.z, (int)clip_rect.w); // Support for GL 4.5 rarely used glClipControl(GL_UPPER_LEFT)
 
@@ -652,13 +624,20 @@ bool    ImGui_ImplOpenGL3_CreateDeviceObjects()
 
 void    ImGui_ImplOpenGL3_DestroyDeviceObjects()
 {
-    if (g_VboHandle)        { glDeleteBuffers(1, &g_VboHandle); g_VboHandle = 0; }
-    if (g_ElementsHandle)   { glDeleteBuffers(1, &g_ElementsHandle); g_ElementsHandle = 0; }
-    if (g_ShaderHandle && g_VertHandle) { glDetachShader(g_ShaderHandle, g_VertHandle); }
-    if (g_ShaderHandle && g_FragHandle) { glDetachShader(g_ShaderHandle, g_FragHandle); }
-    if (g_VertHandle)       { glDeleteShader(g_VertHandle); g_VertHandle = 0; }
-    if (g_FragHandle)       { glDeleteShader(g_FragHandle); g_FragHandle = 0; }
-    if (g_ShaderHandle)     { glDeleteProgram(g_ShaderHandle); g_ShaderHandle = 0; }
+    if (g_VboHandle) glDeleteBuffers(1, &g_VboHandle);
+    if (g_ElementsHandle) glDeleteBuffers(1, &g_ElementsHandle);
+    g_VboHandle = g_ElementsHandle = 0;
+
+    if (g_ShaderHandle && g_VertHandle) glDetachShader(g_ShaderHandle, g_VertHandle);
+    if (g_VertHandle) glDeleteShader(g_VertHandle);
+    g_VertHandle = 0;
+
+    if (g_ShaderHandle && g_FragHandle) glDetachShader(g_ShaderHandle, g_FragHandle);
+    if (g_FragHandle) glDeleteShader(g_FragHandle);
+    g_FragHandle = 0;
+
+    if (g_ShaderHandle) glDeleteProgram(g_ShaderHandle);
+    g_ShaderHandle = 0;
 
     ImGui_ImplOpenGL3_DestroyFontsTexture();
 }

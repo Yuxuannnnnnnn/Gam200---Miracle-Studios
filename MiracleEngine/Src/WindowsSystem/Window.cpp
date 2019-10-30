@@ -12,7 +12,7 @@
 //WindowsSystem Constructor
 Window::Window(HINSTANCE hInstance, int nCmdShow)
 {
-	ImGui_ImplWin32_EnableDpiAwareness();
+	ImGui_ImplWin32_EnableDpiAwareness(); //For Imgui Viewport Setting enable
 
 	// Initialize global strings
 	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -150,7 +150,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
-
+		
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -215,7 +215,7 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 //WS_CLIPSIBLINGS: Same for child windows - relative to each other.
 	DWORD dwStyle = WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW;
 	dwStyle &= ~WS_SIZEBOX;
-	dwStyle &= ~WS_MAXIMIZEBOX;
+	//dwStyle &= ~WS_MAXIMIZEBOX; //Disables Max screen
 
 	ScreenSize temp; // temp object for reading in info
 	temp.FileRead_StartUp();
@@ -247,7 +247,65 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 }
 
 
+/*
+void Window::SetFullscreenImpl(bool fullscreen, bool for_metro) 
+{
+	ScopedFullscreenVisibility visibility(hwnd_);
 
+	// Save current window state if not already fullscreen.
+	if (!fullscreen_) {
+		// Save current window information.  We force the window into restored mode
+		// before going fullscreen because Windows doesn't seem to hide the
+		// taskbar if the window is in the maximized state.
+		saved_window_info_.maximized = !!::IsZoomed(hwnd_);
+		if (saved_window_info_.maximized)
+			::SendMessage(hwnd_, WM_SYSCOMMAND, SC_RESTORE, 0);
+		saved_window_info_.style = GetWindowLong(hwnd_, GWL_STYLE);
+		saved_window_info_.ex_style = GetWindowLong(hwnd_, GWL_EXSTYLE);
+		GetWindowRect(hwnd_, &saved_window_info_.window_rect);
+	}
+
+	fullscreen_ = fullscreen;
+
+	if (fullscreen_) {
+		// Set new window style and size.
+		SetWindowLong(hwnd_, GWL_STYLE,
+			saved_window_info_.style & ~(WS_CAPTION | WS_THICKFRAME));
+		SetWindowLong(hwnd_, GWL_EXSTYLE,
+			saved_window_info_.ex_style & ~(WS_EX_DLGMODALFRAME |
+				WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
+
+		// On expand, if we're given a window_rect, grow to it, otherwise do
+		// not resize.
+		if (!for_metro) {
+			MONITORINFO monitor_info;
+			monitor_info.cbSize = sizeof(monitor_info);
+			GetMonitorInfo(MonitorFromWindow(hwnd_, MONITOR_DEFAULTTONEAREST),
+				&monitor_info);
+			gfx::Rect window_rect(monitor_info.rcMonitor);
+			SetWindowPos(hwnd_, NULL, window_rect.x(), window_rect.y(),
+				window_rect.width(), window_rect.height(),
+				SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+		}
+	}
+	else {
+		// Reset original window style and size.  The multiple window size/moves
+		// here are ugly, but if SetWindowPos() doesn't redraw, the taskbar won't be
+		// repainted.  Better-looking methods welcome.
+		SetWindowLong(hwnd_, GWL_STYLE, saved_window_info_.style);
+		SetWindowLong(hwnd_, GWL_EXSTYLE, saved_window_info_.ex_style);
+
+		if (!for_metro) {
+			// On restore, resize to the previous saved rect size.
+			gfx::Rect new_rect(saved_window_info_.window_rect);
+			SetWindowPos(hwnd_, NULL, new_rect.x(), new_rect.y(),
+				new_rect.width(), new_rect.height(),
+				SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+		}
+		if (saved_window_info_.maximized)
+			::SendMessage(hwnd_, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+	}
+}*/
 
 
 //Getter function

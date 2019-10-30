@@ -52,6 +52,7 @@ void Engine::Update()
 			if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
 			{
 				_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
+				return;
 			}
 
 			_inputSystem->Update(_windowSystem->getWindow());
@@ -121,6 +122,7 @@ int Engine::Exit()
 
 	delete _imguiSystem; //Shutdown ImGui System
 
+	delete _windowSystem;
 
 
 	return (int)_windowSystem->Get_msg().wParam;
