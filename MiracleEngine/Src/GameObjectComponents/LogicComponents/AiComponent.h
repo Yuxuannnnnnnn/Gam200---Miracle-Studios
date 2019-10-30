@@ -3,13 +3,16 @@
 #include "GameObjectComponents/IComponentSystem.h"
 #include "LogicSystem/AiSystem.h"
 
+#ifndef AICOMPONENT_H
+#define	AICOMPONENT_H
+
 enum class AiState { // state for FSM
 	IDLE = 0,
 	MOVING,
 	ATTACKING,
 };
 
-struct Node; // forward declare from AiSys>PathFinding
+class Node; // forward declare from 'AiSys>PathFinding'
 
 class AiComponent : public IComponentSystem
 {
@@ -34,3 +37,5 @@ public:
 // Move using path (toward _destination)
 	void Move();
 };
+
+#endif

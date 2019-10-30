@@ -120,6 +120,9 @@ GameObject* GameObjectFactory::CloneGameObject(TypeIdGO gameObjectTypeID)	//Crea
 	case TypeIdGO::WALL:
 		temp = _prototypes.GetPrototypeList()[TypeIdGO::WALL]->Clone(_uId);
 		break;
+	case TypeIdGO::BULLET:
+		temp = _prototypes.GetPrototypeList()[TypeIdGO::BULLET]->Clone(_uId);
+		break;
 	default:
 		break;
 	}

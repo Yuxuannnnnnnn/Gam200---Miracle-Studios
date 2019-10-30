@@ -17,7 +17,7 @@ public:
 	LogicSystem& operator=(const LogicSystem& rhs) = delete;
 // InUpEx
 	void Init();
-	void Update(const std::unordered_map < size_t, LogicComponent* >& lcmap);
+	void Update(const std::unordered_map < size_t, LogicComponent* >& lcmap, GameObjectFactory* factory);
 	void Exit();
 // Others
 	// add GO to list

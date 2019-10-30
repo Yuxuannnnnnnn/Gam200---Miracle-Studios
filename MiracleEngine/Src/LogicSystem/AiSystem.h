@@ -1,6 +1,9 @@
 #pragma once
 #include "PrecompiledHeaders.h"
 
+#ifndef AISYSTEM_H
+#define	AISYSTEM_H
+
 class AiComponent; // forward decalre from AiComp, cause we need to throw the map of AiComps
 
 class Node {
@@ -40,3 +43,5 @@ public:
 
 	}
 };
+
+#endif

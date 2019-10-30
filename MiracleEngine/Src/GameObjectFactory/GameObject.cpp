@@ -130,6 +130,8 @@ void GameObject::SerialAddComponent
 		JsonDynamicStore(((LogicComponent*)temp)->GetHealth(), s);
 		s = d["Speed"];
 		JsonDynamicStore(((LogicComponent*)temp)->GetSpeed(), s);
+		s = d["Lifetime"];
+		JsonDynamicStore(((LogicComponent*)temp)->GetLifetime(), s);
 		break;
 
 	case TypeIdComponent::AUDIOCOMPONENT:		std::cout << "Audio";
@@ -267,8 +269,6 @@ void GameObject::SerialInPrefab_Player()
 //Serialisation Check
 	PrintStats_Player();
 }
-
-
 void GameObject::PrintStats_Player() {
 	IComponentSystem* temp = nullptr;
 	std::string a;
@@ -413,10 +413,6 @@ void GameObject::SerialInPrefab_Wall()
 //Serialisation Check
 	PrintStats_Wall();
 }
-
-
-
-
 void GameObject::PrintStats_Wall() {
 	IComponentSystem* temp = nullptr;
 	temp = _ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];
@@ -440,4 +436,71 @@ void GameObject::PrintStats_Wall() {
 		<< "-------------------------------------" << std::endl
 		<< "-------------------------------------" << std::endl
 		<< std::endl;
+}
+
+void GameObject::SerialInPrefab_Bullet()
+{
+	// Get & Parse File
+	std::cout << std::endl
+		<< "-------------------------------------" << std::endl
+		<< "FilePrint_BulletInfo ----------------" << std::endl;
+
+	rapidjson::Document d;
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/GameObjects/Bullet.json");
+	ASSERT(iBuffer != nullptr);
+
+	//std::cout << iBuffer << std::endl; // show buffer, use to check
+	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);
+
+	// Component List
+	rapidjson::Value& s = d["ComponentList"];
+	std::vector<int> compList;
+	JsonDynamicStore(compList, s);
+	std::vector<int>::iterator itr = compList.begin();
+	while (itr != compList.end())
+		SerialAddComponent((TypeIdComponent)* itr++, s, d);
+	// Other Values
+				//s = d["Weapons"];
+				//JsonDynamicStore(_WeaponListId, s);
+				// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
+	std::cout << "-------------------------------------" << std::endl;
+	delete[] iBuffer;
+	//Serialisation Check
+	PrintStats_Bullet();
+}
+void GameObject::PrintStats_Bullet() {
+	IComponentSystem* temp = nullptr;
+	std::string a;
+	temp = _ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT];
+	std::cout
+		<< "FilePrint_BulletInfo ---------------" << std::endl
+		<< "- Trans.Pos         : " << ((TransformComponent*)temp)->GetPos() << std::endl
+		<< "- Trans.Sca         : " << ((TransformComponent*)temp)->GetScale() << std::endl
+		<< "- Trans.Rot         : " << ((TransformComponent*)temp)->GetRotate() << std::endl;
+	temp = _ComponentList[(unsigned)TypeIdComponent::GRAPHICSCOMPONENT];
+	std::cout
+		<< "- Graphics.typeId   : " << ((GraphicComponent*)temp)->GetTypeId() << std::endl
+		<< "- Graphics.filename : " << ((GraphicComponent*)temp)->GetFileName() << std::endl;
+	temp = _ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT];
+	std::cout
+		<< "- RBod.Mass         : " << ((RigidBody2D*)temp)->_mass << std::endl
+		<< "- RBod.Friction     : " << ((RigidBody2D*)temp)->_fictionVal << std::endl
+		<< "- RBod.Static       : " << ((RigidBody2D*)temp)->_static << std::endl;
+	temp = _ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT];
+	std::cout
+		<< "- Collider.TypId    : " << ((Collider2D*)temp)->_type << std::endl;
+	temp = _ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT];
+	std::cout
+		<< "- Logic.Health      : " << ((LogicComponent*)temp)->GetHealth() << std::endl
+		<< "- Logic.Speed       : " << ((LogicComponent*)temp)->GetSpeed() << std::endl
+		<< "- Logic.Lifetime    : " << ((LogicComponent*)temp)->GetLifetime() << std::endl
+		<< "- Logic.ScriptIds   : ";
+	std::vector<int> tempScriptList = ((LogicComponent*)temp)->GetScriptId();
+	std::vector<int>::iterator itr = tempScriptList.begin();
+	while (itr != tempScriptList.end())
+		std::cout << *itr++ << " ";
+	std::cout << std::endl;
+	std::cout
+		<< "-------------------------------------" << std::endl
+		<< "-------------------------------------" << std::endl;
 }

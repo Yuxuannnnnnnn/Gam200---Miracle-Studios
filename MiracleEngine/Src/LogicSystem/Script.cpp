@@ -34,6 +34,24 @@ namespace Script_HealthMinus {
 
 
 
+namespace Script_Shoot {
+	void Update(GameObject* obj, GameObjectFactory* factory) // obj can be PLAYER or ENEMEY
+	{
+		std::cout << "SCRIPT - Shoot" << std::endl;
+		// get obj.transform
+		Vector3 pos =
+			((TransformComponent*)obj->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetPos();
+		float rot =
+			((TransformComponent*)obj->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetRotate();
+		// spawn bullet
+		GameObject *temp = nullptr;
+		//factory->CloneGameObject(TypeIdGO::BULLET);
+
+		// move bullet in direction of obj
+
+	}
+}
+
 
 
 //#pragma once

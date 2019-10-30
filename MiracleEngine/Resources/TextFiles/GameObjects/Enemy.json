@@ -22,6 +22,7 @@
   "ScriptId": [ 9, 6 ],
   "Health": 5,
   "Speed": 1,
+  "Lifetime": -1,
   
   "COMPONENT 5": "AUDIO",
   "A.TypeId": 0,

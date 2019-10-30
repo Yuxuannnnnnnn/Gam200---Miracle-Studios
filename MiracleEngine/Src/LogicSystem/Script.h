@@ -2,7 +2,12 @@
 #include "PrecompiledHeaders.h"
 #include "GameObjectComponents/IComponentSystem.h" // need to be able to access other components
 
-class LogicComponent; // forward declare
+#ifndef SCRIPT_H
+#define	SCRIPT_H
+
+
+class LogicComponent; // forward declare, need to know LogicComp
+class GameObjectFactory; // forward declare, need clone bullet
 
 namespace Script_1 {
 	void Update();
@@ -94,3 +99,9 @@ namespace Script_Input {
 		}
 	}
 }
+
+namespace Script_Shoot {
+	void Update(GameObject* obj, GameObjectFactory* factory);
+}
+
+#endif

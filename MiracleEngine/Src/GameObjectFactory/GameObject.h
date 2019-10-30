@@ -84,7 +84,7 @@ private:
 
 public:
 
-	GameObject(size_t uId, unsigned typeId = 0); // Ctor : Inits w/ a Unique id
+	GameObject(size_t uId, unsigned typeId = (unsigned)TypeIdGO::NONE); // Ctor : Inits w/ a Unique id
 
 	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
 
@@ -114,7 +114,7 @@ public:
 	IComponentSystem* GetComponent(TypeIdComponent typeId); // GetChildComponent
 
 // Cloning
-	virtual GameObject* Clone(size_t uId);
+	virtual GameObject* Clone(size_t uId); // clone itself
 
 // Serialisation
 	void SerialInPrefab_Player();
