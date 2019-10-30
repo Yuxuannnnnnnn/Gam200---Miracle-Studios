@@ -26,9 +26,9 @@ class LogicComponent : public IComponentSystem
 
 public:
 	LogicComponent(size_t id = 0);
-	//~LogicComponent() = default;
-	//LogicComponent(const LogicComponent& rhs) = default;
-	//LogicComponent& operator=(const LogicComponent& rhs) = default;
+	~LogicComponent() = default;
+	LogicComponent(const LogicComponent& rhs) = default;
+	LogicComponent& operator=(const LogicComponent& rhs) = default;
 
 // CompName
 	std::string ComponentName() const override;

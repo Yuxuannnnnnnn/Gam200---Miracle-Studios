@@ -20,7 +20,6 @@ void LogicComponent::Update(GameObjectFactory* factory, GameObject* obj, InputSy
 	{
 		//std::function<void(void)> updatePtr; // dont need, just call the function directly
 		//std::function<void(int&, int)> updatePtr_Health;
-		std::cout << "GO id : " << this->GetParentId() << std::endl;
 		for (int scriptId : _scriptList)
 		{
 			switch (scriptId)

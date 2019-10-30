@@ -46,6 +46,7 @@ namespace Script_Input {
 }
 
 namespace Script_Shoot {
+	// obj can be PLAYER or ENEMEY
 	void Update(GameObject* obj, GameObjectFactory* factory);
 }
 

@@ -11,8 +11,8 @@
   "G.FileName": "sprite_player.png",
 
   "COMPONENT 2": "RIGID BODY",
-  "Mass": 10.0,
-  "Friction": 5.0,
+  "Mass": 1.0,
+  "Friction": 0.0,
   "Static": false,
 
   "COMPONENT 3": "COLLIDER",
