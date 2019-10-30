@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	ObjectAllocator.cpp
+//	ObjectAllocator.hpp
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -8,10 +8,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "PrecompiledHeaders.h"
 #include "MemoryManager.h"
-#include "ObjectAllocator.h"
 
-template<typename O, size_t T>
-ObjectAllocator<O, T>::ObjectAllocator() :
+template<typename T>
+ObjectAllocator<T>::ObjectAllocator() :
 	_PageList{ nullptr },
 	_FreeList{ nullptr },
 	_Stats{},
@@ -19,7 +18,7 @@ ObjectAllocator<O, T>::ObjectAllocator() :
 	_PageObjectOffset{ 0 },
 	_ObjectBlockSize{ 0 }
 {
-	_Stats._ObjectSize = T;
+	_Stats._ObjectSize = sizeof(ObjectTpye);
 	_Config._ObjectsPerPage = (DEFAULT_OBJECT_SIZE - sizeof(GenericObject)) / (_Stats._ObjectSize + _Config._HeaderBytes);
 
 	// update offsets
@@ -38,8 +37,8 @@ ObjectAllocator<O, T>::ObjectAllocator() :
 	CreateNewPage();
 }
 
-template<typename O, size_t T>
-ObjectAllocator<O, T>::~ObjectAllocator()
+template<typename T>
+ObjectAllocator<T>::~ObjectAllocator()
 {
 	// Check we need to create our own custom memory blocks 
 	if (_Config._UseCPPMemManager)
@@ -54,8 +53,8 @@ ObjectAllocator<O, T>::~ObjectAllocator()
 	}
 }
 
-template<typename O, size_t T>
-void* ObjectAllocator<O, T>::Allocate()
+template<typename T>
+void* ObjectAllocator<T>::Allocate()
 {
 	// Check we need to create our own custom memory blocks 
 	if (_Config._UseCPPMemManager)
@@ -98,8 +97,8 @@ void* ObjectAllocator<O, T>::Allocate()
 	return reinterpret_cast<void*>(object);
 }
 
-template<typename O, size_t T>
-void ObjectAllocator<O, T>::Free(void* Object)
+template<typename T>
+void ObjectAllocator<T>::Free(void* Object)
 {
 	// Check we need to create our own custom memory blocks 
 	if (_Config._UseCPPMemManager)
@@ -133,10 +132,10 @@ void ObjectAllocator<O, T>::Free(void* Object)
 	++_Stats._Deallocations;
 }
 
-template<typename O, size_t T>
-void ObjectAllocator<O, T>::CreateNewPage()
+template<typename T>
+void ObjectAllocator<T>::CreateNewPage()
 {
-	GenericObject* newPage = MemoryManager::GetInstance().Allocate();
+	GenericObject* newPage = reinterpret_cast<GenericObject*>(MemoryManager::GetInstance().Allocate());
 
 	if (newPage == nullptr)
 		throw MMException(MMException::MM_EXCEPTION::E_NO_MEMORY, "Memory allocation problem");
@@ -165,8 +164,8 @@ void ObjectAllocator<O, T>::CreateNewPage()
 	_Stats._FreeObjects += _Config._ObjectsPerPage;
 }
 
-template<typename O, size_t T>
-void ObjectAllocator<O, T>::FreePage(void* Page)
+template<typename T>
+void ObjectAllocator<T>::FreePage(void* Page)
 {
 	MemoryManager::GetInstance().Free(Page);
 
@@ -174,8 +173,8 @@ void ObjectAllocator<O, T>::FreePage(void* Page)
 	_Stats._FreeObjects -= _Config._ObjectsPerPage;
 }
 
-template<typename O, size_t T>
-void ObjectAllocator<O, T>::CheckInvalidObject(void* Object) const
+template<typename T>
+void ObjectAllocator<T>::CheckInvalidObject(void* Object) const
 {
 	GenericObject* page = _PageList;
 
@@ -210,8 +209,8 @@ void ObjectAllocator<O, T>::CheckInvalidObject(void* Object) const
 	throw MMException(MMException::MM_EXCEPTION::E_BAD_BOUNDARY, "Invalid object");
 }
 
-template<typename O, size_t T>
-bool ObjectAllocator<O, T>::CheckEmptyObject(void* Object) const
+template<typename T>
+bool ObjectAllocator<T>::CheckEmptyObject(void* Object) const
 {
 	unsigned char* header = reinterpret_cast<unsigned char*>(Object) - _Config._HeaderBytes;
 
@@ -221,8 +220,8 @@ bool ObjectAllocator<O, T>::CheckEmptyObject(void* Object) const
 	return true;
 }
 
-template<typename O, size_t T>
-void ObjectAllocator<O, T>::RemoveEmptyObject(void* Object)
+template<typename T>
+void ObjectAllocator<T>::RemoveEmptyObject(void* Object)
 {
 	GenericObject* objectPrev = nullptr;
 	GenericObject* objectCurr = _FreeList;
@@ -254,8 +253,8 @@ void ObjectAllocator<O, T>::RemoveEmptyObject(void* Object)
 	}
 }
 
-template<typename O, size_t T>
-unsigned ObjectAllocator<O, T>::FreeEmptyPages()
+template<typename T>
+unsigned ObjectAllocator<T>::FreeEmptyPages()
 {
 	// no page at all, if new/delete
 	if (_Config._UseCPPMemManager)

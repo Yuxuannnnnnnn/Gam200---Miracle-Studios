@@ -61,7 +61,6 @@
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\LogicSystem\AiSystem.cpp" />
-    <ClCompile Include="Src\Tools\MemoryManager\ObjectAllocator.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -423,6 +422,9 @@
     <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />
     <ClInclude Include="Src\Tools\MemoryManager\CommonBase.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.hpp" />
+    <ClInclude Include="Src\GameObjectComponents\IBase.h" />
+    <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

@@ -161,6 +161,8 @@
   <ItemGroup>
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\IBase.h" />
+    <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
     <ClInclude Include="Src\GameObjectFactory\GameObjectPrototype.h" />
     <ClInclude Include="Src\LogicSystem\AiSystem.h" />
@@ -169,6 +171,7 @@
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
     <ClInclude Include="Src\Tools\MemoryManager\CommonBase.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.hpp" />
     <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />
     <ClInclude Include="Src\WindowsSystem\ScreenSize.h" />
     <ClInclude Include="Src\WindowsSystem\Console.h" />
@@ -527,7 +530,6 @@
     <ClCompile Include="Src\LogicSystem\AiSystem.cpp" />
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
-    <ClCompile Include="Src\Tools\MemoryManager\ObjectAllocator.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
     <ClCompile Include="Src\WindowsSystem\ScreenSize.cpp" />
     <ClCompile Include="Src\WindowsSystem\Console.cpp" />

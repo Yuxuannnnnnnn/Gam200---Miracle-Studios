@@ -11,11 +11,11 @@
 
 #include "CommonBase.h"
 
-template<typename O, size_t T>
+template<typename T>
 class ObjectAllocator final
 {
 public:
-	typedef O ObjectTpye;
+	typedef T ObjectTpye;
 
 private:
 	GenericObject* _PageList; //!< the beginning of the list of pages
@@ -54,5 +54,7 @@ private:
 	void RemoveEmptyObject(void* Object);
 	
 };
+
+#include "ObjectAllocator.hpp"
 
 #endif
