@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef VERTEXBUFFER_H
+#define VERTEXBUFFER_H
+
 #include "glew.h"
 
 class VertexBuffer
@@ -16,3 +19,6 @@ private:
 	GLuint _id;
 
 };
+
+#endif
+

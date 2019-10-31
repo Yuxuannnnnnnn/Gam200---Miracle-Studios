@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef TEXTURE2D_H
+#define TEXTURE2D_H
+
 #include <string>
 #include <glew.h>
 
@@ -20,3 +23,6 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 };
+
+#endif
+

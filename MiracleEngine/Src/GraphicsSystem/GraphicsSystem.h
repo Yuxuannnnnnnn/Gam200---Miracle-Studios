@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef GRAPHICSYSTEM_H
+#define GRAPHICSYSTEM_H
+
 #include <glew.h>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -51,3 +55,6 @@ private:
 	//InstancedSystem _instancedRenderer;
 
 };
+
+#endif
+

@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef SHADER_H
+#define SHADER_H
+
 #include "glew.h"
 #include <string>
 #include <fstream>
@@ -25,3 +29,4 @@ public:
 	GLuint CompileShader(GLuint type, const std::string& source) const;
 };
 
+#endif

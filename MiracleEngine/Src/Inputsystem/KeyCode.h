@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef KEYCODE_H
+#define KEYCODE_H
+
 enum KeyCode
 {
 	NONE,
@@ -165,3 +168,6 @@ enum KeyCode
 	_VK_LAUNCH_APP1,
 	_VK_LAUNCH_APP2
 };
+
+#endif
+

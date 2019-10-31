@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef INPUTSYSTEM_H
+#define INPUTSYSTEM_H
+
 #include "KeyCode.h"
 #include <windows.h>
 #include "WindowsSystem/WindowsSystem.h"
@@ -22,3 +26,6 @@ private:
 	POINT _p;
 
 };
+
+#endif
+

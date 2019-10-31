@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef ELEMENTBUFFER_H
+#define ELEMENTBUFFER_H
+
 #include "glew.h"
 
 class ElementBuffer
@@ -15,3 +19,6 @@ private:
 	unsigned _count;
 
 };
+
+#endif
+

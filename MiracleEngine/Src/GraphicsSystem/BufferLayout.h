@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef BUFFERLAYOUT_H
+#define BUFFERLAYOUT_H
+
 #include <vector>
 #include "glew.h"
 #include "PrecompiledHeaders.h"
@@ -60,3 +63,6 @@ public:
 	inline const std::vector<VertexBufferElement> GetElements() const { return _elements; }
 	inline unsigned int GetStride() const { return _stride; }
 };
+
+#endif
+
