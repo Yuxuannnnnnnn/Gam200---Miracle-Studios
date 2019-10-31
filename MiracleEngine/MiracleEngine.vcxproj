@@ -159,8 +159,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Animation\Animation.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\FontComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
@@ -525,6 +527,7 @@
   <ItemGroup>
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\FontComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.cpp" />
