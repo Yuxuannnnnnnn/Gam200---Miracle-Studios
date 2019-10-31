@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef QUADMESH_H
+#define QUADMESH_H
+
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "Elementbuffer.h"
@@ -17,3 +20,6 @@ private:
 	VertexBuffer* _vbo;
 	ElementBuffer* _ebo;
 };
+
+#endif
+

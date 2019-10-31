@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef ANIMATION_H
+#define ANIMATION_H
+
 #include "Frame.h"
 
 class Animation
@@ -10,3 +14,6 @@ private:
 	int _textureID;
 	int _currentFrame;
 };
+
+#endif
+

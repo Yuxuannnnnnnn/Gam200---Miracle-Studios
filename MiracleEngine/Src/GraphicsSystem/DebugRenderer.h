@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef DEBUGRENDERER_H
+#define DEBUGRENDERER_H
+
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "Elementbuffer.h"
@@ -39,3 +43,6 @@ private:
 	Shader _shader{ "Src/GraphicsSystem/Shader/debug.vert", "Src/GraphicsSystem/Shader/debug.frag" };
 
 };
+
+#endif
+

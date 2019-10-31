@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef VERTEXARRAY_H
+#define VERTEXARRAY_H
+
 #include "VertexBuffer.h"
 #include "BufferLayout.h"
 
@@ -16,3 +19,6 @@ public:
 	void Select() const;
 	void UnSelect() const;
 };
+
+#endif
+

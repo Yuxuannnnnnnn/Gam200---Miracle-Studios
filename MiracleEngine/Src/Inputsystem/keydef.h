@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef KEYDEF_H
+#define KEYDEF_H
 
 /*
 * Virtual Keys, Standard Set
@@ -227,3 +229,7 @@
 #define KEYB_OR				 0xDC  /*  '\|' for US*/
 #define KEYB_SUBSCRIPT_RIGHT  0xDD  /*  ']}' for US*/
 #define KEYB_DOUBLE_QUOTE     0xDE  /*  ''"' for US*/
+
+
+#endif
+

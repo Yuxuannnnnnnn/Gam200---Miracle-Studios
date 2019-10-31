@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef TEXTUREMANAGER_H
+#define TEXTUREMANAGER_H
+
 #include <map>
 #include <string>
 
@@ -14,3 +18,6 @@ public:
 	~TextureManager();
 
 };
+
+#endif
+
