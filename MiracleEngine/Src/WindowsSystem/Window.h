@@ -40,8 +40,9 @@ public:
 	ATOM MyRegisterClass(HINSTANCE hInstance);
 	BOOL InitInstance(HINSTANCE hInstance, int nCmdShow);
 
-	HWND CreateFullscreenWindow();
-	
+	void SetFullscreenWindowMode(); //Used for In-Game Options, when Player set Game to fullscreen
+	void SetNonFullScreenWindowMode(); //Used for In-Game Options, when Player set Game to non-fullscreen
+
 
 	HWND Get_hwnd() const;					//Getter functions
 	HDC get_m_windowDC() const;				//
