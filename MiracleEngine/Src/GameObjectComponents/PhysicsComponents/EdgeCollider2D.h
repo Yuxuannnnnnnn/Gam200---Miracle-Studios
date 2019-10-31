@@ -20,19 +20,26 @@ public:
 	Vector3	m_pt1;
 	Vector3	m_normal;
 
-	EdgeCollider2D();
+public:
+	// Constructor
+	EdgeCollider2D(TransformComponent* transform = nullptr);
+	virtual ~EdgeCollider2D() {}
 
-	EdgeCollider2D(const Vector3& pos, float scale, float dir);
+	// A copy empty shell object
+	EdgeCollider2D(const EdgeCollider2D& rhs);
+	//No replication of class object
+	EdgeCollider2D& operator= (const EdgeCollider2D& rhs) = delete;
 
 	void Draw();
+	void Update();
 
 };
 
-struct Ray
-{
-	Vector3	m_pt0;
-	Vector3	m_dir;
-};
+//struct Ray
+//{
+//	Vector3	m_pt0;
+//	Vector3	m_dir;
+//};
 
 
 #endif

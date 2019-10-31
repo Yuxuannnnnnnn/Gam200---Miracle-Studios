@@ -32,6 +32,9 @@ void Engine::Update()
 			//WindowsSystem -> InputSystem -> Logic System -> Physics System -> AudioSytem -> ImguiSystem UpdateFrame -> GraphicSystem ->  ImguiSystem Render
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
+			double dt = _frameRateControl->UpdateFrameTime();
+			int accumlatedframes = _frameRateControl->GetSteps();
+
 			if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
 			{
 				_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
@@ -49,6 +52,18 @@ void Engine::Update()
 			_logicSystem->Update(_gameObjectFactory->getLogicComponent(), _gameObjectFactory, _inputSystem);
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
+			if (accumlatedframes)
+			{
+				double fixedDt = _frameRateControl->GetLockedDt();
+
+				while (accumlatedframes)
+				{
+					_physicsSystem->Update(fixedDt);
+					--accumlatedframes;
+				}
+			}
+
+
 
 			// Audio
 

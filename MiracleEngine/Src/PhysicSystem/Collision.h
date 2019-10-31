@@ -12,8 +12,6 @@
 #include "GameObjectComponents/PhysicsComponents/CircleCollider2D.h"
 #include "GameObjectComponents/PhysicsComponents/EdgeCollider2D.h"
 
-#include "../Tools/EventHandler/EventHandler.h"
-
 enum class COLLISION_TYPE {
 	BOX_BOX,
 	CIRCLE_CIRCLE,
@@ -25,9 +23,9 @@ enum class COLLISION_TYPE {
 void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, double dt);
 
 
-int BoxBox_Intersection(const BoxCollider2D& circleA,				
+int BoxBox_Intersection(const BoxCollider2D& boxA,
 	const Vector3& velA,														
-	const BoxCollider2D& circleB,												
+	const BoxCollider2D& boxB,												
 	const Vector3& velB,														
 	Vector3& interPtA,														
 	Vector3& interPtB,														
@@ -49,9 +47,9 @@ int BoxLine_Intersection(bool withinBothLines,
 	Vector3& normalAtCollision,	
 	float& interTime);
 
-int RayBox_Intersection(const Ray& ray,
-	const BoxCollider2D& circle,
-	float& interTime);
+//int RayBox_Intersection(const Ray& ray,
+//	const BoxCollider2D& circle,
+//	float& interTime);
 
 void BoxEdge_Response(const Vector3& ptInter,
 	const Vector3& normal,
@@ -77,7 +75,6 @@ void BoxBox_Response(Vector3& normal,
 	Vector3& ptEndA,
 	Vector3& reflectedVectorB,
 	Vector3& ptEndB);
-
 
 
 int CircleCircle_Intersection(const CircleCollider2D& circleA,				
@@ -107,9 +104,9 @@ int CircleLine_Intersection(bool withinBothLines,
 	Vector3& normalAtCollision,												
 	float& interTime);														
 
-int RayCircle_Intersection(const Ray& ray,							
+/*int RayCircle_Intersection(const Ray& ray,							
 	const CircleCollider2D& circle,												
-	float& interTime);													
+	float& interTime);		*/											
 
 
 void CircleEdge_Response(const Vector3& ptInter,				
@@ -136,5 +133,27 @@ void CircleCircle_Response(Vector3& normal,
 	Vector3& ptEndA,														
 	Vector3& reflectedVectorB,
 	Vector3& ptEndB);														
+
+int CircleBox_Intersection(const CircleCollider2D& boxA,
+	const Vector3& velA,
+	const BoxCollider2D& circleB,
+	const Vector3& velB,
+	Vector3& interPtA,
+	Vector3& interPtB,
+	float& interTime);
+
+
+void CircleBox_Response(Vector3& normal,
+	const float interTime,
+	Vector3& velA,
+	const float& massA,
+	Vector3& interPtA,
+	Vector3& velB,
+	const float& massB,
+	Vector3& interPtB,
+	Vector3& reflectedVectorA,
+	Vector3& ptEndA,
+	Vector3& reflectedVectorB,
+	Vector3& ptEndB);
 
 #endif

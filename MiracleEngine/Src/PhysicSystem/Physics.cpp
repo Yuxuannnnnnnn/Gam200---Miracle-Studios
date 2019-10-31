@@ -10,9 +10,12 @@
 #include "Physics.h"
 #include "Collision.h"
 
+#include "../Tools/EventHandler/EventHandler.h"
+
 Physics::Physics() :
 	_ListCollider2D{},
 	_ListRigidBody2D{},
+	_ListPickableObject{},
 	_enable{ true }
 {
 
@@ -40,6 +43,14 @@ void Physics::Clear()
 		iterator2++;
 	}
 	_ListRigidBody2D.clear();
+
+	std::vector<PickingCollider*>::iterator iterator3 = _ListPickableObject.begin();
+	while (iterator3 != _ListPickableObject.end())
+	{
+		delete* iterator3;
+		iterator3++;
+	}
+	_ListPickableObject.clear();
 }
 
 void Physics::Update(double dt)
@@ -48,73 +59,89 @@ void Physics::Update(double dt)
 		return;
 
 	UpdatePhyiscs(dt);
+
+	UpdatePicking(dt);
+
 	UpdateCollision(dt);
 	UpdateTransform(dt);
-	UpdateEvents(dt);
+	UpdateEvents();
 }
 
 void Physics::UpdatePhyiscs(double dt)
 {
-	std::vector<RigidBody2D*>::iterator iterator = _ListRigidBody2D.begin();
-
-	while (iterator != _ListRigidBody2D.end())
-	{
-		if (!(*iterator)->_static)
-			(*iterator)->UpdateVec(dt);
-
-		iterator++;
-	}
+	for (auto it : _ListRigidBody2D)
+		it->UpdateVec(dt);
 }
 void Physics::UpdateCollision(double dt)
 {
+	for (auto it : _ListCollider2D)
+		it->Update();
+
 	std::vector<Collider2D*> tempList = _ListCollider2D;
 
 	while (!tempList.empty())
 	{
-		std::vector<Collider2D*>::iterator iterator2 = tempList.begin();
+		std::vector<Collider2D*>::iterator it = tempList.begin();
 
-		if (!(*iterator2)->_enable || (*iterator2)->_type == NONE_COLLIDER)
+		if (!(*it)->_enable || (*it)->_type == (unsigned)ColliderType::NONE_COLLIDER)
 		{
-			tempList.erase(iterator2);
-			//(*iterator2)->update();
+			tempList.erase(it);
 			continue;
 		}
 
-		for (auto it3 : tempList)
+		for (auto it2 : tempList)
 		{
-			if (!it3->_enable || *iterator2 == it3)
+			if (!it2->_enable || *it == it2)
 				continue;
 
-			if ((*iterator2)->_type == BOX_COLLIDER)
+			if ((*it)->_type == (unsigned)ColliderType::BOX_COLLIDER)
 			{
-				if (it3->_type == BOX_COLLIDER)
-					Collision_Check_Response(COLLISION_TYPE::BOX_BOX, (*iterator2), it3, dt);
-				else if (it3->_type == CIRCLE_COLLIDER)
-					Collision_Check_Response(COLLISION_TYPE::CIRCLE_BOX, it3, (*iterator2), dt);
-				else if (it3->_type == LINE_COLLIDER)
-					Collision_Check_Response(COLLISION_TYPE::BOX_LINE, (*iterator2), it3, dt);
+				if (it2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+				{
+					Collision_Check_Response(COLLISION_TYPE::BOX_BOX, (*it), it2, dt);
+				}
+				else if (it2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+				{
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_BOX, it2, (*it), dt);
+				}
+				else if (it2->_type == (unsigned)ColliderType::LINE_COLLIDER)
+				{
+					Collision_Check_Response(COLLISION_TYPE::BOX_LINE, (*it), it2, dt);
+				}
 			}
-			else if ((*iterator2)->_type == CIRCLE_COLLIDER)
+			else if ((*it)->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
 			{
-				if (it3->_type == BOX_COLLIDER)
-					Collision_Check_Response(COLLISION_TYPE::CIRCLE_BOX, (*iterator2), it3, dt);
-				else if (it3->_type == CIRCLE_COLLIDER)
-					Collision_Check_Response(COLLISION_TYPE::CIRCLE_CIRCLE, (*iterator2), it3, dt);
-				else if (it3->_type == LINE_COLLIDER)
-					Collision_Check_Response(COLLISION_TYPE::CIRCLE_LINE, (*iterator2), it3, dt);
+				if (it2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+				{
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_BOX, (*it), it2, dt);
+				}
+				else if (it2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+				{
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_CIRCLE, (*it), it2, dt);
+				}
+				else if (it2->_type == (unsigned)ColliderType::LINE_COLLIDER)
+				{
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_LINE, (*it), it2, dt);
+				}
 			}
-			else if ((*iterator2)->_type == LINE_COLLIDER)
+			else if ((*it)->_type == (unsigned)ColliderType::LINE_COLLIDER)
 			{
-				if (it3->_type == BOX_COLLIDER)
-					Collision_Check_Response(COLLISION_TYPE::BOX_LINE, it3, (*iterator2), dt);
-				else if (it3->_type == CIRCLE_COLLIDER)
-					Collision_Check_Response(COLLISION_TYPE::CIRCLE_LINE, it3, (*iterator2), dt);
-				else if (it3->_type == LINE_COLLIDER)
+				if (it2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+				{
+					Collision_Check_Response(COLLISION_TYPE::BOX_LINE, it2, (*it), dt);
+				}
+				else if (it2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+				{
+					Collision_Check_Response(COLLISION_TYPE::CIRCLE_LINE, it2, (*it), dt);
+				}
+				else if (it2->_type == (unsigned)ColliderType::LINE_COLLIDER)
+				{
 					continue;
+				}
 			}
 		}
 
-		tempList.erase(iterator2);
+		tempList.erase(it);
 	}
 
 	for (auto it : _ListCollider2D)
@@ -122,24 +149,31 @@ void Physics::UpdateCollision(double dt)
 }
 void Physics::UpdateTransform(double dt)
 {
-	std::vector<RigidBody2D*>::iterator iterator4 = _ListRigidBody2D.begin();
-
-	while (iterator4 != _ListRigidBody2D.end())
-	{
-		(*iterator4)->UpdatePos(dt);
-		iterator4++;
-	}
+	for (auto it : _ListRigidBody2D)
+		it->UpdatePos(dt);
 }
-void Physics::UpdateEvents(double dt)
+void Physics::UpdateEvents()
 {
 	EventHandler::GetInstance().UpdateEvent();
 }
 
-
-Collider2D* Physics::CreateCircleCollider(const Vector3& _v, const float& r)
+void Physics::UpdatePicking(double dt)
 {
-	CircleCollider2D* newCircle = new CircleCollider2D{ _v, r };
-	newCircle->_type = CIRCLE_COLLIDER;
+	(void)dt;
+
+	/*for (auto it : _ListPickableObject)
+	{
+		it->TestBoxVsPoint()
+	}*/
+}
+
+
+
+
+Collider2D* Physics::CreateCircleCollider(TransformComponent* transform)
+{
+	CircleCollider2D* newCircle = new CircleCollider2D{ transform };
+	newCircle->_type = (unsigned)ColliderType::CIRCLE_COLLIDER;
 
 	Collider2D* result = dynamic_cast<Collider2D*>(newCircle);
 
@@ -148,10 +182,10 @@ Collider2D* Physics::CreateCircleCollider(const Vector3& _v, const float& r)
 	return result;
 }
 
-Collider2D* Physics::CreateBoxCollider(const Vector3& _cenPos, const Vector3& _scale, float angle)
+Collider2D* Physics::CreateBoxCollider(TransformComponent* transform)
 {
-	BoxCollider2D* newBox = new BoxCollider2D{ _cenPos, _scale, angle};
-	newBox->_type = BOX_COLLIDER;
+	BoxCollider2D* newBox = new BoxCollider2D{ transform };
+	newBox->_type = (unsigned)ColliderType::BOX_COLLIDER;
 
 	Collider2D* result = dynamic_cast<Collider2D*>(newBox);
 
@@ -161,10 +195,10 @@ Collider2D* Physics::CreateBoxCollider(const Vector3& _cenPos, const Vector3& _s
 }
 
 
-Collider2D* Physics::CreateEdgeCollider(const Vector3& pos, float scale, float dir)
+Collider2D* Physics::CreateEdgeCollider(TransformComponent* transform)
 {
-	EdgeCollider2D* newLine = new EdgeCollider2D{ pos, scale, dir};
-	newLine->_type = LINE_COLLIDER;
+	EdgeCollider2D* newLine = new EdgeCollider2D{ transform };
+	newLine->_type = (unsigned)ColliderType::LINE_COLLIDER;
 
 	Collider2D* result = dynamic_cast<Collider2D*>(newLine);
 
@@ -173,11 +207,20 @@ Collider2D* Physics::CreateEdgeCollider(const Vector3& pos, float scale, float d
 	return result;
 }
 
-RigidBody2D* Physics::CreateRigidBody2D()
+RigidBody2D* Physics::CreateRigidBody2D(TransformComponent* transform)
 {
-	RigidBody2D* result = new RigidBody2D{};
+	RigidBody2D* result = new RigidBody2D{ transform };
 
 	_ListRigidBody2D.push_back(result);
+
+	return result;
+}
+
+PickingCollider* Physics::CreatePickableObject(TransformComponent* transform)
+{
+	PickingCollider* result = new PickingCollider{ transform };
+
+	_ListPickableObject.push_back(result);
 
 	return result;
 }

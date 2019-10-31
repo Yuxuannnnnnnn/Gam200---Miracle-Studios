@@ -11,26 +11,38 @@
 //#include "GraphicsSystem/DebugRenderer.h"
 
 
-CircleCollider2D::CircleCollider2D() : mCenPos(0.f, 0.f), mRadius(0.f)
-{
+CircleCollider2D::CircleCollider2D(TransformComponent* transform) : 
+	mCenPos{},
+	mRadius{0.f},
+	Collider2D(transform)
+{/*
+	mCenPos = _transform->GetPos();
+	mRadius = _transform->GetScale().X();*/
 }
 
-CircleCollider2D::CircleCollider2D(const Vector3& center, float radius) : mCenPos{ center }, mRadius{ radius }
+CircleCollider2D::CircleCollider2D(const CircleCollider2D& rhs) :
+	mCenPos{ rhs.mCenPos },
+	mRadius{ rhs.mRadius },
+	Collider2D(nullptr)
+{}
+
+void CircleCollider2D::Draw()
 {
+	if (!_enable)
+		return;
+
+	DebugRenderer::GetInstance().DrawCircle(mCenPos._x, mCenPos._y, mRadius);
 }
 
-CircleCollider2D::CircleCollider2D(const CircleCollider2D& _cc) : mCenPos{ _cc.mCenPos }, mRadius{ _cc.mRadius }
+void CircleCollider2D::Update()
 {
-}
+	if (!_enable)
+		return;
 
-CircleCollider2D::~CircleCollider2D()
-{
-}
+	_transform = reinterpret_cast<TransformComponent*>(GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT));
 
-void CircleCollider2D::Update(const Vector3& center, float radius)
-{
-	mCenPos = center;
-	mRadius = radius;
+	mCenPos = _transform->GetPos();
+	mRadius = _transform->GetScale().X();
 }
 
 bool CircleCollider2D::TestCircleVsPoint(const Vector3& pt) const
@@ -42,10 +54,4 @@ bool CircleCollider2D::TestCircleVsPoint(const Vector3& pt) const
 bool CircleCollider2D::TestCircleVsCircle(const CircleCollider2D& circle) const
 {
 	return (mCenPos.Distance(circle.mCenPos) <= (mRadius + circle.mRadius));
-}
-
-void CircleCollider2D::Draw()
-{
-	//DebugRenderer::GetInstance().DrawLine(mCenPos._x + mRadius, mCenPos._y, mCenPos._x - mRadius, mCenPos._y);
-	//DebugRenderer::GetInstance().DrawLine(mCenPos._x, mCenPos._y + mRadius, mCenPos._x, mCenPos._y - mRadius);
 }

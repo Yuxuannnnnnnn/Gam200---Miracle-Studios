@@ -75,9 +75,9 @@ void GameObject::SerialAddComponent
 
 	IComponentSystem* temp;
 	switch (componentType)
-	{	
+	{
 
-	case TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform";	
+	case TypeIdComponent::TRANSFORMCOMPONENT:	std::cout << "Transform";
 
 		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::TRANSFORMCOMPONENT, new TransformComponent()));
 		//_ComponentList[(unsigned)TypeIdComponent::TRANSFORMCOMPONENT] = new TransformComponent(); 	// create new component
@@ -112,14 +112,32 @@ void GameObject::SerialAddComponent
 		JsonDynamicStore(((RigidBody2D*)temp)->_static, s);
 		break;
 
-	case TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider";
-		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::COLLIDERCOMPONENT, new Collider2D()));
-		//_ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT] = new Collider2D();
-		temp = _ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT];
-		s = d["ColliderTypeId"];
-		JsonDynamicStore(((Collider2D*)temp)->_type, s);
-		break;
+	case TypeIdComponent::COLLIDERCOMPONENT:	{ std::cout << "Collider";
+		unsigned type;
 
+		s = d["ColliderTypeId"];
+		JsonDynamicStore(type, s);
+
+		if (type == (int)ColliderType::BOX_COLLIDER)
+		{
+			temp = new BoxCollider2D();
+		}
+		else if (type == (int)ColliderType::CIRCLE_COLLIDER)
+		{
+			temp = new CircleCollider2D();
+		}
+		else if (type == (int)ColliderType::LINE_COLLIDER)
+		{
+			temp = new EdgeCollider2D();
+		}
+		else
+			temp = nullptr;
+
+		reinterpret_cast<Collider2D*>(temp)->_type = type;
+
+		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::COLLIDERCOMPONENT, temp));
+		break;
+	}
 	case TypeIdComponent::LOGICCOMPONENT:		std::cout << "Logic";
 		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)TypeIdComponent::LOGICCOMPONENT, new LogicComponent()));
 		//_ComponentList[(unsigned)TypeIdComponent::LOGICCOMPONENT] = new LogicComponent();
@@ -189,14 +207,34 @@ void GameObject::CopyComponent	// Copy all components from 'original'(Prototype/
 			_ComponentList[(unsigned)TypeIdComponent::RIGIDBODYCOMPONENT] = temp;
 			break;
 
-		case (unsigned)TypeIdComponent::COLLIDERCOMPONENT:	std::cout << "Collider, ";
+		case (unsigned)TypeIdComponent::COLLIDERCOMPONENT: { std::cout << "Collider, ";
 
-			temp = new Collider2D(
-				*((Collider2D*)itr->second)
-			);
+			int type = reinterpret_cast<Collider2D*>(itr->second)->_type;
+
+			if (type == (int)ColliderType::BOX_COLLIDER)
+			{
+				temp = new BoxCollider2D(
+					*((BoxCollider2D*)itr->second)
+				);
+			}
+			else if (type == (int)ColliderType::CIRCLE_COLLIDER)
+			{
+				temp = new CircleCollider2D(
+					*((CircleCollider2D*)itr->second)
+				);
+			}
+			else if (type == (int)ColliderType::LINE_COLLIDER)
+			{
+				temp = new EdgeCollider2D(
+					*((EdgeCollider2D*)itr->second)
+				);
+			}
+			else
+				temp = nullptr;
+
 			_ComponentList[(unsigned)TypeIdComponent::COLLIDERCOMPONENT] = temp;
 			break;
-
+		}
 		case (unsigned)TypeIdComponent::LOGICCOMPONENT:		std::cout << "Logic, ";
 
 			temp = new LogicComponent(

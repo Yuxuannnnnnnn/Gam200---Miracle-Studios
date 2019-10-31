@@ -432,6 +432,7 @@
     <ClInclude Include="Src\Animation\Animation.h" />
     <ClInclude Include="Src\Animation\Frame.h" />
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
+    <ClInclude Include="Src\GameObjectComponents\PickingCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

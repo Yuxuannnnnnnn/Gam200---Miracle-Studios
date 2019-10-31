@@ -5,6 +5,8 @@
 #include "LogicSystem/LogicSystem.h"
 #include "Inputsystem/InputSystem.h"
 #include "WindowsSystem/WindowsSystem.h"
+#include "Tools/DebugTools/FrameRateController.h"
+#include "PhysicSystem/Physics.h"
 
 #include "ImguiSystem.h"
 #include "WindowsSystem.h"
@@ -27,6 +29,8 @@ public:
 		_logicSystem{ new LogicSystem() },
 		_graphicsSystem{ new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), 
 											_windowSystem->getWindow().GetWindowHeight())},
+		_physicsSystem{ new Physics() },
+		_frameRateControl{ new FrameRateController(60) },	//FrameRateController Set to 60 FPS at start of the Engine
 
 
 		_gameObjectFactory{ new GameObjectFactory() }
@@ -48,7 +52,9 @@ public:
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
 	GraphicsSystem* _graphicsSystem;
+	Physics* _physicsSystem;
 
+	FrameRateController* _frameRateControl;
 
 	GameObjectFactory* _gameObjectFactory;
 

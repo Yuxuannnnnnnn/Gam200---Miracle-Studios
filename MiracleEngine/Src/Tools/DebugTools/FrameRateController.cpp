@@ -15,7 +15,7 @@
 
 
 
-FrameRateController::FrameRateController() :
+FrameRateController::FrameRateController(double FPS) :
 	TotalTime{ 0 },
 	accumulatedTime{ 0 },
 	currentNumberOfSteps{ 0 },
@@ -28,16 +28,15 @@ FrameRateController::FrameRateController() :
 	CurrTime_Sub{},
 	FrameTime_Sub{}
 {
-}
-
-void FrameRateController::Initialize(double FPS)
-{
 	TotalTime = 0;
 
 	PrevTime_Main = Time::now();
 	CurrTime_Main = Time::now();
+	SetFPS(60);
+}
 
-	//per frame in Ns
+void FrameRateController::SetFPS(double FPS)
+{
 	LockedFPS = (long long)(oneSecNs / FPS);
 }
 
@@ -124,4 +123,9 @@ short FrameRateController::GetFPS() const
 int FrameRateController::GetSteps() const
 {
 	return currentNumberOfSteps;
+}
+
+double FrameRateController::GetLockedDt() const
+{
+	return (double)LockedFPS;
 }

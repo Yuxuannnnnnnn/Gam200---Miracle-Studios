@@ -10,7 +10,7 @@
 #include "RigidBody2D.h"
 #include "GraphicsSystem/DebugRenderer.h"
 
-RigidBody2D::RigidBody2D() :
+RigidBody2D::RigidBody2D(TransformComponent* transform) :
 	_velocity{},
 	_appliedForce{},
 	_direction{ 1.f,0.f,0.f },
@@ -19,8 +19,22 @@ RigidBody2D::RigidBody2D() :
 	_mass{ 1.f },
 	_fictionVal{ 0.f },
 	_static{ true },
-	_enable{ true }
+	_enable{ true },
+	_transform{ transform }
+{
+}
 
+RigidBody2D::RigidBody2D(const RigidBody2D& rhs) :
+	_velocity{ rhs ._velocity },
+	_appliedForce{ rhs._appliedForce },
+	_direction{ rhs._direction },
+	_position{ rhs._position},
+	_angle{ rhs._angle },
+	_mass{ rhs._mass },
+	_fictionVal{ rhs._fictionVal },
+	_static{ rhs._static },
+	_enable{ rhs._enable },
+	_transform{ nullptr }
 {
 }
 
@@ -50,8 +64,11 @@ void RigidBody2D::UpdatePos(double dt)
 	if (_static || !_enable)
 		return;
 
+	_transform = reinterpret_cast<TransformComponent*>(GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT));
+
 	// newPos = newVel * dt + currPos;
 	_position += _velocity * (float)dt;
+	_transform->SetPos(_position);
 }
 
 void RigidBody2D::Draw()

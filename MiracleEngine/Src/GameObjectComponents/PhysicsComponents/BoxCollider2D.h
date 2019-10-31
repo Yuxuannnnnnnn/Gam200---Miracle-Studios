@@ -28,18 +28,19 @@ public:
 	Vector3 mOrigin; // corner[0].dot(axis[a])
 
 	float mAngle;
+
 public:
+	// Constructor
+	BoxCollider2D(TransformComponent* transform = nullptr);
+	virtual ~BoxCollider2D() {}
 
-  // Default Constructor
-	BoxCollider2D();
+	// A copy empty shell object
+	BoxCollider2D(const BoxCollider2D& rhs);
+	//No replication of class object
+	BoxCollider2D& operator= (const BoxCollider2D& rhs) = delete;
 
-	// Auxiliary constructor
-	BoxCollider2D(const Vector3& cenPos, const Vector3& scale, float angle);
-  
-  // Copy Constructor
-	BoxCollider2D(const BoxCollider2D& _bc);
 	void Draw();
-	void Update(const Vector3& cenPos, const Vector3& scale, float angle);
+	void Update();
 
 	void ComputeAxes();
 
@@ -51,6 +52,7 @@ public:
 
 	bool TestBoxVsPoint(const Vector3& pt);
 	bool TestBoxVsBox(const BoxCollider2D& box);
+
 	friend bool	TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box);
 };
 

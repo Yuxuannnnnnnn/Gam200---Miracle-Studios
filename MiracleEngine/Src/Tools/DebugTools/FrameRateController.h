@@ -25,9 +25,10 @@ using namespace std::chrono_literals;
 class FrameRateController
 {
 public:
-	FrameRateController();
+	
+	FrameRateController(double FPS); //Constructor sets the FPS rate
 
-	void Initialize(double FPS = 0);
+	void SetFPS(double FPS = 0);	//Function can be used to set FPS dynamically during run time
 	double UpdateFrameTime();
 
 	void StartTimeCounter();
@@ -39,6 +40,7 @@ public:
 	short GetFPS() const;
 
 	int GetSteps() const;
+	double GetLockedDt() const;
 
 private:
 

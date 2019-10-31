@@ -10,6 +10,7 @@
 #define _RIGIDBODY_2D_H
 
 #include "GameObjectComponents/IComponentSystem.h"
+#include "../GraphicComponents/TransformComponent.h"
 #include "MathLib/SYMath.h"
 
 enum class RIGIDBODY_TYPE {
@@ -34,9 +35,19 @@ public:
 	bool _static;
 	bool _enable;
 
+protected:
+	TransformComponent* _transform;
+
 public:
-	RigidBody2D();
-	~RigidBody2D() = default;
+	// Constructor
+	RigidBody2D(TransformComponent* transform = nullptr);
+	virtual ~RigidBody2D() {};
+	
+
+	// A copy empty shell object
+	RigidBody2D(const RigidBody2D& rhs);
+	//No replication of class object
+	RigidBody2D& operator= (const RigidBody2D& rhs) = delete;
 
 	void UpdateVec(double dt);
 	void UpdatePos(double dt);

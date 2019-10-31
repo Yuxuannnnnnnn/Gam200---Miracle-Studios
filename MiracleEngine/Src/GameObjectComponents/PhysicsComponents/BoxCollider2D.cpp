@@ -9,89 +9,108 @@
 #include "BoxCollider2D.h"
 //#include "GraphicsSystem/DebugRenderer.h"
 
-BoxCollider2D::BoxCollider2D() : 
+BoxCollider2D::BoxCollider2D(TransformComponent* transform) :
 	mMinPos{}, 
 	mMaxPos{}, 
 	mCorner{ {},{},{},{} }, 
 	mAxis{ {},{} },
 	mOrigin{},
-	mAngle{ 0.f }
+	mAngle{ 0.f },
+	Collider2D(transform)
 {
+
+	//Vector3 scale = _transform->GetScale();
+
+	//mOrigin = _transform->GetPos();
+
+	//mAngle = _transform->GetRotate();
+
+	////Get bounding rec
+	//Vector3 boundingBox_offset = { -0.5f * scale._x, -0.5f * scale._y };
+
+	////Cal boundingRect minimum point
+	//mMinPos = mOrigin - (-boundingBox_offset);
+
+	////boundingRect maximum point
+	//mMaxPos = mOrigin - boundingBox_offset;
+
+	//Vector3 X(cos(mAngle), sin(mAngle));
+	//Vector3 Y(-sin(mAngle), cos(mAngle));
+
+	//X = X * scale._x / 2;
+	//Y = Y * scale._y / 2;
+
+	//mCorner[0] = mOrigin - X - Y;
+	//mCorner[1] = mOrigin + X - Y;
+	//mCorner[2] = mOrigin + X + Y;
+	//mCorner[3] = mOrigin - X + Y;
+
+	//ComputeAxes();
 }
 
+BoxCollider2D::BoxCollider2D(const BoxCollider2D& rhs) :
+	mMinPos{ rhs.mMinPos },
+	mMaxPos{ rhs.mMaxPos },
+	mCorner{ rhs.mCorner[0],rhs.mCorner[1],rhs.mCorner[2],rhs.mCorner[3] },
+	mAxis{ rhs.mAxis[0],rhs.mAxis[1] },
+	mOrigin{ rhs.mOrigin },
+	mAngle{ rhs.mAngle },
+	Collider2D(nullptr)
+{}
 
-BoxCollider2D::BoxCollider2D(const Vector3& cenPos, const Vector3& scale,float angle)
+void BoxCollider2D::Draw()
 {
+	if (!_enable)
+		return;
+
+	DebugRenderer::GetInstance().DrawLine(mCorner[0]._x, mCorner[0]._y, mCorner[1]._x, mCorner[1]._y);
+	DebugRenderer::GetInstance().DrawLine(mCorner[1]._x, mCorner[1]._y, mCorner[2]._x, mCorner[2]._y);
+	DebugRenderer::GetInstance().DrawLine(mCorner[2]._x, mCorner[2]._y, mCorner[3]._x, mCorner[3]._y);
+	DebugRenderer::GetInstance().DrawLine(mCorner[3]._x, mCorner[3]._y, mCorner[0]._x, mCorner[0]._y);
+
+	DebugRenderer::GetInstance().DrawLine(mOrigin._x, mOrigin._y, mOrigin._x + mAxis[0]._x * 40.f, mOrigin._y + mAxis[0]._y * 40.f);
+	DebugRenderer::GetInstance().DrawLine(mOrigin._x, mOrigin._y, mOrigin._x + mAxis[1]._x * 40.f, mOrigin._y + mAxis[1]._y * 40.f);
+}
+
+void BoxCollider2D::Update()
+{
+	if (!_enable)
+		return;
+
+	_transform = reinterpret_cast<TransformComponent*>(GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT));
+
+	Vector3 scale = _transform->GetScale();
+
+	mOrigin = _transform->GetPos();
 	//Get bounding rec
 	Vector3 boundingBox_offset = { -0.5f * scale._x, -0.5f * scale._y };
 
 	//Cal boundingRect minimum point
-	mMinPos = cenPos - (-boundingBox_offset);
+	mMinPos = mOrigin - (-boundingBox_offset);
 
 	//boundingRect maximum point
-	mMaxPos = cenPos - boundingBox_offset;
+	mMaxPos = mOrigin - boundingBox_offset;
 
-	Vector3 X(cos(angle), sin(angle));
-	Vector3 Y(-sin(angle), cos(angle));
-
-	X = X * scale._x / 2;
-	Y = Y * scale._y / 2;
-
-	mCorner[0] = cenPos - X - Y;
-	mCorner[1] = cenPos + X - Y;
-	mCorner[2] = cenPos + X + Y;
-	mCorner[3] = cenPos - X + Y;
-
-	ComputeAxes();
-
-	mAngle = angle;
-
-	mOrigin = cenPos;
-}
-
-
-BoxCollider2D::BoxCollider2D(const BoxCollider2D& _bc) :
-	mMinPos(_bc.mMinPos), 
-	mMaxPos(_bc.mMaxPos),
-	mOrigin(_bc.mOrigin),
-	mAngle(_bc.mAngle)
-{
-	for (int c = 0; c < 4; ++c)
-		mCorner[c] = _bc.mCorner[c];
-
-	for (int a = 0; a < 2; ++a)
-		mAxis[a] = _bc.mAxis[a];
-}
-
-void BoxCollider2D::Update(const Vector3& cenPos, const Vector3& scale, float angle)
-{
-	//Get bounding rec
-	Vector3 boundingBox_offset = { -0.5f * scale._x, -0.5f * scale._y };
-
-	//Cal boundingRect minimum point
-	mMinPos = cenPos - (-boundingBox_offset);
-
-	//boundingRect maximum point
-	mMaxPos = cenPos - boundingBox_offset;
-
-	if (mAngle != angle)
+	if (mAngle != _transform->GetRotate())
 	{
-		Vector3 X(cos(angle), sin(angle));
-		Vector3 Y(-sin(angle), cos(angle));
+		mAngle = _transform->GetRotate();
+
+		Vector3 X(cos(mAngle), sin(mAngle));
+		Vector3 Y(-sin(mAngle), cos(mAngle));
 
 		X = X * scale._x / 2;
 		Y = Y * scale._y / 2;
 
-		mCorner[0] = cenPos - X - Y;
-		mCorner[1] = cenPos + X - Y;
-		mCorner[2] = cenPos + X + Y;
-		mCorner[3] = cenPos - X + Y;
+		mCorner[0] = mOrigin - X - Y;
+		mCorner[1] = mOrigin + X - Y;
+		mCorner[2] = mOrigin + X + Y;
+		mCorner[3] = mOrigin - X + Y;
 	}
 	else
 	{
 		Vector3 oldCenter = (mCorner[0] + mCorner[1] + mCorner[2] + mCorner[3]) / 4;
 
-		Vector3 translation = cenPos - oldCenter;
+		Vector3 translation = mOrigin - oldCenter;
 
 		for (int c = 0; c < 4; ++c) {
 			mCorner[c] += translation;
@@ -99,18 +118,11 @@ void BoxCollider2D::Update(const Vector3& cenPos, const Vector3& scale, float an
 	}
 
 	ComputeAxes();
-
-	mAngle = angle;
-
-	mOrigin = cenPos;
 }
 
 void BoxCollider2D::ComputeAxes() {
 	mAxis[0] = mCorner[1] - mCorner[0];
 	mAxis[1] = mCorner[3] - mCorner[0];
-
-
-
 
 	// Make the length of each axis 1/edge length so we know any
 	// dot product must be less than 1 to fall within the edge.
@@ -215,7 +227,6 @@ bool BoxCollider2D::TestOverlaps(const BoxCollider2D& oobb) const {
 
 bool BoxCollider2D::TestBoxVsPoint(const Vector3& pt)
 {
-
 	if (mAngle)
 		return TestOOBBVsPoint(pt);
 
@@ -257,15 +268,4 @@ bool TestCircleVsAABB(const CircleCollider2D& circle, const BoxCollider2D& aabb)
 bool TestCircleVsOOBB(const CircleCollider2D& circle, const BoxCollider2D& oobb)
 {
 	return oobb.TestOOBBVsPoint(circle.mCenPos);
-}
-
-void BoxCollider2D::Draw()
-{
-	/*DebugRenderer::GetInstance().DrawLine(mCorner[0]._x, mCorner[0]._y, mCorner[1]._x, mCorner[1]._y);
-	DebugRenderer::GetInstance().DrawLine(mCorner[1]._x, mCorner[1]._y, mCorner[2]._x, mCorner[2]._y);
-	DebugRenderer::GetInstance().DrawLine(mCorner[2]._x, mCorner[2]._y, mCorner[3]._x, mCorner[3]._y);
-	DebugRenderer::GetInstance().DrawLine(mCorner[3]._x, mCorner[3]._y, mCorner[0]._x, mCorner[0]._y);
-
-	DebugRenderer::GetInstance().DrawLine(mOrigin._x, mOrigin._y, mOrigin._x + mAxis[0]._x * 40.f, mOrigin._y + mAxis[0]._y * 40.f);
-	DebugRenderer::GetInstance().DrawLine(mOrigin._x, mOrigin._y, mOrigin._x + mAxis[1]._x * 40.f, mOrigin._y + mAxis[1]._y * 40.f);*/
 }

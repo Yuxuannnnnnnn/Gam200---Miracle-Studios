@@ -16,30 +16,26 @@
 
 class BoxCollider2D;
 
-class CircleCollider2D : public Collider2D // Renderer
+class CircleCollider2D : public Collider2D
 {
 public:
 	Vector3	mCenPos;
 	float	mRadius;
 
 public:
-  // Default Constructor
-	CircleCollider2D();
-  
-  // Conversion Constructor
-	CircleCollider2D(const Vector3& center, float radius);
-  
-  // Copy Constructor
-	CircleCollider2D(const CircleCollider2D& _cc);
-  
-  //Default Destructor
-	~CircleCollider2D();
-	void Draw();
+    // Constructor
+	CircleCollider2D(TransformComponent* transform = nullptr);
+	virtual ~CircleCollider2D() {}
 
-	void Update(const Vector3& center, float radius);
+	// A copy empty shell object
+	CircleCollider2D(const CircleCollider2D& rhs);
+	//No replication of class object
+	CircleCollider2D& operator= (const CircleCollider2D& rhs) = delete;
+
+	void Draw();
+	void Update();
 
 	bool TestCircleVsPoint(const Vector3& p) const;
-
 	bool TestCircleVsCircle(const CircleCollider2D& cc) const;
 
 	friend bool	TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box);

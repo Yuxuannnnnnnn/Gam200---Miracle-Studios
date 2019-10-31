@@ -173,6 +173,7 @@
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.h" />
+    <ClInclude Include="Src\GameObjectComponents\PickingCollider.h" />
     <ClInclude Include="Src\GameObjectFactory\GameObjectPrototype.h" />
     <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
     <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
