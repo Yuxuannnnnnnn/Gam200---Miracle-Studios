@@ -76,6 +76,7 @@ void GameObjectFactory::DeleteGameObjectID(size_t id)	//Deleting a gameObject en
 	_transformComponents.erase(id);
 	_rigidBody2dComponents.erase(id);
 	_collider2dComponents.erase(id);
+	_logicComponents.erase(id);
 }
 
 

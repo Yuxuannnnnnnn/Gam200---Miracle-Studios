@@ -52,9 +52,9 @@ namespace Script_Input {
 		//	_InputStyle = INGAME_PAUSE_ESCAPE;
 	// SCALE ROTATE
 		if (input->KeyHold(KeyCode::KEYB_E))
-			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetRotate() += 30.1f;
+			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetRotate() += 0.1f;
 		if (input->KeyHold(KeyCode::KEYB_Q))
-			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetRotate() -= 30.1f;
+			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetRotate() -= 0.1f;
 		if (input->KeyHold(KeyCode::KEYB_I))
 			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetScale()._y += 1;
 		if (input->KeyHold(KeyCode::KEYB_K))
@@ -230,9 +230,9 @@ namespace Script_Move {
 		// get Mtx
 		Mtx33 temp;
 		Mtx33Identity(temp);
-		Mtx33RotDeg(temp, rotate);
+		Mtx33RotRad(temp, rotate);
 		// multiply by speed
-		Vector2 dir = { speed, 0 };
+		Vector2 dir = { 0, speed };
 		Vector2 result = temp * dir;
 		// save info into a Vec3
 		Vector3 forceVec(result.x, result.y, 0);
