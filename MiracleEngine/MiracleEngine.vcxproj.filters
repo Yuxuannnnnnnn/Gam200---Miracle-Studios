@@ -62,6 +62,9 @@
     <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
     <ClCompile Include="Src\GraphicsSystem\TextureManager.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\FontComponent.cpp" />
+    <ClCompile Include="Src\Animation\Animation.cpp" />
+    <ClCompile Include="Src\Animation\Frame.cpp" />
+    <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -427,6 +430,8 @@
     <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\FontComponent.h" />
     <ClInclude Include="Src\Animation\Animation.h" />
+    <ClInclude Include="Src\Animation\Frame.h" />
+    <ClInclude Include="Src\Animation\AnimationSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
