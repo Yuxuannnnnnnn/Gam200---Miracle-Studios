@@ -23,11 +23,15 @@ void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent*
 
 		if (graphicComponent->GetFileName() == "spriteplayer.png")
 		{
-			_textureManager._textureMap["zombie"]->Select();
+			_textureManager._textureMap["player"]->Select();
+		}
+		else if (graphicComponent->GetFileName() == "sprite_bullet.png")
+		{
+			_textureManager._textureMap["bullet"]->Select();
 		}
 		else
 		{
-			_textureManager._textureMap["background"]->Select();
+			_textureManager._textureMap["enemy"]->Select();
 		}
 		_quadmesh.Select();
 		_shader.Select();
@@ -35,7 +39,7 @@ void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent*
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(transformComponent->GetPos()._x
 			, transformComponent->GetPos()._y, 0));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transformComponent->GetRotate(), glm::vec3(0, 0, 1));
-		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
 			glm::vec3(transformComponent->GetScale()._x, transformComponent->GetScale()._y, 1.0f));
 
 		glm::mat4 mvp = _proj * model;
