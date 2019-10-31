@@ -159,8 +159,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Animation\Animation.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\FontComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
@@ -502,7 +504,6 @@
     <ClInclude Include="Src\GameObjectFactory\GameObject.h" />
     <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h" />
-    <ClInclude Include="Src\GraphicsSystem\MeshManager.h" />
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
@@ -525,6 +526,7 @@
   <ItemGroup>
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\FontComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.cpp" />
@@ -582,7 +584,6 @@
     <ClCompile Include="Src\GameObjectComponents\AudioComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\MeshManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
     <ClCompile Include="Src\LogicSystem\LogicSystem.cpp" />
     <ClCompile Include="Src\LogicSystem\Script.cpp" />

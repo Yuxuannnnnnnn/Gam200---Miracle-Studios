@@ -35,7 +35,6 @@ private:
 	VertexArray* _vaoCircle;
 	VertexBuffer* _vboCircle;
 
-	MeshManager _meshmanager;
 	glm::mat4 _proj;  // projection matrix
 	Shader _shader{ "Src/GraphicsSystem/Shader/debug.vert", "Src/GraphicsSystem/Shader/debug.frag" };
 

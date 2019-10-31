@@ -4,9 +4,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "Elementbuffer.h"
 #include "VertexBuffer.h"
-#include "MeshManager.h"
 #include <string>
-#include "GraphicsSystem/RendererSystem.h"
 #include "VertexArray.h"
 #include "PrecompiledHeaders.h"
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
@@ -35,7 +33,9 @@ public:
 	GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2) }
 	{
-
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 
@@ -44,7 +44,6 @@ private:
 	void Test();
 	void ClearScreen() const;
 	TextureManager _textureManager;
-	MeshManager _meshmanager;
 	Shader _shader{ "Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag" };
 	glm::mat4 _proj;
 	QuadMesh _quadmesh;
