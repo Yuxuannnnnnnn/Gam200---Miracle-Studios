@@ -35,8 +35,6 @@
 #include "GraphicsSystem/VertexArray.h"
 #include "GraphicsSystem/VertexBuffer.h"
 #include "GraphicsSystem/GraphicsSystem.h"
-#include "GraphicsSystem/MeshManager.h"
-#include "GraphicsSystem/RendererSystem.h"
 #include "GraphicsSystem/Elementbuffer.h"
 #include "GraphicsSystem/Shader.h"
 

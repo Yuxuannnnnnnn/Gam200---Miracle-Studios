@@ -18,7 +18,6 @@
     <ClCompile Include="Dep\Imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Dep\Imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Dep\Imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\MeshManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
     <ClCompile Include="Src\PhysicSystem\Collision.cpp" />
     <ClCompile Include="Src\PhysicSystem\Physics.cpp" />
@@ -316,7 +315,6 @@
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h" />
-    <ClInclude Include="Src\GraphicsSystem\MeshManager.h" />
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />

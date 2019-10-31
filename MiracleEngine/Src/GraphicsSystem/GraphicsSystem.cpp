@@ -56,15 +56,13 @@ void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent*
 
 void GraphicsSystem::Exit()
 {
-
 }
 
 void GraphicsSystem::ClearScreen() const
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(.0f, .0f, .0f, 1.0f);
 }
-
 
 void GraphicsSystem::Test()
 {

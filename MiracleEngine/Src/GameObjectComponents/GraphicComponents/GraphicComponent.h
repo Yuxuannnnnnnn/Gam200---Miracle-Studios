@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObjectComponents/IComponentSystem.h"
-#include "GraphicsSystem/MeshManager.h"
 #include "GameObjectComponents/IBase.h"
 
 enum class TypeIdGraphic {
@@ -16,7 +15,6 @@ private:
 
 	int _shaderID;
 	int _textureID;
-	Mesh* _pmesh;
 
 	// bool transparent.. so on
 	//Store the vb, ib, vao, shader

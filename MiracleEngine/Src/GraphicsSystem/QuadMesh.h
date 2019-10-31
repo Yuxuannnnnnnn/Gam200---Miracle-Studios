@@ -16,5 +16,4 @@ private:
 	VertexArray* _vao;
 	VertexBuffer* _vbo;
 	ElementBuffer* _ebo;
-	//Texture2D* _texture;
 };
