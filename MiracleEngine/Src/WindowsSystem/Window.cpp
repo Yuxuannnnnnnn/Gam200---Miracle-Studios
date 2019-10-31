@@ -230,7 +230,12 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	//if (!temp._Fullscreen)
 	//{
-		mainHWND = CreateWindowW(szWindowClass, szTitle, /*WS_OVERLAPPEDWINDOW,*/ dwStyle,
+	//WS_OVERLAPPEDWINDOW style, the window has a title bar, sizing border, window menu, and minimizeand maximize buttons.
+	//WS_OVERLAPPED style, the window has a title bar and border.
+	//WS_POPUP - create pop-up window
+	//WS_CAPTION style - include a title bar
+	//WS_POPUPWINDOW style to create a pop-up window that has a border and a window menu. The WS_CAPTION style must be combined with the WS_POPUPWINDOW style to make the window menu visible.
+		mainHWND = CreateWindowW(szWindowClass, szTitle,  /*WS_OVERLAPPEDWINDOW,*/ dwStyle,
 			CW_USEDEFAULT, 0, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr);
 	//}
 
@@ -245,6 +250,27 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	return TRUE;
 }
+
+
+
+void Window::SetFullscreenWindowMode()
+{
+	DWORD dwStyle = ::GetWindowLong(mainHWND, GWL_STYLE);
+	DWORD dwRemove = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+	DWORD dwNewStyle = dwStyle & ~dwRemove;
+	::SetWindowLong(mainHWND, GWL_STYLE, dwNewStyle);
+	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 0L);
+}
+
+void Window::SetNonFullScreenWindowMode()
+{
+	DWORD dwStyle = ::GetWindowLong(mainHWND, GWL_STYLE);
+	dwStyle |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+	::SetWindowLong(mainHWND, GWL_STYLE, dwStyle);
+	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, _windowWidth, _windowHeight, 0L);
+}
+
+
 
 
 /*

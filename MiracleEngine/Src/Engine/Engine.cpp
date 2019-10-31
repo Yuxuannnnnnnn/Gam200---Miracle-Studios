@@ -55,6 +55,7 @@ void Engine::Update()
 				return;
 			}
 
+
 			_inputSystem->Update(_windowSystem->getWindow());
 
 			/*if (_inputSystem->KeyRelease(KEYB_Z))
