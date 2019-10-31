@@ -9,13 +9,10 @@
 
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
-#include "GameObjectComponents/PhysicsComponents/RigidBodyComponent.h"
-#include "GameObjectComponents/PhysicsComponents/PhysicsComponent.h"
 #include "GameObjectComponents/LogicComponents/LogicComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
-
-#include "PhysicSystem/CollisionComponent/Collider2D.h"
-#include "PhysicSystem/PhysicComponent/RigidBody2D.h"
+#include "GameObjectComponents/PhysicsComponents/Collider2D.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
 
 #include "Tools/FileIO/FileIO.h"
 

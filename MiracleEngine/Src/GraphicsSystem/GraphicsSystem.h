@@ -13,6 +13,7 @@
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
 #include "Shader.h"
 #include "QuadMesh.h"
+#include "TextureManager.h"
 enum RenderMode
 {
 	None,
@@ -42,6 +43,7 @@ public:
 private:
 	void Test();
 	void ClearScreen() const;
+	TextureManager _textureManager;
 	MeshManager _meshmanager;
 	Shader _shader{ "Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag" };
 	glm::mat4 _proj;

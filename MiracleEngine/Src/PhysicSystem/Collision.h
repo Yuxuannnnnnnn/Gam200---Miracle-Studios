@@ -8,9 +8,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef _COLLISION_H
 #define _COLLISION_H
-#include "CollisionComponent/CircleCollider2D.h"
-#include "CollisionComponent/BoxCollider2D.h"
-#include "CollisionComponent/EdgeCollider2D.h"
+#include "GameObjectComponents/PhysicsComponents/BoxCollider2D.h"
+#include "GameObjectComponents/PhysicsComponents/CircleCollider2D.h"
+#include "GameObjectComponents/PhysicsComponents/EdgeCollider2D.h"
 
 #include "../Tools/EventHandler/EventHandler.h"
 

@@ -9,7 +9,7 @@
 #ifndef _MEMORY_MANAGER_H
 #define _MEMORY_MANAGER_H
 
-#include "CommonBase.h"
+#include "IMemoryInfo.h"
 #include "../../ISingleton.h"
 
 #define DEFAULT_OBJECT_SIZE 400

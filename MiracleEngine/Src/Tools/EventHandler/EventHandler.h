@@ -11,7 +11,7 @@
 
 #include "../../ISingleton.h"
 
-#include "../PhysicSystem/CollisionComponent/Collider2D.h"
+#include "GameObjectComponents/PhysicsComponents/Collider2D.h"
 
 #include <unordered_set>
 #include <unordered_map>

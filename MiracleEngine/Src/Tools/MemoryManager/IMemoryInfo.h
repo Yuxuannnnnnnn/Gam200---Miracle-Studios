@@ -1,13 +1,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	CommonBase.h
+//	IMemoryInfo.h
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-#ifndef _COMMON_BASE_H
-#define _COMMON_BASE_H
+#ifndef _IMEMORY_INFORMATION_H
+#define _IMEMORY_INFORMATION_H
 
 #include <iostream>
 #include <string>
@@ -45,8 +45,9 @@ private:
 	std::string _message;
 };
 
-struct MMConfig
+class MMConfig
 {
+public:
 	static const unsigned BASIC_HEADER_SIZE = 1; //!< flags
 
 	MMConfig(bool UseCPPMemManager = false,
@@ -69,8 +70,9 @@ struct MMConfig
 	unsigned _EndPadding;		 //!< size of the padding at end of each page
 };
 
-struct MMStats
+class MMStats
 {
+public:
 	MMStats() : _ObjectSize(0), _PageSize(0), _FreeObjects(0), _ObjectsInUse(0), _PagesInUse(0),
 		_MostObjects(0), _Allocations(0), _Deallocations(0) {};
 
@@ -84,8 +86,9 @@ struct MMStats
 	unsigned _Deallocations; //!< total requests to free memory
 };
 
-struct GenericObject
+class GenericObject
 {
+public:
 	GenericObject* _Next; //!< The next object in the list
 };
 

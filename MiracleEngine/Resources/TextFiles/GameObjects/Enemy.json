@@ -19,7 +19,7 @@
   "ColliderTypeId": 1,
 
   "COMPONENT 4": "LOGIC",
-  "ScriptId": [ 9, 6 ],
+  "ScriptId": [ 0 ],
   "Health": 5,
   "Speed": 1,
   "Lifetime": -1,

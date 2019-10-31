@@ -8,7 +8,8 @@ void LogicSystem::Init()
 
 	// load all GOs with logic component into private:list
 }
-void LogicSystem::Update(const std::unordered_map < size_t, LogicComponent* >& lcmap, GameObjectFactory* factory)
+void LogicSystem::Update(const std::unordered_map < size_t, LogicComponent* >& lcmap,
+	GameObjectFactory* factory, InputSystem* input)
 {
 	// update should be like this, take in the 'map of logic comps, from GOFac'
 	//void GraphicsSystem::Update(const std::unordered_map < size_t, GraphicComponent* > & graphicmap)
@@ -25,7 +26,7 @@ void LogicSystem::Update(const std::unordered_map < size_t, LogicComponent* >& l
 	{
 		//tmp = x.second->GetOwner();
 		//_scriptList[x.second->GetID()](tmp);
-		x.second->Update(factory);
+		x.second->Update(factory, x.second->GetParentPtr(), input);
 	}
 }
 void LogicSystem::Exit()

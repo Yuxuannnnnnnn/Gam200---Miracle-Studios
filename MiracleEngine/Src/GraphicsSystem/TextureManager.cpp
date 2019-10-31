@@ -1,4 +1,5 @@
 #include "TextureManager.h"
+#include "PrecompiledHeaders.h"
 
 const std::map<std::string, Texture2D*>& TextureManager::GetTextureMap()
 {
@@ -8,11 +9,11 @@ const std::map<std::string, Texture2D*>& TextureManager::GetTextureMap()
 
 TextureManager::TextureManager()
 {
-	_textureMap["zombie"] = new Texture2D("Image/zombie.png");
-	_textureMap["background"] = new Texture2D("Image/background.png");
-	_textureMap["idle"] = new Texture2D("Image/catidle.png");
-	_textureMap["run"] = new Texture2D("Image/catrun.png");
-	_textureMap["jump"] = new Texture2D("Image/catjump.png");
+	_textureMap["zombie"] = new Texture2D("Resources/Image/zombie.png");
+	_textureMap["background"] = new Texture2D("Resources/Image/background.png");
+	_textureMap["idle"] = new Texture2D("Resources/Image/catidle.png");
+	_textureMap["run"] = new Texture2D("Resources/Image/catrun.png");
+	_textureMap["jump"] = new Texture2D("Resources/Image/catjump.png");
 }
 
 TextureManager::~TextureManager()

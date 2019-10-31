@@ -77,7 +77,7 @@ void* MemoryManager::Allocate()
 	GenericObject* object = _FreeList;
 	_FreeList = _FreeList->_Next;
 
-	unsigned char* bytes = reinterpret_cast<unsigned char*>(object);
+	unsigned char* bytes = reinterpret_cast<unsigned char*>(object) - _Config._HeaderBytes;
 
 	*bytes = TRUE_PATTERN;
 
@@ -111,7 +111,7 @@ void MemoryManager::Free(void* Object)
 	if (CheckEmptyObject(Object))
 		throw MMException(MMException::MM_EXCEPTION::E_MULTIPLE_FREE, "Freeing object twice");
 
-	unsigned char* bytes = reinterpret_cast<unsigned char*>(Object) + _Config._HeaderBytes;
+	unsigned char* bytes = reinterpret_cast<unsigned char*>(Object) - _Config._HeaderBytes;
 
 	*bytes = FALSE_PATTERN;
 

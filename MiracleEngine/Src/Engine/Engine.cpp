@@ -13,14 +13,6 @@ void Engine::Init()
 	//_AudioSystem->Init();
 	
 //-------------------------------------------------------------
-
-	// TESTING GO creation 
-	//if (false)
-	//{
-	//	_gameObjectFactory->FileRead_Level("./Resources/TextFiles/TestLevel.txt");
-	//	_gameObjectFactory->TEST_AddGameObjects();
-	//	_gameObjectFactory->TEST_DisplayAllGameObj();
-	//}
 }
 
 
@@ -40,15 +32,6 @@ void Engine::Update()
 			//WindowsSystem -> InputSystem -> Logic System -> Physics System -> AudioSytem -> ImguiSystem UpdateFrame -> GraphicSystem ->  ImguiSystem Render
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
-				// TESTING mem leak for objects
-				//if (false)
-				//{
-				//	_gameObjectFactory->TEST_AddGameObjects();
-				//	_gameObjectFactory->FileRead_Level("./Resources/TextFiles/TestLevel.txt");
-				//	_gameObjectFactory->TEST_DisplayAllGameObj();
-				//	_gameObjectFactory->TEST_DeleteAllGameObjects();
-				//	//_gameObjectFactory->Update();
-				//}
 			if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
 			{
 				_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
@@ -63,7 +46,7 @@ void Engine::Update()
 			*/
 
 			// Logic
-			_logicSystem->Update(_gameObjectFactory->getLogicComponent(), _gameObjectFactory);
+			_logicSystem->Update(_gameObjectFactory->getLogicComponent(), _gameObjectFactory, _inputSystem);
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 

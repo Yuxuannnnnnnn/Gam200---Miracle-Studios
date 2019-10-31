@@ -22,10 +22,6 @@
     <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
     <ClCompile Include="Src\PhysicSystem\Collision.cpp" />
     <ClCompile Include="Src\PhysicSystem\Physics.cpp" />
-    <ClCompile Include="Src\PhysicSystem\CollisionComponent\BoxCollider2D.cpp" />
-    <ClCompile Include="Src\PhysicSystem\CollisionComponent\CircleCollider2D.cpp" />
-    <ClCompile Include="Src\PhysicSystem\CollisionComponent\EdgeCollider2D.cpp" />
-    <ClCompile Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.cpp" />
     <ClCompile Include="Src\MathLib\Matrix3x3.cpp" />
     <ClCompile Include="Src\MathLib\SYMath.cpp" />
     <ClCompile Include="Src\MathLib\Vector2.cpp" />
@@ -55,13 +51,17 @@
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\GraphicComponent.cpp" />
     <ClCompile Include="Src\GameObjectFactory\GameObject.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\PhysicsComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBodyComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\LogicSystem\AiSystem.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2D.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -379,11 +379,6 @@
     <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
     <ClInclude Include="Src\PhysicSystem\Collision.h" />
     <ClInclude Include="Src\PhysicSystem\Physics.h" />
-    <ClInclude Include="Src\PhysicSystem\CollisionComponent\BoxCollider2D.h" />
-    <ClInclude Include="Src\PhysicSystem\CollisionComponent\CircleCollider2D.h" />
-    <ClInclude Include="Src\PhysicSystem\CollisionComponent\Collider2D.h" />
-    <ClInclude Include="Src\PhysicSystem\CollisionComponent\EdgeCollider2D.h" />
-    <ClInclude Include="Src\PhysicSystem\PhysicComponent\RigidBody2D.h" />
     <ClInclude Include="Src\MathLib\Matrix3x3.h" />
     <ClInclude Include="Src\MathLib\SYMath.h" />
     <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
@@ -413,18 +408,24 @@
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\GraphicComponent.h" />
     <ClInclude Include="Src\GameObjectFactory\GameObject.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\PhysicsComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\RigidBodyComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\LogicComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
     <ClInclude Include="Src\LogicSystem\AiSystem.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />
-    <ClInclude Include="Src\Tools\MemoryManager\CommonBase.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.hpp" />
     <ClInclude Include="Src\GameObjectComponents\IBase.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
+    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2D.h" />
+    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.h" />
+    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.h" />
+    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.h" />
+    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.h" />
+    <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
+    <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
+    <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

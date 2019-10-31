@@ -55,15 +55,16 @@
 #include "GameObjectComponents/IComponentSystem.h"
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
-#include "GameObjectComponents/PhysicsComponents/RigidBodyComponent.h"
-#include "GameObjectComponents/PhysicsComponents/PhysicsComponent.h"
+#include "GameObjectComponents/PhysicsComponents/Collider2D.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
 #include "GameObjectComponents/LogicComponents/LogicComponent.h"
 #include "GameObjectComponents/LogicComponents/AiComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
 
 #include "Tools/DebugTools/FrameRateController.h"
 
-#include "Tools/MemoryManager/CommonBase.h"
+#include "Tools/MemoryManager/IMemoryInfo.h"
+#include "Tools/MemoryManager/IResourceInfo.h"
 #include "Tools/MemoryManager/MemoryManager.h"
 #include "Tools/MemoryManager/ObjectAllocator.h"
 #include "Tools/MemoryManager/ResourceManager.h"
@@ -73,8 +74,5 @@
 #include "LogicSystem/AiSystem.h"
 
 #include "GameStateManager/GameStateManager.h"
-
-#include "PhysicSystem/CollisionComponent/Collider2D.h"
-#include "PhysicSystem/PhysicComponent/RigidBody2D.h"
 
 #endif
