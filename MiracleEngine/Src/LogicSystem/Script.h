@@ -46,8 +46,13 @@ namespace Script_Input {
 }
 
 namespace Script_Shoot {
-	// obj can be PLAYER or ENEMEY
+	// obj should be PLAYER or ENEMEY
 	void Update(GameObject* obj, GameObjectFactory* factory);
+}
+
+namespace Script_Move {
+	// obj can be ANY !static GO
+	void Update(GameObject* obj);
 }
 
 #endif

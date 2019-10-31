@@ -12,6 +12,7 @@ enum ScriptId {
 	SCRIPT_HEALTH = 3,
 	SCRIPT_INPUT = 4,
 	SCRIPT_SHOOT = 5,
+	SCRIPT_MOVE = 6,
 };
 
 class LogicComponent : public IComponentSystem

@@ -50,6 +50,19 @@ namespace Script_Input {
 	 //OTHERS
 		//if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu
 		//	_InputStyle = INGAME_PAUSE_ESCAPE;
+	// SCALE ROTATE
+		if (input->KeyHold(KeyCode::KEYB_E))
+			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetRotate() += 30.1f;
+		if (input->KeyHold(KeyCode::KEYB_Q))
+			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetRotate() -= 30.1f;
+		if (input->KeyHold(KeyCode::KEYB_I))
+			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetScale()._y += 1;
+		if (input->KeyHold(KeyCode::KEYB_K))
+			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetScale()._y -= 1;
+		if (input->KeyHold(KeyCode::KEYB_J))
+			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetScale()._x += 1;
+		if (input->KeyHold(KeyCode::KEYB_L))
+			((TransformComponent*)(player->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT)))->GetScale()._x -= 1;
 	// MOVEMENT
 		// get spd
 		float spd = (float)((LogicComponent*)(player->GetComponent(TypeIdComponent::LOGICCOMPONENT)))->GetSpeed();
@@ -101,7 +114,6 @@ namespace Script_Input {
 				factory->DeleteGameObjectID(x);
 
 			temp = factory->getObjectlist();
-			int a = 0;
 		}
 
 		//// get mouse position and rotate player to face mouse
@@ -191,11 +203,84 @@ namespace Script_Shoot {
 		float rot =
 			((TransformComponent*)obj->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetRotate();
 		// spawn bullet
-		GameObject* temp = nullptr;
-		factory->CloneGameObject(TypeIdGO::BULLET);
-		// set bullet position as same as 'parent' obj
+		GameObject* bullet = nullptr;
+		bullet = factory->CloneGameObject(TypeIdGO::BULLET);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)bullet->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetPos() =
+			((TransformComponent*)obj->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetPos();
+		((TransformComponent*)bullet->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetRotate() =
+			((TransformComponent*)obj->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetRotate();
+		// move bullet
+		Script_Move::Update(bullet);
+	}
+}
 
-		// move bullet in direction of obj
+namespace Script_Move {
+	// obj can be any non-static obj, move forward facing direction (so if facing NE, it will move NE by it's speed)
+	void Update(GameObject* obj)
+	{
+		// move in direction of rotate
+		float rotate = ((TransformComponent*)obj->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetRotate();
+		float speed = (float)((LogicComponent*)(obj->GetComponent(TypeIdComponent::LOGICCOMPONENT)))->GetSpeed();
 		
+			//Mtx33 temp(speed, 0, 0, 0, 1, 0, 0, 0, 1); // 'IdentityMatrix with 'x' as speed
+			//Mtx33RotDeg(temp, rotate);
+			//Vector3 rotatedMoveVector(temp.m00 - temp.m01, temp.m00 + temp.m11, 0);
+
+		// get Mtx
+		Mtx33 temp;
+		Mtx33Identity(temp);
+		Mtx33RotDeg(temp, rotate);
+		// multiply by speed
+		Vector2 dir = { speed, 0 };
+		Vector2 result = temp * dir;
+		// save info into a Vec3
+		Vector3 forceVec(result.x, result.y, 0);
+		
+		// do SY addfoce
+
+		// doing incorrect way
+			((TransformComponent*)obj->GetComponent(TypeIdComponent::TRANSFORMCOMPONENT))->GetPos() += forceVec;
+		return;
+
+		//Vector2 compareVec = { 0, 1 };
+		//float dot = _aimVector.x * compareVec.x + _aimVector.y * compareVec.y;
+		//float det = _aimVector.x * compareVec.y - _aimVector.y * compareVec.x;
+		//float angle = atan2(det, dot);
+	}
+	// obj can be any non-static obj, move in given drection
+	void Update(GameObject* obj, float direction)
+	{
+		// move in direction of rotate
+		float speed = (float)((LogicComponent*)(obj->GetComponent(TypeIdComponent::LOGICCOMPONENT)))->GetSpeed();
+
+		Vector3	originalMoveVector(speed, 0, 0);
+		// rotate vector by 'float rotate'
+
+		Vector3 rotatedMoveVector;
+		// do SY addfoce
+		return;
+
+		//Vector2 compareVec = { 0, 1 };
+		//float dot = _aimVector.x * compareVec.x + _aimVector.y * compareVec.y;
+		//float det = _aimVector.x * compareVec.y - _aimVector.y * compareVec.x;
+		//float angle = atan2(det, dot);
+	}
+	void Update(GameObject* obj, Vector3 direction)
+	{
+		// move in direction of rotate
+		float speed = (float)((LogicComponent*)(obj->GetComponent(TypeIdComponent::LOGICCOMPONENT)))->GetSpeed();
+
+		Vector3	originalMoveVector(speed, 0, 0);
+		// rotate vector by 'float rotate'
+
+		Vector3 rotatedMoveVector;
+		// do SY addfoce
+		return;
+
+		//Vector2 compareVec = { 0, 1 };
+		//float dot = _aimVector.x * compareVec.x + _aimVector.y * compareVec.y;
+		//float det = _aimVector.x * compareVec.y - _aimVector.y * compareVec.x;
+		//float angle = atan2(det, dot);
 	}
 }

@@ -38,6 +38,8 @@ void LogicComponent::Update(GameObjectFactory* factory, GameObject* obj, InputSy
 				break;
 			case SCRIPT_SHOOT:
 				Script_Shoot::Update(this->GetParentPtr(), factory);
+			case SCRIPT_MOVE:
+				Script_Move::Update(this->GetParentPtr());
 			default:
 				break;
 			};
