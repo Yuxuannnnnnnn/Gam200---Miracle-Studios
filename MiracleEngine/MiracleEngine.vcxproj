@@ -180,6 +180,7 @@
     <ClInclude Include="Src\LogicSystem\AiSystem.h" />
     <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
+    <ClInclude Include="Src\LogicSystem\IScript.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />

@@ -4,13 +4,20 @@
 #ifndef LOGICSYSTEM_H
 #define LOGICSYSTEM_H
 
+#include <unordered_map>
+#include "IScript.h"
 
 
 typedef void (*scriptptr)(GameObject*);
 class LogicSystem final
 {
 // list||map of all logic componenets
-	std::vector<GameObject*> _GOList;
+	
+	typedef std::unordered_multimap<int, IScript*> ScriptMap;
+	typedef std::pair<int, IScript*> ScriptPair;
+
+	ScriptMap _ScriptList2;
+
 	std::vector<scriptptr> _ScriptList;
 public:
 	LogicSystem() = default;
@@ -28,6 +35,11 @@ public:
 	// add script
 	void AddScript(int ID, scriptptr script);
 	// update for scripts
+
+	//Shuyu
+
+	void AddNewScript(IScript* script);
+	std::vector<IScript*> GetGameObjectScripts(int id);
 
 };
 

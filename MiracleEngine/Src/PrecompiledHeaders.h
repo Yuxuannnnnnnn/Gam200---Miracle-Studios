@@ -69,6 +69,7 @@
 
 #include "LogicSystem/LogicSystem.h"
 #include "LogicSystem/Script.h"
+#include "LogicSystem/IScript.h"
 #include "LogicSystem/AiSystem.h"
 
 #include "GameStateManager/GameStateManager.h"

@@ -433,6 +433,7 @@
     <ClInclude Include="Src\Animation\Frame.h" />
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
     <ClInclude Include="Src\GameObjectComponents\PickingCollider.h" />
+    <ClInclude Include="Src\LogicSystem\IScript.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
