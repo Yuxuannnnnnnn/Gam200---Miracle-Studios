@@ -17,7 +17,7 @@ class AiComponent : public IComponentSystem
 {
 private:
 	// Target(endPoint) Transform
-	Vector3 _destination;
+	Vector3 _destinationPos;
 	std::vector<Node*> _path;
 public:
 //Constructor

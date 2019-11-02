@@ -1,5 +1,6 @@
 #pragma once
 #include "PrecompiledHeaders.h"
+#include <queue>
 
 #ifndef AISYSTEM_H
 #define	AISYSTEM_H

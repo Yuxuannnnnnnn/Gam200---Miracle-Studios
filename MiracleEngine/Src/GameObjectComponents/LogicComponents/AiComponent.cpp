@@ -6,7 +6,7 @@ AiComponent::AiComponent(GameObject* parent, size_t uId, IComponentSystem* compo
 {
 	if (component)
 	{
-		_destination = dynamic_cast<AiComponent*>(component)->_destination;
+		_destinationPos = dynamic_cast<AiComponent*>(component)->_destinationPos;
 		for (auto& node : dynamic_cast<AiComponent*>(component)->GetPath())
 			_path.emplace_back(new Node(*node));
 	}

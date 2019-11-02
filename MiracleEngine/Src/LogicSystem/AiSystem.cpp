@@ -289,6 +289,7 @@ std::vector<Node*> AISystem::PathFinding()
 	while (itrMap != _tilemap.end())
 	{
 		itrMap->second->SetVisited(false);
+		itrMap->second->SetVisited(false);
 		++itrMap;
 	}
 	// get reversed path (from end node to start node)
