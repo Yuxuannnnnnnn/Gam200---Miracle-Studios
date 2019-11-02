@@ -1,6 +1,12 @@
 #pragma once
+
+
 #include "GameObjectComponents/IComponentSystem.h"
 #include "GameObjectComponents/IBase.h"
+
+#ifndef GRAPHICCOMPONENT_H
+#define	GRAPHICCOMPONENT_H
+
 
 enum class TypeIdGraphic {
 	NONE = 0,
@@ -20,47 +26,22 @@ private:
 	//Store the vb, ib, vao, shader
 
 public:
-	GraphicComponent();
+	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	virtual void Inspect() override;
+
+//Constructor
+	GraphicComponent(GameObject* parent, size_t uId, IComponentSystem * component = nullptr);
 	virtual ~GraphicComponent();
 	GraphicComponent(const GraphicComponent& rhs);
 	GraphicComponent& operator=(const GraphicComponent& rhs);
 
-	std::string ComponentName() const override;
-
-	unsigned& GetTypeId()
-	{
-		return _typeIdGraphic;
-	}
-	std::string& GetFileName()
-	{
-		return _fileName;
-	}
+	unsigned& GetTypeId();
+	std::string& GetFileName();
 
 	// function to get transform component
-	void TEST_getTransform()
-	{
-		//std::unordered_map < unsigned, IComponentSystem* > a
-		//	= ChildGetCompList(_ParentPtr);
-		//TransformComponent* temp = (TransformComponent * )a[0];
-
-		// 
-		TransformComponent* tempTrans = (TransformComponent*)
-			GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT);
-		if (tempTrans)
-		{
-			std::cout
-				<< "\tSibling Trans"
-				<< tempTrans->GetPos()._x << ","
-				<< tempTrans->GetPos()._y << ","
-				<< tempTrans->GetPos()._z << ","
-				<< " "
-				<< tempTrans->GetScale()._x << ","
-				<< tempTrans->GetScale()._y << ","
-				<< tempTrans->GetScale()._z << ","
-				<< " "
-				<< tempTrans->GetRotate()
-				<< std::endl;			
-		}
-	}
+	void TEST_getTransform();
 };
+
+#endif
 

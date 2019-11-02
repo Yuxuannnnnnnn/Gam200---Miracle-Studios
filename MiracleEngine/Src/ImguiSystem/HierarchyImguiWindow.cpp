@@ -40,7 +40,8 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 		GameObject* gameObject = gameObjectPair.second; //Get GameObject* from std::pair
 
 		size_t uID = gameObject->Get_uID();				//Get Unique Number of each GameObject
-		unsigned ObjectTypeID = gameObject->GameObjectType(); //Get Object Type of each GameObject
+		IdentityComponent* Icom = dynamic_cast<IdentityComponent*>(gameObject->GetComponent(TypeIdComponent::IDENTITYCOMPONENT));
+		unsigned ObjectTypeID = Icom->GameObjectType(); //Get Object Type of each GameObject
 		std::string string = ToString((TypeIdGO)ObjectTypeID) + std::string(" ") + std::to_string(uID); // "Object Type + Object unique number" string
 
 
@@ -65,7 +66,6 @@ void HierarchyImguiWindow::ShowGameObjectComponents(
 
 		if (ImGui::TreeNode(component->ComponentName().c_str()))
 		{
-
 			switch (componentType)	//Calls the Suitable Show Component function that the Object has
 			{
 			case (unsigned)TypeIdComponent::TRANSFORMCOMPONENT:	ShowTransformComponent(component); break;

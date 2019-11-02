@@ -1,5 +1,4 @@
 #pragma once
-#include "PrecompiledHeaders.h"
 #include "GameObjectComponents/IComponentSystem.h"
 #include "LogicSystem/AiSystem.h"
 
@@ -17,13 +16,19 @@ class Node; // forward declare from 'AiSys>PathFinding'
 class AiComponent : public IComponentSystem
 {
 private:
-	GameObject* _target;
-	Vector3 _destinationPos;
-	std::vector<Node*> _path; // store the id of the nodes to travel
+	// Target(endPoint) Transform
+	Vector3 _destination;
+	std::vector<Node*> _path;
 public:
-	AiComponent(size_t id = 0);
+//Constructor
+	AiComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+
 // CompName
 	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	virtual void Inspect() override;
+
+
 // InUpEx
 	void Init();
 	void Update();

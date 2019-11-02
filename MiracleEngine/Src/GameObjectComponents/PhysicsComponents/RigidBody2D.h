@@ -6,12 +6,13 @@
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
+
+#include "GameObjectComponents/IComponentSystem.h"
+#include "MathLib/SYMath.h"
+
 #ifndef _RIGIDBODY_2D_H
 #define _RIGIDBODY_2D_H
 
-#include "GameObjectComponents/IComponentSystem.h"
-#include "../GraphicComponents/TransformComponent.h"
-#include "MathLib/SYMath.h"
 
 enum class RIGIDBODY_TYPE {
 	RB_STATIC = true,
@@ -30,20 +31,24 @@ public:
 	float _angularForce;*/
 
 	float _angle;
-	float _mass;
-	float _fictionVal;
-	bool _static;
+	float _mass;		//serialised
+	float _fictionVal;	//serialised
+	bool _static;		//serialised
 	bool _enable;
 
 protected:
 	TransformComponent* _transform;
 
 public:
-	// Constructor
-	RigidBody2D(TransformComponent* transform = nullptr);
-	virtual ~RigidBody2D() {};
-	
 
+	RigidBody2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+	
+	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	void Inspect() override;
+
+	virtual ~RigidBody2D() = default;
+	RigidBody2D(TransformComponent * transform = nullptr);
 	// A copy empty shell object
 	RigidBody2D(const RigidBody2D& rhs);
 	//No replication of class object
@@ -62,10 +67,7 @@ public:
 	void SetType(bool type);
 	void SetEnable(bool enable);
 
-	std::string ComponentName() const override
-	{
-		return "RigidBody2D Component";
-	}
+
 };
 
 #endif

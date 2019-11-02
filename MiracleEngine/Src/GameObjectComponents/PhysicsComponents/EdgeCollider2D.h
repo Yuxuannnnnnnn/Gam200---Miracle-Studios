@@ -6,10 +6,12 @@
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
+
+#include "Collider2D.h"
+
 #ifndef _LINE_COLLIDER_2D_H
 #define _LINE_COLLIDER_2D_H
 
-#include "Collider2D.h"
 
 // namespace MiracleEngine
 
@@ -20,7 +22,7 @@ public:
 	Vector3	m_pt1;
 	Vector3	m_normal;
 
-public:
+	EdgeCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 	// Constructor
 	EdgeCollider2D(TransformComponent* transform = nullptr);
 	virtual ~EdgeCollider2D() {}
@@ -32,14 +34,13 @@ public:
 
 	void Draw();
 	void Update();
-
 };
 
-//struct Ray
-//{
-//	Vector3	m_pt0;
-//	Vector3	m_dir;
-//};
+struct Ray
+{
+	Vector3	m_pt0;
+	Vector3	m_dir;
+};
 
 
 #endif

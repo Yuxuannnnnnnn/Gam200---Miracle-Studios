@@ -1,0 +1,15 @@
+{
+  "ComponentList": [ 0, 1, 5],
+
+  "COMPONENT 0": "TRANSFORM",
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 1.0, 1.0 ],
+  "Rotate": 0.0,
+
+  "COMPONENT 1": "GRAPHICS",
+  "G.TypeId": 0,
+  "G.FileName": "sprite_player.png",
+
+  "COMPONENT 2": "LOGIC",
+  "ScriptId": [ 1 ]
+}

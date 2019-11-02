@@ -1,22 +1,27 @@
 #pragma once
-#include "PrecompiledHeaders.h"
- 
+
+
 #include "rapidjson.h"		// J
 #include "document.h"		// S
 #include "writer.h"			// O
 #include "stringbuffer.h"	// N
 #include "error/en.h"		// Json error displaying
+//#include "Tools/FileIO/FileIO.h"
+#include "Tools/FileIO/Serialiser.h"
 
+
+#include "GameObjectComponents/IComponentSystem.h"
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
 #include "GameObjectComponents/LogicComponents/LogicComponent.h"
 #include "GameObjectComponents/AudioComponent.h"
 #include "GameObjectComponents/PhysicsComponents/Collider2D.h"
 #include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
-
-#include "Tools/FileIO/FileIO.h"
-
-
+#include "GameObjectComponents/IdentityComponent.h"
+#include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
+#include "GameObjectComponents/GraphicComponents/CameraComponent.h"
+#include "GameObjectComponents/PhysicsComponents/CircleCollider2D.h"
+#include "GameObjectComponents/PhysicsComponents/BoxCollider2D.h"
 
 #ifndef GAMEOBJECT_H
 #define	GAMEOBJECT_H
@@ -57,76 +62,64 @@ inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const
 	}
 }
 
-//inline const char* ToString(TypeIdComponent type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui
-//{
-//	switch (type)
-//	{
-//	case TypeIdComponent::TRANSFORMCOMPONENT:	return "Transform Component";
-//	case TypeIdComponent::GRAPHICSCOMPONENT: 	return "Graphics Component";
-//	case TypeIdComponent::RIGIDBODYCOMPONENT:	return "RigidBoody Component";
-//	case TypeIdComponent::COLLIDERCOMPONENT: 	return "Collider Component";
-//	case TypeIdComponent::LOGICCOMPONENT:		return "Logic Component";
-//	case TypeIdComponent::AUDIOCOMPONENT:		return "Audio Component";
-//
-//	default:      return "[Unknown TypeIdComponent]";
-//	}
-//}
 
-typedef std::unordered_map < unsigned, IComponentSystem* > Map_ComponentList;
+typedef std::unordered_map < unsigned,  IComponentSystem* > Map_ComponentList;
 
 class GameObject
 {
 private:
 
 	Map_ComponentList _ComponentList; // Component List
-	unsigned _typeId; // GameObject Type
-	size_t _uId; // Unique ID
+	//unsigned _typeId; // GameObject Type
+	size_t _uId; // Unique ID - non-editable ID
 
 public:
 
-	GameObject(size_t uId, unsigned typeId = (unsigned)TypeIdGO::NONE); // Ctor : Inits w/ a Unique id
+	GameObject(size_t uId); // Ctor : Inits w/ a Unique id
 
 	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
 
-	virtual unsigned GameObjectType() const; // Return GameObjectType Name
-	unsigned Get_typeId() const; // Return _typeId;
+	//virtual unsigned GameObjectType(); // Return GameObjectType Name
 	size_t Get_uID() const; // Return _uId
 
 	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }			// InUpEx
 	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }		//
 	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }			//
 		
-
-	Map_ComponentList& GetComponentList() // Get ComponentList
-	{
-		return _ComponentList;
-	}
-
-// Components<unsi
-	IComponentSystem* addcomponent(TypeIdComponent componentType); 	// DEPRECATED - Add a specific component to the GameObject
-
-	void SerialAddComponent // AddComponent for during Serialisation
-		(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d); 	
-
-	void CopyComponent // Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
-		(Map_ComponentList& original);
-
+	Map_ComponentList& GetComponentList(); // Get ComponentList
 	IComponentSystem* GetComponent(TypeIdComponent typeId); // GetChildComponent
 
-// Cloning
+
+// Components<unsi
+	void Serialise(std::string file);
+
+	IComponentSystem* AddORCloneComponent(TypeIdComponent componentType, IComponentSystem* component = nullptr);
 	virtual GameObject* Clone(size_t uId); // clone itself
 
+	//void SerialAddComponent // AddComponent for during Serialisation
+	//	(TypeIdComponent componentType, rapidjson::Value& s, rapidjson::Document& d); 	
+
+	//void CopyComponent // Copy all components from 'original'(Prototype/Prefab/whateverYouCallIt)
+	//	(Map_ComponentList& original);
+
+
+
+
+// Cloning
+
 // Serialisation
-	void SerialInPrefab_Player();
-	void PrintStats_Player();
-	void SerialInPrefab_Enemy();
-	void PrintStats_Enemy();
-	void SerialInPrefab_Wall();
-	void PrintStats_Wall();
-	void SerialInPrefab_Bullet();	// TODO
-	void PrintStats_Bullet();		// TODO
+	//void SerialInPrefab_Player();
+	//void PrintStats_Player();
+	//void SerialInPrefab_Enemy();
+	//void PrintStats_Enemy();
+	//void SerialInPrefab_Wall();
+	//void PrintStats_Wall();
+	//void SerialInPrefab_Bullet();	// TODO
+	//void PrintStats_Bullet();		// TODO
 };
 
+
+#endif
 // Definition for ChildGetCompList() in IComponentSystem
 //std::unordered_map < unsigned, IComponentSystem* >IComponentSystem::ChildGetCompList(GameObject* obj)
 //{
@@ -253,4 +246,6 @@ public:
 //	}
 //};
 
-#endif
+
+
+

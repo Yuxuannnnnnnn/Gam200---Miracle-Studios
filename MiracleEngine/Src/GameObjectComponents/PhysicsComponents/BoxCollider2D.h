@@ -6,13 +6,15 @@
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-#ifndef _BOX_COLLIDER_2D_H
-#define _BOX_COLLIDER_2D_H
+
 
 #include "CircleCollider2D.h"
 
 #include "Collider2D.h"
 
+
+#ifndef _BOX_COLLIDER_2D_H
+#define _BOX_COLLIDER_2D_H
 // namespace MiracleEngine
 
 class BoxCollider2D : public Collider2D // renderer
@@ -28,12 +30,14 @@ public:
 	Vector3 mOrigin; // corner[0].dot(axis[a])
 
 	float mAngle;
-
 public:
+
+  // Default Constructor
+	BoxCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+
 	// Constructor
 	BoxCollider2D(TransformComponent* transform = nullptr);
 	virtual ~BoxCollider2D() {}
-
 	// A copy empty shell object
 	BoxCollider2D(const BoxCollider2D& rhs);
 	//No replication of class object
@@ -58,6 +62,7 @@ public:
 
 bool TestCircleVsAABB(const CircleCollider2D& circle, const BoxCollider2D& aabb);
 bool TestCircleVsOOBB(const CircleCollider2D& circle, const BoxCollider2D& oobb);
+
 
 #endif
 

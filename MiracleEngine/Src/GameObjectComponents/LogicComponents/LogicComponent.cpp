@@ -1,19 +1,63 @@
 #include "PrecompiledHeaders.h"
 #include "LogicComponent.h"
 
-LogicComponent::LogicComponent(size_t id)
+LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component)
+	:IComponentSystem(parent, uId)
 {
-	SetParentId(id);
+	if (component)
+	{
+		LogicComponent* logicComponent = dynamic_cast<LogicComponent*>(component);
+
+		for(auto& script : logicComponent->_scriptList)
+		 _scriptList.emplace_back(script);
+		// Logic Related Stats
+		 _health = logicComponent->_health;
+		 _speed = logicComponent->_speed;
+		 _lifetime = logicComponent->_lifetime;
+	}
 }
+
+
 // CompName
 std::string LogicComponent::ComponentName() const
 {
 	return "Logic Component";
 }
+
+
+void LogicComponent::SerialiseComponent(Serialiser& document)
+{
+
+	if (document.HasMember("_scriptList") && document["_scriptList"].IsArray())	//Checks if the variable exists in .Json file
+		for (int i = 0; i < document["ScriptId"].Size(); i++)
+		{
+			if(document["ScriptId"][i].IsInt())
+				_scriptList.emplace_back(document["ScriptId"][i].GetInt());
+		}
+
+	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
+		_health = document["Health"].GetInt();
+
+	if (document.HasMember("Speed") && document["Speed"].IsInt())	//Checks if the variable exists in .Json file
+		_speed = document["Speed"].GetInt();
+
+	if (document.HasMember("Lifetime") && document["Lifetime"].IsInt())	//Checks if the variable exists in .Json file
+		_lifetime = document["Lifetime"].GetInt();
+
+}
+
+void LogicComponent::Inspect()
+{
+}
+
+
 // InUpEx
 void LogicComponent::Init()
 {
 }
+
+
+
 void LogicComponent::Update(GameObjectFactory* factory, GameObject* obj, InputSystem* input)
 {
 	if (!_scriptList.empty()) // make sure scriptList is !empty()

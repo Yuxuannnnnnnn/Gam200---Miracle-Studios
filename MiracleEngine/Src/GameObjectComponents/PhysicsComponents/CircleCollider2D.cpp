@@ -11,9 +11,21 @@
 //#include "GraphicsSystem/DebugRenderer.h"
 
 
-CircleCollider2D::CircleCollider2D(TransformComponent* transform) : 
+CircleCollider2D::CircleCollider2D(GameObject* parent, size_t uId, IComponentSystem* component)
+	: Collider2D(parent, uId, component), mCenPos(0.f, 0.f), mRadius(0.f)
+{
+
+	if (component)
+	{
+		CircleCollider2D* circle2DComponent = dynamic_cast<CircleCollider2D*>(component);
+		mCenPos = circle2DComponent->mCenPos;
+		mRadius = circle2DComponent->mRadius;
+	}
+}
+
+CircleCollider2D::CircleCollider2D(TransformComponent* transform) :
 	mCenPos{},
-	mRadius{0.f},
+	mRadius{ 0.f },
 	Collider2D(transform)
 {/*
 	mCenPos = _transform->GetPos();

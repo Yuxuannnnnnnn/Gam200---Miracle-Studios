@@ -1,0 +1,26 @@
+{
+  "ComponentList": [ 0, 1, 2, 3, 4 ],
+
+  "COMPONENT 0": "TRANSFORM",
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 1.0, 1.0 ],
+  "Rotate": 0.0,
+
+  "COMPONENT 1": "GRAPHICS",
+  "G.TypeId": 0,
+  "G.FileName": "sprite_bullet.png",
+
+  "COMPONENT 2": "RIGID BODY",
+  "Mass": 0.0,
+  "Friction": 0.0,
+  "Static": false,
+
+  "COMPONENT 3": "COLLIDER",
+  "ColliderTypeId": 2,
+  
+   "COMPONENT 4": "LOGIC",
+  "ScriptId": [ 6 ],
+  "Health": 1,
+  "Speed": 10,
+  "Lifetime": 5
+}

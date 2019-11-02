@@ -1,2 +1,2 @@
 CRASH LOG
-ASSERT FAILED: iBuffer != nullptr @ D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectFactory\GameObject.cpp (241)
+ASSERT FAILED: iBuffer != nullptr @ C:\Users\Yu Xuan\Desktop\Gam200---Miracle-Studios\MiracleEngine\Src\Serialiser.cpp (10)

@@ -1,7 +1,9 @@
 #pragma once
+#include "GameObject.h"
 
 
-
+#ifndef GAMEOBJECTPROTOTYPE_H
+#define GAMEOBJECTPROTOTYPE_H
 
 
 class GameObjectPrototype final
@@ -18,8 +20,13 @@ public:
 
 	std::unordered_map<TypeIdGO, GameObject*>& GetPrototypeList();	// Get _listObjectProrotype
 
-	GameObject* PrefabGameObject(TypeIdGO typeId);	// Create a gameObject type along with its Components
+	//GameObject* PrefabGameObject(TypeIdGO typeId);	// Create a gameObject type along with its Components
 
 
 
 };
+
+
+#endif
+
+
