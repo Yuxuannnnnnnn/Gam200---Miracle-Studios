@@ -31,7 +31,7 @@ void PerformanceUsage::PrintPerformanceUsage()
 	double graphic = (GraphicFrameTime / PerFrameTime) * 100;
 
 	double others = 100 - input - logic - physic - graphic;
-	ImGui::Begin("FPS Performance Viewer");
+ImGui::Begin("FPS Performance Viewer");
 	ImGui::Text("Engine FPS : %d ", FPS);
 	ImGui::Text("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	ImGui::Text("Input usage   : %.3f%% ", input);
@@ -39,5 +39,5 @@ void PerformanceUsage::PrintPerformanceUsage()
 	ImGui::Text("Physic usage  : %.3f%% ", physic);
 	ImGui::Text("Graphic usage : %.3f%% ", graphic);
 	ImGui::Text("Others usage : %.3f%% ", others);
-	ImGui::End();
+ImGui::End();
 }

@@ -31,6 +31,9 @@ void Engine::Update()
 		{
 			//WindowsSystem -> InputSystem -> Logic System -> Physics System -> AudioSytem -> ImguiSystem UpdateFrame -> GraphicSystem ->  ImguiSystem Render
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
+
+			_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
+
 			_performanceUsage->PrintPerformanceUsage();
 
 			double dt = _frameRateControl->UpdateFrameTime();
@@ -77,7 +80,7 @@ void Engine::Update()
 
 
 			// Audio
-			_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
+
 
 			// Graphics
 			_frameRateControl->StartTimeCounter();

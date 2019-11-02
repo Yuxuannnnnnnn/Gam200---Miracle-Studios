@@ -31,8 +31,9 @@ public:
 		_graphicsSystem{ new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), 
 											_windowSystem->getWindow().GetWindowHeight())},
 		_physicsSystem{ new Physics() },
-		_frameRateControl{ new FrameRateController(60) },	//FrameRateController Set to 60 FPS at start of the Engine
 
+		_frameRateControl{ new FrameRateController(60) },	//FrameRateController Set to 60 FPS at start of the Engine
+		_performanceUsage{ new PerformanceUsage() },
 		_gameObjectFactory{ new GameObjectFactory() }
 	{}
 
