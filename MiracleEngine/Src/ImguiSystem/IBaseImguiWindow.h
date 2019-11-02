@@ -8,7 +8,7 @@
 enum class ImguiWindows //The List of ImguiWindows 
 {
 	HIERARCHY = 0,
-	//INSPECTOR = 1,
+	INSPECTOR = 1,
 	//SCENE = 2,
 
 	 //COMMAND_DEBUG = 3,

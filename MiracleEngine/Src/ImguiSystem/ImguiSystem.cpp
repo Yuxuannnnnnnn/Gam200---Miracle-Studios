@@ -2,6 +2,7 @@
 #include "ImguiSystem.h"
 
 #include "HierarchyImguiWindow.h"
+#include "InspectionImguiWindow.h"
 
 
 
@@ -42,8 +43,8 @@ ImguiSystem::ImguiSystem(const Window& window)
 	//New All ImguiWindows
 	
 	_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)] = new HierarchyImguiWindow();
+	_ImguiWindows[static_cast<int>(ImguiWindows::INSPECTOR)] = new InspectionImguiWindow();
 	/*
-	_ImguiWindows[ImguiWindows::INSPECTOR] = new Inspector();
 	_ImguiWindows[ImguiWindows::SCENE] = new Scene();
 	*/
 }

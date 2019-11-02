@@ -6,6 +6,7 @@
 #include "Inputsystem/InputSystem.h"
 #include "WindowsSystem/WindowsSystem.h"
 #include "Tools/DebugTools/FrameRateController.h"
+#include "Tools/DebugTools/PerformanceUsage.h"
 #include "PhysicSystem/Physics.h"
 
 #include "ImguiSystem.h"
@@ -32,7 +33,6 @@ public:
 		_physicsSystem{ new Physics() },
 		_frameRateControl{ new FrameRateController(60) },	//FrameRateController Set to 60 FPS at start of the Engine
 
-
 		_gameObjectFactory{ new GameObjectFactory() }
 	{}
 
@@ -55,6 +55,7 @@ public:
 	Physics* _physicsSystem;
 
 	FrameRateController* _frameRateControl;
+	PerformanceUsage* _performanceUsage;
 
 	GameObjectFactory* _gameObjectFactory;
 

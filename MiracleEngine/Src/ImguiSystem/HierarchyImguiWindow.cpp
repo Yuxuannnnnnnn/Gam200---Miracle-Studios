@@ -12,6 +12,8 @@
 HierarchyImguiWindow::HierarchyImguiWindow(bool open, ImGuiWindowFlags flags)
 	:IBaseImguiWindow("Hierarchy", open, flags)
 {
+
+
 }
 
 
@@ -47,8 +49,8 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 		if (ImGui::CollapsingHeader(string.c_str()))	//Start of Each Object Hierarchy
 		{
-			std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
-			ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+			//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+			//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 		}
 	}
 }
@@ -63,57 +65,9 @@ void HierarchyImguiWindow::ShowGameObjectComponents(
 		IComponentSystem* component = iComponentPair.second;	//Get component* from std::pair
 		unsigned componentType = iComponentPair.first;	//Get ComponentType from std::pair
 
-
-		if (ImGui::TreeNode(component->ComponentName().c_str()))
-		{
-			switch (componentType)	//Calls the Suitable Show Component function that the Object has
-			{
-			case (unsigned)TypeIdComponent::TRANSFORMCOMPONENT:	ShowTransformComponent(component); break;
-			case (unsigned)TypeIdComponent::GRAPHICSCOMPONENT:	ShowGraphicsComponent(component);  break;
-			case (unsigned)TypeIdComponent::RIGIDBODYCOMPONENT:	ShowRigidBodyComponent(component); break;
-			case (unsigned)TypeIdComponent::COLLIDERCOMPONENT:	ShowColliderComponent(component);  break;
-			case (unsigned)TypeIdComponent::LOGICCOMPONENT:		ShowLogicComponent(component);	   break;
-			case (unsigned)TypeIdComponent::AUDIOCOMPONENT:		ShowAudioCommponent(component);	   break;
-			}
-
-			ImGui::Text("Text");
-
-			ImGui::TreePop();
-		}
 	}
 }
 
-
-void HierarchyImguiWindow::ShowTransformComponent(IComponentSystem* component)
-{
-
-
-}
-
-
-void HierarchyImguiWindow::ShowGraphicsComponent(IComponentSystem* component)
-{
-}
-
-
-void HierarchyImguiWindow::ShowRigidBodyComponent(IComponentSystem* component)
-{
-}
-
-
-void HierarchyImguiWindow::ShowColliderComponent(IComponentSystem* component)
-{
-}
-
-
-void HierarchyImguiWindow::ShowLogicComponent(IComponentSystem* component)
-{
-}
-
-
-void HierarchyImguiWindow::ShowAudioCommponent(IComponentSystem* component)
-{
-}
 
 
 
