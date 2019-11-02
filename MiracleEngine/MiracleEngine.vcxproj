@@ -167,6 +167,7 @@
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\FontComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
+    <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2D.h" />
     <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
     <ClInclude Include="Src\LogicSystem\IScript.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
+    <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
@@ -534,9 +536,11 @@
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\FontComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.cpp" />
     <ClCompile Include="Src\GameObjectFactory\GameObjectPrototype.cpp" />
@@ -546,6 +550,7 @@
     <ClCompile Include="Src\LogicSystem\AiSystem.cpp" />
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
+    <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
     <ClCompile Include="Src\WindowsSystem\ScreenSize.cpp" />
     <ClCompile Include="Src\WindowsSystem\Console.cpp" />

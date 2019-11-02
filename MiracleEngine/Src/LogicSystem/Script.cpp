@@ -99,7 +99,8 @@ namespace Script_Input {
 			std::vector <size_t> toDelete;
 			while (itr != temp.end())
 			{
-				if (itr->second->Get_typeId() == (unsigned)TypeIdGO::BULLET)
+				IdentityComponent* Icom = dynamic_cast<IdentityComponent*> (itr->second);
+				if (Icom->GameObjectType() == (unsigned)TypeIdGO::BULLET)
 					//delete temp[itr->first];
 					//temp.erase(itr->first);
 					//itr = temp.begin();

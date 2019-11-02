@@ -2,6 +2,10 @@
 #include "GameObjectComponents/IComponentSystem.h"
 #include "MathLib/SYMath.h"
 
+
+#ifndef TRANSFORMCOMPONENT_H
+#define	TRANSFORMCOMPONENT_H
+
 class TransformComponent: public IComponentSystem
 {
 private:
@@ -9,41 +13,31 @@ private:
 	Vector3 _scale;
 	float _rotationAngle;
 
-	Vector3 _transform;
-
 public:
-	TransformComponent() 
-		:_pos{ Vector3{ 0, 0, 1 } }, 
-		_scale{ Vector3{ 0, 0, 1 } }, 
-		_rotationAngle{ 0.0f }, 
-		_transform{ Vector3{ 0, 0, 1 } }
-	{
-	}
+	TransformComponent(GameObject* parent, size_t uId, IComponentSystem * component = nullptr);
+	TransformComponent(GameObject* parent, size_t uId, const Vector3& pos, const Vector3& scale, const float& angle);
 
-	TransformComponent(const Vector3& pos, const Vector3& scale, const float& angle) :
-		_pos{ pos }, _scale{ scale }, _rotationAngle{ angle }
-	{
 
-	}
+	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	virtual void Inspect() override;
+
 
 // GetPID
 
-	Vector3& GetPos()
-	{ return _pos; }
-	void SetPos(const Vector3& in)
-	{ _pos = in; }
-	Vector3& GetScale()
-	{ return _scale; }
-	void SetScale(const Vector3& in)
-	{ _scale = in; }
-	float& GetRotate()
-	{ return _rotationAngle; }
-	void SetRotate(const float in)
-	{ _rotationAngle = in; }
+	Vector3& GetPos();
+	void SetPos(const Vector3& in);
 
-	std::string ComponentName() const override
-	{
-		return "Transform Component";
-	}
+	Vector3& GetScale();
+	void SetScale(const Vector3& in);
+
+	float& GetRotate();
+	void SetRotate(const float in);
+
+
 };
+
+#endif
+
+
 

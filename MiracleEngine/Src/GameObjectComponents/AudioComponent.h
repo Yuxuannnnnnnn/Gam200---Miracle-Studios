@@ -1,7 +1,9 @@
 #pragma once
-#include "PrecompiledHeaders.h"
 #include "IComponentSystem.h"
 
+
+#ifndef AUDIOCOMPONENT_H
+#define	AUDIOCOMPONENT_H
 
 // For both audio componentand graphic component, serialize a string and a typeid
 enum class TypeIdAudio {
@@ -12,26 +14,27 @@ enum class TypeIdAudio {
 class AudioComponent : public IComponentSystem
 {
 private:
-	unsigned _typeIdAudio;
-	std::string _fileName;
+	unsigned _typeIdAudio;	//Serialised
+	std::string _fileName;	//Serialised
 
 	unsigned _fileTrackLength;
 	size_t _lifetimeTotal;
 	size_t _lifetimeCurrent;
 	bool _loop;
 public:
-	AudioComponent();
-	~AudioComponent();
+	AudioComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 
 	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	void Inspect() override;
 
-	unsigned& GetTypeId()
-	{
-		return _typeIdAudio;
-	}
-	std::string& GetFileName()
-	{
-		return _fileName;
-	}
+	~AudioComponent() = default;
+
+	unsigned& GetTypeId();
+
+	std::string& GetFileName();
+
 };
 
+
+#endif

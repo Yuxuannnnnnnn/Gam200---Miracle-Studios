@@ -1,7 +1,10 @@
 #pragma once
-#include "PrecompiledHeaders.h"
 #include "GameObjectComponents/IComponentSystem.h"
 #include "LogicSystem/Script.h"
+
+#ifndef LOGICCOMPONENT_H
+#define	LOGICCOMPONENT_H
+
 
 enum ScriptId {
 	// note, this is supposed to co-relate to the
@@ -12,8 +15,9 @@ enum ScriptId {
 	SCRIPT_HEALTH = 3,
 	SCRIPT_INPUT = 4,
 	SCRIPT_SHOOT = 5,
-	SCRIPT_MOVE = 6,
+	SCRIPT_MOVE = 6
 };
+
 
 class LogicComponent : public IComponentSystem
 {
@@ -26,13 +30,17 @@ class LogicComponent : public IComponentSystem
 	int _lifetime{ 0 };
 
 public:
-	LogicComponent(size_t id = 0);
+//Constructor
+	LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 	~LogicComponent() = default;
 	LogicComponent(const LogicComponent& rhs) = default;
 	LogicComponent& operator=(const LogicComponent& rhs) = default;
 
 // CompName
 	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	virtual void Inspect() override;
+
 // InUpEx
 	void Init();
 	void Update(GameObjectFactory* factory, GameObject* obj, InputSystem* input);
@@ -47,3 +55,5 @@ public:
 // GetHealth
 	int& GetLifetime();
 };
+
+#endif

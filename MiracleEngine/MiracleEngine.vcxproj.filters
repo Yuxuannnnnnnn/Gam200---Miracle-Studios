@@ -65,6 +65,9 @@
     <ClCompile Include="Src\Animation\Animation.cpp" />
     <ClCompile Include="Src\Animation\Frame.cpp" />
     <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
+    <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -434,6 +437,8 @@
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
     <ClInclude Include="Src\GameObjectComponents\PickingCollider.h" />
     <ClInclude Include="Src\LogicSystem\IScript.h" />
+    <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
+    <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
