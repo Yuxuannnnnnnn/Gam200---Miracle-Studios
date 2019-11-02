@@ -3,7 +3,7 @@
 
 AiComponent::AiComponent(size_t id)
 {
-
+	SetParentId(id);
 }
 
 std::string AiComponent::ComponentName() const
@@ -15,20 +15,26 @@ void AiComponent::Init()
 {
 
 }
-void AiComponent::AiComponent::Update(std::vector<Node>& tilemap)
+void AiComponent::AiComponent::Update()
 {
-	// call the pathfinding algorithm
-		// AiSystem::PathFinding()
-	// call Move();
+	// if _target.pos() != _destination
+		// call AISystem::PathFinding()
+		// save new map
+	// call Script_Move() for next Node in _path
 }
 void AiComponent::Exit()
 {
 
 }
 
-Vector3& AiComponent::GetDestination()
+Vector3& AiComponent::GetDestinationPos()
 {
-	return _destination;
+	return _destinationPos;
+}
+
+Vector3& AiComponent::GetPosition()
+{
+	return ((TransformComponent*)this->GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT))->GetPos();
 }
 
 std::vector<Node*>& AiComponent::GetPath()
@@ -36,8 +42,9 @@ std::vector<Node*>& AiComponent::GetPath()
 	return _path;
 }
 
-Vector3& AiComponent::GetPosition()
+void AiComponent::Move()
 {
-	TransformComponent* temp = (TransformComponent*)this->GetSibilingComponent((unsigned)TypeIdComponent::TRANSFORMCOMPONENT);
-	return temp->GetPos();
+	// get next node
+	// use script_move to move toward
+	;
 }

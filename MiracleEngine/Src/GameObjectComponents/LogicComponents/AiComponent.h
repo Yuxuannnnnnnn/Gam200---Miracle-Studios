@@ -17,19 +17,19 @@ class Node; // forward declare from 'AiSys>PathFinding'
 class AiComponent : public IComponentSystem
 {
 private:
-	// Target(endPoint) Transform
-	Vector3 _destination;
-	std::vector<Node*> _path;
+	GameObject* _target;
+	Vector3 _destinationPos;
+	std::vector<Node*> _path; // store the id of the nodes to travel
 public:
 	AiComponent(size_t id = 0);
 // CompName
 	std::string ComponentName() const override;
 // InUpEx
 	void Init();
-	void Update(std::vector<Node>& tilemap);
+	void Update();
 	void Exit();
 // GetDestination
-	Vector3& GetDestination();	// gets _target's position
+	Vector3& GetDestinationPos();	// gets _target's position
 // GetPosition(of Parent)
 	Vector3& GetPosition();	// gets _parent's position
 // GetPath
