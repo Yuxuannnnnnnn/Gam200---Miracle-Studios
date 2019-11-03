@@ -16,9 +16,9 @@ void Player::updateMovement(double dt)
 	//	_InputStyle = INGAME_PAUSE_ESCAPE;
 // SCALE ROTATE
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_E))
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() += 0.1f;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() -= 0.1f;
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
+		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() += 0.1f;
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_I))
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetScale()._y += 1;
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_K))
