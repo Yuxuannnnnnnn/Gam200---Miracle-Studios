@@ -9,7 +9,9 @@ class LogicComponent : public IComponentSystem
 {
 	Map_ScriptList _scriptList;
 public:
-	LogicComponent() {};
+	bool _componentEnable;
+
+	LogicComponent() : _componentEnable{ true } {};
 	virtual ~LogicComponent() {};
 	LogicComponent(const LogicComponent& rhs) = default;
 	LogicComponent& operator=(const LogicComponent& rhs) = default;

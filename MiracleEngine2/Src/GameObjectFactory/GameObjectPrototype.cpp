@@ -2,10 +2,14 @@
 #include "GameObjectPrototype.h"
 #include "Engine/EngineSystems.h"
 
+#include "GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
+
 
 GameObjectPrototype::GameObjectPrototype()
 {
 	SerialPrefabObject(TypeIdGO::PLAYER);
+	SerialPrefabObject(TypeIdGO::BULLET);
+	SerialPrefabObject(TypeIdGO::ENEMY);
 }
 
 
@@ -38,8 +42,10 @@ GameObject* GameObjectPrototype::SerialPrefabObject(TypeIdGO type)
 		temp = SerialInPrefab_Player();
 		break;
 	case TypeIdGO::ENEMY:
+		temp = SerialInPrefab_Enemy();
 		break;
 	case TypeIdGO::BULLET:
+		temp = SerialInPrefab_Bullet();
 		break;
 	case TypeIdGO::WEAPON:
 		break;
@@ -107,15 +113,15 @@ void GameObjectPrototype::SerialAddComponent(GameObject* object, SerialTypeId co
 
 		if (type == (int)ColliderType::BOX_COLLIDER)
 		{
-			temp = object->AddComponent(ComponentId::RIGIDBODY_COMPONENT);
+			temp = object->AddComponent(ComponentId::BOXCOLLIDER_COMPONENT);
 		}
 		else if (type == (int)ColliderType::CIRCLE_COLLIDER)
 		{
-			temp = object->AddComponent(ComponentId::RIGIDBODY_COMPONENT);
+			temp = object->AddComponent(ComponentId::CIRCLECOLLIDER_COMPONENT);
 		}
 		else if (type == (int)ColliderType::LINE_COLLIDER)
 		{
-			temp = object->AddComponent(ComponentId::RIGIDBODY_COMPONENT);
+			temp = object->AddComponent(ComponentId::LINECOLLIDER_COMPONENT);
 		}
 		break;
 	}
@@ -129,9 +135,26 @@ void GameObjectPrototype::SerialAddComponent(GameObject* object, SerialTypeId co
 		s = d["ScriptId"];
 		JsonDynamicStore(types, s);
 
-		if (types[0] == (int)ScriptId::PLAYER)
+		for (auto it : types)
 		{
-			temp = object->AddComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PLAYER);
+			if (it == (int)ScriptId::PLAYER)
+			{
+				temp = object->AddComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PLAYER);
+			}
+			else if (it == (int)ScriptId::BULLET)
+			{
+				temp = object->AddComponent(ComponentId::LOGIC_COMPONENT, ScriptId::BULLET);
+				s = d["Lifetime"];
+				JsonDynamicStore(reinterpret_cast<Bullet*>(temp)->_lifeTime, s);
+				break;
+			}
+			else if (it == (int)ScriptId::ENEMY)
+			{
+				temp = object->AddComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY);
+				s = d["Health"];
+				JsonDynamicStore(reinterpret_cast<Enemy*>(temp)->_health, s);
+				break;
+			}
 		}
 		break;
 	}
@@ -169,6 +192,67 @@ GameObject* GameObjectPrototype::SerialInPrefab_Player()
 
 	return object;
 }
+
+GameObject* GameObjectPrototype::SerialInPrefab_Bullet()
+{
+	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+	object->Set_typeId(TypeIdGO::BULLET);
+
+	rapidjson::Document d;
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/GameObjects/Bullet.json"); //Read in whole file as char pointer
+	ASSERT(iBuffer != nullptr);			//std::cout << iBuffer << std::endl; //Show buffer, use to check
+	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);					 //Read whole file in RapidJson format
+
+// Component List
+	rapidjson::Value& s = d["ComponentList"];			//Get Numberlist of Component Data in RapidJson Format	
+	std::vector<int> compList;
+	JsonDynamicStore(compList, s);						//Convert Numberlist of Component Data to stl dynamic list format
+	std::vector<int>::iterator itr = compList.begin();
+	while (itr != compList.end())
+		SerialAddComponent(object, (SerialTypeId)* itr++, s, d);
+
+	// Other Values
+			//s = d["Weapons"];
+			//JsonDynamicStore(_WeaponListId, s);
+			// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
+	std::cout << "-------------------------------------" << std::endl;
+	delete[] iBuffer;
+	//Serialisation Check
+		//PrintStats_Player();
+
+	return object;
+}
+
+GameObject* GameObjectPrototype::SerialInPrefab_Enemy()
+{
+	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+	object->Set_typeId(TypeIdGO::ENEMY);
+
+	rapidjson::Document d;
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/GameObjects/Enemy.json"); //Read in whole file as char pointer
+	ASSERT(iBuffer != nullptr);			//std::cout << iBuffer << std::endl; //Show buffer, use to check
+	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);					 //Read whole file in RapidJson format
+
+// Component List
+	rapidjson::Value& s = d["ComponentList"];			//Get Numberlist of Component Data in RapidJson Format	
+	std::vector<int> compList;
+	JsonDynamicStore(compList, s);						//Convert Numberlist of Component Data to stl dynamic list format
+	std::vector<int>::iterator itr = compList.begin();
+	while (itr != compList.end())
+		SerialAddComponent(object, (SerialTypeId)* itr++, s, d);
+
+	// Other Values
+			//s = d["Weapons"];
+			//JsonDynamicStore(_WeaponListId, s);
+			// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
+	std::cout << "-------------------------------------" << std::endl;
+	delete[] iBuffer;
+	//Serialisation Check
+		//PrintStats_Player();
+
+	return object;
+}
+
 
 
 

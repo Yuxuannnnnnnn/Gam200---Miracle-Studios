@@ -24,6 +24,7 @@ public:
 
 	// Serialisation
 	GameObject* SerialInPrefab_Player();
-
+	GameObject* SerialInPrefab_Bullet();
+	GameObject* SerialInPrefab_Enemy();
 
 };

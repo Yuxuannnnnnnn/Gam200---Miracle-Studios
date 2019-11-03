@@ -1,2 +1,2 @@
 CRASH LOG
-ASSERT FAILED: val.IsUint() @ C:\Users\yin.s\Desktop\MiracleEngine2\MiracleEngine2\Src\Tools\FileIO\FileIO.cpp (71)
+ASSERT FAILED: val.IsFloat() @ C:\Users\yin.s\Desktop\MiracleEngine2\MiracleEngine2\Src\Tools\FileIO\FileIO.cpp (61)

@@ -1,6 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "../Engine/EngineSystems.h"
-#include "Player.h"
+#include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
 
 void Player::Update(double dt)
@@ -48,8 +48,22 @@ void Player::updateMovement(double dt)
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() = a;
 	}
 	// MOUSE
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_LBUTTON))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_MBUTTON))
 	{
-		GetParentPtr()->SetDestory(true);
+		EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_RBUTTON))
+	{
+		Vector3 pos =
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos();
+		float rot =
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate();
+		// spawn bullet
+		GameObject* bullet = nullptr;
+		bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
+		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot);
+		// move bullet
 	}
 }

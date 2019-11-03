@@ -29,7 +29,6 @@ void EventHandler::UpdateCollided2DEvent()
 
 	for (auto it = _Collide2DQueCurr.begin(); it != _Collide2DQueCurr.end();)
 	{
-
 		bool incement = true;
 
 		auto range = _Collide2DQuePre.equal_range(it->first);
@@ -42,6 +41,7 @@ void EventHandler::UpdateCollided2DEvent()
 				/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 				if (object)
 					object->OnCollision2DStay(it->second);*/
+				SendEventMessage(it->first->GetParentPtr(), EventMessageType::ON_COLLISION_STAY, it->second);
 
 				tempQueue.insert(*it);
 
@@ -63,6 +63,7 @@ void EventHandler::UpdateCollided2DEvent()
 		if (object)
 			object->OnCollision2DExit(it->second);*/
 		//object->OnCollisionExit(it->second);
+		SendEventMessage(it->first->GetParentPtr(), EventMessageType::ON_COLLISION_EXIT, it->second);
 
 		RemoveCollided2DEvent(_Collide2DQuePre, it->first, it->second);
 
@@ -79,6 +80,7 @@ void EventHandler::UpdateCollided2DEvent()
 		if (object)
 			object->OnCollision2DTrigger(it->second);*/
 		//object->OnCollisionTrigger(it->second);
+		SendEventMessage(it->first->GetParentPtr(), EventMessageType::ON_COLLISION_TRIGGER, it->second);
 
 		tempQueue.insert(*it);
 
@@ -137,6 +139,7 @@ void EventHandler::UpdateTriggered2DEvent()
 				/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 				if (object)
 					object->OnCollision2DStay(it->second);*/
+				SendEventMessage(it->first->GetParentPtr(), EventMessageType::ON_TRIGGER_STAY, it->second);
 
 				tempQueue.insert(*it);
 
@@ -159,6 +162,7 @@ void EventHandler::UpdateTriggered2DEvent()
 		if (object)
 			object->OnCollision2DExit(it->second);*/
 			//object->OnCollisionExit(it->second);
+		SendEventMessage(it->first->GetParentPtr(), EventMessageType::ON_TRIGGER_EXIT, it->second);
 
 		RemoveTriggered2DEvent(_Trigger2DQuePre, it->first, it->second);
 
@@ -174,6 +178,7 @@ void EventHandler::UpdateTriggered2DEvent()
 		if (object)
 			object->OnCollision2DTrigger(it->second);*/
 			//object->OnCollisionTrigger(it->second);
+		SendEventMessage(it->first->GetParentPtr(), EventMessageType::ON_TRIGGER_ENTER, it->second);
 
 		tempQueue.insert(*it);
 

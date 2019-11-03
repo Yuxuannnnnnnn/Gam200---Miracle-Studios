@@ -181,6 +181,8 @@
     <ClInclude Include="Src\GameObjectComponents\PickingCollider.h" />
     <ClInclude Include="Src\GameObjectComponents\PrecompiledComponentHeader.h" />
     <ClInclude Include="Src\GameObjectFactory\GameObjectPrototype.h" />
+    <ClInclude Include="Src\Gameplay\Bullet.h" />
+    <ClInclude Include="Src\Gameplay\Enemy.h" />
     <ClInclude Include="Src\Gameplay\Player.h" />
     <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
     <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
@@ -546,6 +548,8 @@
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.cpp" />
     <ClCompile Include="Src\GameObjectFactory\GameObjectPrototype.cpp" />
+    <ClCompile Include="Src\Gameplay\Bullet.cpp" />
+    <ClCompile Include="Src\Gameplay\Enemy.cpp" />
     <ClCompile Include="Src\Gameplay\Player.cpp" />
     <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />

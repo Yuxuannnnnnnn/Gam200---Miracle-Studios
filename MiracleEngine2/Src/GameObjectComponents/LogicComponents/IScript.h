@@ -10,15 +10,20 @@
 
 enum class ScriptId {
 	EMPTY = 0,
-	PLAYER = 1
+	PLAYER = 1,
+	BULLET = 2,
+	ENEMY = 3
 };
 
-class IScript : public IComponentSystem
+class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler
 {
 private:
 	unsigned _ScriptType;
 public:
-	IScript() : _ScriptType{ (unsigned)ScriptId::EMPTY } {}
+	bool _componentEnable;
+
+
+	IScript() : _ScriptType{ (unsigned)ScriptId::EMPTY }, _componentEnable{ true } {}
 	virtual ~IScript() {}
 
 	virtual void Update(double dt) {}

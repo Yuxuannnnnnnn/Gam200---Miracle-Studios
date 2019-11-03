@@ -51,8 +51,9 @@ private:
 	unsigned _typeId; // GameObject Type
 	size_t _uId; // Unique ID
 	bool _destory;
-
+	bool _enable;
 public:
+	bool _alive;
 
 	GameObject(size_t uId, unsigned typeId = (unsigned)TypeIdGO::NONE); // Ctor : Inits w/ a Unique id
 
@@ -71,7 +72,6 @@ public:
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
 
-
 	bool CheckComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 
 	IComponentSystem* AddComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
@@ -79,7 +79,21 @@ public:
 	void DestoryGameObject();
 
 	bool GetDestory() const { return _destory; }
-	void SetDestory(bool destory) { _destory = destory; }
+	void SetDestory() 
+	{
+		_destory = true; 
+		SetEnable(false);
+	}
+
+	bool GetEnable() const { return _enable; }
+	void SetEnable(bool enable) 
+	{ 
+		_enable = enable;
+
+		for (auto it : _ComponentList)
+			it.second->SetEnable(enable);
+	}
+
 
 	IComponentSystem* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
 };

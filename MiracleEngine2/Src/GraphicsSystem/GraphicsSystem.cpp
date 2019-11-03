@@ -14,6 +14,10 @@ void GraphicsSystem::Update(double dt)
 	for (auto& graphicComponentpair : _spriteList)
 	{
 		GraphicComponent* graphicComponent = graphicComponentpair.second;
+
+		if (!graphicComponent->GetEnable())
+			continue;
+
 		size_t objID = graphicComponentpair.first;	//Get GameObjectID
 		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
@@ -46,7 +50,7 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
-	Test();
+	//Test();
 
 	// loop through every element in graphic component
 	// get texture ID and shader ID

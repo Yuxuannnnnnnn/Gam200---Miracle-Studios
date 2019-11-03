@@ -33,10 +33,12 @@ public:
 	float _mass;
 	float _fictionVal;
 	bool _static;
-	bool _enable;
+	bool _componentEnable;
+
+	TransformComponent* _transform;
 
 protected:
-	TransformComponent* _transform;
+	
 
 public:
 	// Constructor
@@ -60,7 +62,6 @@ public:
 	void SetFiction(float value);
 	void SetMass(float mass);
 	void SetType(bool type);
-	void SetEnable(bool enable);
 
 	std::string ComponentName() const override
 	{

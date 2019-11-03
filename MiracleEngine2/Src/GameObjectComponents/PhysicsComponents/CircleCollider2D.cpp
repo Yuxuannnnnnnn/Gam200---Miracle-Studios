@@ -26,21 +26,17 @@ CircleCollider2D::CircleCollider2D(const CircleCollider2D& rhs) :
 	mCenPos{ rhs.mCenPos },
 	mRadius{ rhs.mRadius },
 	Collider2D(nullptr)
-{}
+{
+	_type = (unsigned)ColliderType::CIRCLE_COLLIDER;
+}
 
 void CircleCollider2D::Draw()
 {
-	if (!_enable)
-		return;
-
 	DebugRenderer::GetInstance().DrawCircle(mCenPos._x, mCenPos._y, mRadius);
 }
 
 void CircleCollider2D::Update()
 {
-	if (!_enable)
-		return;
-
 	_transform = reinterpret_cast<TransformComponent*>(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT));
 
 	mCenPos = _transform->GetPos();

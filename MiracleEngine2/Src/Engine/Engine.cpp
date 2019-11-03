@@ -50,7 +50,6 @@ void Engine::Update()
 
 			// Logic
 			_logicSystem->Update(dt);
-			_gameObjectFactory->UpdateDestoryObjects();
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 			if (accumlatedframes)
@@ -62,8 +61,9 @@ void Engine::Update()
 					_physicsSystem->Update(fixedDt);
 					--accumlatedframes;
 				}
-			}
 
+				_gameObjectFactory->UpdateDestoryObjects();
+			}
 			// Audio
 
 			_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
@@ -100,16 +100,5 @@ void Engine::Update()
 
 int Engine::Exit()
 {
-	delete _console;
-	delete _windowSystem;
-	delete _imguiSystem; //Shutdown ImGui System
-
-	delete _gameStateManager;
-	delete _inputSystem;
-	delete _logicSystem;
-	delete _graphicsSystem;
-	delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
-
-
 	return (int)_windowSystem->Get_msg().wParam;
 }

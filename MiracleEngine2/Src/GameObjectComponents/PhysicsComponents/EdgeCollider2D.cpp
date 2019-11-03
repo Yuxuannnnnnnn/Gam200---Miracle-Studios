@@ -8,6 +8,7 @@ EdgeCollider2D::EdgeCollider2D(TransformComponent* transform) :
 	m_normal{},
 	Collider2D(transform)
 {
+	_type = (unsigned)ColliderType::LINE_COLLIDER;
 	//float dir = _transform->GetRotate();
 	//Vector3 pos = _transform->GetPos();
 	//Vector3 scale = _transform->GetScale();
@@ -36,17 +37,11 @@ EdgeCollider2D::EdgeCollider2D(const EdgeCollider2D& rhs) :
 
 void EdgeCollider2D::Draw()
 {
-	if (!_enable)
-		return;
-
 	DebugRenderer::GetInstance().DrawLine(m_pt0._x, m_pt0._y, m_pt1._x, m_pt1._y);
 }
 
 void EdgeCollider2D::Update()
 {
-	if (!_enable)
-		return;
-
 	_transform = reinterpret_cast<TransformComponent*>(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT));
 
 	float dir = _transform->GetRotate();

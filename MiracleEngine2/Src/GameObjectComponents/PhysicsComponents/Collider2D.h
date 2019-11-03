@@ -33,12 +33,14 @@ public:
 
 	bool _attachedRigidboy;
 
-	bool _enable;
+	bool _componentEnable;
 	bool _trigger;
 
-protected:
 	TransformComponent* _transform;
 	RigidBody2D* _rigidbody;
+
+protected:
+	
 
 public:
 	// Constructor
@@ -46,14 +48,14 @@ public:
 		_type{ (unsigned)ColliderType::NONE_COLLIDER },
 		_layer{ 0 },
 		_attachedRigidboy{ false },
-		_enable{ true },
-		_trigger{ true },
+		_componentEnable{ true },
+		_trigger{ false },
 		_transform{ transform },
 		_rigidbody{ nullptr }
 	{
 	}
 
-	Collider2D(const Collider2D& rhs);
+	Collider2D(const Collider2D& rhs) = default;
 
 	virtual ~Collider2D() {}
 
