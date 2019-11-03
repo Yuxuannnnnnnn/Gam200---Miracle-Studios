@@ -191,6 +191,7 @@
     <ClInclude Include="Src\Gameplay\Bullet.h" />
     <ClInclude Include="Src\Gameplay\Enemy.h" />
     <ClInclude Include="Src\Gameplay\Player.h" />
+    <ClInclude Include="Src\Gameplay\Turret.h" />
     <ClInclude Include="Src\GraphicsSystem\FontRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
     <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
@@ -562,6 +563,7 @@
     <ClCompile Include="Src\Gameplay\Bullet.cpp" />
     <ClCompile Include="Src\Gameplay\Enemy.cpp" />
     <ClCompile Include="Src\Gameplay\Player.cpp" />
+    <ClCompile Include="Src\Gameplay\Turret.cpp" />
     <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
     <ClCompile Include="Src\GraphicsSystem\TextureManager.cpp" />
@@ -804,6 +806,7 @@
     <None Include="Dep\glm\gtx\vector_query.inl" />
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
+    <None Include="Resources\TextFiles\GameObjects\Turret.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />

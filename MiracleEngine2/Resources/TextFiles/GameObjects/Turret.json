@@ -8,16 +8,17 @@
 
   "COMPONENT 1": "GRAPHICS",
   "G.TypeId": 0,
-  "G.FileName": "sprite_player.png",
+  "G.FileName": "sprite_turret.png",
 
   "COMPONENT 2": "RIGID BODY",
-  "Mass": 10.0,
-  "Friction": 0.2,
-  "Static": false,
+  "Mass": 1.0,
+  "Friction": 0.0,
+  "Static": true,
 
   "COMPONENT 3": "COLLIDER",
   "ColliderTypeId": 2,
 
   "COMPONENT 5": "LOGIC",
-  "ScriptId": [ 1 ]
+  "ScriptId": [ 4 ],
+  "Health": 5
 }

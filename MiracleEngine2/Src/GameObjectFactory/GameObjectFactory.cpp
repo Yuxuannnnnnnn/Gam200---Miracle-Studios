@@ -98,7 +98,7 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 		newObject = new GameObject(_prefabId++);
 	else
 		newObject = new GameObject(_uId++);
-	
+		
 	_listObject.insert(std::pair< size_t, GameObject* >(newObject->Get_uID(), newObject));
 
 	return newObject;
@@ -147,7 +147,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_graphicComponents.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
-		
+		newComponent->RenderLayerResolver();
 		if (!prefab)
 			EngineSystems::GetInstance()._graphicsSystem->_spriteList.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
 
@@ -324,7 +324,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_graphicComponents.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
-		
+		newComponent->RenderLayerResolver();
 		EngineSystems::GetInstance()._graphicsSystem->_spriteList.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
 		
 		return newComponent;
@@ -601,6 +601,15 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::ENEMY);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::TURRET:
+	{
+		Turret* newScript = new Turret(*reinterpret_cast<Turret*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::TURRET);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}

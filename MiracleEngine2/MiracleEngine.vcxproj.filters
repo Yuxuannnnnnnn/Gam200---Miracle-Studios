@@ -71,6 +71,7 @@
     <ClCompile Include="Src\Audio\AudioSystem.cpp" />
     <ClCompile Include="Src\Audio\Sound.cpp" />
     <ClCompile Include="Src\Audio\SoundManager.cpp" />
+    <ClCompile Include="Src\Gameplay\Turret.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -451,6 +452,7 @@
     <ClInclude Include="Src\GraphicsSystem\FontRenderer.h" />
     <ClInclude Include="Src\Audio\Sound.h" />
     <ClInclude Include="Src\Audio\SoundManager.h" />
+    <ClInclude Include="Src\Gameplay\Turret.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -601,5 +603,6 @@
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
+    <None Include="Resources\TextFiles\GameObjects\Turret.json" />
   </ItemGroup>
 </Project>

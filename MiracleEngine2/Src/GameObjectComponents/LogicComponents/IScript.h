@@ -12,7 +12,8 @@ enum class ScriptId {
 	EMPTY = 0,
 	PLAYER = 1,
 	BULLET = 2,
-	ENEMY = 3
+	ENEMY = 3,
+	TURRET = 4
 };
 
 class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler

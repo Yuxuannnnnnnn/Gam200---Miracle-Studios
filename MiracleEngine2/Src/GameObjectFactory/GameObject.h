@@ -17,7 +17,7 @@
 enum class TypeIdGO {
 	NONE = 0,
 	WALL, FLOOR, OBSTACLE, //Setting
-	PLAYER, ENEMY, BULLET, //Mobile objects
+	PLAYER, ENEMY, BULLET, TURRET, //Mobile objects
 	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
 };
 
