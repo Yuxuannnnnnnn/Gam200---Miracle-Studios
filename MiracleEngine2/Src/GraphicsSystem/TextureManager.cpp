@@ -14,7 +14,7 @@ TextureManager::TextureManager()
 	_textureMap["enemy1"] = new Texture2D("Resources/Image/EnemyMove.png");
 	_textureMap["enemy2"] = new Texture2D("Resources/Image/EnemyAttack.png");
 	
-	_textureMap["bullet"] = new Texture2D("Resources/Image/bullet.png");
+	_textureMap["bullet"] = new Texture2D("Resources/Image/PlayerBullet.png");
 	_textureMap["floor"] = new Texture2D("Resources/Image/Floor.png");
 	_textureMap["wall"] = new Texture2D("Resources/Image/Wall.png");
 	_textureMap["background"] = new Texture2D("Resources/Image/background.png");

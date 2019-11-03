@@ -48,9 +48,13 @@ void GraphicsSystem::Update(double dt)
 		{
 			_textureManager._textureMap["floor"]->Select();
 		}
-		else
+		else if (graphicComponent->GetFileName() == "spritebullet.png")
 		{
 			_textureManager._textureMap["bullet"]->Select();
+		}
+		else
+		{
+			_textureManager._textureMap["floor"]->Select();
 		}
 		_quadmesh.Select();
 		_shader.Select();
