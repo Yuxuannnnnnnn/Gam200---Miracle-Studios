@@ -4,17 +4,17 @@
 AiComponent::AiComponent(GameObject* target, GameObject* parent, size_t uId, IComponentSystem* component)
 	//:IComponentSystem(parent, uId)
 {
-	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= _attackRange; // shitty ^2 function
-	_target = target;
-	_state = (unsigned)AiState::MOVING;
+	//_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	//_attackRange *= _attackRange; // shitty ^2 function
+	//_target = target;
+	//_state = (unsigned)AiState::MOVING;
 
-	if (component)
-	{
-		_destinationPos = dynamic_cast<AiComponent*>(component)->_destinationPos;
-		for (auto& node : dynamic_cast<AiComponent*>(component)->GetPath())
-			_path.emplace_back(new Node(*node));
-	}
+	//if (component)
+	//{
+	//	_destinationPos = dynamic_cast<AiComponent*>(component)->_destinationPos;
+	//	for (auto& node : dynamic_cast<AiComponent*>(component)->GetPath())
+	//		_path.emplace_back(new Node(*node));
+	//}
 }
 
 std::string AiComponent::ComponentName() const

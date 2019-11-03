@@ -69,6 +69,8 @@
     <ClCompile Include="Src\Gameplay\Bullet.cpp" />
     <ClCompile Include="Src\Gameplay\Enemy.cpp" />
     <ClCompile Include="Src\Audio\AudioSystem.cpp" />
+    <ClCompile Include="Src\Audio\Sound.cpp" />
+    <ClCompile Include="Src\Audio\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -447,6 +449,8 @@
     <ClInclude Include="Src\Gameplay\Enemy.h" />
     <ClInclude Include="Src\Audio\AudioSystem.h" />
     <ClInclude Include="Src\GraphicsSystem\FontRenderer.h" />
+    <ClInclude Include="Src\Audio\Sound.h" />
+    <ClInclude Include="Src\Audio\SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

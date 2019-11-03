@@ -3,6 +3,8 @@
 #ifndef AUDIOSYSTEM_H
 #define AUDIOSYSTEM_H
 
+#include "SoundManager.h"
+
 #include "../Dep/fmod/inc/fmod.h"
 #include "../Dep/fmod/inc/fmod_errors.h"
 #include "../Dep/fmod/inc/fmod.hpp"
@@ -24,21 +26,23 @@ class AudioSystem
 public:
 	// call this every frame
 	void Update();
+	void Init();
 	
 	AudioSystem();
 	~AudioSystem();
 
-	void PlayBGM();
-	void PlaySFX();
-
 	void Play();
 private:
+	void PlaySFX();
+	void PlayBGM();
+	SoundManager _soundManager;
 
 	FMOD_SYSTEM* _fmodSystem;
 	FMOD_SOUND* _level1;
 	FMOD_CHANNEL* _channel1;
-	FMOD_CHANNELGROUP* channelGroup;
 
+	FMOD_CHANNELGROUP* _bgmGroup;
+	FMOD_CHANNELGROUP* _sfxGroup;
 };
 
 #endif
