@@ -13,9 +13,7 @@
 RigidBody2D::RigidBody2D(TransformComponent* transform) :
 	_velocity{},
 	_appliedForce{},
-	_direction{ 1.f,0.f,0.f },
-	_position{},
-	_angle{ 0.f },
+	_direction{ 0.f,1.f,0.f },
 	_mass{ 1.f },
 	_fictionVal{ 0.f },
 	_static{ true },
@@ -28,8 +26,6 @@ RigidBody2D::RigidBody2D(const RigidBody2D& rhs) :
 	_velocity{ rhs ._velocity },
 	_appliedForce{ rhs._appliedForce },
 	_direction{ rhs._direction },
-	_position{ rhs._position},
-	_angle{ rhs._angle },
 	_mass{ rhs._mass },
 	_fictionVal{ rhs._fictionVal },
 	_static{ rhs._static },
@@ -46,7 +42,7 @@ void RigidBody2D::UpdateVec(double dt)
 	Vector3 newVel{ 0.f, 0.f , 0.f};
 
 	// newVel = a * dt + currVel;;
-	newVel = _appliedForce * _mass;
+	newVel = _appliedForce / _mass;
 	newVel = _velocity + newVel * (float)dt;
 
 	// newVel = newVel * firction;
@@ -89,9 +85,17 @@ void RigidBody2D::AddForce(Vector3 force)
 	Vec3Add(_appliedForce, _appliedForce, force);
 }
 
-void RigidBody2D::RemoveForce(Vector3 force)
+void RigidBody2D::AddForwardForce(float force)
 {
-	_appliedForce -= force;
+	Mtx33 temp;
+	Mtx33Identity(temp);
+	Mtx33RotRad(temp, _transform->GetRotate());
+
+	Vector2 result = temp * Vector2{ 0, 1 };
+	_direction.Set(result.x, result.y);
+	_direction.Normalize();
+
+	_appliedForce += _direction * force;
 }
 
 void RigidBody2D::SetFiction(float value)

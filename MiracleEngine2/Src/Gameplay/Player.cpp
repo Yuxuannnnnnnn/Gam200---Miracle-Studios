@@ -15,44 +15,24 @@ void Player::updateMovement(double dt)
 	//if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu
 	//	_InputStyle = INGAME_PAUSE_ESCAPE;
 // SCALE ROTATE
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_E))
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() -= 0.1f;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_A))
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() += 0.1f;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_I))
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetScale()._y += 1;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_K))
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetScale()._y -= 1;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_J))
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetScale()._x += 1;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_L))
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetScale()._x -= 1;
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_D))
+		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() -= 0.1f;
 	// MOVEMENT
 		// get spd
 	float spd = 10.f;;
 	//spd *= 30.f;
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
-		moveResult.Y(spd);
+		((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(5000);
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_S))
-		moveResult.Y(-spd);
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_D))
-		moveResult.X(spd);
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_A))
-		moveResult.X(-spd);
-	// add force
-		// ((RigidBody2D*)(player->GetComponent(TypeIdComponent::RIGIDBODYCOMPONENT)))->AddForce(moveResult);
-	// move by Transform eddit (WRONG WAY, waiting for SY to get his RBody up)
-	{
-		Vector3 a = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos();
-		a += moveResult;
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() = a;
-	}
+		((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(-5000);
 	// MOUSE
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_MBUTTON))
 	{
 		EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_RBUTTON))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_SPACEBAR))
 	{
 		Vector3 pos =
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos();
@@ -64,6 +44,9 @@ void Player::updateMovement(double dt)
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot);
+		((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(10000);
+		
+
 		// move bullet
 	}
 }
