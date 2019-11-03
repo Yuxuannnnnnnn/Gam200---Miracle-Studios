@@ -25,4 +25,5 @@ std::string AnimationComponent::ComponentName() const
 
 void AnimationComponent::Inspect()
 {
+	IComponentSystem::Inspect();
 }

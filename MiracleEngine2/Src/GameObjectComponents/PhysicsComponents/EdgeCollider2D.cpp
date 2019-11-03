@@ -3,6 +3,17 @@
 //#include "GraphicsSystem/DebugRenderer.h"
 
 
+void EdgeCollider2D::SerialiseComponent(Serialiser& document)
+{
+	Collider2D::SerialiseComponent(document);
+
+}
+
+void EdgeCollider2D::Inspect()
+{
+	IComponentSystem::Inspect();
+}
+
 EdgeCollider2D::EdgeCollider2D(GameObject* parent, size_t uId, IComponentSystem* component) :
 	Collider2D(parent, uId, component),
 	m_pt0{},

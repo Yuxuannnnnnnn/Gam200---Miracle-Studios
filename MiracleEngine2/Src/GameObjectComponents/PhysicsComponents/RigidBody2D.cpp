@@ -54,6 +54,28 @@ void RigidBody2D::SerialiseComponent(Serialiser& document)
 
 void RigidBody2D::Inspect()
 {
+	IComponentSystem::Inspect();
+
+	ImGui::Spacing();
+	ImGui::Checkbox("Static", &_static);
+
+	ImGui::Spacing();
+	ImGui::InputFloat3("Velocity X, Y, Z", _velocity.m);
+
+	ImGui::Spacing();
+	ImGui::InputFloat3("Direction X, Y, Z", _direction.m);
+
+	ImGui::Spacing();
+	ImGui::InputFloat3("Applied Force X, Y, Z", _appliedForce.m);
+
+	ImGui::Spacing();
+	ImGui::InputFloat("Mass", &_mass);
+
+	ImGui::Spacing();
+	ImGui::InputFloat("Friction Value", &_fictionVal);
+
+	ImGui::Spacing();
+
 }
 
 

@@ -28,18 +28,22 @@ std::string LogicComponent::ComponentName() const
 void LogicComponent::SerialiseComponent(Serialiser& document)
 {
 
-	if (document.HasMember("_scriptList") && document["_scriptList"].IsArray())	//Checks if the variable exists in .Json file
+	if (document.HasMember("ScriptId") && document["ScriptId"].IsArray())	//Checks if the variable exists in .Json file
 		for (int i = 0; i < document["ScriptId"].Size(); i++)
 		{
 			if (document["ScriptId"][i].IsInt());
-				//_scriptList.insert();
+			{
+				IScript* newScript = AddScript((ScriptId)document["ScriptId"][i].GetInt());
+				newScript->SerialiseComponent(document);
+			}
 		}
-
-
 }
+
+
 
 void LogicComponent::Inspect()
 {
+	IComponentSystem::Inspect();
 }
 
 

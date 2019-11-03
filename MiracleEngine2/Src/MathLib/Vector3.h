@@ -14,13 +14,19 @@
 
 namespace mathLib {
 
-	class Vector3 final {
+	union Vector3  {
 
 	public:
-		float _x;
-		float _y;
-		float _z;
+		
+		struct
+		{
+			float _x;
+			float _y;
+			float _z;
+		};
 
+		float m[3];
+		
 		static const Vector3 Vec3Zero;
 		static const Vector3 Vec3EX;
 		static const Vector3 Vec3EY;

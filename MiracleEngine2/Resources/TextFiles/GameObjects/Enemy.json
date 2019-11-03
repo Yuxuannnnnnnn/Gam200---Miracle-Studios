@@ -17,7 +17,7 @@
 	"Friction": 0.0,
 	"Static": false,
 
-	"ColliderComponent": true,
+	"CircleColliderComponent": true,
 	"ColliderTypeId": 2,
 
 	"LogicComponent": true,

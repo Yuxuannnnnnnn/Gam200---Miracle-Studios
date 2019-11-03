@@ -11,7 +11,7 @@ class GraphicComponent : public IComponentSystem, public IBase<GraphicComponent>
 {
 private:
 	unsigned _typeIdGraphic;
-	std::string _fileName;
+	char * _fileName;
 
 	int _shaderID;
 	int _textureID;
@@ -47,7 +47,7 @@ public:
 	{
 		return _typeIdGraphic;
 	}
-	std::string& GetFileName()
+	const char* GetFileName()
 	{
 		return _fileName;
 	}

@@ -1,7 +1,8 @@
 #include "PrecompiledHeaders.h"
 #include "IComponentSystem.h"
 
-IComponentSystem::IComponentSystem() :
+IComponentSystem::IComponentSystem() 
+	:
 	_ParentPtr{ nullptr },
 	_ParentId{ 0 },
 	_enable{ true }
@@ -43,4 +44,15 @@ IComponentSystem* IComponentSystem::GetSibilingComponent(unsigned _componentId)
 	return _ParentPtr->GetComponentList()[_componentId];
 }
 
-void IComponentSystem::DestoryThis() { _ParentPtr->SetDestory(); }
+void IComponentSystem::DestoryThis() 
+{
+	_ParentPtr->SetDestory();
+}
+
+
+void  IComponentSystem::Inspect()
+{
+	ImGui::Spacing();
+	ImGui::Checkbox("Component Enable", &_enable);
+	ImGui::Spacing();
+}

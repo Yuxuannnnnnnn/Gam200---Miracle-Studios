@@ -22,6 +22,11 @@ const char* IBaseImguiWindow::GetName() const  //get name for the window
 	return _name;
 }
 
+void IBaseImguiWindow::SetName(const char * name)
+{
+	strcpy_s(_name, name);
+}
+
 ImGuiWindowFlags IBaseImguiWindow::GetFlags() const  //get flags for the window
 {
 	return _flags;

@@ -3,6 +3,13 @@
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
 
+void Player::SerialiseComponent(Serialiser& document)
+{
+	//if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
+	//{
+	//}
+}
+
 void Player::Update(double dt)
 {
 	updateMovement(dt);

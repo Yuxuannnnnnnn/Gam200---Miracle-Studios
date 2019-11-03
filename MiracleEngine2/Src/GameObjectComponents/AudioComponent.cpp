@@ -63,4 +63,5 @@ void AudioComponent::SerialiseComponent(Serialiser& document)
 
 void AudioComponent::Inspect()
 {
+	IComponentSystem::Inspect();
 }

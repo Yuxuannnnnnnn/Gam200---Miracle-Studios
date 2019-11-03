@@ -2,6 +2,14 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+void Turret::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
+	{
+		_health = document["Health"].GetInt();
+	}
+}
+
 Turret::Turret()
 //:IComponentSystem(parent, uId)
 {

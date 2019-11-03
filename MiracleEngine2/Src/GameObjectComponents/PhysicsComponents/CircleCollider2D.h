@@ -23,6 +23,9 @@ public:
 	float	mRadius;
 
 public:
+	void SerialiseComponent(Serialiser& document) override;
+	void Inspect() override;
+
 	CircleCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 
     // Constructor

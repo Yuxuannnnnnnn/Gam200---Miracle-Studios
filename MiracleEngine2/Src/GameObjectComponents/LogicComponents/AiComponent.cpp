@@ -39,7 +39,7 @@ std::string AiComponent::ComponentName() const
 
 void AiComponent::SerialiseComponent(Serialiser& document)
 {
-
+	IComponentSystem::Inspect();
 }
 
 void AiComponent::Inspect()

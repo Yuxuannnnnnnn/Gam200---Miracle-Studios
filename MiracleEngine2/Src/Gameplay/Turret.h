@@ -9,6 +9,9 @@ private:
 	GameObject* _target;
 	float _attackRange; // currently set to 1*_mapTileSize
 public:
+	void SerialiseComponent(Serialiser& document) override;
+
+
 	//Constructor
 	Turret();
 

@@ -61,7 +61,7 @@ void Engine::Update()
 
 			// Logic
 			_frameRateControl->StartTimeCounter();
-			_logicSystem->Update(dt);
+			//_logicSystem->Update(dt);
 			_aiSystem->Update(dt);
 
 			_performanceUsage->LogicFrameTime = _frameRateControl->EndTimeCounter();

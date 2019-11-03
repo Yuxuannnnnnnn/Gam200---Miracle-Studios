@@ -21,6 +21,10 @@ public:
 	Vector3	m_normal;
 
 public:
+	void SerialiseComponent(Serialiser& document) override;
+	void Inspect() override;
+
+
 	EdgeCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 
 

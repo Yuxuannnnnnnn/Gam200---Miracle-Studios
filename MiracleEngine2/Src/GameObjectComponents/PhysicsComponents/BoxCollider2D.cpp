@@ -10,6 +10,16 @@
 //#include "GraphicsSystem/DebugRenderer.h"
 
 
+void BoxCollider2D::SerialiseComponent(Serialiser& document)
+{
+	Collider2D::SerialiseComponent(document);
+}
+
+void BoxCollider2D::Inspect()
+{
+	IComponentSystem::Inspect();
+}
+
 BoxCollider2D::BoxCollider2D(GameObject* parent, size_t uId, IComponentSystem* component) :
 	Collider2D(parent, uId, component),
 	mMinPos{},

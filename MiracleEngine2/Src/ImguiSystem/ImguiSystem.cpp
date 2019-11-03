@@ -1,8 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "ImguiSystem.h"
 
-#include "HierarchyImguiWindow.h"
-#include "InspectionImguiWindow.h"
 
 
 
@@ -16,7 +14,9 @@ ImguiSystem::ImguiSystem(const Window& window)
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;// Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
-	io.ConfigDockingWithShift = true;
+	//io.ConfigFlags |= ImGuiWindowFlags_MenuBar; 
+	io.WantCaptureKeyboard = true;
+	//io.ConfigDockingWithShift = true;
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; //Enable Multi - Viewport / Platform Windows
 
 	// Setup Dear ImGui style
@@ -62,11 +62,11 @@ void ImguiSystem::UpdateFrame()
 	{
 		if (_ImguiWindows[i]->GetOpen()) //if false, window will not be created
 		{
-			if (!ImGui::Begin(_ImguiWindows[i]->GetName(),	// Start of Main window body.
-				&(_ImguiWindows[i]->GetOpen()),	_ImguiWindows[i]->GetFlags()))	
+			// Start of Main window body.
+			if (!ImGui::Begin(_ImguiWindows[i]->GetName(), &(_ImguiWindows[i]->GetOpen()),	_ImguiWindows[i]->GetFlags()))	
 			{
 				ImGui::End();	// Early out if the window is collapsed, as an optimization.
-				return;
+				continue;
 			}
 	
 			_ImguiWindows[i]->Update(); //Update the contents of each window

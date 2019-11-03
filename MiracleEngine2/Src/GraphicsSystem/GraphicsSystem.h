@@ -37,7 +37,7 @@ public:
 
 
 	GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
-		-(float)windowHeight / 2, (float)windowHeight / 2, 0.0f, 20.0f) }
+		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
 	{
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);

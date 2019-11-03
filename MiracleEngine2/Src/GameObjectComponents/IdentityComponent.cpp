@@ -49,6 +49,14 @@ void IdentityComponent::SerialiseComponent(Serialiser& document)
 
 void IdentityComponent::Inspect()
 {
+	ImGui::Spacing();
+	std::string string = std::string("Game Object Type: ") + ToString((TypeIdGO)_typeId);
+	ImGui::Text(string.c_str()); 
+	ImGui::Spacing();
+
+	string = "Name of Object: " + _name;
+	ImGui::Text(string.c_str());
+	ImGui::Spacing();
 }
 
 

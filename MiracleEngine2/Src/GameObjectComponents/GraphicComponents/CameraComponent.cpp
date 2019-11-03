@@ -25,4 +25,5 @@ std::string CameraComponent::ComponentName() const
 
 void CameraComponent::Inspect()
 {
+	IComponentSystem::Inspect();
 }

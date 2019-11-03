@@ -1,5 +1,5 @@
 {
-	
+
 	"IdentityComponent": true,
 	"Name": "none",
 	"GameObjectType": 1,
@@ -13,12 +13,12 @@
 	"G.TypeId": 0,
 	"G.FileName": "sprite_wall.png",
 
-	"RigidBoodyComponent": true,
+	"RigidBodyComponent": true,
 	"Mass": 1.0,
 	"Friction": 0.0,
 	"Static": true,
 
-	"ColliderComponent": true,
+	"BoxColliderComponent": true,
 	"ColliderTypeId": 1
 
 }

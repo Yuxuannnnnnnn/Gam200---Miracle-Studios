@@ -11,6 +11,17 @@
 //#include "GraphicsSystem/DebugRenderer.h"
 
 
+void CircleCollider2D::SerialiseComponent(Serialiser& document)
+{
+	Collider2D::SerialiseComponent(document);
+
+}
+
+void CircleCollider2D::Inspect()
+{
+	IComponentSystem::Inspect();
+}
+
 CircleCollider2D::CircleCollider2D(GameObject* parent, size_t uId, IComponentSystem* component)
 	: Collider2D(parent, uId, component), mCenPos(0.f, 0.f), mRadius(0.f)
 {

@@ -43,6 +43,7 @@ public:
 	const char* GetName() const; //get name for the window
 	ImGuiWindowFlags GetFlags() const; //get flags for the window
 
+	void SetName(const char* name);
 	void SetWindowTrue(); //Set Imgui window to appear on screen
 	void Setflags(ImGuiWindowFlags_ flag); //Set the flags for each imgui Window
 

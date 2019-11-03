@@ -30,6 +30,10 @@ public:
 	float mAngle;
 
 public:
+
+	void SerialiseComponent(Serialiser& document) override;
+	void Inspect() override;
+
 	// Constructor
 	BoxCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 

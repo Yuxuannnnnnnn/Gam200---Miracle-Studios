@@ -1,5 +1,5 @@
 #pragma once
-
+#include "HierarchyImguiWindow.h"
 #include "IBaseImguiWindow.h"
 
 class ImguiSystem
