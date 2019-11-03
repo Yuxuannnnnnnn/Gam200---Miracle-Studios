@@ -16,8 +16,8 @@ private:
 	int _shaderID;
 	int _textureID;
 
-	int _textureState; // for enemy with move and attack, this tell you which texture to run
-
+	int _textureState = 0; // for enemy with move and attack, this tell you which texture to run
+	int _renderLayer = 0;
 	// bool transparent.. so on
 	//Store the vb, ib, vao, shader
 
@@ -31,6 +31,10 @@ public:
 
 	int GetTextureState();
 	void SetTextureState(int state);
+
+	int GetRenderLayer();
+	void SetRenderLayer(int state);
+
 
 	unsigned& GetTypeId()
 	{

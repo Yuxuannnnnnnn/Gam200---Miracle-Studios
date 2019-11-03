@@ -1,6 +1,15 @@
 #include "PrecompiledHeaders.h"
 
 
+int GraphicComponent::GetRenderLayer()
+{
+	return _renderLayer;
+}
+void GraphicComponent::SetRenderLayer(int layer)
+{
+	_renderLayer = layer;
+}
+
 int GraphicComponent::GetTextureState()
 {
 	return _textureState;
