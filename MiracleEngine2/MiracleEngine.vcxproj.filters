@@ -446,6 +446,7 @@
     <ClInclude Include="Src\Gameplay\Bullet.h" />
     <ClInclude Include="Src\Gameplay\Enemy.h" />
     <ClInclude Include="Src\Audio\AudioSystem.h" />
+    <ClInclude Include="Src\GraphicsSystem\FontRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
