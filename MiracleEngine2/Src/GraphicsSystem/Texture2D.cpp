@@ -12,16 +12,19 @@ Texture2D::Texture2D(const std::string& path)
 {
 	_localBuffer = ResourceManager::GetInstance().GetTexture2DResource(path, _width, _height, _bpp);
 
+	glEnable(GL_BLEND);
+	
 	glGenTextures(1, &_id);
 	glBindTexture(GL_TEXTURE_2D, _id);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _localBuffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
+
 }
 
 Texture2D::~Texture2D()

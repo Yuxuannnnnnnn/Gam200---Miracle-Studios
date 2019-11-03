@@ -6,8 +6,14 @@
 
 Node::Node(bool solid, size_t id, Vector3 pos) :
 	_solid{ solid },
+	_visited{ false },
 	_nodeId{ id },
-	_position{ pos }
+	_position{ pos },
+	_PtrNodeUp{ nullptr },
+	_PtrNodeDown{ nullptr },
+	_PtrNodeLeft{ nullptr },
+	_PtrNodeRight{ nullptr },
+	_PtrNodePrev{ nullptr }
 {}
 
 void Node::SetNodeAdjacent(Node* up, Node* down, Node* left, Node* right)
@@ -70,6 +76,14 @@ void Node::SetPrev(Node* prev)
 /////////////////////////
 // AISystem stuff
 
+AISystem::AISystem()
+{
+	init = false;
+	_timeUpdateRate = 0;
+	_timeUpdatePrev = 0;
+	_timeUpdateElapsed = 0;
+}
+
 // GetSet
 size_t AISystem::GetTimeUpdateRate()
 {
@@ -119,27 +133,21 @@ void AISystem::Init()
 	CreateNodeMap();
 	//PathFinding();
 }
-void AISystem::Update(size_t currTime)
+void AISystem::Update(double currTime)
 {
 	if (!init)
 	{
 		Init();
 		SetInit();
 	}
+
 	// update will occur only every ~0.5 seconds
-	_timeUpdateElapsed = (currTime - _timeUpdatePrev);
-	if (_timeUpdateElapsed < _timeUpdateRate)
-		return;
-	else // run AI
-		_timeUpdatePrev = currTime;
-	// run through map, run each AiComp->Update()
-		//for (auto const& x : _aimap)
-		//{
-		//	x.second->Update();
-		//}
+		//_timeUpdateElapsed = (currTime - _timeUpdatePrev);
+		//if (_timeUpdateElapsed < _timeUpdateRate)
+		//	return;
+		//else // run AI
+		//	_timeUpdatePrev = currTime;
 
-
-	// run through BFS
 }
 void AISystem::Exit()
 {
@@ -158,9 +166,9 @@ void AISystem::CreateNodeMap()
 	int originX = -(int)( ((_mapTileSize * _mapWidth) / 2) + _mapWidth / 2);
 	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
 	
-	for (int i = 0; i < _mapHeight; ++i)
+	for (int i = 0; i < (int)_mapHeight; ++i)
 	{
-		for (int j = 0; j < _mapWidth; ++j)
+		for (int j = 0; j < (int)_mapWidth; ++j)
 		{
 			// Update tempVec
 			tempVec = Vector3(
@@ -181,14 +189,20 @@ void AISystem::CreateNodeMap()
 				tempGo->Set_typeId(TypeIdGO::WALL);
 				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
 			}
+			else // create wall only if solid
+			{
+				tempGo = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::FLOOR]);
+				tempGo->Set_typeId(TypeIdGO::FLOOR);
+				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+			}
 		}
 	}
 
 	size_t currNode = 0;
 	Node* up, * down, * left, * right;
 	// link the Node's updownleftfight
-	for (int i = 0; i < _mapHeight; ++i)
-		for (int j = 0; j < _mapWidth; ++j)
+	for (int i = 0; i < (int)_mapHeight; ++i)
+		for (int j = 0; j < (int)_mapWidth; ++j)
 		{
 			currNode = _tilemapInput[i][j];
 			// Left
@@ -201,7 +215,7 @@ void AISystem::CreateNodeMap()
 			else
 				left = nullptr; // put nullptr
 		// Right
-			if (j < _mapWidth - 1)
+			if (j < (int)_mapWidth - 1)
 			{
 				id = _tilemapInput[i][j + 1];
 				right = _tilemap[id];
@@ -219,7 +233,7 @@ void AISystem::CreateNodeMap()
 			else
 				up = nullptr;
 			// Down
-			if (i < _mapHeight - 1)
+			if (i < (int)_mapHeight - 1)
 			{
 				id = _tilemapInput[i + 1][j];
 				down = _tilemap[id];
@@ -232,9 +246,9 @@ void AISystem::CreateNodeMap()
 			_tilemap[currNode]->SetNodeAdjacent(up, down, left, right);
 		}
 	// Print the _tilemapInput
-	for (int i = 0; i < _mapHeight; ++i)
+	for (int i = 0; i < (int)_mapHeight; ++i)
 	{
-		for (int j = 0; j < _mapWidth; ++j)
+		for (int j = 0; j < (int)_mapWidth; ++j)
 		{
 			std::cout << _tilemapInput[i][j] << " ";
 		}
@@ -255,20 +269,20 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 	y = (curr._y / _mapTileSize);
 	x += (_mapWidth / 2); // compensate for the map origin shift
 	(x <= 0.f) ? x = 0.f : x;
-	(x >= _mapWidth) ? x = _mapWidth : x;
+	(x >= _mapWidth) ? x = (float)_mapWidth : x;
 	y += (_mapHeight / 2); // compensate for the map origin shift
 	(y <= 0.f) ? y = 0.f : y;
-	(y >= _mapHeight) ? y = _mapHeight : y;	
+	(y >= _mapHeight) ? y = (float)_mapHeight : y;
 	nodeIdStart = _tilemapInput[(int)y][(int)x];
 						//std::cout << "curr " << nodeIdStart << std::endl;
 	x = (dest._x / _mapTileSize);
 	y = (dest._y / _mapTileSize);
 	x += (_mapWidth / 2); // compensate for the map origin shift
 	(x <= 0.f) ? x = 0.f : x;
-	(x >= _mapWidth) ? x = _mapWidth : x;
+	(x >= _mapWidth) ? x = (float)_mapWidth : x;
 	y += (_mapHeight / 2); // compensate for the map origin shift
 	(y <= 0.f) ? y = 0.f : y;
-	(y >= _mapHeight) ? y = _mapHeight : y;
+	(y >= _mapHeight) ? y = (float)_mapHeight : y;
 	nodeIdDest = _tilemapInput[(int)y][(int)x];
 						//std::cout << "dest " << nodeIdDest << std::endl;
 

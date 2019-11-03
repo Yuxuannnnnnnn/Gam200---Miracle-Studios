@@ -600,5 +600,6 @@
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
+    <None Include="Resources\TextFiles\GameObjects\Floor.json" />
   </ItemGroup>
 </Project>

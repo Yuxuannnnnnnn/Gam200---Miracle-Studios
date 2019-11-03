@@ -1,0 +1,12 @@
+{
+  "ComponentList": [ 0, 1 ],
+
+  "COMPONENT 0": "TRANSFORM",
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 100.0, 100.0 ],
+  "Rotate": 0.0,
+
+  "COMPONENT 1": "GRAPHICS",
+  "G.TypeId": 0,
+  "G.FileName": "sprite_floor.png"
+}

@@ -27,5 +27,6 @@ public:
 	GameObject* SerialInPrefab_Bullet();
 	GameObject* SerialInPrefab_Enemy();
 	GameObject* SerialInPrefab_Wall();
+	GameObject* SerialInPrefab_Floor();
 
 };
