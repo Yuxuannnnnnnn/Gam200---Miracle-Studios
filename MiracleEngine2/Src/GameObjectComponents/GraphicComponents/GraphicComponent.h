@@ -29,6 +29,8 @@ public:
 
 	std::string ComponentName() const override;
 
+	void RenderLayerResolver();
+
 	int GetTextureState();
 	void SetTextureState(int state);
 
