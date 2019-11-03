@@ -21,7 +21,9 @@ public:
 	double InputFrameTime;
 	double LogicFrameTime;
 	double PhysicFrameTime;
+	double AudioFrameTime;
 	double GraphicFrameTime;
+	double IMGUIFrameTime;
 
 public:
 	PerformanceUsage();
