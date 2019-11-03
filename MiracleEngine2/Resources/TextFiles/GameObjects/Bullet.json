@@ -18,7 +18,7 @@
   "COMPONENT 3": "COLLIDER",
   "ColliderTypeId": 2,
   
-   "COMPONENT 5": "LOGIC",
-   "ScriptId": [ 2 ],
-   "Lifetime": 3.0
+  "COMPONENT 5": "LOGIC",
+  "ScriptId": [ 2 ],
+  "Lifetime": 3.0
 }

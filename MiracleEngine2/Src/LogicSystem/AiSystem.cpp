@@ -181,6 +181,12 @@ void AISystem::CreateNodeMap()
 				tempGo->Set_typeId(TypeIdGO::WALL);
 				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
 			}
+			else // create wall only if solid
+			{
+				tempGo = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::FLOOR]);
+				tempGo->Set_typeId(TypeIdGO::FLOOR);
+				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+			}
 		}
 	}
 

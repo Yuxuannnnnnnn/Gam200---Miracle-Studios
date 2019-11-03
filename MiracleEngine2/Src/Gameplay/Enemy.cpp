@@ -67,12 +67,17 @@ void Enemy::Move()
 		(GetDestinationPos()._y - GetPosition()._y),
 		0
 	);
+
+	// rotate to face player
+	Vector3 compareVec = { 0, 1, 0 };
+	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
+	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
+	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+
 	moveVec.Normalize();
 	moveVec* spd;
 							//std::cout << moveVec._x << " " << moveVec._y << std::endl;
-	Vector3 a = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos();
-	a += moveVec;
-	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->SetPos(a);
+	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
 void Enemy::MoveNode()
 { // move to NextNod
@@ -83,12 +88,17 @@ void Enemy::MoveNode()
 		(_nextNode->GetPosition()._y - GetPosition()._y),
 		0
 	);
+
+	// rotate to face player
+	Vector3 compareVec = { 0, 1, 0 };
+	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
+	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
+	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+
 	moveVec.Normalize();
 	moveVec* spd;
-
-	Vector3 a = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos();
-	a += moveVec;
-	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->SetPos(a);
+	//std::cout << moveVec._x << " " << moveVec._y << std::endl;
+	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
 
 void Enemy::FSM()
@@ -103,13 +113,13 @@ void Enemy::FSM()
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
-		//((GraphicComponent*)this->GetSibilingComponent((unsigned)ComponentId::GRAPHICS_COMPONENT))->SetAnim();
+		((GraphicComponent*)this->GetSibilingComponent((unsigned)ComponentId::GRAPHICS_COMPONENT))->SetTextureState(0);
 	}
 	else
 	{
 		_state = (unsigned)AiState::MOVING;
 		// set Anim state to EyeWhite
-		//((GraphicComponent*)this->GetSibilingComponent((unsigned)ComponentId::GRAPHICS_COMPONENT))->SetAnim();
+		((GraphicComponent*)this->GetSibilingComponent((unsigned)ComponentId::GRAPHICS_COMPONENT))->SetTextureState(1);
 	}
 
 	switch (_state)
@@ -120,12 +130,12 @@ void Enemy::FSM()
 	case (unsigned)AiState::MOVING:
 		//std::cout << "/t AI Move!!!\n";
 // get pathfinding
-		_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
-		if (_path.empty())
-			break;
-		_nextNode = _path.front();
-		MoveNode();
-		//Move();
+				//_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+				//if (_path.empty())
+				//	break;
+				//_nextNode = _path.front();
+				//MoveNode();
+		Move();
 		break;
 	case (unsigned)AiState::ATTACKING:
 		//std::cout << "/t AI ATK!!\n";
