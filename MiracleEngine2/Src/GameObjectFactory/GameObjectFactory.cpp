@@ -561,6 +561,15 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::TURRET:
+	{
+		Turret* newScript = new Turret();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::TURRET);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	default:
 		break;
 	}

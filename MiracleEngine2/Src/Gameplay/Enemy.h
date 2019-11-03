@@ -13,12 +13,12 @@ private:
 	Node* _nextNode;
 	float _attackRange; // currently set to 1*_mapTileSize
 public:
-	//Constructor
+//Constructor
 	Enemy();
 
 	int _health;
 
-	// InUpEx
+// InUpEx
 	void Init();
 	void Update(double dt);
 	void Exit();

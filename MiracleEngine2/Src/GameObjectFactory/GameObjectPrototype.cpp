@@ -163,6 +163,13 @@ void GameObjectPrototype::SerialAddComponent(GameObject* object, SerialTypeId co
 				JsonDynamicStore(reinterpret_cast<Enemy*>(temp)->_health, s);
 				break;
 			}
+			else if (it == (int)ScriptId::TURRET)
+			{
+				temp = object->AddComponent(ComponentId::LOGIC_COMPONENT, ScriptId::TURRET);
+				s = d["Health"];
+				JsonDynamicStore(reinterpret_cast<Enemy*>(temp)->_health, s);
+				break;
+			}
 		}
 		break;
 	}

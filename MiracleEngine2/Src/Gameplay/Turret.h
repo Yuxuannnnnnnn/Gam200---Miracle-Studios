@@ -24,6 +24,11 @@ public:
 // GetPosition(of Parent)
 	Vector3& GetPosition();	// gets _parent's position
 
+// Search Target
+	void SearchTarget();
+	void ShootTarget();
+	void RotateToTarget();
+
 	// FSM
 	void FSM();
 };
