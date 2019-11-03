@@ -21,17 +21,32 @@ void GraphicsSystem::Update(double dt)
 		size_t objID = graphicComponentpair.first;	//Get GameObjectID
 		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, 0);
+
+		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 		if (graphicComponent->GetFileName() == "spriteplayer.png")
 		{
 			_textureManager._textureMap["player"]->Select();
 		}
-		else if (graphicComponent->GetFileName() == "spriteenemy.png")
+		else if (graphicComponent->GetFileName() == "spriteenemy.png" 
+			&& graphicComponent->GetTextureState() == 0)
 		{
-			_textureManager._textureMap["enemy"]->Select();
+			_textureManager._textureMap["enemy1"]->Select();
+		}
+		else if (graphicComponent->GetFileName() == "spriteenemy.png"
+			&& graphicComponent->GetTextureState() == 1)
+		{
+			_textureManager._textureMap["enemy2"]->Select();
 		}
 		else if (graphicComponent->GetFileName() == "spritewall.png")
 		{
 			_textureManager._textureMap["wall"]->Select();
+		}
+		else if (graphicComponent->GetFileName() == "spritefloor.png")
+		{
+			_textureManager._textureMap["floor"]->Select();
 		}
 		else
 		{
