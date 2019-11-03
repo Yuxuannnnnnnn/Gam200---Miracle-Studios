@@ -68,6 +68,7 @@
     <ClCompile Include="Src\MathLib\Matrix4x4.cpp" />
     <ClCompile Include="Src\Gameplay\Bullet.cpp" />
     <ClCompile Include="Src\Gameplay\Enemy.cpp" />
+    <ClCompile Include="Src\Audio\AudioSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -444,6 +445,7 @@
     <ClInclude Include="Src\MathLib\Matrix4x4.h" />
     <ClInclude Include="Src\Gameplay\Bullet.h" />
     <ClInclude Include="Src\Gameplay\Enemy.h" />
+    <ClInclude Include="Src\Audio\AudioSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
