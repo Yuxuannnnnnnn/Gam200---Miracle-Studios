@@ -516,7 +516,6 @@
     <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
     <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
-    <ClInclude Include="Src\Main.h" />
     <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Src\GameObjectFactory\GameObjectFactory.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\GraphicComponent.h" />

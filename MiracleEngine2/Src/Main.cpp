@@ -1,7 +1,6 @@
 // MiracleEngine.cpp : Defines the entry point for the application.
 //
 #include "PrecompiledHeaders.h"
-#include "Main.h" //For Global pointers
 
 
 //Global pointers----------------------------------------------------

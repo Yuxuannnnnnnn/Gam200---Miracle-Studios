@@ -29,8 +29,12 @@ void Engine::Update()
 
 		while (_gameStateManager->CheckIfCurrNextStateSame())	//In Game Level
 		{
-			//WindowsSystem -> InputSystem -> Logic System -> Physics System -> AudioSytem -> ImguiSystem UpdateFrame -> GraphicSystem ->  ImguiSystem Render
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
+			
+			_frameRateControl->StartTimeCounter();
+			_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
+			_performanceUsage->IMGUIFrameTime = _frameRateControl->EndTimeCounter();
+
 
 			_performanceUsage->PrintPerformanceUsage();
 
@@ -43,7 +47,7 @@ void Engine::Update()
 
 			if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
 			{
-				_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
+				//_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
 				return;
 			}
 
@@ -84,9 +88,7 @@ void Engine::Update()
 			_audioSystem->Update();
 			_performanceUsage->AudioFrameTime = _frameRateControl->EndTimeCounter();
 
-			_frameRateControl->StartTimeCounter();
-			_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
-			_performanceUsage->IMGUIFrameTime = _frameRateControl->EndTimeCounter();
+
 
 
 			// Graphics

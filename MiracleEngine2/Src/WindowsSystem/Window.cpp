@@ -2,9 +2,6 @@
 #include "Window.h"
 #include "wglew.h"
 
-#include "Main.h"
-
-
 
 
 

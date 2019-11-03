@@ -24,8 +24,6 @@ PerformanceUsage::PerformanceUsage() :
 
 void PerformanceUsage::PrintPerformanceUsage()
 {
-	return;
-
 	if (!PerFrameTime)
 		return;
 

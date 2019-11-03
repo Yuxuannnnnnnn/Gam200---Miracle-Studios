@@ -23,7 +23,7 @@ class GameObjectFactory final
 	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;	//
 	std::unordered_map < size_t, LogicComponent* >		_logicComponents;		//
 	std::unordered_multimap<size_t, IScript*>			_scriptComponets;		//
-	std::unordered_map<size_t, AudioComponent*>	_audioComponent;		//
+	std::unordered_map<size_t, AudioComponent*>			_audioComponent;		//
 
 public:
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;

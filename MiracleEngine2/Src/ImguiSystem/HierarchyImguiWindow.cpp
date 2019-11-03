@@ -2,7 +2,6 @@
 #include "HierarchyImguiWindow.h"
 
 #include "GameObjectFactory/GameObject.h"
-#include "Main.h" //Use GameObjectFactory Global pointer
 #include <string> //std::string
 
 
@@ -26,7 +25,8 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 
 void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the GameObjectList - Used in Update() 
 {
-	const std::unordered_map<size_t, GameObject*>& objlist = gameObjectFactory->getObjectlist();
+
+	const std::unordered_map<size_t, GameObject*>& objlist = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
 	size_t objListSize = objlist.size(); //number of total gameObjects in the list
 	std::string totalGameObjects("Total Number of GameObjects in this level is: ");

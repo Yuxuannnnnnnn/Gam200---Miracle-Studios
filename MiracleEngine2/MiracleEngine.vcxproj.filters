@@ -375,7 +375,6 @@
     <ClInclude Include="Src\GameObjectComponents\IComponentSystem.h" />
     <ClInclude Include="Src\Inputsystem\InputSystem.h" />
     <ClInclude Include="Src\Inputsystem\KeyCode.h" />
-    <ClInclude Include="Src\Main.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
     <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
