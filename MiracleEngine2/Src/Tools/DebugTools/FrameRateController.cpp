@@ -127,5 +127,5 @@ int FrameRateController::GetSteps() const
 
 double FrameRateController::GetLockedDt() const
 {
-	return (double)LockedFPS;
+	return (double)LockedFPS / oneSecNs;
 }

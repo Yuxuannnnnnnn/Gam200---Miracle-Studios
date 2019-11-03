@@ -2,24 +2,23 @@
 
 
 
-
-GraphicComponent::GraphicComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId),
-	_typeIdGraphic{ (unsigned)TypeIdGraphic::NONE },
-	_fileName{ std::string() },
-	_shaderID{ 0 },
-	_textureID{ 0 }
-{
-
-	if (component)
-	{
-		GraphicComponent* graphicComponent = dynamic_cast<GraphicComponent*>(component);
-		_typeIdGraphic = graphicComponent->_typeIdGraphic;
-		_fileName = graphicComponent->_fileName;
-		_shaderID = graphicComponent->_shaderID;
-		_textureID = graphicComponent->_textureID;
-	}
-}
+//GraphicComponent::GraphicComponent(GameObject* parent, size_t uId, IComponentSystem* component)
+//	: IComponentSystem(parent, uId),
+//	_typeIdGraphic{ (unsigned)TypeIdGraphic::NONE },
+//	_fileName{ std::string() },
+//	_shaderID{ 0 },
+//	_textureID{ 0 }
+//{
+//
+//	if (component)
+//	{
+//		GraphicComponent* graphicComponent = dynamic_cast<GraphicComponent*>(component);
+//		_typeIdGraphic = graphicComponent->_typeIdGraphic;
+//		_fileName = graphicComponent->_fileName;
+//		_shaderID = graphicComponent->_shaderID;
+//		_textureID = graphicComponent->_textureID;
+//	}
+//}
 
 
 
@@ -27,7 +26,8 @@ GraphicComponent::GraphicComponent() :
 	_typeIdGraphic{ (unsigned)TypeIdGraphic::NONE },
 	_fileName{ std::string() },
 	_shaderID{ 0 },
-	_textureID{ 0 }
+	_textureID{ 0 },
+	_renderLayer{ 0 }
 {
 }
 
@@ -42,7 +42,7 @@ GraphicComponent::GraphicComponent(const GraphicComponent& rhs)
 	_fileName = rhs._fileName;
 	_shaderID = rhs._shaderID;
 	_textureID = rhs._textureID;
-	
+	_renderLayer = rhs._renderLayer;
 }
 
 GraphicComponent& GraphicComponent::operator= (const GraphicComponent& rhs)
@@ -51,7 +51,33 @@ GraphicComponent& GraphicComponent::operator= (const GraphicComponent& rhs)
 	_fileName = rhs._fileName;
 	_shaderID = rhs._shaderID;
 	_textureID = rhs._textureID;
+	_renderLayer = rhs._renderLayer;
 	return *this;
+}
+
+void GraphicComponent::RenderLayerResolver()
+{
+	switch (GetParentPtr()->Get_typeId())
+	{
+	case (unsigned)TypeIdGO::FLOOR:
+		_renderLayer = 0;
+		break;
+	case (unsigned)TypeIdGO::WALL:
+		_renderLayer = 0;
+		break;
+	case (unsigned)TypeIdGO::PLAYER:
+		_renderLayer = 5;
+		break;
+	case (unsigned)TypeIdGO::ENEMY:
+		_renderLayer = 5;
+		break;
+	case (unsigned)TypeIdGO::TURRET:
+		_renderLayer = 5;
+		break;
+	case (unsigned)TypeIdGO::BULLET:
+		_renderLayer = 10;
+		break;
+	}
 }
 
 std::string GraphicComponent::ComponentName() const

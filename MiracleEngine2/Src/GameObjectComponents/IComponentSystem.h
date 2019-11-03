@@ -60,6 +60,7 @@ private:
 
 	GameObject* _ParentPtr;
 	size_t _ParentId;
+	bool _enable;
 
 public:
 
@@ -78,6 +79,9 @@ public:
 	void SetParentPtr(GameObject* inVal);
 
 	IComponentSystem* GetSibilingComponent(unsigned _componentId);
+
+	bool GetEnable() const { return _enable; }
+	void SetEnable(bool enable) { _enable = enable; }
 
 	void DestoryThis();
 };

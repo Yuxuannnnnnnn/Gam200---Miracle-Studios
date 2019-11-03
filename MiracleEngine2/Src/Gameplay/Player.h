@@ -8,7 +8,7 @@ private:
 	
 public:
 
-	void Update(double dt) override;
+	void Update(double dt);
 
 	void updateMovement(double dt);
 

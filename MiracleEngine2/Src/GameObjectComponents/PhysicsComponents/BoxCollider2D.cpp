@@ -45,6 +45,7 @@ BoxCollider2D::BoxCollider2D(TransformComponent* transform) :
 	mAngle{ 0.f },
 	Collider2D(transform)
 {
+	_type = (unsigned)ColliderType::BOX_COLLIDER;
 
 	//Vector3 scale = _transform->GetScale();
 
@@ -89,9 +90,6 @@ BoxCollider2D::BoxCollider2D(const BoxCollider2D& rhs) :
 
 void BoxCollider2D::Draw()
 {
-	if (!_enable)
-		return;
-
 	DebugRenderer::GetInstance().DrawLine(mCorner[0]._x, mCorner[0]._y, mCorner[1]._x, mCorner[1]._y);
 	DebugRenderer::GetInstance().DrawLine(mCorner[1]._x, mCorner[1]._y, mCorner[2]._x, mCorner[2]._y);
 	DebugRenderer::GetInstance().DrawLine(mCorner[2]._x, mCorner[2]._y, mCorner[3]._x, mCorner[3]._y);
@@ -103,9 +101,6 @@ void BoxCollider2D::Draw()
 
 void BoxCollider2D::Update()
 {
-	if (!_enable)
-		return;
-
 	_transform = reinterpret_cast<TransformComponent*>(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT));
 
 	Vector3 scale = _transform->GetScale();

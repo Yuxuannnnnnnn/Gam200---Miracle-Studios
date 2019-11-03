@@ -8,8 +8,11 @@ typedef std::unordered_map <unsigned, IScript*> Map_ScriptList;
 class LogicComponent : public IComponentSystem
 {
 	Map_ScriptList _scriptList;
+
+	bool _componentEnable;
+
+
 public:
-	LogicComponent() {};
 //Constructor
 	LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 	~LogicComponent() = default;
@@ -21,6 +24,8 @@ public:
 	void SerialiseComponent(Serialiser & document) override;
 	virtual void Inspect() override;
 
+
+	LogicComponent() : _componentEnable{ true } {};
 
 
 	void Update(double dt);

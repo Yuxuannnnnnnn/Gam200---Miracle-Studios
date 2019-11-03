@@ -132,7 +132,7 @@ void CircleCircle_Response(Vector3& normal,
 	Vector3& reflectedVectorA,												
 	Vector3& ptEndA,														
 	Vector3& reflectedVectorB,
-	Vector3& ptEndB);														
+	Vector3& ptEndB);		
 
 int CircleBox_Intersection(const CircleCollider2D& boxA,
 	const Vector3& velA,

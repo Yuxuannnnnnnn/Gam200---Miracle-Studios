@@ -16,7 +16,7 @@
 enum class TypeIdGO {
 	NONE = 0,
 	WALL, FLOOR, OBSTACLE, //Setting
-	PLAYER, ENEMY, BULLET, //Mobile objects
+	PLAYER, ENEMY, BULLET, TURRET, //Mobile objects
 	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
 };
 
@@ -50,8 +50,9 @@ private:
 	unsigned _typeId; // GameObject Type
 	size_t _uId; // Unique ID
 	bool _destory;
-
+	bool _enable;
 public:
+	bool _alive;
 
 	GameObject(size_t uId, unsigned typeId = (unsigned)TypeIdGO::NONE); // Ctor : Inits w/ a Unique id
 
@@ -71,6 +72,7 @@ public:
 	void Serialise(std::string file);
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
+
 	IComponentSystem* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
 
 	bool CheckComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
@@ -80,7 +82,21 @@ public:
 	void DestoryGameObject();
 
 	bool GetDestory() const { return _destory; }
-	void SetDestory(bool destory) { _destory = destory; }
+	void SetDestory() 
+	{
+		_destory = true; 
+		SetEnable(false);
+	}
+
+	bool GetEnable() const { return _enable; }
+	void SetEnable(bool enable) 
+	{ 
+		_enable = enable;
+
+		for (auto it : _ComponentList)
+			it.second->SetEnable(enable);
+	}
+
 
 };
 

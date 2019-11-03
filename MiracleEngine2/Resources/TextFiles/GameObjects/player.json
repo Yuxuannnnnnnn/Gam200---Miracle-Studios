@@ -5,7 +5,7 @@
 
 	"TransformComponent": true,
 	"Position": [ 0.0, 0.0 ],
-	"Scale": [ 1.0, 1.0 ],
+	"Scale": [ 70.0, 70.0 ],
 	"Rotate": 0.0,
 
 	"GraphicsComponent": true,
@@ -13,14 +13,15 @@
 	"G.FileName": "sprite_player.png",
 
 	"RigidBodyComponent": true,
-	"Mass": 1.0,
-	"Friction": 0.0,
+	"Mass": 10.0,
+	"Friction": 0.2,
 	"Static": false,
 
 	"ColliderComponent": true,
-	"ColliderTypeId": 1,
+	"ColliderTypeId": 2,
 
-	"LogicComponent": "Player",
+	"LogicComponent": true,
+	"ScriptId": [ 1 ],
 
 	"AudioComponent": true,
 	"A.TypeId": 0,

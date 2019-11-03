@@ -2,6 +2,7 @@
 #include "GameObjectFactory.h"
 #include "Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
+#include "Tools/EventHandler/EventHandler.h"
 
 
 //Constructor - Same as Initialisation
@@ -32,8 +33,13 @@ void GameObjectFactory::UpdateDestoryObjects()
 
 	for (auto it : temp)
 	{
-		if(it.second->GetDestory())
-			DestoryGameObject(it.second);
+		if (it.second->GetDestory())
+		{
+			if(!it.second->_alive)
+				DestoryGameObject(it.second);
+
+			it.second->_alive = false;
+		}
 	}
 }
 
@@ -73,6 +79,18 @@ std::unordered_map < size_t, LogicComponent* > GameObjectFactory::getLogicCompon
 	return _logicComponents;
 }
 
+Map_ScriptList GameObjectFactory::getObjectScript(GameObject* object)
+{
+	LogicComponent* component = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::LOGIC_COMPONENT));
+
+	if (component)
+		return component->GetScriptMap();
+
+	Map_ScriptList temp;
+	return temp;
+}
+
+
 GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 {
 	GameObject* newObject;
@@ -81,7 +99,7 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 		newObject = new GameObject(_prefabId++);
 	else
 		newObject = new GameObject(_uId++);
-	
+		
 	_listObject.insert(std::pair< size_t, GameObject* >(newObject->Get_uID(), newObject));
 
 	return newObject;
@@ -139,7 +157,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_graphicComponents.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
-		
+		newComponent->RenderLayerResolver();
 		if (!prefab)
 			EngineSystems::GetInstance()._graphicsSystem->_spriteList.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
 
@@ -168,14 +186,32 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::RIGIDBODY_COMPONENT:
 	{
+		TransformComponent* transform;
+
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+			transform = reinterpret_cast<TransformComponent*>(object->AddComponent(ComponentId::TRANSFORM_COMPONENT));
+		else
+			transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 
 		RigidBody2D* newComponent = new RigidBody2D(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
+		newComponent->_transform = transform;
 		_rigidBody2dComponents.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
 		
+		Collider2D* collider = nullptr;
+
+		if (object->CheckComponent(ComponentId::BOXCOLLIDER_COMPONENT))
+			collider = reinterpret_cast<Collider2D*>(object->GetComponent(ComponentId::BOXCOLLIDER_COMPONENT));
+		else if (object->CheckComponent(ComponentId::CIRCLECOLLIDER_COMPONENT))
+			collider = reinterpret_cast<Collider2D*>(object->GetComponent(ComponentId::CIRCLECOLLIDER_COMPONENT));
+
+		if (collider)
+		{
+			collider->_attachedRigidboy = true;
+			collider->_rigidbody = newComponent;
+		}
+
 		if (!prefab)
 			EngineSystems::GetInstance()._physicsSystem->_rigidBody2dList.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
 
@@ -183,13 +219,24 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::CIRCLECOLLIDER_COMPONENT:
 	{
+		TransformComponent* transform;
+
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+			transform = reinterpret_cast<TransformComponent*>(object->AddComponent(ComponentId::TRANSFORM_COMPONENT));
+		else
+			transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 
 		CircleCollider2D* newComponent = new CircleCollider2D(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
+		newComponent->_transform = transform;
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+
+		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		{
+			newComponent->_attachedRigidboy = true;
+			newComponent->_rigidbody = reinterpret_cast<RigidBody2D*>(object->GetComponent(ComponentId::RIGIDBODY_COMPONENT));
+		}
 
 		if (!prefab)
 			EngineSystems::GetInstance()._physicsSystem->_collider2dList.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
@@ -198,13 +245,24 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::BOXCOLLIDER_COMPONENT:
 	{
+		TransformComponent* transform;
+
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+			transform = reinterpret_cast<TransformComponent*>(object->AddComponent(ComponentId::TRANSFORM_COMPONENT));
+		else
+			transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 
 		BoxCollider2D* newComponent = new BoxCollider2D(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
+		newComponent->_transform = transform;
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+
+		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		{
+			newComponent->_attachedRigidboy = true;
+			newComponent->_rigidbody = reinterpret_cast<RigidBody2D*>(object->GetComponent(ComponentId::RIGIDBODY_COMPONENT));
+		}
 
 		if (!prefab)
 			EngineSystems::GetInstance()._physicsSystem->_collider2dList.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
@@ -213,13 +271,24 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::EDGECOLLIDER_COMPONENT:
 	{
+		TransformComponent* transform;
+
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+			transform = reinterpret_cast<TransformComponent*>(object->AddComponent(ComponentId::TRANSFORM_COMPONENT));
+		else
+			transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 
 		EdgeCollider2D* newComponent = new EdgeCollider2D(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
+		newComponent->_transform = transform;
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+
+		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		{
+			newComponent->_attachedRigidboy = true;
+			newComponent->_rigidbody = reinterpret_cast<RigidBody2D*>(object->GetComponent(ComponentId::RIGIDBODY_COMPONENT));
+		}
 
 		if (!prefab)
 			EngineSystems::GetInstance()._physicsSystem->_collider2dList.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
@@ -300,7 +369,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_graphicComponents.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
-		
+		newComponent->RenderLayerResolver();
 		EngineSystems::GetInstance()._graphicsSystem->_spriteList.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
 		
 		return newComponent;
@@ -325,9 +394,12 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 	}
 	case ComponentId::RIGIDBODY_COMPONENT:
 	{
+		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+
 		RigidBody2D* newComponent = new RigidBody2D(*reinterpret_cast<RigidBody2D*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
+		newComponent->_transform = transform;
 		_rigidBody2dComponents.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
 
 		EngineSystems::GetInstance()._physicsSystem->_rigidBody2dList.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
@@ -336,10 +408,19 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 	}
 	case ComponentId::CIRCLECOLLIDER_COMPONENT:
 	{
+		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+
 		CircleCollider2D* newComponent = new CircleCollider2D(*reinterpret_cast<CircleCollider2D*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
+		newComponent->_transform = transform;
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+
+		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		{
+			newComponent->_attachedRigidboy = true;
+			newComponent->_rigidbody = reinterpret_cast<RigidBody2D*>(object->GetComponent(ComponentId::RIGIDBODY_COMPONENT));
+		}
 
 		EngineSystems::GetInstance()._physicsSystem->_collider2dList.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
@@ -347,10 +428,19 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 	}
 	case ComponentId::BOXCOLLIDER_COMPONENT:
 	{
+		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+
 		BoxCollider2D* newComponent = new BoxCollider2D(*reinterpret_cast<BoxCollider2D*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
+		newComponent->_transform = transform;
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+
+		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		{
+			newComponent->_attachedRigidboy = true;
+			newComponent->_rigidbody = reinterpret_cast<RigidBody2D*>(object->GetComponent(ComponentId::RIGIDBODY_COMPONENT));
+		}
 
 		EngineSystems::GetInstance()._physicsSystem->_collider2dList.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
@@ -358,10 +448,19 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 	}
 	case ComponentId::EDGECOLLIDER_COMPONENT:
 	{
+		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+
 		EdgeCollider2D* newComponent = new EdgeCollider2D(*reinterpret_cast<EdgeCollider2D*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
+		newComponent->_transform = transform;
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+
+		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		{
+			newComponent->_attachedRigidboy = true;
+			newComponent->_rigidbody = reinterpret_cast<RigidBody2D*>(object->GetComponent(ComponentId::RIGIDBODY_COMPONENT));
+		}
 
 		EngineSystems::GetInstance()._physicsSystem->_collider2dList.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
@@ -466,6 +565,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 GameObject* GameObjectFactory::CloneGameObject(GameObject* object)	//Create a gameObject type along with its Components
 {
 	GameObject* newObject = CreateNewGameObject();
+	newObject->Set_typeId((TypeIdGO)object->Get_typeId());
 	//Map_ComponentList& objectMap = newObject->GetComponentList();
 
 	for (auto it : object->GetComponentList())
@@ -511,6 +611,33 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::BULLET:
+	{
+		Bullet* newScript = new Bullet();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::BULLET);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::ENEMY:
+	{
+		Enemy* newScript = new Enemy();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::ENEMY);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::TURRET:
+	{
+		Turret* newScript = new Turret();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::TURRET);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	default:
 		break;
 	}
@@ -533,6 +660,33 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::PLAYER);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::BULLET:
+	{
+		Bullet* newScript = new Bullet(*reinterpret_cast<Bullet*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::BULLET);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::ENEMY:
+	{
+		Enemy* newScript = new Enemy(*reinterpret_cast<Enemy*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::ENEMY);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::TURRET:
+	{
+		Turret* newScript = new Turret(*reinterpret_cast<Turret*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::TURRET);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}

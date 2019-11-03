@@ -24,19 +24,19 @@ public:
 	Vector3 _velocity;
 	Vector3 _direction;
 	Vector3 _appliedForce;
-	Vector3 _position;
 
 	/*float _angularVelocity;
 	float _angularForce;*/
 
-	float _angle;
 	float _mass;
 	float _fictionVal;
 	bool _static;
-	bool _enable;
+	bool _componentEnable;
+
+	TransformComponent* _transform;
 
 protected:
-	TransformComponent* _transform;
+	
 
 public:
 
@@ -63,11 +63,10 @@ public:
 
 	void StopVelocity();
 	void AddForce(Vector3 force);
-	void RemoveForce(Vector3 force);
+	void AddForwardForce(float force);
 	void SetFiction(float value);
 	void SetMass(float mass);
 	void SetType(bool type);
-	void SetEnable(bool enable);
 
 };
 

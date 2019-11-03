@@ -6,7 +6,7 @@
 #include "Tools/FileIO/Serialiser.h"
 
 GameObject::GameObject(size_t uId, unsigned typeId)
-	:_uId{ uId }, _typeId{ typeId }, _destory{ false }
+	:_uId{ uId }, _typeId{ typeId }, _destory{ false }, _alive{ true }
 {
 	//std::cout << "GameObject::GameObject()" << std::endl;
 }
@@ -32,10 +32,15 @@ size_t GameObject::Get_uID() const
 
 IComponentSystem* GameObject::GetComponent(ComponentId typeId, ScriptId script) // GetChildComponent
 {
-	if (typeId == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY)
-		return reinterpret_cast<LogicComponent*>(_ComponentList[(unsigned)typeId])->GetScript(script);
+	if (CheckComponent(typeId))
+	{
+		if (typeId == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY)
+			return reinterpret_cast<LogicComponent*>(_ComponentList[(unsigned)typeId])->GetScript(script);
 
-	return _ComponentList[(unsigned)typeId];
+		return _ComponentList[(unsigned)typeId];
+	}
+
+	return nullptr;
 }
 
 void GameObject::Serialise(std::string file)
@@ -81,12 +86,7 @@ IComponentSystem* GameObject::AddComponent(ComponentId componentType, ScriptId s
 {
 	if (CheckComponent(componentType, script))
 	{
-		IComponentSystem* result = GetComponent(componentType);
-
-		if (componentType == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY)
-			result = reinterpret_cast<LogicComponent*>(result)->GetScript(script);
-
-		return result;
+		return GetComponent(componentType, script);
 	}
 
 	IComponentSystem* newComponent = EngineSystems::GetInstance()._gameObjectFactory->AddComponent(this, componentType, script);
@@ -94,7 +94,8 @@ IComponentSystem* GameObject::AddComponent(ComponentId componentType, ScriptId s
 	if (!CheckComponent(componentType))
 		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)componentType, newComponent));
 
-	return newComponent;
+
+	return GetComponent(componentType, script);
 }
 void GameObject::RemoveComponent(ComponentId componentType, ScriptId script)
 {

@@ -5,26 +5,24 @@
 
 	"TransformComponent": true,
 	"Position": [ 0.0, 0.0 ],
-	"Scale": [ 1.0, 1.0 ],
+	"Scale": [ 70.0, 70.0 ],
 	"Rotate": 0.0,
 
 	"GraphicsComponent": true,
 	"G.TypeId": 0,
 	"G.FileName": "sprite_enemy.png",
 
-	"RigidBoodyComponent": true,
-	"Mass": 10.0,
-	"Friction": 5.0,
+	"RigidBodyComponent": true,
+	"Mass": 1.0,
+	"Friction": 0.0,
 	"Static": false,
 
 	"ColliderComponent": true,
-	"ColliderTypeId": 1,
+	"ColliderTypeId": 2,
 
 	"LogicComponent": true,
-	"ScriptId": [ 0 ],
+	"ScriptId": [ 3 ],
 	"Health": 5,
-	"Speed": 1,
-	"Lifetime": -1,
 
 	"AudioComponent": true,
 	"A.TypeId": 0,

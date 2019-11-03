@@ -16,9 +16,12 @@ public:
 
 		_inputSystem = EngineSystems::GetInstance()._inputSystem;
 		_logicSystem = EngineSystems::GetInstance()._logicSystem;
+		_aiSystem = EngineSystems::GetInstance()._aiSystem;
 		_graphicsSystem = EngineSystems::GetInstance()._graphicsSystem;
 		_physicsSystem = EngineSystems::GetInstance()._physicsSystem;
+		_audioSystem = EngineSystems::GetInstance()._audioSystem;
 		_frameRateControl = EngineSystems::GetInstance()._frameRateControl;
+		_performanceUsage = EngineSystems::GetInstance()._performanceUsage;
 		_gameObjectFactory = EngineSystems::GetInstance()._gameObjectFactory;
 	}
 
@@ -37,10 +40,14 @@ public:
 
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
+	AISystem* _aiSystem;
 	GraphicsSystem* _graphicsSystem;
 	PhysicsSystem* _physicsSystem;
+	AudioSystem* _audioSystem;
+
 
 	FrameRateController* _frameRateControl;
+	PerformanceUsage* _performanceUsage;
 
 	GameObjectFactory* _gameObjectFactory;
 

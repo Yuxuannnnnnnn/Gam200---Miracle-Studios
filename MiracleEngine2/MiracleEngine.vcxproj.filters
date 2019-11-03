@@ -69,6 +69,12 @@
     <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
+    <ClCompile Include="Src\Gameplay\Bullet.cpp" />
+    <ClCompile Include="Src\Gameplay\Enemy.cpp" />
+    <ClCompile Include="Src\Audio\AudioSystem.cpp" />
+    <ClCompile Include="Src\Audio\Sound.cpp" />
+    <ClCompile Include="Src\Audio\SoundManager.cpp" />
+    <ClCompile Include="Src\Gameplay\Turret.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -445,6 +451,13 @@
     <ClInclude Include="Src\MathLib\Matrix4x4.h" />
     <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
     <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
+    <ClInclude Include="Src\Gameplay\Bullet.h" />
+    <ClInclude Include="Src\Gameplay\Enemy.h" />
+    <ClInclude Include="Src\Audio\AudioSystem.h" />
+    <ClInclude Include="Src\GraphicsSystem\FontRenderer.h" />
+    <ClInclude Include="Src\Audio\Sound.h" />
+    <ClInclude Include="Src\Audio\SoundManager.h" />
+    <ClInclude Include="Src\Gameplay\Turret.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -593,5 +606,8 @@
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
+    <None Include="Resources\TextFiles\GameObjects\Wall.json" />
+    <None Include="Resources\TextFiles\GameObjects\Floor.json" />
+    <None Include="Resources\TextFiles\GameObjects\Turret.json" />
   </ItemGroup>
 </Project>

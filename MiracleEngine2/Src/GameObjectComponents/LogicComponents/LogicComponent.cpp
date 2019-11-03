@@ -47,6 +47,9 @@ void LogicComponent::Update(double dt)
 {
 	for (auto it : _scriptList)
 	{
+		if (!it.second->_componentEnable)
+			continue;
+
 		it.second->Update(dt);
 	}
 }

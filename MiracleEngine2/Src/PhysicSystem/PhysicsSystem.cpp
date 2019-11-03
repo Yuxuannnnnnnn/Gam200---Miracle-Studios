@@ -34,20 +34,29 @@ void PhysicsSystem::Update(double dt)
 void PhysicsSystem::UpdatePhyiscs(double dt)
 {
 	for (auto it : _rigidBody2dList)
+	{
+		if (!it.second->GetEnable() || !it.second->_componentEnable)
+			continue;
+
 		it.second->UpdateVec(dt);
+	}
 }
 void PhysicsSystem::UpdateCollision(double dt)
 {
 	for (auto it : _collider2dList)
-		it.second->Update();
+	{
+		if (!it.second->GetEnable() || !it.second->_componentEnable)
+			continue;
 
+		it.second->Update();
+	}
 	std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
 
 	while (!tempList.empty())
 	{
 		std::unordered_map<size_t, Collider2D* >::iterator it = tempList.begin();
 
-		if (!it->second->_enable || it->second->_type == (unsigned)ColliderType::NONE_COLLIDER)
+		if (!it->second->GetEnable() || !it->second->_componentEnable || it->second->_type == (unsigned)ColliderType::NONE_COLLIDER)
 		{
 			tempList.erase(it);
 			continue;
@@ -55,7 +64,7 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 		for (auto it2 : tempList)
 		{
-			if (!it2.second->_enable || it->first == it2.first)
+			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first)
 				continue;
 
 			if (it->second->_type == (unsigned)ColliderType::BOX_COLLIDER)
@@ -109,12 +118,22 @@ void PhysicsSystem::UpdateCollision(double dt)
 	}
 
 	for (auto it : _collider2dList)
+	{
+		if (!it.second->GetEnable() || !it.second->_componentEnable)
+			continue;
+
 		it.second->Draw();
+	}
 }
 void PhysicsSystem::UpdateTransform(double dt)
 {
 	for (auto it : _rigidBody2dList)
+	{
+		if (!it.second->GetEnable() || !it.second->_componentEnable)
+			continue;
+
 		it.second->UpdatePos(dt);
+	}
 }
 void PhysicsSystem::UpdateEvents()
 {

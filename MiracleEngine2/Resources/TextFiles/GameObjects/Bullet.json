@@ -5,7 +5,7 @@
 
 	"TransformComponent": true,
 	"Position": [ 0.0, 0.0 ],
-	"Scale": [ 1.0, 1.0 ],
+	"Scale": [ 20.0, 20.0 ],
 	"Rotate": 0.0,
 
 	"GraphicsComponent": true,
@@ -13,7 +13,7 @@
 	"G.FileName": "sprite_bullet.png",
 
 	"RigidBoodyComponent": true,
-	"Mass": 0.0,
+	"Mass": 1.0,
 	"Friction": 0.0,
 	"Static": false,
 
@@ -21,8 +21,6 @@
 	"ColliderTypeId": 2,
 
 	"LogicComponent": true,
-	"ScriptId": [ 6 ],
-	"Health": 1,
-	"Speed": 10,
-	"Lifetime": 5
+	"ScriptId": [ 2 ],
+	"Lifetime": 3.0
 }

@@ -42,6 +42,8 @@ public:
 	std::unordered_map < size_t, LogicComponent* > getLogicComponent();
 	std::unordered_multimap<size_t, IScript*> getScriptComponent();
 
+	Map_ScriptList getObjectScript(GameObject* object);
+
 	GameObject* CreateNewGameObject(bool prefab = false);
 	GameObject* CloneGameObject(GameObject* object);
 	void DestoryGameObject(GameObject* object);

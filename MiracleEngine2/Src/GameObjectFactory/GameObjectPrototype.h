@@ -24,6 +24,9 @@ public:
 
 	// Serialisation
 	//GameObject* SerialInPrefab_Player();
-
-
+	//GameObject* SerialInPrefab_Bullet();
+	//GameObject* SerialInPrefab_Enemy();
+	//GameObject* SerialInPrefab_Wall();
+	//GameObject* SerialInPrefab_Floor();
+	//GameObject* SerialInPrefab_Turret();
 };
