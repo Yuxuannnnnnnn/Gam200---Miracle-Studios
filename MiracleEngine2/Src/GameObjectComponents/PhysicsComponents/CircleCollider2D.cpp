@@ -40,7 +40,7 @@ void CircleCollider2D::Update()
 	_transform = reinterpret_cast<TransformComponent*>(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT));
 
 	mCenPos = _transform->GetPos();
-	mRadius = _transform->GetScale().X();
+	mRadius = _transform->GetScale().X() * 0.5f;
 }
 
 bool CircleCollider2D::TestCircleVsPoint(const Vector3& pt) const
