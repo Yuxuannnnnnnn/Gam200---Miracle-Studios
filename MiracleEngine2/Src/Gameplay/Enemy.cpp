@@ -75,10 +75,12 @@ void Enemy::Move()
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
-	moveVec.Normalize();
-	moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
-							//std::cout << moveVec._x << " " << moveVec._y << std::endl;
-	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
+	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(300);
+
+	//moveVec.Normalize();
+	//moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
+	//						//std::cout << moveVec._x << " " << moveVec._y << std::endl;
+	//((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
 void Enemy::MoveNode()
 { // move to NextNod
