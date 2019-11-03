@@ -12,6 +12,7 @@ Enemy::Enemy()
 	_init = false;
 	_state = (unsigned)AiState::MOVING;
 	_health = 0;
+	_nextNode = nullptr;
 }
 
 void Enemy::Init()
@@ -75,7 +76,7 @@ void Enemy::Move()
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
 	moveVec.Normalize();
-	moveVec* spd;
+	moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
 							//std::cout << moveVec._x << " " << moveVec._y << std::endl;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
@@ -96,7 +97,7 @@ void Enemy::MoveNode()
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
 	moveVec.Normalize();
-	moveVec* spd;
+	moveVec* (spd);
 	//std::cout << moveVec._x << " " << moveVec._y << std::endl;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }

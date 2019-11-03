@@ -42,11 +42,11 @@ private:
 	// all GO with AI components
 	//std::unordered_map < size_t, AiComponent* >& _aimap; // get from factory
 
-	bool init{ false };
+	bool init;
 
 	size_t _timeUpdateRate;	// how fast the AI system will update
 	size_t _timeUpdatePrev; // previous 'time' updated
-	size_t _timeUpdateElapsed; // currTime - _timeUpdatePrev
+	size_t _timeUpdateElapsed ; // currTime - _timeUpdatePrev
 
 	// hard coded tilemap
 	std::unordered_map < size_t, Node* > _tilemap;
@@ -90,7 +90,7 @@ private:
 	};
 
 public:
-	AISystem() = default;
+	AISystem();
 	~AISystem() = default;
 	AISystem(const AISystem& rhs) = delete;
 	AISystem& operator=(const AISystem& rhs) = delete;
@@ -109,7 +109,7 @@ public:
 
 // InUpEx
 	void Init(); // make sure GOFac serial gives the _tilemap
-	void Update(size_t currTime);
+	void Update(double currTime);
 	void Exit();
 
 // Create a node map from _tilemap
