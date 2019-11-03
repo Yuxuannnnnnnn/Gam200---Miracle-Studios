@@ -1,5 +1,16 @@
 #include "PrecompiledHeaders.h"
 
+
+int GraphicComponent::GetTextureState()
+{
+	return _textureState;
+}
+void GraphicComponent::SetTextureState(int state)
+{
+	_textureState = state;
+}
+
+
 GraphicComponent::GraphicComponent() :
 	_typeIdGraphic{ (unsigned)TypeIdGraphic::NONE },
 	_fileName{ std::string() },

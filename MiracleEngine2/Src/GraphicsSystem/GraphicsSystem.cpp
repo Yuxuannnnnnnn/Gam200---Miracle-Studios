@@ -25,13 +25,17 @@ void GraphicsSystem::Update(double dt)
 		{
 			_textureManager._textureMap["player"]->Select();
 		}
-		else if (graphicComponent->GetFileName() == "sprite_bullet.png")
+		else if (graphicComponent->GetFileName() == "spriteenemy.png")
 		{
-			_textureManager._textureMap["bullet"]->Select();
+			_textureManager._textureMap["enemy"]->Select();
+		}
+		else if (graphicComponent->GetFileName() == "spritewall.png")
+		{
+			_textureManager._textureMap["wall"]->Select();
 		}
 		else
 		{
-			_textureManager._textureMap["enemy"]->Select();
+			_textureManager._textureMap["bullet"]->Select();
 		}
 		_quadmesh.Select();
 		_shader.Select();

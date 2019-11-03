@@ -10,11 +10,12 @@ const std::map<std::string, Texture2D*>& TextureManager::GetTextureMap()
 TextureManager::TextureManager()
 {
 
-	_textureMap["player"] = new Texture2D("Resources/Image/Tex_Player.png");
+	_textureMap["player"] = new Texture2D("Resources/Image/Player.png");
+	_textureMap["enemy"] = new Texture2D("Resources/Image/EnemyMove.png");
+	
 	_textureMap["bullet"] = new Texture2D("Resources/Image/bullet.png");
 	_textureMap["floor"] = new Texture2D("Resources/Image/Tex_Floor.png");
-	_textureMap["wall"] = new Texture2D("Resources/Image/Tex_Wall.png");
-	_textureMap["enemy"] = new Texture2D("Resources/Image/Tex_Enemy.png");
+	_textureMap["wall"] = new Texture2D("Resources/Image/Wall.png");
 	_textureMap["background"] = new Texture2D("Resources/Image/background.png");
 
 	_textureMap["zombie"] = new Texture2D("Resources/Image/zombie.png");	
