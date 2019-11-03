@@ -55,6 +55,25 @@ GraphicComponent& GraphicComponent::operator= (const GraphicComponent& rhs)
 	return *this;
 }
 
+
+int GraphicComponent::GetRenderLayer()
+{
+	return _renderLayer;
+}
+void GraphicComponent::SetRenderLayer(int layer)
+{
+	_renderLayer = layer;
+}
+
+int GraphicComponent::GetTextureState()
+{
+	return _textureState;
+}
+void GraphicComponent::SetTextureState(int state)
+{
+	_textureState = state;
+}
+
 void GraphicComponent::RenderLayerResolver()
 {
 	switch (GetParentPtr()->Get_typeId())

@@ -9,10 +9,9 @@ class LogicComponent : public IComponentSystem
 {
 	Map_ScriptList _scriptList;
 
+public:
 	bool _componentEnable;
 
-
-public:
 //Constructor
 	LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 	~LogicComponent() = default;

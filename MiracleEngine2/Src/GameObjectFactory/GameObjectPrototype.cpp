@@ -40,11 +40,12 @@ GameObject* GameObjectPrototype::SerialPrefabObject(TypeIdGO type)
 		temp->Serialise("./Resources/TextFiles/GameObjects/Wall.json");
 		break;
 	case TypeIdGO::FLOOR:
+		temp->Serialise("./Resources/TextFiles/GameObjects/Floor.json");
 		break;
 	case TypeIdGO::OBSTACLE:
 		break;
 	case TypeIdGO::PLAYER:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Player.json");
+		temp->Serialise("./Resources/TextFiles/GameObjects/player.json");
 		break;
 	case TypeIdGO::ENEMY:
 		temp->Serialise("./Resources/TextFiles/GameObjects/Enemy.json");
@@ -52,9 +53,8 @@ GameObject* GameObjectPrototype::SerialPrefabObject(TypeIdGO type)
 	case TypeIdGO::BULLET:
 		temp->Serialise("./Resources/TextFiles/GameObjects/Bullet.json");
 		break;
-	case TypeIdGO::BULLET:
-		break;
 	case TypeIdGO::TURRET:
+		temp->Serialise("./Resources/TextFiles/GameObjects/Turret.json");
 		break;
 	case TypeIdGO::WEAPON:
 		break;

@@ -7,7 +7,7 @@ Collider2D::Collider2D(GameObject* parent, size_t uId, IComponentSystem * compon
 	: IComponentSystem(parent, uId),
 	_type{ unsigned(ColliderType::NONE_COLLIDER) },
 	_layer{ 0 },
-	_enable{ true },
+	_componentEnable{ true },
 	_trigger{ true },
 	_transform{ nullptr },
 	_rigidbody{ nullptr }
@@ -18,7 +18,7 @@ Collider2D::Collider2D(GameObject* parent, size_t uId, IComponentSystem * compon
 		Collider2D* collider2DComponent = dynamic_cast<Collider2D*>(component);
 		 _type = collider2DComponent->_type;
 		 _layer = collider2DComponent->_layer;
-		 _enable = collider2DComponent->_enable;
+		 _componentEnable = collider2DComponent->_componentEnable;
 		 _trigger = collider2DComponent->_trigger;
 	}
 }

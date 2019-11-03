@@ -810,9 +810,6 @@
     <None Include="Dep\glm\gtx\vector_angle.inl" />
     <None Include="Dep\glm\gtx\vector_query.inl" />
     <None Include="Dep\glm\gtx\wrap.inl" />
-    <None Include="Resources\TextFiles\GameObjects\Floor.json" />
-    <None Include="Resources\TextFiles\GameObjects\Turret.json" />
-    <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>

@@ -8,7 +8,7 @@ AiComponent::AiComponent(GameObject* parent, size_t uId, IComponentSystem* compo
 {
 	if (component)
 	{
-		_destination = dynamic_cast<AiComponent*>(component)->_destination;
+		_destinationPos = dynamic_cast<AiComponent*>(component)->_destinationPos;
 		for (auto& node : dynamic_cast<AiComponent*>(component)->GetPath())
 			_path.emplace_back(new Node(*node));
 	}
@@ -85,13 +85,13 @@ void AiComponent::Move()
 {
 	// get next node
 	// use script_move to move toward
-	;
+	
 }
 void AiComponent::Move(Vector3 nextNodePos)
 {
 	// get next node
 	// use script_move to move toward
-	;
+	
 }
 
 void AiComponent::FSM()
@@ -132,12 +132,4 @@ void AiComponent::FSM()
 	//default:
 	//	break;
 	//}
-}
-
-
-void AiComponent::Move()
-{
-	// get next node
-	// use script_move to move toward
-	;
 }

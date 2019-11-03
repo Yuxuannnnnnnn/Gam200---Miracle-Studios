@@ -16,13 +16,9 @@ RigidBody2D::RigidBody2D(GameObject* parent, size_t uId, IComponentSystem* compo
 	_velocity{},
 	_appliedForce{},
 	_direction{ 1.f,0.f,0.f },
-	_position{},
-	_angle{ 0.f },
 	_mass{ 1.f },
 	_fictionVal{ 0.f },
-	_static{ true },
-	_enable{ true }
-
+	_static{ true }
 {
 
 	if (component)
@@ -31,12 +27,9 @@ RigidBody2D::RigidBody2D(GameObject* parent, size_t uId, IComponentSystem* compo
 		_velocity = rigidBodyComponent->_velocity;
 		_direction = rigidBodyComponent->_direction;
 		_appliedForce = rigidBodyComponent->_appliedForce;
-		_position = rigidBodyComponent->_position;
-		_angle = rigidBodyComponent->_angle;
 		_mass = rigidBodyComponent->_mass;
 		_fictionVal = rigidBodyComponent->_fictionVal;
 		_static = rigidBodyComponent->_static;
-		_enable = rigidBodyComponent->_enable;
 	}
 }
 
