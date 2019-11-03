@@ -15,6 +15,7 @@
 #include "GraphicsSystem/GraphicsSystem.h"
 #include "GraphicsSystem/DebugRenderer.h"
 #include "LogicSystem/LogicSystem.h"
+#include "LogicSystem/AiSystem.h"
 #include "Inputsystem/InputSystem.h"
 #include "WindowsSystem/WindowsSystem.h"
 #include "Tools/DebugTools/FrameRateController.h"
@@ -35,6 +36,7 @@ public:
 		_imguiSystem{ nullptr },
 		_gameStateManager{ nullptr },
 		_inputSystem{ nullptr },
+		_aiSystem{ nullptr },
 		_logicSystem{ nullptr },
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
@@ -54,6 +56,7 @@ public:
 
 		_inputSystem = new InputSystem();
 		_logicSystem =  new LogicSystem();
+		_aiSystem = new AISystem();
 		_graphicsSystem = new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), _windowSystem->getWindow().GetWindowHeight());
 		_physicsSystem = new PhysicsSystem();
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
@@ -71,6 +74,7 @@ public:
 		delete _gameStateManager;
 		delete _inputSystem;
 		delete _logicSystem;
+		delete _aiSystem;
 		delete _graphicsSystem;
 		delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 
@@ -87,6 +91,7 @@ public:
 
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
+	AISystem* _aiSystem;
 	GraphicsSystem* _graphicsSystem;
 	PhysicsSystem* _physicsSystem;
 
