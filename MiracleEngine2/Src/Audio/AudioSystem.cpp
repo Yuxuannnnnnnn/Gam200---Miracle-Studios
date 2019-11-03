@@ -1,6 +1,10 @@
 #include "PrecompiledHeaders.h"
 #include "AudioSystem.h"
 
+void AudioSystem::Init()
+{
+	//_soundManager.AddSound(name, filepath, type(bgm/sfx));
+}
 
 void AudioSystem::Update()
 {
@@ -20,13 +24,14 @@ AudioSystem::AudioSystem()
 	_fmodSystem = nullptr;
 	_level1 = nullptr;
 	_channel1 = nullptr;
-	channelGroup = nullptr;
+	_bgmGroup = nullptr;
+	_sfxGroup = nullptr;
 	FMOD_System_Create(&_fmodSystem);
 	FMOD_System_Init(_fmodSystem, 32, FMOD_INIT_NORMAL, 0);
-	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &channelGroup);
+	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &_bgmGroup);
+	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &_sfxGroup);
 	Play();
 
-	//FMOD_System_CreateStream(_fmodSystem, )
 }
 
 AudioSystem::~AudioSystem()

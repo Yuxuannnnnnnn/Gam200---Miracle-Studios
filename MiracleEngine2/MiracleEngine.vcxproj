@@ -167,6 +167,8 @@
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
     <ClInclude Include="Src\Animation\Frame.h" />
     <ClInclude Include="Src\Audio\AudioSystem.h" />
+    <ClInclude Include="Src\Audio\Sound.h" />
+    <ClInclude Include="Src\Audio\SoundManager.h" />
     <ClInclude Include="Src\Engine\EngineSystems.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
@@ -545,6 +547,8 @@
     <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
     <ClCompile Include="Src\Animation\Frame.cpp" />
     <ClCompile Include="Src\Audio\AudioSystem.cpp" />
+    <ClCompile Include="Src\Audio\Sound.cpp" />
+    <ClCompile Include="Src\Audio\SoundManager.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\FontComponent.cpp" />
