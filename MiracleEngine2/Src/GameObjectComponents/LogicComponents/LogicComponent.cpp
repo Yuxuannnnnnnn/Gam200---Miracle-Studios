@@ -2,6 +2,47 @@
 #include "LogicComponent.h"
 #include "Engine/EngineSystems.h"
 
+
+LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component)
+	:IComponentSystem(parent, uId)
+{
+	if (component)
+	{
+		LogicComponent* logicComponent = dynamic_cast<LogicComponent*>(component);
+
+		for (auto& script : logicComponent->_scriptList)
+		{
+			IScript* Script = new IScript(*(script.second));
+			_scriptList.insert(std::pair<unsigned, IScript*>(script.first, Script));
+		}
+
+	}
+}
+
+std::string LogicComponent::ComponentName() const
+{
+	return "Logic Component";
+}
+
+
+void LogicComponent::SerialiseComponent(Serialiser& document)
+{
+
+	if (document.HasMember("_scriptList") && document["_scriptList"].IsArray())	//Checks if the variable exists in .Json file
+		for (int i = 0; i < document["ScriptId"].Size(); i++)
+		{
+			if (document["ScriptId"][i].IsInt());
+				//_scriptList.insert();
+		}
+
+
+}
+
+void LogicComponent::Inspect()
+{
+}
+
+
 void LogicComponent::Update(double dt)
 {
 	for (auto it : _scriptList)

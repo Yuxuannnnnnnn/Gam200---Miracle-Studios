@@ -66,6 +66,9 @@
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
     <ClCompile Include="Src\Gameplay\Player.cpp" />
     <ClCompile Include="Src\MathLib\Matrix4x4.cpp" />
+    <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -440,6 +443,8 @@
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\LogicComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\PrecompiledScriptType.h" />
     <ClInclude Include="Src\MathLib\Matrix4x4.h" />
+    <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
+    <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

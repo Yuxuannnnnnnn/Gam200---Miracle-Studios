@@ -20,6 +20,22 @@ private:
 public:
 	IScript() : _ScriptType{ (unsigned)ScriptId::EMPTY } {}
 	virtual ~IScript() {}
+	IScript(const IScript& copy) = default;
+
+	std::string ComponentName() const override
+	{
+		return "IScript Component";
+	}
+
+	void SerialiseComponent(Serialiser& document) override
+	{
+
+	}
+
+	virtual void Inspect() override
+	{
+
+	}
 
 	virtual void Update(double dt) {}
 

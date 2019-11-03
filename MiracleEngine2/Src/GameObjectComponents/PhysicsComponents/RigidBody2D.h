@@ -39,6 +39,13 @@ protected:
 	TransformComponent* _transform;
 
 public:
+
+	RigidBody2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+
+	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	void Inspect() override;
+
 	// Constructor
 	RigidBody2D(TransformComponent* transform = nullptr);
 	virtual ~RigidBody2D() {};
@@ -62,10 +69,6 @@ public:
 	void SetType(bool type);
 	void SetEnable(bool enable);
 
-	std::string ComponentName() const override
-	{
-		return "RigidBody2D Component";
-	}
 };
 
 #endif

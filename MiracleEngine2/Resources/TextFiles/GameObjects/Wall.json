@@ -1,7 +1,7 @@
 {
 	"IdentityComponent": true,
 	"Name": "none",
-	"GameObjectType": 6,
+	"GameObjectType": 1,
 
 	"TransformComponent": true,
 	"Position": [ 0.0, 0.0 ],
@@ -10,19 +10,13 @@
 
 	"GraphicsComponent": true,
 	"G.TypeId": 0,
-	"G.FileName": "sprite_bullet.png",
+	"G.FileName": "sprite_wall.png",
 
 	"RigidBoodyComponent": true,
 	"Mass": 0.0,
 	"Friction": 0.0,
-	"Static": false,
+	"Static": true,
 
 	"ColliderComponent": true,
-	"ColliderTypeId": 2,
-
-	"LogicComponent": true,
-	"ScriptId": [ 6 ],
-	"Health": 1,
-	"Speed": 10,
-	"Lifetime": 5
+	"ColliderTypeId": 2
 }

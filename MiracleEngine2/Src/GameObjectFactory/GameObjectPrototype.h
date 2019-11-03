@@ -20,10 +20,10 @@ public:
 
 	GameObject* SerialPrefabObject(TypeIdGO type);
 
-	void SerialAddComponent(GameObject* object, SerialTypeId componentType, rapidjson::Value& s, rapidjson::Document& d);
+	//void SerialAddComponent(GameObject* object, SerialTypeId componentType, rapidjson::Value& s, rapidjson::Document& d);
 
 	// Serialisation
-	GameObject* SerialInPrefab_Player();
+	//GameObject* SerialInPrefab_Player();
 
 
 };

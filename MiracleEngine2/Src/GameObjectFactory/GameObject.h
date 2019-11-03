@@ -1,5 +1,4 @@
 #pragma once
-#include "PrecompiledHeaders.h"
  
 #include "rapidjson.h"		// J
 #include "document.h"		// S
@@ -68,20 +67,21 @@ public:
 	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }		//
 	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }			//
 		
+	// Components<unsi
+	void Serialise(std::string file);
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
-
+	IComponentSystem* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
 
 	bool CheckComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
-
 	IComponentSystem* AddComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 	void RemoveComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
+
 	void DestoryGameObject();
 
 	bool GetDestory() const { return _destory; }
 	void SetDestory(bool destory) { _destory = destory; }
 
-	IComponentSystem* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
 };
 
 

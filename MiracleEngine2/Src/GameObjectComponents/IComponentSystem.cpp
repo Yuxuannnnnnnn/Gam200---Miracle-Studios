@@ -6,6 +6,12 @@ IComponentSystem::IComponentSystem() :
 	_ParentId{ 0 }
 {}
 
+
+IComponentSystem::IComponentSystem(GameObject* parent, size_t uId)
+	: _ParentPtr{ parent }, _ParentId{ uId }
+{}
+
+
 std::string IComponentSystem::ComponentName() const
 {
 	std::cout << "IComponentSystem::ComponentName()" << std::endl;

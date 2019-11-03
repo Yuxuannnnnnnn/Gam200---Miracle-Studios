@@ -23,6 +23,8 @@ public:
 	float	mRadius;
 
 public:
+	CircleCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+
     // Constructor
 	CircleCollider2D(TransformComponent* transform = nullptr);
 	virtual ~CircleCollider2D() {}

@@ -9,6 +9,33 @@
 #include "BoxCollider2D.h"
 //#include "GraphicsSystem/DebugRenderer.h"
 
+
+BoxCollider2D::BoxCollider2D(GameObject* parent, size_t uId, IComponentSystem* component) :
+	Collider2D(parent, uId, component),
+	mMinPos{},
+	mMaxPos{},
+	mCorner{ {},{},{},{} },
+	mAxis{ {},{} },
+	mOrigin{},
+	mAngle{ 0.f }
+{
+	if (component)
+	{
+		BoxCollider2D* box2DComponent = dynamic_cast<BoxCollider2D*>(component);
+		mMinPos = box2DComponent->mMinPos;
+		mMaxPos = box2DComponent->mMaxPos;
+		mOrigin = box2DComponent->mOrigin;
+		mAngle = box2DComponent->mAngle;
+
+		for (int i = 0; i < 4; i++)
+			mCorner[i] = box2DComponent->mCorner[i];
+
+		for (int i = 0; i < 2; i++)
+			mAxis[i] = box2DComponent->mAxis[i];
+	}
+}
+
+
 BoxCollider2D::BoxCollider2D(TransformComponent* transform) :
 	mMinPos{}, 
 	mMaxPos{}, 

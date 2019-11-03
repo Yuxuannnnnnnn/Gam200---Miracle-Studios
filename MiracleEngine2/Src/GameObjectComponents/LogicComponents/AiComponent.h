@@ -21,9 +21,15 @@ private:
 	Vector3 _destination;
 	std::vector<Node*> _path;
 public:
+	//Constructor
+	AiComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+
 	AiComponent(size_t id = 0);
 // CompName
 	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	virtual void Inspect() override;
+	
 // InUpEx
 	void Init();
 	void Update(std::vector<Node>& tilemap);

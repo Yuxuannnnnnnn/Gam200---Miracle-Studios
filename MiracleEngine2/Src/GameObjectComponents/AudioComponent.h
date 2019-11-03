@@ -20,18 +20,19 @@ private:
 	size_t _lifetimeCurrent;
 	bool _loop;
 public:
-	AudioComponent();
-	~AudioComponent();
+	AudioComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 
 	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	void Inspect() override;
 
-	unsigned& GetTypeId()
-	{
-		return _typeIdAudio;
-	}
-	std::string& GetFileName()
-	{
-		return _fileName;
-	}
+
+	AudioComponent();
+	~AudioComponent() = default;
+
+	unsigned& GetTypeId();
+
+	std::string& GetFileName();
+
 };
 

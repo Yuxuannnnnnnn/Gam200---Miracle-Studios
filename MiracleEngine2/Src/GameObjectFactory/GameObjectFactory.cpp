@@ -3,6 +3,7 @@
 #include "Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+
 //Constructor - Same as Initialisation
 //Prototypes initialised - Prototypes Used for during entire Game, Only when Quit Game State then delete Prototypes
 GameObjectFactory::GameObjectFactory()
@@ -99,15 +100,24 @@ void GameObjectFactory::DestoryGameObject(GameObject* object)
 	_listObject.erase(id);
 }
 
-IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentId tpye, ScriptId script)
+IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentId type, ScriptId script)
 {
 	if (!object)
 		return nullptr;
 
 	bool prefab = object->Get_uID() < 1000 ? true : false;
 
-	switch (tpye)
+	switch (type)
 	{
+	case ComponentId::IDENTITY_COMPONENT:
+	{
+		IdentityComponent * newComponent = new IdentityComponent();
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_IdentityComponents.insert(std::pair< size_t, IdentityComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
 	case ComponentId::TRANSFORM_COMPONENT:
 	{
 		TransformComponent* newComponent = new TransformComponent();
@@ -132,6 +142,27 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		
 		if (!prefab)
 			EngineSystems::GetInstance()._graphicsSystem->_spriteList.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
+	case ComponentId::ANIMATION_COMPONENT:
+	{
+		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
+			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+
+		AnimationComponent* newComponent = new AnimationComponent(); 
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
+	case ComponentId::CAMERA_COMPONENT:
+	{
+		CameraComponent* newComponent = new CameraComponent();
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_CameraComponents.insert(std::pair< size_t, CameraComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -180,7 +211,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 
 		return newComponent;
 	}
-	case ComponentId::LINECOLLIDER_COMPONENT:
+	case ComponentId::EDGECOLLIDER_COMPONENT:
 	{
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
 			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
@@ -197,7 +228,12 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::AUDIO_COMPONENT:
 	{
-		return nullptr;
+		AudioComponent* newComponent = new AudioComponent(); // 
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_audioComponent.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
 	}
 	case ComponentId::LOGIC_COMPONENT:
 	{
@@ -231,13 +267,22 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	return nullptr;
 }
 
-IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, IComponentSystem* component, ComponentId tpye)
+IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, IComponentSystem* component, ComponentId type)
 {
 	if (!component)
 		return nullptr;
 
-	switch (tpye)
+	switch (type)
 	{
+	case ComponentId::IDENTITY_COMPONENT:
+	{
+		IdentityComponent* newComponent = new IdentityComponent(*dynamic_cast<IdentityComponent*>(component));
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_IdentityComponents.insert(std::pair< size_t, IdentityComponent* >(object->Get_uID(), newComponent));
+	
+		return newComponent;
+	}
 	case ComponentId::TRANSFORM_COMPONENT:
 	{
 		TransformComponent* newComponent = new TransformComponent(*reinterpret_cast<TransformComponent*>(component));
@@ -258,6 +303,24 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		
 		EngineSystems::GetInstance()._graphicsSystem->_spriteList.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
 		
+		return newComponent;
+	}
+	case ComponentId::ANIMATION_COMPONENT:
+	{
+		AnimationComponent* newComponent = new AnimationComponent(*reinterpret_cast<AnimationComponent*>(component));
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
+	case ComponentId::CAMERA_COMPONENT:
+	{
+		CameraComponent* newComponent = new CameraComponent(*reinterpret_cast<CameraComponent*>(component));
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_CameraComponents.insert(std::pair< size_t, CameraComponent* >(object->Get_uID(), newComponent));
+
 		return newComponent;
 	}
 	case ComponentId::RIGIDBODY_COMPONENT:
@@ -293,7 +356,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 
 		return newComponent;
 	}
-	case ComponentId::LINECOLLIDER_COMPONENT:
+	case ComponentId::EDGECOLLIDER_COMPONENT:
 	{
 		EdgeCollider2D* newComponent = new EdgeCollider2D(*reinterpret_cast<EdgeCollider2D*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -306,7 +369,12 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 	}
 	case ComponentId::AUDIO_COMPONENT:
 	{
-		return nullptr;
+		AudioComponent* newComponent = new AudioComponent(*reinterpret_cast<AudioComponent*>(component));
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_audioComponent.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
 	}
 	case ComponentId::LOGIC_COMPONENT:
 	{
@@ -360,7 +428,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 		EngineSystems::GetInstance()._physicsSystem->_collider2dList.erase(object->Get_uID());
 		break;
 	}
-	case ComponentId::LINECOLLIDER_COMPONENT:
+	case ComponentId::EDGECOLLIDER_COMPONENT:
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());

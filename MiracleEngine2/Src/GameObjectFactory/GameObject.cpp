@@ -3,6 +3,7 @@
 
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
 #include "Engine/EngineSystems.h"
+#include "Tools/FileIO/Serialiser.h"
 
 GameObject::GameObject(size_t uId, unsigned typeId)
 	:_uId{ uId }, _typeId{ typeId }, _destory{ false }
@@ -35,6 +36,23 @@ IComponentSystem* GameObject::GetComponent(ComponentId typeId, ScriptId script) 
 		return reinterpret_cast<LogicComponent*>(_ComponentList[(unsigned)typeId])->GetScript(script);
 
 	return _ComponentList[(unsigned)typeId];
+}
+
+void GameObject::Serialise(std::string file)
+{
+	IComponentSystem* component = nullptr;
+
+	Serialiser document(file);
+	int i = 0;
+	for (int i = 0; i < (int)ComponentId::COUNTCOMPONENT; i++)
+	{
+		if (document.HasMember(ToString((ComponentId)i)))
+		{
+			component = AddComponent((ComponentId)i);
+			component->SerialiseComponent(document);
+		}
+	}
+
 }
 
 Map_ComponentList& GameObject::GetComponentList() // Get ComponentList

@@ -10,9 +10,18 @@ class LogicComponent : public IComponentSystem
 	Map_ScriptList _scriptList;
 public:
 	LogicComponent() {};
-	virtual ~LogicComponent() {};
-	LogicComponent(const LogicComponent& rhs) = default;
-	LogicComponent& operator=(const LogicComponent& rhs) = default;
+//Constructor
+	LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+	~LogicComponent() = default;
+	LogicComponent(const LogicComponent & rhs) = default;
+	LogicComponent& operator=(const LogicComponent & rhs) = default;
+
+// CompName
+	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser & document) override;
+	virtual void Inspect() override;
+
+
 
 	void Update(double dt);
 

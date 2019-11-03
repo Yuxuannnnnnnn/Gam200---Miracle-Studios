@@ -46,8 +46,8 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 		if (ImGui::CollapsingHeader(string.c_str()))	//Start of Each Object Hierarchy
 		{
-			std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
-			ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+			//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+			//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 		}
 	}
 }
@@ -73,7 +73,7 @@ void HierarchyImguiWindow::ShowGameObjectComponents(
 			case (unsigned)ComponentId::RIGIDBODY_COMPONENT:	ShowRigidBodyComponent(component); break;
 			case (unsigned)ComponentId::CIRCLECOLLIDER_COMPONENT:	ShowColliderComponent(component);  break;
 			case (unsigned)ComponentId::BOXCOLLIDER_COMPONENT:	ShowColliderComponent(component);  break;
-			case (unsigned)ComponentId::LINECOLLIDER_COMPONENT:	ShowColliderComponent(component);  break;
+			case (unsigned)ComponentId::EDGECOLLIDER_COMPONENT:	ShowColliderComponent(component);  break;
 			case (unsigned)ComponentId::LOGIC_COMPONENT:		ShowLogicComponent(component);	   break;
 			case (unsigned)ComponentId::AUDIO_COMPONENT:		ShowAudioCommponent(component);	   break;
 			}

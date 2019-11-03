@@ -31,6 +31,8 @@ public:
 
 public:
 	// Constructor
+	BoxCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+
 	BoxCollider2D(TransformComponent* transform = nullptr);
 	virtual ~BoxCollider2D() {}
 

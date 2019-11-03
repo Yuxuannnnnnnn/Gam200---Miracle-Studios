@@ -21,6 +21,9 @@ public:
 	Vector3	m_normal;
 
 public:
+	EdgeCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+
+
 	// Constructor
 	EdgeCollider2D(TransformComponent* transform = nullptr);
 	virtual ~EdgeCollider2D() {}

@@ -3,19 +3,27 @@
 #include "GameObject.h"
 #include "GameStateManager/GameStateManager.h"
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
+#include "GameObjectComponents/IdentityComponent.h"
+#include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
+#include "GameObjectComponents/GraphicComponents/CameraComponent.h"
+
 
 class GameObjectFactory final
 {	
 	size_t _uId;		// start from StartID, 0 to StartID are prefabs	//Unique ID for the next newly created object
 	size_t _prefabId;
 
-	std::unordered_map < size_t, GameObject* >			_listObject; //Dynamic array of GameObjects
-	std::unordered_map < size_t, GraphicComponent* >	_graphicComponents;	//Array of Components
-	std::unordered_map < size_t, TransformComponent*>  _transformComponents;	//
+	std::unordered_map < size_t, GameObject* >			_listObject;			//Dynamic array of GameObjects
+	std::unordered_map < size_t, IdentityComponent* >	_IdentityComponents;	//Array of Components
+	std::unordered_map < size_t, GraphicComponent* >	_graphicComponents;		//
+	std::unordered_map < size_t, TransformComponent*>	 _transformComponents;	//
+	std::unordered_map < size_t, AnimationComponent*>	_AnimationComponents;	//
+	std::unordered_map < size_t, CameraComponent*>		_CameraComponents;		//
 	std::unordered_map < size_t, RigidBody2D* >			_rigidBody2dComponents;	//
 	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;	//
-	std::unordered_map < size_t, LogicComponent* >		_logicComponents;	//
-	std::unordered_multimap<size_t, IScript*>			_scriptComponets;
+	std::unordered_map < size_t, LogicComponent* >		_logicComponents;		//
+	std::unordered_multimap<size_t, IScript*>			_scriptComponets;		//
+	std::unordered_map<size_t, AudioComponent*>	_audioComponent;		//
 
 public:
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;

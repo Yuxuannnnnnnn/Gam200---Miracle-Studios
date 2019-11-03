@@ -20,12 +20,16 @@ private:
 	//Store the vb, ib, vao, shader
 
 public:
+	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	virtual void Inspect() override;
+
+	//Constructor
+	GraphicComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 	GraphicComponent();
 	virtual ~GraphicComponent();
 	GraphicComponent(const GraphicComponent& rhs);
 	GraphicComponent& operator=(const GraphicComponent& rhs);
-
-	std::string ComponentName() const override;
 
 	unsigned& GetTypeId()
 	{

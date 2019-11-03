@@ -41,6 +41,12 @@ protected:
 	RigidBody2D* _rigidbody;
 
 public:
+	Collider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+
+	std::string ComponentName() const override;
+	void SerialiseComponent(Serialiser& document) override;
+	void Inspect() override;
+
 	// Constructor
 	Collider2D(TransformComponent* transform = nullptr) :
 		_type{ (unsigned)ColliderType::NONE_COLLIDER },
@@ -63,10 +69,6 @@ public:
 	virtual void Draw() {};
 	virtual void Update() {};
 
-	std::string ComponentName() const override
-	{
-		return "ColliderComponent";
-	}
 
 	TransformComponent* GetTransform() const
 	{
