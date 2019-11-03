@@ -10,6 +10,7 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObject(TypeIdGO::PLAYER);
 	SerialPrefabObject(TypeIdGO::BULLET);
 	SerialPrefabObject(TypeIdGO::ENEMY);
+	SerialPrefabObject(TypeIdGO::WALL);
 }
 
 
@@ -33,6 +34,7 @@ GameObject* GameObjectPrototype::SerialPrefabObject(TypeIdGO type)
 	case TypeIdGO::NONE:
 		break;
 	case TypeIdGO::WALL:
+		temp = SerialInPrefab_Wall();
 		break;
 	case TypeIdGO::FLOOR:
 		break;
@@ -241,14 +243,34 @@ GameObject* GameObjectPrototype::SerialInPrefab_Enemy()
 	while (itr != compList.end())
 		SerialAddComponent(object, (SerialTypeId)* itr++, s, d);
 
-	// Other Values
-			//s = d["Weapons"];
-			//JsonDynamicStore(_WeaponListId, s);
-			// ConvertWeaponIdToWeapon(); // MAY BE CAUSING MEM LEAK
 	std::cout << "-------------------------------------" << std::endl;
 	delete[] iBuffer;
 	//Serialisation Check
 		//PrintStats_Player();
+
+	return object;
+}
+
+GameObject* GameObjectPrototype::SerialInPrefab_Wall()
+{
+	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+	object->Set_typeId(TypeIdGO::WALL);
+
+	rapidjson::Document d;
+	char* iBuffer = FileRead_FileToCharPtr("./Resources/TextFiles/GameObjects/Wall.json"); //Read in whole file as char pointer
+	ASSERT(iBuffer != nullptr);			//std::cout << iBuffer << std::endl; //Show buffer, use to check
+	d.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);					 //Read whole file in RapidJson format
+
+// Component List
+	rapidjson::Value& s = d["ComponentList"];			//Get Numberlist of Component Data in RapidJson Format	
+	std::vector<int> compList;
+	JsonDynamicStore(compList, s);						//Convert Numberlist of Component Data to stl dynamic list format
+	std::vector<int>::iterator itr = compList.begin();
+	while (itr != compList.end())
+		SerialAddComponent(object, (SerialTypeId)* itr++, s, d);
+
+	std::cout << "-------------------------------------" << std::endl;
+	delete[] iBuffer;
 
 	return object;
 }

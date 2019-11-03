@@ -595,5 +595,6 @@
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
+    <None Include="Resources\TextFiles\GameObjects\Wall.json" />
   </ItemGroup>
 </Project>

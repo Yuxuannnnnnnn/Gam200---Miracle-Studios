@@ -260,7 +260,7 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 	(y <= 0.f) ? y = 0.f : y;
 	(y >= _mapHeight) ? y = _mapHeight : y;	
 	nodeIdStart = _tilemapInput[(int)y][(int)x];
-			std::cout << "curr " << nodeIdStart << std::endl;
+						//std::cout << "curr " << nodeIdStart << std::endl;
 	x = (dest._x / _mapTileSize);
 	y = (dest._y / _mapTileSize);
 	x += (_mapWidth / 2); // compensate for the map origin shift
@@ -270,7 +270,7 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 	(y <= 0.f) ? y = 0.f : y;
 	(y >= _mapHeight) ? y = _mapHeight : y;
 	nodeIdDest = _tilemapInput[(int)y][(int)x];
-			std::cout << "dest " << nodeIdDest << std::endl;
+						//std::cout << "dest " << nodeIdDest << std::endl;
 
 			// fake start end nodes
 	//nodeIdStart = _tilemapInput[0][0];
@@ -336,10 +336,10 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 	std::vector<Node*>::reverse_iterator itrVec = tempVec.rbegin();
 	while (itrVec != tempVec.rend())
 	{
-				std::cout << ((Node*)* itrVec)->GetNodeId() << ", ";
+							//std::cout << ((Node*)* itrVec)->GetNodeId() << ", ";
 		finalVec.push_back(*itrVec++);
 	}
-				std::cout << std::endl;
+							//std::cout << std::endl;
 
 	// after BFS done, reset _tileMap Node.visited to false
 	std::unordered_map < size_t, Node* >::iterator itrMap = _tilemap.begin();

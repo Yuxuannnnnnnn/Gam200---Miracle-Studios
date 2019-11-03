@@ -16,6 +16,7 @@ public:
 
 		_inputSystem = EngineSystems::GetInstance()._inputSystem;
 		_logicSystem = EngineSystems::GetInstance()._logicSystem;
+		_aiSystem = EngineSystems::GetInstance()._aiSystem;
 		_graphicsSystem = EngineSystems::GetInstance()._graphicsSystem;
 		_physicsSystem = EngineSystems::GetInstance()._physicsSystem;
 		_frameRateControl = EngineSystems::GetInstance()._frameRateControl;
@@ -37,6 +38,7 @@ public:
 
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
+	AISystem* _aiSystem;
 	GraphicsSystem* _graphicsSystem;
 	PhysicsSystem* _physicsSystem;
 

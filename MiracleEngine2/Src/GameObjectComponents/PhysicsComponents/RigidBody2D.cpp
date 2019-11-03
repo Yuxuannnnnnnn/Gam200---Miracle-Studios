@@ -76,7 +76,7 @@ void RigidBody2D::Draw()
 	if (length > 100.f)
 		length = 100.f;
 
-	DebugRenderer::GetInstance().DrawLine(_position._x, _position._y, _position._x + newVel._x * length, _position._y + newVel._y * length);
+	//DebugRenderer::GetInstance().DrawLine(_position._x, _position._y, _position._x + newVel._x * length, _position._y + newVel._y * length);
 }
 
 void RigidBody2D::StopVelocity()

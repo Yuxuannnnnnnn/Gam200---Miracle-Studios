@@ -31,10 +31,15 @@ size_t GameObject::Get_uID() const
 
 IComponentSystem* GameObject::GetComponent(ComponentId typeId, ScriptId script) // GetChildComponent
 {
-	if (typeId == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY)
-		return reinterpret_cast<LogicComponent*>(_ComponentList[(unsigned)typeId])->GetScript(script);
+	if (CheckComponent(typeId))
+	{
+		if (typeId == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY)
+			return reinterpret_cast<LogicComponent*>(_ComponentList[(unsigned)typeId])->GetScript(script);
 
-	return _ComponentList[(unsigned)typeId];
+		return _ComponentList[(unsigned)typeId];
+	}
+
+	return nullptr;
 }
 
 Map_ComponentList& GameObject::GetComponentList() // Get ComponentList

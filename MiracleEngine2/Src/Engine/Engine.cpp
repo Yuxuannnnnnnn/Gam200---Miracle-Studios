@@ -50,6 +50,7 @@ void Engine::Update()
 
 			// Logic
 			_logicSystem->Update(dt);
+			_aiSystem->Update(dt);
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 			if (accumlatedframes)
@@ -73,8 +74,8 @@ void Engine::Update()
 
 
 			// example to draw debug line and circle, to remove later
-			DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
-			DebugRenderer::GetInstance().DrawCircle(50, 50, 50);
+			/*DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
+			DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
 
 			if (open)
 			{

@@ -80,11 +80,13 @@ std::unordered_map < size_t, LogicComponent* > GameObjectFactory::getLogicCompon
 
 Map_ScriptList GameObjectFactory::getObjectScript(GameObject* object)
 {
-	std::vector<IScript*> temp;
-
 	LogicComponent* component = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::LOGIC_COMPONENT));
 
-	return component->GetScriptMap();
+	if (component)
+		return component->GetScriptMap();
+
+	Map_ScriptList temp;
+	return temp;
 }
 
 

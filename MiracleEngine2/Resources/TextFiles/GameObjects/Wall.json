@@ -1,0 +1,20 @@
+{
+  "ComponentList": [ 0, 1, 2, 3 ],
+
+  "COMPONENT 0": "TRANSFORM",
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 100.0, 100.0 ],
+  "Rotate": 0.0,
+
+  "COMPONENT 1": "GRAPHICS",
+  "G.TypeId": 0,
+  "G.FileName": "sprite_wall.png",
+
+  "COMPONENT 2": "RIGID BODY",
+  "Mass": 1.0,
+  "Friction": 0.0,
+  "Static": true,
+
+  "COMPONENT 3": "COLLIDER",
+  "ColliderTypeId": 2
+}
