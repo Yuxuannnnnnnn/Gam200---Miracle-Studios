@@ -9,7 +9,6 @@ private:
 public:
 	void SerialiseComponent(Serialiser& document) override;
 
-
 	void Update(double dt);
 
 	void updateMovement(double dt);

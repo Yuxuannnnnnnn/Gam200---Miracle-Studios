@@ -15,7 +15,7 @@
 #include "GraphicsSystem/DebugRenderer.h"
 
 #include "MathLib/SYMath.h"
-
+#include "PhysicSystem/CollisionTable.h"
 enum class ColliderType{
     
     NONE_COLLIDER = 0,
@@ -28,6 +28,7 @@ enum class ColliderType{
 class Collider2D : public IComponentSystem
 {
 public:
+	unsigned _tag;
 	unsigned _type;
 	unsigned _layer;
 
@@ -51,6 +52,7 @@ public:
 
 	// Constructor
 	Collider2D(TransformComponent* transform = nullptr) :
+		_tag{ (unsigned)ColliderTag::NONE },
 		_type{ (unsigned)ColliderType::NONE_COLLIDER },
 		_layer{ 0 },
 		_attachedRigidboy{ false },
@@ -71,6 +73,10 @@ public:
 	virtual void Draw() {};
 	virtual void Update() {};
 
+	std::string ComponentName() const override
+	{
+		return "ColliderComponent";
+	}
 
 	TransformComponent* GetTransform() const
 	{

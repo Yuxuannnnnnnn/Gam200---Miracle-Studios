@@ -1,30 +1,27 @@
 #include "PrecompiledHeaders.h"
 
+int GraphicComponent::GetRenderLayer()
+{
+	return _renderLayer;
+}
+void GraphicComponent::SetRenderLayer(int layer)
+{
+	_renderLayer = layer;
+}
 
-
-//GraphicComponent::GraphicComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-//	: IComponentSystem(parent, uId),
-//	_typeIdGraphic{ (unsigned)TypeIdGraphic::NONE },
-//	_fileName{ std::string() },
-//	_shaderID{ 0 },
-//	_textureID{ 0 }
-//{
-//
-//	if (component)
-//	{
-//		GraphicComponent* graphicComponent = dynamic_cast<GraphicComponent*>(component);
-//		_typeIdGraphic = graphicComponent->_typeIdGraphic;
-//		_fileName = graphicComponent->_fileName;
-//		_shaderID = graphicComponent->_shaderID;
-//		_textureID = graphicComponent->_textureID;
-//	}
-//}
-
+int GraphicComponent::GetTextureState()
+{
+	return _textureState;
+}
+void GraphicComponent::SetTextureState(int state)
+{
+	_textureState = state;
+}
 
 
 GraphicComponent::GraphicComponent() :
 	_typeIdGraphic{ (unsigned)TypeIdGraphic::NONE },
-	_fileName{ new char[40] },
+	_fileName{ new char[40] }, 
 	_shaderID{ 0 },
 	_textureID{ 0 },
 	_renderLayer{ 0 }
@@ -33,7 +30,7 @@ GraphicComponent::GraphicComponent() :
 
 GraphicComponent::~GraphicComponent()
 {
-	delete []_fileName;
+	delete[]_fileName;
 }
 
 GraphicComponent::GraphicComponent(const GraphicComponent& rhs)
@@ -56,25 +53,6 @@ GraphicComponent& GraphicComponent::operator= (const GraphicComponent& rhs)
 	return *this;
 }
 
-
-int GraphicComponent::GetRenderLayer()
-{
-	return _renderLayer;
-}
-void GraphicComponent::SetRenderLayer(int layer)
-{
-	_renderLayer = layer;
-}
-
-int GraphicComponent::GetTextureState()
-{
-	return _textureState;
-}
-void GraphicComponent::SetTextureState(int state)
-{
-	_textureState = state;
-}
-
 void GraphicComponent::RenderLayerResolver()
 {
 	switch (GetParentPtr()->Get_typeId())
@@ -92,6 +70,9 @@ void GraphicComponent::RenderLayerResolver()
 		_renderLayer = 5;
 		break;
 	case (unsigned)TypeIdGO::TURRET:
+		_renderLayer = 5;
+		break;
+	case (unsigned)TypeIdGO::SPAWNER:
 		_renderLayer = 5;
 		break;
 	case (unsigned)TypeIdGO::BULLET:
@@ -129,6 +110,4 @@ void GraphicComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("RendeerLayer", &_renderLayer);
 	ImGui::Spacing();
-
-
 }

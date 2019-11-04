@@ -10,7 +10,6 @@
 #include "CircleCollider2D.h"
 //#include "GraphicsSystem/DebugRenderer.h"
 
-
 void CircleCollider2D::SerialiseComponent(Serialiser& document)
 {
 	Collider2D::SerialiseComponent(document);
@@ -34,6 +33,7 @@ CircleCollider2D::CircleCollider2D(GameObject* parent, size_t uId, IComponentSys
 	}
 }
 
+
 CircleCollider2D::CircleCollider2D(TransformComponent* transform) :
 	mCenPos{},
 	mRadius{ 0.f },
@@ -48,7 +48,7 @@ CircleCollider2D::CircleCollider2D(TransformComponent* transform) :
 CircleCollider2D::CircleCollider2D(const CircleCollider2D& rhs) :
 	mCenPos{ rhs.mCenPos },
 	mRadius{ rhs.mRadius },
-	Collider2D(nullptr)
+	Collider2D(rhs)
 {
 	_type = (unsigned)ColliderType::CIRCLE_COLLIDER;
 }

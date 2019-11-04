@@ -15,7 +15,6 @@ class PickingCollider : public BoxCollider2D
 {
 public:
 	// Constructor
-	PickingCollider() = delete;
 	PickingCollider(TransformComponent* transform = nullptr) : BoxCollider2D(transform) {}
 	virtual ~PickingCollider() {}
 

@@ -13,7 +13,8 @@ enum class ScriptId {
 	PLAYER = 1,
 	BULLET = 2,
 	ENEMY = 3,
-	TURRET = 4
+	TURRET = 4,
+	SPAWNER = 5,
 };
 
 class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler
@@ -26,6 +27,8 @@ public:
 
 	IScript() : _ScriptType{ (unsigned)ScriptId::EMPTY }, _componentEnable{ true } {}
 	virtual ~IScript() {}
+
+
 	IScript(const IScript& copy) = default;
 
 	std::string ComponentName() const override
@@ -33,7 +36,7 @@ public:
 		return "IScript Component";
 	}
 
-	void SerialiseComponent(Serialiser& document) override
+	void SerialiseComponent(Serialiser & document) override
 	{
 
 	}

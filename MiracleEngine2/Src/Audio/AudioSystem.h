@@ -10,6 +10,8 @@
 #include "../Dep/fmod/inc/fmod.hpp"
 
 
+#include "SoundEnum.h"
+
 static bool on = true;
 static bool possible = true;
 
@@ -31,15 +33,19 @@ public:
 	AudioSystem();
 	~AudioSystem();
 
-	void Play();
+	void Play(SoundEnum sound);
 private:
-	void PlaySFX();
+	void PlaySFX(SoundEnum sound);
 	void PlayBGM();
+	void Sound_CreateOneShot(const char* filename, FMOD_SOUND** sound);
 	SoundManager _soundManager;
 
 	FMOD_SYSTEM* _fmodSystem;
 	FMOD_SOUND* _level1;
+	FMOD_SOUND* _shoot;
+	FMOD_SOUND* _enemydeath;
 	FMOD_CHANNEL* _channel1;
+	FMOD_CHANNEL* _channel2;
 
 	FMOD_CHANNELGROUP* _bgmGroup;
 	FMOD_CHANNELGROUP* _sfxGroup;

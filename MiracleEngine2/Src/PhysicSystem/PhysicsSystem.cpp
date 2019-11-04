@@ -17,18 +17,36 @@
 #include "../Tools/EventHandler/EventHandler.h"
 #include "Engine/EngineSystems.h"
 
-#include <unordered_map>
-
 
 void PhysicsSystem::Update(double dt)
 {
 	UpdatePhyiscs(dt);
 
-	UpdatePicking(dt);
+	UpdatePicking();
 
 	UpdateCollision(dt);
 	UpdateTransform(dt);
 	UpdateEvents();
+}
+
+void PhysicsSystem::UpdateDraw()
+{
+	for (auto it : _rigidBody2dList)
+	{
+		if (!it.second->GetEnable() || !it.second->_componentEnable)
+			continue;
+
+		it.second->Draw();
+	}
+
+	for (auto it : _collider2dList)
+	{
+		if (!it.second->GetEnable() || !it.second->_componentEnable)
+			continue;
+
+		it.second->Update();
+		it.second->Draw();
+	}
 }
 
 void PhysicsSystem::UpdatePhyiscs(double dt)
@@ -67,6 +85,9 @@ void PhysicsSystem::UpdateCollision(double dt)
 			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first)
 				continue;
 
+			if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, (ColliderTag)it2.second->_tag))
+				continue;
+				
 			if (it->second->_type == (unsigned)ColliderType::BOX_COLLIDER)
 			{
 				if (it2.second->_type == (unsigned)ColliderType::BOX_COLLIDER)
@@ -116,14 +137,6 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 		tempList.erase(it);
 	}
-
-	for (auto it : _collider2dList)
-	{
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
-			continue;
-
-		it.second->Draw();
-	}
 }
 void PhysicsSystem::UpdateTransform(double dt)
 {
@@ -140,12 +153,24 @@ void PhysicsSystem::UpdateEvents()
 	EventHandler::GetInstance().UpdateEvent();
 }
 
-void PhysicsSystem::UpdatePicking(double dt)
+void PhysicsSystem::UpdatePicking()
 {
-	(void)dt;
-
-	/*for (auto it : _ListPickableObject)
+	for (auto it : _pickList)
 	{
-		it->TestBoxVsPoint()
-	}*/
+		if (!it.second->GetEnable())
+			continue;
+
+		it.second->Update();
+
+		if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_LBUTTON))
+		{
+			Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
+			if (it.second->TestBoxVsPoint(pos))
+			{
+				std::cout << "Picking  Pos :" << pos << std::endl;
+				std::cout << "Picked :" << it.second->GetParentId() << std::endl;
+				return;
+			}
+		}
+	}
 }

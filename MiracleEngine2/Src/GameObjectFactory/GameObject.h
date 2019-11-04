@@ -1,4 +1,5 @@
 #pragma once
+#include "PrecompiledHeaders.h"
  
 #include "rapidjson.h"		// J
 #include "document.h"		// S
@@ -15,7 +16,7 @@
 
 enum class TypeIdGO {
 	NONE = 0,
-	WALL, FLOOR, OBSTACLE, //Setting
+	WALL, FLOOR, OBSTACLE, SPAWNER,//Setting
 	PLAYER, ENEMY, BULLET, TURRET, //Mobile objects
 	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
 };
@@ -27,9 +28,11 @@ inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const
 	case TypeIdGO::WALL:		return "Wall";
 	case TypeIdGO::FLOOR:		return "Floor";
 	case TypeIdGO::OBSTACLE:	return "Obstacle";
+	case TypeIdGO::SPAWNER:		return "Spawner";
 	case TypeIdGO::PLAYER:		return "Player";
 	case TypeIdGO::ENEMY:		return "Enemy";
 	case TypeIdGO::BULLET:		return "Bullet";
+	case TypeIdGO::TURRET:		return "Turret";
 	case TypeIdGO::WEAPON:		return "Weapon";
 	case TypeIdGO::PISTOL:		return "Pistol";
 	case TypeIdGO::SHOTGUN:		return "Shotgun";
@@ -68,17 +71,14 @@ public:
 	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }		//
 	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }			//
 		
-	// Components<unsi
 	void Serialise(std::string file);
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
 
-	IComponentSystem* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
-
 	bool CheckComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
+
 	IComponentSystem* AddComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 	void RemoveComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
-
 	void DestoryGameObject();
 
 	bool GetDestory() const { return _destory; }
@@ -98,6 +98,7 @@ public:
 	}
 
 
+	IComponentSystem* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
 };
 
 

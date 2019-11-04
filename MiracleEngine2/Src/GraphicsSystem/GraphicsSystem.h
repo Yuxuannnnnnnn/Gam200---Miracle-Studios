@@ -50,7 +50,7 @@ private:
 	void Test();
 	void ClearScreen() const;
 	TextureManager _textureManager;
-	Shader _shader{ "Src/GraphicsSystem/Shader/basic.vert", "Src/GraphicsSystem/Shader/basic.frag" };
+	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
 	glm::mat4 _proj;
 	QuadMesh _quadmesh;
 	//RendererSystem _renderer;

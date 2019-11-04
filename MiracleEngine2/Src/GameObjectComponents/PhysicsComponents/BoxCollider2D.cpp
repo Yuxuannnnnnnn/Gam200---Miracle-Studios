@@ -9,7 +9,6 @@
 #include "BoxCollider2D.h"
 //#include "GraphicsSystem/DebugRenderer.h"
 
-
 void BoxCollider2D::SerialiseComponent(Serialiser& document)
 {
 	Collider2D::SerialiseComponent(document);
@@ -44,6 +43,7 @@ BoxCollider2D::BoxCollider2D(GameObject* parent, size_t uId, IComponentSystem* c
 			mAxis[i] = box2DComponent->mAxis[i];
 	}
 }
+
 
 
 BoxCollider2D::BoxCollider2D(TransformComponent* transform) :
@@ -93,7 +93,7 @@ BoxCollider2D::BoxCollider2D(const BoxCollider2D& rhs) :
 	mAxis{ rhs.mAxis[0],rhs.mAxis[1] },
 	mOrigin{ rhs.mOrigin },
 	mAngle{ rhs.mAngle },
-	Collider2D(nullptr)
+	Collider2D(rhs)
 {
 	_type = (unsigned)ColliderType::BOX_COLLIDER;
 }

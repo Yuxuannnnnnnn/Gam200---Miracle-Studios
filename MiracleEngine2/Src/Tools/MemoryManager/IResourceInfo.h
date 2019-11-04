@@ -25,4 +25,20 @@ public:
 	int _bpp;
 };
 
+class Shader_Resource
+{
+public:
+	Shader_Resource() :
+		_vertexCode{  },
+		_fragmentCode{  },
+		_success{ 1 }
+	{}
+
+	std::string _vertexCode;
+	std::string _fragmentCode;
+	int _success;
+};
+
+
+
 #endif

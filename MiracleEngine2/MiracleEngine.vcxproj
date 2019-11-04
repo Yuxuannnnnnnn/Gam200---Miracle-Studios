@@ -88,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -106,7 +106,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
@@ -126,7 +126,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -148,7 +148,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
@@ -168,14 +168,15 @@
     <ClInclude Include="Src\Animation\Frame.h" />
     <ClInclude Include="Src\Audio\AudioSystem.h" />
     <ClInclude Include="Src\Audio\Sound.h" />
+    <ClInclude Include="Src\Audio\SoundEnum.h" />
     <ClInclude Include="Src\Audio\SoundManager.h" />
     <ClInclude Include="Src\Engine\EngineSystems.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\FontComponent.h" />
+     <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
-    <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\IScript.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\LogicComponent.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Src\Gameplay\Bullet.h" />
     <ClInclude Include="Src\Gameplay\Enemy.h" />
     <ClInclude Include="Src\Gameplay\Player.h" />
+    <ClInclude Include="Src\Gameplay\Spawner.h" />
     <ClInclude Include="Src\Gameplay\Turret.h" />
     <ClInclude Include="Src\GraphicsSystem\FontRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
@@ -200,9 +202,10 @@
     <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
     <ClInclude Include="Src\MathLib\Matrix4x4.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionTable.h" />
     <ClInclude Include="Src\PhysicSystem\PhysicsSystem.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
-    <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
+     <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
@@ -516,6 +519,7 @@
     <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
     <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
     <ClInclude Include="Src\Engine\FrameRateController.h" />
+    <ClInclude Include="Src\Main.h" />
     <ClInclude Include="Src\PrecompiledHeaders.h" />
     <ClInclude Include="Src\GameObjectFactory\GameObjectFactory.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\GraphicComponent.h" />
@@ -551,21 +555,22 @@
     <ClCompile Include="Src\Audio\AudioSystem.cpp" />
     <ClCompile Include="Src\Audio\Sound.cpp" />
     <ClCompile Include="Src\Audio\SoundManager.cpp" />
+     <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\FontComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
+     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2D.cpp" />
     <ClCompile Include="Src\GameObjectFactory\GameObjectPrototype.cpp" />
     <ClCompile Include="Src\Gameplay\Bullet.cpp" />
     <ClCompile Include="Src\Gameplay\Enemy.cpp" />
     <ClCompile Include="Src\Gameplay\Player.cpp" />
+    <ClCompile Include="Src\Gameplay\Spawner.cpp" />
     <ClCompile Include="Src\Gameplay\Turret.cpp" />
     <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
@@ -574,8 +579,9 @@
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
     <ClCompile Include="Src\MathLib\Matrix4x4.cpp" />
+     <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
     <ClCompile Include="Src\PhysicSystem\PhysicsSystem.cpp" />
-    <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
     <ClCompile Include="Src\WindowsSystem\ScreenSize.cpp" />
     <ClCompile Include="Src\WindowsSystem\Console.cpp" />
@@ -809,6 +815,12 @@
     <None Include="Dep\glm\gtx\vector_angle.inl" />
     <None Include="Dep\glm\gtx\vector_query.inl" />
     <None Include="Dep\glm\gtx\wrap.inl" />
+    <None Include="Resources\Shader\basic.frag" />
+    <None Include="Resources\Shader\basic.vert" />
+    <None Include="Resources\TextFiles\GameObjects\Floor.json" />
+    <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
+    <None Include="Resources\TextFiles\GameObjects\Turret.json" />
+    <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>

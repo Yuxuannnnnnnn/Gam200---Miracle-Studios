@@ -3,6 +3,7 @@
 //#include "GraphicsSystem/DebugRenderer.h"
 
 
+
 void EdgeCollider2D::SerialiseComponent(Serialiser& document)
 {
 	Collider2D::SerialiseComponent(document);
@@ -28,6 +29,7 @@ EdgeCollider2D::EdgeCollider2D(GameObject* parent, size_t uId, IComponentSystem*
 		m_normal = edge2DComponent->m_normal;
 	}
 }
+ 
 
 EdgeCollider2D::EdgeCollider2D(TransformComponent* transform) :
 	m_pt0{},
@@ -57,7 +59,7 @@ EdgeCollider2D::EdgeCollider2D(const EdgeCollider2D& rhs) :
 	m_pt0{ rhs .m_pt0 },
 	m_pt1{ rhs.m_pt1 },
 	m_normal{ rhs.m_normal },
-	Collider2D(nullptr)
+	Collider2D(rhs)
 {
 	_type = (unsigned)ColliderType::LINE_COLLIDER;
 }

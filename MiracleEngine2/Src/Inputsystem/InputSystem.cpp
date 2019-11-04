@@ -49,11 +49,9 @@ void InputSystem::Update(Window& window)
 	
 }
 
-POINT InputSystem::GetMousePos() const
+Vector3 InputSystem::GetMousePos() const
 {
-	POINT newP{ _p.x - 400 , 300 - _p.y };
-
-	return newP;
+	return Vector3{ (float)(_p.x - 640), (float)(512 - _p.y) };
 }
 
 void InputSystem::Exit()

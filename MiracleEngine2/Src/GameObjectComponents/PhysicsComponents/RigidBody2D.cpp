@@ -122,6 +122,7 @@ void RigidBody2D::UpdateVec(double dt)
 	_appliedForce = Vector3{ 0.f,0.f,0.f };
 
 	Draw();
+
 }
 
 void RigidBody2D::UpdatePos(double dt)
@@ -138,10 +139,10 @@ void RigidBody2D::Draw()
 	Vector3 newVel = _velocity.Normalized();
 	float length = _velocity.SquaredLength();
 
-	if (length > 100.f)
-		length = 100.f;
+	if (length > 50.f)
+		length = 50.f;
 
-	//DebugRenderer::GetInstance().DrawLine(_position._x, _position._y, _position._x + newVel._x * length, _position._y + newVel._y * length);
+	DebugRenderer::GetInstance().DrawLine(_transform->GetPos()._x, _transform->GetPos()._y, _transform->GetPos()._x + newVel._x * length, _transform->GetPos()._y + newVel._y * length);
 }
 
 void RigidBody2D::StopVelocity()

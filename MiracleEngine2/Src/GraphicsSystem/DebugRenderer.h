@@ -19,7 +19,7 @@ class DebugRenderer : public ISingleton<DebugRenderer>
 {
 public:
 	~DebugRenderer();
-	DebugRenderer(int windowWidth = 800, int windowHeight = 600);
+	DebugRenderer(int windowWidth = 1280, int windowHeight = 1024);
 	void Update();
 	
 	void DrawLine(float x1, float y1, float x2, float y2);
@@ -40,7 +40,7 @@ private:
 	VertexBuffer* _vboCircle;
 
 	glm::mat4 _proj;  // projection matrix
-	Shader _shader{ "Src/GraphicsSystem/Shader/debug.vert", "Src/GraphicsSystem/Shader/debug.frag" };
+	Shader _shader{ "Resources/Shader/debug.vert", "Resources/Shader/debug.frag" };
 
 };
 

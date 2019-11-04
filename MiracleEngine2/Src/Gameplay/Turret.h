@@ -8,10 +8,12 @@ private:
 	unsigned _state;
 	GameObject* _target;
 	float _attackRange; // currently set to 1*_mapTileSize
+
+	double _timer;
+	const double _timeCooldown;
+
 public:
 	void SerialiseComponent(Serialiser& document) override;
-
-
 	//Constructor
 	Turret();
 

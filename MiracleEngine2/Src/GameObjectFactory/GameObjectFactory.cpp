@@ -4,7 +4,6 @@
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 #include "Tools/EventHandler/EventHandler.h"
 
-
 //Constructor - Same as Initialisation
 //Prototypes initialised - Prototypes Used for during entire Game, Only when Quit Game State then delete Prototypes
 GameObjectFactory::GameObjectFactory()
@@ -98,7 +97,16 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 	if(prefab)
 		newObject = new GameObject(_prefabId++);
 	else
+	{
 		newObject = new GameObject(_uId++);
+
+		PickingCollider* pickObject = new PickingCollider();
+		pickObject->SetParentId(newObject->Get_uID());
+		pickObject->SetParentPtr(newObject);
+
+		_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+		EngineSystems::GetInstance()._physicsSystem->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+	}
 		
 	_listObject.insert(std::pair< size_t, GameObject* >(newObject->Get_uID(), newObject));
 
@@ -114,6 +122,11 @@ void GameObjectFactory::DestoryGameObject(GameObject* object)
 	for (auto it : _listObject[id]->GetComponentList())
 		RemoveComponent(_listObject[id], (ComponentId)it.first);
 
+	{
+		_pickList.erase(id);
+		EngineSystems::GetInstance()._physicsSystem->_pickList.erase(id);
+	}
+
 	delete _listObject[id];
 	_listObject.erase(id);
 }
@@ -128,8 +141,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	switch (type)
 	{
 	case ComponentId::IDENTITY_COMPONENT:
-	{
-		IdentityComponent * newComponent = new IdentityComponent();
+		IdentityComponent* newComponent = new IdentityComponent();
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_IdentityComponents.insert(std::pair< size_t, IdentityComponent* >(object->Get_uID(), newComponent));
@@ -168,7 +180,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
 			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
 
-		AnimationComponent* newComponent = new AnimationComponent(); 
+		AnimationComponent* newComponent = new AnimationComponent();
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
@@ -349,7 +361,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_IdentityComponents.insert(std::pair< size_t, IdentityComponent* >(object->Get_uID(), newComponent));
-	
+
 		return newComponent;
 	}
 	case ComponentId::TRANSFORM_COMPONENT:
@@ -638,6 +650,15 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::SPAWNER:
+	{
+		Spawner* newScript = new Spawner();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::SPAWNER);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	default:
 		break;
 	}
@@ -687,6 +708,15 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::TURRET);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::SPAWNER:
+	{
+		Spawner* newScript = new Spawner();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::SPAWNER);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
@@ -805,6 +835,10 @@ void GameObjectFactory::DeleteLevel()
 	for (auto it : _scriptComponets)
 		delete it.second;
 	_scriptComponets.clear();
+
+	for (auto it : _pickList)
+		delete it.second;
+	_pickList.clear();
 }
 
 

@@ -2,6 +2,7 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+
 void Enemy::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
@@ -38,13 +39,20 @@ void Enemy::Init()
 }
 void Enemy::Update(double dt)
 {
+	if (_health <= 0)
+	{
+		DestoryThis();
+		EngineSystems::GetInstance()._audioSystem->Play(SoundEnum::ENEMYDEATH);
+		return;
+	}
+
+
 	if (!_init)
 	{
 		Init();
 		_init = true;
 	}
-	if (_health <= 0)
-		DestoryThis();
+	
 	FSM();
 }
 void Enemy::Exit()
@@ -83,7 +91,7 @@ void Enemy::Move()
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
-	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(300);
+	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(3000);
 
 	//moveVec.Normalize();
 	//moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning

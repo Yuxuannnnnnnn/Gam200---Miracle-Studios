@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "PrecompiledHeaders.h"
+#include "../Tools/MemoryManager/ResourceManager.h"
 
 void Shader::SetUniform1i(const std::string& name, int value)
 {
@@ -45,7 +46,6 @@ Shader::Shader(const char* vert, const char* frag)
 	}
 	const char* vShaderCode = vertexCode.c_str();
 	const char* fShaderCode = fragmentCode.c_str();
-
 
 	// vertex Shader
 	GLuint vertex = glCreateShader(GL_VERTEX_SHADER);

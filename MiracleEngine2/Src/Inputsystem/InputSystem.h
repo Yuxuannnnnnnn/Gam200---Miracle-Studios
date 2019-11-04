@@ -19,7 +19,7 @@ public:
 	void Exit();
 
 
-	POINT GetMousePos() const;
+	Vector3 GetMousePos() const;
 private:
 	unsigned char _currBuffer[256];
 	unsigned char _prevBuffer[256];
