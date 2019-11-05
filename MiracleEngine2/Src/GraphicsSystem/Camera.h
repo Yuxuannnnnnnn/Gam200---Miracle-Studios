@@ -20,11 +20,11 @@ class Camera
 public:
 	glm::mat4 GetCamMatrix();
 	void Update(std::unordered_map < size_t, TransformComponent*>&  _transformList);
-	void moveX(int x);
-	void moveY(int y);
+	void ZoomIn(float x);
+	void ZoomOut(float x);
 private:
 public:
 	glm::mat4 CamMatrix;
-	float x_pos;
-	float y_pos;
+	float x_pos = 1.0f;
+	float y_pos = 1.0f;
 };
