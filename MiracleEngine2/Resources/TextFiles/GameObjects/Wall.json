@@ -15,5 +15,5 @@
 
 	"BoxColliderComponent": true,
 	"ColliderTypeId": 1,
-	"ColliderTag": 6
+	"ColliderTag": 7
 }

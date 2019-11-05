@@ -224,8 +224,8 @@ void EnemyTwo::FSM()
 
 void EnemyTwo::OnCollision2DTrigger(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
+	/*if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
 	{
 		DestoryThis();
-	}
+	}*/
 }
