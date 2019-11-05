@@ -28,6 +28,15 @@ void Camera::Update(std::unordered_map < size_t, TransformComponent*>&  _transfo
 	
 }
 
+void Camera::MoveCameraX(float x)
+{
+	x_pos += x;
+}
+
+void Camera::MoveCameraY(float y)
+{
+	y_pos += y;
+}
 void Camera::ZoomOut(float x)
 {
 	x_scale += x;

@@ -17,6 +17,22 @@ void GraphicsSystem::Update(double dt)
 		_camera.ZoomOut(0.1f);
 	}
 
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_C))
+	{
+		_camera.MoveCameraX(1.0f);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_V))
+	{
+		_camera.MoveCameraX(-1.0f);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_B))
+	{
+		_camera.MoveCameraY(1.0f);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_N))
+	{
+		_camera.MoveCameraY(-1.0f);
+	}
 	_camera.Update(_transformList);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_ALPHA_TEST);
