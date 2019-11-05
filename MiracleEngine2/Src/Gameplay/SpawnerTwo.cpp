@@ -2,8 +2,8 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
-Spawner::Spawner() :
-	_typeId{ TypeIdGO::SPAWNER },
+SpawnerTwo::SpawnerTwo() :
+	_typeId{ TypeIdGO::SPAWNERTWO },
 	_radiusSpawn{ 2.f },
 	_timer{ -1.0 },
 	_timeCooldown{ 15.0 },
@@ -13,12 +13,12 @@ Spawner::Spawner() :
 }
 
 
-void Spawner::Init()
+void SpawnerTwo::Init()
 {
 	Spawn();
 }
 
-void Spawner::Update(double dt)
+void SpawnerTwo::Update(double dt)
 {
 	if (!_init)
 	{
@@ -30,11 +30,11 @@ void Spawner::Update(double dt)
 		Spawn();
 }
 
-void Spawner::Spawn()
+void SpawnerTwo::Spawn()
 {
 	_timer = _timeCooldown;
 	std::cout << "Spawned!" << std::endl;
-	GameObject* enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
+	GameObject* enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMYTWO]);
 	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 }

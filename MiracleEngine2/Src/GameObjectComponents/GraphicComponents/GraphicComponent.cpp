@@ -62,6 +62,12 @@ void GraphicComponent::RenderLayerResolver()
 	case (unsigned)TypeIdGO::WALL:
 		_renderLayer = 0;
 		break;
+	case (unsigned)TypeIdGO::SPAWNER:
+		_renderLayer = 5;
+		break;
+	case (unsigned)TypeIdGO::SPAWNERTWO:
+		_renderLayer = 5;
+		break;
 	case (unsigned)TypeIdGO::PLAYER:
 		_renderLayer = 5;
 		break;
@@ -72,9 +78,6 @@ void GraphicComponent::RenderLayerResolver()
 		_renderLayer = 5;
 		break;
 	case (unsigned)TypeIdGO::ENEMYTWO:
-		_renderLayer = 5;
-		break;
-	case (unsigned)TypeIdGO::SPAWNER:
 		_renderLayer = 5;
 		break;
 	case (unsigned)TypeIdGO::BULLET:

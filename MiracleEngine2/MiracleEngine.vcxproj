@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Src\Gameplay\Bullet_E.h" />
     <ClInclude Include="Src\Gameplay\EnemyTwo.h" />
+    <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
     <ClInclude Include="Src\GraphicsSystem\Camera.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Animation\Animation.h" />
@@ -555,6 +556,7 @@
   <ItemGroup>
     <ClCompile Include="Src\Gameplay\Bullet_E.cpp" />
     <ClCompile Include="Src\Gameplay\EnemyTwo.cpp" />
+    <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />
@@ -832,6 +834,7 @@
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
     <None Include="Resources\TextFiles\GameObjects\Font.json" />
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
+    <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Resources\TextFiles\States\Level1.json" />
