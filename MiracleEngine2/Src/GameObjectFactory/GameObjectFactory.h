@@ -49,6 +49,10 @@ public:
 	{
 		return _CameraComponents;
 	}
+	std::unordered_map < size_t, FontComponent*> getFontComponent()
+	{
+		return _FontComponent;
+	}
 
 	Map_ScriptList getObjectScript(GameObject* object);
 
