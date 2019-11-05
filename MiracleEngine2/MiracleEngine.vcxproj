@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Src\Gameplay\EnemyTwo.h" />
+    <ClInclude Include="Src\GraphicsSystem\Camera.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Animation\Animation.h" />
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
@@ -552,6 +553,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Gameplay\EnemyTwo.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />
     <ClCompile Include="Src\Animation\AnimationSystem.cpp" />

@@ -9,8 +9,10 @@ glm::mat4 Camera::GetCamMatrix()
 
 void Camera::Update(std::unordered_map < size_t, TransformComponent*>&  _transformList)
 {
-	for (auto& camComponentpair : EngineSystems::GetInstance()._gameObjectFactory->_CameraComponents)
+	for (auto& camComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getCameraComponent())
 	{
+		if (camComponentpair.second->GetParentId() < 1000)
+			continue;
 
 		size_t objID = camComponentpair.first;	//Get GameObjectID
 		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
