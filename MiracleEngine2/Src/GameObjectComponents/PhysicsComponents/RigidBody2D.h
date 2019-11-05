@@ -62,7 +62,7 @@ public:
 	void Draw();
 
 	void StopVelocity();
-	void AddForce(Vector3 force);
+	void AddForce(Vector3 forceDir, float force);
 	void AddForwardForce(float force);
 	void SetFiction(float value);
 	void SetMass(float mass);

@@ -13,6 +13,7 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObject(TypeIdGO::WALL);
 	SerialPrefabObject(TypeIdGO::FLOOR);
 	SerialPrefabObject(TypeIdGO::TURRET);
+	SerialPrefabObject(TypeIdGO::SPAWNER);
 }
 
 
@@ -65,6 +66,9 @@ GameObject* GameObjectPrototype::SerialPrefabObject(TypeIdGO type)
 	case TypeIdGO::SNIPER:
 		break;
 	case TypeIdGO::RPG:
+		break;
+	case TypeIdGO::SPAWNER:
+		temp->Serialise("./Resources/TextFiles/GameObjects/Spawner.json");
 		break;
 	default:
 		delete temp;

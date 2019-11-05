@@ -5,14 +5,26 @@
 Spawner::Spawner() :
 	_typeId{ TypeIdGO::ENEMY },
 	_radiusSpawn{ 2.f },
-	_timer{ 0.0 },
-	_timeCooldown{ 30.0 },
-	_health{ 10 }
+	_timer{ -1.0 },
+	_timeCooldown{ 15.0 },
+	_health{ 10 },
+	_init{ false }
 {
+}
+
+
+void Spawner::Init()
+{
+	Spawn();
 }
 
 void Spawner::Update(double dt)
 {
+	if (!_init)
+	{
+		Init();
+		_init = true;
+	}
 	_timer -= dt;
 	if (_timer <= 0)
 		Spawn();
