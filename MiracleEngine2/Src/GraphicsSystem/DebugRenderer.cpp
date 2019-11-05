@@ -3,10 +3,13 @@
 #include "PrecompiledHeaders.h"
 #include "DebugRenderer.h"
 
-DebugRenderer::DebugRenderer(int windowWidth, int windowHeight)
-	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
-		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
+DebugRenderer::DebugRenderer()
+	
 {
+	_proj = glm::ortho(-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2,
+		-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, -15.0f, 15.0f);
+	
+
 	_vbo = new VertexBuffer(&verts, 3 * 2 * sizeof(GLfloat));
 	_vao = new VertexArray();
 	BufferLayout layout;

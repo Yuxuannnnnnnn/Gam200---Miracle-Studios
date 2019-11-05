@@ -20,7 +20,7 @@ class DebugRenderer : public ISingleton<DebugRenderer>
 {
 public:
 	~DebugRenderer();
-	DebugRenderer(int windowWidth, int windowHeight);
+	DebugRenderer();
 	void Update();
 	
 	void DrawLine(float x1, float y1, float x2, float y2);
