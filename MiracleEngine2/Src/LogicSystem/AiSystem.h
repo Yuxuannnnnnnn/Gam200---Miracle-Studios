@@ -44,19 +44,18 @@ private:
 
 	bool init;
 
-	size_t _timeUpdateRate;	// how fast the AI system will update
-	size_t _timeUpdatePrev; // previous 'time' updated
-	size_t _timeUpdateElapsed ; // currTime - _timeUpdatePrev
+	double _timer{ 0 };
+	double _timeCooldown{ 2 };
 
 	// hard coded tilemap
 	std::unordered_map < size_t, Node* > _tilemap;
-	unsigned _mapTileSize = 100;
-	unsigned _mapHeight = 10;
-	unsigned _mapWidth = 10;
+	int _mapTileSize = 100;
+	int _mapHeight = 14;
+	int _mapWidth = 14;
 
 	//size_t _tilemapInput[5][5] =
 	//{ // hardcoded 5x5 map that will be converted into an actual Node*
-	//	{ 0,0,0,0,0 },
+	//	{ 0,0,0,2,0 },
 	//	{ 0,1,0,1,0 },
 	//	{ 0,1,0,1,0 },
 	//	{ 0,1,0,0,1 },
@@ -76,17 +75,51 @@ private:
 	//	{ 0,0,0,0,0,0,0,0,0,0 },
 	//};
 
-	size_t _tilemapInput[10][10] = {
-		{ 0,0,0,0,1,0,0,0,0,0 },
-		{ 1,0,0,1,0,0,0,0,0,0 },
-		{ 1,0,0,1,0,1,0,0,0,0 },
-		{ 1,0,0,1,0,1,0,0,0,0 },
-		{ 1,0,0,0,0,1,0,0,0,0 },
-		{ 0,1,0,1,0,1,0,0,0,0 },
-		{ 0,0,0,1,0,1,0,0,0,0 },
-		{ 0,1,1,1,0,1,0,0,0,0 },
-		{ 0,0,1,0,0,1,0,0,0,0 },
-		{ 0,0,0,0,1,0,0,0,0,0 },
+	//size_t _tilemapInput[10][10] = {
+	//	{ 0,0,0,0,2,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,1,0,0,0 },
+	//	{ 0,0,0,1,1,1,1,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0 },
+	//};
+
+	//size_t _tilemapInput[14][14] = {
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,2,0,0,0,0,2,0,0,0,0,0,1,0 },
+	//	{ 0,1,1,1,1,1,0,0,1,1,1,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	//	{ 0,1,0,0,0,0,0,0,0,0,0,0,0,1 },
+	//	{ 0,1,0,0,0,0,0,0,0,0,0,0,0,1 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,1,0,0,0,0,0,0,0,0,0,0,0,1 },
+	//	{ 0,0,0,1,0,0,0,0,0,0,0,1,0,1 },
+	//	{ 0,1,0,0,0,0,0,0,0,0,0,0,0,1 },
+	//	{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+	//};
+
+	size_t _tilemapInput[14][14] = {
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,2,0,0,0,0,2,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 	};
 
 public:
@@ -96,11 +129,6 @@ public:
 	AISystem& operator=(const AISystem& rhs) = delete;
 
 // GetSet
-	size_t GetTimeUpdateRate();
-	void SetTimeUpdate(size_t time);
-	size_t GetTimeUpdatePrev();
-	void SetTimePrev(size_t time);
-	size_t GetTimeUpdateElapsed();
 	void SetTimeElapsed(size_t time);
 	std::unordered_map < size_t, Node* > GetTileMap();
 	void SetTileMap(std::unordered_map < size_t, Node* > map);
@@ -109,7 +137,7 @@ public:
 
 // InUpEx
 	void Init(); // make sure GOFac serial gives the _tilemap
-	void Update(double currTime);
+	void Update(double dt);
 	void Exit();
 
 // Create a node map from _tilemap

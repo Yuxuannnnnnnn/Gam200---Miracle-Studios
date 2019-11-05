@@ -78,6 +78,7 @@
     <ClCompile Include="Src\Gameplay\Spawner.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
+    <ClCompile Include="Src\Gameplay\EnemyTwo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -465,6 +466,7 @@
     <ClInclude Include="Src\Audio\SoundEnum.h" />
     <ClInclude Include="Src\PhysicSystem\CollisionTable.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
+    <ClInclude Include="Src\Gameplay\EnemyTwo.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

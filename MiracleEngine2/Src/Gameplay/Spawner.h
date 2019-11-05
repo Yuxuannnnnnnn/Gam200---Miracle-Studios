@@ -8,7 +8,7 @@ private:
 	const float _radiusSpawn;
 	double _timer;
 	const double _timeCooldown;
-
+	bool _init;
 public:
 //Constructor
 	Spawner();
@@ -16,6 +16,7 @@ public:
 	int _health;
 
 // InUpEx
+	void Init();
 	void Update(double dt);
 
 	void Spawn();

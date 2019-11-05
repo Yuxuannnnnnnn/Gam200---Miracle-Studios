@@ -150,9 +150,10 @@ void RigidBody2D::StopVelocity()
 	Vec3Zero(_velocity);
 }
 
-void RigidBody2D::AddForce(Vector3 force)
+void RigidBody2D::AddForce(Vector3 forceDir, float force)
 {
-	Vec3Add(_appliedForce, _appliedForce, force);
+	forceDir.Normalize();
+	_appliedForce += forceDir * force;
 }
 
 void RigidBody2D::AddForwardForce(float force)
