@@ -62,7 +62,9 @@ void Engine::Update()
 			// Logic
 			_frameRateControl->StartTimeCounter();
 
-			if (!PAUSE)
+		#ifdef LEVELEDITOR
+			if (!_imguiSystem->_pause)
+		#endif 
 			{
 				_logicSystem->Update(dt);
 			}
@@ -80,14 +82,17 @@ void Engine::Update()
 			{
 				double fixedDt = _frameRateControl->GetLockedDt();
 
-				if (!PAUSE)
-				while (accumlatedframes)
+		#ifdef LEVELEDITOR
+				if (!_imguiSystem->_pause)
+		#endif
 				{
+					while (accumlatedframes)
+					{
 
-					_physicsSystem->Update(fixedDt);
-					--accumlatedframes;
+						_physicsSystem->Update(fixedDt);
+						--accumlatedframes;
+					}
 				}
-
 				_gameObjectFactory->UpdateDestoryObjects();
 			}
 
@@ -96,8 +101,13 @@ void Engine::Update()
 
 			// Audio
 			_frameRateControl->StartTimeCounter();
-			if (!PAUSE)
+
+		#ifdef LEVELEDITOR
+			if (!_imguiSystem->_pause)
+		#endif
+			{
 				_audioSystem->Update();
+			}
 			_performanceUsage->AudioFrameTime = _frameRateControl->EndTimeCounter();
 
 

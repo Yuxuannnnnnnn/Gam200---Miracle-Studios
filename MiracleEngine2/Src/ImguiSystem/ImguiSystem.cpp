@@ -3,9 +3,8 @@
 
 
 
-
 ImguiSystem::ImguiSystem(const Window& window)
-	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }
+	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }, _pause{ false }
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -56,8 +55,56 @@ void ImguiSystem::UpdateFrame()
 {
 	ImGui_ImplOpenGL3_NewFrame();	// Start the Dear ImGui frame
 	ImGui_ImplWin32_NewFrame();		//
-	ImGui::NewFrame();				//
+	ImGui::NewFrame();				///
 
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File  "))
+		{
+			ImGui::Spacing();
+			if (ImGui::BeginMenu("Load  "))
+			{
+				if (ImGui::MenuItem("./Resources/TextFiles/States/TestLevel1.txt"))
+				{
+					EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
+					EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::Spacing();
+			if (ImGui::MenuItem("Save   "))
+			{
+
+			}
+			ImGui::Spacing();
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Edit  "))
+		{
+			//if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+			//if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+			//ImGui::Separator();
+			//if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+			//if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+			//if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+
+			ImGui::EndMenu();
+		}
+		if(ImGui::BeginMenu("Game Settings  "))
+		{
+			if (ImGui::MenuItem("Pause  ")) 
+			{
+				_pause = 1;
+			}
+			//ImGui::Separator();
+			if (ImGui::MenuItem("Play  "))
+			{
+				_pause = 0;
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
 
 
 

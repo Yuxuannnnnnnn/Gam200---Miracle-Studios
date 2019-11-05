@@ -13,6 +13,7 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObject(TypeIdGO::WALL);
 	SerialPrefabObject(TypeIdGO::FLOOR);
 	SerialPrefabObject(TypeIdGO::TURRET);
+	SerialPrefabObject(TypeIdGO::CAMERA);
 }
 
 
@@ -65,6 +66,9 @@ GameObject* GameObjectPrototype::SerialPrefabObject(TypeIdGO type)
 	case TypeIdGO::SNIPER:
 		break;
 	case TypeIdGO::RPG:
+		break;
+	case TypeIdGO::CAMERA:
+		temp->Serialise("./Resources/TextFiles/GameObjects/Camera.json");
 		break;
 	default:
 		delete temp;

@@ -619,5 +619,6 @@
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
+    <None Include="Resources\TextFiles\GameObjects\Camera.json" />
   </ItemGroup>
 </Project>
