@@ -20,14 +20,14 @@ public:
 
 	GameObject* SerialPrefabObject(TypeIdGO type);
 
-	void SerialAddComponent(GameObject* object, SerialTypeId componentType, rapidjson::Value& s, rapidjson::Document& d);
+	//void SerialAddComponent(GameObject* object, SerialTypeId componentType, rapidjson::Value& s, rapidjson::Document& d);
 
 	// Serialisation
-	GameObject* SerialInPrefab_Player();
-	GameObject* SerialInPrefab_Bullet();
-	GameObject* SerialInPrefab_Enemy();
-	GameObject* SerialInPrefab_Wall();
-	GameObject* SerialInPrefab_Floor();
-	GameObject* SerialInPrefab_Turret();
-	GameObject* SerialInPrefab_Spawner();
+	//GameObject* SerialInPrefab_Player();
+	//GameObject* SerialInPrefab_Bullet();
+	//GameObject* SerialInPrefab_Enemy();
+	//GameObject* SerialInPrefab_Wall();
+	//GameObject* SerialInPrefab_Floor();
+	//GameObject* SerialInPrefab_Turret();
+	//GameObject* SerialInPrefab_Spawner();
 };

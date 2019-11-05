@@ -21,9 +21,6 @@
 void PhysicsSystem::Update(double dt)
 {
 	UpdatePhyiscs(dt);
-
-	UpdatePicking();
-
 	UpdateCollision(dt);
 	UpdateTransform(dt);
 	UpdateEvents();
@@ -162,11 +159,12 @@ void PhysicsSystem::UpdatePicking()
 
 		it.second->Update();
 
-		if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_LBUTTON))
+		if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_RBUTTON))
 		{
 			Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 			if (it.second->TestBoxVsPoint(pos))
 			{
+				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
 				std::cout << "Picking  Pos :" << pos << std::endl;
 				std::cout << "Picked :" << it.second->GetParentId() << std::endl;
 				return;

@@ -1,8 +1,8 @@
 #include "PrecompiledHeaders.h"
-#include "GameObjectFactory.h"
 #include "Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 #include "Tools/EventHandler/EventHandler.h"
+#include "GameObjectFactory.h"
 
 //Constructor - Same as Initialisation
 //Prototypes initialised - Prototypes Used for during entire Game, Only when Quit Game State then delete Prototypes
@@ -141,6 +141,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	switch (type)
 	{
 	case ComponentId::IDENTITY_COMPONENT:
+	{
 		IdentityComponent* newComponent = new IdentityComponent();
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);

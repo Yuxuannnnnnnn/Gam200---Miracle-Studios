@@ -36,14 +36,19 @@ public:
 		_console{ nullptr },
 		_windowSystem{ nullptr },
 		_imguiSystem{ nullptr },
+
 		_gameStateManager{ nullptr },
+
 		_inputSystem{ nullptr },
 		_logicSystem{ nullptr },
 		_aiSystem{ nullptr },
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
+		_audioSystem{ nullptr},
+
 		_frameRateControl{ nullptr },
 		_gameObjectFactory{ nullptr },
+
 		_prefabFactory{ nullptr }
 	{
 	}

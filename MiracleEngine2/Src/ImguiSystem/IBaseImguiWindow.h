@@ -9,6 +9,7 @@ enum class ImguiWindows //The List of ImguiWindows
 {
 	HIERARCHY = 0,
 	INSPECTOR = 1,
+	PREFAB_FOLDER = 2, 
 	//SCENE = 2,
 
 	 //COMMAND_DEBUG = 3,

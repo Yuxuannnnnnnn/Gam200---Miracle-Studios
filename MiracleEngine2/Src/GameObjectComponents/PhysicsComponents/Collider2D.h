@@ -73,11 +73,6 @@ public:
 	virtual void Draw() {};
 	virtual void Update() {};
 
-	std::string ComponentName() const override
-	{
-		return "ColliderComponent";
-	}
-
 	TransformComponent* GetTransform() const
 	{
 		return _transform;

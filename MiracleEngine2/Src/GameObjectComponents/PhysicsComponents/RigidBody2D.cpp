@@ -41,10 +41,10 @@ std::string RigidBody2D::ComponentName() const
 
 void RigidBody2D::SerialiseComponent(Serialiser& document)
 {
-	if (document.HasMember("Mass") && document["Mass"].IsInt())	//Checks if the variable exists in .Json file
+	if (document.HasMember("Mass") && document["Mass"].IsFloat())	//Checks if the variable exists in .Json file
 		_mass = document["Mass"].GetFloat();
 
-	if (document.HasMember("Friction") && document["Friction"].IsInt())
+	if (document.HasMember("Friction") && document["Friction"].IsFloat())
 		_fictionVal = document["Friction"].GetFloat();
 
 	if (document.HasMember("Static") && document["Static"].IsBool())

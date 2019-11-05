@@ -61,31 +61,43 @@ void Engine::Update()
 
 			// Logic
 			_frameRateControl->StartTimeCounter();
-			//_logicSystem->Update(dt);
+
+			if (!LEVEL_EDITER)
+			{
+				_logicSystem->Update(dt);
+			}
+
 			_aiSystem->Update(dt);
+
+			_physicsSystem->UpdatePicking();
 
 			_performanceUsage->LogicFrameTime = _frameRateControl->EndTimeCounter();
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 			_frameRateControl->StartTimeCounter();
+		
 			if (accumlatedframes)
 			{
 				double fixedDt = _frameRateControl->GetLockedDt();
 
+				if (!LEVEL_EDITER)
 				while (accumlatedframes)
 				{
+
 					_physicsSystem->Update(fixedDt);
 					--accumlatedframes;
 				}
 
 				_gameObjectFactory->UpdateDestoryObjects();
 			}
+
 			_performanceUsage->PhysicFrameTime = _frameRateControl->EndTimeCounter();
 			
 
 			// Audio
 			_frameRateControl->StartTimeCounter();
-			_audioSystem->Update();
+			if (!LEVEL_EDITER)
+				_audioSystem->Update();
 			_performanceUsage->AudioFrameTime = _frameRateControl->EndTimeCounter();
 
 
@@ -95,6 +107,8 @@ void Engine::Update()
 			_frameRateControl->StartTimeCounter();
 			_graphicsSystem->Update(dt);
 			_performanceUsage->GraphicFrameTime = _frameRateControl->EndTimeCounter();
+
+			_physicsSystem->UpdateDraw();
 
 			// example to draw debug line and circle, to remove later
 			/*DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);

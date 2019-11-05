@@ -1,6 +1,8 @@
 #pragma once
 #include "EngineSystems.h"
 
+#define LEVEL_EDITER 1
+
 class Engine
 {
 public:

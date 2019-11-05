@@ -1,24 +1,18 @@
 {
-  "ComponentList": [ 0, 1, 2, 3, 5 ],
+	"TransformComponent": true,
+	"Position": [ 0.0, 0.0 ],
+	"Scale": [ 100.0, 100.0 ],
+	"Rotate": 0.0,
 
-  "COMPONENT 0": "TRANSFORM",
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 100.0, 100.0 ],
-  "Rotate": 0.0,
+	"GraphicsComponent": true,
+	"G.TypeId": 0,
+	"G.FileName": "sprite_floor.png",
 
-  "COMPONENT 1": "GRAPHICS",
-  "G.TypeId": 0,
-  "G.FileName": "sprite_floor.png",
+	"ColliderComponent": true,
+	"ColliderTypeId": 2,
+	"ColliderTag": 5,
 
-  "COMPONENT 2": "RIGID BODY",
-  "Mass": 0.0,
-  "Friction": 0.0,
-  "Static": true,
-
-  "COMPONENT 3": "COLLIDER",
-  "ColliderTypeId": 2,
-
-  "COMPONENT 5": "LOGIC",
-  "ScriptId": [ 5 ],
-  "Health": 20
+	"LogicComponent": true,
+	"ScriptId": [ 5 ],
+	"Health": 20
 }

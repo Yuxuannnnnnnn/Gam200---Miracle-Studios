@@ -1,6 +1,7 @@
 #pragma once
 #include "HierarchyImguiWindow.h"
 #include "IBaseImguiWindow.h"
+#include "PreFabImguiWindow.h"
 
 class ImguiSystem
 {

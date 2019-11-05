@@ -33,14 +33,12 @@ public:
 	PhysicsSystem& operator= (const PhysicsSystem& rhs) = delete;
 
 	void UpdateDraw();
-
+	void UpdatePicking();
 private:
 	void UpdatePhyiscs(double dt);
 	void UpdateCollision(double dt);
 	void UpdateTransform(double dt);
 	void UpdateEvents();
-
-	void UpdatePicking();
 };
 
 #endif

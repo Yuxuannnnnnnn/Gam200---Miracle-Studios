@@ -19,6 +19,7 @@
 
 	"ColliderComponent": true,
 	"ColliderTypeId": 1,
+	"ColliderTag": 2,
 
 	"LogicComponent": true,
 	"ScriptId": [ 1, 2, 3 ],

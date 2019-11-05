@@ -33,6 +33,10 @@ void Collider2D::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("ColliderTypeId") && document["ColliderTypeId"].IsInt())	//Checks if the variable exists in .Json file
 		_type = document["ColliderTypeId"].GetUint();
+
+	if (document.HasMember("ColliderTag") && document["ColliderTag"].IsInt())	//Checks if the variable exists in .Json file
+		_tag = document["ColliderTag"].GetUint();
+	
 }
 
 

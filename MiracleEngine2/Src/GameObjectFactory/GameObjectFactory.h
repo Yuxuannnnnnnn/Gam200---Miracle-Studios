@@ -1,9 +1,11 @@
 #pragma once
-#include "PrecompiledHeaders.h"
 #include "GameObject.h"
 #include "GameStateManager/GameStateManager.h"
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
 #include "GameObjectComponents/PickingCollider.h"
+#include "GameObjectComponents/IdentityComponent.h"
+#include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
+#include "GameObjectComponents/GraphicComponents/CameraComponent.h"
 
 class GameObjectFactory final
 {	

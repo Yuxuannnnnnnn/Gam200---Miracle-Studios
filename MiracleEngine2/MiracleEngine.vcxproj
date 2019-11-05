@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Animation\Animation.h" />
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
     <ClInclude Include="Src\Animation\Frame.h" />
@@ -174,7 +175,7 @@
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\FontComponent.h" />
-     <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.h" />
     <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
@@ -205,7 +206,7 @@
     <ClInclude Include="Src\PhysicSystem\CollisionTable.h" />
     <ClInclude Include="Src\PhysicSystem\PhysicsSystem.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
-     <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
+    <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
@@ -549,19 +550,20 @@
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />
     <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
     <ClCompile Include="Src\Animation\Frame.cpp" />
     <ClCompile Include="Src\Audio\AudioSystem.cpp" />
     <ClCompile Include="Src\Audio\Sound.cpp" />
     <ClCompile Include="Src\Audio\SoundManager.cpp" />
-     <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\FontComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
-     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2D.cpp" />
     <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2D.cpp" />
@@ -579,7 +581,7 @@
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
     <ClCompile Include="Src\MathLib\Matrix4x4.cpp" />
-     <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
+    <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
     <ClCompile Include="Src\PhysicSystem\PhysicsSystem.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />

@@ -21,7 +21,7 @@ void GraphicComponent::SetTextureState(int state)
 
 GraphicComponent::GraphicComponent() :
 	_typeIdGraphic{ (unsigned)TypeIdGraphic::NONE },
-	_fileName{ new char[40] }, 
+	_fileName{}, 
 	_shaderID{ 0 },
 	_textureID{ 0 },
 	_renderLayer{ 0 }
@@ -30,14 +30,13 @@ GraphicComponent::GraphicComponent() :
 
 GraphicComponent::~GraphicComponent()
 {
-	delete[]_fileName;
+	//delete[]_fileName;
 }
 
 GraphicComponent::GraphicComponent(const GraphicComponent& rhs)
 {
 	_typeIdGraphic = rhs._typeIdGraphic;
-	_fileName = new char[40];
-	strcpy_s(_fileName, 40, rhs._fileName);
+	_fileName = rhs._fileName;;
 	_shaderID = rhs._shaderID;
 	_textureID = rhs._textureID;
 	_renderLayer = rhs._renderLayer;
@@ -93,7 +92,7 @@ void GraphicComponent::SerialiseComponent(Serialiser& document)
 		_typeIdGraphic = document["G.TypeId"].GetInt();
 
 	if (document.HasMember("G.FileName") && document["G.FileName"].IsString())
-		strcpy_s(_fileName, 40, document["G.FileName"].GetString());
+		_fileName = document["G.FileName"].GetString();
 }
 
 void GraphicComponent::Inspect()
@@ -104,7 +103,9 @@ void GraphicComponent::Inspect()
 	IComponentSystem::Inspect();
 
 	ImGui::Spacing();
-	ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
+	//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
+	std::string string = "Graphic File Name: " + _fileName;
+	ImGui::Text(string.c_str());
 	ImGui::Spacing();
 	ImGui::InputInt("Shader ID", &_shaderID);
 	ImGui::Spacing();

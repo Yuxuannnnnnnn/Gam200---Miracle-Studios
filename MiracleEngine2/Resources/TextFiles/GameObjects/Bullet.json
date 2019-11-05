@@ -19,6 +19,7 @@
 
 	"CircleColliderComponent": true,
 	"ColliderTypeId": 2,
+	"ColliderTag" : 2,  
 
 	"LogicComponent": true,
 	"ScriptId": [ 2 ],

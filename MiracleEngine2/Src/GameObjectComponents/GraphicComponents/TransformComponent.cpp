@@ -10,17 +10,17 @@ void TransformComponent::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("Position") && document["Position"].IsArray())	//Checks if the variable exists in .Json file
 	{
-		if (document["Position"][0].IsInt() && document["Position"][0].IsInt())	//Check the array values
+		if (document["Position"][0].IsFloat() && document["Position"][1].IsFloat())	//Check the array values
 			_pos = Vector3{ document["Position"][0].GetFloat(), document["Position"][1].GetFloat(), 1 };
 	}
 
 	if (document.HasMember("Scale") && document["Scale"].IsArray())
 	{
-		if (document["Scale"][0].IsInt() && document["Scale"][0].IsInt())	//Check the array values
+		if (document["Scale"][0].IsFloat() && document["Scale"][1].IsFloat())	//Check the array values
 			_scale = Vector3{ document["Scale"][0].GetFloat(), document["Scale"][1].GetFloat(), 1 };
 	}
 
-	if (document.HasMember("Rotate") && document["Position"].IsInt())	//Checks if the variable exists in .Json file
+	if (document.HasMember("Rotate") && document["Rotate"].IsFloat())	//Checks if the variable exists in .Json file
 	{
 		_rotationAngle = (document["Rotate"].GetFloat());
 
