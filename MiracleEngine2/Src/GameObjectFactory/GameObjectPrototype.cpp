@@ -20,6 +20,7 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObjects(TypeIdGO::ENEMYTWO);
 	SerialPrefabObjects(TypeIdGO::BULLET_T);
 	SerialPrefabObjects(TypeIdGO::BULLET_E);
+	SerialPrefabObjects(TypeIdGO::SPAWNERTWO);
 }
 
 
@@ -90,6 +91,9 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 		break;
 	case TypeIdGO::BULLET_E:
 		temp->Serialise("./Resources/TextFiles/GameObjects/Bullet_E.json");
+		break;
+	case TypeIdGO::SPAWNERTWO:
+		temp->Serialise("./Resources/TextFiles/GameObjects/SpawnerTwo.json");
 		break;
 	default:
 		delete temp;

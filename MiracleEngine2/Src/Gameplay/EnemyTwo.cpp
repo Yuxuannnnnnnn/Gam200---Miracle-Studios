@@ -6,7 +6,7 @@ EnemyTwo::EnemyTwo()
 //:IComponentSystem(parent, uId)
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 3; // 2 tileSize
+	_attackRange *= 4; // 2 tileSize
 	_attackRange *= _attackRange; // pow(2)
 	_target = nullptr;
 	_state = (unsigned)AiState::MOVING;
