@@ -51,8 +51,8 @@ void InputSystem::Update(Window& window)
 
 Vector3 InputSystem::GetMousePos() const
 {
-	return Vector3{ (float)(_p.x - EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth()),
-		(float)(512 - EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight()) }; 
+	return Vector3{ (float)(_p.x - (EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth()) / 2),
+	  (float)(EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2) - _p.y, 1 };
 }
 
 void InputSystem::Exit()

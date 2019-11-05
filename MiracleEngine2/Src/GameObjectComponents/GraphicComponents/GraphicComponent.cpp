@@ -80,6 +80,12 @@ void GraphicComponent::RenderLayerResolver()
 	case (unsigned)TypeIdGO::BULLET:
 		_renderLayer = 10;
 		break;
+	case (unsigned)TypeIdGO::BULLET_T:
+		_renderLayer = 10;
+		break;
+	case (unsigned)TypeIdGO::BULLET_E:
+		_renderLayer = 10;
+		break;
 	}
 }
 

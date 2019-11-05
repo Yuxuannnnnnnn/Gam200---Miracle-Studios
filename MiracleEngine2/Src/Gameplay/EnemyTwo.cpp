@@ -94,16 +94,8 @@ void EnemyTwo::Attack()
 														//	(GetDestinationPos()._x - GetPosition()._x) * 100,
 														//	(GetDestinationPos()._y - GetPosition()._y) * 100,
 														//	0);
-		Vector3 vecDir (
-			GetDestinationPos()._x - GetPosition()._x,
-			GetDestinationPos()._y - GetPosition()._y,
-			0);
-		vecDir.Normalize();
-		vecDir* (100 * 100);   
-		Vector3 offsetVec;
-		offsetVec = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() + vecDir;
 
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_E]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());

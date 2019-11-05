@@ -693,6 +693,15 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::BULLET_E:
+	{
+		Bullet_E* newScript = new Bullet_E();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::BULLET_E);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	default:
 		break;
 	}
@@ -760,6 +769,15 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::ENEMYTWO);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::BULLET_E:
+	{
+		Bullet_E* newScript = new Bullet_E(*reinterpret_cast<Bullet_E*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::BULLET_E);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}

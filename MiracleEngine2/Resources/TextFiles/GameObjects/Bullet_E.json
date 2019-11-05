@@ -19,9 +19,9 @@
 
 	"CircleColliderComponent": true,
 	"ColliderTypeId": 2,
-	"ColliderTag" : 2,  
+	"ColliderTag" : 8,  
 
 	"LogicComponent": true,
-	"ScriptId": [ 2 ],
+	"ScriptId": [ 7 ],
 	"Lifetime": 3.0
 }

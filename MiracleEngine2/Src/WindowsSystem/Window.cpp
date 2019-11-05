@@ -349,12 +349,12 @@ HGLRC Window::Get_m_wglDC() const
 	return m_wglDC;
 }
 
-unsigned Window::GetWindowWidth() const
+int Window::GetWindowWidth() const
 {
 	return _windowWidth;
 }
 
-unsigned Window::GetWindowHeight() const
+int Window::GetWindowHeight() const
 {
 	return _windowHeight;
 }
