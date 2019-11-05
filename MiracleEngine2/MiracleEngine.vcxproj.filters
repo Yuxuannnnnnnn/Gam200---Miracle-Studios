@@ -624,5 +624,6 @@
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
     <None Include="Resources\TextFiles\GameObjects\Camera.json" />
+    <None Include="Resources\TextFiles\GameObjects\Font.json" />
   </ItemGroup>
 </Project>
