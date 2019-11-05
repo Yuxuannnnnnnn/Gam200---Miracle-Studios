@@ -23,6 +23,8 @@ public:
 	void ZoomIn(float x);
 	void ZoomOut(float x);
 	void SetCameraPos(float x, float y);
+	void MoveCameraX(float x);
+	void MoveCameraY(float y);
 private:
 public:
 	glm::mat4 CamMatrix;
