@@ -1,7 +1,10 @@
 #pragma once
 #include "EngineSystems.h"
 
-#define PAUSE 0
+#ifndef ENGINE_H
+#define ENGINE_H
+
+#define LEVELEDITOR	1
 
 class Engine
 {
@@ -55,3 +58,4 @@ public:
 
 };
 
+#endif

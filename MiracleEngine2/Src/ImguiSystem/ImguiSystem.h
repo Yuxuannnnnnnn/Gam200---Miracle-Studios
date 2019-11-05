@@ -11,7 +11,9 @@ private:
 
 	std::unordered_map<int, IBaseImguiWindow*> _ImguiWindows; //List of all ImGuiWindows
 
+	
 public:
+	bool _pause;
 	ImguiSystem(const Window& window); //Initialise ImguiSystem
 
 	void UpdateFrame();	//Calls new frames for Imgui every loop
