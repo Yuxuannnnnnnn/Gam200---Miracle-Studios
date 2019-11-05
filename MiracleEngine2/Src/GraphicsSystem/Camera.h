@@ -22,9 +22,12 @@ public:
 	void Update(std::unordered_map < size_t, TransformComponent*>&  _transformList);
 	void ZoomIn(float x);
 	void ZoomOut(float x);
+	void SetCameraPos(float x, float y);
 private:
 public:
 	glm::mat4 CamMatrix;
 	float x_pos = 1.0f;
 	float y_pos = 1.0f;
+	float x_scale = 1.0f;
+	float y_scale = 1.0f;
 };

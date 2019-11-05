@@ -19,7 +19,8 @@ class DebugRenderer : public ISingleton<DebugRenderer>
 {
 public:
 	~DebugRenderer();
-	DebugRenderer(int windowWidth = 1280, int windowHeight = 1024);
+	DebugRenderer(int windowWidth = 1280/* EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth()*/,
+		int windowHeight = 1024 /*EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() */);
 	void Update();
 	
 	void DrawLine(float x1, float y1, float x2, float y2);

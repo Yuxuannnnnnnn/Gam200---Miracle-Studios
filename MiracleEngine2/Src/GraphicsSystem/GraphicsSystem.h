@@ -46,6 +46,10 @@ public:
 		
 	}
 
+	Camera& GetCamera()
+	{
+		return _camera;
+	}
 
 
 private:
