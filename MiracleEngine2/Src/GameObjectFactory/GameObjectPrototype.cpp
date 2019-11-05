@@ -5,17 +5,18 @@
 #include "GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
 
+
 GameObjectPrototype::GameObjectPrototype()
 {
-	SerialPrefabObject(TypeIdGO::PLAYER);
-	SerialPrefabObject(TypeIdGO::BULLET);
-	SerialPrefabObject(TypeIdGO::ENEMY);
-	SerialPrefabObject(TypeIdGO::WALL);
-	SerialPrefabObject(TypeIdGO::FLOOR);
-	SerialPrefabObject(TypeIdGO::TURRET);
-	SerialPrefabObject(TypeIdGO::SPAWNER);
-	SerialPrefabObject(TypeIdGO::CAMERA);
-	SerialPrefabObject(TypeIdGO::FONT);
+	SerialPrefabObjects(TypeIdGO::PLAYER);
+	SerialPrefabObjects(TypeIdGO::BULLET);
+	SerialPrefabObjects(TypeIdGO::ENEMY);
+	SerialPrefabObjects(TypeIdGO::WALL);
+	SerialPrefabObjects(TypeIdGO::FLOOR);
+	SerialPrefabObjects(TypeIdGO::TURRET);
+	SerialPrefabObjects(TypeIdGO::SPAWNER);
+	SerialPrefabObjects(TypeIdGO::CAMERA);
+	SerialPrefabObjects(TypeIdGO::FONT);
 }
 
 
@@ -30,7 +31,7 @@ std::unordered_map<TypeIdGO, GameObject*>& GameObjectPrototype::GetPrototypeList
 	return _listObjectPrototype;
 }
 
-GameObject* GameObjectPrototype::SerialPrefabObject(TypeIdGO type)
+GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 {
 	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 	temp->Set_typeId(type);
@@ -86,6 +87,27 @@ GameObject* GameObjectPrototype::SerialPrefabObject(TypeIdGO type)
 	_listObjectPrototype.insert(std::pair <TypeIdGO, GameObject*>(type, temp));
 
 	return temp;
+}
+
+
+GameObject* GameObjectPrototype::SerialPrefabObjects(Serialiser& document)
+{
+	if (document["Serialisation"].IsArray())	//Check if it is an array
+	{
+		for (int i = 0; i < document["Serialisation"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			if (document["Serialisation"][i].IsString())	//Checks if the element in the array is a string
+			{
+				GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+
+				temp->Serialise(document["Serialisation"][i].GetString());	//Serialise a gameobject with the string
+
+				unsigned typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->GameObjectType();
+
+				temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
+			}
+		}
+	}
 }
 
 

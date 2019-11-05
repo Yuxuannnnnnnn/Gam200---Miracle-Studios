@@ -1,4 +1,5 @@
 #pragma once
+#include "Tools/FileIO/Serialiser.h"
 
 
 
@@ -18,7 +19,8 @@ public:
 
 	std::unordered_map<TypeIdGO, GameObject*>& GetPrototypeList();	// Get _listObjectProrotype
 
-	GameObject* SerialPrefabObject(TypeIdGO type);
+	GameObject* SerialPrefabObjects(TypeIdGO type);
+	GameObject* SerialPrefabObjects(Serialiser& document);
 
 	//void SerialAddComponent(GameObject* object, SerialTypeId componentType, rapidjson::Value& s, rapidjson::Document& d);
 

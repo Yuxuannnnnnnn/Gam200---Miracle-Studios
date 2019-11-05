@@ -625,5 +625,6 @@
     <None Include="Resources\Shader\basic.vert" />
     <None Include="Resources\TextFiles\GameObjects\Camera.json" />
     <None Include="Resources\TextFiles\GameObjects\Font.json" />
+    <None Include="Resources\TextFiles\States\Level1.json" />
   </ItemGroup>
 </Project>

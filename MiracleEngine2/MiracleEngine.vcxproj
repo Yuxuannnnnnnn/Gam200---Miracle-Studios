@@ -829,6 +829,7 @@
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
+    <None Include="Resources\TextFiles\States\Level1.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>

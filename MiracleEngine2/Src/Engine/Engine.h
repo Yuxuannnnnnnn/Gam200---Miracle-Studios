@@ -27,6 +27,7 @@ public:
 		_audioSystem = EngineSystems::GetInstance()._audioSystem;
 		_frameRateControl = EngineSystems::GetInstance()._frameRateControl;
 		_performanceUsage = EngineSystems::GetInstance()._performanceUsage;
+
 		_gameObjectFactory = EngineSystems::GetInstance()._gameObjectFactory;
 	}
 
