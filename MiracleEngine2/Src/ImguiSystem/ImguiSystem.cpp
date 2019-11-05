@@ -61,8 +61,6 @@ void ImguiSystem::UpdateFrame()
 
 
 
-	if (LEVEL_EDITER)
-	{
 		for (int i = 0; i < (int)ImguiWindows::COUNT; i++)	//Update all Imgui Windows
 		{
 			if (_ImguiWindows[i]->GetOpen()) //if false, window will not be created
@@ -79,7 +77,6 @@ void ImguiSystem::UpdateFrame()
 				ImGui::End();									//End of window body
 			}
 		}
-	}
 
 }
 

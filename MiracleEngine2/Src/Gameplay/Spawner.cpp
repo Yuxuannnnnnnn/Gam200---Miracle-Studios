@@ -5,8 +5,8 @@
 Spawner::Spawner() :
 	_typeId{ TypeIdGO::ENEMY },
 	_radiusSpawn{ 2.f },
-	_timer{ 3.0 },
-	_timeCooldown{ 3.0 },
+	_timer{ 0.0 },
+	_timeCooldown{ 30.0 },
 	_health{ 10 }
 {
 }

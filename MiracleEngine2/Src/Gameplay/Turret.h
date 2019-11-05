@@ -13,7 +13,6 @@ private:
 	const double _timeCooldown;
 
 public:
-	void SerialiseComponent(Serialiser& document) override;
 	//Constructor
 	Turret();
 

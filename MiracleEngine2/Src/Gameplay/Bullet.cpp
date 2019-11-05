@@ -11,14 +11,6 @@ void Bullet::Update(double dt)
 		DestoryThis();
 }
 
-void Bullet::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Lifetime") && document["Lifetime"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_lifeTime = document["Lifetime"].GetFloat();
-	}
-}
-
 void Bullet::OnCollision2DTrigger(Collider2D* other)
 {
 	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY)
@@ -26,5 +18,9 @@ void Bullet::OnCollision2DTrigger(Collider2D* other)
 		DestoryThis();
 		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
 		enemy->_health--;
+	}
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER)
+	{
+		DestoryThis();
 	}
 }

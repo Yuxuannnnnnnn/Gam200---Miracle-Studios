@@ -11,16 +11,10 @@ Turret::Turret() :
 	_health{ 1 }
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 3; // 5 tileSize
+	_attackRange *= 5; // 5 tileSize
 	_attackRange *= _attackRange; // pow(2)
 }
-void Turret::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
-	{
-		_health = document["Health"].GetInt();
-	}
-}
+
 void Turret::Init()
 {
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
@@ -76,7 +70,9 @@ void Turret::SearchTarget()
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 	for (auto itr : temp)
 	{
-		if (itr.second->Get_uID() >= 1000 && itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMY && !itr.second->GetDestory())
+		if (itr.second->Get_uID() >= 1000 &&
+			(itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMY) &&
+			!itr.second->GetDestory())
 		{
 			// check if current target is player
 			if (_target->Get_typeId() == (unsigned)TypeIdGO::PLAYER)
