@@ -62,7 +62,7 @@ void Engine::Update()
 			// Logic
 			_frameRateControl->StartTimeCounter();
 
-			if (!LEVEL_EDITER)
+			if (!PAUSE)
 			{
 				_logicSystem->Update(dt);
 			}
@@ -80,7 +80,7 @@ void Engine::Update()
 			{
 				double fixedDt = _frameRateControl->GetLockedDt();
 
-				if (!LEVEL_EDITER)
+				if (!PAUSE)
 				while (accumlatedframes)
 				{
 
@@ -96,7 +96,7 @@ void Engine::Update()
 
 			// Audio
 			_frameRateControl->StartTimeCounter();
-			if (!LEVEL_EDITER)
+			if (!PAUSE)
 				_audioSystem->Update();
 			_performanceUsage->AudioFrameTime = _frameRateControl->EndTimeCounter();
 
