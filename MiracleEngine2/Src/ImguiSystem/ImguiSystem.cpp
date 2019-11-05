@@ -64,7 +64,7 @@ void ImguiSystem::UpdateFrame()
 			ImGui::Spacing();
 			if (ImGui::BeginMenu("Load  "))
 			{
-				if (ImGui::MenuItem("./Resources/TextFiles/States/TestLevel1.txt"))
+				if (ImGui::MenuItem("./Resources/TextFiles/States/TestLevel.txt"))
 				{
 					EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
 					EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");

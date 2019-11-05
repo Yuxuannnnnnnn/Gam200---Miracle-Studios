@@ -12,7 +12,7 @@
 	"G.TypeId": 0,
 	"G.FileName": ".png",
 
-	"RigidBoodyComponent": true,
+	"RigidBodyComponent": true,
 	"Mass": 10.0,
 	"Friction": 5.0,
 	"Static": false,

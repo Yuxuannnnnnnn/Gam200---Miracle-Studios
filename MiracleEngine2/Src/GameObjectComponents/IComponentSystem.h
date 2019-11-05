@@ -14,6 +14,7 @@ enum class ComponentId {
 	GRAPHICS_COMPONENT,		//
 	ANIMATION_COMPONENT,	//
 	CAMERA_COMPONENT,		//
+	FONT_COMPONENT,			//
 
 	RIGIDBODY_COMPONENT,	//Physics Components
 	CIRCLECOLLIDER_COMPONENT,
@@ -36,6 +37,7 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 	case ComponentId::GRAPHICS_COMPONENT: 		return "GraphicsComponent";
 	case ComponentId::ANIMATION_COMPONENT:		return "AnimationComponent";
 	case ComponentId::CAMERA_COMPONENT: 		return "CameraComponent";
+	case ComponentId::FONT_COMPONENT: 			return "FontComponent";
 		 
 	case ComponentId::RIGIDBODY_COMPONENT:		return "RigidBodyComponent";
 	case ComponentId::CIRCLECOLLIDER_COMPONENT: return "CircleColliderComponent";

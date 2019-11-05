@@ -116,7 +116,6 @@ public:
 	PerformanceUsage* _performanceUsage;
 
 	GameObjectFactory* _gameObjectFactory;
-
 	GameObjectPrototype* _prefabFactory;
 };
 

@@ -190,10 +190,25 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::CAMERA_COMPONENT:
 	{
+		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
+			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+
 		CameraComponent* newComponent = new CameraComponent();
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_CameraComponents.insert(std::pair< size_t, CameraComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
+	case ComponentId::FONT_COMPONENT:
+	{
+		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
+			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+
+		FontComponent* newComponent = new FontComponent();
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -402,6 +417,15 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_CameraComponents.insert(std::pair< size_t, CameraComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
+	case ComponentId::FONT_COMPONENT:
+	{
+		FontComponent* newComponent = new FontComponent(*reinterpret_cast<FontComponent*>(component));
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}

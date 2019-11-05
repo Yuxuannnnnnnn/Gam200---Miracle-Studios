@@ -22,8 +22,6 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 
 
 
-
-
 void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the GameObjectList - Used in Update() 
 {
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.65f);

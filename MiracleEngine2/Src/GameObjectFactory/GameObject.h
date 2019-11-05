@@ -19,7 +19,7 @@ enum class TypeIdGO {
 	WALL, FLOOR, OBSTACLE,//Setting
 	PLAYER, ENEMY, BULLET, TURRET, //Mobile objects
 	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
-	SPAWNER, CAMERA, ENEMYTWO,
+	SPAWNER, CAMERA, FONT, ENEMYTWO,
 };
 
 inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const char* - For Use only in Imgui
@@ -41,7 +41,7 @@ inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const
 	case TypeIdGO::RPG:			return "RPG";
 	case TypeIdGO::CAMERA:		return "Camera";
 	case TypeIdGO::ENEMYTWO:	return "EnemyTwo";
-
+	case TypeIdGO::FONT:		return "Font";
 	default:      return "[Unknown TypeIdGO]";
 	}
 }
