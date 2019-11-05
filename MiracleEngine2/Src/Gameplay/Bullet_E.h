@@ -1,14 +1,14 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
-class Bullet : public IScript
+class Bullet_E : public IScript
 {
 private:
 
 public:
 	float _lifeTime;
 
-	Bullet() : _lifeTime{ -666.f } {}
+	Bullet_E() : _lifeTime{ -666.f } {}
 
 	void Update(double dt);
 

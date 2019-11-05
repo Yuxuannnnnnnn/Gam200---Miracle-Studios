@@ -5,13 +5,14 @@
 #include <unordered_set>
 
 enum class ColliderTag {
-	NONE,
-	PLAYER,
-	BULLET,
-	ENEMY,
-	TURRET,
-	DESTORYABLE_BUILDING,
-	BUILDING,
+	NONE = 0,
+	PLAYER = 1,
+	BULLET = 2,
+	ENEMY = 3,
+	TURRET = 4,
+	DESTORYABLE_BUILDING = 5,
+	BUILDING = 7,
+	BULLET_E = 8,
 
 	TOTAL_TAG
 };

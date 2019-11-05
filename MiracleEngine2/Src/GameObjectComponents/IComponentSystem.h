@@ -14,6 +14,7 @@ enum class ComponentId {
 	GRAPHICS_COMPONENT,		//
 	ANIMATION_COMPONENT,	//
 	CAMERA_COMPONENT,		//
+	FONT_COMPONENT,			//
 
 	RIGIDBODY_COMPONENT,	//Physics Components
 	CIRCLECOLLIDER_COMPONENT,
@@ -30,21 +31,22 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 {
 	switch (type)
 	{
-	case ComponentId::IDENTITY_COMPONENT:	return "IdentityComponent";
+	case ComponentId::IDENTITY_COMPONENT:		return "IdentityComponent";
 		 
-	case ComponentId::TRANSFORM_COMPONENT:	return "TransformComponent";
-	case ComponentId::GRAPHICS_COMPONENT: 	return "GraphicsComponent";
-	case ComponentId::ANIMATION_COMPONENT: 	return "AnimationComponent";
+	case ComponentId::TRANSFORM_COMPONENT:		return "TransformComponent";
+	case ComponentId::GRAPHICS_COMPONENT: 		return "GraphicsComponent";
+	case ComponentId::ANIMATION_COMPONENT:		return "AnimationComponent";
 	case ComponentId::CAMERA_COMPONENT: 		return "CameraComponent";
+	case ComponentId::FONT_COMPONENT: 			return "FontComponent";
 		 
-	case ComponentId::RIGIDBODY_COMPONENT:	return "RigidBodyComponent";
+	case ComponentId::RIGIDBODY_COMPONENT:		return "RigidBodyComponent";
 	case ComponentId::CIRCLECOLLIDER_COMPONENT: return "CircleColliderComponent";
 	case ComponentId::BOXCOLLIDER_COMPONENT:	return "BoxColliderComponent";
 	case ComponentId::EDGECOLLIDER_COMPONENT:	return "EdgeColliderComponent";
 		 
-	case ComponentId::LOGIC_COMPONENT:		return "LogicComponent";
+	case ComponentId::LOGIC_COMPONENT:			return "LogicComponent";
 		 
-	case ComponentId::AUDIO_COMPONENT:		return "AudioComponent";
+	case ComponentId::AUDIO_COMPONENT:			return "AudioComponent";
 
 	default:      return "[Unknown TypeIdComponent]";
 	}

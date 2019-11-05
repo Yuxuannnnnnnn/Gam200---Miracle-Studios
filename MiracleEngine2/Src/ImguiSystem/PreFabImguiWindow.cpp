@@ -4,13 +4,10 @@
 
 void PreFabImguiWindow::Update()
 {
-	const std::unordered_map<size_t, GameObject*>& objlist = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+	const std::unordered_map<TypeIdGO, GameObject*>& objlist = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList();
 
 	for (auto& gameObjectPair : objlist)
 	{
-		if (gameObjectPair.first >= 1000)	//Do not print the prototypes
-			continue;
-
 		GameObject* gameObject = gameObjectPair.second; //Get GameObject* from std::pair
 
 		size_t uID = gameObject->Get_uID();				//Get Unique Number of each GameObject
@@ -19,6 +16,7 @@ void PreFabImguiWindow::Update()
 
 		static bool selected;
 		if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+		{
 			if (ImGui::IsMouseReleased(0))
 			{
 				InspectionImguiWindow::InspectGameObject(gameObject);
@@ -28,8 +26,10 @@ void PreFabImguiWindow::Update()
 				//ImGuiID id = ImGui::GetID(string.c_str());
 				//ImGui::GetStateStorage()->SetInt(id, 0);
 			}
-
-		if (ImGui::Button("Create Game Object"))
+		}
+		ImGui::Spacing();
+		std::string string1 = "Create Game Object " + std::string(ToString((TypeIdGO)ObjectTypeID));
+		if (ImGui::Button(string1.c_str()))
 		{
 			GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(gameObject);
 			dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3::Vec3Zero);

@@ -163,6 +163,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Gameplay\Bullet_E.h" />
+    <ClInclude Include="Src\Gameplay\EnemyTwo.h" />
+    <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
+    <ClInclude Include="Src\GraphicsSystem\Camera.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Animation\Animation.h" />
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
@@ -550,6 +554,10 @@
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Gameplay\Bullet_E.cpp" />
+    <ClCompile Include="Src\Gameplay\EnemyTwo.cpp" />
+    <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />
     <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
@@ -819,10 +827,17 @@
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
+    <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
+    <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
+    <None Include="Resources\TextFiles\GameObjects\Camera.json" />
+    <None Include="Resources\TextFiles\GameObjects\EnemyTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
+    <None Include="Resources\TextFiles\GameObjects\Font.json" />
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
+    <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
+    <None Include="Resources\TextFiles\States\Level1.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>

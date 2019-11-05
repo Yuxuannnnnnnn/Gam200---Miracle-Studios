@@ -5,8 +5,9 @@
 class CameraComponent: public IComponentSystem
 {
 private:
-	int _movespeed;
-	int _zoomratio;
+	float _movespeed;
+	float _xZoom;
+    float _yZoom;
 
 public:
 	//Constructor
@@ -22,9 +23,13 @@ public:
 	{
 		_movespeed = num;
 	}
-	void SetZoomRatio(int num)
+	void SetxZoom(int num)
 	{
-		_zoomratio = num;
+		_xZoom = num;
+	}
+    void SetyZoom(int num)
+	{
+		_yZoom = num;
 	}
 
 };

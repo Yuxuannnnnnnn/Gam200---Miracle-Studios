@@ -6,6 +6,7 @@
 #include "GameObjectComponents/IdentityComponent.h"
 #include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
 #include "GameObjectComponents/GraphicComponents/CameraComponent.h"
+#include "GameObjectComponents/GraphicComponents/FontComponent.h"
 
 class GameObjectFactory final
 {	
@@ -25,6 +26,7 @@ class GameObjectFactory final
 	std::unordered_multimap<size_t, IScript*>			_scriptComponets;
 	std::unordered_multimap<size_t, PickingCollider*>	_pickList;
 	std::unordered_map<size_t, AudioComponent*>			_audioComponent;		//
+	std::unordered_map<size_t, FontComponent*>			_FontComponent;		//
 
 
 public:
@@ -43,6 +45,14 @@ public:
 	std::unordered_map < size_t, Collider2D* > getCollider2dComponent();
 	std::unordered_map < size_t, LogicComponent* > getLogicComponent();
 	std::unordered_multimap<size_t, IScript*> getScriptComponent();
+	std::unordered_map < size_t, CameraComponent*>	 getCameraComponent()
+	{
+		return _CameraComponents;
+	}
+	std::unordered_map < size_t, FontComponent*> getFontComponent()
+	{
+		return _FontComponent;
+	}
 
 	Map_ScriptList getObjectScript(GameObject* object);
 

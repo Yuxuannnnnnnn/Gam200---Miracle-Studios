@@ -1,7 +1,10 @@
 #pragma once
 #include "EngineSystems.h"
 
-#define PAUSE 0
+#ifndef ENGINE_H
+#define ENGINE_H
+
+//#define LEVELEDITOR	0
 
 class Engine
 {
@@ -24,6 +27,7 @@ public:
 		_audioSystem = EngineSystems::GetInstance()._audioSystem;
 		_frameRateControl = EngineSystems::GetInstance()._frameRateControl;
 		_performanceUsage = EngineSystems::GetInstance()._performanceUsage;
+
 		_gameObjectFactory = EngineSystems::GetInstance()._gameObjectFactory;
 	}
 
@@ -55,3 +59,4 @@ public:
 
 };
 
+#endif

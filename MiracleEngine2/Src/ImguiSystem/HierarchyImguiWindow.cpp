@@ -22,42 +22,9 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 
 
 
-
-
 void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the GameObjectList - Used in Update() 
 {
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.65f);
-
-	if (ImGui::BeginMenuBar())
-	{
-		ImGui::Spacing();
-		if (ImGui::BeginMenu("File Menu "))
-		{
-			ImGui::Spacing();
-			if (ImGui::BeginMenu("Load  "))
-			{
-				if (ImGui::MenuItem("./Resources/TextFiles/States/TestLevel1.txt"))
-				{
-					EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
-					EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
-				}
-				ImGui::EndMenu();
-			}
-			ImGui::Spacing();
-			if (ImGui::MenuItem("Save   "))
-			{
-			}
-			ImGui::Spacing();
-			//if (ImGui::MenuItem("./Resources/TextFiles/States/TestLevel2.txt"))
-			//{
-			//
-			//}
-
-			ImGui::EndMenu();
-		}
-
-		ImGui::EndMenuBar();
-	}
 
 
 	const std::unordered_map<size_t, GameObject*>& objlist = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();

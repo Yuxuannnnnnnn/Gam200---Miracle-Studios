@@ -30,13 +30,14 @@ void Engine::Update()
 		while (_gameStateManager->CheckIfCurrNextStateSame())	//In Game Level
 		{
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
-			
+
+	#ifdef LEVELEDITOR
 			_frameRateControl->StartTimeCounter();
 			_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
 			_performanceUsage->IMGUIFrameTime = _frameRateControl->EndTimeCounter();
 
-
 			_performanceUsage->PrintPerformanceUsage();
+	#endif
 
 			double dt = _frameRateControl->UpdateFrameTime();
 			int accumlatedframes = _frameRateControl->GetSteps();
@@ -62,7 +63,9 @@ void Engine::Update()
 			// Logic
 			_frameRateControl->StartTimeCounter();
 
-			if (!PAUSE)
+		#ifdef LEVELEDITOR
+			if (!_imguiSystem->_pause)
+		#endif 
 			{
 				_logicSystem->Update(dt);
 			}
@@ -80,14 +83,17 @@ void Engine::Update()
 			{
 				double fixedDt = _frameRateControl->GetLockedDt();
 
-				if (!PAUSE)
-				while (accumlatedframes)
+		#ifdef LEVELEDITOR
+				if (!_imguiSystem->_pause)
+		#endif
 				{
+					while (accumlatedframes)
+					{
 
-					_physicsSystem->Update(fixedDt);
-					--accumlatedframes;
+						_physicsSystem->Update(fixedDt);
+						--accumlatedframes;
+					}
 				}
-
 				_gameObjectFactory->UpdateDestoryObjects();
 			}
 
@@ -96,8 +102,13 @@ void Engine::Update()
 
 			// Audio
 			_frameRateControl->StartTimeCounter();
-			if (!PAUSE)
+
+		#ifdef LEVELEDITOR
+			if (!_imguiSystem->_pause)
+		#endif
+			{
 				_audioSystem->Update();
+			}
 			_performanceUsage->AudioFrameTime = _frameRateControl->EndTimeCounter();
 
 
@@ -114,6 +125,7 @@ void Engine::Update()
 			/*DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
 			DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
 
+	#ifdef LEVELEDITOR
 			_frameRateControl->StartTimeCounter();
 			if (open)
 			{
@@ -122,6 +134,7 @@ void Engine::Update()
 
 			_imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 			_performanceUsage->IMGUIFrameTime += _frameRateControl->EndTimeCounter();
+	#endif
 
 			::SwapBuffers(_windowSystem->getWindow().get_m_windowDC()); 		// swap double buffer at the end
 	//-------------------------------------------------------------------------------------------------------------

@@ -49,8 +49,8 @@ public:
 	//HACCEL get_hAccelTable() const;		//
 	HGLRC Get_m_wglDC() const;				//
 											//
-	unsigned GetWindowWidth() const;		//
-	unsigned GetWindowHeight() const;		//
+	int GetWindowWidth() const;		//
+	int GetWindowHeight() const;		//
 
 };
 

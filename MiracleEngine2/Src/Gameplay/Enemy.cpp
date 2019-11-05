@@ -6,12 +6,11 @@ Enemy::Enemy()
 //:IComponentSystem(parent, uId)
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 2; // 2 tileSize
+	_attackRange *= 3; // 2 tileSize
 	_attackRange *= _attackRange; // pow(2)
 	_target = nullptr;
-	_init = false;
 	_state = (unsigned)AiState::MOVING;
-	_health = 0;
+	_health = 1;
 	_nextNode = nullptr;
 }
 
@@ -37,7 +36,31 @@ void Enemy::Update(double dt)
 	}
 	if (_health <= 0)
 		DestoryThis();
-	FSM();
+	if (_timer > 0)
+	{
+		_timer -= dt;
+		
+		switch (_state)
+		{
+		case (unsigned)AiState::IDLE:
+			//std::cout << "/t AI No Target!!!\n";
+			break;
+		case (unsigned)AiState::MOVING:
+			MoveNode();
+			break;
+		case (unsigned)AiState::ATTACKING:
+			Move();
+			break;
+		default:
+			break;
+		}
+	}
+	else // run AI
+	{
+		FSM();
+		_timer = _timeCooldown;
+	}
+	return;
 }
 void Enemy::Exit()
 {
@@ -95,6 +118,28 @@ void Enemy::MoveNode()
 		0
 	);
 
+	// check if should get the nextNextNode
+	unsigned mapTileSize = 100 * 100; // next time is get the map size from AiComponent or sth
+	if (moveVec.SquaredLength() < (float)mapTileSize)
+	{
+		if (_path.size() > 1)
+		{
+			Node* nextNextNode = *(++(_path.begin())); // get node after
+			if (nextNextNode)
+			{
+				moveVec = Vector3(
+					(nextNextNode->GetPosition()._x - GetPosition()._x),
+					(nextNextNode->GetPosition()._y - GetPosition()._y),
+					0
+				);
+				_nextNode = nextNextNode;
+				//_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+			}
+			else
+				_state = (unsigned)AiState::ATTACKING;
+		}
+	}
+
 	// rotate to face player
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
@@ -136,17 +181,18 @@ void Enemy::FSM()
 		break;
 	case (unsigned)AiState::MOVING:
 		//std::cout << "/t AI Move!!!\n";
-// get pathfinding
-				_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
-				if (_path.empty())
-					break;
-				_nextNode = _path.front();
-				MoveNode();
-		//Move();
+	// get pathfinding
+		_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+		if (_path.empty())
+		{
+			_state = (unsigned)AiState::MOVING;
+			break;
+		}			
+		_nextNode = _path.front();
+		//MoveNode();
 		break;
 	case (unsigned)AiState::ATTACKING:
 		//std::cout << "/t AI ATK!!\n";
-		Move();
 		break;
 	default:
 		break;

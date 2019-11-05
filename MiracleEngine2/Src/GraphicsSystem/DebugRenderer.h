@@ -12,6 +12,7 @@
 #include "QuadMesh.h"
 #include "ISingleton.h"
 
+
 #define NUMBER_OF_VERTICES 16
 #define M_PI 3.1415926
 
@@ -19,7 +20,7 @@ class DebugRenderer : public ISingleton<DebugRenderer>
 {
 public:
 	~DebugRenderer();
-	DebugRenderer(int windowWidth = 1280, int windowHeight = 1024);
+	DebugRenderer();
 	void Update();
 	
 	void DrawLine(float x1, float y1, float x2, float y2);

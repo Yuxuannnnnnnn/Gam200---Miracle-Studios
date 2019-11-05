@@ -78,6 +78,10 @@
     <ClCompile Include="Src\Gameplay\Spawner.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
+    <ClCompile Include="Src\Gameplay\EnemyTwo.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
+    <ClCompile Include="Src\Gameplay\Bullet_E.cpp" />
+    <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -465,6 +469,10 @@
     <ClInclude Include="Src\Audio\SoundEnum.h" />
     <ClInclude Include="Src\PhysicSystem\CollisionTable.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
+    <ClInclude Include="Src\Gameplay\EnemyTwo.h" />
+    <ClInclude Include="Src\GraphicsSystem\Camera.h" />
+    <ClInclude Include="Src\Gameplay\Bullet_E.h" />
+    <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -619,5 +627,12 @@
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
+    <None Include="Resources\TextFiles\GameObjects\Camera.json" />
+    <None Include="Resources\TextFiles\GameObjects\EnemyTwo.json" />
+    <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
+    <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
+    <None Include="Resources\TextFiles\GameObjects\Font.json" />
+    <None Include="Resources\TextFiles\States\Level1.json" />
+    <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
   </ItemGroup>
 </Project>

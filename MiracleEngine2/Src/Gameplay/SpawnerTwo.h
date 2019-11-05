@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
-class Spawner : public IScript
+class SpawnerTwo : public IScript
 {
 private:
 	TypeIdGO _typeId;
@@ -11,7 +11,7 @@ private:
 	bool _init;
 public:
 //Constructor
-	Spawner();
+	SpawnerTwo();
 
 	int _health;
 

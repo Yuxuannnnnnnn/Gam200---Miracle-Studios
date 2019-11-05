@@ -190,10 +190,25 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::CAMERA_COMPONENT:
 	{
+		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
+			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+
 		CameraComponent* newComponent = new CameraComponent();
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_CameraComponents.insert(std::pair< size_t, CameraComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
+	case ComponentId::FONT_COMPONENT:
+	{
+		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
+			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+
+		FontComponent* newComponent = new FontComponent();
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -402,6 +417,15 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_CameraComponents.insert(std::pair< size_t, CameraComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
+	case ComponentId::FONT_COMPONENT:
+	{
+		FontComponent* newComponent = new FontComponent(*reinterpret_cast<FontComponent*>(component));
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -660,6 +684,33 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::ENEMYTWO:
+	{
+		EnemyTwo* newScript = new EnemyTwo();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::ENEMYTWO);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::BULLET_E:
+	{
+		Bullet_E* newScript = new Bullet_E();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::BULLET_E);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::SPAWNERTWO:
+	{
+		SpawnerTwo* newScript = new SpawnerTwo();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::SPAWNERTWO);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	default:
 		break;
 	}
@@ -721,6 +772,33 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::ENEMYTWO:
+	{
+		EnemyTwo* newScript = new EnemyTwo(*reinterpret_cast<EnemyTwo*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::ENEMYTWO);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::BULLET_E:
+	{
+		Bullet_E* newScript = new Bullet_E(*reinterpret_cast<Bullet_E*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::BULLET_E);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::SPAWNERTWO:
+	{
+		SpawnerTwo* newScript = new SpawnerTwo(*reinterpret_cast<SpawnerTwo*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::SPAWNERTWO);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	default:
 		break;
 	}
@@ -776,6 +854,8 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
 		else if (std::strcmp(strType, "Wall") == 0)
 			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
+		else if (std::strcmp(strType, "Camera") == 0)
+			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
 		else
 			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
 	// TransformComponent from 'temp'

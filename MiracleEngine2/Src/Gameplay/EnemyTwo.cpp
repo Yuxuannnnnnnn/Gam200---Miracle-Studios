@@ -6,12 +6,11 @@ EnemyTwo::EnemyTwo()
 //:IComponentSystem(parent, uId)
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 2; // 2 tileSize
+	_attackRange *= 4; // 2 tileSize
 	_attackRange *= _attackRange; // pow(2)
 	_target = nullptr;
-	_init = false;
 	_state = (unsigned)AiState::MOVING;
-	_health = 0;
+	_health = 1;
 	_nextNode = nullptr;
 }
 
@@ -37,7 +36,32 @@ void EnemyTwo::Update(double dt)
 	}
 	if (_health <= 0)
 		DestoryThis();
-	FSM();
+	if (_timer > 0)
+	{
+		_timer -= dt;
+		_timerAttack -= dt;
+
+		switch (_state)
+		{
+		case (unsigned)AiState::IDLE:
+			//std::cout << "/t AI No Target!!!\n";
+			break;
+		case (unsigned)AiState::MOVING:
+			MoveNode();
+			break;
+		case (unsigned)AiState::ATTACKING:
+			Move();
+			break;
+		default:
+			break;
+		}
+	}
+	else // run AI
+	{
+		FSM();
+		_timer = _timeCooldown;
+	}
+	return;
 }
 void EnemyTwo::Exit()
 {
@@ -59,7 +83,29 @@ std::vector<Node*>& EnemyTwo::GetPath()
 {
 	return _path;
 }
+void EnemyTwo::Attack()
+{
+	// shoot player
+	if (_timerAttack <= 0)
+	{
+		_timerAttack = _timerAttackCooldown;
+		// spawn bullet
+														//Vector3 vecDir(
+														//	(GetDestinationPos()._x - GetPosition()._x) * 100,
+														//	(GetDestinationPos()._y - GetPosition()._y) * 100,
+														//	0);
 
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_E]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		// offset position
+
+		((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
+	}
+}
 void EnemyTwo::Move()
 { // move directly to Target.Pos
 	const float spd = 4.f;
@@ -75,8 +121,8 @@ void EnemyTwo::Move()
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
-	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(3000);
-
+	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(5000);
+	Attack();
 	//moveVec.Normalize();
 	//moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
 	//						//std::cout << moveVec._x << " " << moveVec._y << std::endl;
@@ -85,6 +131,9 @@ void EnemyTwo::Move()
 void EnemyTwo::MoveNode()
 { // move to NextNod
 							//std::cout << _nextNode->GetNodeId() << std::endl << std::endl;
+
+// TODO : Check if in range of nextNode, then pop front of list and assign nextNode;
+
 	float spd = 4.f;
 	Vector3 moveVec(
 		(_nextNode->GetPosition()._x - GetPosition()._x),
@@ -92,12 +141,35 @@ void EnemyTwo::MoveNode()
 		0
 	);
 
+	// check if should get the nextNextNode
+	unsigned mapTileSize = 100 * 100; // next time is get the map size from AiComponent or sth
+	if (moveVec.SquaredLength() < (float)mapTileSize)
+	{
+		if (_path.size() > 1)
+		{
+			Node* nextNextNode = *(++(_path.begin())); // get node after
+			if (nextNextNode)
+			{
+				moveVec = Vector3(
+					(nextNextNode->GetPosition()._x - GetPosition()._x),
+					(nextNextNode->GetPosition()._y - GetPosition()._y),
+					0
+				);
+				_nextNode = nextNextNode;
+				//_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+			}
+			else
+				_state = (unsigned)AiState::ATTACKING;
+		}
+	}
+
 	// rotate to face player
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
+	// move towards node
 	moveVec.Normalize();
 	moveVec* (spd);
 	//std::cout << moveVec._x << " " << moveVec._y << std::endl;
@@ -132,19 +204,28 @@ void EnemyTwo::FSM()
 		break;
 	case (unsigned)AiState::MOVING:
 		//std::cout << "/t AI Move!!!\n";
-// get pathfinding
-				//_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
-				//if (_path.empty())
-				//	break;
-				//_nextNode = _path.front();
-				//MoveNode();
-		Move();
+	// get pathfinding
+		_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+		if (_path.empty())
+		{
+			_state = (unsigned)AiState::MOVING;
+			break;
+		}
+		_nextNode = _path.front();
+		//MoveNode();
 		break;
 	case (unsigned)AiState::ATTACKING:
 		//std::cout << "/t AI ATK!!\n";
-		//Move();
 		break;
 	default:
 		break;
+	}
+}
+
+void EnemyTwo::OnCollision2DTrigger(Collider2D* other)
+{
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
+	{
+		DestoryThis();
 	}
 }
