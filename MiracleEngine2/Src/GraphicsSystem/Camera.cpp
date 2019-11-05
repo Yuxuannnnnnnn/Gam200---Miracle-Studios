@@ -25,7 +25,6 @@ void Camera::Update(std::unordered_map < size_t, TransformComponent*>&  _transfo
 
 		glm::mat4 mvp = model;
 		CamMatrix = mvp;
-		
 	}
 	
 }
