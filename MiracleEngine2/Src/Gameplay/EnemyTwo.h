@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
-class Enemy : public IScript
+class EnemyTwo : public IScript
 {
 private:
 	bool _init;
@@ -14,7 +14,7 @@ private:
 	float _attackRange; // currently set to 1*_mapTileSize
 public:
 	//Constructor
-	Enemy();
+	EnemyTwo();
 
 	int _health;
 
@@ -33,6 +33,4 @@ public:
 	void MoveNode();
 	// FSM
 	void FSM();
-
-	void OnCollision2DTrigger(Collider2D* other);
 };

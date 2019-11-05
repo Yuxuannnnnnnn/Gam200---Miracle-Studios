@@ -19,7 +19,7 @@ enum class TypeIdGO {
 	WALL, FLOOR, OBSTACLE,//Setting
 	PLAYER, ENEMY, BULLET, TURRET, //Mobile objects
 	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
-	SPAWNER
+	SPAWNER,
 };
 
 inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const char* - For Use only in Imgui

@@ -7,7 +7,6 @@ class Player : public IScript
 private:
 	
 public:
-	void SerialiseComponent(Serialiser& document) override;
 
 	void Update(double dt);
 

@@ -2,7 +2,7 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
-Enemy::Enemy()
+EnemyTwo::EnemyTwo()
 //:IComponentSystem(parent, uId)
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
@@ -15,7 +15,7 @@ Enemy::Enemy()
 	_nextNode = nullptr;
 }
 
-void Enemy::Init()
+void EnemyTwo::Init()
 {
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 	for (auto it : temp)
@@ -28,7 +28,7 @@ void Enemy::Init()
 		}
 	}
 }
-void Enemy::Update(double dt)
+void EnemyTwo::Update(double dt)
 {
 	if (!_init)
 	{
@@ -39,28 +39,28 @@ void Enemy::Update(double dt)
 		DestoryThis();
 	FSM();
 }
-void Enemy::Exit()
+void EnemyTwo::Exit()
 {
 
 }
 
-Vector3& Enemy::GetDestinationPos()
+Vector3& EnemyTwo::GetDestinationPos()
 {
 	_destinationPos = ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
 	return _destinationPos;
 }
 
-Vector3& Enemy::GetPosition()
+Vector3& EnemyTwo::GetPosition()
 {
 	return ((TransformComponent*)this->GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT))->GetPos();
 }
 
-std::vector<Node*>& Enemy::GetPath()
+std::vector<Node*>& EnemyTwo::GetPath()
 {
 	return _path;
 }
 
-void Enemy::Move()
+void EnemyTwo::Move()
 { // move directly to Target.Pos
 	const float spd = 4.f;
 	Vector3 moveVec(
@@ -75,19 +75,16 @@ void Enemy::Move()
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
-	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(5000);
+	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(3000);
 
 	//moveVec.Normalize();
 	//moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
 	//						//std::cout << moveVec._x << " " << moveVec._y << std::endl;
 	//((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
-void Enemy::MoveNode()
+void EnemyTwo::MoveNode()
 { // move to NextNod
 							//std::cout << _nextNode->GetNodeId() << std::endl << std::endl;
-
-// TODO : Check if in range of nextNode, then pop front of list and assign nextNode;
-
 	float spd = 4.f;
 	Vector3 moveVec(
 		(_nextNode->GetPosition()._x - GetPosition()._x),
@@ -101,14 +98,13 @@ void Enemy::MoveNode()
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
-	// move towards node
 	moveVec.Normalize();
 	moveVec* (spd);
 	//std::cout << moveVec._x << " " << moveVec._y << std::endl;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
 
-void Enemy::FSM()
+void EnemyTwo::FSM()
 {
 	if (!_target) // if no target
 		_state = (unsigned)AiState::IDLE;
@@ -137,26 +133,18 @@ void Enemy::FSM()
 	case (unsigned)AiState::MOVING:
 		//std::cout << "/t AI Move!!!\n";
 // get pathfinding
-				_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
-				if (_path.empty())
-					break;
-				_nextNode = _path.front();
-				MoveNode();
-		//Move();
+				//_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+				//if (_path.empty())
+				//	break;
+				//_nextNode = _path.front();
+				//MoveNode();
+		Move();
 		break;
 	case (unsigned)AiState::ATTACKING:
 		//std::cout << "/t AI ATK!!\n";
-		Move();
+		//Move();
 		break;
 	default:
 		break;
-	}
-}
-
-void Enemy::OnCollision2DTrigger(Collider2D* other)
-{
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
-	{
-		DestoryThis();
 	}
 }
