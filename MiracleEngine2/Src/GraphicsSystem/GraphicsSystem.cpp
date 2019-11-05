@@ -8,6 +8,7 @@
 
 void GraphicsSystem::Update(double dt)
 {
+	_camera.Update(_transformList);
 	ClearScreen();
 	//Example
 	//Check for Graphic component first then get Transform COmponent
@@ -68,7 +69,7 @@ void GraphicsSystem::Update(double dt)
 		glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
 			glm::vec3(transformComponent->GetScale()._x, transformComponent->GetScale()._y, 1.0f));
 
-		glm::mat4 mvp = _proj * model;
+		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
 
 		_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
 		_shader.SetUniformMat4f("u_MVP", mvp);

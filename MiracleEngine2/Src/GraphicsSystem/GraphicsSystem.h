@@ -16,6 +16,8 @@
 #include "Shader.h"
 #include "QuadMesh.h"
 #include "TextureManager.h"
+
+#include "Camera.h"
 enum RenderMode
 {
 	None,
@@ -53,6 +55,7 @@ private:
 	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
 	glm::mat4 _proj;
 	QuadMesh _quadmesh;
+	Camera _camera;
 	//RendererSystem _renderer;
 	//InstancedSystem _instancedRenderer;
 
