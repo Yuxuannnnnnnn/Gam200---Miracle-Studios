@@ -161,20 +161,20 @@ void AISystem::CreateNodeMap()
 			// Assign id to the current _tilemap[][]
 			_tilemapInput[y][x] = id++; //increment the id
 			// create WALL object from factory
-			if (solid) // create wall only if solid
-			{
+			if (solid) 
+			{	// create wall only if solid
 				tempGo = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
 				tempGo->Set_typeId(TypeIdGO::WALL);
 				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
 			}
 			else if (spawner)
-			{ // create spawner if tileMapInput[][] == 2
+			{	// create spawner if tileMapInput[][] == 2
 				GameObject* spawner = nullptr;
 				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::SPAWNER]);
 				((TransformComponent*)spawner->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
 			}
-			else // create wall only if solid
-			{
+			else
+			{	// create wall only if solid
 				tempGo = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::FLOOR]);
 				tempGo->Set_typeId(TypeIdGO::FLOOR);
 				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
@@ -230,14 +230,14 @@ void AISystem::CreateNodeMap()
 			_tilemap[currNode]->SetNodeAdjacent(up, down, left, right);
 		}
 	// Print the _tilemapInput
-	for (int y = 0; y < (int)_mapHeight; ++y)
-	{
-		for (int x = 0; x < (int)_mapWidth; ++x)
-		{
-			std::cout << _tilemapInput[y][x] << "\t";
-		}
-		std::cout << std::endl;
-	}
+	//for (int y = 0; y < (int)_mapHeight; ++y)
+	//{
+	//	for (int x = 0; x < (int)_mapWidth; ++x)
+	//	{
+	//		std::cout << _tilemapInput[y][x] << "\t";
+	//	}
+	//	std::cout << std::endl;
+	//}
 }
 
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
@@ -261,7 +261,7 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 	(y <= 0.f) ? y = 0.f : y;
 	(y >= _mapHeight) ? y = (float)_mapHeight : y;
 	nodeIdStart = _tilemapInput[(int)y][(int)x];
-						std::cout << "curr " << nodeIdStart << std::endl;
+						//std::cout << "curr " << nodeIdStart << std::endl;
 	x = (dest._x / _mapTileSize);
 	y = (dest._y / _mapTileSize);
 	x += (_mapWidth / 2); // compensate for the map origin shift
@@ -271,7 +271,7 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 	(y <= 0.f) ? y = 0.f : y;
 	(y >= _mapHeight) ? y = (float)_mapHeight : y;
 	nodeIdDest = _tilemapInput[(int)y][(int)x];
-						std::cout << "dest " << nodeIdDest << std::endl;
+						//std::cout << "dest " << nodeIdDest << std::endl;
 
 			// fake start end nodes
 	//nodeIdStart = _tilemapInput[0][0];
@@ -339,10 +339,10 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 	std::vector<Node*>::reverse_iterator itrVec = tempVec.rbegin();
 	while (itrVec != tempVec.rend())
 	{
-							std::cout << ((Node*)* itrVec)->GetNodeId() << ", ";
+							//std::cout << ((Node*)* itrVec)->GetNodeId() << ", ";
 		finalVec.push_back(*itrVec++);
 	}
-							std::cout << std::endl;
+							//std::cout << std::endl;
 
 	// after BFS done, reset _tileMap Node.visited to false
 	std::unordered_map < size_t, Node* >::iterator itrMap = _tilemap.begin();

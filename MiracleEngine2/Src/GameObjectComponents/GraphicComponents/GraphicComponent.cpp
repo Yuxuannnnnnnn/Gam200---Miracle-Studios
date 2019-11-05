@@ -71,6 +71,9 @@ void GraphicComponent::RenderLayerResolver()
 	case (unsigned)TypeIdGO::TURRET:
 		_renderLayer = 5;
 		break;
+	case (unsigned)TypeIdGO::ENEMYTWO:
+		_renderLayer = 5;
+		break;
 	case (unsigned)TypeIdGO::SPAWNER:
 		_renderLayer = 5;
 		break;

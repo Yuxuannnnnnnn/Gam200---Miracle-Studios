@@ -2,6 +2,10 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+Player::Player()
+{
+	_health = 30;
+}
 
 void Player::Update(double dt)
 {
@@ -74,7 +78,7 @@ void Player::updateMovement(double dt)
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3))
 	{	// spawn ENEMY
 		GameObject* enemy = nullptr;
-		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
+		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMYTWO]);
 		((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3(0, 0, 0));
 	}
 	//if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2))
@@ -85,4 +89,14 @@ void Player::updateMovement(double dt)
 	//	((TransformComponent*)spawner->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 	//		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 	//}
+}
+
+
+int Player::GetHealth()
+{
+	return _health;
+}
+void Player::SetHealth(int val)
+{
+	_health = val;
 }

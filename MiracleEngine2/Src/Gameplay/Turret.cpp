@@ -71,7 +71,7 @@ void Turret::SearchTarget()
 	for (auto itr : temp)
 	{
 		if (itr.second->Get_uID() >= 1000 &&
-			(itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMY) &&
+			((itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMY) || (itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMYTWO))&&
 			!itr.second->GetDestory())
 		{
 			// check if current target is player

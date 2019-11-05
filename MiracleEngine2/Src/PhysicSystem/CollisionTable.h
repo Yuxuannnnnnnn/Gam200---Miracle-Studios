@@ -8,6 +8,7 @@ enum class ColliderTag {
 	NONE,
 	PLAYER,
 	BULLET,
+	BULLET_E,
 	ENEMY,
 	TURRET,
 	DESTORYABLE_BUILDING,
