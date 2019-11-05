@@ -15,6 +15,24 @@
 
 // namespace MiracleEngine
 
+typedef unsigned int outcode;
+#define TOP 0x0008 //1000
+#define BOTTOM 0x0004 //0100
+#define RIGHT 0x0002 //0010
+#define LEFT 0x0001 //0001
+
+enum class OutCode_Type {
+	TOP_LEFT = 1001,
+	TOP_CENTER = 1000,
+	TOP_RIGHT = 1010,
+	CENTER_LEFT = 0001,
+	CENTER = 0000,
+	CENTER_RIGHT = 0010,
+	BOTTOM_LEFT = 0101,
+	BOTTOM_CENTER = 0100,
+	BOTTOM_RIGHT = 0110
+};
+
 class BoxCollider2D : public Collider2D // renderer
 {
 public:
@@ -29,6 +47,7 @@ public:
 
 	float mAngle;
 
+	bool mOnce;
 public:
 
 	void SerialiseComponent(Serialiser& document) override;
@@ -48,6 +67,8 @@ public:
 	void Draw();
 	void Update();
 
+	void Update(Vector3 pos, Vector3 scale, float angle);
+
 	void ComputeAxes();
 
 	bool TestAABBVsPoint(const Vector3& pt);
@@ -58,6 +79,9 @@ public:
 
 	bool TestBoxVsPoint(const Vector3& pt);
 	bool TestBoxVsBox(const BoxCollider2D& box);
+	int TestOutCode(const Vector3& pt) const;
+	
+
 
 	friend bool	TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box);
 };

@@ -26,7 +26,8 @@ BoxCollider2D::BoxCollider2D(GameObject* parent, size_t uId, IComponentSystem* c
 	mCorner{ {},{},{},{} },
 	mAxis{ {},{} },
 	mOrigin{},
-	mAngle{ 0.f }
+	mAngle{ 0.f },
+	mOnce{ false }
 {
 	if (component)
 	{
@@ -52,7 +53,8 @@ BoxCollider2D::BoxCollider2D(TransformComponent* transform) :
 	mCorner{ {},{},{},{} }, 
 	mAxis{ {},{} },
 	mOrigin{},
-	mAngle{ 0.f },
+	mAngle{ 0.f }, 
+	mOnce{ false },
 	Collider2D(transform)
 {
 	_type = (unsigned)ColliderType::BOX_COLLIDER;
@@ -93,6 +95,7 @@ BoxCollider2D::BoxCollider2D(const BoxCollider2D& rhs) :
 	mAxis{ rhs.mAxis[0],rhs.mAxis[1] },
 	mOrigin{ rhs.mOrigin },
 	mAngle{ rhs.mAngle },
+	mOnce{ false },
 	Collider2D(rhs)
 {
 	_type = (unsigned)ColliderType::BOX_COLLIDER;
@@ -125,7 +128,7 @@ void BoxCollider2D::Update()
 	//boundingRect maximum point
 	mMaxPos = mOrigin - boundingBox_offset;
 
-	if (mAngle != _transform->GetRotate())
+	if (!mOnce || mAngle != _transform->GetRotate())
 	{
 		mAngle = _transform->GetRotate();
 
@@ -139,6 +142,8 @@ void BoxCollider2D::Update()
 		mCorner[1] = mOrigin + X - Y;
 		mCorner[2] = mOrigin + X + Y;
 		mCorner[3] = mOrigin - X + Y;
+
+		mOnce = true;
 	}
 	else
 	{
@@ -154,6 +159,35 @@ void BoxCollider2D::Update()
 	ComputeAxes();
 }
 
+void BoxCollider2D::Update(Vector3 pos, Vector3 scale, float angle)
+{
+	mOrigin = pos;
+	//Get bounding rec
+	Vector3 boundingBox_offset = { -0.5f * scale._x, -0.5f * scale._y };
+
+	//Cal boundingRect minimum point
+	mMinPos = mOrigin - (-boundingBox_offset);
+
+	//boundingRect maximum point
+	mMaxPos = mOrigin - boundingBox_offset;
+
+	Vector3 X(cos(angle), sin(angle));
+	Vector3 Y(-sin(angle), cos(angle));
+
+	X = X * scale._x / 2;
+	Y = Y * scale._y / 2;
+
+	mCorner[0] = mOrigin - X - Y;
+	mCorner[1] = mOrigin + X - Y;
+	mCorner[2] = mOrigin + X + Y;
+	mCorner[3] = mOrigin - X + Y;
+
+	mOnce = true;
+
+	ComputeAxes();
+}
+
+
 void BoxCollider2D::ComputeAxes() {
 	mAxis[0] = mCorner[1] - mCorner[0];
 	mAxis[1] = mCorner[3] - mCorner[0];
@@ -161,8 +195,8 @@ void BoxCollider2D::ComputeAxes() {
 	// Make the length of each axis 1/edge length so we know any
 	// dot product must be less than 1 to fall within the edge.
 
-	mAxis[0].Normalize();
-	mAxis[1].Normalize();
+	mAxis[0].Normalize(); // so call x-axis of box
+	mAxis[1].Normalize(); // sp call y-axis of box
 }
 
 bool BoxCollider2D::TestAABBVsPoint(const Vector3& pt)
@@ -182,24 +216,12 @@ bool BoxCollider2D::TestAABBVsAABB(const BoxCollider2D& aabb)
 
 bool BoxCollider2D::TestOOBBVsPoint(const Vector3& pt) const
 {
-	for (int i = 0; i < 2; i++)
-	{
-		double t = mAxis[i].AbsDot(mOrigin - pt);
+	int oc = TestOutCode(pt);
 
-		float tMax = 0;
+	if(oc == (int)OutCode_Type::CENTER)
+		return true;
 
-		for (int c = 0; c < 4; ++c) {
-
-			float d = mAxis[i].AbsDot(mOrigin - mCorner[c]);
-			if (d > tMax)
-				tMax = d;
-		}
-
-		if (tMax < t)
-			return false;
-	}
-
-	return true;
+	return false;
 }
 
 bool BoxCollider2D::TestOOBBVsOOBB(const BoxCollider2D& oobb) const
@@ -274,6 +296,34 @@ bool BoxCollider2D::TestBoxVsBox(const BoxCollider2D& box)
 
 	return TestAABBVsAABB(box);
 }
+
+int BoxCollider2D::TestOutCode(const Vector3& pt) const
+{
+	outcode code = 0;
+
+	Vector3 relVel = mOrigin - pt;
+
+	float top = (mOrigin - mCorner[2]).AbsDot(mAxis[0]);
+	float right = (mOrigin - mCorner[2]).AbsDot(mAxis[1]);
+	float down = -top;
+	float left = -right;
+
+	float axis0 = relVel.Dot(mAxis[0]);
+	float axis1 = relVel.Dot(mAxis[1]);
+
+	if (axis0 > top)
+		code |= TOP;
+	else if (axis0 < down)
+		code |= BOTTOM;
+
+	if (axis1 > right)
+		code |= RIGHT;
+	else if (axis1 < left)
+		code |= LEFT;
+
+	return (int)code;
+}
+
 
 bool TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box)
 {

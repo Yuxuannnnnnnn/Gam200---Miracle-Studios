@@ -200,6 +200,7 @@ void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* 
 			if (!circleA->_trigger && !circleB->_trigger)
 			{
 				Vector3 relVel = gameTransformA->GetPos() - gameTransformB->GetPos();
+				relVel._z = 0;
 
 				if (relVel == Vector3::Vec3Zero)
 					relVel = Vector3::Vec3EY;
@@ -362,6 +363,92 @@ void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* 
 		else
 			posNextB = gameTransformB->GetPos();
 
+		if (TestCircleVsBox(*circleA, *boxB))
+		{
+			if (!circleA->_trigger && !boxB->_trigger)
+			{
+				if (gameBodyA)
+				{
+					gameBodyA->StopVelocity();
+				}
+
+				if (gameBodyB)
+				{
+					gameBodyB->StopVelocity();
+				}
+
+				Vector3 relVel = gameTransformA->GetPos() - gameTransformB->GetPos();
+				relVel._z = 0;
+
+				if (relVel == Vector3::Vec3Zero)
+					relVel = Vector3::Vec3EX;
+
+				Vector3 relNormal = relVel.Normalized();
+
+				float diff = 0;
+
+				if (relVel.AbsDot(boxB->mAxis[0]) > relVel.AbsDot(boxB->mAxis[1]))
+				{
+					diff = relVel.AbsDot(boxB->mAxis[0]) / (gameTransformB->GetScale()._x * 0.5f + circleA->mRadius);
+					if (relVel.Dot(boxB->mAxis[0]) > 0)
+					{
+						gameTransformA->GetPos() = gameTransformB->GetPos() + boxB->mAxis[0] * (circleA->mRadius + gameTransformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
+						gameBodyA->_velocity = boxB->mAxis[0] * circleA->mRadius;
+					}
+					else
+					{
+						gameTransformA->GetPos() = gameTransformB->GetPos() + -boxB->mAxis[0] * (circleA->mRadius + gameTransformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
+						gameBodyA->_velocity = -boxB->mAxis[0] * circleA->mRadius;
+					}
+				}
+				else
+				{
+					diff = relVel.AbsDot(boxB->mAxis[1]) / (gameTransformB->GetScale()._y * 0.5f + circleA->mRadius);
+
+					if (relVel.Dot(boxB->mAxis[1]) > 0)
+					{
+						gameTransformA->GetPos() = gameTransformB->GetPos() + boxB->mAxis[1] * (circleA->mRadius + gameTransformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
+						gameBodyA->_velocity = boxB->mAxis[1] * circleA->mRadius;
+					}
+					else
+					{
+						gameTransformA->GetPos() = gameTransformB->GetPos() + -boxB->mAxis[1] * (circleA->mRadius + gameTransformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
+						gameBodyA->_velocity = -boxB->mAxis[1] * circleA->mRadius;
+					}
+				}
+				// = gameTransformB->GetPos() + relVel * diff + relNormal * circleA->mRadius;
+
+			
+
+				//gameTransformA->GetPos() += relNormal * (1.f - diff) * circleA->mRadius - relVel;
+				
+
+				//Vector3 temp = relVel.Normalized();
+				//Vector3 reflectedVectorA = temp * TotalRadius - relVel;
+				////Vector3 reflectedVectorB = -reflectedVectorA;
+
+
+				//std::cout << "circleA collided circleB" << std::endl;
+				EventHandler::GetInstance().AddCollided2DEvent(*circleA, *boxB);
+				//std::cout << "circleB collided circleA" << std::endl;
+				EventHandler::GetInstance().AddCollided2DEvent(*boxB, *circleA);
+			}
+			else
+			{
+				if (circleA->_trigger)
+				{
+					//std::cout << "circleB trigger circleA" << std::endl;
+					EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *boxB);
+				}
+				if (boxB->_trigger)
+				{
+					//std::cout << "circleA trigger circleB" << std::endl;
+					EventHandler::GetInstance().AddTriggered2DEvent(*boxB, *circleA);
+				}
+			}
+
+		}
+		else
 		if (CircleBox_Intersection(*circleA, velA, *boxB, velB, interPtA, interPtB, interTime))
 		{
 			if (!circleA->_trigger && !boxB->_trigger)
@@ -372,7 +459,7 @@ void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* 
 				reflectedVecA = velA;
 				reflectedVecB = velB;
 
-				CircleBox_Response(normal, interTime, velA, 1, interPtA, velB, 1, interPtB,
+				CircleBox_Response(normal, interTime, velA, massA, interPtA, velB, massB, interPtB,
 					reflectedVecA, posNextA, reflectedVecB, posNextB);
 
 				if (gameBodyA)
@@ -1071,15 +1158,49 @@ void CircleCircle_Response(Vector3& normal,
 }
 
 
-int CircleBox_Intersection(const CircleCollider2D& boxA,
+int CircleBox_Intersection(const CircleCollider2D& circleA,
 	const Vector3& velA,
-	const BoxCollider2D& circleB,
+	const BoxCollider2D& boxB,
 	const Vector3& velB,
 	Vector3& interPtA,
 	Vector3& interPtB,
 	float& interTime)
 {
-	return 0;
+	BoxCollider2D newBox{ boxB };
+
+
+	Vector3 relVel = velB - velA;
+
+	if (relVel == Vector3::Vec3Zero)
+		return false;
+
+	Vector3 nextPos = circleA.GetTransform()->GetPos();
+
+	newBox.Update(boxB.mOrigin, Vector3(boxB.GetTransform()->GetScale()._x*0.5f + circleA.mRadius, boxB.GetTransform()->GetScale()._y * 0.5f + circleA.mRadius), boxB.mAngle);
+
+	int outcode = newBox.TestOutCode(nextPos);
+
+	if (outcode == (int)OutCode_Type::CENTER)
+	{
+		Vector3 relVel2 = nextPos - boxB.GetTransform()->GetPos();
+		
+		float xPenc = 1.f - relVel2.AbsDot(boxB.mAxis[0]) / (boxB.GetTransform()->GetScale()._x * 0.5f);
+		float yPenc = 1.f - relVel2.AbsDot(boxB.mAxis[1]) / (boxB.GetTransform()->GetScale()._y * 0.5f);
+
+		Vector3 relVel3{ xPenc * (boxB.GetTransform()->GetScale()._x * 0.5f) , yPenc * (boxB.GetTransform()->GetScale()._y * 0.5f) };
+
+		float ti = relVel3.SquaredLength() / relVel.SquaredLength();
+
+		if (0 <= ti && ti <= 1)
+		{
+			interPtA = circleA.mCenPos + (velA * ti);
+			interPtB = boxB.mOrigin + (velB * ti);
+			interTime = ti;
+			return 1;
+		}
+		return false;
+	}
+	return false;
 }
 
 
