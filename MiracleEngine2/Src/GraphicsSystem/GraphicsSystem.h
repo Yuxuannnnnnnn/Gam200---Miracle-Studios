@@ -49,7 +49,6 @@ public:
 
 
 private:
-	void Test();
 	void ClearScreen() const;
 	TextureManager _textureManager;
 	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };

@@ -23,17 +23,19 @@ void Camera::Update(std::unordered_map < size_t, TransformComponent*>&  _transfo
 			, transformComponent->GetPos()._y, 1));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transformComponent->GetRotate(), glm::vec3(0, 0, 1));
 		 CamMatrix = translate * rotate * glm::scale(glm::mat4(1.0f),
-			glm::vec3(transformComponent->GetScale()._x, transformComponent->GetScale()._y, 1.0f));
+			glm::vec3(x_pos, y_pos, 1.0f));
 	}
 	
 }
 
-void Camera::moveX(int x)
+void Camera::ZoomOut(float x)
 {
 	x_pos += x;
+	y_pos += x;
 }
 
-void Camera::moveY(int y)
+void Camera::ZoomIn(float x)
 {
-	y_pos += y;
+	x_pos -= x;
+	y_pos -= x;
 }
