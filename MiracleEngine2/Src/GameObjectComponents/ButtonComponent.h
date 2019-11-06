@@ -16,6 +16,9 @@ class ButtonComponent : public BoxCollider2D
 public:
 	bool _pressed;
 
+
+	void SerialiseComponent(Serialiser& document) override {}
+
 	// Constructor
 	ButtonComponent() :_pressed{false}, BoxCollider2D(nullptr) {}
 	virtual ~ButtonComponent() {}
