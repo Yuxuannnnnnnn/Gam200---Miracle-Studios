@@ -8,7 +8,7 @@
 
 void GraphicsSystem::Update(double dt)
 {
-	if(EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Z))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Z))
 	{
 		_camera.ZoomIn(0.1f);
 	}
@@ -33,6 +33,27 @@ void GraphicsSystem::Update(double dt)
 	{
 		_camera.MoveCameraY(-1.0f);
 	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_P))
+	{
+		_numAnim = 0;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_O))
+	{
+		_numAnim = 1;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_I))
+	{
+		_numAnim = 2;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
+	{
+		_testAnim = 0;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
+	{
+		_testAnim = 1;
+	}
+
 	_camera.Update(_transformList);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_ALPHA_TEST);
@@ -46,10 +67,9 @@ void GraphicsSystem::Update(double dt)
 
 		if (!graphicComponent->GetEnable())
 			continue;
-/*
-		if (graphicComponent->GetRenderLayer() == 10)
-			continue;*/
-
+		/*
+				if (graphicComponent->GetRenderLayer() == 10)
+					continue;*/
 		size_t objID = graphicComponentpair.first;	//Get GameObjectID
 		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
@@ -57,13 +77,31 @@ void GraphicsSystem::Update(double dt)
 		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 		if (graphicComponent->GetFileName() == "spriteplayer.png")
 		{
-			/*_playerMesh.Select(dt, 0);
-			_textureManager._textureMap["idle"]->Select();*/
 
-			_quadmesh.Select();
-			_textureManager._textureMap["player"]->Select();
+			if (!_testAnim)
+			{
+				_quadmesh.Select();
+				_textureManager._textureMap["player"]->Select();
+			}
+			else
+			{
+				_playerMesh.Select(dt, _numAnim);
+				switch (_numAnim)
+				{
+				case 0:
+					_textureManager._textureMap["idle"]->Select();
+					break;
+				case 1:
+					_textureManager._textureMap["run"]->Select();
+					break;
+				case 2:
+					_textureManager._textureMap["jump"]->Select();
+					break;
+				}
+			}
+
 		}
-		else if (graphicComponent->GetFileName() == "spriteenemy.png" 
+		else if (graphicComponent->GetFileName() == "spriteenemy.png"
 			&& graphicComponent->GetTextureState() == 0)
 		{
 			_quadmesh.Select();
@@ -95,7 +133,7 @@ void GraphicsSystem::Update(double dt)
 			_quadmesh.Select();
 			_textureManager._textureMap["turret"]->Select();
 		}
-		
+
 		_shader.Select();
 
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(transformComponent->GetPos()._x
@@ -112,11 +150,15 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
+	for (auto& fontComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getFontComponent())
+	{
 
+		_fontRenderer.Draw();
 
-	// loop through every element in graphic component
-	// get texture ID and shader ID
-	// get its transform component 
+		// loop through every element in graphic component
+		// get texture ID and shader ID
+		// get its transform component 
+	}
 }
 
 
