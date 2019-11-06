@@ -84,7 +84,7 @@ FontRenderer::FontRenderer()
 	glBindVertexArray(0);
 }
 
-void FontRenderer::DrawText(std::string& text, float xpos, float ypos, const glm::vec3& color)
+void FontRenderer::DrawFont(std::string& text, float xpos, float ypos, const glm::vec3& color)
 {
 	RenderText(_shader, text, xpos, ypos, 1.0f, color);
 }

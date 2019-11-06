@@ -20,7 +20,7 @@ public:
 		return "Font Component";
 	}
 
-	std::string GetFontString()
+	std::string& GetFontString()
 	{
 		return _fontString;
 	}
