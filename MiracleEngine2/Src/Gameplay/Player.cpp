@@ -5,9 +5,9 @@
 Player::Player()
 {
 	_health = 30;
-	_weaponActive = 1;
+	_weaponActive = 2;
 	_timer = 0;
-	_timerCooldown = 1;
+	_timerCooldown = 0.5;
 }
 
 void Player::Update(double dt)
@@ -53,20 +53,17 @@ void Player::updateInput()
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_LBUTTON))
-	{	// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
-		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
-		((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
+	{
+		WeaponShoot();
 	}
 // NUMBERS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1))
-	{	
-		if (_timer <= 0)
-			WeaponShoot();
+	{	// spawn TURRET
+		GameObject* turret = nullptr;
+		turret = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::TURRET]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)turret->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2))
 	{	// spawn WALL
@@ -95,20 +92,24 @@ void Player::WeaponSwitch()
 
 void Player::WeaponShoot()
 {
-	switch (_weaponActive)
-	{
-	case (int)WeaponId::PISTOL:
-		WeaponShoot_Pistol();
-		break;
-	case (int)WeaponId::SHOTGUN:
-		break;
-	case (int)WeaponId::RPG:
-		break;
-	}
+	if (_timer <= 0)
+		switch (_weaponActive)
+		{
+		case (int)WeaponId::PISTOL:
+			WeaponShoot_Pistol();
+			break;
+		case (int)WeaponId::SHOTGUN:
+			WeaponShoot_Shotgun();
+			break;
+		case (int)WeaponId::RPG:
+			WeaponShoot_RPG();
+			break;
+		}
 }
 
 void Player::WeaponShoot_Pistol()
 {
+	_timer = 0.2; // cooldown
 	GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
@@ -118,11 +119,33 @@ void Player::WeaponShoot_Pistol()
 }
 void Player::WeaponShoot_Shotgun()
 {
-
+	_timer = 0.7; // cooldown
+	Vector3 pos = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos();
+	float rot = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate();
+	GameObject* bullet = nullptr;
+	// 3 bullets, 1 forward, 2 +- 0.2rad
+	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot);
+	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
+	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot-0.2);
+	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
+	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot+0.2);
+	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
 }
 void Player::WeaponShoot_RPG()
 {
-
+	_timer = 2; // cooldown
+	GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
+		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
+		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
 }
 
 

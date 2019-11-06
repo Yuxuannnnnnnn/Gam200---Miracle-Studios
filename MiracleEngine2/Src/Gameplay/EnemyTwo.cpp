@@ -50,7 +50,7 @@ void EnemyTwo::Update(double dt)
 			MoveNode();
 			break;
 		case (unsigned)AiState::ATTACKING:
-			Move();
+			Attack();
 			break;
 		default:
 			break;
@@ -89,20 +89,23 @@ void EnemyTwo::Attack()
 	if (_timerAttack <= 0)
 	{
 		_timerAttack = _timerAttackCooldown;
-		// spawn bullet
-														//Vector3 vecDir(
-														//	(GetDestinationPos()._x - GetPosition()._x) * 100,
-														//	(GetDestinationPos()._y - GetPosition()._y) * 100,
-														//	0);
-
+	
+	// rotate to face player
+		Vector3 moveVec(
+			(GetDestinationPos()._x - GetPosition()._x),
+			(GetDestinationPos()._y - GetPosition()._y),
+			0);
+		Vector3 compareVec = { 0, 1, 0 };
+		float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
+		float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
+		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+	// spawn bullet
 		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_E]);
-		// set bullet position & rotation as same as 'parent' obj
+	// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
-		// offset position
-
 		((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
 	}
 }
@@ -115,7 +118,7 @@ void EnemyTwo::Move()
 		0
 	);
 
-	// rotate to face player
+// rotate to face player
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
@@ -123,10 +126,6 @@ void EnemyTwo::Move()
 
 	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(5000);
 	Attack();
-	//moveVec.Normalize();
-	//moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
-	//						//std::cout << moveVec._x << " " << moveVec._y << std::endl;
-	//((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
 void EnemyTwo::MoveNode()
 { // move to NextNod

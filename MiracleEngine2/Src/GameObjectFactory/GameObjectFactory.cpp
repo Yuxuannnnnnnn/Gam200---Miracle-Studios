@@ -711,6 +711,15 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::EXPLOSION:
+	{
+		Explosion* newScript = new Explosion();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::EXPLOSION);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	default:
 		break;
 	}
@@ -796,6 +805,15 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::SPAWNERTWO);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::EXPLOSION:
+	{
+		Explosion* newScript = new Explosion(*reinterpret_cast<Explosion*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::EXPLOSION);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}

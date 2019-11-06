@@ -1,11 +1,11 @@
 {
 	"IdentityComponent": true,
 	"Name": "none",
-	"GameObjectType": 18,
+	"GameObjectType": 20,
 
 	"TransformComponent": true,
 	"Position": [ 0.0, 0.0 ],
-	"Scale": [ 20.0, 20.0 ],
+	"Scale": [ 200.0, 200.0 ],
 	"Rotate": 0.0,
 
 	"GraphicsComponent": true,
@@ -14,14 +14,14 @@
 
 	"RigidBodyComponent": true,
 	"Mass": 1.0,
-	"Friction": 0.0,
+	"Friction": 1.0,
 	"Static": false,
 
 	"CircleColliderComponent": true,
 	"ColliderTypeId": 2,
-	"ColliderTag" : 8,  
+	"ColliderTag" : 2,  
 
 	"LogicComponent": true,
-	"ScriptId": [ 7 ],
+	"ScriptId": [ 10 ],
 	"Lifetime": 3.0
 }

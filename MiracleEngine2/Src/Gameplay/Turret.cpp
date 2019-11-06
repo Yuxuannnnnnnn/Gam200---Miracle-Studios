@@ -65,7 +65,9 @@ Vector3& Turret::GetPosition()
 
 void Turret::SearchTarget()
 {
-	// loop through _listObject, get closest ENEMY
+	// loop through _listObject, get closest 
+
+
 	GameObject* tempGO = nullptr, *tempPlayer = nullptr;
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 	for (auto itr : temp)
