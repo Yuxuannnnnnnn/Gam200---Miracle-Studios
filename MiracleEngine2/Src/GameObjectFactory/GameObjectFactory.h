@@ -7,6 +7,9 @@
 #include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
 #include "GameObjectComponents/GraphicComponents/CameraComponent.h"
 #include "GameObjectComponents/GraphicComponents/FontComponent.h"
+#include "Tools/FileIO/Serialiser.h"
+#include "GameObjectFactory/BinaryMap.h"
+
 
 class GameObjectFactory final
 {	
@@ -26,8 +29,7 @@ class GameObjectFactory final
 	std::unordered_multimap<size_t, IScript*>			_scriptComponets;
 	std::unordered_multimap<size_t, PickingCollider*>	_pickList;
 	std::unordered_map<size_t, AudioComponent*>			_audioComponent;		//
-	std::unordered_map<size_t, FontComponent*>			_FontComponent;	
-	std::unordered_map<size_t, ButtonComponent*>			_buttonComponent;		//
+	std::unordered_map<size_t, FontComponent*>			_FontComponent;		//
 
 
 public:

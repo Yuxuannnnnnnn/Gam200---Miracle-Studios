@@ -37,8 +37,6 @@ void Collider2D::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("ColliderTag") && document["ColliderTag"].IsInt())	//Checks if the variable exists in .Json file
 		_tag = document["ColliderTag"].GetUint();
 	
-	if (document.HasMember("ColliderTrigger") && document["ColliderTrigger"].IsBool())	//Checks if the variable exists in .Json file
-		_trigger = document["ColliderTrigger"].GetBool();
 }
 
 

@@ -24,7 +24,6 @@ enum class ComponentId {
 	LOGIC_COMPONENT,		//Logic Components
 
 	AUDIO_COMPONENT,	//Audio Component
-	BUTTON_COMPONENT,
 	COUNTCOMPONENT
 };
 
@@ -48,8 +47,6 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 	case ComponentId::LOGIC_COMPONENT:			return "LogicComponent";
 		 
 	case ComponentId::AUDIO_COMPONENT:			return "AudioComponent";
-
-	case ComponentId::BUTTON_COMPONENT:			return "ButtonComponent";
 
 	default:      return "[Unknown TypeIdComponent]";
 	}

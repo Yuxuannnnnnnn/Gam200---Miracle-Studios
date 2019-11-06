@@ -2,11 +2,11 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
-Enemy::Enemy()
+EnemyTwo::EnemyTwo()
 //:IComponentSystem(parent, uId)
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 3; // 2 tileSize
+	_attackRange *= 4; // 2 tileSize
 	_attackRange *= _attackRange; // pow(2)
 	_target = nullptr;
 	_state = (unsigned)AiState::MOVING;
@@ -14,7 +14,7 @@ Enemy::Enemy()
 	_nextNode = nullptr;
 }
 
-void Enemy::Init()
+void EnemyTwo::Init()
 {
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 	for (auto it : temp)
@@ -27,7 +27,7 @@ void Enemy::Init()
 		}
 	}
 }
-void Enemy::Update(double dt)
+void EnemyTwo::Update(double dt)
 {
 	if (!_init)
 	{
@@ -39,7 +39,8 @@ void Enemy::Update(double dt)
 	if (_timer > 0)
 	{
 		_timer -= dt;
-		
+		_timerAttack -= dt;
+
 		switch (_state)
 		{
 		case (unsigned)AiState::IDLE:
@@ -62,28 +63,50 @@ void Enemy::Update(double dt)
 	}
 	return;
 }
-void Enemy::Exit()
+void EnemyTwo::Exit()
 {
 
 }
 
-Vector3& Enemy::GetDestinationPos()
+Vector3& EnemyTwo::GetDestinationPos()
 {
 	_destinationPos = ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
 	return _destinationPos;
 }
 
-Vector3& Enemy::GetPosition()
+Vector3& EnemyTwo::GetPosition()
 {
 	return ((TransformComponent*)this->GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT))->GetPos();
 }
 
-std::vector<Node*>& Enemy::GetPath()
+std::vector<Node*>& EnemyTwo::GetPath()
 {
 	return _path;
 }
+void EnemyTwo::Attack()
+{
+	// shoot player
+	if (_timerAttack <= 0)
+	{
+		_timerAttack = _timerAttackCooldown;
+		// spawn bullet
+														//Vector3 vecDir(
+														//	(GetDestinationPos()._x - GetPosition()._x) * 100,
+														//	(GetDestinationPos()._y - GetPosition()._y) * 100,
+														//	0);
 
-void Enemy::Move()
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_E]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		// offset position
+
+		((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
+	}
+}
+void EnemyTwo::Move()
 { // move directly to Target.Pos
 	const float spd = 4.f;
 	Vector3 moveVec(
@@ -99,13 +122,13 @@ void Enemy::Move()
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
 	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(5000);
-
+	Attack();
 	//moveVec.Normalize();
 	//moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
 	//						//std::cout << moveVec._x << " " << moveVec._y << std::endl;
 	//((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
-void Enemy::MoveNode()
+void EnemyTwo::MoveNode()
 { // move to NextNod
 							//std::cout << _nextNode->GetNodeId() << std::endl << std::endl;
 
@@ -153,7 +176,7 @@ void Enemy::MoveNode()
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
 
-void Enemy::FSM()
+void EnemyTwo::FSM()
 {
 	if (!_target) // if no target
 		_state = (unsigned)AiState::IDLE;
@@ -187,7 +210,7 @@ void Enemy::FSM()
 		{
 			_state = (unsigned)AiState::MOVING;
 			break;
-		}			
+		}
 		_nextNode = _path.front();
 		//MoveNode();
 		break;
@@ -199,7 +222,7 @@ void Enemy::FSM()
 	}
 }
 
-void Enemy::OnCollision2DTrigger(Collider2D* other)
+void EnemyTwo::OnCollision2DTrigger(Collider2D* other)
 {
 	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
 	{

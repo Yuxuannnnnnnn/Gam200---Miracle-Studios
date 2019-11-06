@@ -89,9 +89,6 @@ void GraphicComponent::RenderLayerResolver()
 	case (unsigned)TypeIdGO::BULLET_E:
 		_renderLayer = 10;
 		break;
-	case (unsigned)TypeIdGO::EXPLOSION:
-		_renderLayer = 10;
-		break;
 	}
 }
 

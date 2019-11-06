@@ -11,15 +11,21 @@ void Bullet::Update(double dt)
 		DestoryThis();
 }
 
-void Bullet::OnCollision2DTrigger(Collider2D* other )
+void Bullet::OnCollision2DTrigger(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY)
 	{
 		DestoryThis();
 		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
 		enemy->_health--;
 	}
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::WALL)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
+	{
+		DestoryThis();
+		EnemyTwo* enemy = reinterpret_cast<EnemyTwo*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMYTWO));
+		enemy->_health--;
+	}
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER)
 	{
 		DestoryThis();
 	}

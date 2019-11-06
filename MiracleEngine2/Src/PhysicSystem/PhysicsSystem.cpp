@@ -20,7 +20,6 @@
 
 void PhysicsSystem::Update(double dt)
 {
-	UpdateButtons();
 	UpdatePhyiscs(dt);
 	UpdateCollision(dt);
 	UpdateTransform(dt);
@@ -153,17 +152,16 @@ void PhysicsSystem::UpdateEvents()
 
 void PhysicsSystem::UpdatePicking()
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_RBUTTON))
+	for (auto it : _pickList)
 	{
-		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
+		if (!it.second->GetEnable())
+			continue;
 
-		for (auto it : _pickList)
+		it.second->Update();
+
+		if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_RBUTTON))
 		{
-			if (!it.second->GetEnable())
-				continue;
-
-			it.second->Update();
-
+			Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 			if (it.second->TestBoxVsPoint(pos))
 			{
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
@@ -173,28 +171,4 @@ void PhysicsSystem::UpdatePicking()
 			}
 		}
 	}
-}
-
-void PhysicsSystem::UpdateButtons()
-{
-	Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
-
-	for (auto it : _buttonList)
-	{
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
-			continue;
-
-		it.second->Update();
-		if (it.second->TestBoxVsPoint(pos))
-		{
-			if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_LBUTTON) ||
-				(EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_LBUTTON) && it.second->_pressed))
-			{
-				EventHandler::GetInstance().AddMouseClickEvent(it.first);
-			}
-
-			EventHandler::GetInstance().AddMouseHoverEvent(it.first);
-		}
-	}
-	
 }

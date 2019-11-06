@@ -57,7 +57,7 @@ public:
 		_layer{ 0 },
 		_attachedRigidboy{ false },
 		_componentEnable{ true },
-		_trigger{ true },
+		_trigger{ false },
 		_transform{ transform },
 		_rigidbody{ nullptr }
 	{

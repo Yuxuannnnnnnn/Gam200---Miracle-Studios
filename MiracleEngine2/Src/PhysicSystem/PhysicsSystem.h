@@ -12,14 +12,12 @@
 #include <unordered_map>
 #include "CollisionTable.h"
 #include "GameObjectComponents/PickingCollider.h"
-#include "GameObjectComponents/ButtonComponent.h"
 
 class PhysicsSystem final
 {
 	CollisionTable _collisionTable;
 
 public:
-	std::unordered_map< size_t, ButtonComponent*> _buttonList;
 	std::unordered_map< size_t, PickingCollider*> _pickList;
 	std::unordered_map < size_t, RigidBody2D* >	_rigidBody2dList;
 	std::unordered_map < size_t, Collider2D* > _collider2dList;
@@ -40,7 +38,6 @@ private:
 	void UpdatePhyiscs(double dt);
 	void UpdateCollision(double dt);
 	void UpdateTransform(double dt);
-	void UpdateButtons();
 	void UpdateEvents();
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
-class Enemy : public IScript
+class EnemyTwo : public IScript
 {
 private:
 
@@ -15,12 +15,14 @@ private:
 	bool _init{ false };
 	double _timer{ 0 };
 	double _timeCooldown{ 1 };
+	double _timerAttack{ 0 };
+	double _timerAttackCooldown{ 1 };
 
 public:
 
 	int _health;
 
-	void SerialiseComponent(Serialiser& document) 
+	void SerialiseComponent(Serialiser& document)
 	{
 		if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
 		{
@@ -30,20 +32,21 @@ public:
 
 
 	//Constructor
-	Enemy();
+	EnemyTwo();
 
 
 	// InUpEx
 	void Init();
 	void Update(double dt);
 	void Exit();
-// GetDestination
+	// GetDestination
 	Vector3& GetDestinationPos();	// gets _target's position
 // GetPosition(of Parent)
 	Vector3& GetPosition();	// gets _parent's position
 // GetPath
 	std::vector<Node*>& GetPath();
 	// Move using path (toward _destination)
+	void Attack();
 	void Move();
 	void MoveNode();
 	// FSM

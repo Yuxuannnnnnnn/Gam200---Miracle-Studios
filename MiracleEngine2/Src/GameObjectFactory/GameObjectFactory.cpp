@@ -212,15 +212,6 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 
 		return newComponent;
 	}
-	case ComponentId::BUTTON_COMPONENT:
-	{
-		ButtonComponent* newComponent = new ButtonComponent();
-		newComponent->SetParentId(object->Get_uID());
-		newComponent->SetParentPtr(object);
-		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
-
-		return newComponent;
-	}
 	case ComponentId::RIGIDBODY_COMPONENT:
 	{
 		TransformComponent* transform;
@@ -435,15 +426,6 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
-
-		return newComponent;
-	}
-	case ComponentId::BUTTON_COMPONENT:
-	{
-		ButtonComponent* newComponent = new ButtonComponent(*reinterpret_cast<ButtonComponent*>(component));
-		newComponent->SetParentId(object->Get_uID());
-		newComponent->SetParentPtr(object);
-		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -702,6 +684,15 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::ENEMYTWO:
+	{
+		EnemyTwo* newScript = new EnemyTwo();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::ENEMYTWO);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	case ScriptId::BULLET_E:
 	{
 		Bullet_E* newScript = new Bullet_E();
@@ -711,39 +702,12 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
-	case ScriptId::BULLET_T:
-	{
-		Bullet_T* newScript = new Bullet_T();
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::BULLET_T);
-		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
 	case ScriptId::SPAWNERTWO:
 	{
 		SpawnerTwo* newScript = new SpawnerTwo();
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::SPAWNERTWO);
-		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
-	case ScriptId::EXPLOSION:
-	{
-		Explosion* newScript = new Explosion();
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::EXPLOSION);
-		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
-	case ScriptId::BUTTON_UI:
-	{
-		ButtonUI* newScript = new ButtonUI();
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::BUTTON_UI);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
@@ -808,6 +772,15 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::ENEMYTWO:
+	{
+		EnemyTwo* newScript = new EnemyTwo(*reinterpret_cast<EnemyTwo*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::ENEMYTWO);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	case ScriptId::BULLET_E:
 	{
 		Bullet_E* newScript = new Bullet_E(*reinterpret_cast<Bullet_E*>(script));
@@ -817,39 +790,12 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
-	case ScriptId::BULLET_T:
-	{
-		Bullet_T* newScript = new Bullet_T(*reinterpret_cast<Bullet_T*>(script));
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::BULLET_T);
-		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
 	case ScriptId::SPAWNERTWO:
 	{
 		SpawnerTwo* newScript = new SpawnerTwo(*reinterpret_cast<SpawnerTwo*>(script));
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::SPAWNERTWO);
-		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
-	case ScriptId::EXPLOSION:
-	{
-		Explosion* newScript = new Explosion(*reinterpret_cast<Explosion*>(script));
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::EXPLOSION);
-		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
-	case ScriptId::BUTTON_UI:
-	{
-		ButtonUI* newScript = new ButtonUI(*reinterpret_cast<ButtonUI*>(script));
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::BUTTON_UI);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
@@ -940,6 +886,24 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 	delete[] strNum2;
 	return;
 }
+
+
+
+
+
+//void GameObjectFactory::FileRead_Level(const char* FileName)
+//{
+//	Serialiser Level(FileName);
+//
+//	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
+//
+//	BinaryMap Map(Level);
+//}
+
+
+
+
+
 
 void GameObjectFactory::DeleteLevel()
 {
