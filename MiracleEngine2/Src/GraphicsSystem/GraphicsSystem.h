@@ -19,6 +19,8 @@
 #include "PlayerMesh.h"
 #include "Camera.h"
 #include "FontRenderer.h"
+#include "../Animation/AnimationSystem.h"
+
 enum RenderMode
 {
 	None,
@@ -47,6 +49,7 @@ private:
 	int _numAnim = 0;
 	int _testAnim = 0;
 	void ClearScreen() const;
+	void UnitTest();
 	TextureManager _textureManager;
 	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
 	glm::mat4 _proj;
@@ -54,8 +57,7 @@ private:
 	Camera _camera;
 	PlayerMesh _playerMesh;
 	FontRenderer _fontRenderer;
-	//RendererSystem _renderer;
-	//InstancedSystem _instancedRenderer;
+	AnimationSystem _animationSystem;
 
 	
 };

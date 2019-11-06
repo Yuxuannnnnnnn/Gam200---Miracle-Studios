@@ -22,51 +22,7 @@ Camera& GraphicsSystem::GetCamera()
 
 void GraphicsSystem::Update(double dt)
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Z))
-	{
-		_camera.ZoomIn(0.1f);
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_X))
-	{
-		_camera.ZoomOut(0.1f);
-	}
-
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_C))
-	{
-		_camera.MoveCameraX(1.0f);
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_V))
-	{
-		_camera.MoveCameraX(-1.0f);
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_B))
-	{
-		_camera.MoveCameraY(1.0f);
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_N))
-	{
-		_camera.MoveCameraY(-1.0f);
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_P))
-	{
-		_numAnim = 0;
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_O))
-	{
-		_numAnim = 1;
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_I))
-	{
-		_numAnim = 2;
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
-	{
-		_testAnim = 0;
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
-	{
-		_testAnim = 1;
-	}
+	
 
 	_camera.Update(_transformList);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -87,11 +43,9 @@ void GraphicsSystem::Update(double dt)
 		size_t objID = graphicComponentpair.first;	//Get GameObjectID
 		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
-
-		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
-		if (graphicComponent->GetFileName() == "spriteplayer.png")
+		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
+		/*if (graphicComponent->GetFileName() == "spriteplayer.png")
 		{
-
 			if (!_testAnim)
 			{
 				_quadmesh.Select();
@@ -146,8 +100,36 @@ void GraphicsSystem::Update(double dt)
 		{
 			_quadmesh.Select();
 			_textureManager._textureMap["turret"]->Select();
+		}*/
+		if (graphicComponent->GetFileName() == "player")
+		{
+			if (!_testAnim)
+			{
+				_quadmesh.Select();
+				_textureManager._textureMap["player"]->Select();
+			}
+			else
+			{
+				_playerMesh.Select(dt, _numAnim);
+				switch (_numAnim)
+				{
+				case 0:
+					_textureManager._textureMap["idle"]->Select();
+					break;
+				case 1:
+					_textureManager._textureMap["run"]->Select();
+					break;
+				case 2:
+					_textureManager._textureMap["jump"]->Select();
+					break;
+				}
+			}
 		}
-
+		else
+		{
+			_quadmesh.Select();
+			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
+		}
 		_shader.Select();
 
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(transformComponent->GetPos()._x
@@ -169,10 +151,16 @@ void GraphicsSystem::Update(double dt)
 
 		_fontRenderer.Draw();
 
-		// loop through every element in graphic component
+		//size_t objID = fontComponentpair.first;	//Get GameObjectID
+		//TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
+
+		//_fontRenderer.DrawFont(fontComponentpair.second->GetFontString(), transformComponent->GetPos()._x,
+		//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
+	}
+
+	// loop through every element in graphic component
 		// get texture ID and shader ID
 		// get its transform component 
-	}
 }
 
 
@@ -184,4 +172,54 @@ void GraphicsSystem::ClearScreen() const
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(.0f, .0f, .0f, 1.0f);
+}
+
+
+void GraphicsSystem::UnitTest()
+{
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Z))
+	{
+		_camera.ZoomIn(0.1f);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_X))
+	{
+		_camera.ZoomOut(0.1f);
+	}
+
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_C))
+	{
+		_camera.MoveCameraX(1.0f);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_V))
+	{
+		_camera.MoveCameraX(-1.0f);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_B))
+	{
+		_camera.MoveCameraY(1.0f);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_N))
+	{
+		_camera.MoveCameraY(-1.0f);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_P))
+	{
+		_numAnim = 0;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_O))
+	{
+		_numAnim = 1;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_I))
+	{
+		_numAnim = 2;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
+	{
+		_testAnim = 0;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
+	{
+		_testAnim = 1;
+	}
 }

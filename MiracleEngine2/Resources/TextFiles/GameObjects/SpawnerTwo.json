@@ -6,7 +6,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "Spawner.png",
+  "G.FileName": "spawner",
 
   "ColliderComponent": true,
   "ColliderTypeId": 2,
