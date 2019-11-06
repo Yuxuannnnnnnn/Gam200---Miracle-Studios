@@ -8,7 +8,8 @@
 class GameObjectFactory; // forward declare, access FileRead_Level
 
 enum class Scenes {
-	RESTART = 0,
+	NOCHANGE,
+	RESTART,
 	MAIN_MENU,
 	LEVEL1,
 	WIN,
@@ -24,6 +25,7 @@ inline const char* ToString(Scenes type)	//Convert TypeIdGO Enum type to const c
 	case Scenes::LEVEL1:	return "./Resources/TextFiles/States/TestLevel.txt";
 	case Scenes::WIN:		return " ";
 	case Scenes::LOSE:		return " ";
+	case Scenes::QUIT:		return " ";
 	default:      return "Unknown Scene";
 	}
 }
@@ -31,6 +33,7 @@ class SceneManager
 {
 	Scenes _currScene;
 public:
+	SceneManager();
 	void ChangeScene(Scenes scene = Scenes::RESTART);
 	Scenes GetCurrentScene();
 };

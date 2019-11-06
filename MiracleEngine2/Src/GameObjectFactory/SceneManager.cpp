@@ -1,6 +1,11 @@
 #include "PrecompiledHeaders.h"
 #include"SceneManager.h"
 
+SceneManager::SceneManager() :
+	_currScene{Scenes::MAIN_MENU}
+{
+}
+
 Scenes SceneManager::GetCurrentScene()
 {
 	switch (_currScene)
@@ -22,6 +27,7 @@ Scenes SceneManager::GetCurrentScene()
 
 void SceneManager::ChangeScene(Scenes scene)
 {
+	_currScene = scene;
 	switch (scene)
 	{
 	case Scenes::RESTART:

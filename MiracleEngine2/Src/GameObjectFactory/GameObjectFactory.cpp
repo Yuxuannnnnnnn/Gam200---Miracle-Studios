@@ -910,6 +910,8 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
 		else if (std::strcmp(strType, "Camera") == 0)
 			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
+		else if (std::strcmp(strType, "Button") == 0)
+			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BUTTON_UI]);
 		else
 			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
 	// TransformComponent from 'temp'

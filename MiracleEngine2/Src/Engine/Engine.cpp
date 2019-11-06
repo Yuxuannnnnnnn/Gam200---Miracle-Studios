@@ -12,7 +12,7 @@ void Engine::Init()
 	//_PhysicsSystem->Init();
 	//_AudioSystem->Init();
 	
-
+	_sceneManager->ChangeScene(Scenes::LEVEL1);
 
 //-------------------------------------------------------------
 }
@@ -23,13 +23,13 @@ void Engine::Update()
 	bool open = true; //for imgui show demo, to be deleted later
 
 
-	while (_gameStateManager->CheckIfCurrStateQuit())	//GameState Logic Starts here
+	while (_sceneManager->GetCurrentScene() != Scenes::QUIT)	//GameState Logic Starts here
 	{
 
-		_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
+		//_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
 
 
-		while (_gameStateManager->CheckIfCurrNextStateSame())	//In Game Level
+		while (_sceneManager->GetCurrentScene() == Scenes::LEVEL1)	//In Game Level
 		{
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
