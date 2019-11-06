@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "sprite_player.png",
+  "G.FileName": "Player.png",
 
   "RigidBodyComponent": true,
   "Mass": 10.0,

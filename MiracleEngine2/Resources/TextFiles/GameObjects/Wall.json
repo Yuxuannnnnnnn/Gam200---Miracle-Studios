@@ -11,7 +11,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "sprite_wall.png",
+  "G.FileName": "Wall.png",
 
   "BoxColliderComponent": true,
   "ColliderTypeId": 1,

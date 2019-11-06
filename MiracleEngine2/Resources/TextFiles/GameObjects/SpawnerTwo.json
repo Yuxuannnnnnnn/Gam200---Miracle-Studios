@@ -6,7 +6,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "sprite_floor.png",
+  "G.FileName": "Spawner.png",
 
   "ColliderComponent": true,
   "ColliderTypeId": 2,

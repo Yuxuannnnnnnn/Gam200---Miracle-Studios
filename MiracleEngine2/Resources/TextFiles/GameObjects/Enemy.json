@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "sprite_enemy.png",
+  "G.FileName": "EnemyAttack.png",
 
   "RigidBodyComponent": true,
   "Mass": 5.0,
@@ -25,7 +25,7 @@
   "LogicComponent": true,
   "ScriptId": [ 3 ],
   "Health": 5,
-  "EnemyType" : 0,
+  "EnemyType": 0,
 
   "AudioComponent": true,
   "A.TypeId": 0,
