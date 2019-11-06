@@ -4,16 +4,46 @@
 
 Player::Player()
 {
+	_init = false;
 	_health = 30;
 	_weaponActive = 2;
 	_timer = 0;
 	_timerCooldown = 0.5;
+	_camera = nullptr;
+}
+
+void Player::Init()
+{
+	// find Camera
+	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+	for (auto it : temp)
+	{
+		if (it.second->Get_uID() >= 1000 && it.second->GameObjectType() == (unsigned)TypeIdGO::CAMERA)
+		{
+			_camera = it.second;
+			break;
+		}
+	}
 }
 
 void Player::Update(double dt)
 {
+	if (!_init)
+	{
+		Init();
+		_init = true;
+	}
 	_timer -= dt;
+
 	updateInput();
+	UpdateCamera();
+}
+
+void Player::UpdateCamera()
+{
+	auto a = EngineSystems::GetInstance()._graphicsSystem;
+	a->GetCamera().SetCameraPos(((TransformComponent*)GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT))->GetPos()._x,
+		((TransformComponent*)GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT))->GetPos()._y);
 }
 
 void Player::updateInput()
@@ -43,9 +73,10 @@ void Player::updateInput()
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_S))
 		((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForce(Vector3(0, -1, 0), spd);
 // MOUSE
+
 	Vector3 aimVector = { // use aimVector to determine direction player is facing
-		EngineSystems::GetInstance()._inputSystem->GetMousePos()._x - ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos()._x,
-		EngineSystems::GetInstance()._inputSystem->GetMousePos()._y - ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos()._y,
+		EngineSystems::GetInstance()._inputSystem->GetMousePos()._x,
+		EngineSystems::GetInstance()._inputSystem->GetMousePos()._y,
 		0 };
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = aimVector._x * compareVec._x + aimVector._y * compareVec._y;
@@ -134,7 +165,15 @@ void Player::WeaponShoot_Shotgun()
 	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
 	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot - 0.4);
+	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
+	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot+0.2);
+	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
+	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot + 0.4);
 	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
 }
 void Player::WeaponShoot_RPG()
