@@ -51,8 +51,8 @@ inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const
 	case TypeIdGO::SPAWNERTWO:	return "SpawnerTwo";
 	case TypeIdGO::EXPLOSION:	return "Explosion";
 	case TypeIdGO::BUTTON_UI:	return "Button_UI";
-
 	case TypeIdGO::MAPEDGE:		return "MapEdge";
+
 	default:      return "[Unknown TypeIdGO]";
 	}
 }

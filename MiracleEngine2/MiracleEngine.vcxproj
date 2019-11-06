@@ -843,6 +843,7 @@
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
     <None Include="Resources\TextFiles\GameObjects\Font.json" />
+    <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />

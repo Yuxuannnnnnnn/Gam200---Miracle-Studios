@@ -1,0 +1,17 @@
+{
+
+	"IdentityComponent": true,
+  "Name": "none",
+  "GameObjectType": 22,
+
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 20.0, 20.0 ],
+  "Rotate": 0.0,
+
+	"EdgeColliderComponent": true,
+  "ColliderTypeId": 3,
+  "ColliderTag": 7,
+  "ColliderTrigger": false
+
+}
