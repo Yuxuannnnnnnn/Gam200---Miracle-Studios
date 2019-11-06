@@ -24,6 +24,8 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObjects(TypeIdGO::EXPLOSION);
 	SerialPrefabObjects(TypeIdGO::BUTTON_UI);
 	SerialPrefabObjects(TypeIdGO::MAPEDGE);
+	SerialPrefabObjects(TypeIdGO::PICK_UPS_HEALTH);
+	SerialPrefabObjects(TypeIdGO::PICK_UPS_AMMO);
 }
 
 
@@ -106,6 +108,12 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 		break;
 	case TypeIdGO::MAPEDGE:
 		temp->Serialise("./Resources/TextFiles/GameObjects/MapEdge.json");
+		break;
+	case TypeIdGO::PICK_UPS_HEALTH:
+		temp->Serialise("./Resources/TextFiles/GameObjects/PickUps_Health.json");
+		break;
+	case TypeIdGO::PICK_UPS_AMMO:
+		temp->Serialise("./Resources/TextFiles/GameObjects/PickUps_Ammo.json");
 		break;
 	default:
 		delete temp;

@@ -10,3 +10,4 @@
 #include "../Gameplay/SpawnerTwo.h"
 #include "../Gameplay/Explosion.h"
 #include "../Gameplay/ButtonUI.h"
+#include "../Gameplay/PickUps.h"

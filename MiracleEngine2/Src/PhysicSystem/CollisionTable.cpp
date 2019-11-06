@@ -4,7 +4,7 @@
 CollisionTable::CollisionTable()
 {
 	// PLAYER
-	std::unordered_set<ColliderTag> row_player { ColliderTag::ENEMY, ColliderTag::BUILDING,ColliderTag::DESTORYABLE_BUILDING,ColliderTag::BULLET_E };
+	std::unordered_set<ColliderTag> row_player { ColliderTag::ENEMY, ColliderTag::BUILDING,ColliderTag::DESTORYABLE_BUILDING,ColliderTag::BULLET_E,ColliderTag::PICK_UPS };
 	_table.insert(ROW(ColliderTag::PLAYER, row_player));
 
 	// BULLET
@@ -30,6 +30,10 @@ CollisionTable::CollisionTable()
 	// BUILDING
 	std::unordered_set<ColliderTag> row_building{ ColliderTag::PLAYER, ColliderTag::BULLET, ColliderTag::ENEMY ,ColliderTag::BULLET_E };
 	_table.insert(ROW(ColliderTag::BUILDING, row_building));
+
+	// BUILDING
+	std::unordered_set<ColliderTag> row_pickups{ ColliderTag::PLAYER };
+	_table.insert(ROW(ColliderTag::PICK_UPS, row_pickups));
 }
 
 CollisionTable::~CollisionTable()
