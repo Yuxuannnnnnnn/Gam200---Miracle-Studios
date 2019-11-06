@@ -21,6 +21,8 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObjects(TypeIdGO::BULLET_T);
 	SerialPrefabObjects(TypeIdGO::BULLET_E);
 	SerialPrefabObjects(TypeIdGO::SPAWNERTWO);
+	SerialPrefabObjects(TypeIdGO::EXPLOSION);
+	SerialPrefabObjects(TypeIdGO::BUTTON_UI);
 }
 
 
@@ -95,6 +97,12 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 	case TypeIdGO::SPAWNERTWO:
 		temp->Serialise("./Resources/TextFiles/GameObjects/SpawnerTwo.json");
 		break;
+	case TypeIdGO::EXPLOSION:
+		temp->Serialise("./Resources/TextFiles/GameObjects/Explosion.json");
+		break;
+	case TypeIdGO::BUTTON_UI:
+		temp->Serialise("./Resources/TextFiles/GameObjects/Buttons.json");
+		break;
 	default:
 		delete temp;
 		break;
@@ -106,25 +114,25 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 }
 
 
-void GameObjectPrototype::SerialPrefabObjects(Serialiser& document)
-{
-	if (document["Serialisation"].IsArray())	//Check if it is an array
-	{
-		for (int i = 0; i < document["Serialisation"].Size(); i++)	//Loop through the Serialisation Array
-		{
-			if (document["Serialisation"][i].IsString())	//Checks if the element in the array is a string
-			{
-				GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true); //Factory creates a new object
-
-				temp->Serialise(document["Serialisation"][i].GetString());	//Serialise a gameobject with the string
-
-				unsigned typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->GameObjectType();
-
-				temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
-			}
-		}
-	}
-}
+//GameObject* GameObjectPrototype::SerialPrefabObjects(Serialiser& document)
+//{
+//	if (document["Serialisation"].IsArray())	//Check if it is an array
+//	{
+//		for (int i = 0; i < document["Serialisation"].Size(); i++)	//Loop through the Serialisation Array
+//		{
+//			if (document["Serialisation"][i].IsString())	//Checks if the element in the array is a string
+//			{
+//				GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+//
+//				temp->Serialise(document["Serialisation"][i].GetString());	//Serialise a gameobject with the string
+//
+//				unsigned typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->GameObjectType();
+//
+//				temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
+//			}
+//		}
+//	}
+//}
 
 
 // AddComponent for during Serialisation

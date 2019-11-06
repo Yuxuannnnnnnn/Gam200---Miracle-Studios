@@ -20,7 +20,7 @@ public:
 	std::unordered_map<TypeIdGO, GameObject*>& GetPrototypeList();	// Get _listObjectProrotype
 
 	GameObject* SerialPrefabObjects(TypeIdGO type);
-	void SerialPrefabObjects(Serialiser& document);
+	GameObject* SerialPrefabObjects(Serialiser& document);
 
 	//void SerialAddComponent(GameObject* object, SerialTypeId componentType, rapidjson::Value& s, rapidjson::Document& d);
 

@@ -18,6 +18,9 @@ enum class ScriptId {
 	ENEMYTWO = 6,
 	BULLET_E = 7,
 	SPAWNERTWO = 8,
+	BULLET_T = 9,
+	EXPLOSION = 10,
+	BUTTON_UI = 11,
 };
 
 class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler

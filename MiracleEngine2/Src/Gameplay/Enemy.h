@@ -1,6 +1,11 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+enum class Enemy_Type {
+	BASIC = 0,
+	RANGER = 1
+};
+
 class Enemy : public IScript
 {
 private:
@@ -11,13 +16,16 @@ private:
 	GameObject* _target;
 	std::vector<Node*> _path;
 	Node* _nextNode;
+	Node* _destNode;
 	float _attackRange; // currently set to 1*_mapTileSize
 	bool _init{ false };
-	double _timer{ 0 };
-	double _timeCooldown{ 1 };
+	double _timer{ -1.0 };
+	double _timeCooldown{ 5 };
+	double _timerAttack{ 0 };
+	double _timerAttackCooldown{ 1 };
 
 public:
-
+	int _enemyType;
 	int _health;
 
 	void SerialiseComponent(Serialiser& document) 
@@ -25,6 +33,11 @@ public:
 		if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
 		{
 			_health = (document["Health"].GetInt());
+		}
+
+		if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())	//Checks if the variable exists in .Json file
+		{
+			_enemyType = (document["EnemyType"].GetInt());
 		}
 	}
 
@@ -43,11 +56,13 @@ public:
 	Vector3& GetPosition();	// gets _parent's position
 // GetPath
 	std::vector<Node*>& GetPath();
-	// Move using path (toward _destination)
+
+	void Attack();
 	void Move();
-	void MoveNode();
+	void MoveNode(bool start = false); // Move using path (toward _destination)
 	// FSM
 	void FSM();
+	void CheckState();
 
 	void OnCollision2DTrigger(Collider2D* other);
 };

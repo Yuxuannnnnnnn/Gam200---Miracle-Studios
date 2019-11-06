@@ -1,22 +1,23 @@
 {
-	"IdentityComponent": true,
-	"Name": "none",
-	"GameObjectType": 7,
+  "IdentityComponent": true,
+  "Name": "none",
+  "GameObjectType": 7,
 
-	"TransformComponent": true,
-	"Position": [ 0.0, 0.0 ],
-	"Scale": [ 70.0, 70.0 ],
-	"Rotate": 0.0,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 70.0, 70.0 ],
+  "Rotate": 0.0,
 
-	"GraphicsComponent": true,
-	"G.TypeId": 0,
-	"G.FileName": "sprite_turret.png",
+  "GraphicsComponent": true,
+  "G.TypeId": 0,
+  "G.FileName": "sprite_turret.png",
 
-	"CircleColliderComponent": true,
-	"ColliderTypeId": 2,
-	"ColliderTag": 4,
+  "CircleColliderComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 4,
+  "ColliderTrigger": true,
 
-	"LogicComponent": true,
-	"ScriptId": [ 4 ],
-	"Health": 5
+  "LogicComponent": true,
+  "ScriptId": [ 4 ],
+  "Health": 5
 }

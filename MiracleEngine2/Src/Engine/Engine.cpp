@@ -25,7 +25,6 @@ void Engine::Update()
 	{
 
 		_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
-		//_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/Level1.txt");
 
 
 		while (_gameStateManager->CheckIfCurrNextStateSame())	//In Game Level

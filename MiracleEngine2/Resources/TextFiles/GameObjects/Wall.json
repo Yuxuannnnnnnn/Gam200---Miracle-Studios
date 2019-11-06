@@ -1,19 +1,20 @@
 {
 
-	"IdentityComponent": true,
-	"Name": "none",
-	"GameObjectType": 1,
+  "IdentityComponent": true,
+  "Name": "none",
+  "GameObjectType": 1,
 
-	"TransformComponent": true,
-	"Position": [ 0.0, 0.0 ],
-	"Scale": [ 100.0, 100.0 ],
-	"Rotate": 0.0,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 100.0, 100.0 ],
+  "Rotate": 0.0,
 
-	"GraphicsComponent": true,
-	"G.TypeId": 0,
-	"G.FileName": "sprite_wall.png",
+  "GraphicsComponent": true,
+  "G.TypeId": 0,
+  "G.FileName": "sprite_wall.png",
 
-	"BoxColliderComponent": true,
-	"ColliderTypeId": 1,
-	"ColliderTag": 6
+  "BoxColliderComponent": true,
+  "ColliderTypeId": 1,
+  "ColliderTag": 7,
+  "ColliderTrigger": false
 }
