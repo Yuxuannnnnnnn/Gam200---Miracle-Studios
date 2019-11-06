@@ -84,6 +84,7 @@
     <ClCompile Include="Src\Gameplay\Bullet_T.cpp" />
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Animations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -478,6 +479,8 @@
     <ClInclude Include="Src\Gameplay\Explosion.h" />
     <ClInclude Include="Src\Gameplay\ButtonUI.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
+    <ClInclude Include="Src\GraphicsSystem\Animations.h" />
+    <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

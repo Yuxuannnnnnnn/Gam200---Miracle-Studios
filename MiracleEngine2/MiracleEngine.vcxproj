@@ -169,7 +169,9 @@
     <ClInclude Include="Src\Gameplay\ButtonUI.h" />
     <ClInclude Include="Src\Gameplay\Explosion.h" />
     <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
+    <ClInclude Include="Src\GraphicsSystem\Animations.h" />
     <ClInclude Include="Src\GraphicsSystem\Camera.h" />
+    <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Animation\Animation.h" />
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
@@ -562,6 +564,7 @@
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
     <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Animations.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />
