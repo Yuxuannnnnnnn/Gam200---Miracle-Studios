@@ -31,29 +31,34 @@ void Engine::Update()
 		{
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
-	#ifdef LEVELEDITOR
+#ifdef LEVELEDITOR
 			_frameRateControl->StartTimeCounter();
 			_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
 			_performanceUsage->IMGUIFrameTime = _frameRateControl->EndTimeCounter();
 
 			_performanceUsage->PrintPerformanceUsage();
-	#endif
+#endif
 
 			double dt = _frameRateControl->UpdateFrameTime();
 			int accumlatedframes = _frameRateControl->GetSteps();
 
+#ifdef LEVELEDITOR
 			_performanceUsage->PerFrameTime = _frameRateControl->GetFrameTime();
 			_performanceUsage->FPS = _frameRateControl->GetFPS();
-
+#endif
 
 			if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
 			{
 				//_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
 				return;
 			}
-
+#ifdef LEVELEDITOR
 			_frameRateControl->StartTimeCounter();
+#endif
+
 			_inputSystem->Update(_windowSystem->getWindow());
+
+#ifdef LEVELEDITOR
 			_performanceUsage->InputFrameTime = _frameRateControl->EndTimeCounter();
 
 			/*if (_inputSystem->KeyRelease(KEYB_Z))
@@ -63,22 +68,25 @@ void Engine::Update()
 			// Logic
 			_frameRateControl->StartTimeCounter();
 
-		#ifdef LEVELEDITOR
 			if (!_imguiSystem->_pause)
-		#endif 
+#endif 
 			{
 				_logicSystem->Update(dt);
 			}
 
 			_aiSystem->Update(dt);
 
-			_physicsSystem->UpdatePicking();
+#ifdef LEVELEDITOR
+			
 
 			_performanceUsage->LogicFrameTime = _frameRateControl->EndTimeCounter();
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 			_frameRateControl->StartTimeCounter();
 		
+			_physicsSystem->UpdatePicking();
+#endif
+
 			if (accumlatedframes)
 			{
 				double fixedDt = _frameRateControl->GetLockedDt();
@@ -97,26 +105,27 @@ void Engine::Update()
 				_gameObjectFactory->UpdateDestoryObjects();
 			}
 
+#ifdef LEVELEDITOR
 			_performanceUsage->PhysicFrameTime = _frameRateControl->EndTimeCounter();
-			
 
 			// Audio
 			_frameRateControl->StartTimeCounter();
 
-		#ifdef LEVELEDITOR
 			if (!_imguiSystem->_pause)
-		#endif
+#endif
 			{
 				_audioSystem->Update();
 			}
+
+#ifdef LEVELEDITOR
 			_performanceUsage->AudioFrameTime = _frameRateControl->EndTimeCounter();
-
-
-
 
 			// Graphics
 			_frameRateControl->StartTimeCounter();
+#endif
 			_graphicsSystem->Update(dt);
+
+#ifdef LEVELEDITOR
 			_performanceUsage->GraphicFrameTime = _frameRateControl->EndTimeCounter();
 
 			_physicsSystem->UpdateDraw();
@@ -125,7 +134,6 @@ void Engine::Update()
 			/*DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
 			DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
 
-	#ifdef LEVELEDITOR
 			_frameRateControl->StartTimeCounter();
 			if (open)
 			{
@@ -134,7 +142,7 @@ void Engine::Update()
 
 			_imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 			_performanceUsage->IMGUIFrameTime += _frameRateControl->EndTimeCounter();
-	#endif
+#endif
 
 			::SwapBuffers(_windowSystem->getWindow().get_m_windowDC()); 		// swap double buffer at the end
 	//-------------------------------------------------------------------------------------------------------------
