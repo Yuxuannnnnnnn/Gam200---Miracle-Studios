@@ -28,6 +28,8 @@ public:
 		_frameRateControl = EngineSystems::GetInstance()._frameRateControl;
 		_performanceUsage = EngineSystems::GetInstance()._performanceUsage;
 
+		_sceneManager = EngineSystems::GetInstance()._sceneManager;
+
 		_gameObjectFactory = EngineSystems::GetInstance()._gameObjectFactory;
 	}
 
@@ -57,6 +59,7 @@ public:
 
 	GameObjectFactory* _gameObjectFactory;
 
+	SceneManager* _sceneManager;
 };
 
 #endif

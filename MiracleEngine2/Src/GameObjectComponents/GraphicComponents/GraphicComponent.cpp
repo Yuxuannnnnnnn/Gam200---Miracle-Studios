@@ -57,40 +57,40 @@ void GraphicComponent::RenderLayerResolver()
 	switch (GetParentPtr()->Get_typeId())
 	{
 	case (unsigned)TypeIdGO::FLOOR:
-		_renderLayer = 0;
+		_renderLayer = -1;
 		break;
 	case (unsigned)TypeIdGO::WALL:
-		_renderLayer = 0;
+		_renderLayer = 10;
 		break;
 	case (unsigned)TypeIdGO::SPAWNER:
-		_renderLayer = 5;
+		_renderLayer = 1;
 		break;
 	case (unsigned)TypeIdGO::SPAWNERTWO:
-		_renderLayer = 5;
+		_renderLayer = 2;
 		break;
 	case (unsigned)TypeIdGO::PLAYER:
-		_renderLayer = 5;
+		_renderLayer = 7;
 		break;
 	case (unsigned)TypeIdGO::ENEMY:
-		_renderLayer = 5;
+		_renderLayer = 4;
 		break;
 	case (unsigned)TypeIdGO::TURRET:
-		_renderLayer = 5;
+		_renderLayer = 6;
 		break;
 	case (unsigned)TypeIdGO::ENEMYTWO:
-		_renderLayer = 5;
+		_renderLayer = 3;
 		break;
 	case (unsigned)TypeIdGO::BULLET:
-		_renderLayer = 10;
+		_renderLayer = 9;
 		break;
 	case (unsigned)TypeIdGO::BULLET_T:
-		_renderLayer = 10;
+		_renderLayer = 9;
 		break;
 	case (unsigned)TypeIdGO::BULLET_E:
-		_renderLayer = 10;
+		_renderLayer = 9;
 		break;
 	case (unsigned)TypeIdGO::EXPLOSION:
-		_renderLayer = 10;
+		_renderLayer = 9;
 		break;
 	}
 }

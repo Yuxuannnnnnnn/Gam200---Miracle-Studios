@@ -3,7 +3,8 @@
 #include "ButtonComponent.h"
 
 ButtonComponent::ButtonComponent() :
-	_buttonType{ false }
+	_buttonType{ false },
+	_pressed{false}
 {}
 
 ButtonComponent::ButtonComponent(const ButtonComponent& rhs)

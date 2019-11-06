@@ -86,6 +86,7 @@
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Animations.cpp" />
+    <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -482,6 +483,7 @@
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
     <ClInclude Include="Src\GraphicsSystem\Animations.h" />
     <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
+    <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -646,5 +648,8 @@
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
     <None Include="Resources\TextFiles\GameObjects\Buttons.json" />
     <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\TextFiles\States\MainMenu.txt" />
   </ItemGroup>
 </Project>

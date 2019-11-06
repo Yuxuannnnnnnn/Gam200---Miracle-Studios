@@ -10,57 +10,6 @@
 #include "Tools/FileIO/Serialiser.h"
 #include "GameObjectFactory/BinaryMap.h"
 
-enum class Scenes {
-	RESTART = 0,
-	MAIN_MENU,
-	LEVEL1,
-	WIN,
-	LOSE,
-};
-inline const char* ToString(Scenes type)	//Convert TypeIdGO Enum type to const char* - For Use only in Imgui
-{
-	switch (type)
-	{
-	case Scenes::RESTART:	return "Wall";
-	case Scenes::MAIN_MENU:	return "Wall";
-	case Scenes::LEVEL1:	return "Wall";
-	case Scenes::WIN:		return "Wall";
-	case Scenes::LOSE:		return "Wall";
-	default:      return "Unknown Scene";
-	}
-}
-class SceneManager
-{
-	Scenes _currScene;
-public:
-	void ChangeScene(Scenes scene = Scenes::RESTART)
-	{
-		switch (scene)
-		{
-		case Scenes::RESTART:
-			//EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(_currScene));
-			break;
-		case Scenes::MAIN_MENU:
-			//EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::MAIN_MENU));
-			break;
-		case Scenes::LEVEL1:
-			//EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::LEVEL1));
-			break;
-		case Scenes::WIN:
-			//EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::WIN));
-			break;
-		case Scenes::LOSE:
-			//EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::LOSE));
-			break;
-		default:
-			break;
-		}
-	}
-
-};
-
-
-
 class GameObjectFactory final
 {	
 	size_t _uId;		// start from StartID, 0 to StartID are prefabs	//Unique ID for the next newly created object

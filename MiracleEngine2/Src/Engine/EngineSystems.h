@@ -23,6 +23,7 @@
 #include "PhysicSystem/PhysicsSystem.h"
 #include "GameObjectFactory/GameObjectPrototype.h"
 #include "Audio/AudioSystem.h"
+#include "GameObjectFactory/SceneManager.h"
 
 #include "ImguiSystem.h"
 #include "WindowsSystem.h"
@@ -117,6 +118,8 @@ public:
 
 	GameObjectFactory* _gameObjectFactory;
 	GameObjectPrototype* _prefabFactory;
+
+	SceneManager* _sceneManager;
 };
 
 

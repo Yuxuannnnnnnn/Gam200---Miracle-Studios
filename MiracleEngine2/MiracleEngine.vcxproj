@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
+    <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />
     <ClInclude Include="Src\Gameplay\Bullet_E.h" />
     <ClInclude Include="Src\Gameplay\Bullet_T.h" />
     <ClInclude Include="Src\Gameplay\ButtonUI.h" />
@@ -560,6 +561,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
+    <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
     <ClCompile Include="Src\Gameplay\Bullet_E.cpp" />
     <ClCompile Include="Src\Gameplay\Bullet_T.cpp" />
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
@@ -852,6 +854,9 @@
     <None Include="Resources\TextFiles\States\Level1.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\TextFiles\States\MainMenu.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
