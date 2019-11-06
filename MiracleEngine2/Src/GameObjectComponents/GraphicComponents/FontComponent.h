@@ -1,7 +1,7 @@
 #pragma once
 
 
-
+#include <string>
 
 
 class FontComponent : public IComponentSystem
@@ -20,6 +20,11 @@ public:
 		return "Font Component";
 	}
 
+	std::string GetFontString()
+	{
+		return _fontString;
+	}
+
 	virtual void Inspect() override
 	{
 		
@@ -28,4 +33,5 @@ public:
 
 private:
 	int _fontID;
+	std::string _fontString;
 };

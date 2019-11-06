@@ -18,6 +18,7 @@
 #include "TextureManager.h"
 #include "PlayerMesh.h"
 #include "Camera.h"
+#include "FontRenderer.h"
 enum RenderMode
 {
 	None,
@@ -53,6 +54,8 @@ public:
 
 
 private:
+	int _numAnim = 0;
+	int _testAnim = 0;
 	void ClearScreen() const;
 	TextureManager _textureManager;
 	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
@@ -60,9 +63,11 @@ private:
 	QuadMesh _quadmesh;
 	Camera _camera;
 	PlayerMesh _playerMesh;
+	FontRenderer _fontRenderer;
 	//RendererSystem _renderer;
 	//InstancedSystem _instancedRenderer;
 
+	
 };
 
 #endif

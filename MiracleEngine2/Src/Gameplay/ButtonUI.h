@@ -4,6 +4,11 @@
 // create a enum for buttonType
 enum class ButtonType {
 	NONE = 0,
+	PLAY,
+	PAUSE,
+	QUIT,
+	MENU,
+	RESTART,
 	CLOSE,
 	OPEN,
 };
@@ -16,6 +21,10 @@ public:
 	//Constructor
 	ButtonUI();
 	// override these functions
+	void OnMouseDown();
+	void OnMouseEnter();
+	void OnMouseOver();
+	void OnMouseExit();
 	
 	// InUpEx
 	void Init();

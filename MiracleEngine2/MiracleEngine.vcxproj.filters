@@ -84,6 +84,7 @@
     <ClCompile Include="Src\Gameplay\Bullet_T.cpp" />
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Animations.cpp" />
   </ItemGroup>
   <ItemGroup>
