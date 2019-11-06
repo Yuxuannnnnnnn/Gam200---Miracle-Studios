@@ -87,6 +87,8 @@
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Animations.cpp" />
     <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\PlayerMesh.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\FontRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />

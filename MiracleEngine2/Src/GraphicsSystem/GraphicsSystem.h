@@ -39,18 +39,8 @@ public:
 	int num = 0;
 
 
-	GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
-		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
-	{
-		glEnable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
-		
-	}
-
-	Camera& GetCamera()
-	{
-		return _camera;
-	}
+	GraphicsSystem(int windowWidth, int windowHeight);
+	Camera& GetCamera();
 
 
 private:
