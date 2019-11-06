@@ -16,10 +16,6 @@ public:
 	//Constructor
 	ButtonUI();
 	// override these functions
-	virtual void OnMouseDown();
-	virtual void OnMouseEnter();
-	virtual void OnMouseOver();
-	virtual void OnMouseExit();
 	
 	// InUpEx
 	void Init();
