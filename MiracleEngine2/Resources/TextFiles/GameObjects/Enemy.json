@@ -25,6 +25,7 @@
   "LogicComponent": true,
   "ScriptId": [ 3 ],
   "Health": 5,
+  "EnemyType" : 0,
 
   "AudioComponent": true,
   "A.TypeId": 0,

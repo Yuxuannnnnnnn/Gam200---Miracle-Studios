@@ -684,15 +684,6 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
-	case ScriptId::ENEMYTWO:
-	{
-		EnemyTwo* newScript = new EnemyTwo();
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::ENEMYTWO);
-		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
 	case ScriptId::BULLET_E:
 	{
 		Bullet_E* newScript = new Bullet_E();
@@ -796,15 +787,6 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::SPAWNER);
-		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
-	case ScriptId::ENEMYTWO:
-	{
-		EnemyTwo* newScript = new EnemyTwo(*reinterpret_cast<EnemyTwo*>(script));
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::ENEMYTWO);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}

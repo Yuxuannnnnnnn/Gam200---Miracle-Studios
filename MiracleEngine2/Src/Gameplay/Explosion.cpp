@@ -13,14 +13,9 @@ void Explosion::Update(double dt)
 
 void Explosion::OnTrigger2DEnter(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
 	{
 		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
-		enemy->DestoryThis();
-	}
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
-	{
-		EnemyTwo* enemy = reinterpret_cast<EnemyTwo*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMYTWO));
 		enemy->DestoryThis();
 	}
 }

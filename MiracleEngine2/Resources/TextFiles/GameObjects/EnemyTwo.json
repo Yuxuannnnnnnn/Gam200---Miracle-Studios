@@ -23,8 +23,9 @@
   "ColliderTrigger": false,
 
   "LogicComponent": true,
-  "ScriptId": [ 6 ],
+  "ScriptId": [ 3 ],
   "Health": 5,
+  "EnemyType": 1,
 
   "AudioComponent": true,
   "A.TypeId": 0,
