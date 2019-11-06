@@ -22,6 +22,7 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObjects(TypeIdGO::BULLET_E);
 	SerialPrefabObjects(TypeIdGO::SPAWNERTWO);
 	SerialPrefabObjects(TypeIdGO::EXPLOSION);
+	SerialPrefabObjects(TypeIdGO::BUTTON_UI);
 }
 
 
@@ -98,6 +99,9 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 		break;
 	case TypeIdGO::EXPLOSION:
 		temp->Serialise("./Resources/TextFiles/GameObjects/Explosion.json");
+		break;
+	case TypeIdGO::BUTTON_UI:
+		temp->Serialise("./Resources/TextFiles/GameObjects/Buttons.json");
 		break;
 	default:
 		delete temp;

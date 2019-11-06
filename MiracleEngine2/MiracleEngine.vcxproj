@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Src\Gameplay\Bullet_E.h" />
     <ClInclude Include="Src\Gameplay\Bullet_T.h" />
+    <ClInclude Include="Src\Gameplay\ButtonUI.h" />
     <ClInclude Include="Src\Gameplay\EnemyTwo.h" />
     <ClInclude Include="Src\Gameplay\Explosion.h" />
     <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
@@ -558,6 +559,7 @@
   <ItemGroup>
     <ClCompile Include="Src\Gameplay\Bullet_E.cpp" />
     <ClCompile Include="Src\Gameplay\Bullet_T.cpp" />
+    <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
     <ClCompile Include="Src\Gameplay\EnemyTwo.cpp" />
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
     <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
@@ -833,6 +835,7 @@
     <None Include="Resources\Shader\basic.vert" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
+    <None Include="Resources\TextFiles\GameObjects\Buttons.json" />
     <None Include="Resources\TextFiles\GameObjects\Camera.json" />
     <None Include="Resources\TextFiles\GameObjects\EnemyTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />

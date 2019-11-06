@@ -84,6 +84,7 @@
     <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
     <ClCompile Include="Src\Gameplay\Bullet_T.cpp" />
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
+    <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -477,6 +478,7 @@
     <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
     <ClInclude Include="Src\Gameplay\Bullet_T.h" />
     <ClInclude Include="Src\Gameplay\Explosion.h" />
+    <ClInclude Include="Src\Gameplay\ButtonUI.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -639,5 +641,6 @@
     <None Include="Resources\TextFiles\States\Level1.json" />
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
+    <None Include="Resources\TextFiles\GameObjects\Buttons.json" />
   </ItemGroup>
 </Project>
