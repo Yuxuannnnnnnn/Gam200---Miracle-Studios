@@ -9,6 +9,8 @@ enum class ButtonType {
 	QUIT,
 	MENU,
 	RESTART,
+	CLOSE,
+	OPEN,
 };
 
 class ButtonUI : public IScript

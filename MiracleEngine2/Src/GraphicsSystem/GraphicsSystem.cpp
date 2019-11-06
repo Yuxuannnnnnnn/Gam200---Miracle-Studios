@@ -57,35 +57,45 @@ void GraphicsSystem::Update(double dt)
 		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 		if (graphicComponent->GetFileName() == "spriteplayer.png")
 		{
+			/*_playerMesh.Select(dt, 0);
+			_textureManager._textureMap["idle"]->Select();*/
+
+			_quadmesh.Select();
 			_textureManager._textureMap["player"]->Select();
 		}
 		else if (graphicComponent->GetFileName() == "spriteenemy.png" 
 			&& graphicComponent->GetTextureState() == 0)
 		{
+			_quadmesh.Select();
 			_textureManager._textureMap["enemy1"]->Select();
 		}
 		else if (graphicComponent->GetFileName() == "spriteenemy.png"
 			&& graphicComponent->GetTextureState() == 1)
 		{
+			_quadmesh.Select();
 			_textureManager._textureMap["enemy2"]->Select();
 		}
 		else if (graphicComponent->GetFileName() == "spritewall.png")
 		{
+			_quadmesh.Select();
 			_textureManager._textureMap["wall"]->Select();
 		}
 		else if (graphicComponent->GetFileName() == "spritefloor.png")
 		{
+			_quadmesh.Select();
 			_textureManager._textureMap["floor"]->Select();
 		}
 		else if (graphicComponent->GetFileName() == "spritebullet.png")
 		{
+			_quadmesh.Select();
 			_textureManager._textureMap["bullet"]->Select();
 		}
 		else
 		{
+			_quadmesh.Select();
 			_textureManager._textureMap["turret"]->Select();
 		}
-		_quadmesh.Select();
+		
 		_shader.Select();
 
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(transformComponent->GetPos()._x

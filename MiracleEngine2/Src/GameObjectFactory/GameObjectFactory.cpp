@@ -941,6 +941,24 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 	return;
 }
 
+
+
+
+
+//void GameObjectFactory::FileRead_Level(const char* FileName)
+//{
+//	Serialiser Level(FileName);
+//
+//	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
+//
+//	BinaryMap Map(Level);
+//}
+
+
+
+
+
+
 void GameObjectFactory::DeleteLevel()
 {
 	for (auto it : _listObject)

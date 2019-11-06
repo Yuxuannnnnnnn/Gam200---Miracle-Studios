@@ -16,7 +16,7 @@
 #include "Shader.h"
 #include "QuadMesh.h"
 #include "TextureManager.h"
-
+#include "PlayerMesh.h"
 #include "Camera.h"
 enum RenderMode
 {
@@ -59,6 +59,7 @@ private:
 	glm::mat4 _proj;
 	QuadMesh _quadmesh;
 	Camera _camera;
+	PlayerMesh _playerMesh;
 	//RendererSystem _renderer;
 	//InstancedSystem _instancedRenderer;
 

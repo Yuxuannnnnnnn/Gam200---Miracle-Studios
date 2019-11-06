@@ -7,7 +7,8 @@
 #include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
 #include "GameObjectComponents/GraphicComponents/CameraComponent.h"
 #include "GameObjectComponents/GraphicComponents/FontComponent.h"
-#include "Engine/EngineSystems.h"
+#include "Tools/FileIO/Serialiser.h"
+#include "GameObjectFactory/BinaryMap.h"
 
 enum class Scenes {
 	RESTART = 0,
@@ -58,6 +59,8 @@ public:
 
 };
 
+
+
 class GameObjectFactory final
 {	
 	size_t _uId;		// start from StartID, 0 to StartID are prefabs	//Unique ID for the next newly created object
@@ -76,9 +79,8 @@ class GameObjectFactory final
 	std::unordered_multimap<size_t, IScript*>			_scriptComponets;
 	std::unordered_multimap<size_t, PickingCollider*>	_pickList;
 	std::unordered_map<size_t, AudioComponent*>			_audioComponent;		//
-	std::unordered_map<size_t, FontComponent*>			_FontComponent;	
-	std::unordered_map<size_t, ButtonComponent*>			_buttonComponent;		//
-
+	std::unordered_map<size_t, FontComponent*>			_FontComponent;
+	std::unordered_map<size_t, ButtonComponent*>			_buttonComponent;
 
 public:
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
