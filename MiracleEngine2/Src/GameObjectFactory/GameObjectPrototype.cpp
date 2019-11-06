@@ -23,6 +23,7 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObjects(TypeIdGO::SPAWNERTWO);
 	SerialPrefabObjects(TypeIdGO::EXPLOSION);
 	SerialPrefabObjects(TypeIdGO::BUTTON_UI);
+	SerialPrefabObjects(TypeIdGO::MAPEDGE);
 }
 
 
@@ -102,6 +103,9 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 		break;
 	case TypeIdGO::BUTTON_UI:
 		temp->Serialise("./Resources/TextFiles/GameObjects/Buttons.json");
+		break;
+	case TypeIdGO::MAPEDGE:
+		temp->Serialise("./Resources/TextFiles/GameObjects/MapEdge.json");
 		break;
 	default:
 		delete temp;

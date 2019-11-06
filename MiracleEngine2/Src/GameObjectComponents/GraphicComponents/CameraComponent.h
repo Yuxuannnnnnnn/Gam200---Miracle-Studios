@@ -8,7 +8,6 @@ private:
 	float _movespeed;
 	float _xZoom;
     float _yZoom;
-
 public:
 	//Constructor
 	CameraComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem* component = nullptr);

@@ -11,13 +11,16 @@ enum class WeaponId {
 class Player : public IScript
 {
 private:
+	bool _init;
 	int _health;
 	int _weaponActive;
 	double _timer;
 	double _timerCooldown;
+	GameObject* _camera;
 public:
 	Player();
 
+	void Init();
 	void Update(double dt);
 
 	void WeaponSwitch();
@@ -25,7 +28,7 @@ public:
 	void WeaponShoot_Pistol();
 	void WeaponShoot_Shotgun();
 	void WeaponShoot_RPG();
-
+	void UpdateCamera();
 	void updateInput();
 	int GetHealth();
 	void SetHealth(int val);
