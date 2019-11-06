@@ -11,18 +11,16 @@ void Explosion::Update(double dt)
 		DestoryThis();
 }
 
-void Explosion::OnCollision2DTrigger(Collider2D* other)
+void Explosion::OnTrigger2DEnter(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId())
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY)
 	{
-		DestoryThis();
-		Player* player = reinterpret_cast<Player*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PLAYER));
-		int hp = player->GetHealth();
-		hp -= 2;
-		player->SetHealth(hp);
+		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
+		enemy->DestoryThis();
 	}
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::WALL)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
 	{
-		DestoryThis();
+		EnemyTwo* enemy = reinterpret_cast<EnemyTwo*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMYTWO));
+		enemy->DestoryThis();
 	}
 }

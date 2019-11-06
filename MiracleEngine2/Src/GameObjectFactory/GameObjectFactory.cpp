@@ -702,6 +702,15 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::BULLET_T:
+	{
+		Bullet_T* newScript = new Bullet_T();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::BULLET_T);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	case ScriptId::SPAWNERTWO:
 	{
 		SpawnerTwo* newScript = new SpawnerTwo();
@@ -796,6 +805,15 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::BULLET_E);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::BULLET_T:
+	{
+		Bullet_T* newScript = new Bullet_T(*reinterpret_cast<Bullet_T*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::BULLET_T);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}

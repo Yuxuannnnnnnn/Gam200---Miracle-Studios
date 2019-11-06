@@ -7,7 +7,7 @@ Turret::Turret() :
 	_state{ (unsigned)AiState::IDLE },
 	_target{ nullptr },
 	_timer{ 0.0 },
-	_timeCooldown{ 1.0 },
+	_timeCooldown{ 3.0 },
 	_health{ 1 }
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
@@ -109,7 +109,7 @@ void Turret::ShootTarget()
 		_timer = _timeCooldown;
 		//std::cout << "Fired!" << std::endl;
 		// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_T]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
