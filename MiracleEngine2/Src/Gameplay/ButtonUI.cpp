@@ -2,12 +2,18 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
-ButtonUI::ButtonUI()
+
+ButtonUI::ButtonUI() :
+	_buttonType{ (int)ButtonType::NONE }
+{
+}
+
+void ButtonUI::Update()
 {
 
 }
 
-void ButtonUI::Update(double dt)
+void ButtonUI::SerialiseComponent(Serialiser& document)
 {
-
+	
 }

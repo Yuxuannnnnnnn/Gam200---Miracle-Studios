@@ -5,6 +5,7 @@
 
 #include "VertexBuffer.h"
 #include "BufferLayout.h"
+#include "Animations.h"
 
 class VertexArray
 {
@@ -16,6 +17,7 @@ public:
 
 	void AddBuffer(const VertexBuffer& vb, const BufferLayout& layout);
 
+	void AddBuffer(Animations& vb, const BufferLayout& layout);
 	void Select() const;
 	void UnSelect() const;
 };

@@ -15,9 +15,9 @@ Enemy::Enemy()
 	_nextNode = nullptr;
 	_destNode = nullptr;
 	 _timer = -1.0 ;
-	 _timeCooldown = 5;;
+	 _timeCooldown = 5.0;;
 	 _timerAttack= 0 ;
-	 _timerAttackCooldown = 1 ;
+	 _timerAttackCooldown = 1.0 ;
 }
 
 void Enemy::Init()
