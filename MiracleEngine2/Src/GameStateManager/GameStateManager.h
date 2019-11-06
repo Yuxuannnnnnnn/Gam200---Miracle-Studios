@@ -51,8 +51,8 @@ private:
 
 
 public:
-	GameStateManager(GameStateId currState = GameStateId::GS_MAIN_MENU
-		, GameStateId prevState = GameStateId::GS_MAIN_MENU,
+	GameStateManager(GameStateId currState = GameStateId::GS_MAIN_MENU,
+		GameStateId prevState = GameStateId::GS_MAIN_MENU,
 		GameStateId nextState = GameStateId::GS_MAIN_MENU);
 
 	~GameStateManager() = default;

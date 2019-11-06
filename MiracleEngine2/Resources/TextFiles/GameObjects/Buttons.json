@@ -12,9 +12,13 @@
   "G.TypeId": 0,
   "G.FileName": "sprite_button.png",
 
-  "Font Component":true,
+  "Font Component": true,
   "FontId": 0,
 
   "LogicComponent": true,
-  "ScriptId": [ 11 ]
+  "ScriptId": [ 11 ],
+
+  "ButtonComponent": true,
+  "ButtonType": 1
+
 }

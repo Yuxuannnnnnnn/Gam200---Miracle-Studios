@@ -84,6 +84,7 @@
     <ClCompile Include="Src\Gameplay\Bullet_T.cpp" />
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />

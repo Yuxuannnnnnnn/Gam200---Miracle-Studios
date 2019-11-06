@@ -1,31 +1,22 @@
-///////////////////////////////////////////////////////////////////////////////////////
-//
-//	ButtonCollider.h
-//	
-//	Authors: yinshuyu
-//	Copyright 2019, Digipen Institute of Technology
-//
-///////////////////////////////////////////////////////////////////////////////////////
-#ifndef _BUTTON_COLLIDER_H
-#define _BUTTON_COLLIDER_H
+#pragma once
+#include "IComponentSystem.h"
 
-#include "PhysicsComponents/BoxCollider2D.h"
+#ifndef BUTTONCOMPONENT_H
+#define BUTTONCOMPONENT_H
 
 class ButtonComponent : public BoxCollider2D
 {
+	int _buttonType;
 public:
 	bool _pressed;
 
-
-	void SerialiseComponent(Serialiser& document) override {}
-
-	// Constructor
-	ButtonComponent() :_pressed{false}, BoxCollider2D(nullptr) {}
-	virtual ~ButtonComponent() {}
-
-	//No replication of class object
-	ButtonComponent(const ButtonComponent& rhs) : BoxCollider2D{ rhs } {};
+	ButtonComponent();
+	virtual ~ButtonComponent() = default;
+	ButtonComponent(const ButtonComponent& rhs);
 	ButtonComponent& operator= (const ButtonComponent& rhs) = delete;
+	void SerialiseComponent(Serialiser& document) override;
+	std::string ComponentName() const override;
+	void Inspect();
 };
 
 #endif
