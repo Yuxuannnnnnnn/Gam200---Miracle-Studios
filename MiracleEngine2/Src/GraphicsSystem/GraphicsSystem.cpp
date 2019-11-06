@@ -5,6 +5,7 @@
 #include "PrecompiledHeaders.h"
 #include "../Imgui/imgui.h"
 #include "Engine/EngineSystems.h"
+#include "../LogicSystem/AiSystem.h"
 
 GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
@@ -23,7 +24,7 @@ Camera& GraphicsSystem::GetCamera()
 void GraphicsSystem::Update(double dt)
 {
 	
-
+	UnitTest();
 	_camera.Update(_transformList);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_ALPHA_TEST);
@@ -158,9 +159,52 @@ void GraphicsSystem::Update(double dt)
 		//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
 	}
 
+	
+	GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position(0, MAP_HEIGHT* MAP_SIZE / 2, 1);
+	com->SetPos(position);
+	Vector3 scale(14 * MAP_SIZE, 0, 0);
+	com->SetScale(scale);
+	com->SetRotate(0);
+
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position1(0, -(MAP_HEIGHT * MAP_SIZE / 2), 1);
+	com->SetPos(position1);
+	Vector3 scale1(14 * MAP_SIZE, 0, 0);
+	com->SetScale(scale1);
+	com->SetRotate(0);
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position2(-(MAP_WIDTH * MAP_SIZE / 2), 0, 1);
+	com->SetPos(position2);
+	Vector3 scale2(14 * MAP_SIZE, 0, 0);
+	com->SetScale(scale2);
+	com->SetRotate(3.142 / 2);
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position3((MAP_WIDTH* MAP_SIZE / 2), 0, 1);
+	com->SetPos(position3);
+	Vector3 scale3(14 * MAP_SIZE, 0, 0);
+	com->SetScale(scale3);
+	com->SetRotate(3.142 / 2);
 	// loop through every element in graphic component
 		// get texture ID and shader ID
 		// get its transform component 
+
+	DebugRenderer::GetInstance().DrawLine(position._x + 640, position._y, position1._x + 640, position1._y);
+	DebugRenderer::GetInstance().DrawLine(position._x - 635, position._y, position1._x - 635, position1._y);
+
+	DebugRenderer::GetInstance().DrawLine(position2._x, position2._y + 510, position3._x, position3._y + 510);
+	DebugRenderer::GetInstance().DrawLine(position2._x, position2._y - 500, position3._x, position3._y - 500);
 }
 
 
