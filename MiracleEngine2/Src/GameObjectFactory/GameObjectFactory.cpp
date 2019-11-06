@@ -217,7 +217,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		ButtonComponent* newComponent = new ButtonComponent();
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
+		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -443,7 +443,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		ButtonComponent* newComponent = new ButtonComponent(*reinterpret_cast<ButtonComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
+		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}

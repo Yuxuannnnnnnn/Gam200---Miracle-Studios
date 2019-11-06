@@ -24,7 +24,7 @@ public:
 	virtual ~ButtonComponent() {}
 
 	//No replication of class object
-	ButtonComponent(const ButtonComponent& rhs) = delete;
+	ButtonComponent(const ButtonComponent& rhs) : BoxCollider2D{ rhs } {};
 	ButtonComponent& operator= (const ButtonComponent& rhs) = delete;
 };
 
