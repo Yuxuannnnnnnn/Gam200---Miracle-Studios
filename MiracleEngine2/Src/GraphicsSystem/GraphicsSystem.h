@@ -19,6 +19,8 @@
 #include "PlayerMesh.h"
 #include "Camera.h"
 #include "FontRenderer.h"
+#include "../Animation/AnimationSystem.h"
+
 enum RenderMode
 {
 	None,
@@ -54,8 +56,7 @@ private:
 	Camera _camera;
 	PlayerMesh _playerMesh;
 	FontRenderer _fontRenderer;
-	//RendererSystem _renderer;
-	//InstancedSystem _instancedRenderer;
+	AnimationSystem _animationSystem;
 
 	
 };

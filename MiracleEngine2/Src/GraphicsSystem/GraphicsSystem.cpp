@@ -89,7 +89,7 @@ void GraphicsSystem::Update(double dt)
 
 
 		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
-		if (graphicComponent->GetFileName() == "spriteplayer.png")
+		/*if (graphicComponent->GetFileName() == "spriteplayer.png")
 		{
 
 			if (!_testAnim)
@@ -146,7 +146,10 @@ void GraphicsSystem::Update(double dt)
 		{
 			_quadmesh.Select();
 			_textureManager._textureMap["turret"]->Select();
-		}
+		}*/
+
+		_quadmesh.Select();
+		_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
 
 		_shader.Select();
 

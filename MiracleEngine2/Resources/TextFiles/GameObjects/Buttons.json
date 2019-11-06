@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "sprite_button.png",
+  "G.FileName": "button",
 
   "Font Component": true,
   "FontId": 0,
