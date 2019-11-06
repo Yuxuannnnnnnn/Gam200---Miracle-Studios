@@ -567,6 +567,8 @@
     <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Animations.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\FontRenderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\PlayerMesh.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />
     <ClCompile Include="Src\Animation\AnimationSystem.cpp" />

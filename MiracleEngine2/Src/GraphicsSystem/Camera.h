@@ -26,7 +26,6 @@ public:
 	void MoveCameraX(float x);
 	void MoveCameraY(float y);
 private:
-public:
 	glm::mat4 CamMatrix;
 	float x_pos = 1.0f;
 	float y_pos = 1.0f;

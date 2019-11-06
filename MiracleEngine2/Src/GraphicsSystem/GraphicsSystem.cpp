@@ -6,6 +6,20 @@
 #include "../Imgui/imgui.h"
 #include "Engine/EngineSystems.h"
 
+GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
+		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
+{
+	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
+}
+
+Camera& GraphicsSystem::GetCamera()
+{
+	return _camera;
+}
+
+
 void GraphicsSystem::Update(double dt)
 {
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Z))
