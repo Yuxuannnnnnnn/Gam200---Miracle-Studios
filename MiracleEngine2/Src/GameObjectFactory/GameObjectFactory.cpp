@@ -218,9 +218,6 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
-		
-		if (!prefab)
-			EngineSystems::GetInstance()._physicsSystem->_buttonList.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -447,8 +444,6 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
-
-		EngineSystems::GetInstance()._physicsSystem->_buttonList.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -981,32 +976,14 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 
 
 
-void GameObjectFactory::DeleteLevelNotPrefab()
-{
-	for (auto it : _listObject)
-		if (it.first >= 1000)
-			it.second->SetDestory();
-}
+
 
 
 void GameObjectFactory::DeleteLevel()
 {
-	EngineSystems::GetInstance()._prefabFactory->GetPrototypeList().clear();
-	EngineSystems::GetInstance()._graphicsSystem->_spriteList.clear();
-	EngineSystems::GetInstance()._graphicsSystem->_transformList.clear();
-	EngineSystems::GetInstance()._logicSystem->_logicList.clear();
-	EngineSystems::GetInstance()._physicsSystem->_buttonList.clear();
-	EngineSystems::GetInstance()._physicsSystem->_collider2dList.clear();
-	EngineSystems::GetInstance()._physicsSystem->_pickList.clear();
-	EngineSystems::GetInstance()._physicsSystem->_rigidBody2dList.clear();
-
 	for (auto it : _listObject)
 		delete it.second;
 	_listObject.clear();
-
-	for (auto it : _IdentityComponents)
-		delete it.second;
-	_IdentityComponents.clear();
 
 	for (auto it : _graphicComponents)
 		delete it.second;
@@ -1015,14 +992,6 @@ void GameObjectFactory::DeleteLevel()
 	for (auto it : _transformComponents)
 		delete it.second;
 	_transformComponents.clear();
-
-	for (auto it : _AnimationComponents)
-		delete it.second;
-	_AnimationComponents.clear();
-
-	for (auto it : _CameraComponents)
-		delete it.second;
-	_CameraComponents.clear();
 
 	for (auto it : _rigidBody2dComponents)
 		delete it.second;
@@ -1043,19 +1012,8 @@ void GameObjectFactory::DeleteLevel()
 	for (auto it : _pickList)
 		delete it.second;
 	_pickList.clear();
-
-	for (auto it : _audioComponent)
-		delete it.second;
-	_audioComponent.clear();
-
-	for (auto it : _FontComponent)
-		delete it.second;
-	_FontComponent.clear();
-
-	for (auto it : _buttonComponent)
-		delete it.second;
-	_buttonComponent.clear();
 }
+
 
 
  

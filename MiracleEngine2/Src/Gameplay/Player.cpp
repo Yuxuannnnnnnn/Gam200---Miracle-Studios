@@ -135,7 +135,7 @@ void Player::WeaponShoot()
 			break;
 		case (int)WeaponId::RPG:
 		{
-			if(_rpgAmmo > 0)
+			if(_rpgAmmo)
 				WeaponShoot_RPG();
 		}
 		break;
@@ -196,19 +196,20 @@ void Player::SetHealth(int val)
 
 void Player::OnTrigger2DEnter(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_HEALTH)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_AMMO || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_HEALTH)
 	{
+		PickUps* temp = (PickUps*)(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PICK_UPS));
 
-		_health += 2;
-		if (_health > 30)
-			_health = 30;
-
-		other->GetParentPtr()->SetDestory();
+		if (temp->_pickupType == (int)PickUp_Type::HEALTH_REGAN)
+		{
+			_health += 2;
+			if (_health > 30)
+				_health = 30;
+		}
+		else if (temp->_pickupType == (int)PickUp_Type::ROCKET_AMMO)
+		{
+			_rpgAmmo = 5;
+		}
+			
 	}
-	else if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_AMMO)
-	{
-		_rpgAmmo = 5;
-		other->GetParentPtr()->SetDestory();
-	}
-	
 }

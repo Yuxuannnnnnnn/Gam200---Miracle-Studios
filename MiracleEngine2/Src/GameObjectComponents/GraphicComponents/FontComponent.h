@@ -20,10 +20,6 @@ public:
 
 	virtual void Inspect() override;
 
-	void SetString(std::string in)
-	{
-		_fontString = in;
-	}
 
 private:
 	int _fontID;

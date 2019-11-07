@@ -6,10 +6,10 @@
 
 class ButtonComponent : public BoxCollider2D
 {
-	
+	int _buttonType;
 public:
 	bool _pressed;
-	int _buttonType;
+
 	ButtonComponent();
 	virtual ~ButtonComponent() = default;
 	ButtonComponent(const ButtonComponent& rhs);

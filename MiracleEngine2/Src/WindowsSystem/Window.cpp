@@ -220,9 +220,6 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 	_windowWidth = temp.GetResX();
 	_windowHeight = temp.GetResY();
 
-	InitWidth = temp.GetResX();
-	InitHeight = temp.GetResY();
-
 	RECT rect = { 0, 0, (LONG)(temp.GetResX() - 1), (LONG)(temp.GetResY() - 1) };
 	//The AdjustWindowRect sets the exact client area without the title bar and all the extra pixels
 	//This will give us the exact resolution for the white rectangular area
@@ -260,9 +257,6 @@ void Window::SetFullscreenWindowMode()
 	DWORD dwNewStyle = dwStyle & ~dwRemove;
 	::SetWindowLong(mainHWND, GWL_STYLE, dwNewStyle);
 	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 0L);
-
-	_windowWidth = GetSystemMetrics(SM_CXSCREEN);
-	_windowHeight = GetSystemMetrics(SM_CYSCREEN);
 }
 
 void Window::SetNonFullScreenWindowMode()
@@ -270,8 +264,8 @@ void Window::SetNonFullScreenWindowMode()
 	DWORD dwStyle = ::GetWindowLong(mainHWND, GWL_STYLE);
 	dwStyle |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 	::SetWindowLong(mainHWND, GWL_STYLE, dwStyle);
-	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, InitWidth, InitHeight, 0L);
-}											   
+	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, _windowWidth, _windowHeight, 0L);
+}
 
 
 
