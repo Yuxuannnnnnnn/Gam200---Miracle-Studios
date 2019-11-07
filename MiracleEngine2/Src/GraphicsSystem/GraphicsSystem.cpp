@@ -101,11 +101,11 @@ void GraphicsSystem::Update(double dt)
 
 		//_fontRenderer.Draw();
 
-		//size_t objID = fontComponentpair.first;	//Get GameObjectID
-		//TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
+	//	size_t objID = fontComponentpair.first;	//Get GameObjectID
+	//	TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
-		//_fontRenderer.DrawFont(fontComponentpair.second->GetFontString(), transformComponent->GetPos()._x,
-		//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
+	//	_fontRenderer.DrawFont(fontComponentpair.second->GetFontString(), transformComponent->GetPos()._x,
+	//		transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
 	}
 
 	//GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->

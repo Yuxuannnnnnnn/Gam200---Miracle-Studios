@@ -11,8 +11,6 @@ void Engine::Init()
 	//_logicSystem->Init();	// does nothing for now
 	//_PhysicsSystem->Init();
 	//_AudioSystem->Init();
-	
-	_sceneManager->ChangeScene(Scenes::LEVEL1);
 
 //-------------------------------------------------------------
 }
@@ -20,17 +18,11 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	bool open = true; //for imgui show demo, to be deleted later
-
+	bool open = true; //for imgui show demo, to be deleted later 
+	_sceneManager->ChangeScene(Scenes::MAIN_MENU);
 
 	while (_sceneManager->GetCurrentScene() != Scenes::QUIT)	//GameState Logic Starts here
 	{
-
-		//_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
-
-
-		while (_sceneManager->GetCurrentScene() == Scenes::LEVEL1)	//In Game Level
-		{
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
 #ifdef LEVELEDITOR
@@ -75,8 +67,8 @@ void Engine::Update()
 			{
 				_logicSystem->Update(dt);
 			}
-
-			_aiSystem->Update(dt);
+			if (_sceneManager->GetCurrentScene() == Scenes::LEVEL1)
+				_aiSystem->Update(dt);
 
 #ifdef LEVELEDITOR
 			
@@ -150,12 +142,11 @@ void Engine::Update()
 
 			::SwapBuffers(_windowSystem->getWindow().get_m_windowDC()); 		// swap double buffer at the end
 	//-------------------------------------------------------------------------------------------------------------
-		}
 
 
 		_gameStateManager->UpdateState(); //current state = next state
 
-		_gameObjectFactory->DeleteLevel();
+		
 
 	}
 
@@ -165,5 +156,6 @@ void Engine::Update()
 
 int Engine::Exit()
 {
+	EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
 	return (int)_windowSystem->Get_msg().wParam;
 }
