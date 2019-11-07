@@ -20,14 +20,14 @@ DebugRenderer::DebugRenderer()
 
 	float radius = 0.5f;
 	std::vector<float> vertexBuffer;
-	for (double i = 0; i < 2 * M_PI; i += 2 * M_PI / NUMBER_OF_VERTICES) {
+	for (float i = 0; i < 2 * M_PI; i += (float)2 * M_PI / NUMBER_OF_VERTICES) {
 		vertexBuffer.push_back(cos(i) * radius);    //X coordinate
 		vertexBuffer.push_back(sin(i) * radius);    //Y coordinate
 		vertexBuffer.push_back(0.0);                //Z coordinate
 	}
 
 	_vaoCircle = new VertexArray();
-	_vboCircle = new VertexBuffer((void*)vertexBuffer.data(), vertexBuffer.size() * sizeof(float));
+	_vboCircle = new VertexBuffer((void*)vertexBuffer.data(), (unsigned int )vertexBuffer.size() * sizeof(float));
 	BufferLayout layout2;
 	layout2.Push<float>(3);
 	_vaoCircle->AddBuffer(*_vboCircle, layout2);

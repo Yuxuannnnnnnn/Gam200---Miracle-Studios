@@ -11,7 +11,7 @@ void Bullet::Update(double dt)
 		DestoryThis();
 }
 
-void Bullet::OnTrigger2DEnter(Collider2D* other )
+void Bullet::OnCollision2DTrigger(Collider2D* other )
 {
 	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
 	{

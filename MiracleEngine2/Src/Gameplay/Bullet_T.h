@@ -6,13 +6,13 @@ class Bullet_T : public IScript
 private:
 
 public:
-	float _lifeTime;
+	double _lifeTime;
 
 	Bullet_T() : _lifeTime{ -666.f } {}
 
 	void Update(double dt);
 
-	void OnTrigger2DEnter(Collider2D* other);
+	void OnCollision2DTrigger(Collider2D* other);
 
 
 	void SerialiseComponent(Serialiser& document)

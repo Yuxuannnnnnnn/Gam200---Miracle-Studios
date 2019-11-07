@@ -6,7 +6,7 @@ class Explosion : public IScript
 private:
 
 public:
-	float _lifeTime;
+	double _lifeTime;
 
 	Explosion() : _lifeTime{ -666.f } {}
 

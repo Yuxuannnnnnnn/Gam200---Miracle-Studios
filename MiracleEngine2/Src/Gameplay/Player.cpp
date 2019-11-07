@@ -135,7 +135,7 @@ void Player::WeaponShoot()
 			break;
 		case (int)WeaponId::RPG:
 		{
-			if(_rpgAmmo > 0)
+			if(_rpgAmmo)
 				WeaponShoot_RPG();
 		}
 		break;
@@ -165,11 +165,11 @@ void Player::WeaponShoot_Shotgun()
 	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
 	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
-	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot-0.2);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot-0.2f);
 	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
 	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
-	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot+0.2);
+	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot+0.2f);
 	((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
 }
 void Player::WeaponShoot_RPG()
@@ -196,19 +196,20 @@ void Player::SetHealth(int val)
 
 void Player::OnTrigger2DEnter(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_HEALTH)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_AMMO || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_HEALTH)
 	{
+		PickUps* temp = (PickUps*)(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PICK_UPS));
 
-		_health += 2;
-		if (_health > 30)
-			_health = 30;
-
-		other->GetParentPtr()->SetDestory();
+		if (temp->_pickupType == (int)PickUp_Type::HEALTH_REGAN)
+		{
+			_health += 2;
+			if (_health > 30)
+				_health = 30;
+		}
+		else if (temp->_pickupType == (int)PickUp_Type::ROCKET_AMMO)
+		{
+			_rpgAmmo = 5;
+		}
+			
 	}
-	else if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_AMMO)
-	{
-		_rpgAmmo = 5;
-		other->GetParentPtr()->SetDestory();
-	}
-	
 }

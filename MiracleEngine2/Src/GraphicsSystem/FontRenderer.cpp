@@ -64,7 +64,7 @@ FontRenderer::FontRenderer()
 			texture,
 			glm::ivec2(_face->glyph->bitmap.width, _face->glyph->bitmap.rows),
 			glm::ivec2(_face->glyph->bitmap_left, _face->glyph->bitmap_top),
-			_face->glyph->advance.x
+			(GLuint)_face->glyph->advance.x
 		};
 		_characters.insert(std::pair<GLchar, Character>(c, character));
 	}
