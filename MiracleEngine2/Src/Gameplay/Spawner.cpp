@@ -6,7 +6,7 @@ Spawner::Spawner() :
 	_typeId{ TypeIdGO::SPAWNER },
 	_radiusSpawn{ 2.f },
 	_timer{ -1.0 },
-	_timeCooldown{ 15.0 },
+	_timeCooldown{ 20 },
 	_health{ 10 },
 	_init{ false }
 {

@@ -45,63 +45,7 @@ void GraphicsSystem::Update(double dt)
 		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
 		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
-		/*if (graphicComponent->GetFileName() == "spriteplayer.png")
-		{
-			if (!_testAnim)
-			{
-				_quadmesh.Select();
-				_textureManager._textureMap["player"]->Select();
-			}
-			else
-			{
-				_playerMesh.Select(dt, _numAnim);
-				switch (_numAnim)
-				{
-				case 0:
-					_textureManager._textureMap["idle"]->Select();
-					break;
-				case 1:
-					_textureManager._textureMap["run"]->Select();
-					break;
-				case 2:
-					_textureManager._textureMap["jump"]->Select();
-					break;
-				}
-			}
 
-		}
-		else if (graphicComponent->GetFileName() == "spriteenemy.png"
-			&& graphicComponent->GetTextureState() == 0)
-		{
-			_quadmesh.Select();
-			_textureManager._textureMap["enemy1"]->Select();
-		}
-		else if (graphicComponent->GetFileName() == "spriteenemy.png"
-			&& graphicComponent->GetTextureState() == 1)
-		{
-			_quadmesh.Select();
-			_textureManager._textureMap["enemy2"]->Select();
-		}
-		else if (graphicComponent->GetFileName() == "spritewall.png")
-		{
-			_quadmesh.Select();
-			_textureManager._textureMap["wall"]->Select();
-		}
-		else if (graphicComponent->GetFileName() == "spritefloor.png")
-		{
-			_quadmesh.Select();
-			_textureManager._textureMap["floor"]->Select();
-		}
-		else if (graphicComponent->GetFileName() == "spritebullet.png")
-		{
-			_quadmesh.Select();
-			_textureManager._textureMap["bullet"]->Select();
-		}
-		else
-		{
-			_quadmesh.Select();
-			_textureManager._textureMap["turret"]->Select();
-		}*/
 		if (graphicComponent->GetFileName() == "player")
 		{
 			if (!_testAnim)
@@ -147,10 +91,15 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
+	if (_showfont)
+	{
+		_fontRenderer.Draw();
+	}
+
 	for (auto& fontComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getFontComponent())
 	{
 
-		_fontRenderer.Draw();
+		//_fontRenderer.Draw();
 
 		//size_t objID = fontComponentpair.first;	//Get GameObjectID
 		//TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
@@ -159,52 +108,59 @@ void GraphicsSystem::Update(double dt)
 		//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
 	}
 
-	
-	GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
+	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	//TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position(0, MAP_HEIGHT* MAP_SIZE / 2, 1);
-	com->SetPos(position);
-	Vector3 scale(14 * MAP_SIZE, 0, 0);
-	com->SetScale(scale);
-	com->SetRotate(0);
+	//com->SetPos(position);
+	//Vector3 scale(14 * MAP_SIZE, 0, 0);
+	//com->SetScale(scale);
+	//com->SetRotate(0);
 
 
-	obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//obj = EngineSystems::GetInstance()._gameObjectFactory->
+	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position1(0, -(MAP_HEIGHT * MAP_SIZE / 2), 1);
-	com->SetPos(position1);
-	Vector3 scale1(14 * MAP_SIZE, 0, 0);
-	com->SetScale(scale1);
-	com->SetRotate(0);
+	//com->SetPos(position1);
+	//Vector3 scale1(14 * MAP_SIZE, 0, 0);
+	//com->SetScale(scale1);
+	//com->SetRotate(0);
 
-	obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//obj = EngineSystems::GetInstance()._gameObjectFactory->
+	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position2(-(MAP_WIDTH * MAP_SIZE / 2), 0, 1);
-	com->SetPos(position2);
-	Vector3 scale2(14 * MAP_SIZE, 0, 0);
-	com->SetScale(scale2);
-	com->SetRotate(3.142 / 2);
+	//com->SetPos(position2);
+	//Vector3 scale2(14 * MAP_SIZE, 0, 0);
+	//com->SetScale(scale2);
+	//com->SetRotate(3.142 / 2);
 
-	obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//obj = EngineSystems::GetInstance()._gameObjectFactory->
+	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position3((MAP_WIDTH* MAP_SIZE / 2), 0, 1);
-	com->SetPos(position3);
-	Vector3 scale3(14 * MAP_SIZE, 0, 0);
-	com->SetScale(scale3);
-	com->SetRotate(3.142 / 2);
+	//com->SetPos(position3);
+	//Vector3 scale3(14 * MAP_SIZE, 0, 0);
+	//com->SetScale(scale3);
+	//com->SetRotate(3.142 / 2);
 	// loop through every element in graphic component
 		// get texture ID and shader ID
 		// get its transform component 
 
-	DebugRenderer::GetInstance().DrawLine(position._x + 640, position._y, position1._x + 640, position1._y);
-	DebugRenderer::GetInstance().DrawLine(position._x - 635, position._y, position1._x - 635, position1._y);
+	if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
+	{
 
-	DebugRenderer::GetInstance().DrawLine(position2._x, position2._y + 510, position3._x, position3._y + 510);
-	DebugRenderer::GetInstance().DrawLine(position2._x, position2._y - 500, position3._x, position3._y - 500);
+		DebugRenderer::GetInstance().DrawLine(position._x + 640, position._y, position1._x + 640, position1._y);
+		DebugRenderer::GetInstance().DrawLine(position._x - 635, position._y, position1._x - 635, position1._y);
+
+		DebugRenderer::GetInstance().DrawLine(position2._x, position2._y + 510, position3._x, position3._y + 510);
+		DebugRenderer::GetInstance().DrawLine(position2._x, position2._y - 510, position3._x, position3._y - 510);
+
+	}
+	// loop through every element in graphic component
+		// get texture ID and shader ID
+		// get its transform component 
 }
 
 
@@ -265,5 +221,15 @@ void GraphicsSystem::UnitTest()
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
 	{
 		_testAnim = 1;
+	}
+
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_8))
+	{
+		_showfont = 1;
+	}
+
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_7))
+	{
+		_showfont = 0;
 	}
 }

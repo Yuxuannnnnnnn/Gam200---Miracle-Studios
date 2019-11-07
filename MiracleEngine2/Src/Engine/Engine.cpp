@@ -85,8 +85,9 @@ void Engine::Update()
 
 			// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 			_frameRateControl->StartTimeCounter();
-		
-			_physicsSystem->UpdatePicking();
+
+			if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
+				_physicsSystem->UpdatePicking();
 #endif
 
 			if (accumlatedframes)
@@ -130,14 +131,15 @@ void Engine::Update()
 #ifdef LEVELEDITOR
 			_performanceUsage->GraphicFrameTime = _frameRateControl->EndTimeCounter();
 
-			_physicsSystem->UpdateDraw();
+			if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
+				_physicsSystem->UpdateDraw();
 
 			// example to draw debug line and circle, to remove later
 			/*DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
 			DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
 
 			_frameRateControl->StartTimeCounter();
-			if (open)
+			if (false)
 			{
 				ImGui::ShowDemoWindow(&open); 		//Show Demo Window
 			}

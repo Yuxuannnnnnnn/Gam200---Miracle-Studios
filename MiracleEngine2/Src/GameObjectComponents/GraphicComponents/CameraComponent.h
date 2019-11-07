@@ -18,18 +18,11 @@ public:
 
 
 public:
-	void SetMoveSpeed(int num)
-	{
-		_movespeed = num;
-	}
-	void SetxZoom(int num)
-	{
-		_xZoom = num;
-	}
-    void SetyZoom(int num)
-	{
-		_yZoom = num;
-	}
+	void SetMoveSpeed(int num);
+
+	void SetxZoom(int num);
+
+	void SetyZoom(int num);
 
 };
 

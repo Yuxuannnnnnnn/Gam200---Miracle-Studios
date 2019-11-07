@@ -64,5 +64,7 @@ public:
 	void FSM();
 	void CheckState();
 
+	void ChancePickUps();
+
 	void OnCollision2DTrigger(Collider2D* other);
 };

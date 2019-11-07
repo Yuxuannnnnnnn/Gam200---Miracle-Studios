@@ -1,6 +1,8 @@
 #include "PrecompiledHeaders.h"
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
+#include <cstdlib>
+#include <ctime>
 
 Enemy::Enemy()
 //:IComponentSystem(parent, uId)
@@ -41,7 +43,10 @@ void Enemy::Update(double dt)
 		_init = true;
 	}
 	if (_health <= 0)
+	{
+		ChancePickUps();
 		DestoryThis();
+	}
 
 	CheckState();
 	FSM();
@@ -249,6 +254,33 @@ void Enemy::CheckState()
 		((GraphicComponent*)this->GetSibilingComponent((unsigned)ComponentId::GRAPHICS_COMPONENT))->SetTextureState(1);
 	}
 }
+
+void Enemy::ChancePickUps()
+{
+	std::srand(std::time(0));
+	int Yaya = 1 + std::rand() % 8;
+
+	if (Yaya == 4) // health
+	{
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::PICK_UPS_HEALTH]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+	}
+	else if (Yaya == 8) // ammo
+	{
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::PICK_UPS_AMMO]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+	}
+
+}
+
 
 void Enemy::OnCollision2DTrigger(Collider2D* other)
 {

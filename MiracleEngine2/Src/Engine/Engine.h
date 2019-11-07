@@ -4,7 +4,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-//#define LEVELEDITOR	0
+#define LEVELEDITOR	1
 
 class Engine
 {
