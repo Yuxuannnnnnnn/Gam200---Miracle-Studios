@@ -104,6 +104,8 @@ bool Window::Init()
 	//cout the opengl version that we are using
 	std::cout << "Opengl version: " << glGetString(GL_VERSION) << std::endl;
 
+	return true;
+
 }
 
 

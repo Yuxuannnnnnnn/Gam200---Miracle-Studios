@@ -48,6 +48,7 @@ public:
 		_audioSystem{ nullptr},
 
 		_frameRateControl{ nullptr },
+		_performanceUsage{nullptr},
 
 		_gameObjectFactory{ nullptr },
 		_prefabFactory{ nullptr },
