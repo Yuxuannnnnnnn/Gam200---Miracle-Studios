@@ -222,7 +222,7 @@ void EventHandler::UpdateMouseClickEvent()
 {
 	MouseQueue tempQueue;
 
-	for (auto it = _MouseClickQueCurr.begin(); it != _MouseClickQueCurr.end(); it++)
+	for (auto it = _MouseClickQueCurr.begin(); it != _MouseClickQueCurr.end();)
 	{
 		MouseQueue::iterator it2 = _MouseClickQuePre.find(*it);
 
@@ -232,39 +232,34 @@ void EventHandler::UpdateMouseClickEvent()
 		}
 	}
 
-	for (auto it = tempQueue.begin(); it != tempQueue.end(); it++)
+	for (auto it = tempQueue.begin(); it != tempQueue.end();)
 	{
 		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 		if (object)
 			object->OnCollision2DStay(it->second);*/
-		SendEventMessage(EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[*it], EventMessageType::ON_MOUSE_CLICK_DRAG, nullptr);
 
 		RemoveMouseHoverEvent(_MouseClickQuePre, *it);
 		RemoveMouseHoverEvent(_MouseClickQueCurr, *it);
 	}
 
 
-	for (auto it = _MouseClickQuePre.begin(); it != _MouseClickQuePre.end(); it++)
+	for (auto it = _MouseClickQuePre.begin(); it != _MouseClickQuePre.end();)
 	{
 
 		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 		if (object)
 			object->OnCollision2DExit(it->second);*/
 			//object->OnCollisionExit(it->second);
-		SendEventMessage(EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[*it], EventMessageType::ON_MOUSE_CLICK_UP, nullptr);
-
 	}
 
 
 
-	for (auto it = _MouseClickQueCurr.begin(); it != _MouseClickQueCurr.end(); it++)
+	for (auto it = _MouseClickQueCurr.begin(); it != _MouseClickQueCurr.end();)
 	{
 		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 		if (object)
 			object->OnCollision2DTrigger(it->second);*/
 			//object->OnCollisionTrigger(it->second);
-		SendEventMessage(EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[*it], EventMessageType::ON_MOUSE_CLICK_DOWN, nullptr);
-
 
 		tempQueue.insert(*it);
 	}
@@ -290,54 +285,51 @@ void EventHandler::UpdateMouseHoverEvent()
 {
 	MouseQueue tempQueue;
 
-	for (auto it = _MouseHoverQueCurr.begin(); it != _MouseHoverQueCurr.end(); it++)
+	for (auto it = _MouseHoverQueCurr.begin(); it != _MouseHoverQueCurr.end();)
 	{
-		MouseQueue::iterator it2 = _MouseHoverQuePre.find(*it);
+		MouseQueue::iterator it2 = _MouseClickQuePre.find(*it);
 
-		if (it2 != _MouseHoverQuePre.end())
+		if (it2 != _MouseClickQuePre.end())
 		{
 			tempQueue.insert(*it);
 		}
 	}
 
-	for (auto it = tempQueue.begin(); it != tempQueue.end(); it++)
+	for (auto it = tempQueue.begin(); it != tempQueue.end();)
 	{
 		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 		if (object)
 			object->OnCollision2DStay(it->second);*/
-		SendEventMessage(EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[*it], EventMessageType::ON_MOUSE_HOVER_OVER, nullptr);
 
-		RemoveMouseHoverEvent(_MouseHoverQuePre, *it);
+		RemoveMouseHoverEvent(_MouseClickQuePre, *it);
 		RemoveMouseHoverEvent(_MouseHoverQueCurr, *it);
 	}
 
 
-	for (auto it = _MouseHoverQuePre.begin(); it != _MouseHoverQuePre.end(); it++)
+	for (auto it = _MouseClickQuePre.begin(); it != _MouseClickQuePre.end();)
 	{
 
 		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 		if (object)
 			object->OnCollision2DExit(it->second);*/
 			//object->OnCollisionExit(it->second);
-		SendEventMessage(EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[*it], EventMessageType::ON_MOUSE_HOVER_EXIT, nullptr);
 	}
 
 
 
-	for (auto it = _MouseHoverQueCurr.begin(); it != _MouseHoverQueCurr.end(); it++)
+	for (auto it = _MouseHoverQueCurr.begin(); it != _MouseHoverQueCurr.end();)
 	{
 		/*Coin* object = dynamic_cast<Coin*>(it->first->_gameObject);
 		if (object)
 			object->OnCollision2DTrigger(it->second);*/
 			//object->OnCollisionTrigger(it->second);
-		SendEventMessage(EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[*it], EventMessageType::ON_MOUSE_HOVER_ENTER, nullptr);
 
 		tempQueue.insert(*it);
 	}
 
-	_MouseHoverQuePre.clear();
+	_MouseClickQuePre.clear();
 
-	_MouseHoverQuePre = tempQueue;
+	_MouseClickQuePre = tempQueue;
 
 	_MouseHoverQueCurr.clear();
 }

@@ -13,6 +13,8 @@ TextureManager::TextureManager()
 	_textureMap["player"] = new Texture2D("Resources/Image/Player.png");
 	_textureMap["enemy1"] = new Texture2D("Resources/Image/EnemyMove.png");
 	_textureMap["enemy2"] = new Texture2D("Resources/Image/EnemyAttack.png");
+	
+	
 	_textureMap["button"] = new Texture2D("Resources/Image/button.png");
 	_textureMap["bullet"] = new Texture2D("Resources/Image/PlayerBullet.png");
 	_textureMap["bulletE"] = new Texture2D("Resources/Image/Bullet_E.png");
