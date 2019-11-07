@@ -53,5 +53,8 @@ void ButtonUI::Update()
 
 void ButtonUI::SerialiseComponent(Serialiser& document)
 {
-
+	if (document.HasMember("ButtonType") && document["ButtonType"].IsInt())	//Checks if the variable exists in .Json file
+	{
+		_buttonType = (document["ButtonType"].IsInt());
+	}
 }

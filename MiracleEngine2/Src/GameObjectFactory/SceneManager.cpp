@@ -27,17 +27,23 @@ Scenes SceneManager::GetCurrentScene()
 
 void SceneManager::ChangeScene(Scenes scene)
 {
-	_currScene = scene;
+	
+
+	
 	switch (scene)
 	{
 	case Scenes::RESTART:
-		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::MAIN_MENU));
-		break;
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
+		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(_currScene));
+		return;
 	case Scenes::MAIN_MENU:
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
 		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::MAIN_MENU));
 		break;
 	case Scenes::LEVEL1:
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
 		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::LEVEL1));
+		EngineSystems::GetInstance()._aiSystem->CreateNodeMap();
 		break;
 	case Scenes::WIN:
 		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::WIN));
@@ -48,4 +54,6 @@ void SceneManager::ChangeScene(Scenes scene)
 	default:
 		break;
 	}
+
+	_currScene = scene;
 }

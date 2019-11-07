@@ -12,7 +12,7 @@ void Engine::Init()
 	//_PhysicsSystem->Init();
 	//_AudioSystem->Init();
 	
-	_sceneManager->ChangeScene(Scenes::LEVEL1);
+	//_sceneManager->ChangeScene(Scenes::LEVEL1);
 
 //-------------------------------------------------------------
 }

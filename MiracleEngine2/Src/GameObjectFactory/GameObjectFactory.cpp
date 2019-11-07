@@ -219,6 +219,9 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentPtr(object);
 		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
+		if (!prefab)
+			EngineSystems::GetInstance()._physicsSystem->_buttonList.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
+
 		return newComponent;
 	}
 	case ComponentId::RIGIDBODY_COMPONENT:
@@ -445,6 +448,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
+		EngineSystems::GetInstance()._physicsSystem->_buttonList.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
+
 		return newComponent;
 	}
 	case ComponentId::RIGIDBODY_COMPONENT:
@@ -591,6 +596,8 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	}
 	case ComponentId::AUDIO_COMPONENT:
 	{
+		delete _audioComponent[object->Get_uID()];
+		_audioComponent.erase(object->Get_uID());
 		break;
 	}
 	case ComponentId::LOGIC_COMPONENT:

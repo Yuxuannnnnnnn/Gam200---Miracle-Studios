@@ -210,6 +210,6 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		{
 			_rpgAmmo = 5;
 		}
-			
+		temp->DestoryThis();
 	}
 }
