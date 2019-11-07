@@ -14,6 +14,7 @@ private:
 	bool _init;
 	int _health;
 	int _weaponActive;
+	int _rpgAmmo;
 	double _timer;
 	double _timerCooldown;
 	GameObject* _camera;
@@ -32,4 +33,6 @@ public:
 	void updateInput();
 	int GetHealth();
 	void SetHealth(int val);
+
+	void OnTrigger2DEnter(Collider2D* other);
 };

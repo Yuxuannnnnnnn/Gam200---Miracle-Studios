@@ -42,3 +42,17 @@ void CameraComponent::Inspect()
 {
 	IComponentSystem::Inspect();
 }
+
+
+void CameraComponent::SetMoveSpeed(int num)
+{
+	_movespeed = num;
+}
+void CameraComponent::SetxZoom(int num)
+{
+	_xZoom = num;
+}
+void CameraComponent::SetyZoom(int num)
+{
+	_yZoom = num;
+}

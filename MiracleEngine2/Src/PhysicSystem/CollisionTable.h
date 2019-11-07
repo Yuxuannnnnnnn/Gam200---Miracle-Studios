@@ -13,6 +13,7 @@ enum class ColliderTag {
 	DESTORYABLE_BUILDING = 5,
 	BUILDING = 7,
 	BULLET_E = 8,
+	PICK_UPS = 9,
 
 	TOTAL_TAG
 };

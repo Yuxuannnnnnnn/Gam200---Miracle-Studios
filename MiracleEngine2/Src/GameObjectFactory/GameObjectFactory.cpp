@@ -752,6 +752,15 @@ IScript* GameObjectFactory::AddScript(LogicComponent* object, ScriptId scriptTyp
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
+	case ScriptId::PICK_UPS:
+	{
+		PickUps* newScript = new PickUps();
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::PICK_UPS);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
 	default:
 		break;
 	}
@@ -855,6 +864,15 @@ IScript* GameObjectFactory::CloneScript(LogicComponent* object, IScript* script,
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::BUTTON_UI);
+		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
+		return newScript;
+	}
+	case ScriptId::PICK_UPS:
+	{
+		PickUps* newScript = new PickUps(*reinterpret_cast<PickUps*>(script));
+		newScript->SetParentPtr(object->GetParentPtr());
+		newScript->SetParentId(object->GetParentId());
+		newScript->SetType(ScriptId::PICK_UPS);
 		_scriptComponets.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
@@ -973,9 +991,22 @@ void GameObjectFactory::DeleteLevelNotPrefab()
 
 void GameObjectFactory::DeleteLevel()
 {
+	EngineSystems::GetInstance()._prefabFactory->GetPrototypeList().clear();
+	EngineSystems::GetInstance()._graphicsSystem->_spriteList.clear();
+	EngineSystems::GetInstance()._graphicsSystem->_transformList.clear();
+	EngineSystems::GetInstance()._logicSystem->_logicList.clear();
+	EngineSystems::GetInstance()._physicsSystem->_buttonList.clear();
+	EngineSystems::GetInstance()._physicsSystem->_collider2dList.clear();
+	EngineSystems::GetInstance()._physicsSystem->_pickList.clear();
+	EngineSystems::GetInstance()._physicsSystem->_rigidBody2dList.clear();
+
 	for (auto it : _listObject)
 		delete it.second;
 	_listObject.clear();
+
+	for (auto it : _IdentityComponents)
+		delete it.second;
+	_IdentityComponents.clear();
 
 	for (auto it : _graphicComponents)
 		delete it.second;
@@ -984,6 +1015,14 @@ void GameObjectFactory::DeleteLevel()
 	for (auto it : _transformComponents)
 		delete it.second;
 	_transformComponents.clear();
+
+	for (auto it : _AnimationComponents)
+		delete it.second;
+	_AnimationComponents.clear();
+
+	for (auto it : _CameraComponents)
+		delete it.second;
+	_CameraComponents.clear();
 
 	for (auto it : _rigidBody2dComponents)
 		delete it.second;
@@ -1004,8 +1043,19 @@ void GameObjectFactory::DeleteLevel()
 	for (auto it : _pickList)
 		delete it.second;
 	_pickList.clear();
-}
 
+	for (auto it : _audioComponent)
+		delete it.second;
+	_audioComponent.clear();
+
+	for (auto it : _FontComponent)
+		delete it.second;
+	_FontComponent.clear();
+
+	for (auto it : _buttonComponent)
+		delete it.second;
+	_buttonComponent.clear();
+}
 
 
  

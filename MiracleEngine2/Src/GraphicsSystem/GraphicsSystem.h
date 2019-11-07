@@ -48,6 +48,7 @@ public:
 private:
 	int _numAnim = 0;
 	int _testAnim = 0;
+	int _showfont = 0;
 	void ClearScreen() const;
 	void UnitTest();
 	TextureManager _textureManager;

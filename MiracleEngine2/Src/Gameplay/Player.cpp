@@ -7,6 +7,7 @@ Player::Player()
 	_init = false;
 	_health = 30;
 	_weaponActive = 2;
+	_rpgAmmo = 0;
 	_timer = 0;
 	_timerCooldown = 0.5;
 	_camera = nullptr;
@@ -133,8 +134,11 @@ void Player::WeaponShoot()
 			WeaponShoot_Shotgun();
 			break;
 		case (int)WeaponId::RPG:
-			WeaponShoot_RPG();
-			break;
+		{
+			if(_rpgAmmo > 0)
+				WeaponShoot_RPG();
+		}
+		break;
 		}
 }
 
@@ -170,6 +174,7 @@ void Player::WeaponShoot_Shotgun()
 }
 void Player::WeaponShoot_RPG()
 {
+	--_rpgAmmo;
 	_timer = 2; // cooldown
 	GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_T]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
@@ -187,4 +192,23 @@ int Player::GetHealth()
 void Player::SetHealth(int val)
 {
 	_health = val;
+}
+
+void Player::OnTrigger2DEnter(Collider2D* other)
+{
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_HEALTH)
+	{
+
+		_health += 2;
+		if (_health > 30)
+			_health = 30;
+
+		other->GetParentPtr()->SetDestory();
+	}
+	else if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_AMMO)
+	{
+		_rpgAmmo = 5;
+		other->GetParentPtr()->SetDestory();
+	}
+	
 }

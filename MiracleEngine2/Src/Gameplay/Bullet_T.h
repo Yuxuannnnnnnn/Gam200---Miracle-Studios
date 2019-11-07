@@ -12,7 +12,7 @@ public:
 
 	void Update(double dt);
 
-	void OnCollision2DTrigger(Collider2D* other);
+	void OnTrigger2DEnter(Collider2D* other);
 
 
 	void SerialiseComponent(Serialiser& document)

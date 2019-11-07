@@ -11,7 +11,7 @@ void Bullet_E::Update(double dt)
 		DestoryThis();
 }
 
-void Bullet_E::OnCollision2DTrigger(Collider2D* other)
+void Bullet_E::OnTrigger2DEnter(Collider2D* other)
 {
 	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER)
 	{

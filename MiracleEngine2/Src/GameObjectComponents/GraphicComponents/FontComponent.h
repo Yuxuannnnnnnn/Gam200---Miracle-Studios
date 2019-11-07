@@ -7,28 +7,18 @@
 class FontComponent : public IComponentSystem
 {
 public:
-	void SetFontID(int num)
-	{
-		_fontID = num;
-	}
-
-
 	void SerialiseComponent(Serialiser& document) override;
+	
+	void SetFontID(int num);
 
-	std::string ComponentName() const override
-	{
-		return "Font Component";
-	}
 
-	std::string& GetFontString()
-	{
-		return _fontString;
-	}
 
-	virtual void Inspect() override
-	{
-		
-	}
+	std::string ComponentName() const override;
+
+	std::string& GetFontString();
+
+
+	virtual void Inspect() override;
 
 	void SetString(std::string in)
 	{

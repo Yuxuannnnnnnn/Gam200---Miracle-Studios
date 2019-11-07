@@ -6,7 +6,7 @@ SpawnerTwo::SpawnerTwo() :
 	_typeId{ TypeIdGO::SPAWNERTWO },
 	_radiusSpawn{ 2.f },
 	_timer{ -1.0 },
-	_timeCooldown{ 15.0 },
+	_timeCooldown{ 30 },
 	_health{ 10 },
 	_init{ false }
 {

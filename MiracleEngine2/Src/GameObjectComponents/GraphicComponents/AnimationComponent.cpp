@@ -27,3 +27,24 @@ void AnimationComponent::Inspect()
 {
 	IComponentSystem::Inspect();
 }
+
+void AnimationComponent::AddAnimation(const Animation& animation)
+{
+	_animation.push_back(new Animation(animation));
+}
+void AnimationComponent::SetCurrentAnim(int curr)
+{
+	_currentAnimation = curr;
+}
+void AnimationComponent::SetStartFrame(int frame)
+{
+	_startingFrame = frame;
+}
+
+AnimationComponent::~AnimationComponent()
+{
+	for (auto e : _animation)
+	{
+		delete e;
+	}
+}

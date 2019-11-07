@@ -18,25 +18,14 @@ public:
 	virtual void Inspect() override;
 
 
-	void AddAnimation(const Animation& animation)
-	{
-		_animation.push_back(new Animation(animation));
-	}
-	void SetCurrentAnim(int curr)
-	{
-		_currentAnimation = curr;
-	}
-	void SetStartFrame(int frame)
-	{
-		_startingFrame = frame;
-	}
-	~AnimationComponent()
-	{
-		for (auto e : _animation)
-		{
-			delete e;
-		}
-	}
+	void AddAnimation(const Animation& animation);
+
+	void SetCurrentAnim(int curr);
+
+	void SetStartFrame(int frame);
+
+	~AnimationComponent();
+
 
 };
 
