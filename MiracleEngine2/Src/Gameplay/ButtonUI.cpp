@@ -9,7 +9,7 @@ void ButtonUI::OnMouseDown()
 	case (int)ButtonType::NONE:
 		break;
 	case (int)ButtonType::PLAY:
-		
+		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::LEVEL1);
 		break;
 	case (int)ButtonType::PAUSE:
 
@@ -42,7 +42,7 @@ void ButtonUI::OnMouseExit()
 }
 
 ButtonUI::ButtonUI() :
-	_buttonType{ (int)ButtonType::NONE }
+	_buttonType{ (int)ButtonType::PLAY }
 {
 }
 
@@ -53,5 +53,5 @@ void ButtonUI::Update()
 
 void ButtonUI::SerialiseComponent(Serialiser& document)
 {
-	
+
 }

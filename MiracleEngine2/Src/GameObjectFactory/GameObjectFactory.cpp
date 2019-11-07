@@ -1047,5 +1047,10 @@ void GameObjectFactory::DeleteLevel()
 	_buttonComponent.clear();
 }
 
-
+void GameObjectFactory::DeleteLevelNotPrefab()
+{
+	for (auto it : _listObject)
+		if (it.first >= 1000)
+			it.second->SetDestory();
+}
  

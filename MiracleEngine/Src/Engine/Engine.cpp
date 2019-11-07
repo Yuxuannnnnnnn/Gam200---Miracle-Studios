@@ -19,7 +19,7 @@ void Engine::Init()
 void Engine::Update()
 {
 	bool open = true; //for imgui show demo, to be deleted later
-
+	//_sceneManager->ChangeScene(Scenes::MAIN_MENU);
 
 	while (_gameStateManager->CheckIfCurrStateQuit())	//GameState Logic Starts here
 	{
