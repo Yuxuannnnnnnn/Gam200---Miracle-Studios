@@ -4,7 +4,7 @@
 // create a enum for buttonType
 enum class ButtonType {
 	NONE = 0,
-	PLAY,
+	PLAY = 1,
 	PAUSE,
 	QUIT,
 	MENU,
@@ -16,8 +16,9 @@ enum class ButtonType {
 class ButtonUI : public IScript
 {
 private:
-	int _buttonType;
+
 public:
+	int _buttonType;
 	//Constructor
 	ButtonUI();
 	// override these functions

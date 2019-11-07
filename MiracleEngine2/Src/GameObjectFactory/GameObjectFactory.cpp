@@ -218,6 +218,9 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
+		
+		if (!prefab)
+			EngineSystems::GetInstance()._physicsSystem->_buttonList.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -444,6 +447,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
+
+		EngineSystems::GetInstance()._physicsSystem->_buttonList.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -958,7 +963,12 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 
 
 
-
+void GameObjectFactory::DeleteLevelNotPrefab()
+{
+	for (auto it : _listObject)
+		if (it.first >= 1000)
+			it.second->SetDestory();
+}
 
 
 void GameObjectFactory::DeleteLevel()

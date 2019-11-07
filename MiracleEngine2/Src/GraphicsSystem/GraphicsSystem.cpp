@@ -149,13 +149,13 @@ void GraphicsSystem::Update(double dt)
 	for (auto& fontComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getFontComponent())
 	{
 
-		_fontRenderer.Draw();
+		//_fontRenderer.Draw();
 
-		//size_t objID = fontComponentpair.first;	//Get GameObjectID
-		//TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
+	//	size_t objID = fontComponentpair.first;	//Get GameObjectID
+	//	TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
-		//_fontRenderer.DrawFont(fontComponentpair.second->GetFontString(), transformComponent->GetPos()._x,
-		//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
+	//	_fontRenderer.DrawFont(fontComponentpair.second->GetFontString(), transformComponent->GetPos()._x,
+	//		transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
 	}
 
 	// loop through every element in graphic component
