@@ -78,11 +78,12 @@ void EdgeCollider2D::Update()
 	Vector3 scale = _transform->GetScale();
 
 	//Direction vector
-	Vector3 directionVec(cos(dir), sinf(dir));
+	Vector3 directionVec(cosf(dir), sinf(dir));
 	directionVec.Round();
 
 	//Get line segment normal
-	m_normal.Set(directionVec._y, -directionVec._x);
+	m_normal._x = directionVec._y;
+	m_normal._y = -directionVec._x;
 
 	//Get the p0 and p1
 	m_pt0 = pos + directionVec * (scale / 2);

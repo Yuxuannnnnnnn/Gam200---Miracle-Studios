@@ -11,7 +11,7 @@ void Camera::Update(std::unordered_map < size_t, TransformComponent*>&  _transfo
 {
 	for (auto& camComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getCameraComponent())
 	{
-		if (camComponentpair.second->GetParentId() < 1000 || camComponentpair.second->GetParentPtr()->GetDestory())
+		if (camComponentpair.second->GetParentId() < 1000)
 			continue;
 
 		size_t objID = camComponentpair.first;	//Get GameObjectID
