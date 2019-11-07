@@ -12,3 +12,26 @@ void FontComponent::SerialiseComponent(Serialiser& document)
 		_fontID = (document["FontId"].GetInt());
 	}
 }
+
+
+void FontComponent::SetFontID(int num)
+{
+	_fontID = num;
+}
+
+
+
+std::string FontComponent::ComponentName() const
+{
+	return "Font Component";
+}
+
+std::string& FontComponent::GetFontString()
+{
+	return _fontString;
+}
+
+void FontComponent::Inspect()
+{
+
+}

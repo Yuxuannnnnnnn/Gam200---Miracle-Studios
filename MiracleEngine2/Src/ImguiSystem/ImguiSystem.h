@@ -14,6 +14,8 @@ private:
 	
 public:
 	bool _pause;
+	bool _editorMode;
+
 	ImguiSystem(const Window& window); //Initialise ImguiSystem
 
 	void UpdateFrame();	//Calls new frames for Imgui every loop

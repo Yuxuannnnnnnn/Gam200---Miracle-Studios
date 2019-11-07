@@ -4,7 +4,7 @@
 
 
 ImguiSystem::ImguiSystem(const Window& window)
-	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }, _pause{ false }
+	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }, _pause{ false }, _editorMode{ false }
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -101,13 +101,25 @@ void ImguiSystem::UpdateFrame()
 			{
 				_pause = 0;
 			}
+
+			if (ImGui::MenuItem("Editor Mode Turn Off "))
+			{
+				_editorMode = 0;
+			}
+
+			if (ImGui::MenuItem("Editor Mode Turn On "))
+			{
+				_editorMode = 1;
+			}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
+
 	}
 
 
-
+	if (_editorMode)
+	{
 
 		for (int i = 0; i < (int)ImguiWindows::COUNT; i++)	//Update all Imgui Windows
 		{
@@ -125,6 +137,7 @@ void ImguiSystem::UpdateFrame()
 				ImGui::End();									//End of window body
 			}
 		}
+	}
 
 }
 
