@@ -85,7 +85,9 @@ void EdgeCollider2D::Update()
 	m_normal._x = directionVec._y;
 	m_normal._y = -directionVec._x;
 
+	directionVec *= (scale / 2);
+
 	//Get the p0 and p1
-	m_pt0 = pos + directionVec * (scale / 2);
-	m_pt1 = pos - directionVec * (scale / 2);
+	m_pt0 = pos + directionVec;
+	m_pt1 = pos - directionVec;
 }

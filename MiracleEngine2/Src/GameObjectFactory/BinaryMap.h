@@ -27,6 +27,7 @@ private:
 public:
 
 	BinaryMap(Serialiser& document)
+		:_mapWidth{0}, _mapHeight{0}, MapData{nullptr}, BinaryCollisionArray{nullptr}, LogicMap{nullptr}
 	{
 		if (document.HasMember("Width") && document["Width"].IsInt())
 		{
@@ -71,7 +72,7 @@ public:
 		const rapidjson::Value& Legend = document["Legend"];
 
 		//Loop Through the Legend List in Rapid Json Document
-		for (int i = 0; i < Legend.Size(); i++)
+		for (int i = 0; i < (int)Legend.Size(); i++)
 		{
 			//Loop through the TypeIdGO list
 			for (int count = 0; count < (int)TypeIdGO::COUNT; count++)

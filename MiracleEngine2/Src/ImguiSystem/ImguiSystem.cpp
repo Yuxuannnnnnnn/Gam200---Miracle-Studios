@@ -113,6 +113,24 @@ void ImguiSystem::UpdateFrame()
 			}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Window  "))
+		{
+			if (ImGui::MenuItem("Hierarchy Window  "))
+			{
+				_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)]->SetWindowTrue();
+			}
+			if (ImGui::MenuItem("Inspector Window  "))
+			{
+				_ImguiWindows[static_cast<int>(ImguiWindows::INSPECTOR)]->SetWindowTrue();
+			}
+			if (ImGui::MenuItem("PreFab Window  "))
+			{
+				_ImguiWindows[static_cast<int>(ImguiWindows::PREFAB_FOLDER)]->SetWindowTrue();
+			}
+
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMainMenuBar();
 
 	}
