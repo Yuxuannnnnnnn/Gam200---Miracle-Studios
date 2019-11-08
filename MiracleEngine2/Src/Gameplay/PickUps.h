@@ -13,7 +13,7 @@ class PickUps : public IScript
 private:
 
 public:
-	float _lifeTime;
+	double _lifeTime;
 	int _pickupType;
 
 	PickUps() : _lifeTime{ -666.f }, _pickupType{ (int)PickUp_Type::NONE } {}

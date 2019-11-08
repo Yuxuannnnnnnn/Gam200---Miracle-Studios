@@ -274,7 +274,7 @@ void AISystem::CreateNodeMap()
 	com->SetPos(position2);
 	Vector3 scale2(14 * MAP_SIZE, 0 , 0);
 	com->SetScale(scale2);
-	com->SetRotate(3.142/2);
+	com->SetRotate((double)(3.142 / 2));
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
 		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
@@ -283,7 +283,7 @@ void AISystem::CreateNodeMap()
 	com->SetPos(position3);
 	Vector3 scale3(14 * MAP_SIZE,0, 0);
 	com->SetScale(scale3);
-	com->SetRotate(3.142 / 2);
+	com->SetRotate((double)(3.142 / 2));
 
 
 }
