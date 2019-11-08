@@ -6,7 +6,7 @@ class Bullet : public IScript
 private:
 
 public:
-	float _lifeTime;
+	double _lifeTime;
 
 	Bullet() : _lifeTime{ -666.f } {}
 

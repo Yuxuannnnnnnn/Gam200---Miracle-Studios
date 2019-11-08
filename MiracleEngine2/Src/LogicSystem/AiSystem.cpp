@@ -105,7 +105,7 @@ void AISystem::SetInit()
 // InUpEx
 void AISystem::Init()
 {
-	CreateNodeMap();
+	//CreateNodeMap();
 	//PathFinding();
 }
 void AISystem::Update(double dt)
@@ -272,18 +272,18 @@ void AISystem::CreateNodeMap()
 	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position2(-(MAP_WIDTH* MAP_SIZE/2), 0, 1);
 	com->SetPos(position2);
-	Vector3 scale2(14 * MAP_SIZE, 0 , 0);
+	Vector3 scale2(0, 14 * MAP_SIZE, 0);
 	com->SetScale(scale2);
-	com->SetRotate(3.142/2);
+	com->SetRotate(PI/2);
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
 		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
 	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position3((MAP_WIDTH* MAP_SIZE / 2), 0, 1);
 	com->SetPos(position3);
-	Vector3 scale3(14 * MAP_SIZE,0, 0);
+	Vector3 scale3(0, 14 * MAP_SIZE, 0);
 	com->SetScale(scale3);
-	com->SetRotate(3.142 / 2);
+	com->SetRotate(PI/2);
 
 
 }

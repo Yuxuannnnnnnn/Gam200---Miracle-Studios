@@ -91,6 +91,8 @@ void GraphicComponent::RenderLayerResolver()
 		break;
 	case (unsigned)TypeIdGO::EXPLOSION:
 		_renderLayer = 9;
+	case (unsigned)TypeIdGO::BUTTON_UI:
+		_renderLayer = 10;
 		break;
 	}
 }

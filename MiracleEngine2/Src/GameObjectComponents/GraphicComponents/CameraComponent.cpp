@@ -44,15 +44,15 @@ void CameraComponent::Inspect()
 }
 
 
-void CameraComponent::SetMoveSpeed(int num)
+void CameraComponent::SetMoveSpeed(float num)
 {
 	_movespeed = num;
 }
-void CameraComponent::SetxZoom(int num)
+void CameraComponent::SetxZoom(float num)
 {
 	_xZoom = num;
 }
-void CameraComponent::SetyZoom(int num)
+void CameraComponent::SetyZoom(float num)
 {
 	_yZoom = num;
 }
