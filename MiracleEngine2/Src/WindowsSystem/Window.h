@@ -26,8 +26,11 @@ private:
 	HDC m_windowDC;//global Window-device context
 	HGLRC m_wglDC;//OpenGL-device context
 
-	unsigned _windowWidth; //1920
-	unsigned _windowHeight;//1080
+	int  _windowWidth; //1920
+	int  _windowHeight;//1080
+
+	int _initWindowWidth; //1920
+	int _initWindowHeight;//1080
 
 
 public:

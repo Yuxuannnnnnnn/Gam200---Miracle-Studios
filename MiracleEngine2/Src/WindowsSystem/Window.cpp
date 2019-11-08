@@ -219,6 +219,10 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 	ScreenSize temp; // temp object for reading in info
 	temp.FileRead_StartUp();
 
+
+	_initWindowWidth = temp.GetResX();
+	_initWindowHeight = temp.GetResY();
+
 	_windowWidth = temp.GetResX();
 	_windowHeight = temp.GetResY();
 
@@ -259,6 +263,9 @@ void Window::SetFullscreenWindowMode()
 	DWORD dwNewStyle = dwStyle & ~dwRemove;
 	::SetWindowLong(mainHWND, GWL_STYLE, dwNewStyle);
 	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 0L);
+
+	_windowWidth = GetSystemMetrics(SM_CXSCREEN);
+	_windowHeight = GetSystemMetrics(SM_CYSCREEN);
 }
 
 void Window::SetNonFullScreenWindowMode()
@@ -266,7 +273,10 @@ void Window::SetNonFullScreenWindowMode()
 	DWORD dwStyle = ::GetWindowLong(mainHWND, GWL_STYLE);
 	dwStyle |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 	::SetWindowLong(mainHWND, GWL_STYLE, dwStyle);
-	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, _windowWidth, _windowHeight, 0L);
+	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, _initWindowWidth, _initWindowHeight, 0L);
+
+	_windowWidth = _initWindowWidth;
+	_windowHeight = _initWindowHeight;
 }
 
 
