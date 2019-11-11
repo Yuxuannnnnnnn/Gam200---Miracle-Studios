@@ -13,13 +13,9 @@
 
 namespace mathLib
 {
-#ifdef _MSC_VER
-	// Supress warning: nonstandard extension used : nameless struct/union
-#pragma warning( disable : 4201 )
-#endif
+	typedef union Matrix4x4 {
 
-	typedef union Matrix4x4
-	{
+	public:
 		struct
 		{
 			float m00, m01, m02, m03;
@@ -31,6 +27,9 @@ namespace mathLib
 		float m[16];
 		float m2[4][4];
 
+		static const Matrix4x4 Mtx44Identity;
+
+	public:
 		Matrix4x4();
 		Matrix4x4(const float* pArr);
 		Matrix4x4(float _00, float _01, float _02, float _03,
@@ -40,15 +39,9 @@ namespace mathLib
 
 		// Assignment operators
 		Matrix4x4& operator=(const Matrix4x4& rhs);
-		Matrix4x4& operator += (const Matrix4x4& rhs);
-		Matrix4x4& operator -= (const Matrix4x4& rhs);
-		Matrix4x4& operator *= (const Matrix4x4& rhs);
-		Matrix4x4& operator *= (const float& rhs);
+		float operator[](size_t index) const;
 
-		Matrix4x4 operator+(const Matrix4x4& rhs);
-		Matrix4x4 operator-(const Matrix4x4& rhs);
-		Matrix4x4 operator*(const Matrix4x4& rhs);
-		Matrix4x4 operator*(const float& rhs);
+	public: // other function
 
 		static Matrix4x4 CreateScale(Vector3 scale);
 		static Matrix4x4 CreateTranslation(Vector3 translation);
@@ -59,13 +52,20 @@ namespace mathLib
 		static Matrix4x4 CreatePerspectiveProjection(float width, float height, float fov, float nearPlane, float farPlane);
 		static Matrix4x4 CreateOrthographicProjection(float left, float right, float top, float bottom, float farPlane, float nearPlane);
 
+		friend std::ostream& operator<<(std::ostream& out, const Matrix4x4& m);
 
 	} Matrix4x4, Mtx44;
 
-#ifdef _MSC_VER
-	// Supress warning: nonstandard extension used : nameless struct/union
-#pragma warning( default : 4201 )
-#endif
+	Matrix4x4& operator+= (Matrix4x4& lhs, const Matrix4x4& rhs);
+	Matrix4x4& operator-= (Matrix4x4& lhs, const Matrix4x4& rhs);
+	Matrix4x4& operator*= (Matrix4x4& lhs, const Matrix4x4& rhs);
+	Matrix4x4& operator*= (Matrix4x4& lhs, const float& rhs);
+
+	Matrix4x4 operator+(const Matrix4x4& lhs, const Matrix4x4& rhs);
+	Matrix4x4 operator-(const Matrix4x4& lhs, const Matrix4x4& rhs);
+	Matrix4x4 operator*(const Matrix4x4& lhs, const Matrix4x4& rhs);
+	Matrix4x4 operator*(const Matrix4x4& lhs, const float& rhs);
+
 }
 
 #endif 

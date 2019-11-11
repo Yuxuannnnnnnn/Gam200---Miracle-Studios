@@ -97,9 +97,9 @@ void JsonDynamicStore(Vector3& store, rapidjson::Value& val)
 	//Vector3 tempVec(val[0].GetFloat(), val[1].GetFloat(), 1);
 	ASSERT(val.IsArray())
 	{
-		store.X(val[0].GetFloat());
-		store.Y(val[1].GetFloat());
-		store.Z(1);
+		store.SetX(val[0].GetFloat());
+		store.SetY(val[1].GetFloat());
+		store.SetZ(1);
 	}
 	return;
 }

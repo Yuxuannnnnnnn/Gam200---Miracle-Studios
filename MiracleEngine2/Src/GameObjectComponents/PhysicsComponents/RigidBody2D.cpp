@@ -147,7 +147,7 @@ void RigidBody2D::Draw()
 
 void RigidBody2D::StopVelocity()
 {
-	Vec3Zero(_velocity);
+	_velocity = Vector3::Vec3Zero;
 }
 
 void RigidBody2D::AddForce(Vector3 forceDir, float force)
@@ -158,12 +158,10 @@ void RigidBody2D::AddForce(Vector3 forceDir, float force)
 
 void RigidBody2D::AddForwardForce(float force)
 {
-	Mtx33 temp;
-	Mtx33Identity(temp);
-	Mtx33RotRad(temp, _transform->GetRotate());
+	Mtx33 temp = Mtx33::CreateRotation(_transform->GetRotate());
 
 	Vector2 result = temp * Vector2{ 0, 1 };
-	_direction.Set(result.x, result.y);
+	_direction.Set(result._x, result._y);
 	_direction.Normalize();
 
 	_appliedForce += _direction * force;

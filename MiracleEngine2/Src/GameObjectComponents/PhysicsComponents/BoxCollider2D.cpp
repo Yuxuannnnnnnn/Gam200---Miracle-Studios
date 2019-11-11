@@ -201,14 +201,14 @@ void BoxCollider2D::ComputeAxes() {
 
 bool BoxCollider2D::TestAABBVsPoint(const Vector3& pt)
 {
-	return (pt.X() >= mMinPos.X() && pt.X() <= mMaxPos.X() &&
-		pt.Y() >= mMinPos.Y() && pt.Y() <= mMaxPos.Y());
+	return (pt._x >= mMinPos._x && pt._x <= mMaxPos._x &&
+		pt._y >= mMinPos._y && pt._y <= mMaxPos._y);
 }
 
 bool BoxCollider2D::TestAABBVsAABB(const BoxCollider2D& aabb)
 {
-	if (mMaxPos.X() < aabb.mMinPos.X() || mMaxPos.Y() < aabb.mMinPos.Y() ||
-		mMinPos.X() > aabb.mMaxPos.X() || mMinPos.Y() > aabb.mMaxPos.Y())
+	if (mMaxPos._x < aabb.mMinPos._x || mMaxPos._y < aabb.mMinPos._y ||
+		mMinPos._x > aabb.mMaxPos._x || mMinPos._y > aabb.mMaxPos._y)
 		return false;
 
 	return true;
@@ -340,10 +340,10 @@ bool TestCircleVsAABB(const CircleCollider2D& circle, const BoxCollider2D& aabb)
 	if (box.TestAABBVsPoint(circle.mCenPos))
 		return true;
 
-	if (Vec3Distance_LinetoPoint(aabb.mMinPos, Vector3(aabb.mMinPos.X(), aabb.mMaxPos.Y()), circle.mCenPos) <= circle.mRadius ||
-		Vec3Distance_LinetoPoint(Vector3(aabb.mMinPos.X(), aabb.mMaxPos.Y()), aabb.mMaxPos, circle.mCenPos) <= circle.mRadius ||
-		Vec3Distance_LinetoPoint(aabb.mMaxPos, Vector3(aabb.mMaxPos.X(), aabb.mMinPos.Y()), circle.mCenPos) <= circle.mRadius ||
-		Vec3Distance_LinetoPoint(Vector3(aabb.mMaxPos.X(), aabb.mMinPos.Y()), aabb.mMinPos, circle.mCenPos) <= circle.mRadius)
+	if (Vec3Distance_LinetoPoint(aabb.mMinPos, Vector3(aabb.mMinPos._x, aabb.mMaxPos._y), circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(Vector3(aabb.mMinPos._x, aabb.mMaxPos._y), aabb.mMaxPos, circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(aabb.mMaxPos, Vector3(aabb.mMaxPos._x, aabb.mMinPos._y), circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(Vector3(aabb.mMaxPos._x, aabb.mMinPos._y), aabb.mMinPos, circle.mCenPos) <= circle.mRadius)
 		return true;
 
 	return false;

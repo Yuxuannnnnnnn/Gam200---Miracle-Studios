@@ -21,11 +21,16 @@
 
 namespace mathLib {
 
-	class Vector2 final {
+	typedef union Vector2 {
 
 	public:
-		float x;
-		float y;
+		struct
+		{
+			float _x;
+			float _y;
+		};
+
+		float m[2];
 
 		static const Vector2 Vec2Zero;
 		static const Vector2 Vec2EX;
@@ -33,86 +38,86 @@ namespace mathLib {
 	public:
 
 		// Default Constructor
-		Vector2() = default;
+		Vector2();
 		// Conversion Constructor
-		Vector2(const float& _x, const float& _y = 0.f);
+		Vector2(const float& x, const float& y = 0.f);
 		// Copy constructor
-		Vector2(const Vector2& _v);
+		Vector2(const Vector2& rhs);
 		// Default destructor
 		~Vector2() {}
 
-		// Assignment operator
-		Vector2& operator=(const Vector2& _v);
-
-		// Calc distance to the given point
-		double Distance(const Vector2& _pt) const;
-
-		// Get the dot product of this vector and _v
-		float Dot(const Vector2& _v) const;
-
-		// See if a point is finite (e.g., not nan)
-		bool IsFinite() const;
-
-		// Get the length (magnitude) of the vector
-		float Length() const;
-
-		// Get the square of the length (magnitude) of the vector
-		float SquaredLength() const;
-
-
-		// Normalize the vector length.
-		void Normalize();
-
-		// Set the contents of the vector
-		void Set(float _x = 0.f, float _y = 0.f);
-
-		// Equal to operator.
-		bool operator==(const Vector2& _v) const;
-
-		// Not equal to operator.
-		bool operator!=(const Vector2& _v) const;
-
-		// less than operator.
-		bool operator<(const Vector2& _v) const;
-
-		// Multiplication operators
-		const Vector2 operator*(const Vector2& _v) const;
-
-		// Multiplication operators
-		const Vector2 operator*(float _v) const;
-
-		// Multiplication assignment operator
-		const Vector2& operator*=(const Vector2& _v);
-
-		// Multiplication assignment operator
-		const Vector2& operator*=(float _v);
-
-		// Addition operator
-		const Vector2 operator+(const Vector2& _v) const;
-
-		// Addition assignment  operator
-		const Vector2& operator+=(const Vector2& _v);
-
-		// Subtraction operator
-		const Vector2 operator-(const Vector2& _v) const;
-
-		// Subtraction assignment  operator
-		const Vector2& operator-=(const Vector2& _v);
-
-		// Division operator
-		const Vector2 operator/(const Vector2& _v) const;
-		// Division assignment  operator
-		const Vector2& operator/=(const Vector2& _v);
-
-		// Array subscript operator.
+		Vector2& operator=(const Vector2& rhs);
 		float operator[](size_t index) const;
 
-		// Stream extraction operator, output stream
-		friend std::ostream& operator<<(std::ostream& _out, const Vector2& _v);
+		float& GetX();
+		float& GetY();
+		void SetX(const float& x);
+		void SetY(const float& y);
+		void Set(float x = 0.f, float y = 0.f);
 
-		// Stream insertion operator, input stream
-		friend std::istream& operator>>(std::istream& _in, Vector2& _v);
-	};
+	public: // other function
+
+		float Sum() const;
+
+		float Distance(const Vector2& pt) const;
+		float Distance(float x, float y) const;
+
+		float Length() const;
+		float SquaredLength() const;
+
+		Vector2& Normalize();
+		Vector2 Normalized() const;
+
+		Vector2& Round();
+		Vector2 Rounded() const;
+
+		Vector2 Cross(const Vector2& v) const;
+		float Dot(const Vector2& v) const;
+		float AbsDot(const Vector2& v) const;
+
+		Vector2 Abs() const;
+
+		bool IsFinite() const;
+
+		// problems : not fix
+		//static float DistToLine(const Vector2& lineEdge1, const Vector2& lineEdge2, const Vector2& pt);
+		//static Vector2 Normal(const Vector2& v1, const Vector2& v2, const Vector2& v3);
+
+		friend std::ostream& operator<<(std::ostream& out, const Vector2& v);
+		friend std::istream& operator>>(std::istream& in, Vector2& v);
+	
+	} Vector2, Vec2;
+
+	Vector2 operator+(const Vector2& lhs);
+	Vector2 operator-(const Vector2& lhs);
+	Vector2 operator+(const Vector2& lhs, const Vector2& rhs);
+	Vector2 operator-(const Vector2& lhs, const Vector2& rhs);
+	Vector2 operator*(const Vector2& lhs, const Vector2& rhs);
+	Vector2 operator/(const Vector2& lhs, const Vector2& rhs);
+
+	Vector2& operator+=(Vector2& lhs, const Vector2& rhs);
+	Vector2& operator-=(Vector2& lhs, const Vector2& rhs);
+	Vector2& operator*=(Vector2& lhs, const Vector2& rhs);
+	Vector2& operator/=(Vector2& lhs, const Vector2& rhs);
+
+	Vector2 operator*(const Vector2& lhs, const float& rhs);
+	Vector2 operator*(const float& lhs, const Vector2& rhs);
+
+	Vector2 operator/(const Vector2& lhs, const float& rhs);
+	//Vector2 operator/(const float& lhs, const Vector2& rhs);
+
+	Vector2& operator*=(Vector2& lhs, const float& rhs);
+	Vector2& operator*=(const float& lhs, Vector2& rhs);
+
+	Vector2& operator/=(Vector2& lhs, const float& rhs);
+	//Vector2& operator/=(const float& lhs, Vector2& rhs);
+
+	bool operator==(const Vector2& lhs, const Vector2& rhs);
+	bool operator!=(const Vector2& lhs, const Vector2& rhs);
+	//bool operator<(const Vector2& lhs, const Vector2& rhs);
+	//bool operator>(const Vector2& lhs, const Vector2& rhs);
+	//bool operator<=(const Vector2& lhs, const Vector2& rhs);
+	//bool operator>=(const Vector2& lhs, const Vector2& rhs);
 }
 
 #endif

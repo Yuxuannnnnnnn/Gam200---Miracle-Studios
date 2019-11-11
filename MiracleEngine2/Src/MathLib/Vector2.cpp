@@ -15,208 +15,317 @@ namespace mathLib {
 	const Vector2 Vector2::Vec2EX = Vector2{ 1.f,0.f};
 	const Vector2 Vector2::Vec2EY = Vector2{ 0.f,1.f};
 
-	// Conversion Constructor
-	Vector2::Vector2(const float& _x, const float& _y) : 
-		x{ _x }, 
-		y{ _y } 
-	{
+	Vector2::Vector2() :
+		_x{ 0.f }, _y{ 0.f } {}
 
-	}
+	// Conversion Constructor
+	Vector2::Vector2(const float& x, const float& y) : 
+		_x{ x }, _y{ y } {}
 
 	// Copy constructor
-	Vector2::Vector2(const Vector2& _v) : 
-		x{ _v.x }, 
-		y{ _v.y } 
-	{
-
-	}
+	Vector2::Vector2(const Vector2& rhs) : 
+		_x{ rhs._x }, _y{ rhs._y } {}
 
 
 	// Assignment operator
-	Vector2& Vector2::operator=(const Vector2& _v)
+	Vector2& Vector2::operator=(const Vector2& rhs)
 	{
-		if (this != &_v)
+		if (this != &rhs)
 		{
-			this->x = _v.x;
-			this->y = _v.y;
+			this->_x = rhs._x;
+			this->_y = rhs._y;
 		}
 
 		return *this;
 	}
 
-	// Calc distance to the given point
-	double Vector2::Distance(const Vector2& _pt) const
+	float Vector2::operator[](size_t index) const
 	{
-		return std::sqrt((this->x - _pt.x) * (this->x - _pt.x) +
-			(this->y - _pt.y) * (this->y - _pt.y));
+		if (index > 1)
+			return 0.f;
+
+		return m[index];
 	}
 
-	// Get the dot product of this vector and _v
-	float Vector2::Dot(const Vector2& _v) const
+	float& Vector2::GetX()
 	{
-		return ((this->x * _v.x) + (this->y * _v.y));
+		return _x;
 	}
 
-	// See if a point is finite (e.g., not nan)
-	bool Vector2::IsFinite() const
+	float& Vector2::GetY()
 	{
-		return std::isfinite(this->x) &&
-			std::isfinite(this->y);
+		return _y;
 	}
 
-	// Get the length (magnitude) of the vector
+	void Vector2::SetX(const float& x)
+	{
+		this->_x = x;
+	}
+
+	void Vector2::SetY(const float& y)
+	{
+		this->_y = y;
+	}
+
+	void Vector2::Set(float x, float y)
+	{
+		this->_x = x;
+		this->_y = y;
+	}
+
+///////////////////////////////////////////////////////////////////////////////
+
+	float Vector2::Sum() const
+	{
+		return this->_x + this->_y;
+	}
+
+	float Vector2::Distance(const Vector2& pt) const
+	{
+		return std::sqrt((this->_x - pt._x) * (this->_x - pt._x) +
+			(this->_y - pt._y) * (this->_y - pt._y));
+	}
+
+	float Vector2::Distance(float x, float y) const
+	{
+		return this->Distance(Vector2(x, y));
+	}
+
 	float Vector2::Length() const
 	{
 		return std::sqrt(this->SquaredLength());
 	}
 
-	// Get the square of the length (magnitude) of the vector
 	float Vector2::SquaredLength() const
 	{
-		return std::pow(this->x, 2.f) + std::pow(this->y, 2.f);
+		return std::pow(this->_x, 2.f)
+			+ std::pow(this->_y, 2.f);
 	}
 
-
-	// Normalize the vector length.
-	void Vector2::Normalize()
+	Vector2& Vector2::Normalize()
 	{
 		float d = this->Length();
 
-		if (d != 0.0)
+		if (*this != Vector2(0.f, 0.f))
 		{
-			this->x /= d;
-			this->y /= d;
+			this->_x /= d;
+			this->_y /= d;
 		}
-	}
-
-	// Set the contents of the vector
-	void Vector2::Set(float _x, float _y)
-	{
-		this->x = _x;
-		this->y = _y;
-	}
-
-
-	// Equal to operator.
-	bool Vector2::operator==(const Vector2& _v) const
-	{
-		return (this->x == _v.x) && (this->y == _v.y);
-	}
-
-	// Not equal to operator.
-	bool Vector2::operator!=(const Vector2& _v) const
-	{
-		return !(*this == _v);
-	}
-
-	// less than operator.
-	bool Vector2::operator<(const Vector2& _v) const
-	{
-		return this->x < _v.x || this->y < _v.y;
-	}
-
-	// Multiplication operators
-	const Vector2 Vector2::operator*(const Vector2& _v) const
-	{
-		return Vector2(this->x * _v.x, this->y * _v.y);
-	}
-
-	// Multiplication operators
-	const Vector2 Vector2::operator*(float _v) const
-	{
-		return Vector2(this->x * _v, this->y * _v);
-	}
-
-	// Multiplication assignment operator
-	const Vector2& Vector2::operator*=(const Vector2& _v)
-	{
-		this->x *= _v.x;
-		this->y *= _v.y;
 
 		return *this;
 	}
 
-	// Multiplication assignment operator
-	const Vector2& Vector2::operator*=(float _v)
+	Vector2 Vector2::Normalized() const
 	{
-		this->x *= _v;
-		this->y *= _v;
+		Vector2 result = *this;
+		return result.Normalize();
+	}
 
+	Vector2& Vector2::Round()
+	{
+		this->_x = std::nearbyint(this->_x);
+		this->_y = std::nearbyint(this->_y);
 		return *this;
 	}
 
-	// Addition operator
-	const Vector2 Vector2::operator+(const Vector2& _v) const
+	Vector2 Vector2::Rounded() const
 	{
-		return Vector2(this->x + _v.x, this->y + _v.y);
+		Vector2 result = *this;
+		return result.Round();
 	}
 
-	// Addition assignment  operator
-	const Vector2& Vector2::operator+=(const Vector2& _v)
+	Vector2 Vector2::Cross(const Vector2& v) const
 	{
-		this->x += _v.x;
-		this->y += _v.y;
-
-		return *this;
+		return Vector2(v._y, -v._x);
 	}
 
-	// Subtraction operator
-	const Vector2 Vector2::operator-(const Vector2& _v) const
+	float Vector2::Dot(const Vector2& v) const
 	{
-		return Vector2(this->x - _v.x, this->y - _v.y);
+		return this->_x * v._x +
+			this->_y * v._y;
 	}
 
-	// Subtraction assignment  operator
-	const Vector2& Vector2::operator-=(const Vector2& _v)
+	float Vector2::AbsDot(const Vector2& v) const
 	{
-		this->x -= _v.x;
-		this->y -= _v.y;
-
-		return *this;
+		return std::abs(this->_x * v._x +
+			this->_y * v._y);
 	}
 
-	// Division operator
-	const Vector2 Vector2::operator/(const Vector2& _v) const
+	Vector2 Vector2::Abs() const
 	{
-		return Vector2(this->x / _v.x, this->y / _v.y);
+		return Vector2(std::abs(this->_x),
+			std::abs(this->_y));
 	}
 
-	// Division assignment  operator
-	const Vector2& Vector2::operator/=(const Vector2& _v)
+	bool Vector2::IsFinite() const
 	{
-		this->x /= _v.x;
-		this->y /= _v.y;
-
-		return *this;
+		return std::isfinite(this->_x) &&
+			std::isfinite(this->_y);
 	}
 
-	// Array subscript operator.
-	float Vector2::operator[](size_t index) const
+	/*float Vector2::DistToLine(const Vector2& lineEdge1, const Vector2& lineEdge2, const Vector2& pt)
 	{
-		if (index == 0)
-			return this->x;
-		else if (index == 1)
-			return this->y;
+		float d = (pt - lineEdge1).Cross(pt - lineEdge2).Length();
+		d = d / (lineEdge1 - lineEdge2).Length();
+		return d;
+	}*/
 
-		return 0.f;
-	}
+	/*Vector2 Vector2::Normal(const Vector2& v1, const Vector2& v2, const Vector2& v3)
+	{
+		Vector2 a = v2 - v1;
+		Vector2 b = v3 - v1;
+		Vector2 n = a.Cross(b);
+		return n.Normalize();
+	}*/
 
 	// Stream extraction operator, output stream
-	 std::ostream& operator<<(std::ostream& _out, const Vector2& _v)
+	std::ostream& operator<<(std::ostream& out, const Vector2& v)
 	{
-		_out << _v[0] << " " << _v[1];
-		return _out;
+		out << v[0] << " " << v[1];
+		return out;
 	}
 
 	// Stream insertion operator, input stream
-	 std::istream& operator>>(std::istream& _in, Vector2& _v)
+	std::istream& operator>>(std::istream& in, Vector2& v)
 	{
 		float x, y;
 		// Skip white spaces
-		_in.setf(std::ios_base::skipws);
-		_in >> x >> y;
-		_v.Set(x, y);
-		return _in;
+		in.setf(std::ios_base::skipws);
+		in >> x >> y;
+		v.Set(x, y);
+		return in;
 	}
 
+///////////////////////////////////////////////////////////////////////////////
+
+	Vector2 operator+(const Vector2& lhs)
+	{
+		return lhs.Abs();
+	}
+
+	Vector2 operator-(const Vector2& lhs)
+	{
+		return Vector2{ -lhs._x, -lhs._y };
+	}
+
+	Vector2 operator+(const Vector2& lhs, const Vector2& rhs)
+	{
+		return Vector2{ lhs._x + rhs._x,
+						lhs._y + rhs._y };
+	}
+
+	Vector2 operator-(const Vector2& lhs, const Vector2& rhs)
+	{
+		return Vector2{ lhs._x - rhs._x,
+						lhs._y - rhs._y };
+	}
+
+	Vector2 operator*(const Vector2& lhs, const Vector2& rhs)
+	{
+		return Vector2{ lhs._x * rhs._x,
+						lhs._y * rhs._y };
+	}
+
+	Vector2 operator/(const Vector2& lhs, const Vector2& rhs)
+	{
+		if (rhs._x == 0 || rhs._y == 0)
+			return lhs;
+
+		return Vector2{ lhs._x / rhs._x,
+						lhs._y / rhs._y };
+	}
+
+	Vector2& operator+=(Vector2& lhs, const Vector2& rhs)
+	{
+		lhs._x += rhs._x;
+		lhs._y += rhs._y;
+
+		return lhs;
+	}
+
+	Vector2& operator-=(Vector2& lhs, const Vector2& rhs)
+	{
+		lhs._x -= rhs._x;
+		lhs._y -= rhs._y;
+
+		return lhs;
+	}
+
+	Vector2& operator*=(Vector2& lhs, const Vector2& rhs)
+	{
+		lhs._x *= rhs._x;
+		lhs._y *= rhs._y;
+
+		return lhs;
+	}
+
+	Vector2& operator/=(Vector2& lhs, const Vector2& rhs)
+	{
+		if (rhs._x == 0 || rhs._y == 0)
+			return lhs;
+
+		lhs._x /= rhs._x;
+		lhs._y /= rhs._y;
+
+		return lhs;
+	}
+
+	Vector2 operator*(const Vector2& lhs, const float& rhs)
+	{
+		return Vector2{ lhs._x * rhs,
+						lhs._y * rhs};
+	}
+
+	Vector2 operator*(const float& lhs, const Vector2& rhs)
+	{
+		return Vector2{ lhs * rhs._x,
+						lhs * rhs._y};
+	}
+
+	Vector2 operator/(const Vector2& lhs, const float& rhs)
+	{
+		if (rhs == 0)
+			return lhs;
+
+		return Vector2{ lhs._x / rhs,
+						lhs._y / rhs};
+	}
+
+	Vector2& operator*=(Vector2& lhs, const float& rhs)
+	{
+		lhs._x *= rhs;
+		lhs._y *= rhs;
+
+		return lhs;
+	}
+
+	Vector2& operator*=(const float& lhs, Vector2& rhs)
+	{
+		rhs._x *= lhs;
+		rhs._y *= lhs;
+
+		return rhs;
+	}
+
+	Vector2& operator/=(Vector2& lhs, const float& rhs)
+	{
+		if (rhs == 0)
+			return lhs;
+
+		lhs._x /= rhs;
+		lhs._y /= rhs;
+
+		return lhs;
+	}
+
+	bool operator==(const Vector2& lhs, const Vector2& rhs)
+	{
+		return ((lhs._x == rhs._x) &&
+			(lhs._y == rhs._y));
+	}
+
+	bool operator!=(const Vector2& lhs, const Vector2& rhs)
+	{
+		return !(lhs == rhs);
+	}
 }

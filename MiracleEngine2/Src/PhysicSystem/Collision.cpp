@@ -559,9 +559,9 @@ int BoxEdge_Intersection(const BoxCollider2D& box,
 		{
 
 			//Ti = ( N.P0 - N.Bs - R / N.V )
-			interTime = (lineSeg.m_normal * lineSeg.m_pt0
-				- lineSeg.m_normal * box.mOrigin - boxVecLength) /
-				(lineSeg.m_normal * velocity);
+			interTime = (lineSeg.m_normal.Dot(lineSeg.m_pt0)
+				- lineSeg.m_normal.Dot(box.mOrigin) - boxVecLength) /
+				(lineSeg.m_normal.Dot(velocity));
 
 			if (0 <= interTime && interTime <= 1)
 			{
@@ -594,17 +594,17 @@ int BoxEdge_Intersection(const BoxCollider2D& box,
 
 		//BsP0'
 		temp = LNS2.m_pt0 - box.mOrigin;
-		float tempf = temp * velNor;
+		float tempf = temp.Dot(velNor);
 		//BsP1'
 		temp = LNS2.m_pt1 - box.mOrigin;
-		tempf *= temp * velNor;
+		tempf *= temp.Dot(velNor);
 		if (tempf < 0)
 		{
 
 			//Ti = ( N.P0 - N.Bs + R / N.V )
-			interTime = (lineSeg.m_normal * lineSeg.m_pt0
-				- lineSeg.m_normal * box.mOrigin + boxVecLength) /
-				(lineSeg.m_normal * velocity);
+			interTime = (lineSeg.m_normal.Dot(lineSeg.m_pt0)
+				- lineSeg.m_normal.Dot(box.mOrigin) + boxVecLength) /
+				(lineSeg.m_normal.Dot(velocity));
 
 			if (0 <= interTime && interTime <= 1)
 			{
@@ -691,7 +691,7 @@ void BoxBox_Response(Vector3& normal,
 	Vector3& reflectedVectorB,						
 	Vector3& ptEndB)														
 {
-	float p = normal * ((velA - velB) * 2 / (massA + massB));
+	float p = normal.Dot(((velA - velB) * 2 / (massA + massB)));
 
 	reflectedVectorA = velA - normal * p * massB;
 	reflectedVectorB = velB + normal * p * massA;
@@ -755,9 +755,9 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 		{
 			
 			//Ti = ( N.P0 - N.Bs - R / N.V )
-			interTime = (lineSeg.m_normal * lineSeg.m_pt0
-				- lineSeg.m_normal * circle.mCenPos - circle.mRadius) /
-				(lineSeg.m_normal * velocity);
+			interTime = (lineSeg.m_normal.Dot(lineSeg.m_pt0)
+				- lineSeg.m_normal.Dot(circle.mCenPos) - circle.mRadius) /
+				(lineSeg.m_normal.Dot(velocity));
 
 			if (0 <= interTime && interTime <= 1)
 			{
@@ -790,17 +790,17 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 
 		//BsP0'
 		temp = LNS2.m_pt0 - circle.mCenPos;
-		float tempf = temp * velNormal;
+		float tempf = temp.Dot(velNormal);
 		//BsP1'
 		temp = LNS2.m_pt1 - circle.mCenPos;
-		tempf *= temp * velNormal;
+		tempf *= temp.Dot(velNormal);
 		if (tempf < 0)
 		{
 			
 			//Ti = ( N.P0 - N.Bs + R / N.V )
-			interTime = (lineSeg.m_normal * lineSeg.m_pt0
-				- lineSeg.m_normal * circle.mCenPos + circle.mRadius) /
-				(lineSeg.m_normal * velocity);
+			interTime = (lineSeg.m_normal.Dot(lineSeg.m_pt0)
+				- lineSeg.m_normal.Dot(circle.mCenPos + circle.mRadius)) /
+				(lineSeg.m_normal.Dot(velocity));
 
 			if (0 <= interTime && interTime <= 1)
 			{
@@ -849,12 +849,12 @@ int CircleLine_Intersection(bool withinBothLines,
 	Vector3 startToLineEdge0;
 	startToLineEdge0 = lineSeg.m_pt0 - circle.mCenPos;
 
-	float m0 = relVelNormal * startToLineEdge0;
+	float m0 = relVelNormal.Dot(startToLineEdge0);
 
 	Vector3 startToLineEdge1;
 	startToLineEdge1 = lineSeg.m_pt1 - circle.mCenPos;
 
-	float m1 = relVelNormal * startToLineEdge1;
+	float m1 = relVelNormal.Dot(startToLineEdge1);
 
 	float r = circle.mRadius * circle.mRadius;
 
@@ -1016,7 +1016,7 @@ int CircleCircle_Intersection(const CircleCollider2D& circleA,
 	Vector3 startToCircle;
 	startToCircle = c.mCenPos - circleA.mCenPos;
 
-	float m = startToCircle * relVelNormal;
+	float m = startToCircle.Dot(relVelNormal);
 	float n = startToCircle.SquaredLength() - (m * m);
 	float r = c.mRadius * c.mRadius;
 
@@ -1057,7 +1057,7 @@ void CircleEdge_Response(const Vector3& ptInter,
 
 	//Calculate projected vector
 	Vector3 projectedVec;
-	float projectedDist = 2 * (penetrateVec * normal);
+	float projectedDist = 2 * (penetrateVec.Dot(normal));
 	projectedVec = normal * projectedDist;
 
 	//Calculate point after reflection
@@ -1086,7 +1086,7 @@ void CircleStaticCircle_Response(const Vector3& normal,
 
 	//Calculate projected vector
 	Vector3 projectedVec;
-	float projectedDist = 2 * (penetrateVec * normal);
+	float projectedDist = 2 * (penetrateVec.Dot(normal));
 	projectedVec = normal * projectedDist;
 
 	//Calculate point after reflection
@@ -1113,7 +1113,7 @@ void CircleCircle_Response(Vector3& normal,
 	Vector3& reflectedVectorB,
 	Vector3& ptEndB)
 {
-	float p = normal * ((velA - velB) * 2 / (massA + massB));
+	float p = normal.Dot(((velA - velB) * 2 / (massA + massB)));
 
 	reflectedVectorA = velA - normal * p * massB;
 	reflectedVectorB = velB + normal * p * massA;
@@ -1200,7 +1200,7 @@ void CircleBox_Response(Vector3& normal,
 	Vector3& reflectedVectorB,
 	Vector3& ptEndB)
 {
-	float p = normal * ((velA - velB) * 2 / (massA + massB));
+	float p = normal.Dot(((velA - velB) * 2 / (massA + massB)));
 
 	reflectedVectorA = velA - normal * p * massB;
 	reflectedVectorB = velB + normal * p * massA;
