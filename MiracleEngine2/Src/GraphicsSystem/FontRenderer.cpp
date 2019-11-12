@@ -92,9 +92,11 @@ void FontRenderer::DrawFont(std::string& text, float xpos, float ypos, const glm
 void FontRenderer::Draw()
 {
 
-	RenderText(_shader, "Draw Test", 25.0f, 150.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
+	RenderText(_shader, "Start", 200.0f, 250.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
 
-	RenderText(_shader, "hello world", -100.0f, 200.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
+	RenderText(_shader, "Option", -75.0f, 0.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
+
+	RenderText(_shader, "Quit", -300.0f, -250.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
 }
 
 void FontRenderer::RenderText(Shader& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)
