@@ -173,6 +173,7 @@
     <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
     <ClInclude Include="Src\GraphicsSystem\Animations.h" />
     <ClInclude Include="Src\GraphicsSystem\Camera.h" />
+    <ClInclude Include="Src\GraphicsSystem\FrameBuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Animation\Animation.h" />
@@ -573,6 +574,7 @@
     <ClCompile Include="Src\GraphicsSystem\Animations.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FontRenderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\FrameBuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\PlayerMesh.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />

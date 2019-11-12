@@ -91,6 +91,7 @@
     <ClCompile Include="Src\GraphicsSystem\FontRenderer.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionMap.cpp" />
     <ClCompile Include="Src\PhysicSystem\IForce.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\FrameBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -491,6 +492,7 @@
     <ClInclude Include="Src\Gameplay\PickUps.h" />
     <ClInclude Include="Src\PhysicSystem\CollisionMap.h" />
     <ClInclude Include="Src\PhysicSystem\IForce.h" />
+    <ClInclude Include="Src\GraphicsSystem\FrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

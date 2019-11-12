@@ -6,13 +6,13 @@
 #include "../Imgui/imgui.h"
 #include "Engine/EngineSystems.h"
 #include "../LogicSystem/AiSystem.h"
+#include "FrameBuffer.h"
 
 GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
 {
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-
 }
 
 Camera& GraphicsSystem::GetCamera()
@@ -23,7 +23,6 @@ Camera& GraphicsSystem::GetCamera()
 
 void GraphicsSystem::Update(double dt)
 {
-	
 	UnitTest();
 	_camera.Update(_transformList);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -91,22 +90,22 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
-	if (_showfont)
+	if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
 	{
 		_fontRenderer.Draw();
 	}
 
-	for (auto& fontComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getFontComponent())
-	{
+	//for (auto& fontComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getFontComponent())
+	//{
 
-		//_fontRenderer.Draw();
+	//	//_fontRenderer.Draw();
 
-		//size_t objID = fontComponentpair.first;	//Get GameObjectID
-		//TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
+	//	//size_t objID = fontComponentpair.first;	//Get GameObjectID
+	//	//TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
-		//_fontRenderer.DrawFont(fontComponentpair.second->GetFontString(), transformComponent->GetPos()._x,
-		//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
-	}
+	//	//_fontRenderer.DrawFont(fontComponentpair.second->GetFontString(), transformComponent->GetPos()._x,
+	//	//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
+	//}
 
 	//GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
 	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
