@@ -1,28 +1,14 @@
 #include "PrecompiledHeaders.h"
 #include "Collider2D.h"
 
-
-
-Collider2D::Collider2D(GameObject* parent, size_t uId, IComponentSystem * component)
-	: IComponentSystem(parent, uId),
-	_type{ unsigned(ColliderType::NONE_COLLIDER) },
+Collider2D::Collider2D() :
+	_type{ (unsigned)ColliderType::NONE_COLLIDER },
+	_tag{ (unsigned)ColliderTag::NONE },
 	_layer{ 0 },
-	_componentEnable{ true },
 	_trigger{ true },
-	_transform{ nullptr },
-	_rigidbody{ nullptr }
-{
-
-	if (component)
-	{
-		Collider2D* collider2DComponent = dynamic_cast<Collider2D*>(component);
-		 _type = collider2DComponent->_type;
-		 _layer = collider2DComponent->_layer;
-		 _componentEnable = collider2DComponent->_componentEnable;
-		 _trigger = collider2DComponent->_trigger;
-	}
-}
-
+	_attachedRigidboy{ false },
+	_componentEnable{ true }
+{}
 
 std::string Collider2D::ComponentName() const
 {

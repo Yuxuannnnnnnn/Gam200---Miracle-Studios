@@ -9,80 +9,43 @@
 #ifndef _COLLIDER_2D_H
 #define _COLLIDER_2D_H
 
-#include "GameObjectComponents/IComponentSystem.h"
-#include "../GraphicComponents/TransformComponent.h"
-#include "RigidBody2D.h"
-#include "GraphicsSystem/DebugRenderer.h"
-
 #include "MathLib/SYMath.h"
 #include "PhysicSystem/CollisionTable.h"
+#include "GameObjectComponents/IComponentSystem.h"
+
 enum class ColliderType{
     
     NONE_COLLIDER = 0,
     BOX_COLLIDER = 1,
     CIRCLE_COLLIDER = 2,
-	LINE_COLLIDER = 3,
+	EDGE_COLLIDER = 3,
 
   };
 
 class Collider2D : public IComponentSystem
 {
 public:
-	unsigned _tag;
 	unsigned _type;
+	unsigned _tag;
 	unsigned _layer;
 
-	bool _attachedRigidboy;
-
-	bool _componentEnable;
 	bool _trigger;
-
-	TransformComponent* _transform;
-	RigidBody2D* _rigidbody;
-
-protected:
-	
+	bool _attachedRigidboy;
+	bool _componentEnable;
 
 public:
-	Collider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+	Collider2D();
+	Collider2D(const Collider2D& rhs) = default;
+	virtual ~Collider2D() {}
+
+	Collider2D& operator=(const Collider2D& rhs) = delete;
 
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
 	void Inspect() override;
 
-	// Constructor
-	Collider2D(TransformComponent* transform = nullptr) :
-		_tag{ (unsigned)ColliderTag::NONE },
-		_type{ (unsigned)ColliderType::NONE_COLLIDER },
-		_layer{ 0 },
-		_attachedRigidboy{ false },
-		_componentEnable{ true },
-		_trigger{ true },
-		_transform{ transform },
-		_rigidbody{ nullptr }
-	{
-	}
-
-	Collider2D(const Collider2D& rhs) = default;
-
-	virtual ~Collider2D() {}
-
-	//No replication of class object
-	Collider2D& operator= (const Collider2D& rhs) = delete;
-
-	virtual void Draw() {};
-	virtual void Update() {};
-
-	TransformComponent* GetTransform() const
-	{
-		return _transform;
-	}
-
-	RigidBody2D* GetRigidbody() const
-	{
-		return _rigidbody;
-	}
-	
+///////////////////////////////////////////////////////////////////////////////
+	// Function Setting and Getting only
 };
 
 #endif

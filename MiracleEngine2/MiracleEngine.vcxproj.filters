@@ -89,6 +89,8 @@
     <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\PlayerMesh.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FontRenderer.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionMap.cpp" />
+    <ClCompile Include="Src\PhysicSystem\IForce.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -487,6 +489,8 @@
     <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
     <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />
     <ClInclude Include="Src\Gameplay\PickUps.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionMap.h" />
+    <ClInclude Include="Src\PhysicSystem\IForce.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

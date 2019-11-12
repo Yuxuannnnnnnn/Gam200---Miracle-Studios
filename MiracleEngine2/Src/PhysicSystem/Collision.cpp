@@ -8,234 +8,187 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "PrecompiledHeaders.h"
 #include "Collision.h"
-
 #include "../Tools/EventHandler/EventHandler.h"
 
-void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* lhs, double dt)
+void BOX_BOX_CollisionCR(Collider2D* colliderA,
+	TransformComponent* transformA,
+	RigidBody2D* rigidbodyA,
+	Collider2D* colliderB,
+	TransformComponent* transformB,
+	RigidBody2D* rigidbodyB,
+	double dt)
 {
-	(void)type;
-	(void)rhs;
-	(void)lhs;
-	(void)dt;
-
-	TransformComponent* gameTransformA = nullptr;
-	TransformComponent* gameTransformB = nullptr;
-	RigidBody2D *gameBodyA = nullptr; 
-	RigidBody2D* gameBodyB = nullptr;
+	BoxCollider2D* boxA = dynamic_cast<BoxCollider2D*>(colliderA);
+	BoxCollider2D* boxB = dynamic_cast<BoxCollider2D*>(colliderB);
 
 	Vector3 posNextA = Vector3::Vec3Zero;
 	Vector3 posNextB = Vector3::Vec3Zero;
-	Vector3 velA = Vector3::Vec3Zero; 
+	Vector3 velA = Vector3::Vec3Zero;
 	Vector3 velB = Vector3::Vec3Zero;
 	Vector3 interPtA = Vector3::Vec3Zero;
 	Vector3 interPtB = Vector3::Vec3Zero;
-	Vector3 reflectedVecA = Vector3::Vec3Zero; 
+	Vector3 reflectedVecA = Vector3::Vec3Zero;
 	Vector3 reflectedVecB = Vector3::Vec3Zero;
-	Vector3 normal = Vector3::Vec3Zero; 
-	Vector3 normalAtCollision = Vector3::Vec3Zero;
+	Vector3 normal = Vector3::Vec3Zero;
 
 	float massA = 1;
 	float massB = 1;
 
 	float interTime = 0.f;
 
-
-	switch (type)
+	if (rigidbodyA)
 	{
-	case COLLISION_TYPE::BOX_BOX:
-	{
-		BoxCollider2D* boxA = dynamic_cast<BoxCollider2D*>(rhs);
-		BoxCollider2D* boxB = dynamic_cast<BoxCollider2D*>(lhs);
-
-		gameTransformA = boxA->GetTransform();
-
-		if (boxA->_attachedRigidboy)
-		{
-			gameBodyA = boxA->GetRigidbody();
-			velA = gameBodyA->_velocity * (float)dt;
-			posNextA = gameTransformA->GetPos() + velA;
-
-			massA = gameBodyA->_mass;
-		}
-		else
-			posNextA = gameTransformA->GetPos();
-
-		gameTransformB = boxB->GetTransform();
-
-		if (boxB->_attachedRigidboy)
-		{
-			gameBodyB = boxB->GetRigidbody();
-			velB = gameBodyB->_velocity * (float)dt;
-			posNextB = gameTransformB->GetPos() + velB;
-
-			massB = gameBodyB->_mass;
-		}
-		else
-			posNextB = gameTransformA->GetPos();
-
-		if (BoxBox_Intersection(*boxA, velA, *boxB, velB, interPtA, interPtB, interTime))
-		{
-			if (!boxA->_trigger && !boxB->_trigger)
-			{
-				normal = interPtA - interPtB;
-				normal.Normalize();
-
-				reflectedVecA = velA;
-				reflectedVecB = velB;
-
-				BoxBox_Response(normal, interTime, velA, massA, interPtA, velB, massB, interPtB,
-					reflectedVecA, posNextA, reflectedVecB, posNextB);
-
-				if (gameBodyA)
-					gameBodyA->_velocity = reflectedVecA * gameBodyA->_velocity.Length();
-
-				if (gameBodyB)
-					gameBodyB->_velocity = reflectedVecB * gameBodyB->_velocity.Length();
-
-				//std::cout << "boxA collided boxB" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*boxA, *boxB);
-				//std::cout << "boxB collided boxA" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*boxB, *boxA);
-			}
-			else
-			{
-				if (boxA->_trigger || boxB->_trigger)
-				{
-					//std::cout << "boxB trigger boxA" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*boxA, *boxB);
-					//std::cout << "boxA trigger boxB" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*boxB, *boxA);
-				}
-			}
-		}
-
-		break;
+		velA = rigidbodyA->_velocity * (float)dt;
+		posNextA = transformA->GetPos() + velA;
+		massA = rigidbodyA->_mass;
 	}
-	case COLLISION_TYPE::BOX_LINE:
+	else
 	{
-		BoxCollider2D* boxA = dynamic_cast<BoxCollider2D*>(rhs);
-		EdgeCollider2D* lineB = dynamic_cast<EdgeCollider2D*>(lhs);
-
-		bool t = false;
-
-		gameTransformA = boxA->GetTransform();
-
-		if (boxA->_attachedRigidboy)
-		{
-			gameBodyA = boxA->GetRigidbody();
-			velA = gameBodyA->_velocity * (float)dt;
-			posNextA = gameTransformA->GetPos() + velA;
-		}
-		else
-			posNextA = gameTransformA->GetPos();
-
-		if (BoxEdge_Intersection(*boxA, posNextA, *lineB, interPtA, normalAtCollision, interTime, t))
-		{
-			if (!boxA->_trigger && !lineB->_trigger)
-			{
-				BoxEdge_Response(interPtA, normalAtCollision, posNextA, reflectedVecA);
-
-				if (gameBodyA)
-					gameBodyA->_velocity = reflectedVecA * gameBodyA->_velocity.Length();
-
-				//std::cout << "boxA collided lineB" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*boxA, *lineB);
-				//std::cout << "lineB collided boxA" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*lineB, *boxA);
-			}
-			else
-			{
-				if (boxA->_trigger || lineB->_trigger)
-				{
-					//std::cout << "lineB trigger boxA" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*boxA, *lineB);
-					//std::cout << "boxA trigger lineB" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*lineB, *boxA);
-				}
-			}
-		}
-
-		break;
+		posNextA = transformA->GetPos();
 	}
-	case COLLISION_TYPE::CIRCLE_CIRCLE:
+
+	if (rigidbodyB)
 	{
-		CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(rhs);
-		CircleCollider2D* circleB = dynamic_cast<CircleCollider2D*>(lhs);
+		velB = rigidbodyB->_velocity * (float)dt;
+		posNextB = transformB->GetPos() + velB;
+		massB = rigidbodyB->_mass;
+	}
+	else
+	{
+		posNextB = transformB->GetPos();
+	}
 
-		gameTransformA = circleA->GetTransform();
-
-		if (circleA->_attachedRigidboy)
+	if (BoxBox_Intersection(*boxA, velA, *boxB, velB, interPtA, interPtB, interTime))
+	{
+		if (!boxA->_trigger && !boxB->_trigger)
 		{
-			gameBodyA = circleA->GetRigidbody();
-			velA = gameBodyA->_velocity * (float)dt;
-			posNextA = gameTransformA->GetPos() + velA;
+			normal = interPtA - interPtB;
+			normal.Normalize();
 
-			massA = gameBodyA->_mass;
+			reflectedVecA = velA;
+			reflectedVecB = velB;
+
+			BoxBox_Response(normal, interTime, velA, massA, interPtA, velB, massB, interPtB,
+				reflectedVecA, posNextA, reflectedVecB, posNextB);
+
+			if (rigidbodyA)
+				rigidbodyA->_velocity = reflectedVecA * rigidbodyA->_velocity.Length();
+
+			if (rigidbodyB)
+				rigidbodyB->_velocity = reflectedVecB * rigidbodyB->_velocity.Length();
+
+			EventHandler::GetInstance().AddCollided2DEvent(*boxA, *boxB);
+			EventHandler::GetInstance().AddCollided2DEvent(*boxB, *boxA);
 		}
 		else
-			posNextA = gameTransformA->GetPos();
-
-		gameTransformB = circleB->GetTransform();
-
-		if (circleB->_attachedRigidboy)
 		{
-			gameBodyB = circleB->GetRigidbody();
-			velB = gameBodyB->_velocity * (float)dt;
-			posNextB = gameTransformB->GetPos() + velB;
+			if (boxA->_trigger || boxB->_trigger)
+			{
+				EventHandler::GetInstance().AddTriggered2DEvent(*boxA, *boxB);
+				EventHandler::GetInstance().AddTriggered2DEvent(*boxB, *boxA);
+			}
+		}
+	}
 
-			massB = gameBodyB->_mass;
+}
+
+void CIRCLE_CIRCLE_CollisionCR(Collider2D* colliderA,
+	TransformComponent* transformA,
+	RigidBody2D* rigidbodyA,
+	Collider2D* colliderB,
+	TransformComponent* transformB,
+	RigidBody2D* rigidbodyB,
+	double dt)
+{
+	CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(colliderA);
+	CircleCollider2D* circleB = dynamic_cast<CircleCollider2D*>(colliderB);
+
+	Vector3 posNextA = Vector3::Vec3Zero;
+	Vector3 posNextB = Vector3::Vec3Zero;
+	Vector3 velA = Vector3::Vec3Zero;
+	Vector3 velB = Vector3::Vec3Zero;
+	Vector3 interPtA = Vector3::Vec3Zero;
+	Vector3 interPtB = Vector3::Vec3Zero;
+	Vector3 reflectedVecA = Vector3::Vec3Zero;
+	Vector3 reflectedVecB = Vector3::Vec3Zero;
+	Vector3 normal = Vector3::Vec3Zero;
+
+	float massA = 1;
+	float massB = 1;
+
+	float interTime = 0.f;
+
+	if (rigidbodyA)
+	{
+		velA = rigidbodyA->_velocity * (float)dt;
+		posNextA = transformA->GetPos() + velA;
+		massA = rigidbodyA->_mass;
+	}
+	else
+	{
+		posNextA = transformA->GetPos();
+	}
+
+	if (rigidbodyB)
+	{
+		velB = rigidbodyB->_velocity * (float)dt;
+		posNextB = transformB->GetPos() + velB;
+		massB = rigidbodyB->_mass;
+	}
+	else
+	{
+		posNextB = transformB->GetPos();
+	}
+
+	if (TestCircleVsCircle(*circleA, *circleB))
+	{
+		if (!circleA->_trigger && !circleB->_trigger)
+		{
+			Vector3 relVel = transformA->GetPos() - transformB->GetPos();
+			relVel._z = 0;
+
+			if (relVel == Vector3::Vec3Zero)
+				relVel = Vector3::Vec3EY;
+
+			float TotalRadius = circleA->mRadius + circleB->mRadius;
+			//relVelA.Normalize();
+
+			Vector3 temp = relVel.Normalized();
+			Vector3 reflectedVectorA = temp * TotalRadius - relVel;
+			//Vector3 reflectedVectorB = -reflectedVectorA;
+
+			if (rigidbodyA)
+			{
+				rigidbodyA->SetVelocity(Vec3::Vec3Zero);
+			}
+			if (rigidbodyB)
+			{
+				rigidbodyB->SetVelocity(Vec3::Vec3Zero);
+			}
+
+
+			transformA->GetPos() += reflectedVectorA;
+			transformB->GetPos() -= reflectedVectorA;
+
+
+			//std::cout << "circleA collided circleB" << std::endl;
+			EventHandler::GetInstance().AddCollided2DEvent(*circleA, *circleB);
+			//std::cout << "circleB collided circleA" << std::endl;
+			EventHandler::GetInstance().AddCollided2DEvent(*circleB, *circleA);
 		}
 		else
-			posNextB = gameTransformB->GetPos();
-
-		if (circleA->TestCircleVsCircle(*circleB))
 		{
-			if (!circleA->_trigger && !circleB->_trigger)
+			if (circleA->_trigger || circleB->_trigger)
 			{
-				Vector3 relVel = gameTransformA->GetPos() - gameTransformB->GetPos();
-				relVel._z = 0;
-
-				if (relVel == Vector3::Vec3Zero)
-					relVel = Vector3::Vec3EY;
-
-				float TotalRadius = circleA->mRadius + circleB->mRadius;
-				//relVelA.Normalize();
-
-				Vector3 temp = relVel.Normalized();
-				Vector3 reflectedVectorA = temp * TotalRadius - relVel;
-				//Vector3 reflectedVectorB = -reflectedVectorA;
-
-				if (gameBodyA)
-				{
-					gameBodyA->StopVelocity();
-				}
-				if (gameBodyB)
-				{
-					gameBodyB->StopVelocity();
-				}
-
-					
-				gameTransformA->GetPos() += reflectedVectorA;
-				gameTransformB->GetPos() -= reflectedVectorA;
-
-
-				//std::cout << "circleA collided circleB" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*circleA, *circleB);
-				//std::cout << "circleB collided circleA" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*circleB, *circleA);
+				//std::cout << "circleB trigger circleA" << std::endl;
+				EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *circleB);
+				//std::cout << "circleA trigger circleB" << std::endl;
+				EventHandler::GetInstance().AddTriggered2DEvent(*circleB, *circleA);
 			}
-			else
-			{
-				if (circleA->_trigger || circleB->_trigger)
-				{
-					//std::cout << "circleB trigger circleA" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *circleB);
-					//std::cout << "circleA trigger circleB" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*circleB, *circleA);
-				}
-			}
+		}
 
-		} else 
+	}
+	else
 		if (CircleCircle_Intersection(*circleA, velA, *circleB, velB, interPtA, interPtB, interTime))
 		{
 			if (!circleA->_trigger && !circleB->_trigger)
@@ -250,14 +203,14 @@ void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* 
 				CircleCircle_Response(normal, interTime, velA, massA, interPtA, velB, massB, interPtB,
 					reflectedVecA, posNextA, reflectedVecB, posNextB);
 
-				if (gameBodyA)
+				if (rigidbodyA)
 				{
-					gameBodyA->_velocity = reflectedVecA * gameBodyA->_velocity.Length();
+					rigidbodyA->_velocity = reflectedVecA * rigidbodyA->_velocity.Length();
 				}
 
-				if (gameBodyB)
+				if (rigidbodyB)
 				{
-					gameBodyB->_velocity = reflectedVecB * gameBodyB->_velocity.Length();
+					rigidbodyB->_velocity = reflectedVecB * rigidbodyB->_velocity.Length();
 				}
 
 				//std::cout << "circleA collided circleB" << std::endl;
@@ -277,164 +230,141 @@ void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* 
 			}
 		}
 
-		break;
-	}
-	case COLLISION_TYPE::CIRCLE_LINE:
+}
+
+void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
+	TransformComponent* transformA,
+	RigidBody2D* rigidbodyA,
+	Collider2D* colliderB,
+	TransformComponent* transformB,
+	RigidBody2D* rigidbodyB,
+	double dt)
+{
+	CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(colliderA);
+	BoxCollider2D* boxB = dynamic_cast<BoxCollider2D*>(colliderB);
+
+	Vector3 posNextA = Vector3::Vec3Zero;
+	Vector3 posNextB = Vector3::Vec3Zero;
+	Vector3 velA = Vector3::Vec3Zero;
+	Vector3 velB = Vector3::Vec3Zero;
+	Vector3 interPtA = Vector3::Vec3Zero;
+	Vector3 interPtB = Vector3::Vec3Zero;
+	Vector3 reflectedVecA = Vector3::Vec3Zero;
+	Vector3 reflectedVecB = Vector3::Vec3Zero;
+	Vector3 normal = Vector3::Vec3Zero;
+
+	float massA = 1;
+	float massB = 1;
+
+	float interTime = 0.f;
+
+	
+
+	if (rigidbodyA)
 	{
-		CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(rhs);
-		EdgeCollider2D* lineB = dynamic_cast<EdgeCollider2D*>(lhs);
-
-		bool t = false;
-
-		gameTransformA = circleA->GetTransform();
-
-		if (circleA->_attachedRigidboy)
-		{
-			gameBodyA = circleA->GetRigidbody();
-			velA = gameBodyA->_velocity * (float)dt;
-			posNextA = gameTransformA->GetPos() + velA;
-		}
-		else
-			posNextA = gameTransformA->GetPos();
-
-		if (CircleEdge_Intersection(*circleA, posNextA, *lineB, interPtA, normalAtCollision, interTime, t))
-		{
-			if (!circleA->_trigger && !lineB->_trigger)
-			{
-				CircleEdge_Response(interPtA, normalAtCollision, posNextA, reflectedVecA);
-
-				if (gameBodyA)
-					gameBodyA->_velocity = reflectedVecA * gameBodyA->_velocity.Length();
-
-				//std::cout << "circleA collided lineB" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*circleA, *lineB);
-				//std::cout << "lineB collided circleA" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*lineB, *circleA);
-			}
-			else
-			{
-				if (circleA->_trigger || lineB->_trigger)
-				{
-					//std::cout << "lineB trigger circleA" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *lineB);
-					//std::cout << "circleA trigger lineB" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*lineB, *circleA);
-				}
-			}
-		}
-
-		break;
+		velA = rigidbodyA->_velocity * (float)dt;
+		posNextA = transformA->GetPos() + velA;
+		massA = rigidbodyA->_mass;
 	}
-	case COLLISION_TYPE::CIRCLE_BOX:
+	else
 	{
-		CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(rhs);
-		BoxCollider2D* boxB = dynamic_cast<BoxCollider2D*>(lhs);
+		posNextA = transformA->GetPos();
+	}
 
-		gameTransformA = circleA->GetTransform();
+	if (rigidbodyB)
+	{
+		velB = rigidbodyB->_velocity * (float)dt;
+		posNextB = transformB->GetPos() + velB;
+		massB = rigidbodyB->_mass;
+	}
+	else
+	{
+		posNextB = transformB->GetPos();
+	}
 
-		if (circleA->_attachedRigidboy)
+	if (TestCircleVsBox(*circleA, *boxB))
+	{
+		if (!circleA->_trigger && !boxB->_trigger)
 		{
-			gameBodyA = circleA->GetRigidbody();
-			velA = gameBodyA->_velocity * (float)dt;
-			posNextA = gameTransformA->GetPos() + velA;
-		}
-		else
-			posNextA = gameTransformA->GetPos();
-
-		gameTransformB = boxB->GetTransform();
-
-		if (boxB->_attachedRigidboy)
-		{
-			gameBodyB = boxB->GetRigidbody();
-			velB = gameBodyB->_velocity * (float)dt;
-			posNextB = gameTransformB->GetPos() + velB;
-		}
-		else
-			posNextB = gameTransformB->GetPos();
-
-		if (TestCircleVsBox(*circleA, *boxB))
-		{
-			if (!circleA->_trigger && !boxB->_trigger)
+			if (rigidbodyA)
 			{
-				if (gameBodyA)
+				rigidbodyA->SetVelocity(Vec3::Vec3Zero);
+			}
+
+			if (rigidbodyB)
+			{
+				rigidbodyB->SetVelocity(Vec3::Vec3Zero);
+			}
+
+			Vector3 relVel = transformA->GetPos() - transformB->GetPos();
+			relVel._z = 0;
+
+			if (relVel == Vector3::Vec3Zero)
+				relVel = Vector3::Vec3EX;
+
+			Vector3 relNormal = relVel.Normalized();
+
+			float diff = 0;
+
+			if (relVel.AbsDot(boxB->mAxis[0]) > relVel.AbsDot(boxB->mAxis[1]))
+			{
+				diff = relVel.AbsDot(boxB->mAxis[0]) / (transformB->GetScale()._x * 0.5f + circleA->mRadius);
+				if (relVel.Dot(boxB->mAxis[0]) > 0)
 				{
-					gameBodyA->StopVelocity();
-				}
-
-				if (gameBodyB)
-				{
-					gameBodyB->StopVelocity();
-				}
-
-				Vector3 relVel = gameTransformA->GetPos() - gameTransformB->GetPos();
-				relVel._z = 0;
-
-				if (relVel == Vector3::Vec3Zero)
-					relVel = Vector3::Vec3EX;
-
-				Vector3 relNormal = relVel.Normalized();
-
-				float diff = 0;
-
-				if (relVel.AbsDot(boxB->mAxis[0]) > relVel.AbsDot(boxB->mAxis[1]))
-				{
-					diff = relVel.AbsDot(boxB->mAxis[0]) / (gameTransformB->GetScale()._x * 0.5f + circleA->mRadius);
-					if (relVel.Dot(boxB->mAxis[0]) > 0)
-					{
-						gameTransformA->GetPos() = gameTransformB->GetPos() + boxB->mAxis[0] * (circleA->mRadius + gameTransformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
-						gameBodyA->_velocity = boxB->mAxis[0] * circleA->mRadius;
-					}
-					else
-					{
-						gameTransformA->GetPos() = gameTransformB->GetPos() + -boxB->mAxis[0] * (circleA->mRadius + gameTransformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
-						gameBodyA->_velocity = -boxB->mAxis[0] * circleA->mRadius;
-					}
+					transformA->GetPos() = transformB->GetPos() + boxB->mAxis[0] * (circleA->mRadius + transformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
+					rigidbodyA->_velocity = boxB->mAxis[0] * circleA->mRadius;
 				}
 				else
 				{
-					diff = relVel.AbsDot(boxB->mAxis[1]) / (gameTransformB->GetScale()._y * 0.5f + circleA->mRadius);
-
-					if (relVel.Dot(boxB->mAxis[1]) > 0)
-					{
-						gameTransformA->GetPos() = gameTransformB->GetPos() + boxB->mAxis[1] * (circleA->mRadius + gameTransformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
-						gameBodyA->_velocity = boxB->mAxis[1] * circleA->mRadius;
-					}
-					else
-					{
-						gameTransformA->GetPos() = gameTransformB->GetPos() + -boxB->mAxis[1] * (circleA->mRadius + gameTransformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
-						gameBodyA->_velocity = -boxB->mAxis[1] * circleA->mRadius;
-					}
+					transformA->GetPos() = transformB->GetPos() + -boxB->mAxis[0] * (circleA->mRadius + transformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
+					rigidbodyA->_velocity = -boxB->mAxis[0] * circleA->mRadius;
 				}
-				// = gameTransformB->GetPos() + relVel * diff + relNormal * circleA->mRadius;
-
-			
-
-				//gameTransformA->GetPos() += relNormal * (1.f - diff) * circleA->mRadius - relVel;
-				
-
-				//Vector3 temp = relVel.Normalized();
-				//Vector3 reflectedVectorA = temp * TotalRadius - relVel;
-				////Vector3 reflectedVectorB = -reflectedVectorA;
-
-
-				//std::cout << "circleA collided circleB" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*circleA, *boxB);
-				//std::cout << "circleB collided circleA" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*boxB, *circleA);
 			}
 			else
 			{
-				if (circleA->_trigger || boxB->_trigger)
+				diff = relVel.AbsDot(boxB->mAxis[1]) / (transformB->GetScale()._y * 0.5f + circleA->mRadius);
+
+				if (relVel.Dot(boxB->mAxis[1]) > 0)
 				{
-					//std::cout << "circleB trigger circleA" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *boxB);
-					//std::cout << "circleA trigger circleB" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*boxB, *circleA);
+					transformA->GetPos() = transformB->GetPos() + boxB->mAxis[1] * (circleA->mRadius + transformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
+					rigidbodyA->_velocity = boxB->mAxis[1] * circleA->mRadius;
+				}
+				else
+				{
+					transformA->GetPos() = transformB->GetPos() + -boxB->mAxis[1] * (circleA->mRadius + transformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
+					rigidbodyA->_velocity = -boxB->mAxis[1] * circleA->mRadius;
 				}
 			}
+			// = gameTransformB->GetPos() + relVel * diff + relNormal * circleA->mRadius;
 
+
+
+			//gameTransformA->GetPos() += relNormal * (1.f - diff) * circleA->mRadius - relVel;
+
+
+			//Vector3 temp = relVel.Normalized();
+			//Vector3 reflectedVectorA = temp * TotalRadius - relVel;
+			////Vector3 reflectedVectorB = -reflectedVectorA;
+
+
+			//std::cout << "circleA collided circleB" << std::endl;
+			EventHandler::GetInstance().AddCollided2DEvent(*circleA, *boxB);
+			//std::cout << "circleB collided circleA" << std::endl;
+			EventHandler::GetInstance().AddCollided2DEvent(*boxB, *circleA);
 		}
 		else
+		{
+			if (circleA->_trigger || boxB->_trigger)
+			{
+				//std::cout << "circleB trigger circleA" << std::endl;
+				EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *boxB);
+				//std::cout << "circleA trigger circleB" << std::endl;
+				EventHandler::GetInstance().AddTriggered2DEvent(*boxB, *circleA);
+			}
+		}
+
+	}
+	else
 		if (CircleBox_Intersection(*circleA, velA, *boxB, velB, interPtA, interPtB, interTime))
 		{
 			if (!circleA->_trigger && !boxB->_trigger)
@@ -448,11 +378,11 @@ void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* 
 				CircleBox_Response(normal, interTime, velA, massA, interPtA, velB, massB, interPtB,
 					reflectedVecA, posNextA, reflectedVecB, posNextB);
 
-				if (gameBodyA)
-					gameBodyA->_velocity = reflectedVecA * gameBodyA->_velocity.Length();
+				if (rigidbodyA)
+					rigidbodyA->_velocity = reflectedVecA * rigidbodyA->_velocity.Length();
 
-				if (gameBodyB)
-					gameBodyB->_velocity = reflectedVecB * gameBodyB->_velocity.Length();
+				if (rigidbodyB)
+					rigidbodyB->_velocity = reflectedVecB * rigidbodyB->_velocity.Length();
 
 				//std::cout << "circleA collided boxB" << std::endl;
 				EventHandler::GetInstance().AddCollided2DEvent(*circleA, *boxB);
@@ -471,15 +401,130 @@ void Collision_Check_Response(COLLISION_TYPE type, Collider2D* rhs, Collider2D* 
 			}
 		}
 
-		break;
+}
+
+void CIRCLE_EDGE_CollisionCR(Collider2D* colliderA,
+	TransformComponent* transformA,
+	RigidBody2D* rigidbodyA,
+	Collider2D* colliderB,
+	double dt)
+{
+	CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(colliderA);
+	EdgeCollider2D* lineB = dynamic_cast<EdgeCollider2D*>(colliderB);
+
+	Vector3 posNextA = Vector3::Vec3Zero;
+	Vector3 velA = Vector3::Vec3Zero;
+	Vector3 interPtA = Vector3::Vec3Zero;
+	Vector3 reflectedVecA = Vector3::Vec3Zero;
+	Vector3 normal = Vector3::Vec3Zero;
+	Vector3 normalAtCollision = Vector3::Vec3Zero;
+
+	float massA = 1;
+
+	float interTime = 0.f;
+
+	bool t = false;
+
+
+	if (rigidbodyA)
+	{
+		velA = rigidbodyA->_velocity * (float)dt;
+		posNextA = transformA->GetPos() + velA;
+		massA = rigidbodyA->_mass;
 	}
-	
-	default:
-		break;
+	else
+	{
+		posNextA = transformA->GetPos();
+	}
+
+	if (CircleEdge_Intersection(*circleA, posNextA, *lineB, interPtA, normalAtCollision, interTime, t))
+	{
+		if (!circleA->_trigger && !lineB->_trigger)
+		{
+			CircleEdge_Response(interPtA, normalAtCollision, posNextA, reflectedVecA);
+
+			if (rigidbodyA)
+				rigidbodyA->_velocity = reflectedVecA * rigidbodyA->_velocity.Length();
+
+			//std::cout << "circleA collided lineB" << std::endl;
+			EventHandler::GetInstance().AddCollided2DEvent(*circleA, *lineB);
+			//std::cout << "lineB collided circleA" << std::endl;
+			EventHandler::GetInstance().AddCollided2DEvent(*lineB, *circleA);
+		}
+		else
+		{
+			if (circleA->_trigger || lineB->_trigger)
+			{
+				//std::cout << "lineB trigger circleA" << std::endl;
+				EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *lineB);
+				//std::cout << "circleA trigger lineB" << std::endl;
+				EventHandler::GetInstance().AddTriggered2DEvent(*lineB, *circleA);
+			}
+		}
+	}
+
+
+
+}
+
+void BOX_EDGE_CollisionCR(Collider2D* colliderA,
+	TransformComponent* transformA,
+	RigidBody2D* rigidbodyA,
+	Collider2D* colliderB,
+	double dt)
+{
+	BoxCollider2D* boxA = dynamic_cast<BoxCollider2D*>(colliderA);
+	EdgeCollider2D* edgeB = dynamic_cast<EdgeCollider2D*>(colliderB);
+
+	Vector3 posNextA = Vector3::Vec3Zero;
+	Vector3 velA = Vector3::Vec3Zero;
+	Vector3 interPtA = Vector3::Vec3Zero;
+	Vector3 reflectedVecA = Vector3::Vec3Zero;
+	Vector3 normalAtCollision = Vector3::Vec3Zero;
+
+	float massA = 1;
+
+	float interTime = 0.f;
+
+	bool t = false;
+
+	if (rigidbodyA)
+	{
+		velA = rigidbodyA->_velocity * (float)dt;
+		posNextA = transformA->GetPos() + velA;
+		massA = rigidbodyA->_mass;
+	}
+	else
+	{
+		posNextA = transformA->GetPos();
+	}
+
+	if (BoxEdge_Intersection(*boxA, posNextA, *edgeB, interPtA, normalAtCollision, interTime, t))
+	{
+		if (!boxA->_trigger && !edgeB->_trigger)
+		{
+			BoxEdge_Response(interPtA, normalAtCollision, posNextA, reflectedVecA);
+
+			if (rigidbodyA)
+				rigidbodyA->_velocity = reflectedVecA * rigidbodyA->_velocity.Length();
+
+			EventHandler::GetInstance().AddCollided2DEvent(*boxA, *edgeB);
+			EventHandler::GetInstance().AddCollided2DEvent(*edgeB, *boxA);
+		}
+		else
+		{
+			if (boxA->_trigger || edgeB->_trigger)
+			{
+				EventHandler::GetInstance().AddTriggered2DEvent(*boxA, *edgeB);
+				EventHandler::GetInstance().AddTriggered2DEvent(*edgeB, *boxA);
+			}
+		}
 	}
 
 }
 
+///////////////////////////////////////////////////////////////////////////////
+	//Dynamic Collision Check
 
 int BoxBox_Intersection(const BoxCollider2D& boxA,			
 	const Vector3& velA,									
@@ -535,7 +580,7 @@ int BoxEdge_Intersection(const BoxCollider2D& box,
 
 	if (dist > boxVecLength)
 	{
-		EdgeCollider2D LNS1{nullptr};
+		EdgeCollider2D LNS1{};
 		Vector3 temp;
 
 		//R*unit N
@@ -583,7 +628,7 @@ int BoxEdge_Intersection(const BoxCollider2D& box,
 	else if (dist < -boxVecLength)
 	{
 
-		EdgeCollider2D LNS2{nullptr};
+		EdgeCollider2D LNS2{};
 		Vector3 temp;
 		//R* unit N
 		temp = lineSeg.m_normal * boxVecLength;
@@ -736,7 +781,7 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 
 	if (dist > circle.mRadius)
 	{
-		EdgeCollider2D LNS1{nullptr};
+		EdgeCollider2D LNS1{};
 		Vector3 temp;
 		//R*unit N
 		temp = lineSeg.m_normal * circle.mRadius;
@@ -779,7 +824,7 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 	else if (dist < -circle.mRadius)
 	{
 
-		EdgeCollider2D LNS2{nullptr};
+		EdgeCollider2D LNS2{};
 		Vector3 temp;
 		//R* unit N
 		temp = lineSeg.m_normal * circle.mRadius;
@@ -997,7 +1042,7 @@ int CircleCircle_Intersection(const CircleCollider2D& circleA,
 	Vector3& interPtB,														
 	float& interTime)
 {
-	CircleCollider2D c{nullptr};
+	CircleCollider2D c{};
 	c.mRadius = circleA.mRadius + circleB.mRadius;
 	c.mCenPos = circleB.mCenPos;
 
@@ -1007,7 +1052,7 @@ int CircleCircle_Intersection(const CircleCollider2D& circleA,
 
 	if (relVel == Vector3::Vec3Zero)
 	{
-		if (circleA.TestCircleVsCircle(circleB))
+		if (TestCircleVsCircle(circleA, circleB))
 			return 1;
 
 		return 0;
@@ -1157,20 +1202,22 @@ int CircleBox_Intersection(const CircleCollider2D& circleA,
 	if (relVel == Vector3::Vec3Zero)
 		return false;
 
-	Vector3 nextPos = circleA.GetTransform()->GetPos();
+	Vector3 nextPos = circleA.mCenPos;
 
-	newBox.Update(boxB.mOrigin, Vector3(boxB.GetTransform()->GetScale()._x*0.5f + circleA.mRadius, boxB.GetTransform()->GetScale()._y * 0.5f + circleA.mRadius), boxB.mAngle);
+	newBox.mScale = Vector3(boxB.mScale._x * 0.5f + circleA.mRadius, boxB.mScale._y * 0.5f + circleA.mRadius);
 
-	int outcode = newBox.TestOutCode(nextPos);
+	EngineSystems::GetInstance()._physicsSystem->UpdateColliderData(&newBox);
+
+	int outcode = TestOutCode(newBox, nextPos);
 
 	if (outcode == (int)OutCode_Type::CENTER)
 	{
-		Vector3 relVel2 = nextPos - boxB.GetTransform()->GetPos();
+		Vector3 relVel2 = nextPos - boxB.mOrigin;
 		
-		float xPenc = 1.f - relVel2.AbsDot(boxB.mAxis[0]) / (boxB.GetTransform()->GetScale()._x * 0.5f);
-		float yPenc = 1.f - relVel2.AbsDot(boxB.mAxis[1]) / (boxB.GetTransform()->GetScale()._y * 0.5f);
+		float xPenc = 1.f - relVel2.AbsDot(boxB.mAxis[0]) / (boxB.mScale._x * 0.5f);
+		float yPenc = 1.f - relVel2.AbsDot(boxB.mAxis[1]) / (boxB.mScale._y * 0.5f);
 
-		Vector3 relVel3{ xPenc * (boxB.GetTransform()->GetScale()._x * 0.5f) , yPenc * (boxB.GetTransform()->GetScale()._y * 0.5f) };
+		Vector3 relVel3{ xPenc * (boxB.mScale._x * 0.5f) , yPenc * (boxB.mScale._y * 0.5f) };
 
 		float ti = relVel3.SquaredLength() / relVel.SquaredLength();
 
@@ -1225,4 +1272,179 @@ void CircleBox_Response(Vector3& normal,
 	reflectedVectorA.Normalize();
 	reflectedVectorB = ptEndB - interPtB;
 	reflectedVectorB.Normalize();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+	//Static Collision Check
+
+bool TestAABBVsPoint(const BoxCollider2D& aabb, const Vector3& pt)
+{
+	return (pt._x >= aabb.mMinPos._x && pt._x <= aabb.mMaxPos._x &&
+		pt._y >= aabb.mMinPos._y && pt._y <= aabb.mMaxPos._y);
+}
+
+bool TestAABBVsAABB(const BoxCollider2D& aabb1, const BoxCollider2D& aabb2)
+{
+	if (aabb1.mMaxPos._x < aabb2.mMinPos._x || aabb1.mMaxPos._y < aabb2.mMinPos._y ||
+		aabb1.mMinPos._x > aabb2.mMaxPos._x || aabb1.mMinPos._y > aabb2.mMaxPos._y)
+		return false;
+
+	return true;
+}
+
+bool TestOBBVsPoint(const BoxCollider2D& obb, const Vector3& pt)
+{
+	int oc = TestOutCode(obb, pt);
+
+	if (oc == (int)OutCode_Type::CENTER)
+		return true;
+
+	return false;
+}
+
+bool TestOBBVsOBB(const BoxCollider2D& obb1, const BoxCollider2D& obb2)
+{
+	return TestOverlaps(obb1, obb2) && TestOverlaps(obb2, obb1);
+}
+
+bool TestOverlaps(const BoxCollider2D& obb1, const BoxCollider2D& obb2)
+{
+	double t = obb2.mCorner[0].Dot(obb1.mAxis[0]);
+
+	// Find the extent of box 2 on axis a
+	double tMin = t;
+	double tMax = t;
+
+	for (int c = 1; c < 4; ++c) {
+		t = obb2.mCorner[c].Dot(obb1.mAxis[1]);
+
+		if (t < tMin) {
+			tMin = t;
+		}
+		else if (t > tMax) {
+			tMax = t;
+		}
+	}
+	// See if [tMin, tMax] intersects [0, 1]
+	if ((tMin > (double)obb1.mOrigin._x + 1.0) || (tMax < obb1.mOrigin._x)) {
+		// There was no intersection along this dimension;
+		// the boxes cannot possibly overlap.
+		return false;
+	}
+
+	t = obb2.mCorner[0].Dot(obb1.mAxis[1]);
+
+	// Find the extent of box 2 on axis a
+	tMin = t;
+	tMax = t;
+
+	for (int c = 1; c < 4; ++c) {
+		t = obb2.mCorner[c].Dot(obb1.mAxis[1]);
+
+		if (t < tMin) {
+			tMin = t;
+		}
+		else if (t > tMax) {
+			tMax = t;
+		}
+	}
+	// See if [tMin, tMax] intersects [0, 1]
+	if ((tMin > (double)obb1.mOrigin._y + 1.0) || (tMax < obb1.mOrigin._y)) {
+		// There was no intersection along this dimension;
+		// the boxes cannot possibly overlap.
+		return false;
+	}
+	// There was no dimension along which there is no intersection.
+	// Therefore the boxes overlap.
+	return true;
+}
+
+bool TestBoxVsPoint(const BoxCollider2D& box, const Vector3& pt)
+{
+	if (box.mAngle)
+		return TestOBBVsPoint(box, pt);
+
+	return TestAABBVsPoint(box, pt);
+}
+
+bool TestBoxVsBox(const BoxCollider2D& box1, const BoxCollider2D& box2)
+{
+	if (box1.mAngle)
+		TestOBBVsOBB(box1, box2);
+
+	return TestAABBVsAABB(box1, box2);
+}
+
+int TestOutCode(const BoxCollider2D& box, const Vector3& pt)
+{
+	outcode code = 0;
+
+	Vector3 relVel = box.mOrigin - pt;
+
+	float top = (box.mOrigin - box.mCorner[2]).AbsDot(box.mAxis[0]);
+	float right = (box.mOrigin - box.mCorner[2]).AbsDot(box.mAxis[1]);
+	float down = -top;
+	float left = -right;
+
+	float axis0 = relVel.Dot(box.mAxis[0]);
+	float axis1 = relVel.Dot(box.mAxis[1]);
+
+	if (axis0 > top)
+		code |= TOP;
+	else if (axis0 < down)
+		code |= BOTTOM;
+
+	if (axis1 > right)
+		code |= RIGHT;
+	else if (axis1 < left)
+		code |= LEFT;
+
+	return (int)code;
+}
+
+bool TestCircleVsPoint(const CircleCollider2D& circle, const Vector3& pt)
+{
+	Vector3 diff = pt - circle.mCenPos;
+	return (diff.Length() <= circle.mRadius);
+}
+
+bool TestCircleVsCircle(const CircleCollider2D& circle1, const CircleCollider2D& circle2)
+{
+	return (circle1.mCenPos.Distance(circle2.mCenPos) <= (circle1.mRadius + circle2.mRadius));
+}
+
+bool TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box)
+{
+	if (box.mAngle)
+		return TestCircleVsOBB(circle, box);
+
+	return TestCircleVsAABB(circle, box);
+}
+
+bool TestCircleVsAABB(const CircleCollider2D& circle, const BoxCollider2D& aabb)
+{
+	if (TestAABBVsPoint(aabb, circle.mCenPos))
+		return true;
+
+	if (Vec3Distance_LinetoPoint(aabb.mMinPos, Vector3(aabb.mMinPos._x, aabb.mMaxPos._y), circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(Vector3(aabb.mMinPos._x, aabb.mMaxPos._y), aabb.mMaxPos, circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(aabb.mMaxPos, Vector3(aabb.mMaxPos._x, aabb.mMinPos._y), circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(Vector3(aabb.mMaxPos._x, aabb.mMinPos._y), aabb.mMinPos, circle.mCenPos) <= circle.mRadius)
+		return true;
+
+	return false;
+}
+
+bool TestCircleVsOBB(const CircleCollider2D& circle, const BoxCollider2D& oobb)
+{
+	if (TestOBBVsPoint(oobb, circle.mCenPos))
+		return true;
+
+	if (Vec3Distance_LinetoPoint(oobb.mCorner[0], oobb.mCorner[1], circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(oobb.mCorner[1], oobb.mCorner[2], circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(oobb.mCorner[2], oobb.mCorner[3], circle.mCenPos) <= circle.mRadius ||
+		Vec3Distance_LinetoPoint(oobb.mCorner[3], oobb.mCorner[0], circle.mCenPos) <= circle.mRadius)
+		return true;
+
+	return false;
 }

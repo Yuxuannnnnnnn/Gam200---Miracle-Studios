@@ -4,6 +4,7 @@
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
 #include "Tools/EventHandler/IColliderHandler.h"
 #include "Tools/EventHandler/IMouseHandler.h"
+#include "PhysicSystem/IForce.h"
 
 #ifndef ISCRIPT_H
 #define	ISCRIPT_H
@@ -24,7 +25,7 @@ enum class ScriptId {
 	PICK_UPS = 12,
 };
 
-class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler
+class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler, public IForce
 {
 private:
 	unsigned _ScriptType;
