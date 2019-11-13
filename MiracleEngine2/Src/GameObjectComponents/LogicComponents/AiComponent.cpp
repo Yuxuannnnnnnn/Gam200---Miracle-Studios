@@ -4,7 +4,7 @@
 
 
 AiComponent::AiComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	:IComponentSystem(parent, uId)
+	:IComponentSystem(parent, uId), _nextNode{ nullptr }, _attackRange{ 1.0f }, _state{ 0 }, _target{ nullptr }
 {
 	if (component)
 	{

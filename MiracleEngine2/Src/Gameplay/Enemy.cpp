@@ -8,7 +8,7 @@ Enemy::Enemy()
 //:IComponentSystem(parent, uId)
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 3; // 2 tileSize
+	_attackRange *= 1; // 2 tileSize
 	_attackRange *= _attackRange; // pow(2)
 	_target = nullptr;
 	_state = (unsigned)AiState::MOVING;
@@ -181,6 +181,7 @@ void Enemy::MoveNode(bool start)
 
 	// move towards node
 	moveVec.Normalize();
+	
 	moveVec* (spd);
 	//std::cout << moveVec._x << " " << moveVec._y << std::endl;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
@@ -200,7 +201,6 @@ void Enemy::FSM()
 	{
 		//std::cout << "/t AI Move!!!\n";
 	// get pathfinding
-
 		if (_timer > 0)
 		{
 			MoveNode();
@@ -227,7 +227,8 @@ void Enemy::FSM()
 		if (_enemyType == (int)Enemy_Type::BASIC)
 			Move();
 		else
-			Attack();
+			MoveNode();
+			//Attack();
 
 		break;
 	}

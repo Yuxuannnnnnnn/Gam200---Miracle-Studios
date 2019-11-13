@@ -29,9 +29,9 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 {
 
 	if (document.HasMember("ScriptId") && document["ScriptId"].IsArray())	//Checks if the variable exists in .Json file
-		for (int i = 0; i < document["ScriptId"].Size(); i++)
+		for (unsigned i = 0; i < document["ScriptId"].Size(); i++)
 		{
-			if (document["ScriptId"][i].IsInt());
+			if (document["ScriptId"][i].IsInt())
 			{
 				IScript* newScript = AddScript((ScriptId)document["ScriptId"][i].GetInt());
 				newScript->SerialiseComponent(document);

@@ -16,6 +16,7 @@ class Node {
 private:
 	bool _solid;	// to prevent usage of node
 	bool _visited;	// use for BFS algorithm
+	bool _closed; // Astar
 	size_t _nodeId;
 	Vector3 _position;	// position of Node in  World
 // Node pointers
@@ -25,6 +26,8 @@ private:
 	Node* _PtrNodeRight;
 	Node* _PtrNodePrev;
 public:
+	size_t _f, _g, _h; // size_t cause using Vector3.SquaredLength
+
 	Node(bool solid, size_t id, Vector3 pos);
 	void SetNodeAdjacent(Node* up, Node* down, Node* left, Node* right);
 	bool GetSolid();
@@ -32,12 +35,16 @@ public:
 	Vector3 GetPosition();
 	bool GetVisited();
 	void SetVisited(bool in);
+	bool GetClosed();
+	void SetClosed(bool in);
 	Node* GetLeft();
 	Node* GetRight();
 	Node* GetUp();
 	Node* GetDown();
 	Node* GetPrev();
 	void SetPrev(Node* prev);
+
+	void CalcFGH(Vector3 _start, Vector3 _dest); // A*
 };
 
 class AISystem
@@ -69,22 +76,37 @@ private:
 	//	{ 0,0,0,0,0,0,0,0,0,0 },
 	//	{ 0,0,0,0,0,0,0,0,0,0 },
 	//};
-
+	//size_t _tilemapInput[MAP_HEIGHT][MAP_WIDTH] = {
+	//	{ 1,1,1,0,0,0,0,0,0,0,1,1,1,1 },
+	//	{ 1,0,3,0,0,0,0,2,0,0,0,0,0,1 },
+	//	{ 1,2,0,1,0,0,0,0,0,0,0,3,0,1 },
+	//	{ 1,0,0,1,1,1,1,1,1,0,0,0,0,1 },
+	//	{ 1,0,0,1,0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,1,1,1,0,0,0,0,0,0,0,0 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	//	{ 0,2,0,0,0,0,0,0,0,0,0,2,0,1 },
+	//	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	//	{ 1,1,1,0,0,0,0,0,0,0,1,1,1,1 },
+	//};
 	size_t _tilemapInput[MAP_HEIGHT][MAP_WIDTH] = {
-		{ 1,1,1,0,0,0,0,0,0,0,1,1,1,1 },
-		{ 1,0,3,0,0,0,0,2,0,0,0,0,0,1 },
-		{ 1,2,0,1,0,0,0,0,0,0,0,3,0,1 },
-		{ 1,0,0,1,1,1,1,1,1,0,0,0,0,1 },
-		{ 1,0,0,1,0,0,0,0,0,0,0,0,0,0 },
 		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,2,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,1,1,1,1,1,1,0,0,0,0,0,0 },
+		{ 0,0,1,0,0,0,0,1,0,0,0,0,0,0 },
+		{ 0,0,1,0,0,0,0,1,0,0,0,0,0,0 },
+		{ 0,0,1,0,0,0,0,1,0,0,0,0,0,0 },
+		{ 0,0,1,1,1,1,1,1,1,1,1,1,0,0 },
+		{ 0,0,1,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,1,0,0,1,1,1,1,1,1,1,1,0 },
+		{ 0,0,1,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,1,0,0,0,0,0,0,0,0,0,0,0 },
 		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+		{ 0,0,2,0,0,0,0,0,0,0,0,0,2,0 },
 		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,1,1,1,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-		{ 0,2,0,0,0,0,0,0,0,0,0,2,0,1 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
-		{ 1,1,1,0,0,0,0,0,0,0,1,1,1,1 },
 	};
 
 public:
@@ -110,7 +132,8 @@ public:
 
 // PathFinding
 	//std::vector<Node*> PathFinding(Vector3& _curr, Vector3& _dest);
-	std::vector<Node*> PathFinding(Vector3 curr, Vector3 dest); // testing, once done use line above
+	std::vector<Node*> PathFindingOld(Vector3 curr, Vector3 dest); // testing, once done use line above
+	std::vector<Node*> PathFinding(Vector3 curr, Vector3 dest);
 };
 
 #endif

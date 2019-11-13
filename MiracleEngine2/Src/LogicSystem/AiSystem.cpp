@@ -7,13 +7,17 @@
 Node::Node(bool solid, size_t id, Vector3 pos) :
 	_solid{ solid },
 	_visited{ false },
+	_closed{ false },
 	_nodeId{ id },
 	_position{ pos },
 	_PtrNodeUp{ nullptr },
 	_PtrNodeDown{ nullptr },
 	_PtrNodeLeft{ nullptr },
 	_PtrNodeRight{ nullptr },
-	_PtrNodePrev{ nullptr }
+	_PtrNodePrev{ nullptr },
+	_f{ 0 },
+	_g{ 0 },
+	_h{ 0 }
 {}
 
 void Node::SetNodeAdjacent(Node* up, Node* down, Node* left, Node* right)
@@ -43,6 +47,14 @@ bool Node::GetVisited()
 void Node::SetVisited(bool in)
 {
 	_visited = in;
+}
+bool Node::GetClosed()
+{
+	return _closed;
+}
+void Node::SetClosed(bool in)
+{
+	_closed = in;
 }
 Node* Node::GetLeft()
 {
@@ -106,7 +118,7 @@ void AISystem::SetInit()
 void AISystem::Init()
 {
 	//CreateNodeMap();
-	//PathFinding();
+	//PathFinding(Vector3(0,0,0), Vector3(0,0,0));
 }
 void AISystem::Update(double dt)
 {
@@ -143,9 +155,9 @@ void AISystem::CreateNodeMap()
 	int originY = -(_mapTileSize * _mapHeight) / 2;
 	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
 	
-	for (int y = 0; y < (int)_mapHeight; ++y)
+	for (int y = 0; y < _mapHeight; ++y)
 	{
-		for (int x = 0; x < (int)_mapWidth; ++x)
+		for (int x = 0; x < _mapWidth; ++x)
 		{
 			// Update tempVec
 			tempVec = Vector3(
@@ -255,7 +267,7 @@ void AISystem::CreateNodeMap()
 	com->SetPos(position);
 	Vector3 scale(14 * MAP_SIZE,0,0);
 	com->SetScale(scale);
-	com->SetRotate(0);
+	com->SetRotate(PI);
 
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
@@ -274,7 +286,7 @@ void AISystem::CreateNodeMap()
 	com->SetPos(position2);
 	Vector3 scale2(0, 14 * MAP_SIZE, 0);
 	com->SetScale(scale2);
-	com->SetRotate(PI/2);
+	com->SetRotate(-(PI/2));
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
 		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
@@ -289,7 +301,7 @@ void AISystem::CreateNodeMap()
 }
 
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
-std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
+std::vector<Node*> AISystem::PathFindingOld(Vector3 curr, Vector3 dest)
 {
 	std::queue<Node*> listVisited;
 	float x, y;
@@ -399,6 +411,205 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 		if (itrMap->second)
 		{
 			itrMap->second->SetVisited(false);
+			itrMap->second->SetPrev(nullptr);
+		}
+		++itrMap;
+	}
+	return finalVec;
+
+
+	// run pathfinding algorithm based on '_curr' toward '_dest'
+		// A* (std use) or BFS(more expensive but easier)	
+	// TODO: BFS Implementation
+}
+
+
+//----------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
+
+
+void Node::CalcFGH(Vector3 _start, Vector3 _dest)
+{
+	Vector3 temp;
+	// dist from _curr to _start
+	temp = _start - _position;
+	_g = (size_t)temp.SquaredLength();
+	// dist from _curr to _start
+	temp = _dest - _position;
+	_h = (size_t)temp.SquaredLength();
+	// F
+	_f = _g + _h;
+}
+
+//std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
+std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
+{
+	float x, y;
+	size_t nodeIdStart, nodeIdDest;
+	// start node, end node // based on closest postiion, set the start(obj.pos()) and end (target.pos())
+				//formula ( (x % _mapTileSize) + _mapTileSize/2 )
+		// offset the map's origin	// pos.x = ( totalMap.x/2 + offset for tile's node ) // _tileMapInput[y][x]
+		//int originX = -(_mapTileSize * _mapWidth) / 2;
+		//int originY = -(_mapTileSize * _mapHeight) / 2;
+	x = (curr._x / _mapTileSize);
+	y = (curr._y / _mapTileSize);
+	x += (_mapWidth / 2); // compensate for the map origin shift
+	(x <= 0.f) ? x = 0.f : x;
+	(x >= _mapWidth) ? x = (float)_mapWidth : x;
+	y += (_mapHeight / 2); // compensate for the map origin shift
+	(y <= 0.f) ? y = 0.f : y;
+	(y >= _mapHeight) ? y = (float)_mapHeight : y;
+	nodeIdStart = _tilemapInput[(int)y][(int)x];
+	//std::cout << "curr " << nodeIdStart << std::endl;
+	x = (dest._x / _mapTileSize);
+	y = (dest._y / _mapTileSize);
+	x += (_mapWidth / 2); // compensate for the map origin shift
+	(x <= 0.f) ? x = 0.f : x;
+	(x >= _mapWidth) ? x = (float)_mapWidth : x;
+	y += (_mapHeight / 2); // compensate for the map origin shift
+	(y <= 0.f) ? y = 0.f : y;
+	(y >= _mapHeight) ? y = (float)_mapHeight : y;
+	nodeIdDest = _tilemapInput[(int)y][(int)x];
+	//std::cout << "dest " << nodeIdDest << std::endl;
+
+// create node to start & dest
+	Node* tempStart = _tilemap[nodeIdStart];
+	Node* tempDest = _tilemap[nodeIdDest];
+				std::cout
+					<< "tempDest  : " << tempDest->GetNodeId() << " :: "
+					<< tempDest->GetPosition()._x << ", " << tempDest->GetPosition()._y
+					<< std::endl;
+				std::cout
+					<< "tempStart : " << tempStart->GetNodeId() << " :: "
+					<< tempStart->GetPosition()._x << ", " << tempStart->GetPosition()._y
+					<< std::endl;
+	if (curr == dest)
+	{
+				std::cout << "\t Start&End same!" << std::endl;
+		std::vector<Node*> a;
+		a.push_back(tempStart);
+		return a;
+	}
+// A*
+	std::list<Node*> queOpen;
+	Node* temp = tempStart;
+	queOpen.push_back(temp);
+	while (temp != tempDest)
+	{
+	// pop first node in queOpen
+		temp = queOpen.front();
+		temp->SetClosed(true);
+		queOpen.pop_front();
+	// insert neighbours neighbours of temp
+		// if (Up exisits && Up !closed && Up !solid)
+		if (temp->GetUp() && !temp->GetUp()->GetClosed() && !temp->GetUp()->GetSolid())
+		{	// UP
+			temp->GetUp()->CalcFGH(tempStart->GetPosition(), tempDest->GetPosition());
+			temp->GetUp()->SetPrev(temp);
+			queOpen.push_back(temp->GetUp());
+			//temp->GetUp()->SetClosed(true);
+		}
+		if (temp->GetDown() && !temp->GetDown()->GetClosed() && !temp->GetDown()->GetSolid())
+		{	// DOWN
+			temp->GetDown()->CalcFGH(tempStart->GetPosition(), tempDest->GetPosition());
+			temp->GetDown()->SetPrev(temp);
+			queOpen.push_back(temp->GetDown());
+			//temp->GetDown()->SetClosed(true);
+		}
+		if (temp->GetLeft() && !temp->GetLeft()->GetClosed() && !temp->GetLeft()->GetSolid())
+		{	// LEFT
+			temp->GetLeft()->CalcFGH(tempStart->GetPosition(), tempDest->GetPosition());
+			temp->GetLeft()->SetPrev(temp);
+			queOpen.push_back(temp->GetLeft());
+			//temp->GetLeft()->SetClosed(true);
+		}
+		if (temp->GetRight() && !temp->GetRight()->GetClosed() && !temp->GetRight()->GetSolid())
+		{	// RIGHT
+			temp->GetRight()->CalcFGH(tempStart->GetPosition(), tempDest->GetPosition());
+			temp->GetRight()->SetPrev(temp);
+			queOpen.push_back(temp->GetRight());
+			//temp->GetRight()->SetClosed(true);
+		}
+	// take lowest node in queOpen()
+		std::list<Node*>::iterator itrQue = queOpen.begin();
+		// first loop to find lowest F
+		(*itrQue)->_f;
+		size_t lowestF = (*itrQue)->_f;
+		while (itrQue != queOpen.end())
+		{
+			if (lowestF > (*itrQue)->_f)
+				lowestF = (*itrQue)->_f;
+			++itrQue;
+		}
+		// second loop to get lowest(s)
+		std::vector<Node*> occurenceListF;
+		itrQue = queOpen.begin();
+		while (itrQue != queOpen.end())
+		{
+			if ((*itrQue)->_f == lowestF)
+				occurenceListF.push_back(*itrQue);
+			++itrQue;
+		}
+		if (occurenceListF.size() == 1) // single F
+		{
+			temp = occurenceListF.front();
+			// remove and push to front of list
+			queOpen.remove(temp);
+			queOpen.push_front(temp);
+		}
+		else // (occurenceList.size() > 1), multiple Fs
+		{
+			// since got multiple lowest Fs, find lowest H
+			std::vector<Node*>::iterator itrVec = occurenceListF.begin();
+			size_t lowestH = (*itrVec)->_h;
+			while (itrVec != occurenceListF.end())
+			{
+				if (lowestH < (*itrVec)->_h)
+					lowestH = (*itrVec)->_h;
+				++itrVec;
+			}
+			// second loop to get lowest(s)
+			std::vector<Node*> occurenceListH;
+			itrVec = occurenceListF.begin();
+			while (itrVec != occurenceListF.end())
+			{
+				if (lowestH == (*itrVec)->_h)
+					occurenceListH.push_back(*itrVec);
+				++itrVec;
+			}
+			// if no lowest H, just take any
+			temp = occurenceListH.front();
+			queOpen.remove(temp);
+			queOpen.push_front(temp);
+		}
+	}
+// get reversed path (from end node to start node)
+	std::vector<Node*> tempVec, finalVec;
+	temp = tempDest;
+	while (temp != tempStart)
+	{
+		tempVec.push_back(temp);
+		temp = temp->GetPrev();
+	}
+// reverse tempVec and push to finalVec
+	std::vector<Node*>::reverse_iterator itrVecReverse;
+	itrVecReverse = tempVec.rbegin();
+	while (itrVecReverse != tempVec.rend())
+	{
+		std::cout << ((Node*)* itrVecReverse)->GetNodeId() << ", ";
+		finalVec.push_back(*itrVecReverse++);
+	}
+	std::cout << std::endl;
+
+// after A* done, reset _tileMap Node.visited to false
+	std::unordered_map < size_t, Node* >::iterator itrMap = _tilemap.begin();
+	while (itrMap != _tilemap.end())
+	{
+		if (itrMap->second)
+		{
+			itrMap->second->SetClosed(false);
 			itrMap->second->SetPrev(nullptr);
 		}
 		++itrMap;
