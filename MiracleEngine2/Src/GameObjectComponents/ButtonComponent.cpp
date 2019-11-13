@@ -7,12 +7,10 @@ ButtonComponent::ButtonComponent() :
 	_pressed{false}
 {}
 
-ButtonComponent::ButtonComponent(const ButtonComponent& rhs)
+std::string ButtonComponent::ComponentName() const
 {
-	_buttonType = rhs._buttonType;
-	_pressed = rhs._pressed;
+	return std::string("Button Component");
 }
-
 
 void ButtonComponent::SerialiseComponent(Serialiser& document)
 {
@@ -22,12 +20,11 @@ void ButtonComponent::SerialiseComponent(Serialiser& document)
 	}
 }
 
-std::string ButtonComponent::ComponentName() const
-{
-	return std::string("Button Component");
-}
-
 void ButtonComponent::Inspect()
 {
 	IComponentSystem::Inspect();
 }
+
+///////////////////////////////////////////////////////////////////////////////
+	// Function Setting and Getting only
+

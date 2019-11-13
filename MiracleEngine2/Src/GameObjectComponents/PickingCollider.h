@@ -14,9 +14,11 @@
 class PickingCollider : public BoxCollider2D
 {
 public:
-	// Constructor
-	PickingCollider(TransformComponent* transform = nullptr) : BoxCollider2D(transform) {}
-	virtual ~PickingCollider() {}
+	bool _picked;
+
+public:
+	PickingCollider() : _picked{ false } {}
+	virtual ~PickingCollider() = default;
 
 	//No replication of class object
 	PickingCollider(const PickingCollider& rhs) = delete;

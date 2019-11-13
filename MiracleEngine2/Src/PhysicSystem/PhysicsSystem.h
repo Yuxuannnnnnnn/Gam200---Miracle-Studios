@@ -11,37 +11,68 @@
 
 #include <unordered_map>
 #include "CollisionTable.h"
+#include "CollisionMap.h"
+#include "GameObjectComponents/PhysicsComponents/Collider2D.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
 #include "GameObjectComponents/PickingCollider.h"
 #include "GameObjectComponents/ButtonComponent.h"
 
 class PhysicsSystem final
 {
-	CollisionTable _collisionTable;
-
 public:
-	std::unordered_map< size_t, ButtonComponent*> _buttonList;
-	std::unordered_map< size_t, PickingCollider*> _pickList;
 	std::unordered_map < size_t, RigidBody2D* >	_rigidBody2dList;
 	std::unordered_map < size_t, Collider2D* > _collider2dList;
+	std::unordered_map< size_t, ButtonComponent*> _buttonList;
+	std::unordered_map< size_t, PickingCollider*> _pickList;
 
-	PhysicsSystem() {};
-	//Deletes all gameObjects in the list
-	~PhysicsSystem() {};
+	std::unordered_map< size_t, TransformComponent*> _transformList;
 
-	void Update(double dt);
+	CollisionMap _collisionMap;
 
-	//No replication of class object
+private:
+	CollisionTable _collisionTable;
+
+	size_t _pickUId;
+public:
+	PhysicsSystem() :_pickUId{0} {}
+	~PhysicsSystem() {}
+
 	PhysicsSystem(const PhysicsSystem& rhs) = delete;
 	PhysicsSystem& operator= (const PhysicsSystem& rhs) = delete;
 
+	void Update(double dt);
+
+	// level editer function
 	void UpdateDraw();
 	void UpdatePicking();
+
+	void UpdateColliderData(Collider2D* collider);
+
+protected:
+	RigidBody2D* GetRigidBody2D(size_t uId);
+	TransformComponent* GetTransform(size_t uId);
+
 private:
+	// rigidbody
 	void UpdatePhyiscs(double dt);
-	void UpdateCollision(double dt);
 	void UpdateTransform(double dt);
+
+	// collision
+	void UpdateCollision(double dt);
+	void UpdateStaticCollision(double dt);
+	int CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir = 0, unsigned checked = 0);
+	void CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt);
 	void UpdateButtons();
+
+	// EventHandler
 	void UpdateEvents();
+	void DrawRigidbody2D();
+	void DrawCollider2D();
+	void DrawButton();
+
+public:
+	static void AddForce(size_t uId, Vector3 forceDir, float force);
+	static void AddForwardForce(size_t uId, float force);
 };
 
 #endif

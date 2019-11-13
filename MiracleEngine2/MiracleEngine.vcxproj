@@ -215,7 +215,9 @@
     <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
     <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
     <ClInclude Include="Src\MathLib\Matrix4x4.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionMap.h" />
     <ClInclude Include="Src\PhysicSystem\CollisionTable.h" />
+    <ClInclude Include="Src\PhysicSystem\IForce.h" />
     <ClInclude Include="Src\PhysicSystem\PhysicsSystem.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
     <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
@@ -605,6 +607,8 @@
     <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
     <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
     <ClCompile Include="Src\MathLib\Matrix4x4.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionMap.cpp" />
+    <ClCompile Include="Src\PhysicSystem\IForce.cpp" />
     <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
     <ClCompile Include="Src\PhysicSystem\PhysicsSystem.cpp" />

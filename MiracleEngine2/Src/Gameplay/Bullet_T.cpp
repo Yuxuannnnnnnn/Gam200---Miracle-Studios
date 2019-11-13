@@ -13,8 +13,8 @@ void Bullet_T::Update(double dt)
 
 void Bullet_T::OnCollision2DTrigger(Collider2D* other)
 {
-	DestoryThis();
 	GameObject* explosion = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::EXPLOSION]);
 	((TransformComponent*)explosion->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+	DestoryThis();
 }

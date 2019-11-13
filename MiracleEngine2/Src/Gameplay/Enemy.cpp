@@ -107,7 +107,7 @@ void Enemy::Attack()
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 		// offset position
 
-		((RigidBody2D*)bullet->GetComponent(ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(70000);
+		AddForwardForce(bullet->Get_uID(), 70000);
 	}
 }
 
@@ -126,7 +126,7 @@ void Enemy::Move()
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
-	((RigidBody2D*)GetSibilingComponent((unsigned)ComponentId::RIGIDBODY_COMPONENT))->AddForwardForce(6000);
+	AddForwardForce(GetParentId(), 6000);
 
 	//moveVec.Normalize();
 	//moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
@@ -154,7 +154,7 @@ void Enemy::MoveNode(bool start)
 
 	if (moveVec.SquaredLength() < (float)mapTileSize)
 	{
-		if (_path.size() >= 1)
+		if (_path.size() > 1)
 		{
 			Node* nextNextNode = *(++(_path.begin())); // get node after
 			if (nextNextNode)

@@ -9,11 +9,7 @@
 #ifndef _BOX_COLLIDER_2D_H
 #define _BOX_COLLIDER_2D_H
 
-#include "CircleCollider2D.h"
-
 #include "Collider2D.h"
-
-// namespace MiracleEngine
 
 typedef unsigned int outcode;
 #define TOP 0x0008 //1000
@@ -40,54 +36,29 @@ public:
 	Vector3		mMaxPos;	// Bottom-right point with maximum x and y values
 	Vector3		mMinPos;	// Top-left point with minimum x and y values
 
-	//OOBB
+	//OBB
+	Vector3 mOrigin; // corner[0].dot(axis[a])
 	Vector3 mCorner[4]; // Corners of the box, where 0 is the lower left.
 	Vector3 mAxis[2];  // Two edges of the box extended away from corner[0].
-	Vector3 mOrigin; // corner[0].dot(axis[a])
 
+	Vector3 mScale;
 	float mAngle;
 
-	bool mOnce;
 public:
-
+	BoxCollider2D();
+	BoxCollider2D(const BoxCollider2D& rhs) = default;
+	virtual ~BoxCollider2D() = default;
+	
+	BoxCollider2D& operator=(const BoxCollider2D& rhs) = delete;
+	
+	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
 	void Inspect() override;
 
-	// Constructor
-	BoxCollider2D(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+///////////////////////////////////////////////////////////////////////////////
+	// Function Setting and Getting only
 
-	BoxCollider2D(TransformComponent* transform = nullptr);
-	virtual ~BoxCollider2D() {}
-
-	// A copy empty shell object
-	BoxCollider2D(const BoxCollider2D& rhs);
-	//No replication of class object
-	BoxCollider2D& operator= (const BoxCollider2D& rhs) = delete;
-
-	void Draw();
-	void Update();
-
-	void Update(Vector3 pos, Vector3 scale, float angle);
-
-	void ComputeAxes();
-
-	bool TestAABBVsPoint(const Vector3& pt);
-	bool TestAABBVsAABB(const BoxCollider2D& aabb);
-	bool TestOOBBVsPoint(const Vector3& pt) const;
-	bool TestOOBBVsOOBB(const BoxCollider2D& oobb) const;
-	bool TestOverlaps(const BoxCollider2D& oobb) const;
-
-	bool TestBoxVsPoint(const Vector3& pt);
-	bool TestBoxVsBox(const BoxCollider2D& box);
-	int TestOutCode(const Vector3& pt) const;
-	
-
-
-	friend bool	TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box);
 };
-
-bool TestCircleVsAABB(const CircleCollider2D& circle, const BoxCollider2D& aabb);
-bool TestCircleVsOOBB(const CircleCollider2D& circle, const BoxCollider2D& oobb);
 
 #endif
 

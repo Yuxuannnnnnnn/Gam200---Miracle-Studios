@@ -4,19 +4,19 @@
 CollisionTable::CollisionTable()
 {
 	// PLAYER
-	std::unordered_set<ColliderTag> row_player { ColliderTag::ENEMY, ColliderTag::BUILDING,ColliderTag::DESTORYABLE_BUILDING,ColliderTag::BULLET_E,ColliderTag::PICK_UPS };
+	std::unordered_set<ColliderTag> row_player { ColliderTag::ENEMY, ColliderTag::BUILDING,ColliderTag::DESTORYABLE_BUILDING,ColliderTag::BULLET_E,ColliderTag::PICK_UPS,ColliderTag::EDGES };
 	_table.insert(ROW(ColliderTag::PLAYER, row_player));
 
 	// BULLET
-	std::unordered_set<ColliderTag> row_bullet{ ColliderTag::ENEMY, ColliderTag::BUILDING, ColliderTag::DESTORYABLE_BUILDING };
+	std::unordered_set<ColliderTag> row_bullet{ ColliderTag::ENEMY, ColliderTag::BUILDING, ColliderTag::DESTORYABLE_BUILDING,ColliderTag::EDGES };
 	_table.insert(ROW(ColliderTag::BULLET, row_bullet));
 
 	// BULLET_E
-	std::unordered_set<ColliderTag> row_bullet2{ ColliderTag::PLAYER, ColliderTag::BUILDING, ColliderTag::DESTORYABLE_BUILDING,ColliderTag::TURRET };
+	std::unordered_set<ColliderTag> row_bullet2{ ColliderTag::PLAYER, ColliderTag::BUILDING, ColliderTag::DESTORYABLE_BUILDING,ColliderTag::TURRET,ColliderTag::EDGES };
 	_table.insert(ROW(ColliderTag::BULLET_E, row_bullet2));
 
 	// ENEMY
-	std::unordered_set<ColliderTag> row_enemy{ ColliderTag::BULLET, ColliderTag::PLAYER, ColliderTag::BUILDING, ColliderTag::DESTORYABLE_BUILDING };
+	std::unordered_set<ColliderTag> row_enemy{ ColliderTag::BULLET, ColliderTag::PLAYER, ColliderTag::BUILDING, ColliderTag::DESTORYABLE_BUILDING,ColliderTag::EDGES };
 	_table.insert(ROW(ColliderTag::ENEMY, row_enemy));
 
 	// TURRET
@@ -31,9 +31,13 @@ CollisionTable::CollisionTable()
 	std::unordered_set<ColliderTag> row_building{ ColliderTag::PLAYER, ColliderTag::BULLET, ColliderTag::ENEMY ,ColliderTag::BULLET_E };
 	_table.insert(ROW(ColliderTag::BUILDING, row_building));
 
-	// BUILDING
+	// Pick_Ups
 	std::unordered_set<ColliderTag> row_pickups{ ColliderTag::PLAYER };
 	_table.insert(ROW(ColliderTag::PICK_UPS, row_pickups));
+
+	// EDGES
+	std::unordered_set<ColliderTag> row_edges{ ColliderTag::PLAYER, ColliderTag::BULLET, ColliderTag::ENEMY ,ColliderTag::BULLET_E };
+	_table.insert(ROW(ColliderTag::EDGES, row_edges));
 }
 
 CollisionTable::~CollisionTable()
