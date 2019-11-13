@@ -11,6 +11,7 @@
 
 #include <unordered_map>
 #include "CollisionTable.h"
+#include "CollisionMap.h"
 #include "GameObjectComponents/PhysicsComponents/Collider2D.h"
 #include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
 #include "GameObjectComponents/PickingCollider.h"
@@ -25,12 +26,16 @@ public:
 	std::unordered_map< size_t, PickingCollider*> _pickList;
 
 	std::unordered_map< size_t, TransformComponent*> _transformList;
+
+	CollisionMap _collisionMap;
+
 private:
 	CollisionTable _collisionTable;
 
+	size_t _pickUId;
 public:
-	PhysicsSystem() {};
-	~PhysicsSystem() {};
+	PhysicsSystem() :_pickUId{0} {}
+	~PhysicsSystem() {}
 
 	PhysicsSystem(const PhysicsSystem& rhs) = delete;
 	PhysicsSystem& operator= (const PhysicsSystem& rhs) = delete;
@@ -54,6 +59,9 @@ private:
 
 	// collision
 	void UpdateCollision(double dt);
+	void UpdateStaticCollision(double dt);
+	int CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir = 0, unsigned checked = 0);
+	void CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt);
 	void UpdateButtons();
 
 	// EventHandler

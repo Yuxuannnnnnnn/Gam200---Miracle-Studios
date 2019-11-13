@@ -30,6 +30,7 @@ void PhysicsSystem::Update(double dt)
 	UpdateButtons();
 	UpdatePhyiscs(dt);
 	UpdateCollision(dt);
+	UpdateStaticCollision(dt);
 	UpdateTransform(dt);
 	UpdateEvents();
 }
@@ -84,112 +85,202 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 		UpdateColliderData(it.second);
 	}
-	std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
 
-	while (!tempList.empty())
+	std::unordered_map<size_t, Collider2D* >::iterator it;
+
+	for (std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+		!tempList.empty();
+		tempList.erase(it))
 	{
-		std::unordered_map<size_t, Collider2D* >::iterator it = tempList.begin();
+		it = tempList.begin();
 
-		if (!it->second->GetEnable() || !it->second->_componentEnable || it->second->_type == (unsigned)ColliderType::NONE_COLLIDER)
-		{
-			tempList.erase(it);
+		if (!it->second->GetEnable() || !it->second->_componentEnable || 
+			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER||
+			(ColliderTag)it->second->_tag == ColliderTag::BUILDING || 
+			(ColliderTag)it->second->_tag == ColliderTag::EDGES)
 			continue;
-		}
 
 		for (auto it2 : tempList)
 		{
-			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first)
+			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first ||
+				(ColliderTag)it2.second->_tag == ColliderTag::BUILDING ||
+				(ColliderTag)it2.second->_tag == ColliderTag::EDGES)
 				continue;
 
 			if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, (ColliderTag)it2.second->_tag))
 				continue;
 
-			TransformComponent* transform = _transformList[it->first];
-			TransformComponent* transform2 = _transformList[it2.first];
-
-			RigidBody2D* rigidbody = nullptr;
-			RigidBody2D* rigidbody2 = nullptr;
-
-			if (it->second->_attachedRigidboy)
-				rigidbody = _rigidBody2dList[it->first];
-
-			if (it2.second->_attachedRigidboy)
-				rigidbody2 = _rigidBody2dList[it2.first];
-
-			if (it->second->_type == (unsigned)ColliderType::BOX_COLLIDER)
-			{
-				if (it2.second->_type == (unsigned)ColliderType::BOX_COLLIDER)
-				{
-					BOX_BOX_CollisionCR(
-						it->second, transform, rigidbody,
-						it2.second, transform2, rigidbody2,
-						dt);
-				}
-				else if (it2.second->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
-				{
-					CIRCLE_BOX_CollisionCR(
-						it2.second, transform2, rigidbody2,
-						it->second, transform, rigidbody,
-						dt);
-				}
-				else if (it2.second->_type == (unsigned)ColliderType::EDGE_COLLIDER)
-				{
-					BOX_EDGE_CollisionCR(
-						it->second, transform, rigidbody,
-						it2.second, 
-						dt);
-				}
-			}
-			else if (it->second->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
-			{
-				if (it2.second->_type == (unsigned)ColliderType::BOX_COLLIDER)
-				{
-					CIRCLE_BOX_CollisionCR(
-						it->second, transform, rigidbody,
-						it2.second, transform2, rigidbody2,
-						dt);
-				}
-				else if (it2.second->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
-				{
-					CIRCLE_CIRCLE_CollisionCR(
-						it->second, transform, rigidbody,
-						it2.second, transform2, rigidbody2,
-						dt);
-				}
-				else if (it2.second->_type == (unsigned)ColliderType::EDGE_COLLIDER)
-				{
-					CIRCLE_EDGE_CollisionCR(
-						it->second, transform, rigidbody,
-						it2.second, 
-						dt);
-				}
-			}
-			else if (it->second->_type == (unsigned)ColliderType::EDGE_COLLIDER)
-			{
-				if (it2.second->_type == (unsigned)ColliderType::BOX_COLLIDER)
-				{
-					BOX_EDGE_CollisionCR(
-						it2.second, transform2, rigidbody2,
-						it->second,
-						dt);
-				}
-				else if (it2.second->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
-				{
-					CIRCLE_EDGE_CollisionCR(
-						it2.second, transform2, rigidbody2,
-						it->second,
-						dt);
-				}
-				// else if (it2.second->_type == (unsigned)ColliderType::EDGE_COLLIDER)
-				// ignore edge edge collision
-
-				continue;
-			}
+			CollisionCheckResponse(it->second, it2.second, dt);
 		}
-
-		tempList.erase(it);
 	}
 }
+
+void PhysicsSystem::UpdateStaticCollision(double dt)
+{
+	std::unordered_map<size_t, Collider2D* >::iterator it;
+
+	for(std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+		!tempList.empty();
+		tempList.erase(it))
+	{
+		it = tempList.begin();
+
+		if (!it->second->GetEnable() || !it->second->_componentEnable ||
+			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER||
+			(ColliderTag)it->second->_tag == ColliderTag::BUILDING)
+			continue;
+
+		if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, ColliderTag::BUILDING))
+			continue;
+
+		TransformComponent* transform = _transformList[it->first];
+
+		unsigned tileId = _collisionMap.GetTileOnMap(transform->GetPos());
+
+		// center
+		if (_collisionMap.GetTileType(tileId) == TileType::HARD_WALL)
+		{
+			Collider2D* other = _collider2dList[_collisionMap.GetTileUId(tileId)];
+			CollisionCheckResponse(it->second, other, dt);
+		}
+
+		CollisionCheckTile(it->second, tileId, dt);
+	}
+
+	for (std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+		!tempList.empty();
+		tempList.erase(it))
+	{
+		it = tempList.begin();
+
+		if (!it->second->GetEnable() || !it->second->_componentEnable ||
+			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER ||
+			(ColliderTag)it->second->_tag == ColliderTag::BUILDING)
+			continue;
+
+		for (auto it2 : tempList)
+		{
+			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first ||
+				(ColliderTag)it2.second->_tag != ColliderTag::EDGES)
+				continue;
+
+			if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, ColliderTag::EDGES))
+				continue;
+
+			CollisionCheckResponse(it->second, it2.second, dt);
+		}
+	}
+
+
+}
+
+int PhysicsSystem::CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir, unsigned checked)
+{
+
+	unsigned neighbourTileId = _collisionMap.GetNeighborTile(centerTileId, (TileDirection)dir);
+
+	if (neighbourTileId != centerTileId)
+	{
+		TileType neighbourTileType = _collisionMap.GetTileType(neighbourTileId);
+
+		if (neighbourTileType == TileType::HARD_WALL)
+		{
+			Collider2D* other = _collider2dList[_collisionMap.GetTileUId(neighbourTileId)];
+			CollisionCheckResponse(object, other, dt);
+			checked++;
+		}
+	}
+
+	if (dir == (unsigned)TileDirection::TOTAL_DIR)
+		return checked;
+
+	return CollisionCheckTile(object, centerTileId, dt, ++dir, checked);
+}
+
+
+void PhysicsSystem::CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt)
+{
+	TransformComponent* transform = _transformList[collider1->GetParentId()];
+	TransformComponent* transform2 = _transformList[collider2->GetParentId()];
+
+	RigidBody2D* rigidbody = nullptr;
+	RigidBody2D* rigidbody2 = nullptr;
+
+	if (collider1->_attachedRigidboy)
+		rigidbody = _rigidBody2dList[collider1->GetParentId()];
+
+	if (collider2->_attachedRigidboy)
+		rigidbody2 = _rigidBody2dList[collider2->GetParentId()];
+
+	if (collider1->_type == (unsigned)ColliderType::BOX_COLLIDER)
+	{
+		if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+		{
+			BOX_BOX_CollisionCR(
+				collider1, transform, rigidbody,
+				collider2, transform2, rigidbody2,
+				dt);
+		}
+		else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+		{
+			CIRCLE_BOX_CollisionCR(
+				collider2, transform2, rigidbody2,
+				collider1, transform, rigidbody,
+				dt);
+		}
+		else if (collider2->_type == (unsigned)ColliderType::EDGE_COLLIDER)
+		{
+			BOX_EDGE_CollisionCR(
+				collider1, transform, rigidbody,
+				collider2,
+				dt);
+		}
+	}
+	else if (collider1->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+	{
+		if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+		{
+			CIRCLE_BOX_CollisionCR(
+				collider1, transform, rigidbody,
+				collider2, transform2, rigidbody2,
+				dt);
+		}
+		else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+		{
+			CIRCLE_CIRCLE_CollisionCR(
+				collider1, transform, rigidbody,
+				collider2, transform2, rigidbody2,
+				dt);
+		}
+		else if (collider2->_type == (unsigned)ColliderType::EDGE_COLLIDER)
+		{
+			CIRCLE_EDGE_CollisionCR(
+				collider1, transform, rigidbody,
+				collider2,
+				dt);
+		}
+	}
+	else if (collider1->_type == (unsigned)ColliderType::EDGE_COLLIDER)
+	{
+		if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+		{
+			BOX_EDGE_CollisionCR(
+				collider2, transform2, rigidbody2,
+				collider1,
+				dt);
+		}
+		else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+		{
+			CIRCLE_EDGE_CollisionCR(
+				collider2, transform2, rigidbody2,
+				collider1,
+				dt);
+		}
+		// else if (collider2->_type == (unsigned)ColliderType::EDGE_COLLIDER)
+		// ignore edge edge collision
+	}
+}
+
 
 void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 {
@@ -428,7 +519,11 @@ void PhysicsSystem::UpdateDraw()
 
 void PhysicsSystem::UpdatePicking()
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_RBUTTON))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KEYB_S) && EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
+	{
+		InspectionImguiWindow::InspectGameObject(nullptr);
+	}
+	else if (EngineSystems::GetInstance()._inputSystem->KeyDown(KEYB_A) && EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
 	{
 		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 
@@ -441,12 +536,22 @@ void PhysicsSystem::UpdatePicking()
 
 			if (TestBoxVsPoint(*it.second, pos))
 			{
+				_pickUId = it.second->GetParentId();
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
-				std::cout << "Picking  Pos :" << pos << std::endl;
-				std::cout << "Picked :" << it.second->GetParentId() << std::endl;
 				return;
 			}
 		}
+	}
+	else if (_pickUId != 0 && EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_W) && EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
+	{
+		if (_pickList.find(_pickUId) == _pickList.end())
+			return;
+
+		TransformComponent* transform = _transformList[_pickUId];
+		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
+		transform->SetPos(pos);
+
+		std::cout << "Picking  Pos :" << pos << std::endl;
 	}
 }
 

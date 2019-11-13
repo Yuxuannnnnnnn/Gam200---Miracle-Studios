@@ -30,6 +30,10 @@ class MapTile {
 public:
 	TileType _type;
 	size_t _uId;
+
+	MapTile() = delete;
+	MapTile(TileType type, size_t uId) : 
+		_type{ type }, _uId{ uId } {}
 };
 
 

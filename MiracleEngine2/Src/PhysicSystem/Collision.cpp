@@ -437,10 +437,48 @@ void CIRCLE_EDGE_CollisionCR(Collider2D* colliderA,
 		posNextA = transformA->GetPos();
 	}
 
-	if (CircleEdge_Intersection(*circleA, posNextA, *lineB, interPtA, normalAtCollision, interTime, t))
+
+	if (TestCircleVsEdge(*circleA, *lineB))
 	{
 		if (!circleA->_trigger && !lineB->_trigger)
 		{
+			float penc = circleA->mRadius - Vec3Distance_LinetoPoint(lineB->m_pt0, lineB->m_pt1, circleA->mCenPos);
+
+			if (penc == 0)
+				return;
+
+			Vector3 dir = circleA->mCenPos - lineB->m_origin;
+
+			if (lineB->m_normal.Dot(dir) > 0)
+				transformA->GetPos() += penc * lineB->m_normal;
+			else
+				transformA->GetPos() -= penc * lineB->m_normal;
+
+			if (rigidbodyA)
+				rigidbodyA->SetVelocity(Vec3::Vec3Zero);
+
+			//std::cout << "circleA collided lineB" << std::endl;
+			EventHandler::GetInstance().AddCollided2DEvent(*circleA, *lineB);
+			//std::cout << "lineB collided circleA" << std::endl;
+			EventHandler::GetInstance().AddCollided2DEvent(*lineB, *circleA);
+		}
+		else
+		{
+			if (circleA->_trigger || lineB->_trigger)
+			{
+				//std::cout << "lineB trigger circleA" << std::endl;
+				EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *lineB);
+				//std::cout << "circleA trigger lineB" << std::endl;
+				EventHandler::GetInstance().AddTriggered2DEvent(*lineB, *circleA);
+			}
+		}
+
+	}
+	else if (CircleEdge_Intersection(*circleA, posNextA, *lineB, interPtA, normalAtCollision, interTime, t))
+	{
+		if (!circleA->_trigger && !lineB->_trigger)
+		{
+			
 			CircleEdge_Response(interPtA, normalAtCollision, posNextA, reflectedVecA);
 
 			if (rigidbodyA)
@@ -798,7 +836,7 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 		tempf *= temp.Dot(velNormal);
 		if (tempf < 0)
 		{
-			
+
 			//Ti = ( N.P0 - N.Bs - R / N.V )
 			interTime = (lineSeg.m_normal.Dot(lineSeg.m_pt0)
 				- lineSeg.m_normal.Dot(circle.mCenPos) - circle.mRadius) /
@@ -814,7 +852,7 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 		}
 		else
 		{
-			
+
 			if (checkLineEdges)
 				return CircleLine_Intersection(false, circle, ptEnd, lineSeg, interPt, normalAtCollision, interTime);
 			else
@@ -841,10 +879,10 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 		tempf *= temp.Dot(velNormal);
 		if (tempf < 0)
 		{
-			
+
 			//Ti = ( N.P0 - N.Bs + R / N.V )
 			interTime = (lineSeg.m_normal.Dot(lineSeg.m_pt0)
-				- lineSeg.m_normal.Dot(circle.mCenPos + circle.mRadius)) /
+				- lineSeg.m_normal.Dot(circle.mCenPos) + circle.mRadius) /
 				(lineSeg.m_normal.Dot(velocity));
 
 			if (0 <= interTime && interTime <= 1)
@@ -857,7 +895,7 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 		}
 		else
 		{
-			
+
 			if (checkLineEdges)
 				return CircleLine_Intersection(false, circle, ptEnd, lineSeg, interPt, normalAtCollision, interTime);
 			else
@@ -1446,5 +1484,33 @@ bool TestCircleVsOBB(const CircleCollider2D& circle, const BoxCollider2D& oobb)
 		Vec3Distance_LinetoPoint(oobb.mCorner[3], oobb.mCorner[0], circle.mCenPos) <= circle.mRadius)
 		return true;
 
+	return false;
+}
+
+bool TestCircleVsEdge(const CircleCollider2D& circle, const EdgeCollider2D& edge)
+{
+	if (Vec3Distance_LinetoPoint(edge.m_pt0, edge.m_pt1, circle.mCenPos) <= circle.mRadius)
+		return true;
+
+	return false;
+}
+
+bool TestBoxVsEdge(const BoxCollider2D& box, const EdgeCollider2D& edge)
+{
+	if (box.mAngle)
+		return TestOBBVsEdge(box, edge);
+
+	return TestAABBVsEdge(box, edge);
+}
+
+bool TestAABBVsEdge(const BoxCollider2D& obb, const EdgeCollider2D& edge)
+{
+	//TODO
+	return false;
+}
+
+bool TestOBBVsEdge(const BoxCollider2D& aabb, const EdgeCollider2D& edge)
+{
+	//TODO
 	return false;
 }

@@ -21,7 +21,9 @@ void Bullet_E::OnCollision2DTrigger(Collider2D* other)
 		hp -= 2;
 		player->SetHealth(hp);
 	}
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::WALL)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER || 
+		other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::WALL ||
+		other->_tag == (unsigned)ColliderTag::EDGES)
 	{
 		DestoryThis();
 	}

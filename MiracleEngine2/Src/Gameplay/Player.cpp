@@ -7,7 +7,7 @@ Player::Player()
 	_init = false;
 	_health = 30;
 	_weaponActive = 2;
-	_rpgAmmo = 0;
+	_rpgAmmo = 5;
 	_timer = 0;
 	_timerCooldown = 0.5;
 	_camera = nullptr;
@@ -196,20 +196,20 @@ void Player::SetHealth(int val)
 
 void Player::OnTrigger2DEnter(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_AMMO || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_HEALTH)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_HEALTH)
 	{
 		PickUps* temp = (PickUps*)(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PICK_UPS));
 
-		if (temp->_pickupType == (int)PickUp_Type::HEALTH_REGAN)
-		{
-			_health += 2;
-			if (_health > 30)
-				_health = 30;
-		}
-		else if (temp->_pickupType == (int)PickUp_Type::ROCKET_AMMO)
-		{
-			_rpgAmmo = 5;
-		}
+		_health += 2;
+		if (_health > 30)
+			_health = 30;
+		temp->DestoryThis();
+	}
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PICK_UPS_AMMO)
+	{
+		PickUps* temp = (PickUps*)(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PICK_UPS));
+
+		_rpgAmmo = 5;
 		temp->DestoryThis();
 	}
 }

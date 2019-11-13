@@ -11,7 +11,7 @@
 
 	"EdgeColliderComponent": true,
   "ColliderTypeId": 3,
-  "ColliderTag": 7,
+  "ColliderTag": 10,
   "ColliderTrigger": false
 
 }

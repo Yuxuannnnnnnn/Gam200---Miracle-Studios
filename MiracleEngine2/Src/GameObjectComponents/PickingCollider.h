@@ -14,7 +14,10 @@
 class PickingCollider : public BoxCollider2D
 {
 public:
-	PickingCollider() = default;
+	bool _picked;
+
+public:
+	PickingCollider() : _picked{ false } {}
 	virtual ~PickingCollider() = default;
 
 	//No replication of class object

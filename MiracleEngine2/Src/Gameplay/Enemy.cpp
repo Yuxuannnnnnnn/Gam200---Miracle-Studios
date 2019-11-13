@@ -154,7 +154,7 @@ void Enemy::MoveNode(bool start)
 
 	if (moveVec.SquaredLength() < (float)mapTileSize)
 	{
-		if (_path.size() >= 1)
+		if (_path.size() > 1)
 		{
 			Node* nextNextNode = *(++(_path.begin())); // get node after
 			if (nextNextNode)

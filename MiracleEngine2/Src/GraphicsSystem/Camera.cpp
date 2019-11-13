@@ -17,6 +17,9 @@ void Camera::Update(std::unordered_map < size_t, TransformComponent*>&  _transfo
 		size_t objID = camComponentpair.first;	//Get GameObjectID
 		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
 
+		if (!transformComponent)
+			continue;
+
 		TransformComponent x = *transformComponent;
 
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(x_pos 

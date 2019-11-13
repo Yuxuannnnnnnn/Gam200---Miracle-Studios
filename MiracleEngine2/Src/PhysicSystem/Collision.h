@@ -214,5 +214,8 @@ bool TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box);
 bool TestCircleVsAABB(const CircleCollider2D& circle, const BoxCollider2D& aabb);
 bool TestCircleVsOBB(const CircleCollider2D& circle, const BoxCollider2D& oobb);
 
-
+bool TestCircleVsEdge(const CircleCollider2D& circle, const EdgeCollider2D& edge);
+bool TestBoxVsEdge(const BoxCollider2D& box, const EdgeCollider2D& edge);
+bool TestAABBVsEdge(const BoxCollider2D& obb, const EdgeCollider2D& edge);
+bool TestOBBVsEdge(const BoxCollider2D& aabb, const EdgeCollider2D& edge);
 #endif
