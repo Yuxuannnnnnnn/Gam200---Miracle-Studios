@@ -41,7 +41,10 @@ void IComponentSystem::SetParentPtr(GameObject* inVal)
 
 IComponentSystem* IComponentSystem::GetSibilingComponent(unsigned _componentId)
 {
-	return _ParentPtr->GetComponentList()[_componentId];
+	if(_ParentPtr->GetComponentList().find(_componentId) != _ParentPtr->GetComponentList().end())
+		return _ParentPtr->GetComponentList()[_componentId];
+
+	return nullptr;
 }
 
 void IComponentSystem::DestoryThis() 
