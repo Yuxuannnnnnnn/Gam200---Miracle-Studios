@@ -6,6 +6,7 @@
 class AnimationComponent: public IComponentSystem
 {
 private:
+	std::vector<int> _animations;
 	std::vector<Animation*> _animation;
 	int _currentAnimation;
 	int _startingFrame;

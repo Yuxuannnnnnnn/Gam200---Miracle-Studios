@@ -6,11 +6,15 @@
 class Frame
 {
 public:
-	float delay = 0.1;
-	float u;
-	float v;
-	float w;
-	float h;
+	float _timedelay = 0.1;
+	float _u0;
+	float _v0;
+
+	float _u1;
+	float _v1;
+
+	//float w;
+	//float h;
 };
 
 #endif

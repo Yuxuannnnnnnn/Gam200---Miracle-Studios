@@ -10,24 +10,31 @@ enum class TypeIdGraphic {
 class GraphicComponent : public IComponentSystem, public IBase<GraphicComponent>
 {
 private:
-	unsigned _typeIdGraphic;
-	std::string _fileName;
 
+	std::string _fileName;       // change back to filepath
+	unsigned int _textureID;         // texture id for opengl
+
+
+	unsigned _typeIdGraphic;
 	int _shaderID;
-	int _textureID;
 
 	int _textureState = 0; // for enemy with move and attack, this tell you which texture to run
 	int _renderLayer = 0;
 	// bool transparent.. so on
-	//Store the vb, ib, vao, shader
 
 public:
+
+	unsigned int GetTextureID() const;               // base on asset file name, get the textureID on OpenGL for imgui
+	
+	const std::string& GetFileName() const;
+	void SetFileName(const std::string& filename);
+
+
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
 	virtual void Inspect() override;
 
 	//Constructor
-	GraphicComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 	GraphicComponent();
 	virtual ~GraphicComponent();
 	GraphicComponent(const GraphicComponent& rhs);
@@ -43,13 +50,6 @@ public:
 	void SetRenderLayer(int state);
 
 
-	unsigned& GetTypeId()
-	{
-		return _typeIdGraphic;
-	}
-	std::string GetFileName()
-	{
-		return _fileName;
-	}
+	unsigned& GetTypeId();
 };
 

@@ -21,6 +21,11 @@ Camera& GraphicsSystem::GetCamera()
 }
 
 
+const TextureManager& GraphicsSystem::GetTextureManager() const
+{
+	return _textureManager;
+}
+
 void GraphicsSystem::Update(double dt)
 {
 	UnitTest();

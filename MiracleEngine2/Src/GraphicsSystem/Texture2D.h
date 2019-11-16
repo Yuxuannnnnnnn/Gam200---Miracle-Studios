@@ -12,8 +12,12 @@ private:
 	unsigned int _id;
 	std::string _filePath;
 	unsigned char* _localBuffer;
-	int _width, _height, _bpp;
+	int _width;   // width and height of texture
+	int _height;
+	int _bpp;  // bit per pixel
 public:
+	unsigned int GetTextureID() const;
+
 	Texture2D(const std::string& path);
 	~Texture2D();
 

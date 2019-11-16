@@ -1,5 +1,31 @@
 #include "PrecompiledHeaders.h"
 
+
+const std::string& GraphicComponent::GetFileName() const
+{
+	return _fileName;
+}
+
+void GraphicComponent::SetFileName(const std::string& filename)
+{
+	_fileName = filename;
+}
+
+unsigned int GraphicComponent::GetTextureID() const
+{
+	auto it = EngineSystems::GetInstance()._graphicsSystem->GetTextureManager()._textureMap.find(_fileName);
+	
+	// if there is a filename in texturemap
+	if (it != EngineSystems::GetInstance()._graphicsSystem->GetTextureManager()._textureMap.end())
+	{
+		return it->second->GetTextureID();
+	}
+
+
+	return _textureID;
+}
+
+
 int GraphicComponent::GetRenderLayer()
 {
 	return _renderLayer;
@@ -97,6 +123,7 @@ void GraphicComponent::RenderLayerResolver()
 	}
 }
 
+
 std::string GraphicComponent::ComponentName() const
 {
 	return "Graphic Component";
@@ -128,4 +155,9 @@ void GraphicComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("RendeerLayer", &_renderLayer);
 	ImGui::Spacing();
+}
+
+unsigned& GraphicComponent::GetTypeId()
+{
+	return _typeIdGraphic;
 }

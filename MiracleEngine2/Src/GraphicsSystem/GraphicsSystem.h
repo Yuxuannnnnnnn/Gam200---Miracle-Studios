@@ -43,7 +43,7 @@ public:
 
 	GraphicsSystem(int windowWidth, int windowHeight);
 	Camera& GetCamera();
-
+	const TextureManager& GetTextureManager() const;
 
 private:
 	int _numAnim = 0;
