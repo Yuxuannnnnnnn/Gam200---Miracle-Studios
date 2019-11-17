@@ -20,6 +20,10 @@ AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponen
 	{
 		AnimationComponent* animationComponent = dynamic_cast<AnimationComponent*>(component);
 	}
+
+
+	testanim = new Animation();
+
 }
 
 void AnimationComponent::SerialiseComponent(Serialiser& document)

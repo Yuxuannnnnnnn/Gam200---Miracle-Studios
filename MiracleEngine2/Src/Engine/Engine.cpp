@@ -22,7 +22,7 @@ void Engine::Update()
 {
 	bool open = true; //for imgui show demo, to be deleted later
 
-	_sceneManager->ChangeScene(Scenes::MAIN_MENU);
+	_sceneManager->ChangeScene(Scenes::LEVEL1);
 
 	_gameObjectFactory->De_SerialiseLevel("hello.json");
 

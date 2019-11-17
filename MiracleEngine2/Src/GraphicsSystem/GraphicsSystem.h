@@ -34,7 +34,8 @@ class GraphicsSystem
 {
 public:
 
-	std::unordered_map < size_t, GraphicComponent* > _spriteList;
+	std::unordered_map < size_t, GraphicComponent*> _spriteList;
+	std::unordered_map < size_t, AnimationComponent*> _animationList;
 	std::unordered_map < size_t, TransformComponent*>  _transformList;
 	std::unordered_map < size_t, AnimationComponent*>  _animationList;
 

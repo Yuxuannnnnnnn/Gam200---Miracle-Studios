@@ -4,6 +4,8 @@
 #ifndef ENEMY_H
 #define	ENEMY_H
 
+class Node; // forward declare
+
 enum class Enemy_Type {
 	BASIC = 0,
 	RANGER = 1

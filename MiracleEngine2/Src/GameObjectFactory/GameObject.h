@@ -64,15 +64,14 @@ typedef std::unordered_map < unsigned, IComponentSystem* > Map_ComponentList;
 class GameObject
 {
 private:
-
 	Map_ComponentList _ComponentList; // Component List
 	unsigned _typeId; // GameObject Type
 	size_t _uId; // Unique ID
 	bool _destory;
 	bool _enable;
-public:
 	bool _alive;
 
+public:
 	GameObject(size_t uId, unsigned typeId = (unsigned)TypeIdGO::NONE); // Ctor : Inits w/ a Unique id
 
 	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
@@ -97,6 +96,8 @@ public:
 	void RemoveComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 	void DestoryGameObject();
 
+	bool GetAlive() { return _alive; }
+	void SetAlive(bool alive) { _alive = alive; }
 	bool GetDestory() const { return _destory; }
 	void SetDestory() 
 	{
