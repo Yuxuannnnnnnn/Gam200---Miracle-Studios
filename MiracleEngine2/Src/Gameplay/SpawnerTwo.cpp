@@ -3,19 +3,19 @@
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
 SpawnerTwo::SpawnerTwo() :
-	_typeId{ TypeIdGO::SPAWNERTWO },
-	_radiusSpawn{ 2.f },
-	_timer{ -1.0 },
-	_timeCooldown{ 30 },
+	_init{ false },
 	_health{ 10 },
-	_init{ false }
+	_timer{ -1.0 },
+	_timeCooldown{ 20 },
+	_radiusSpawn{ 2.f },
+	_typeId{ TypeIdGO::SPAWNERTWO }
 {
 }
 
 
 void SpawnerTwo::Init()
 {
-	Spawn();
+	//Spawn();
 }
 
 void SpawnerTwo::Update(double dt)

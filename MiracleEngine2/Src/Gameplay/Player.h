@@ -1,6 +1,9 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+#ifndef PLAYER_H
+#define	PLAYER_H
+
 enum class WeaponId {
 	NONE = 0,
 	PISTOL = 1,
@@ -47,3 +50,5 @@ public:
 
 	void OnTrigger2DEnter(Collider2D* other);
 };
+
+#endif

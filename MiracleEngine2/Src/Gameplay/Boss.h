@@ -1,6 +1,9 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+#ifndef BOSS_H
+#define	BOSS_H
+
 class Boss : public IScript												// NOTE NOTE NOTE NOTE -- THIS ISNT DONE AT ALL, WILL SETTLE THIS AFTER I DO THE LOGIC CHANGES :BRANDON
 {
 private:
@@ -63,3 +66,5 @@ public:
 
 	void OnCollision2DTrigger(Collider2D* other);
 };
+
+#endif

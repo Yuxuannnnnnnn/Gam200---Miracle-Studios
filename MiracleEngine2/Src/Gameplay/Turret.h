@@ -1,38 +1,37 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+#ifndef TURRET_H
+#define	TURRET_H
+
 class Turret : public IScript
 {
 private:
+// Logic Data - General
 	bool _init;
-	unsigned _state;
+	int _health;
+// Logic - Behaviour
 	GameObject* _target;
+	int _state;
+	double _timerAttack;
+	double _timeAttackCooldown;	
 	float _attackRange; // currently set to 1*_mapTileSize
 
-	double _timer;
-	const double _timeCooldown;
-
 public:
-	//Constructor
 	Turret();
 
-	int _health;
-
-	// InUpEx
 	void Init();
 	void Update(double dt);
-	void Exit();
 
-// GetDestination
 	Vector3& GetDestinationPos();	// gets _target's position
-// GetPosition(of Parent)
 	Vector3& GetPosition();	// gets _parent's position
 
-// Search Target
+// Attack Logic
 	void SearchTarget();
 	void ShootTarget();
 	void RotateToTarget();
 
-	// FSM
 	void FSM();
 };
+
+#endif

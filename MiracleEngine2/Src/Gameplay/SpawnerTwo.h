@@ -1,23 +1,28 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+#ifndef SPAWNERTWO_H
+#define	SPAWNERTWO_H
+
 class SpawnerTwo : public IScript
 {
 private:
-	TypeIdGO _typeId;
-	const float _radiusSpawn;
+	// Logic Data - General
+	bool _init;
+	int _health;
+	// Logic - Behaviour
 	double _timer;
 	const double _timeCooldown;
-	bool _init;
+	TypeIdGO _typeId;
+	const float _radiusSpawn;
+
 public:
-//Constructor
 	SpawnerTwo();
 
-	int _health;
-
-// InUpEx
 	void Init();
 	void Update(double dt);
 
 	void Spawn();
 };
+
+#endif

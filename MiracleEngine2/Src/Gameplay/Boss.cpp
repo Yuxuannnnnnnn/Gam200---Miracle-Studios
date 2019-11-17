@@ -258,7 +258,7 @@ void Boss::CheckState()
 
 void Boss::ChancePickUps()
 {
-	std::srand(std::time(0));
+	std::srand((unsigned)std::time(0));
 	int Yaya = 1 + std::rand() % 8;
 
 	if (Yaya == 4) // health

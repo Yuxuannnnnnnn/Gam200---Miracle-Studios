@@ -1,6 +1,9 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+#ifndef ENEMY_H
+#define	ENEMY_H
+
 enum class Enemy_Type {
 	BASIC = 0,
 	RANGER = 1
@@ -53,3 +56,4 @@ public:
 
 	void OnCollision2DTrigger(Collider2D* other);
 };
+#endif
