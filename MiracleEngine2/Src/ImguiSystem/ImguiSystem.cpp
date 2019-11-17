@@ -45,7 +45,7 @@ ImguiSystem::ImguiSystem(const Window& window)
 	
 	_ImguiWindows["Hierarchy"] = new HierarchyImguiWindow();
 	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
-	_ImguiWindows["Assets"] = new PreFabImguiWindow();
+	_ImguiWindows["Assets"] = new AssetsImguiWindow();
 	/*
 	_ImguiWindows[ImguiWindows::SCENE] = new Scene();
 	*/
@@ -115,21 +115,18 @@ void ImguiSystem::UpdateFrame()
 			}
 			ImGui::EndMenu();
 		}
+
 		if (ImGui::BeginMenu("Window  "))
 		{
-			if (ImGui::MenuItem("Hierarchy Window  "))
+			for (auto& windowPair : _ImguiWindows)
 			{
-				_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)]->SetWindowTrue();
-			}
-			if (ImGui::MenuItem("Inspector Window  "))
-			{
-				_ImguiWindows[static_cast<int>(ImguiWindows::INSPECTOR)]->SetWindowTrue();
-			}
-			if (ImGui::MenuItem("PreFab Window  "))
-			{
-				_ImguiWindows[static_cast<int>(ImguiWindows::PREFAB_FOLDER)]->SetWindowTrue();
-			}
+				std::string windowName = windowPair.first;
 
+				if (ImGui::MenuItem(windowName.c_str()))
+				{	
+					windowPair.second->SetWindowTrue();
+				}
+			}
 			ImGui::EndMenu();
 		}
 
