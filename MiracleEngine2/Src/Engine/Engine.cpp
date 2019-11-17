@@ -22,7 +22,7 @@ void Engine::Update()
 {
 	bool open = true; //for imgui show demo, to be deleted later
 
-	_sceneManager->ChangeScene(Scenes::MAIN_MENU);
+	_sceneManager->ChangeScene(Scenes::LEVEL1);
 
 	while (_sceneManager->GetCurrentScene() != Scenes::QUIT)	//GameState Logic Starts here
 	{

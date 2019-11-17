@@ -9,13 +9,15 @@
 class Animation
 {
 public:
+	Animation();
 	void Select();
+	int _currentFrame = 0;
+	float _frameDelay = 1.0f;
 private:
-	std::vector<Frame> frame;
+	std::vector<Frame*> frame;
 	int _textureID;
-	int _currentFrame;
 
-	QuadMesh _quadMesh{ 2.0f / 12, 0.0f, 3.0f / 12, 1.0f };
+	
 };
 
 #endif

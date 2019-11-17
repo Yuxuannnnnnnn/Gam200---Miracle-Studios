@@ -29,12 +29,14 @@ const TextureManager& GraphicsSystem::GetTextureManager() const
 void GraphicsSystem::Update(double dt)
 {
 	UnitTest();
-	_camera.Update(_transformList);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0);
 	ClearScreen();
 
+	_animationSystem.Update(_animationList, dt);
+
+	_camera.Update(_transformList);
 	//Check for Graphic component first then get Transform COmponent
 	for (auto& graphicComponentpair : _spriteList)
 	{
@@ -50,22 +52,21 @@ void GraphicsSystem::Update(double dt)
 
 		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 
-		if (graphicComponent->GetFileName() == "player")
-		{
-			//_quadmesh.Select();
-			_testAnimation.Select();
-			_textureManager._textureMap["idle"]->Select();
-
-
-		}
-		else
-
-			// checking if have animation comp
+		// checking if have animation comp
 			//if(graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
 
 
 			// texture with animation
+		if (graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
+		{
+			AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT);
+			
+			anim->testanim->Select();
+			//_testAnimation.Select();
+			_textureManager._textureMap["idle"]->Select();
 
+		}
+		else
 			// texture without animation
 		{
 			_quadmesh.Select();
@@ -107,45 +108,14 @@ void GraphicsSystem::Update(double dt)
 	//	//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
 	//}
 
-	//GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
-	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	//TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position(0, MAP_HEIGHT * MAP_SIZE / 2, 1);
-	//com->SetPos(position);
-	//Vector3 scale(14 * MAP_SIZE, 0, 0);
-	//com->SetScale(scale);
-	//com->SetRotate(0);
 
-
-	//obj = EngineSystems::GetInstance()._gameObjectFactory->
-	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position1(0, -(MAP_HEIGHT * MAP_SIZE / 2), 1);
-	//com->SetPos(position1);
-	//Vector3 scale1(14 * MAP_SIZE, 0, 0);
-	//com->SetScale(scale1);
-	//com->SetRotate(0);
 
-	//obj = EngineSystems::GetInstance()._gameObjectFactory->
-	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position2(-(MAP_WIDTH * MAP_SIZE / 2), 0, 1);
-	//com->SetPos(position2);
-	//Vector3 scale2(14 * MAP_SIZE, 0, 0);
-	//com->SetScale(scale2);
-	//com->SetRotate(3.142 / 2);
 
-	//obj = EngineSystems::GetInstance()._gameObjectFactory->
-	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
 	Vector3 position3((MAP_WIDTH * MAP_SIZE / 2), 0, 1);
-	//com->SetPos(position3);
-	//Vector3 scale3(14 * MAP_SIZE, 0, 0);
-	//com->SetScale(scale3);
-	//com->SetRotate(3.142 / 2);
-	// loop through every element in graphic component
-		// get texture ID and shader ID
-		// get its transform component 
+
 
 	if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
 	{

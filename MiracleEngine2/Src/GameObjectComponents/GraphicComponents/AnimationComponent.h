@@ -9,6 +9,7 @@ class AnimationComponent: public IComponentSystem
 private:
 	std::string _type;
 
+	
 
 	std::vector<int> _animations;
 	std::vector<Animation*> _animation;
@@ -16,6 +17,8 @@ private:
 	int _startingFrame;
 
 public:
+
+	Animation* testanim;
 	void SetFilePath(const std::string path);
 	std::string& GetFilePath();
 	

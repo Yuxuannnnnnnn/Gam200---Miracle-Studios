@@ -403,6 +403,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
+		EngineSystems::GetInstance()._graphicsSystem->_animationList.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
