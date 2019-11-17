@@ -10,7 +10,10 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "player",
+	"G.FileName": "player",
+
+	"AnimationComponent": true,
+	"Type":  "idle",
 
   "RigidBodyComponent": true,
   "Mass": 10.0,

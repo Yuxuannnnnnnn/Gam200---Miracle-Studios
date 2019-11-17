@@ -7,7 +7,7 @@
 class AnimationComponent: public IComponentSystem
 {
 private:
-	std::string _filePath;
+	std::string _type;
 
 
 	std::vector<int> _animations;
