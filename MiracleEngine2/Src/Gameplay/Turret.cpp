@@ -4,11 +4,12 @@
 
 Turret::Turret() : 
 	_init{ false },
-	_state{ (unsigned)AiState::IDLE },
+	_health{ 1 },
 	_target{ nullptr },
-	_timer{ 0.0 },
-	_timeCooldown{ 3.0 },
-	_health{ 1 }
+	_state{ (unsigned)AiState::IDLE },
+	_timerAttack{ 0.0 },
+	_timeAttackCooldown{ 3.0 }
+	
 {
 	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_attackRange *= 5; // 5 tileSize
@@ -37,12 +38,8 @@ void Turret::Update(double dt)
 	if (_health <= 0)
 		DestoryThis();
 
-	_timer -= dt;
+	_timerAttack -= dt;
 	FSM();
-}
-void Turret::Exit()
-{
-
 }
 
 
@@ -104,9 +101,9 @@ void Turret::SearchTarget()
 }
 void Turret::ShootTarget()
 {
-	if (_timer <= 0)
+	if (_timerAttack <= 0)
 	{
-		_timer = _timeCooldown;
+		_timerAttack = _timeAttackCooldown;
 		//std::cout << "Fired!" << std::endl;
 		// spawn bullet
 		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_T]);

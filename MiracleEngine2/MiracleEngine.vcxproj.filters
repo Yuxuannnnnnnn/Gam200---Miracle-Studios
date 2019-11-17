@@ -91,6 +91,7 @@
     <ClCompile Include="Src\PhysicSystem\IForce.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FrameBuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\AnimatedMesh.cpp" />
+    <ClCompile Include="Src\Gameplay\Boss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -491,6 +492,7 @@
     <ClInclude Include="Src\PhysicSystem\IForce.h" />
     <ClInclude Include="Src\GraphicsSystem\FrameBuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\AnimatedMesh.h" />
+    <ClInclude Include="Src\Gameplay\Boss.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

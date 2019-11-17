@@ -1,25 +1,20 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+#ifndef BULLET_H
+#define	BULLET_H
+
 class Bullet : public IScript
 {
 private:
-
-public:
 	double _lifeTime;
-
-	Bullet() : _lifeTime{ -666.f } {}
+public:
+	Bullet();
+	void SerialiseComponent(Serialiser& document);
 
 	void Update(double dt);
 
 	void OnCollision2DTrigger(Collider2D* other);
-
-
-	void SerialiseComponent(Serialiser& document)
-	{
-		if (document.HasMember("Lifetime") && document["Lifetime"].IsFloat())	//Checks if the variable exists in .Json file
-		{
-			_lifeTime = (document["Lifetime"].GetFloat());
-		}
-	}
 };
+
+#endif

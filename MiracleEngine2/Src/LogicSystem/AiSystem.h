@@ -56,13 +56,13 @@ private:
 	bool init;
 
 	double _timer{ 0 };
-	double _timeCooldown{ 2 };
+	double _timeCooldown{ 0.1 };
 
 	// hard coded tilemap
 	std::unordered_map < size_t, Node* > _tilemap;
-	int _mapTileSize = MAP_SIZE;
-	int _mapHeight = MAP_HEIGHT;
-	int _mapWidth = MAP_WIDTH;
+	size_t _mapTileSize = MAP_SIZE;
+	size_t _mapHeight = MAP_HEIGHT;
+	size_t _mapWidth = MAP_WIDTH;
 
 	//size_t _tilemapInput[10][10] = {
 	//	{ 0,0,0,0,0,0,0,0,0,0 },
@@ -76,8 +76,6 @@ private:
 	//	{ 0,0,0,0,0,0,0,0,0,0 },
 	//	{ 0,0,0,0,0,0,0,0,0,0 },
 	//};
-
-
 
 	//14 *14
 	//size_t _tilemapInput[MAP_HEIGHT][MAP_WIDTH] = {
@@ -142,7 +140,7 @@ public:
 	void SetTimeElapsed(size_t time);
 	std::unordered_map < size_t, Node* > GetTileMap();
 	void SetTileMap(std::unordered_map < size_t, Node* > map);
-	unsigned GetMapTileSize();
+	size_t GetMapTileSize();
 	void SetInit();
 
 // InUpEx

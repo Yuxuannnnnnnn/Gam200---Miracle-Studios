@@ -2,6 +2,16 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+Explosion::Explosion() : _lifeTime{ -666.f }
+{}
+void Explosion::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("Lifetime") && document["Lifetime"].IsFloat())	//Checks if the variable exists in .Json file
+	{
+		_lifeTime = (document["Lifetime"].GetFloat());
+	}
+}
+
 void Explosion::Update(double dt)
 {
 	if (_lifeTime > 0.0f)
