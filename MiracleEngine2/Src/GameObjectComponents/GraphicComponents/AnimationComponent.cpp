@@ -2,6 +2,17 @@
 #include "AnimationComponent.h"
 
 
+void AnimationComponent::SetFilePath(const std::string path)
+{
+	_filePath = path;
+}
+
+std::string& AnimationComponent::GetFilePath()
+{
+	return _filePath;
+}
+
+
 AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponentSystem* component)
 	: IComponentSystem(parent, uId)
 {

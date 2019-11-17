@@ -2,16 +2,23 @@
 
 #include "../Animation/Animation.h"
 #include <vector>
+#include <string>
 
 class AnimationComponent: public IComponentSystem
 {
 private:
+	std::string _filePath;
+
+
 	std::vector<int> _animations;
 	std::vector<Animation*> _animation;
 	int _currentAnimation;
 	int _startingFrame;
 
 public:
+	void SetFilePath(const std::string path);
+	std::string& GetFilePath();
+	
 	AnimationComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem* component = nullptr);
 
 	void SerialiseComponent(Serialiser& document) override;
