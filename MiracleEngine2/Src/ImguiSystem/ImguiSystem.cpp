@@ -3,6 +3,8 @@
 
 
 
+
+
 ImguiSystem::ImguiSystem(const Window& window)
 	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }, _pause{ false }, _editorMode{ false }
 {
