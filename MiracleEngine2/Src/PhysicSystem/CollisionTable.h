@@ -15,6 +15,7 @@ enum class ColliderTag {
 	BULLET_E = 8,
 	PICK_UPS = 9,
 	EDGES = 10,
+	BOSS = 11,
 
 	TOTAL_TAG
 };

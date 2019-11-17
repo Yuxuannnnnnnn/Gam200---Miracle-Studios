@@ -11,3 +11,4 @@
 #include "../Gameplay/Explosion.h"
 #include "../Gameplay/ButtonUI.h"
 #include "../Gameplay/PickUps.h"
+#include "../Gameplay/Boss.h"

@@ -17,7 +17,7 @@ void Bullet::OnCollision2DTrigger(Collider2D* other )
 	{
 		DestoryThis();
 		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
-		enemy->_health--;
+		enemy->DecrementHealth();
 	}
 	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER || 
 		other->_tag == (unsigned)ColliderTag::BUILDING ||

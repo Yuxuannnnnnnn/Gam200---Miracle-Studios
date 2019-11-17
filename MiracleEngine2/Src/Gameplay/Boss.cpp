@@ -4,48 +4,30 @@
 #include <cstdlib>
 #include <ctime>
 
-Enemy::Enemy() :
-	_init{ false },
-	_health{ 5 },
-	_enemyType{ (int)Enemy_Type::BASIC },
-
-	_timerAttack{ 0.0 },
-	_timerAttackCooldown{ 0.0 },
-	_attackRange{ 0 },
-
-	_target{ nullptr },
-	_state{ 0 },
-	_timerPathing{ 0.0 },
-	_timerPathingCooldown{ 0.5 },
-	_path{ std::vector<Node*> ()},
-	_nextNode{ nullptr },
-	_destNode{ nullptr },
-	_mapTileSize{ 0 }
+Boss::Boss()
+//:IComponentSystem(parent, uId)
 {
-	_attackRange = _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_mapTileSize *= _mapTileSize;
-	_attackRange *= 2; // XxX tileSize
-	_attackRange *= _attackRange; // pow(2) for vector3.length() comparison
+	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackRange *= 1; // 2 tileSize
+	_attackRange *= _attackRange; // pow(2)
+	_target = nullptr;
+	_state = (unsigned)AiState::MOVING;
+	_enemyType = 0;
+	_health = 1;
+	_nextNode = nullptr;
+	_destNode = nullptr;
+	_timer = -1.0;
+	_timeCooldown = 5.0;;
+	_timerAttack = 0;
+	_timerAttackCooldown = 1.0;
 }
 
-void Enemy::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
-	{
-		_health = (document["Health"].GetInt());
-	}
-
-	if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())	//Checks if the variable exists in .Json file
-	{
-		_enemyType = (document["EnemyType"].GetInt());
-	}
-}
-
-void Enemy::Init()
+void Boss::Init()
 {
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 	for (auto it : temp)
 	{
+
 		if (it.second->Get_uID() >= 1000 && it.second->GameObjectType() == (unsigned)TypeIdGO::PLAYER)
 		{
 			_target = it.second;
@@ -53,41 +35,47 @@ void Enemy::Init()
 		}
 	}
 }
-void Enemy::Update(double dt)
+void Boss::Update(double dt)
 {
 	if (!_init)
 	{
 		Init();
 		_init = true;
 	}
-
 	if (_health <= 0)
 	{
 		ChancePickUps();
 		DestoryThis();
 	}
 
-	_timerAttack -= dt;
-	_timerPathing -= dt;
-
 	CheckState();
 	FSM();
+
+	_timerAttack -= dt;
+	_timer -= dt;
+}
+void Boss::Exit()
+{
+
 }
 
-Vector3& Enemy::GetDestinationPos()
+Vector3& Boss::GetDestinationPos()
 {
-	return ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	_destinationPos = ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return _destinationPos;
 }
-Vector3& Enemy::GetPosition()
+
+Vector3& Boss::GetPosition()
 {
 	return ((TransformComponent*)this->GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT))->GetPos();
 }
-std::vector<Node*>& Enemy::GetPath()
+
+std::vector<Node*>& Boss::GetPath()
 {
 	return _path;
 }
 
-void Enemy::Attack()
+void Boss::Attack()
 {
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
@@ -123,7 +111,7 @@ void Enemy::Attack()
 	}
 }
 
-void Enemy::Move()
+void Boss::Move()
 { // move directly to Target.Pos
 	const float spd = 4.f;
 	Vector3 moveVec(
@@ -139,8 +127,13 @@ void Enemy::Move()
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
 	AddForwardForce(GetParentId(), 6000);
+
+	//moveVec.Normalize();
+	//moveVec.operator*(spd); // moveVec*(spd) && moveVec*speed giving warning
+	//						//std::cout << moveVec._x << " " << moveVec._y << std::endl;
+	//((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
-void Enemy::MoveNode(bool start)
+void Boss::MoveNode(bool start)
 { // move to NextNod
 							//std::cout << _nextNode->GetNodeId() << std::endl << std::endl;
 
@@ -150,15 +143,16 @@ void Enemy::MoveNode(bool start)
 	Vector3 moveVec(
 		(_nextNode->GetPosition()._x - GetPosition()._x),
 		(_nextNode->GetPosition()._y - GetPosition()._y),
-		0);
+		0
+	);
 
 	// check if should get the nextNextNode
 	unsigned mapTileSize = 10 * 10;// next time is get the map size from AiComponent or sth
 
 	if (start)
-		mapTileSize = 100 * 100; 
+		mapTileSize = 100 * 100;
 
-	if (moveVec.SquaredLength() < mapTileSize)
+	if (moveVec.SquaredLength() < (float)mapTileSize)
 	{
 		if (_path.size() > 1)
 		{
@@ -187,13 +181,13 @@ void Enemy::MoveNode(bool start)
 
 	// move towards node
 	moveVec.Normalize();
-	
-	moveVec*=(spd);
+
+	moveVec *= (spd);
 	//std::cout << moveVec._x << " " << moveVec._y << std::endl;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
 }
 
-void Enemy::FSM()
+void Boss::FSM()
 {
 	if (!_target) // if no target
 		_state = (unsigned)AiState::IDLE;
@@ -207,12 +201,12 @@ void Enemy::FSM()
 	{
 		//std::cout << "/t AI Move!!!\n";
 	// get pathfinding
-		if (_timerPathing > 0)
+		if (_timer > 0)
 		{
 			MoveNode();
 		}
 		else
-		{ 
+		{
 			std::vector<Node*> newPath = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
 			if (!_destNode || _destNode->GetNodeId() != newPath.back()->GetNodeId())
 			{
@@ -223,7 +217,7 @@ void Enemy::FSM()
 			}
 			else
 				MoveNode();
-			_timerPathing = _timerPathingCooldown;
+			_timer = _timeCooldown;
 		}
 		break;
 	}
@@ -234,7 +228,7 @@ void Enemy::FSM()
 			Move();
 		else
 			MoveNode();
-			//Attack();
+		//Attack();
 
 		break;
 	}
@@ -243,7 +237,7 @@ void Enemy::FSM()
 	}
 }
 
-void Enemy::CheckState()
+void Boss::CheckState()
 {
 	// _destinationPos - currPos
 	Vector3 tempVec3 = GetDestinationPos() - GetPosition();
@@ -262,7 +256,7 @@ void Enemy::CheckState()
 	}
 }
 
-void Enemy::ChancePickUps()
+void Boss::ChancePickUps()
 {
 	std::srand(std::time(0));
 	int Yaya = 1 + std::rand() % 8;
@@ -285,22 +279,11 @@ void Enemy::ChancePickUps()
 		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 	}
+
 }
 
-int Enemy::GetHealth()
-{
-	return _health;
-}
-void Enemy::SetHealth(int val)
-{
-	_health = val;
-}
-void Enemy::DecrementHealth()
-{
-	--_health;
-}
 
-void Enemy::OnCollision2DTrigger(Collider2D* other)
+void Boss::OnCollision2DTrigger(Collider2D* other)
 {
 	//if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
 	//{

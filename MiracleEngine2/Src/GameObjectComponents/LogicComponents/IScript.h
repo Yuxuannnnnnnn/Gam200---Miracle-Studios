@@ -23,6 +23,7 @@ enum class ScriptId {
 	EXPLOSION = 10,
 	BUTTON_UI = 11,
 	PICK_UPS = 12,
+	BOSS = 13,
 };
 
 class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler, public IForce
