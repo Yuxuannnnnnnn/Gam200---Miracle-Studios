@@ -6,7 +6,7 @@
 #include "Tools/FileIO/Serialiser.h"
 
 GameObject::GameObject(size_t uId, unsigned typeId)
-	:_uId{ uId }, _typeId{ typeId }, _destory{ false }, _alive{ true }
+	:_uId{ uId }, _typeId{ typeId }, _destory{ false }, _enable{ true }, _alive{ true }
 {
 	//std::cout << "GameObject::GameObject()" << std::endl;
 }
