@@ -2,7 +2,7 @@
 #include "PreFabImguiWindow.h"
 
 
-void PreFabImguiWindow::Update()
+void AssetsImguiWindow::Update()
 {
 	const std::unordered_map<TypeIdGO, GameObject*>& objlist = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList();
 

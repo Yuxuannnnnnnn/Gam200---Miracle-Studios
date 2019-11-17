@@ -50,35 +50,23 @@ void GraphicsSystem::Update(double dt)
 
 		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 
-		/*if (graphicComponent->GetFileName() == "player")
+		if (graphicComponent->GetFileName() == "player")
 		{
-			if (!_testAnim)
-			{
-				_quadmesh.Select();
-				_textureManager._textureMap["player"]->Select();
-			}
-			else
-			{
-				_playerMesh.Select(dt, _numAnim);
-				switch (_numAnim)
-				{
-				case 0:
-					_textureManager._textureMap["idle"]->Select();
-					break;
-				case 1:
-					_textureManager._textureMap["run"]->Select();
-					break;
-				case 2:
-					_textureManager._textureMap["jump"]->Select();
-					break;
-				}
-			}
+			//_quadmesh.Select();
+			_testAnimation.Select();
+			_textureManager._textureMap["idle"]->Select();
+
+
 		}
-		else*/
+		else
 
-		// texture with animation
+			// checking if have animation comp
+			//if(graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
 
-		// texture without animation
+
+			// texture with animation
+
+			// texture without animation
 		{
 			_quadmesh.Select();
 			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
@@ -122,7 +110,7 @@ void GraphicsSystem::Update(double dt)
 	//GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
 	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
 	//TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-	Vector3 position(0, MAP_HEIGHT* MAP_SIZE / 2, 1);
+	Vector3 position(0, MAP_HEIGHT * MAP_SIZE / 2, 1);
 	//com->SetPos(position);
 	//Vector3 scale(14 * MAP_SIZE, 0, 0);
 	//com->SetScale(scale);
@@ -150,7 +138,7 @@ void GraphicsSystem::Update(double dt)
 	//obj = EngineSystems::GetInstance()._gameObjectFactory->
 	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
 	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-	Vector3 position3((MAP_WIDTH* MAP_SIZE / 2), 0, 1);
+	Vector3 position3((MAP_WIDTH * MAP_SIZE / 2), 0, 1);
 	//com->SetPos(position3);
 	//Vector3 scale3(14 * MAP_SIZE, 0, 0);
 	//com->SetScale(scale3);

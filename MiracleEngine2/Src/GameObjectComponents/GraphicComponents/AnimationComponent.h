@@ -12,7 +12,7 @@ private:
 
 	std::vector<int> _animations;
 	std::vector<Animation*> _animation;
-	int _currentAnimation;
+	int _currentAnimation;	//Current Playing Animation
 	int _startingFrame;
 
 public:

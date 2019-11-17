@@ -3,6 +3,8 @@
 
 
 
+
+
 ImguiSystem::ImguiSystem(const Window& window)
 	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }, _pause{ false }, _editorMode{ false }
 {
@@ -41,9 +43,9 @@ ImguiSystem::ImguiSystem(const Window& window)
 
 	//New All ImguiWindows
 	
-	_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)] = new HierarchyImguiWindow();
-	_ImguiWindows[static_cast<int>(ImguiWindows::INSPECTOR)] = new InspectionImguiWindow();
-	_ImguiWindows[static_cast<int>(ImguiWindows::PREFAB_FOLDER)] = new PreFabImguiWindow();
+	_ImguiWindows["Hierarchy"] = new HierarchyImguiWindow();
+	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
+	_ImguiWindows["Assets"] = new AssetsImguiWindow();
 	/*
 	_ImguiWindows[ImguiWindows::SCENE] = new Scene();
 	*/
@@ -113,21 +115,18 @@ void ImguiSystem::UpdateFrame()
 			}
 			ImGui::EndMenu();
 		}
+
 		if (ImGui::BeginMenu("Window  "))
 		{
-			if (ImGui::MenuItem("Hierarchy Window  "))
+			for (auto& windowPair : _ImguiWindows)
 			{
-				_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)]->SetWindowTrue();
-			}
-			if (ImGui::MenuItem("Inspector Window  "))
-			{
-				_ImguiWindows[static_cast<int>(ImguiWindows::INSPECTOR)]->SetWindowTrue();
-			}
-			if (ImGui::MenuItem("PreFab Window  "))
-			{
-				_ImguiWindows[static_cast<int>(ImguiWindows::PREFAB_FOLDER)]->SetWindowTrue();
-			}
+				std::string windowName = windowPair.first;
 
+				if (ImGui::MenuItem(windowName.c_str()))
+				{	
+					windowPair.second->SetWindowTrue();
+				}
+			}
 			ImGui::EndMenu();
 		}
 
@@ -139,18 +138,19 @@ void ImguiSystem::UpdateFrame()
 	if (_editorMode)
 	{
 
-		for (int i = 0; i < (int)ImguiWindows::COUNT; i++)	//Update all Imgui Windows
+		for (auto & windowPair: _ImguiWindows)	//Update all Imgui Windows
 		{
-			if (_ImguiWindows[i]->GetOpen()) //if false, window will not be created
+			IBaseImguiWindow* window = windowPair.second;
+			if (window->GetOpen()) //if false, window will not be created
 			{
 				// Start of Main window body.
-				if (!ImGui::Begin(_ImguiWindows[i]->GetName(), &(_ImguiWindows[i]->GetOpen()), _ImguiWindows[i]->GetFlags()))
+				if (!ImGui::Begin(window->GetName(), &(window->GetOpen()), window->GetFlags()))
 				{
 					ImGui::End();	// Early out if the window is collapsed, as an optimization.
 					continue;
 				}
 
-				_ImguiWindows[i]->Update(); //Update the contents of each window
+				window->Update(); //Update the contents of each window
 
 				ImGui::End();									//End of window body
 			}

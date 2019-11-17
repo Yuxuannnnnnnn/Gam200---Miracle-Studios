@@ -2,13 +2,13 @@
 #include "IBaseImguiWindow.h"
 
 
-class PreFabImguiWindow: public IBaseImguiWindow
+class AssetsImguiWindow: public IBaseImguiWindow
 {
 public:
 
-	PreFabImguiWindow(bool open = true,	//Set the settings for the imgui window
+	AssetsImguiWindow(bool open = true,	//Set the settings for the imgui window
 		ImGuiWindowFlags flags = ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar)
-		:IBaseImguiWindow("PreFab", open, flags)
+		:IBaseImguiWindow("Assets", open, flags)
 	{
 	}
 
