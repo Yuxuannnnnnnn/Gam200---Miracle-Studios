@@ -21,6 +21,15 @@ public:
 
 	void SerialiseComponent(Serialiser& document);
 
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+	}
+
+	void Inspect() override
+	{
+
+	}
+
 	void Update(double dt);
 };
 

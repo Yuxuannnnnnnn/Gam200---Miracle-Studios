@@ -21,6 +21,11 @@ void EdgeCollider2D::SerialiseComponent(Serialiser& document)
 
 }
 
+void EdgeCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	Collider2D::DeSerialiseComponent(prototypeDoc);
+}
+
 void EdgeCollider2D::Inspect()
 {
 	IComponentSystem::Inspect();

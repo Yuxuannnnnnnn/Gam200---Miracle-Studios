@@ -687,10 +687,16 @@ void GameObjectFactory::SerialiseLevel(const char* FileName)
 
 
 
-//void GameObjectFactory::FileRead_Level(const char* FileName)
+//void GameObjectFactory::SerialiseLevel(std::string FileName)
 //{
 //	Serialiser Level(FileName);
 //
+//	//Serialise textures for resourceManager - Texture Manager
+//	//Serialise Audio for resourceManager - Audio Manager
+//	//Serialise Prototypes - prefabFactory
+//	//Serialise BinaryMap - Used creating Static gameobjects on screen & collision data & AI node Map
+//	//Serialise Mobile GameObjects with components 
+//		//Player components
 //	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
 //
 //	BinaryMap Map(Level);
@@ -775,14 +781,12 @@ void GameObjectFactory::DeleteLevelNotPrefab()
 
 void GameObjectFactory::De_SerialiseLevel(std::string filename)
 {
-	DeSerialiser level(filename);
+	std::string fileName = "./Resources/TextFiles/States/" + filename;
+	DeSerialiser level(fileName);
 
-
-	rapidjson::Value value(123);
-	level.AddMember("hello", value);
-
-	//Deserialise the audio 
-	//Deserialise the textures
+	//Deserialise the Audio from GameObjects AudioComponent
+	//Deserialise the textures from GameObject GraphicComponent & AnimationComponents 
+	//Deserialise the Prototypes 
 	//Deserialise the Binary map
 	//Deserialise the components of player 
 }

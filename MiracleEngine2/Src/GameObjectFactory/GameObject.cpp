@@ -60,6 +60,24 @@ void GameObject::Serialise(std::string file)
 
 }
 
+void GameObject::DeSerialise()
+{
+	IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[(unsigned)ComponentId::IDENTITY_COMPONENT]);
+	std::string fileName = "./Resources/TextFiles/GameObjects/" + IdComponent->ObjectType() + ".json";
+	DeSerialiser prototypeDoc(fileName);
+
+	for (auto& ComponentPair : _ComponentList)
+	{
+		rapidjson::Value value;
+		value.SetBool(true);
+		prototypeDoc.AddMember(ToString((ComponentId)ComponentPair.first), value);
+
+		value.Clear();
+		IComponentSystem* component = ComponentPair.second;
+		component->DeSerialiseComponent(prototypeDoc);
+	}
+}
+
 Map_ComponentList& GameObject::GetComponentList() // Get ComponentList
 {
 	return _ComponentList;

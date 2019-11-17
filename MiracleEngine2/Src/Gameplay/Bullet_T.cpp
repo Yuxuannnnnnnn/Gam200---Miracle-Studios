@@ -4,13 +4,8 @@
 
 Bullet_T::Bullet_T() : _lifeTime{ -666.f }
 {}
-void Bullet_T::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Lifetime") && document["Lifetime"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_lifeTime = (document["Lifetime"].GetFloat());
-	}
-}
+
+
 
 void Bullet_T::Update(double dt)
 {

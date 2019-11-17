@@ -12,10 +12,9 @@ class DeSerialiser
 public:
 
 	DeSerialiser(std::string filename)
-		:_level{}, _allocator{ _level.GetAllocator() }, _filename{}
+		:_level{}, _allocator{ _level.GetAllocator() }, _filename{filename}
 	{
 		_level.SetObject();	//Set the document as an OverArching Object
-		_filename = "./Resources/TextFiles/States/" + filename;
 	}
 
 
@@ -30,12 +29,36 @@ public:
 	//a.PushBack(Value().SetInt(42), allocator); // fluent API
 	//a.PushBack(Value(42).Move(), allocator);   // same as above
 
+	//Value author;
+	//char buffer[10];
+	//int len = sprintf(buffer, "%s %s", "Milo", "Yip"); // dynamically created string.
+	//author.SetString(buffer, len, document.GetAllocator());
+
+	//s.SetString("rapidjson");    // can contain null character, length derived at compile time
+	//s = "rapidjson";             // shortcut, same as above
+
+	//const char* cstr = getenv("USER");
+	//size_t cstr_len = ...;                 // in case length is available
+	//Value s;
+	//// s.SetString(cstr);                  // will not compile
+	//s.SetString(StringRef(cstr));          // ok, assume safe lifetime, null-terminated
+	//s = StringRef(cstr);                   // shortcut, same as above
+	//s.SetString(StringRef(cstr, cstr_len)); // faster, can contain null character
+	//s = StringRef(cstr, cstr_len);          // shortcut, same as abov
+
 	void AddMember(const std::string& key, rapidjson::Value& value)
 	{
 		rapidjson::Value name(key.c_str(), _allocator);
 
 		_level.AddMember(name, value, _allocator);
 	}
+
+
+	rapidjson::MemoryPoolAllocator<>& Allocator()
+	{
+		return _allocator;
+	}
+
 
 
 	~DeSerialiser()

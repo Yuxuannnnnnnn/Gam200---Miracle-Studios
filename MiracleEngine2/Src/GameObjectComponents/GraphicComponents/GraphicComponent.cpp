@@ -139,6 +139,20 @@ void GraphicComponent::SerialiseComponent(Serialiser& document)
 		_fileName = document["G.FileName"].GetString();
 }
 
+void GraphicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetInt(_typeIdGraphic);
+	prototypeDoc.AddMember("G.TypeId", value);
+	value.Clear();
+
+
+	value.SetString(rapidjson::StringRef(_fileName.c_str()));
+	prototypeDoc.AddMember("G.FileName", value);
+	value.Clear();
+}
+
 void GraphicComponent::Inspect()
 {
 	//_fileName

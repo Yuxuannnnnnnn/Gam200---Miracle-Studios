@@ -10,7 +10,30 @@ private:
 	double _lifeTime;
 public:
 	Bullet_E();
-	void SerialiseComponent(Serialiser& document);
+
+	void SerialiseComponent(Serialiser& document)
+	{
+		if (document.HasMember("Lifetime") && document["Lifetime"].IsFloat())	//Checks if the variable exists in .Json file
+		{
+			_lifeTime = (document["Lifetime"].GetFloat());
+		}
+	}
+
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+		rapidjson::Value value;
+
+		value.SetDouble(_lifeTime);
+		prototypeDoc.AddMember("Lifetime", value);
+		value.Clear();
+	}
+
+	void Inspect() override
+	{
+		ImGui::Spacing();
+		ImGui::InputDouble("Lifetime ", &_lifeTime);
+		ImGui::Spacing();
+	}
 
 	void Update(double dt);
 

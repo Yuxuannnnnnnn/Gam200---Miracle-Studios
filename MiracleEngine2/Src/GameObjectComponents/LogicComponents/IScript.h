@@ -1,10 +1,11 @@
 #pragma once
-#include "PrecompiledHeaders.h"
 #include "GameObjectComponents/IComponentSystem.h" // need to be able to access other components
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
 #include "Tools/EventHandler/IColliderHandler.h"
 #include "Tools/EventHandler/IMouseHandler.h"
 #include "PhysicSystem/IForce.h"
+
+#include "Imgui/imgui.h"
 
 #ifndef ISCRIPT_H
 #define	ISCRIPT_H
@@ -45,12 +46,17 @@ public:
 		return "IScript Component";
 	}
 
-	void SerialiseComponent(Serialiser & document) override
+	void SerialiseComponent(Serialiser& document) 
 	{
 
 	}
 
-	virtual void Inspect() override
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+
+	}
+
+	void Inspect() override
 	{
 
 	}

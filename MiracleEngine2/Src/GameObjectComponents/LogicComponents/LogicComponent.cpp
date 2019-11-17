@@ -17,7 +17,6 @@ LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponentSystem*
 			IScript* Script = new IScript(*(script.second));
 			_scriptList.insert(std::pair<unsigned, IScript*>(script.first, Script));
 		}
-
 	}
 }
 
@@ -40,11 +39,29 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 		}
 }
 
+void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetArray();
+	for (auto& scriptPair : _scriptList)
+	{
+		value.PushBack(rapidjson::Value(scriptPair.first).Move(), prototypeDoc.Allocator());
+	}
+
+	prototypeDoc.AddMember("ScriptId", value);
+	value.Clear();
+}
+
 
 
 void LogicComponent::Inspect()
 {
 	IComponentSystem::Inspect();
+	for (auto& scriptPair : _scriptList)
+	{
+		scriptPair.second->Inspect();
+	}
 }
 
 

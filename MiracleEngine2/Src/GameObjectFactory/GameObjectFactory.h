@@ -71,7 +71,6 @@ public:
 	void DeleteLevel();								//Level is Deleted when out of In-GameState
 	void DeleteLevelNotPrefab();
 
-
-
+	//void SerialiseLevel(std::string FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
 	void De_SerialiseLevel(std::string filename);
 };

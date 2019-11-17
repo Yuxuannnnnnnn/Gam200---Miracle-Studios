@@ -36,6 +36,16 @@ public:
 	Enemy();
 	void SerialiseComponent(Serialiser& document);	
 
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+
+	}
+
+	void Inspect() override
+	{
+
+	}
+
 	void Init();
 	void Update(double dt);
 

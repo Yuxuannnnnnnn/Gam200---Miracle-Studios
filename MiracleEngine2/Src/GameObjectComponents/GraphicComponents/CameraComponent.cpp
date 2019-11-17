@@ -27,8 +27,25 @@ void CameraComponent::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("yZoom") && document["yZoom"].IsFloat())	//Checks if the variable exists in .Json file
 	{
-		_xZoom = (document["yZoom"].GetFloat());
+		_yZoom = (document["yZoom"].GetFloat());
 	}
+}
+
+void CameraComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetFloat(_movespeed);
+	prototypeDoc.AddMember("MovementSpeed", value);
+	value.Clear();
+
+	value.SetFloat(_xZoom);
+	prototypeDoc.AddMember("xZoom", value);
+	value.Clear();
+
+	value.SetFloat(_yZoom);
+	prototypeDoc.AddMember("yZoom", value);
+	value.Clear();
 }
 
 

@@ -1,24 +1,26 @@
 {
-  "IdentityComponent": true,
-  "Name": "none",
-  "GameObjectType": 21,
+	"IdentityComponent": true,
+	"Name": "none",
+	"GameObjectType": 21,
+	"ObjectType": "Buttons",
 
-  "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 100.0, 100.0 ],
-  "Rotate": 0.0,
 
-  "GraphicsComponent": true,
-  "G.TypeId": 0,
-  "G.FileName": "button",
+	"TransformComponent": true,
+	"Position": [ 0.0, 0.0 ],
+	"Scale": [ 100.0, 100.0 ],
+	"Rotate": 0.0,
 
-  "Font Component": true,
-  "FontId": 0,
+	"GraphicsComponent": true,
+	"G.TypeId": 0,
+	"G.FileName": "button",
 
-  "LogicComponent": true,
-  "ScriptId": [ 11 ],
+	"Font Component": true,
+	"FontId": 0,
 
-  "ButtonComponent": true,
-  "ButtonType": 1
+	"LogicComponent": true,
+	"ScriptId": [ 11 ],
+
+	"ButtonComponent": true,
+	"ButtonType": 1
 
 }

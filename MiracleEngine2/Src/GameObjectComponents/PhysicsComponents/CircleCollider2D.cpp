@@ -28,6 +28,11 @@ void CircleCollider2D::SerialiseComponent(Serialiser& document)
 
 }
 
+void CircleCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	Collider2D::DeSerialiseComponent(prototypeDoc);
+}
+
 void CircleCollider2D::Inspect()
 {
 	IComponentSystem::Inspect();

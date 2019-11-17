@@ -27,6 +27,27 @@ void TransformComponent::SerialiseComponent(Serialiser& document)
 	}
 }
 
+void TransformComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetArray();
+	value.PushBack(rapidjson::Value(_pos.GetX()).Move(), prototypeDoc.Allocator());
+	value.PushBack(rapidjson::Value(_pos.GetY()).Move(), prototypeDoc.Allocator());
+	prototypeDoc.AddMember("Position", value);
+	value.Clear();
+
+	value.SetArray();
+	value.PushBack(rapidjson::Value(_scale.GetX()).Move(), prototypeDoc.Allocator());
+	value.PushBack(rapidjson::Value(_scale.GetY()).Move(), prototypeDoc.Allocator());
+	prototypeDoc.AddMember("Scale", value);
+	value.Clear();
+
+	value.SetFloat(_rotationAngle);
+	prototypeDoc.AddMember("Rotate", value);
+	value.Clear();
+}
+
 
 
 void TransformComponent::Inspect()

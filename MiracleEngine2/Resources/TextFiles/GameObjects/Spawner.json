@@ -1,19 +1,24 @@
 {
-  "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 100.0, 100.0 ],
-  "Rotate": 0.0,
+	"IdentityComponent": true,
+	"Name": "none",
+	"GameObjectType": 4,
+	"ObjectType": "Spawner",
 
-  "GraphicsComponent": true,
-  "G.TypeId": 0,
-  "G.FileName": "spawner",
+	"TransformComponent": true,
+	"Position": [ 0.0, 0.0 ],
+	"Scale": [ 100.0, 100.0 ],
+	"Rotate": 0.0,
 
-  "ColliderComponent": true,
-  "ColliderTypeId": 2,
-  "ColliderTag": 5,
-  "ColliderTrigger": true,
+	"GraphicsComponent": true,
+	"G.TypeId": 0,
+	"G.FileName": "spawner",
 
-  "LogicComponent": true,
-  "ScriptId": [ 5 ],
-  "Health": 20
+	"ColliderComponent": true,
+	"ColliderTypeId": 2,
+	"ColliderTag": 5,
+	"ColliderTrigger": true,
+
+	"LogicComponent": true,
+	"ScriptId": [ 5 ],
+	"Health": 20
 }
