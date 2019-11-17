@@ -92,6 +92,7 @@
     <ClCompile Include="Src\GraphicsSystem\FrameBuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\AnimatedMesh.cpp" />
     <ClCompile Include="Src\Gameplay\Boss.cpp" />
+    <ClCompile Include="Src\Gameplay\PickUps.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />

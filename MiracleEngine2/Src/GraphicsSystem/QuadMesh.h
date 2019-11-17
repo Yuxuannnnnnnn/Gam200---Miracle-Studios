@@ -14,6 +14,7 @@ class QuadMesh
 public:
 	void Select();
 	QuadMesh();
+	QuadMesh(float u0, float v0, float u1, float v1);
 	~QuadMesh();
 private:
 	VertexArray* _vao;
