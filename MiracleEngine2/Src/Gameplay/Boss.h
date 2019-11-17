@@ -4,6 +4,8 @@
 #ifndef BOSS_H
 #define	BOSS_H
 
+class Node; // forward declare
+
 class Boss : public IScript												// NOTE NOTE NOTE NOTE -- THIS ISNT DONE AT ALL, WILL SETTLE THIS AFTER I DO THE LOGIC CHANGES :BRANDON
 {
 private:
