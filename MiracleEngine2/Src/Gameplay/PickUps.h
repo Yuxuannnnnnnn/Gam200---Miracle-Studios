@@ -18,6 +18,7 @@ private:
 	int _pickupType;
 public:
 	PickUps();
+
 	void SerialiseComponent(Serialiser& document);
 
 	void Update(double dt);

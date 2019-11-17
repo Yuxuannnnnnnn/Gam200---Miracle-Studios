@@ -20,6 +20,7 @@
 #include "Camera.h"
 #include "FontRenderer.h"
 #include "../Animation/AnimationSystem.h"
+#include "../Animation/Animation.h"
 
 enum RenderMode
 {
@@ -61,6 +62,7 @@ private:
 	FontRenderer _fontRenderer;
 	AnimationSystem _animationSystem;
 
+	Animation _testAnimation;
 	
 };
 

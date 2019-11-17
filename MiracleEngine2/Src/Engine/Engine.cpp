@@ -30,6 +30,12 @@ void Engine::Update()
 		//_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
+		if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
+		{
+			//_gameStateManager->SetNextGameState(GameStateId::GS_QUIT); 
+			return;
+		}
+
 #ifdef LEVELEDITOR
 		_frameRateControl->StartTimeCounter();
 		_imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
@@ -46,11 +52,7 @@ void Engine::Update()
 		_performanceUsage->FPS = _frameRateControl->GetFPS();
 #endif
 
-		if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
-		{
-			//_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
-			return;
-		}
+
 #ifdef LEVELEDITOR
 		_frameRateControl->StartTimeCounter();
 #endif

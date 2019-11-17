@@ -4,12 +4,12 @@
 
 void AnimationComponent::SetFilePath(const std::string path)
 {
-	_filePath = path;
+	_type = path;
 }
 
 std::string& AnimationComponent::GetFilePath()
 {
-	return _filePath;
+	return _type;
 }
 
 
@@ -24,7 +24,10 @@ AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponen
 
 void AnimationComponent::SerialiseComponent(Serialiser& document)
 {
-
+	if (document.HasMember("Type") && document["Type"].IsString())
+	{
+		_type = document["Type"].GetString();
+	}
 }
 
 

@@ -1,0 +1,2 @@
+CRASH LOG
+ASSERT FAILED: glewInit() != GLEW_OK @ D:\GAM200\Gam200---Miracle-Studios\MiracleEngine_Backup\Src\WindowsSystem\WindowsSystem.cpp (230)

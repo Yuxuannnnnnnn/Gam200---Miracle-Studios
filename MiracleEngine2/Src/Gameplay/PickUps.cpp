@@ -5,6 +5,9 @@
 
 PickUps::PickUps() : _lifeTime{ -666.f }, _pickupType{ (int)PickUp_Type::NONE }
 {}
+
+
+
 void PickUps::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("Lifetime") && document["Lifetime"].IsFloat())	//Checks if the variable exists in .Json file
