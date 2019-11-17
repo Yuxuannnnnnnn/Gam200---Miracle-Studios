@@ -31,7 +31,8 @@ private:
 
 	int _initWindowWidth; //1920
 	int _initWindowHeight;//1080
-
+	
+	bool _fullScreen;
 
 public:
 

@@ -63,7 +63,7 @@ void GraphicsSystem::Update(double dt)
 			
 			anim->testanim->Select();
 			//_testAnimation.Select();
-			_textureManager._textureMap["idle"]->Select();
+			_textureManager._textureMap[anim->GetFilePath()]->Select();
 
 		}
 		else
