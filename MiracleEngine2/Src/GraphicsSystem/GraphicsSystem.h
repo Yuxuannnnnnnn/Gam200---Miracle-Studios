@@ -57,7 +57,7 @@ private:
 	glm::mat4 _proj;
 	QuadMesh _quadmesh;
 	Camera _camera;
-	PlayerMesh _playerMesh;
+	//PlayerMesh _playerMesh;
 	FontRenderer _fontRenderer;
 	AnimationSystem _animationSystem;
 

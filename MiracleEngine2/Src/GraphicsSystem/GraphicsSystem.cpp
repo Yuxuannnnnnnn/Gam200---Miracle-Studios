@@ -34,7 +34,7 @@ void GraphicsSystem::Update(double dt)
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0);
 	ClearScreen();
-	//Example
+
 	//Check for Graphic component first then get Transform COmponent
 	for (auto& graphicComponentpair : _spriteList)
 	{
@@ -50,7 +50,7 @@ void GraphicsSystem::Update(double dt)
 
 		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 
-		if (graphicComponent->GetFileName() == "player")
+		/*if (graphicComponent->GetFileName() == "player")
 		{
 			if (!_testAnim)
 			{
@@ -74,13 +74,19 @@ void GraphicsSystem::Update(double dt)
 				}
 			}
 		}
-		else
+		else*/
+
+		// texture with animation
+
+		// texture without animation
 		{
 			_quadmesh.Select();
 			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
 		}
 		_shader.Select();
 
+
+		// calculate model matrix = TRS
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(transformComponent->GetPos()._x
 			, transformComponent->GetPos()._y, graphicComponent->GetRenderLayer()));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transformComponent->GetRotate(), glm::vec3(0, 0, 1));
@@ -90,6 +96,7 @@ void GraphicsSystem::Update(double dt)
 		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
 
 		//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+
 		_shader.SetUniformMat4f("u_MVP", mvp);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

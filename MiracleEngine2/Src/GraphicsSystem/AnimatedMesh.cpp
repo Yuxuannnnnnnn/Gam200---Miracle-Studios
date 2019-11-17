@@ -1,11 +1,13 @@
-#include "QuadMesh.h"
 #include "PrecompiledHeaders.h"
-void QuadMesh::Select()
+#include "AnimatedMesh.h"
+
+void AnimatedMesh::Select()
 {
 	_vao->Select();
 	_ebo->Select();
 }
-QuadMesh::QuadMesh()
+
+AnimatedMesh::AnimatedMesh(float u0, float v0, float u1, float v1)
 {
 	GLfloat _positions[] =
 	{
@@ -32,7 +34,7 @@ QuadMesh::QuadMesh()
 	
 }
 
-QuadMesh::~QuadMesh()
+AnimatedMesh::~AnimatedMesh()
 {
 	delete _vao;
 	delete _vbo;

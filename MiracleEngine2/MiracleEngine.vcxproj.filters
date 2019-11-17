@@ -85,13 +85,12 @@
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\Animations.cpp" />
     <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\PlayerMesh.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FontRenderer.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionMap.cpp" />
     <ClCompile Include="Src\PhysicSystem\IForce.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FrameBuffer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\AnimatedMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -486,13 +485,12 @@
     <ClInclude Include="Src\Gameplay\Explosion.h" />
     <ClInclude Include="Src\Gameplay\ButtonUI.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
-    <ClInclude Include="Src\GraphicsSystem\Animations.h" />
-    <ClInclude Include="Src\GraphicsSystem\PlayerMesh.h" />
     <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />
     <ClInclude Include="Src\Gameplay\PickUps.h" />
     <ClInclude Include="Src\PhysicSystem\CollisionMap.h" />
     <ClInclude Include="Src\PhysicSystem\IForce.h" />
     <ClInclude Include="Src\GraphicsSystem\FrameBuffer.h" />
+    <ClInclude Include="Src\GraphicsSystem\AnimatedMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
