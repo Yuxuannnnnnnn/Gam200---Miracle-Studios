@@ -46,11 +46,12 @@ public:
 	const TextureManager& GetTextureManager() const;
 
 private:
-	int _numAnim = 0;
-	int _testAnim = 0;
-	int _showfont = 0;
 	void ClearScreen() const;
 	void UnitTest();
+	
+	int _testAnim = 0;
+	int _numAnim = 0;
+	int _showfont = 0;
 	TextureManager _textureManager;
 	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
 	glm::mat4 _proj;
