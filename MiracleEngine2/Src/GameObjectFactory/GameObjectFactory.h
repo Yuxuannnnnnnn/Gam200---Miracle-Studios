@@ -72,7 +72,11 @@ public:
 	IScript* CloneScript(LogicComponent* object, IScript* script, ScriptId scriptType);
 	void RemoveScript(LogicComponent* object, ScriptId scriptType);
 
-	void FileRead_Level(const char* FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
+	void SerialiseLevel(const char* FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
 	void DeleteLevel();								//Level is Deleted when out of In-GameState
 	void DeleteLevelNotPrefab();
+
+
+
+	void De_SerialiseLevel(std::string filename);
 };

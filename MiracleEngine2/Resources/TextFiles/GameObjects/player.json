@@ -30,5 +30,6 @@
 
   "AudioComponent": true,
   "A.TypeId": 0,
-  "A.FileName": "audio_player.ogg"
+	"A.FileName": "audio_player.ogg"
+
 }

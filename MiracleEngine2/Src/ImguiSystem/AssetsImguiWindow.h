@@ -1,5 +1,6 @@
 #pragma once
 #include "IBaseImguiWindow.h"
+#include "Engine/EngineSystems.h"
 
 
 class AssetsImguiWindow: public IBaseImguiWindow

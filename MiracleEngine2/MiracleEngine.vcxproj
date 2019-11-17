@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
     <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />
     <ClInclude Include="Src\Gameplay\Boss.h" />
@@ -175,7 +176,7 @@
     <ClInclude Include="Src\GraphicsSystem\AnimatedMesh.h" />
     <ClInclude Include="Src\GraphicsSystem\Camera.h" />
     <ClInclude Include="Src\GraphicsSystem\FrameBuffer.h" />
-    <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
+    <ClInclude Include="Src\ImguiSystem\AssetsImguiWindow.h" />
     <ClInclude Include="Src\Animation\Animation.h" />
     <ClInclude Include="Src\Animation\AnimationSystem.h" />
     <ClInclude Include="Src\Animation\Frame.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Src\PhysicSystem\IForce.h" />
     <ClInclude Include="Src\PhysicSystem\PhysicsSystem.h" />
     <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
+    <ClInclude Include="Src\Tools\FileIO\JsonHeader.h" />
     <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
     <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
@@ -564,6 +566,7 @@
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
     <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
     <ClCompile Include="Src\Gameplay\Boss.cpp" />
@@ -577,7 +580,7 @@
     <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FontRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FrameBuffer.cpp" />
-    <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
+    <ClCompile Include="Src\ImguiSystem\AssetsImguiWindow.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />
     <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
     <ClCompile Include="Src\Animation\Frame.cpp" />

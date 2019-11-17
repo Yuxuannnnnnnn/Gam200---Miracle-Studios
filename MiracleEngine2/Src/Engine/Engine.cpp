@@ -24,6 +24,8 @@ void Engine::Update()
 
 	_sceneManager->ChangeScene(Scenes::MAIN_MENU);
 
+	_gameObjectFactory->De_SerialiseLevel("hello.json");
+
 	while (_sceneManager->GetCurrentScene() != Scenes::QUIT)	//GameState Logic Starts here
 	{
 

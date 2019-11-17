@@ -9,7 +9,6 @@ class AnimationComponent: public IComponentSystem
 private:
 	std::string _type;
 
-
 	std::vector<int> _animations;
 	std::vector<Animation*> _animation;
 	int _currentAnimation;	//Current Playing Animation

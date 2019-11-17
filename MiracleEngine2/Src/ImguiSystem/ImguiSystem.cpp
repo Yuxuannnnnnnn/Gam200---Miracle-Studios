@@ -17,7 +17,7 @@ ImguiSystem::ImguiSystem(const Window& window)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
 	//io.ConfigFlags |= ImGuiWindowFlags_MenuBar; 
 	io.WantCaptureKeyboard = true;
-	//io.ConfigDockingWithShift = true;
+	io.ConfigDockingWithShift = true;
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; //Enable Multi - Viewport / Platform Windows
 
 	// Setup Dear ImGui style
@@ -69,7 +69,7 @@ void ImguiSystem::UpdateFrame()
 				if (ImGui::MenuItem("./Resources/TextFiles/States/TestLevel.txt"))
 				{
 					EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
-					EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
+					EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel("./Resources/TextFiles/States/TestLevel.txt");
 				}
 				ImGui::EndMenu();
 			}

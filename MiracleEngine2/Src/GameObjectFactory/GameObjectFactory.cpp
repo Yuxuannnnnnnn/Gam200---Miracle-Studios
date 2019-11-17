@@ -3,6 +3,7 @@
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 #include "Tools/EventHandler/EventHandler.h"
 #include "GameObjectFactory.h"
+#include "Tools/FileIO/DeSerialiser.h"
 
 //Constructor - Same as Initialisation
 //Prototypes initialised - Prototypes Used for during entire Game, Only when Quit Game State then delete Prototypes
@@ -112,6 +113,7 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 
 	return newObject;
 }
+
 void GameObjectFactory::DestoryGameObject(GameObject* object)
 {
 	if (!object)
@@ -403,6 +405,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
+
+		EngineSystems::GetInstance()._graphicsSystem->_animationList.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -884,7 +888,7 @@ void GameObjectFactory::RemoveScript(LogicComponent* object, ScriptId scriptType
 
 
 //Read LevelText and Instantiate GObj - When Next Game State is In-Game, Create all level objects
-void GameObjectFactory::FileRead_Level(const char* FileName)
+void GameObjectFactory::SerialiseLevel(const char* FileName)
 { // will move to ObjectFactory
 	std::cout << "FileRead_Level( " << FileName << " )" << std::endl;
 	std::fstream _file;
@@ -964,9 +968,6 @@ void GameObjectFactory::FileRead_Level(const char* FileName)
 
 
 
-
-
-
 void GameObjectFactory::DeleteLevel()
 {
 	EngineSystems::GetInstance()._prefabFactory->GetPrototypeList().clear();
@@ -1040,5 +1041,21 @@ void GameObjectFactory::DeleteLevelNotPrefab()
 	for (auto it : _listObject)
 		if (it.first >= 1000)
 			it.second->SetDestory();
+}
+
+
+
+void GameObjectFactory::De_SerialiseLevel(std::string filename)
+{
+	DeSerialiser level(filename);
+
+
+	rapidjson::Value value(123);
+	level.AddMember("hello", value);
+
+	//Deserialise the audio 
+	//Deserialise the textures
+	//Deserialise the Binary map
+	//Deserialise the components of player 
 }
  
