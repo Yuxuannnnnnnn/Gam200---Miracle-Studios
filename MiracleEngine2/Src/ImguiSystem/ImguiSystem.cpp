@@ -43,9 +43,9 @@ ImguiSystem::ImguiSystem(const Window& window)
 
 	//New All ImguiWindows
 	
-	_ImguiWindows[static_cast<int>(ImguiWindows::HIERARCHY)] = new HierarchyImguiWindow();
-	_ImguiWindows[static_cast<int>(ImguiWindows::INSPECTOR)] = new InspectionImguiWindow();
-	_ImguiWindows[static_cast<int>(ImguiWindows::PREFAB_FOLDER)] = new PreFabImguiWindow();
+	_ImguiWindows["Hierarchy"] = new HierarchyImguiWindow();
+	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
+	_ImguiWindows["Assets"] = new PreFabImguiWindow();
 	/*
 	_ImguiWindows[ImguiWindows::SCENE] = new Scene();
 	*/
@@ -141,18 +141,19 @@ void ImguiSystem::UpdateFrame()
 	if (_editorMode)
 	{
 
-		for (int i = 0; i < (int)ImguiWindows::COUNT; i++)	//Update all Imgui Windows
+		for (auto & windowPair: _ImguiWindows)	//Update all Imgui Windows
 		{
-			if (_ImguiWindows[i]->GetOpen()) //if false, window will not be created
+			IBaseImguiWindow* window = windowPair.second;
+			if (window->GetOpen()) //if false, window will not be created
 			{
 				// Start of Main window body.
-				if (!ImGui::Begin(_ImguiWindows[i]->GetName(), &(_ImguiWindows[i]->GetOpen()), _ImguiWindows[i]->GetFlags()))
+				if (!ImGui::Begin(window->GetName(), &(window->GetOpen()), window->GetFlags()))
 				{
 					ImGui::End();	// Early out if the window is collapsed, as an optimization.
 					continue;
 				}
 
-				_ImguiWindows[i]->Update(); //Update the contents of each window
+				window->Update(); //Update the contents of each window
 
 				ImGui::End();									//End of window body
 			}
