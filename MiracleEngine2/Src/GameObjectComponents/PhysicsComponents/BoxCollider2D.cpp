@@ -30,6 +30,11 @@ void BoxCollider2D::SerialiseComponent(Serialiser& document)
 	Collider2D::SerialiseComponent(document);
 }
 
+void BoxCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	Collider2D::DeSerialiseComponent(prototypeDoc);
+}
+
 void BoxCollider2D::Inspect()
 {
 	IComponentSystem::Inspect();

@@ -13,6 +13,15 @@ void FontComponent::SerialiseComponent(Serialiser& document)
 	}
 }
 
+void FontComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetInt(_fontID);
+	prototypeDoc.AddMember("FontId", value);
+	value.Clear();
+}
+
 
 void FontComponent::SetFontID(int num)
 {

@@ -17,7 +17,8 @@ public:
 	// CompName
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser & document) override;
-	virtual void Inspect() override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
+	void Inspect() override;
 
 	//Constructor
 	LogicComponent();

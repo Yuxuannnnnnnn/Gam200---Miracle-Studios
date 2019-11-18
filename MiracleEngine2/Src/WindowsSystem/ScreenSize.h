@@ -25,5 +25,9 @@ public:
 
 	int GetResX() const;
 	int GetResY() const;
+	bool GetFullscreen() const
+	{
+		return _Fullscreen;
+	}
 };
 

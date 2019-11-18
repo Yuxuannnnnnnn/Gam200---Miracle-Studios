@@ -13,6 +13,7 @@ public:
 	CameraComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem* component = nullptr);
 
 	void SerialiseComponent(Serialiser& document) override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	std::string ComponentName() const override;
 	virtual void Inspect() override;
 

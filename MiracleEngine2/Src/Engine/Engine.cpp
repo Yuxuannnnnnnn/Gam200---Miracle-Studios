@@ -22,7 +22,9 @@ void Engine::Update()
 {
 	bool open = true; //for imgui show demo, to be deleted later
 
-	_sceneManager->ChangeScene(Scenes::MAIN_MENU);
+	_sceneManager->ChangeScene(Scenes::LEVEL1);
+
+	_gameObjectFactory->De_SerialiseLevel("hello.json");
 
 	while (_sceneManager->GetCurrentScene() != Scenes::QUIT)	//GameState Logic Starts here
 	{
@@ -138,11 +140,6 @@ void Engine::Update()
 		DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
 
 		_frameRateControl->StartTimeCounter();
-		if (false)
-		{
-			ImGui::ShowDemoWindow(&open); 		//Show Demo Window
-		}
-
 		_imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 		_performanceUsage->IMGUIFrameTime += _frameRateControl->EndTimeCounter();
 #endif

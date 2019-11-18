@@ -13,6 +13,7 @@
 #include "PrecompiledHeaders.h"
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
+#include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
 #include "Shader.h"
 #include "QuadMesh.h"
 #include "TextureManager.h"
@@ -33,7 +34,8 @@ class GraphicsSystem
 {
 public:
 
-	std::unordered_map < size_t, GraphicComponent* > _spriteList;
+	std::unordered_map < size_t, GraphicComponent*> _spriteList;
+	std::unordered_map < size_t, AnimationComponent*> _animationList;
 	std::unordered_map < size_t, TransformComponent*>  _transformList;
 
 	void Update(double dt);

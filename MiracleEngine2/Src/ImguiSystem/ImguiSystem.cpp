@@ -17,7 +17,7 @@ ImguiSystem::ImguiSystem(const Window& window)
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
 	//io.ConfigFlags |= ImGuiWindowFlags_MenuBar; 
 	io.WantCaptureKeyboard = true;
-	//io.ConfigDockingWithShift = true;
+	io.ConfigDockingWithShift = true;
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; //Enable Multi - Viewport / Platform Windows
 
 	// Setup Dear ImGui style
@@ -59,40 +59,25 @@ void ImguiSystem::UpdateFrame()
 	ImGui_ImplWin32_NewFrame();		//
 	ImGui::NewFrame();				///
 
+	if (true)
+	{
+		ImGui::ShowDemoWindow(); 		//Show Demo Window
+	}
+
 	if (ImGui::BeginMainMenuBar())
 	{
-		if (ImGui::BeginMenu("File  "))
-		{
-			ImGui::Spacing();
-			if (ImGui::BeginMenu("Load  "))
-			{
-				if (ImGui::MenuItem("./Resources/TextFiles/States/TestLevel.txt"))
-				{
-					EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
-					EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
-				}
-				ImGui::EndMenu();
-			}
-			ImGui::Spacing();
-			if (ImGui::MenuItem("Save   "))
-			{
-
-			}
-			ImGui::Spacing();
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Edit  "))
-		{
-			//if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-			//if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-			//ImGui::Separator();
-			//if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-			//if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-			//if (ImGui::MenuItem("Paste", "CTRL+V")) {}
-
-			ImGui::EndMenu();
-		}
-		if(ImGui::BeginMenu("Game Settings  "))
+		//if (ImGui::BeginMenu("Edit  "))
+		//{
+		//	//if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+		//	//if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+		//	//ImGui::Separator();
+		//	//if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+		//	//if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+		//	//if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+		//
+		//	ImGui::EndMenu();
+		//}
+		if(ImGui::BeginMenu("Editor Settings  "))
 		{
 			if (ImGui::MenuItem("Pause  ")) 
 			{
@@ -116,7 +101,7 @@ void ImguiSystem::UpdateFrame()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Window  "))
+		if (ImGui::BeginMenu("Windows  "))
 		{
 			for (auto& windowPair : _ImguiWindows)
 			{

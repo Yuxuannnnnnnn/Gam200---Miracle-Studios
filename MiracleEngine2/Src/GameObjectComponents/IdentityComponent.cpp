@@ -43,7 +43,30 @@ void IdentityComponent::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("GameObjectType") && document["GameObjectType"].IsInt())	//Checks if the variable exists in .Json file
 	{
 		_typeId = document["GameObjectType"].GetInt();
+	}	
+	
+	if (document.HasMember("ObjectType") && document["ObjectType"].IsString())	//Checks if the variable exists in .Json file
+	{
+		_ObjectType = document["ObjectType"].GetString();
 	}
+}
+
+void IdentityComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetString(rapidjson::StringRef(_name.c_str()));
+	prototypeDoc.AddMember("Name", value);
+	value.Clear();
+
+	value.SetInt(_typeId);
+	prototypeDoc.AddMember("GameObjectType", value);
+	value.Clear();
+
+	value.SetString(rapidjson::StringRef(_ObjectType.c_str()));
+	prototypeDoc.AddMember("ObjectType", value);
+	value.Clear();
+
 }
 
 

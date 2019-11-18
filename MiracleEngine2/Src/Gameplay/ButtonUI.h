@@ -25,6 +25,22 @@ public:
 //Constructor
 	ButtonUI();
 	void SerialiseComponent(Serialiser& document);
+
+
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+		rapidjson::Value value;
+
+		value.SetInt(_buttonType);
+		prototypeDoc.AddMember("ButtonType", value);
+		value.Clear();
+	}
+
+	void Inspect() override
+	{
+
+	}
+
 // override these functions
 	void OnMouseDown();
 	void OnMouseEnter();

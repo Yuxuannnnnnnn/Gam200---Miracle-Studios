@@ -39,11 +39,15 @@ std::string AiComponent::ComponentName() const
 
 void AiComponent::SerialiseComponent(Serialiser& document)
 {
-	IComponentSystem::Inspect();
+}
+
+void AiComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
 }
 
 void AiComponent::Inspect()
 {
+	IComponentSystem::Inspect();
 }
 
 

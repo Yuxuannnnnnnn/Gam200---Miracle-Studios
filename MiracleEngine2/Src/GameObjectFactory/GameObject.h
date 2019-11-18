@@ -8,6 +8,7 @@
 #include "error/en.h"		// Json error displaying
 
 #include "Tools/FileIO/FileIO.h"
+#include "Tools/FileIO/DeSerialiser.h"
 
 #include "GameObjectComponents/LogicComponents/LogicComponent.h"
 
@@ -65,8 +66,10 @@ class GameObject
 {
 private:
 	Map_ComponentList _ComponentList; // Component List
-	unsigned _typeId; // GameObject Type
 	size_t _uId; // Unique ID
+
+	unsigned _typeId; // GameObject Type
+
 	bool _destory;
 	bool _enable;
 	bool _alive;
@@ -81,12 +84,9 @@ public:
 	size_t Get_uID() const; // Return _uId
 
 	void Set_typeId(TypeIdGO type);
-
-	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }			// InUpEx
-	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }		//
-	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }			//
 		
 	void Serialise(std::string file);
+	void DeSerialise();
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
 

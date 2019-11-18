@@ -26,12 +26,13 @@ private:
 	HDC m_windowDC;//global Window-device context
 	HGLRC m_wglDC;//OpenGL-device context
 
-	int  _windowWidth; //1920
-	int  _windowHeight;//1080
+	float  _windowWidth; //1920
+	float  _windowHeight;//1080
 
-	int _initWindowWidth; //1920
-	int _initWindowHeight;//1080
-
+	float _initWindowWidth; //1920
+	float _initWindowHeight;//1080
+	
+	bool _fullScreen;
 
 public:
 
@@ -46,14 +47,15 @@ public:
 	void SetFullscreenWindowMode(); //Used for In-Game Options, when Player set Game to fullscreen
 	void SetNonFullScreenWindowMode(); //Used for In-Game Options, when Player set Game to non-fullscreen
 
+	void CheckFullScreenToggle();
 
 	HWND Get_hwnd() const;					//Getter functions
 	HDC get_m_windowDC() const;				//
 	//HACCEL get_hAccelTable() const;		//
 	HGLRC Get_m_wglDC() const;				//
 											//
-	int GetWindowWidth() const;		//
-	int GetWindowHeight() const;		//
+	float GetWindowWidth() const;		//
+	float GetWindowHeight() const;		//
 
 };
 

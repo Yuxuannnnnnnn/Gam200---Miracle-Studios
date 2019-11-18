@@ -67,7 +67,10 @@ public:
 	LogicComponent* CloneLogicComponent(GameObject* object, LogicComponent* component);
 
 
-	void FileRead_Level(const char* FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
+	void SerialiseLevel(const char* FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
 	void DeleteLevel();								//Level is Deleted when out of In-GameState
 	void DeleteLevelNotPrefab();
+
+	//void SerialiseLevel(std::string FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
+	void De_SerialiseLevel(std::string filename);
 };

@@ -1,17 +1,19 @@
 {
 
 	"IdentityComponent": true,
-  "Name": "none",
-  "GameObjectType": 22,
+	"Name": "none",
+	"GameObjectType": 22,
+	"ObjectType": "MapEdge",
 
-  "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 20.0, 20.0 ],
-  "Rotate": 0.0,
+
+	"TransformComponent": true,
+	"Position": [ 0.0, 0.0 ],
+	"Scale": [ 20.0, 20.0 ],
+	"Rotate": 0.0,
 
 	"EdgeColliderComponent": true,
-  "ColliderTypeId": 3,
-  "ColliderTag": 10,
-  "ColliderTrigger": false
+	"ColliderTypeId": 3,
+	"ColliderTag": 10,
+	"ColliderTrigger": false
 
 }

@@ -8,20 +8,25 @@ class AnimationComponent: public IComponentSystem
 {
 private:
 	std::string _type;
-
-
+	
 	std::vector<int> _animations;
 	std::vector<Animation*> _animation;
 	int _currentAnimation;	//Current Playing Animation
 	int _startingFrame;
 
 public:
+
+	Animation* testanim;
 	void SetFilePath(const std::string path);
 	std::string& GetFilePath();
 	
 	AnimationComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem* component = nullptr);
 
 	void SerialiseComponent(Serialiser& document) override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+
+	}
 	std::string ComponentName() const override;
 	virtual void Inspect() override;
 
