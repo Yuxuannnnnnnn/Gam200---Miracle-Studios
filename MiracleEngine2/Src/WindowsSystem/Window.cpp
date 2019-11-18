@@ -288,7 +288,28 @@ void Window::SetNonFullScreenWindowMode()
 	_fullScreen = false;
 }
 
+void Window::CheckFullScreenToggle()
+{
+	WINDOWPLACEMENT wp;
+	wp.length = sizeof(wp);
+	wp.showCmd = 0; // Just to clear showCmd before reading.
 
+	GetWindowPlacement(mainHWND, &wp);
+	if (wp.showCmd == SW_MAXIMIZE)
+	{
+		_windowWidth = GetSystemMetrics(SM_CXSCREEN);
+		_windowHeight = GetSystemMetrics(SM_CYSCREEN);
+		_fullScreen = true;
+	}
+	else
+	{
+		_windowWidth = _initWindowWidth;
+		_windowHeight = _initWindowHeight;
+		_fullScreen = false;
+	}
+
+
+}
 
 
 /*
@@ -370,12 +391,12 @@ HGLRC Window::Get_m_wglDC() const
 	return m_wglDC;
 }
 
-int Window::GetWindowWidth() const
+float Window::GetWindowWidth() const
 {
 	return _windowWidth;
 }
 
-int Window::GetWindowHeight() const
+float Window::GetWindowHeight() const
 {
 	return _windowHeight;
 }

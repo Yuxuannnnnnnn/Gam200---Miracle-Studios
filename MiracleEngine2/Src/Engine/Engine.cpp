@@ -140,11 +140,6 @@ void Engine::Update()
 		DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
 
 		_frameRateControl->StartTimeCounter();
-		if (false)
-		{
-			ImGui::ShowDemoWindow(&open); 		//Show Demo Window
-		}
-
 		_imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 		_performanceUsage->IMGUIFrameTime += _frameRateControl->EndTimeCounter();
 #endif
