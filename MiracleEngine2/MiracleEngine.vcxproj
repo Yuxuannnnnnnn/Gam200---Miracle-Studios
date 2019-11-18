@@ -857,6 +857,7 @@
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
+    <None Include="Resources\TextFiles\GameObjects\BGM.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
     <None Include="Resources\TextFiles\GameObjects\Buttons.json" />

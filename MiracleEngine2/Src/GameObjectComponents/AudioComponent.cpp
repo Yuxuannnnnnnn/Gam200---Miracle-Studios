@@ -61,6 +61,7 @@ std::string AudioComponent::ComponentName() const
 	return "Audio Component";
 }
 
+
 void AudioComponent::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("A.TypeId") && document["A.TypeId"].IsInt())
@@ -68,6 +69,9 @@ void AudioComponent::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("A.FileName") && document["A.FileName"].IsString())
 		_fileName = std::string(document["A.FileName"].GetString());
+
+	if (document.HasMember("IsBGM") && document["IsBGM"].IsBool())
+		_isBGM = document["IsBGM"].GetBool();
 
 }
 
@@ -80,6 +84,9 @@ void AudioComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetString(rapidjson::StringRef(_fileName.c_str()));
 	prototypeDoc.AddMember("A.FileName", value);
+
+	value.SetBool(_isBGM);
+	prototypeDoc.AddMember("IsBGM", value);
 }
 
 void AudioComponent::Inspect()

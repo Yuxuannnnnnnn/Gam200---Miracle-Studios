@@ -11,5 +11,6 @@
 	"Rotate": 0.0,
 
 	"FontComponent": true,
-	"FontId": 0
+	"FontId": 0,
+	"FontString": "Hello World"
 }

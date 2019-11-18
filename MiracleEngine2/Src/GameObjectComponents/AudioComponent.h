@@ -14,8 +14,8 @@ class AudioComponent : public IComponentSystem
 private:
 	unsigned _typeIdAudio;
 	std::string _fileName;
-
 	bool _isBGM;
+
 	unsigned _fileTrackLength;
 	size_t _lifetimeTotal;
 	size_t _lifetimeCurrent;

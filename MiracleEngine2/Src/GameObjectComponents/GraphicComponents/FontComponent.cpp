@@ -11,6 +11,11 @@ void FontComponent::SerialiseComponent(Serialiser& document)
 	{
 		_fontID = (document["FontId"].GetInt());
 	}
+
+	if (document.HasMember("FontString") && document["FontString"].IsString())	//Checks if the variable exists in .Json file
+	{
+		_fontString = (document["FontString"].GetString());
+	}
 }
 
 void FontComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -19,6 +24,9 @@ void FontComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetInt(_fontID);
 	prototypeDoc.AddMember("FontId", value);
+
+	value.SetString(rapidjson::StringRef(_fontString.c_str()));
+	prototypeDoc.AddMember("FontString", value);
 }
 
 
@@ -41,5 +49,8 @@ std::string& FontComponent::GetFontString()
 
 void FontComponent::Inspect()
 {
-
+	char* string = new char[300];
+	ImGui::InputText("Text To OutPut  ", string, 300);
+	_fontString = string;
+	delete []string;
 }
