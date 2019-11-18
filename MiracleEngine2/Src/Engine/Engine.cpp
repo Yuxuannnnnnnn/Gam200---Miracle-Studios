@@ -127,6 +127,8 @@ void Engine::Update()
 		// Graphics
 		_frameRateControl->StartTimeCounter();
 #endif
+
+		
 		_graphicsSystem->Update(dt);
 
 #ifdef LEVELEDITOR

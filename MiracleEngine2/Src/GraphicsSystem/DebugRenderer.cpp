@@ -7,10 +7,14 @@ DebugRenderer::DebugRenderer()
 {
 	_proj = glm::ortho(-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2,
 		-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, -15.0f, 15.0f);
-	
 
-	_vbo = new VertexBuffer(&verts, 3 * 2 * sizeof(GLfloat));
+	_vaobatch = new VertexArray();
+	glGenBuffers(1, &_batchvbo);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
 	_vao = new VertexArray();
+	_vbo = new VertexBuffer(&verts, 3 * 2 * sizeof(GLfloat));
 	BufferLayout layout;
 	layout.Push<float>(3);
 	_vao->AddBuffer(*_vbo, layout);
@@ -26,7 +30,7 @@ DebugRenderer::DebugRenderer()
 	}
 
 	_vaoCircle = new VertexArray();
-	_vboCircle = new VertexBuffer((void*)vertexBuffer.data(), (unsigned int )vertexBuffer.size() * sizeof(float));
+	_vboCircle = new VertexBuffer((void*)vertexBuffer.data(), (unsigned int)vertexBuffer.size() * sizeof(float));
 	BufferLayout layout2;
 	layout2.Push<float>(3);
 	_vaoCircle->AddBuffer(*_vboCircle, layout2);
@@ -37,6 +41,9 @@ DebugRenderer::~DebugRenderer()
 {
 	delete _vao;
 	delete _vbo;
+	delete _vaoCircle;
+	delete _vboCircle;
+	delete _vaobatch;
 }
 void DebugRenderer::Update()
 {
@@ -85,6 +92,54 @@ void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 	glEnableVertexAttribArray(0);
 	glDrawArrays(GL_LINES, 0, 2);
 }
+
+
+
+void DebugRenderer::SubmitDebugLine(float x1, float y1, float x2, float y2)
+{
+	glm::vec4 vertex01{ x1, y1, 0, 0 };
+	glm::vec4 vertex02{ x2, y2, 0, 0 };
+
+	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 12));
+
+	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2 - x1, y2 - y1, 0));
+	glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix() * model;
+
+	glm::vec4 vertex1 = mvp * vertex01;
+	glm::vec4 vertex2 = mvp * vertex02;
+
+	_debugBatchRenderer.vert.push_back(vertex1.x);
+	_debugBatchRenderer.vert.push_back(vertex1.y);
+	_debugBatchRenderer.vert.push_back(vertex1.z);
+
+	_debugBatchRenderer.vert.push_back(vertex2.x);
+	_debugBatchRenderer.vert.push_back(vertex2.y);
+	_debugBatchRenderer.vert.push_back(vertex2.z);
+}
+
+void DebugRenderer::BatchDrawDebugLine()
+{
+	if (_debugBatchRenderer.vert.empty())
+		return;
+
+	_vaobatch->Select();
+
+	_batchshader.Select();
+	glBindBuffer(GL_ARRAY_BUFFER, _batchvbo);
+	glBufferData(GL_ARRAY_BUFFER, _debugBatchRenderer.vert.size() * 4, &_debugBatchRenderer.vert[0], GL_DYNAMIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	int location = glGetUniformLocation(_batchshader._id, "u_Color");
+	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
+
+	glDrawArrays(GL_LINES, 0, _debugBatchRenderer.vert.size() / 3);
+
+	_debugBatchRenderer.vert.clear();
+}
+
+
 
 void DebugRenderer::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 {

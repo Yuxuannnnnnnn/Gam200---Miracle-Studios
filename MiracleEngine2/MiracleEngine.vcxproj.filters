@@ -499,6 +499,7 @@
     <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
     <ClInclude Include="Src\Tools\FileIO\JsonHeader.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
+    <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

@@ -28,11 +28,20 @@ const TextureManager& GraphicsSystem::GetTextureManager() const
 
 void GraphicsSystem::Update(double dt)
 {
+	/*
+	DrawDebugLine(0.0f, 0.0f, 100.0f, 200.0f);
+	DrawDebugLine(100.0f, 0.0f, .0f, .0f);
+	DrawDebugLine(0.0f, 0.0f, .0f, 100.0f);
+	*/
+
 	UnitTest();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0);
 	ClearScreen();
+
+
+	DebugRendererLineDraw();
 
 	_animationSystem.Update(_animationList, dt);
 
@@ -98,7 +107,10 @@ void GraphicsSystem::Update(double dt)
 
 	for (auto& e : _fontList)
 	{
-		int x = 0;
+		FontComponent* fontcomptr = e.second;
+		//TransformComponent* transptr = (TransformComponent*)fontcomptr->GetSibilingComponent((unsigned int)ComponentId::TRANSFORM_COMPONENT);
+		//if (transptr)
+			//_fontRenderer.DrawFont(fontcomptr->GetFontString(), transptr->GetPos()._x, transptr->GetPos()._y);
 	}
 
 	//for (auto& fontComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getFontComponent())
@@ -135,6 +147,8 @@ void GraphicsSystem::Update(double dt)
 	// loop through every element in graphic component
 		// get texture ID and shader ID
 		// get its transform component 
+
+	
 }
 
 
