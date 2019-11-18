@@ -23,19 +23,11 @@ private:
 
 public:
 
-	int _enemyType;
-	int _health;
-
 	void SerialiseComponent(Serialiser& document) 
 	{
 		if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
 		{
 			_health = (document["Health"].GetInt());
-		}
-
-		if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())	//Checks if the variable exists in .Json file
-		{
-			_enemyType = (document["EnemyType"].GetInt());
 		}
 	}
 
@@ -47,10 +39,6 @@ public:
 		value.SetInt(_health);
 		prototypeDoc.AddMember("Health", value);
 		value.Clear();
-
-		value.SetInt(_enemyType);
-		prototypeDoc.AddMember("EnemyType", value);
-		value.Clear();
 	}
 
 	void Inspect() override
@@ -60,14 +48,14 @@ public:
 		ImGui::Spacing();
 
 		//Inspect EnemyType? Where is the Enum list for drop down Bar?
-		ImGui::Spacing();
-		ImGui::InputInt("EnemyType ", &_enemyType);
-		ImGui::Spacing();
+		//ImGui::Spacing();
+		//ImGui::InputInt("EnemyType ", &_enemyType);
+		//ImGui::Spacing();
 	}
 
 //Constructor
 	Boss();
-	void SerialiseComponent(Serialiser& document);
+	//void SerialiseComponent(Serialiser& document);
 
 	void Init();
 	void Update(double dt);

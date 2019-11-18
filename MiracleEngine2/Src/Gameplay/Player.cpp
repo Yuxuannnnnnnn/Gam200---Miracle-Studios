@@ -41,7 +41,6 @@ void Player::SerialiseComponent(Serialiser& document)
 		_firerateTurret = document["FirerateTurret"].GetDouble();
 	if (document.HasMember("FirerateWall") && document["FirerateWall"].IsDouble())	//Checks if the variable exists in .Json file
 		_firerateWall = document["FirerateWall"].GetDouble();
-
 }
 
 void Player::Init()
