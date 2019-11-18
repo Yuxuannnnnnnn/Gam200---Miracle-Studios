@@ -217,6 +217,10 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentPtr(object);
 		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
 
+		if (!prefab)
+			EngineSystems::GetInstance()._graphicsSystem->_fontList.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
+
+
 		return newComponent;
 	}
 	case ComponentId::BUTTON_COMPONENT:
@@ -326,6 +330,10 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentPtr(object);
 		_audioComponent.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
 
+		if (!prefab)
+			EngineSystems::GetInstance()._audioSystem->_soundList.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
+
+
 		return newComponent;
 	}
 	case ComponentId::LOGIC_COMPONENT:
@@ -426,6 +434,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
+		EngineSystems::GetInstance()._graphicsSystem->_fontList.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
+
 
 		return newComponent;
 	}
@@ -499,6 +509,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_audioComponent.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
+
+		EngineSystems::GetInstance()._audioSystem->_soundList.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
@@ -681,6 +693,7 @@ void GameObjectFactory::SerialiseLevel(const char* FileName)
 		num1 = std::stof(strNum1);
 		((TransformComponent*)tempComp)->GetRotate() = num1;
 	}
+
 
 	_file.close();
 	delete[] strType;

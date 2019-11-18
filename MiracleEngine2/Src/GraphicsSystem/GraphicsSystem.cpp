@@ -60,7 +60,7 @@ void GraphicsSystem::Update(double dt)
 		if (graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
 		{
 			AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT);
-			
+
 			anim->testanim->Select();
 			//_testAnimation.Select();
 			_textureManager._textureMap[anim->GetFilePath()]->Select();
@@ -94,6 +94,11 @@ void GraphicsSystem::Update(double dt)
 	if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
 	{
 		_fontRenderer.Draw();
+	}
+
+	for (auto& e : _fontList)
+	{
+		int x = 0;
 	}
 
 	//for (auto& fontComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getFontComponent())

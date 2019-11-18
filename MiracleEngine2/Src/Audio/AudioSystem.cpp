@@ -8,6 +8,11 @@ void AudioSystem::Init()
 
 void AudioSystem::Update()
 {
+	int a = 0;
+	for (auto& e : _soundList)
+	{
+		int x = 0;
+	}
 	FMOD_System_Update(_fmodSystem);
 }
 

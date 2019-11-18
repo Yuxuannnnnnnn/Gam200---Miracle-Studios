@@ -27,6 +27,15 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObjects(TypeIdGO::PICK_UPS_HEALTH);
 	SerialPrefabObjects(TypeIdGO::PICK_UPS_AMMO);
 	SerialPrefabObjects(TypeIdGO::BOSS);
+
+
+	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
+	temp->Set_typeId(TypeIdGO::BGM);
+	temp->Serialise("./Resources/TextFiles/GameObjects/BGM.json");
+ temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
+	temp->Set_typeId(TypeIdGO::FONT);
+	temp->Serialise("./Resources/TextFiles/GameObjects/Font.json");
+
 }
 
 
