@@ -99,6 +99,19 @@ void ImguiSystem::UpdateFrame()
 			{
 				_editorMode = 1;
 			}
+
+			if (ImGui::BeginMenu("FullScreen  "))
+			{
+				if (ImGui::MenuItem("ON  "))
+				{
+					EngineSystems::GetInstance()._windowSystem->getWindow().SetFullscreenWindowMode();
+				}
+				if (ImGui::MenuItem("OFF  "))
+				{
+					EngineSystems::GetInstance()._windowSystem->getWindow().SetNonFullScreenWindowMode();
+				}
+				ImGui::EndMenu();
+			}
 			ImGui::EndMenu();
 		}
 
@@ -115,6 +128,7 @@ void ImguiSystem::UpdateFrame()
 			}
 			ImGui::EndMenu();
 		}
+
 
 		ImGui::EndMainMenuBar();
 

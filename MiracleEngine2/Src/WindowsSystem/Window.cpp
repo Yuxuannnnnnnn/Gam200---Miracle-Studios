@@ -301,7 +301,7 @@ void Window::CheckFullScreenToggle()
 		_windowHeight = GetSystemMetrics(SM_CYSCREEN);
 		_fullScreen = true;
 	}
-	else
+	else if (wp.showCmd == SW_MINIMIZE)
 	{
 		_windowWidth = _initWindowWidth;
 		_windowHeight = _initWindowHeight;

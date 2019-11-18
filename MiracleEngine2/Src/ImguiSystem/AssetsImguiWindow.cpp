@@ -5,12 +5,13 @@
 
 void AssetsImguiWindow::Update()
 {
-	GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 	static bool selected;
 	if (ImGui::Selectable("Desrialise", selected, ImGuiSelectableFlags_AllowDoubleClick))
 	{
 		if (ImGui::IsMouseReleased(0))
 		{
+
+			GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 			obj->DeSerialise();
 			//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 			//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
