@@ -2,24 +2,6 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
-Player::Player() :
-	_init{ false },
-	_camera{ nullptr },
-	_health{ 30 },
-
-	_weaponActive{ (int)WeaponId::PISTOL },
-	_ammoRpg{ 5 },
-	_ammoTurret{ 2 },
-	_ammoWall{ 5 },
-	_timerShoot{ 0.0 },
-	_timerDeploy{ 0.0 },
-	_fireratePistol{ 0.1 },
-	_firerateShotgun{ 0.5 },
-	_firerateRPG{ 2 },
-	_firerateTurret{ 5 },
-	_firerateWall{ 4 }
-{
-}
 
 void Player::SerialiseComponent(Serialiser& document)
 {
@@ -41,6 +23,76 @@ void Player::SerialiseComponent(Serialiser& document)
 		_firerateTurret = document["FirerateTurret"].GetDouble();
 	if (document.HasMember("FirerateWall") && document["FirerateWall"].IsDouble())	//Checks if the variable exists in .Json file
 		_firerateWall = document["FirerateWall"].GetDouble();
+}
+
+void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetInt(_health);
+	prototypeDoc.AddMember("Health", value);
+	value.Clear();
+}
+
+void Player::Inspect()
+{
+// Logic Data - General
+	ImGui::Spacing();
+	ImGui::InputInt("Health ", &_health);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputInt("Weapon ", &_weaponActive);
+	ImGui::Spacing();
+// Logic Data - Weapons
+	ImGui::Spacing();
+	ImGui::InputInt("Ammo RPG ", &_ammoRpg);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputInt("Ammo Turret ", &_ammoTurret);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputInt("Ammo Wall ", &_ammoWall);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputDouble("Timer Shoot ", &_timerShoot);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputDouble("Timer Deploy ", &_timerDeploy);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputDouble("Firerate Pistol ", &_fireratePistol);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputDouble("Firerate Shotgun ", &_firerateShotgun);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputDouble("Firerate RPG ", &_firerateRPG);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputDouble("Firerate Turret ", &_firerateTurret);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputDouble("Firerate Wall ", &_firerateWall);
+	ImGui::Spacing();
+}
+
+Player::Player() :
+	_init{ false },
+	_camera{ nullptr },
+	_health{ 30 },
+
+	_weaponActive{ (int)WeaponId::PISTOL },
+	_ammoRpg{ 5 },
+	_ammoTurret{ 2 },
+	_ammoWall{ 5 },
+	_timerShoot{ 0.0 },
+	_timerDeploy{ 0.0 },
+	_fireratePistol{ 0.1 },
+	_firerateShotgun{ 0.5 },
+	_firerateRPG{ 2 },
+	_firerateTurret{ 5 },
+	_firerateWall{ 4 }
+{
 }
 
 void Player::Init()
@@ -170,27 +222,36 @@ void Player::WeaponSwitch()
 
 void Player::WeaponShoot()
 {
+	// 'snap' weapon selection to lowest or highest value
+	_weaponActive < 1 ? _weaponActive = 1 : _weaponActive;
+	_weaponActive > 3 ? _weaponActive = 3 : _weaponActive;
 	if (_timerShoot <= 0)
 		switch (_weaponActive)
 		{
 		case (int)WeaponId::PISTOL:
+		{
 			WeaponShoot_Pistol();
 			break;
+		}
 		case (int)WeaponId::SHOTGUN:
+		{
 			WeaponShoot_Shotgun();
 			break;
+		}
 		case (int)WeaponId::RPG:
 		{
 			if(_ammoRpg)
 				WeaponShoot_RPG();
+			break;
 		}
-		break;
+		default:
+			break;
 		}
 }
 
 void Player::WeaponShoot_Pistol()
 {
-	_timerShoot = 0.2; // cooldown
+	_timerShoot = _fireratePistol; // cooldown
 	GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
@@ -200,7 +261,7 @@ void Player::WeaponShoot_Pistol()
 }
 void Player::WeaponShoot_Shotgun()
 {
-	_timerShoot = 0.7; // cooldown
+	_timerShoot = _firerateShotgun; // cooldown
 	Vector3 pos = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos();
 	float rot = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate();
 	GameObject* bullet = nullptr;
@@ -221,7 +282,7 @@ void Player::WeaponShoot_Shotgun()
 void Player::WeaponShoot_RPG()
 {
 	--_ammoRpg;
-	_timerShoot = 2; // cooldown
+	_timerShoot = _firerateRPG; // cooldown
 	GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_T]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
