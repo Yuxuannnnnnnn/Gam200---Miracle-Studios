@@ -31,7 +31,6 @@ public:
 		}
 	}
 
-
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
 		rapidjson::Value value;

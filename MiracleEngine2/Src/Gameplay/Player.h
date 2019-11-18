@@ -16,7 +16,7 @@ class Player : public IScript
 private:
 // Logic Data - General
 	bool _init;
-	GameObject* _camera;	
+	GameObject* _camera;
 	int _health;
 // Logic Data - Weapons
 	int _weaponActive;
@@ -32,8 +32,11 @@ private:
 	double _firerateWall;
 	
 public:
-	Player();
 	void SerialiseComponent(Serialiser& document) override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
+	void Inspect() override;
+
+	Player();
 
 	void Init();
 	void Update(double dt);
