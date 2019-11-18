@@ -9,60 +9,32 @@ class Node; // forward declare
 class Boss : public IScript												// NOTE NOTE NOTE NOTE -- THIS ISNT DONE AT ALL, WILL SETTLE THIS AFTER I DO THE LOGIC CHANGES :BRANDON
 {
 private:
-
-	// Target(endPoint) Transform
-	unsigned _state;
-	Vector3 _destinationPos;
+// Logic Data - General
+	bool _init;
+	int _health;
+	int _healthRage;
+// Logic - Behaviour
+	double _timerAttack;
+	double _timerAttackCooldown;
+	double _timerAttackRageCooldown;
+// Logic - Pathfinding
 	GameObject* _target;
-	std::vector<Node*> _path;
-	Node* _nextNode;
-	Node* _destNode;
-	float _attackRange; // currently set to 1*_mapTileSize
-	bool _init{ false };
-	double _timer{ -1.0 };
-	double _timeCooldown{ 5 };
-	double _timerAttack{ 0 };
-	double _timerAttackCooldown{ 1 };
+	int _state;
 
 public:
-	int _enemyType;
-	int _health;
-
-	void SerialiseComponent(Serialiser& document) 
-	{
-		if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
-		{
-			_health = (document["Health"].GetInt());
-		}
-
-		if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())	//Checks if the variable exists in .Json file
-		{
-			_enemyType = (document["EnemyType"].GetInt());
-		}
-	}
-
-
-//Constructor
 	Boss();
+	void SerialiseComponent(Serialiser& document);
 
-
-// InUpEx
 	void Init();
 	void Update(double dt);
-	void Exit();
-// GetDestination
-	Vector3& GetDestinationPos();	// gets _target's position
-// GetPosition(of Parent)
-	Vector3& GetPosition();	// gets _parent's position
-// GetPath
-	std::vector<Node*>& GetPath();
 
+	Vector3& GetDestinationPos();	// gets _target's position
+	Vector3& GetPosition();	// gets _parent's position
+
+	void Shoot();
 	void Attack();
-	void Move();
-	void MoveNode(bool start = false); // Move using path (toward _destination)
-	// FSM
+
 	void FSM();
-	void CheckState();
 
 	void ChancePickUps();
 

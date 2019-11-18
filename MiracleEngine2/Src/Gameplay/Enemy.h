@@ -22,6 +22,7 @@ private:
 	double _timerAttack;
 	double _timerAttackCooldown;
 	size_t _attackRange; // manually set in ctor
+	size_t _attackMelee; // manually set in ctor
 // Logic - Pathfinding
 	GameObject* _target;
 	int _state;	
@@ -43,7 +44,8 @@ public:
 	Vector3& GetPosition();			// _parent's / self position
 	std::vector<Node*>& GetPath();
 
-	void Attack();
+	void AttackMelee();
+	void AttackRange();
 	void Move();
 	void MoveNode(bool start = false); // Move using path (toward _destination)
 

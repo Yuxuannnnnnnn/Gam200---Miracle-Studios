@@ -10,10 +10,10 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-	"G.FileName": "player",
+  "G.FileName": "player",
 
-	"AnimationComponent": true,
-	"Type":  "idle",
+  "AnimationComponent": true,
+  "Type": "idle",
 
   "RigidBodyComponent": true,
   "Mass": 10.0,
@@ -27,6 +27,15 @@
 
   "LogicComponent": true,
   "ScriptId": [ 1 ],
+  "WeaponActive": 2,
+  "AmmoRpg": 5,
+  "AmmoTurret": 5,
+  "AmmoWall": 5,
+  "FireratePistol": 0.1,
+  "FirerateShotgun": 0.5,
+  "FirerateRpg": 1.0,
+  "FirerateTurret": 5.0,
+  "FirerateWall": 4.0,
 
   "AudioComponent": true,
   "A.TypeId": 0,

@@ -10,8 +10,9 @@ Enemy::Enemy() :
 	_enemyType{ (int)Enemy_Type::BASIC },
 
 	_timerAttack{ 0.0 },
-	_timerAttackCooldown{ 0.0 },
+	_timerAttackCooldown{ 1.0 },
 	_attackRange{ 0 },
+	_attackMelee{ 0 },
 
 	_target{ nullptr },
 	_state{ 0 },
@@ -22,10 +23,12 @@ Enemy::Enemy() :
 	_destNode{ nullptr },
 	_mapTileSize{ 0 }
 {
-	_attackRange = _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackMelee = _attackRange = _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_mapTileSize *= _mapTileSize;
-	_attackRange *= 2; // XxX tileSize
+	_attackRange *= 5; // XxX tileSize
+	_attackMelee *= 2;
 	_attackRange *= _attackRange; // pow(2) for vector3.length() comparison
+	_attackMelee *= _attackMelee;
 }
 
 void Enemy::SerialiseComponent(Serialiser& document)
@@ -87,7 +90,28 @@ std::vector<Node*>& Enemy::GetPath()
 	return _path;
 }
 
-void Enemy::Attack()
+void Enemy::AttackMelee()
+{
+	const float spd = 4.f;
+	Vector3 moveVec(
+		(GetDestinationPos()._x - GetPosition()._x),
+		(GetDestinationPos()._y - GetPosition()._y),
+		0
+	);
+
+	// rotate to face player
+	Vector3 compareVec = { 0, 1, 0 };
+	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
+	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
+	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+
+	AddForwardForce(GetParentId(), 6000);
+
+	// bump into player
+	if (_timerAttack <= 0)
+		_timerAttack = _timerAttackCooldown;
+}
+void Enemy::AttackRange()
 {
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
@@ -106,23 +130,15 @@ void Enemy::Attack()
 	{
 		_timerAttack = _timerAttackCooldown;
 		// spawn bullet
-														//Vector3 vecDir(
-														//	(GetDestinationPos()._x - GetPosition()._x) * 100,
-														//	(GetDestinationPos()._y - GetPosition()._y) * 100,
-														//	0);
-
 		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_E]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
-		// offset position
-
 		AddForwardForce(bullet->Get_uID(), 70000);
 	}
 }
-
 void Enemy::Move()
 { // move directly to Target.Pos
 	const float spd = 4.f;
@@ -231,11 +247,9 @@ void Enemy::FSM()
 	{
 		//std::cout << "/t AI ATK!!\n";
 		if (_enemyType == (int)Enemy_Type::BASIC)
-			Move();
+			AttackMelee();
 		else
-			MoveNode();
-			//Attack();
-
+			AttackRange();
 		break;
 	}
 	default:

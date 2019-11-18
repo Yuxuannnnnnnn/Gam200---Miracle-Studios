@@ -144,7 +144,6 @@ void AISystem::Exit()
 
 void AISystem::CreateNodeMap()
 {
-
 	size_t id = 0; // id for Node's id
 	Node* tempNode = nullptr;
 	bool solid = false;
@@ -438,13 +437,6 @@ std::vector<Node*> AISystem::PathFindingOld(Vector3 curr, Vector3 dest)
 	// TODO: BFS Implementation
 }
 
-
-//----------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-
-
 void Node::CalcFGH(Vector3 _start, Vector3 _dest)
 {
 	Vector3 temp;
@@ -457,13 +449,10 @@ void Node::CalcFGH(Vector3 _start, Vector3 _dest)
 	// F
 	_f = _g + _h;
 }
-
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
 std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 {
 	bool testSkip = false; // seems to fix the random crashing
-	bool displayDebug = false;
-
 
 	float x, y;
 	size_t nodeIdStart, nodeIdDest;

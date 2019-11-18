@@ -5,6 +5,8 @@
 #ifndef AISYSTEM_H
 #define	AISYSTEM_H
 
+static bool displayDebug = false;
+
 class GameObject;	// forward declare from GameObject, need TypeId::WALL
 class AiComponent; // forward decalre from AiComp, cause AiComp need to be accessed
 

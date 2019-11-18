@@ -1,11 +1,11 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "GameObjectType": 5,
+  "GameObjectType": 25,
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],
-  "Scale": [ 70.0, 70.0 ],
+  "Scale": [ 200.0, 200.0 ],
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
@@ -23,8 +23,8 @@
   "ColliderTrigger": false,
 
   "LogicComponent": true,
-  "ScriptId": [ 3 ],
-  "Health": 5,
+  "ScriptId": [ 13 ],
+  "Health": 100,
   "EnemyType": 0,
 
   "AudioComponent": true,

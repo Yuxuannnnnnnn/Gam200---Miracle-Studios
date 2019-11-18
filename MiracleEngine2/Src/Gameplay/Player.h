@@ -33,6 +33,7 @@ private:
 	
 public:
 	Player();
+	void SerialiseComponent(Serialiser& document) override;
 
 	void Init();
 	void Update(double dt);

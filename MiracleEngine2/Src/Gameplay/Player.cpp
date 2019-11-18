@@ -21,6 +21,29 @@ Player::Player() :
 {
 }
 
+void Player::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("WeaponActive") && document["WeaponActive"].IsInt())	//Checks if the variable exists in .Json file
+		_weaponActive = document["WeaponActive"].GetInt();
+	if (document.HasMember("AmmoRpg") && document["AmmoRpg"].IsInt())	//Checks if the variable exists in .Json file
+		_ammoRpg = document["AmmoRpg"].GetInt();
+	if (document.HasMember("AmmoTurret") && document["AmmoTurret"].IsInt())	//Checks if the variable exists in .Json file
+		_ammoTurret = document["AmmoTurret"].GetInt();
+	if (document.HasMember("AmmoWall") && document["AmmoWall"].IsInt())	//Checks if the variable exists in .Json file
+		_ammoWall = document["AmmoWall"].GetInt();
+	if (document.HasMember("FireratePistol") && document["FireratePistol"].IsDouble())	//Checks if the variable exists in .Json file
+		_fireratePistol = document["FireratePistol"].GetDouble();
+	if (document.HasMember("FirerateShotgun") && document["FirerateShotgun"].IsDouble())	//Checks if the variable exists in .Json file
+		_firerateShotgun = document["FirerateShotgun"].GetDouble();
+	if (document.HasMember("FirerateRpg") && document["FirerateRpg"].IsDouble())	//Checks if the variable exists in .Json file
+		_firerateRPG = document["FirerateRpg"].GetDouble();
+	if (document.HasMember("FirerateTurret") && document["FirerateTurret"].IsDouble())	//Checks if the variable exists in .Json file
+		_firerateTurret = document["FirerateTurret"].GetDouble();
+	if (document.HasMember("FirerateWall") && document["FirerateWall"].IsDouble())	//Checks if the variable exists in .Json file
+		_firerateWall = document["FirerateWall"].GetDouble();
+
+}
+
 void Player::Init()
 {
 	// find Camera
@@ -126,13 +149,13 @@ void Player::UpdateInput()
 				((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 		}
 	}
-	//if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
-	//	EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
-	//{	// spawn ENEMY
-	//	GameObject* enemy = nullptr;
-	//	enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMYTWO]);
-	//	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3(0, 0, 0));
-	//}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
+	{	// spawn ENEMY
+		GameObject* enemy = nullptr;
+		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BOSS]);
+		((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3(0, 0, 0));
+	}
 // KEYS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q))
 	{
