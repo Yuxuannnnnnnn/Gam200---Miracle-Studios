@@ -30,6 +30,11 @@ public:
 	{
 		return _ObjectType;
 	}
+
+	void SetObjectType(std::string ObjectType)
+	{
+		_ObjectType = ObjectType;
+	}
 };
 
 

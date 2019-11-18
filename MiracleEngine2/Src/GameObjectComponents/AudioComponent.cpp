@@ -67,11 +67,9 @@ void AudioComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetInt(_typeIdAudio);
 	prototypeDoc.AddMember("A.TypeId", value);
-	value.Clear();
 
 	value.SetString(rapidjson::StringRef(_fileName.c_str()));
 	prototypeDoc.AddMember("A.FileName", value);
-	value.Clear();
 }
 
 void AudioComponent::Inspect()

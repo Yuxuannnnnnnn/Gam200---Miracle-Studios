@@ -145,12 +145,10 @@ void GraphicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetInt(_typeIdGraphic);
 	prototypeDoc.AddMember("G.TypeId", value);
-	value.Clear();
 
 
 	value.SetString(rapidjson::StringRef(_fileName.c_str()));
 	prototypeDoc.AddMember("G.FileName", value);
-	value.Clear();
 }
 
 void GraphicComponent::Inspect()

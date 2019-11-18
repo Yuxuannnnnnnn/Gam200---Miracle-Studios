@@ -33,15 +33,12 @@ void Collider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetInt(_type);
 	prototypeDoc.AddMember("ColliderTypeId", value);
-	value.Clear();
 
 	value.SetInt(_tag);
 	prototypeDoc.AddMember("ColliderTag", value);
-	value.Clear();
 
 	value.SetBool(_trigger);
 	prototypeDoc.AddMember("ColliderTrigger", value);
-	value.Clear();
 }
 
 

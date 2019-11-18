@@ -44,15 +44,12 @@ void RigidBody2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetFloat(_mass);
 	prototypeDoc.AddMember("Mass", value);
-	value.Clear();
 
 	value.SetFloat(_fictionVal);
 	prototypeDoc.AddMember("Friction", value);
-	value.Clear();
 
 	value.SetBool(_static);
 	prototypeDoc.AddMember("Static", value);
-	value.Clear();
 }
 
 void RigidBody2D::Inspect()

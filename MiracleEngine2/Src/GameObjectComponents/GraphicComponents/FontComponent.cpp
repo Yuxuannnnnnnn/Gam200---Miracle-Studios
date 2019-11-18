@@ -19,7 +19,6 @@ void FontComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetInt(_fontID);
 	prototypeDoc.AddMember("FontId", value);
-	value.Clear();
 }
 
 

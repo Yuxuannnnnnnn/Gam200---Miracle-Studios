@@ -89,8 +89,10 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 {
 	GameObject* newObject;
 
-	if(prefab)
+	if (prefab)
+	{
 		newObject = new GameObject(_prefabId++);
+	}
 	else
 	{
 		newObject = new GameObject(_uId++);
@@ -103,6 +105,11 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 		EngineSystems::GetInstance()._physicsSystem->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 	}
 		
+	//By Default should add a Identity component when new ProtoType is created
+	IComponentSystem* component = newObject->AddComponent(ComponentId::IDENTITY_COMPONENT);
+	component->SetParentId(newObject->Get_uID());
+	component->SetParentPtr(newObject);
+
 	_listObject.insert(std::pair< size_t, GameObject* >(newObject->Get_uID(), newObject));
 
 	return newObject;

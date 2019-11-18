@@ -50,7 +50,6 @@ void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	}
 
 	prototypeDoc.AddMember("ScriptId", value);
-	value.Clear();
 }
 
 

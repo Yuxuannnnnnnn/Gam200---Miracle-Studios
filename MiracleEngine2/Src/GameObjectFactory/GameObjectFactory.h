@@ -24,7 +24,7 @@ class GameObjectFactory final
 	std::unordered_map < size_t, CameraComponent*>		_CameraComponents;		//
 	std::unordered_map < size_t, RigidBody2D* >			_rigidBody2dComponents;	//
 	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;	//
-	std::unordered_map < size_t, LogicComponent* >		_logicComponents;	//
+	std::unordered_map < size_t, LogicComponent* >		_logicComponents;		//
 	std::unordered_multimap<size_t, PickingCollider*>	_pickList;
 	std::unordered_map<size_t, AudioComponent*>			_audioComponent;		//
 	std::unordered_map<size_t, FontComponent*>			_FontComponent;

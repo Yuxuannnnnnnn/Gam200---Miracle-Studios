@@ -26,7 +26,6 @@ void ButtonComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetInt(_buttonType);
 	prototypeDoc.AddMember("ButtonType", value);
-	value.Clear();
 }
 
 void ButtonComponent::Inspect()

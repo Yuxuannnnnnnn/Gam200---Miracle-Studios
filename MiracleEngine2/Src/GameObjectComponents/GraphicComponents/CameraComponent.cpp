@@ -37,15 +37,12 @@ void CameraComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetFloat(_movespeed);
 	prototypeDoc.AddMember("MovementSpeed", value);
-	value.Clear();
 
 	value.SetFloat(_xZoom);
 	prototypeDoc.AddMember("xZoom", value);
-	value.Clear();
 
 	value.SetFloat(_yZoom);
 	prototypeDoc.AddMember("yZoom", value);
-	value.Clear();
 }
 
 

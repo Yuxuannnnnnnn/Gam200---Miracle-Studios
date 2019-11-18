@@ -71,8 +71,8 @@ void GameObject::DeSerialise()
 		rapidjson::Value value;
 		value.SetBool(true);
 		prototypeDoc.AddMember(ToString((ComponentId)ComponentPair.first), value);
+		//value.Clear();
 
-		value.Clear();
 		IComponentSystem* component = ComponentPair.second;
 		component->DeSerialiseComponent(prototypeDoc);
 	}

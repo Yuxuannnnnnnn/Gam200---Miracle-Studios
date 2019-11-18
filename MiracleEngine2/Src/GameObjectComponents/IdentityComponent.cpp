@@ -8,7 +8,7 @@
 
 
 IdentityComponent::IdentityComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId), _typeId{(unsigned)TypeIdGO::NONE}
+	: IComponentSystem(parent, uId), _typeId{ (unsigned)TypeIdGO::NONE }, _ObjectType{""}
 {
 	if (component)
 	{
@@ -57,16 +57,12 @@ void IdentityComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetString(rapidjson::StringRef(_name.c_str()));
 	prototypeDoc.AddMember("Name", value);
-	value.Clear();
 
 	value.SetInt(_typeId);
 	prototypeDoc.AddMember("GameObjectType", value);
-	value.Clear();
 
 	value.SetString(rapidjson::StringRef(_ObjectType.c_str()));
 	prototypeDoc.AddMember("ObjectType", value);
-	value.Clear();
-
 }
 
 
