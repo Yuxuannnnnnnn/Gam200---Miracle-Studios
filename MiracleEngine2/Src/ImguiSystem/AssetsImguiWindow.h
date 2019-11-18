@@ -21,19 +21,17 @@
 
 class AssetsImguiWindow: public IBaseImguiWindow
 {
-
-
 public:
 
 	AssetsImguiWindow(bool open = true,	//Set the settings for the imgui window
 		ImGuiWindowFlags flags = ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar)
 		:IBaseImguiWindow("Assets", open, flags)
 	{
-		std::string audiosPath = "./Resources/Audio";
+		std::string audiosPath =   "./Resources/Audio";
 		std::string texturesPath = "./Resources/Image";
-		std::string shadersPath = "./Resources/Shader";	//Can Write and Add New Shader File?
+		std::string shadersPath =  "./Resources/Shader";	//Can Write and Add New Shader File?
 
-		std::string statesPath = "./Resources/TextFiles/States";
+		std::string statesPath =	  "./Resources/TextFiles/States";
 		std::string gameObjectsPath = "./Resources/TextFiles/GameObjects";
 
 		for (const auto& audioFile : std::filesystem::directory_iterator(audiosPath))

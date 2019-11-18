@@ -297,15 +297,21 @@ void Window::CheckFullScreenToggle()
 	GetWindowPlacement(mainHWND, &wp);
 	if (wp.showCmd == SW_MAXIMIZE)
 	{
-		_windowWidth = GetSystemMetrics(SM_CXSCREEN);
-		_windowHeight = GetSystemMetrics(SM_CYSCREEN);
-		_fullScreen = true;
+		if (_fullScreen != true)
+		{
+			_windowWidth = GetSystemMetrics(SM_CXSCREEN);
+			_windowHeight = GetSystemMetrics(SM_CYSCREEN);
+			_fullScreen = true;
+		}
 	}
 	else if (wp.showCmd == SW_MINIMIZE)
 	{
-		_windowWidth = _initWindowWidth;
-		_windowHeight = _initWindowHeight;
-		_fullScreen = false;
+		if (_fullScreen != false)
+		{
+			_windowWidth = _initWindowWidth;
+			_windowHeight = _initWindowHeight;
+			_fullScreen = false;
+		}
 	}
 
 

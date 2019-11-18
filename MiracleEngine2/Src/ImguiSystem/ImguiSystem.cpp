@@ -128,16 +128,12 @@ void ImguiSystem::UpdateFrame()
 			}
 			ImGui::EndMenu();
 		}
-
-
 		ImGui::EndMainMenuBar();
-
 	}
 
 
 	if (_editorMode)
 	{
-
 		for (auto & windowPair: _ImguiWindows)	//Update all Imgui Windows
 		{
 			IBaseImguiWindow* window = windowPair.second;
