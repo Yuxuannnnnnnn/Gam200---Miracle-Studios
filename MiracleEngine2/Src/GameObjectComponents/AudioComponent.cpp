@@ -6,7 +6,7 @@
 
 AudioComponent::AudioComponent() :
 	_typeIdAudio{ (unsigned)TypeIdAudio::NONE },
-	_fileName { std::string() },
+	_fileName{ std::string() },
 	_fileTrackLength{ 0 },
 	_lifetimeCurrent{ 0 },
 	_loop{ false },
@@ -34,6 +34,16 @@ AudioComponent::AudioComponent(GameObject* parent, size_t uId, IComponentSystem*
 		_lifetimeCurrent = audioComponent->_lifetimeCurrent;
 		_loop = audioComponent->_loop;
 	}
+}
+
+bool AudioComponent::IsBGM()
+{
+	return _isBGM;
+}
+
+void AudioComponent::SetIsBGM(bool isbgm)
+{
+	_isBGM = isbgm;
 }
 
 unsigned& AudioComponent::GetTypeId()

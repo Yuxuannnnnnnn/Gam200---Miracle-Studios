@@ -14,6 +14,7 @@
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
 #include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
+#include "GameObjectComponents/GraphicComponents/FontComponent.h"
 #include "Shader.h"
 #include "QuadMesh.h"
 #include "TextureManager.h"
@@ -22,6 +23,8 @@
 #include "FontRenderer.h"
 #include "../Animation/AnimationSystem.h"
 #include "../Animation/Animation.h"
+
+
 
 enum RenderMode
 {
@@ -33,7 +36,7 @@ enum RenderMode
 class GraphicsSystem
 {
 public:
-
+	std::unordered_map < size_t, FontComponent*> _fontList;
 	std::unordered_map < size_t, GraphicComponent*> _spriteList;
 	std::unordered_map < size_t, AnimationComponent*> _animationList;
 	std::unordered_map < size_t, TransformComponent*>  _transformList;
