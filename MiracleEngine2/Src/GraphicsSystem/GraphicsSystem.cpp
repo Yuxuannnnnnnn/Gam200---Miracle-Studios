@@ -28,11 +28,11 @@ const TextureManager& GraphicsSystem::GetTextureManager() const
 
 void GraphicsSystem::Update(double dt)
 {
-	/*
-	DrawDebugLine(0.0f, 0.0f, 100.0f, 200.0f);
-	DrawDebugLine(100.0f, 0.0f, .0f, .0f);
-	DrawDebugLine(0.0f, 0.0f, .0f, 100.0f);
-	*/
+	
+	//DrawDebugLine(0.0f, 0.0f, 100.0f, 200.0f);
+	
+	//DrawDebugLine(0.0f, 0.0f, .0f, 100.0f);
+	
 
 	UnitTest();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -40,7 +40,13 @@ void GraphicsSystem::Update(double dt)
 	glAlphaFunc(GL_GREATER, 0);
 	ClearScreen();
 
+	// batch render
+	//DrawDebugLine(-100.0f, 0.0f, -100.0f, 100.0f);
 
+	// non - batch
+	//DebugRenderer::GetInstance().DrawLine(-150.0f, 0.0f, -150.0f, 100.0f);
+
+	// flush the batch vertices
 	DebugRendererLineDraw();
 
 	_animationSystem.Update(_animationList, dt);
@@ -78,6 +84,12 @@ void GraphicsSystem::Update(double dt)
 		else
 			// texture without animation
 		{
+			if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
+			{
+				_uimesh.Select();
+				//_quadmesh.Select();
+			}
+			else
 			_quadmesh.Select();
 			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
 		}

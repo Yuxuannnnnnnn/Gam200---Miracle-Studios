@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
@@ -572,6 +573,7 @@
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />

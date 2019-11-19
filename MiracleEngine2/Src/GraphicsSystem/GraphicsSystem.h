@@ -23,7 +23,7 @@
 #include "FontRenderer.h"
 #include "../Animation/AnimationSystem.h"
 #include "../Animation/Animation.h"
-
+#include "UIMesh.h"
 
 
 enum RenderMode
@@ -61,7 +61,10 @@ private:
 	TextureManager _textureManager;
 	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
 	glm::mat4 _proj;
+	
 	QuadMesh _quadmesh;
+	UIMesh _uimesh;
+
 	Camera _camera;
 	//PlayerMesh _playerMesh;
 	FontRenderer _fontRenderer;

@@ -95,6 +95,7 @@
     <ClCompile Include="Src\ImguiSystem\AssetsImguiWindow.cpp" />
     <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -500,6 +501,7 @@
     <ClInclude Include="Src\Tools\FileIO\JsonHeader.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
