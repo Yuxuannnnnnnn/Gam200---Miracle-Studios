@@ -12,6 +12,8 @@
 #include "QuadMesh.h"
 #include "ISingleton.h"
 
+#include "DebugBatchRenderer.h"
+
 
 #define NUMBER_OF_VERTICES 16
 #define M_PI 3.1415926
@@ -28,6 +30,9 @@ public:
 
 	void DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize);
 
+	void SubmitDebugLine(float x1, float y1, float x2, float y2);
+	void BatchDrawDebugLine();
+
 private:
 	QuadMesh _quadmesh;
 	GLfloat verts[6] = {
@@ -42,8 +47,15 @@ private:
 
 	glm::mat4 _proj;  // projection matrix
 	Shader _shader{ "Resources/Shader/debug.vert", "Resources/Shader/debug.frag" };
+	Shader _batchshader{ "Resources/Shader/batchdebug.vert", "Resources/Shader/batchdebug.frag" };
 
+	DebugBatchRenderer _debugBatchRenderer;
+	VertexArray* _vaobatch;
+	GLuint _batchvbo;
 };
+
+#define DrawDebugLine DebugRenderer::GetInstance().SubmitDebugLine
+#define DebugRendererLineDraw DebugRenderer::GetInstance().BatchDrawDebugLine
 
 #endif
 

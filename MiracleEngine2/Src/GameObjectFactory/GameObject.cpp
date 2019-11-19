@@ -1,3 +1,4 @@
+
 #include "PrecompiledHeaders.h"
 #include "GameObject.h"
 
@@ -6,7 +7,7 @@
 #include "Tools/FileIO/Serialiser.h"
 
 GameObject::GameObject(size_t uId, unsigned typeId)
-	:_uId{ uId }, _typeId{ typeId }, _destory{ false }, _alive{ true }
+	:_uId{ uId }, _typeId{ typeId }, _destory{ false }, _enable{ true }, _alive{ true }
 {
 	//std::cout << "GameObject::GameObject()" << std::endl;
 }
@@ -58,6 +59,24 @@ void GameObject::Serialise(std::string file)
 		}
 	}
 
+}
+
+void GameObject::DeSerialise()
+{
+	IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[(unsigned)ComponentId::IDENTITY_COMPONENT]);
+	std::string fileName = "./Resources/TextFiles/GameObjects/" + IdComponent->ObjectType() + ".json";
+	DeSerialiser prototypeDoc(fileName);
+
+	for (auto& ComponentPair : _ComponentList)
+	{
+		rapidjson::Value value;
+		value.SetBool(true);
+		prototypeDoc.AddMember(ToString((ComponentId)ComponentPair.first), value);
+		//value.Clear();
+
+		IComponentSystem* component = ComponentPair.second;
+		component->DeSerialiseComponent(prototypeDoc);
+	}
 }
 
 Map_ComponentList& GameObject::GetComponentList() // Get ComponentList

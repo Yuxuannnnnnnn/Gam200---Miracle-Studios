@@ -1,6 +1,11 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+#ifndef ENEMY_H
+#define	ENEMY_H
+
+class Node; // forward declare
+
 enum class Enemy_Type {
 	BASIC = 0,
 	RANGER = 1
@@ -9,62 +14,60 @@ enum class Enemy_Type {
 class Enemy : public IScript
 {
 private:
-
-	// Target(endPoint) Transform
-	unsigned _state;
-	Vector3 _destinationPos;
+// Logic Data - General
+	bool _init;
+	int _health;
+	int _enemyType;
+// Logic - Behaviour
+	double _timerAttack;
+	double _timerAttackCooldown;
+	size_t _attackRange; // manually set in ctor
+	size_t _attackMelee; // manually set in ctor
+// Logic - Pathfinding
 	GameObject* _target;
+	int _state;	
+	double _timerPathing;
+	double _timerPathingCooldown;
 	std::vector<Node*> _path;
 	Node* _nextNode;
 	Node* _destNode;
-	float _attackRange; // currently set to 1*_mapTileSize
-	bool _init{ false };
-	double _timer{ -1.0 };
-	double _timeCooldown{ 5 };
-	double _timerAttack{ 0 };
-	double _timerAttackCooldown{ 1 };
+	size_t _mapTileSize;
 
 public:
-	int _enemyType;
-	int _health;
+	Enemy();
+	void SerialiseComponent(Serialiser& document);	
 
-	void SerialiseComponent(Serialiser& document) 
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
-		if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
-		{
-			_health = (document["Health"].GetInt());
-		}
 
-		if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())	//Checks if the variable exists in .Json file
-		{
-			_enemyType = (document["EnemyType"].GetInt());
-		}
 	}
 
+	void Inspect() override
+	{
 
-	//Constructor
-	Enemy();
+	}
 
-
-	// InUpEx
 	void Init();
 	void Update(double dt);
-	void Exit();
-// GetDestination
-	Vector3& GetDestinationPos();	// gets _target's position
-// GetPosition(of Parent)
-	Vector3& GetPosition();	// gets _parent's position
-// GetPath
+
+	Vector3& GetDestinationPos();	// _target's position
+	Vector3& GetPosition();			// _parent's / self position
 	std::vector<Node*>& GetPath();
 
-	void Attack();
+	void AttackMelee();
+	void AttackRange();
 	void Move();
 	void MoveNode(bool start = false); // Move using path (toward _destination)
-	// FSM
+
 	void FSM();
 	void CheckState();
 
 	void ChancePickUps();
 
+	int GetHealth();
+	void SetHealth(int val);
+	void DecrementHealth();
+
 	void OnCollision2DTrigger(Collider2D* other);
 };
+#endif

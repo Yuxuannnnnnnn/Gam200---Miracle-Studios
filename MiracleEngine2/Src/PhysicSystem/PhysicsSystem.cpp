@@ -416,7 +416,7 @@ void PhysicsSystem::DrawRigidbody2D()
 		if (length > 50.f)
 			length = 50.f;
 
-		DebugRenderer::GetInstance().DrawLine(
+		DrawDebugLine(
 			_transformList[it.first]->GetPos()._x,
 			_transformList[it.first]->GetPos()._y,
 			_transformList[it.first]->GetPos()._x + newVel._x * length,
@@ -456,16 +456,16 @@ void PhysicsSystem::DrawCollider2D()
 		{
 			BoxCollider2D* object = (BoxCollider2D*)it.second;
 
-			DebugRenderer::GetInstance().DrawLine(
+			DrawDebugLine(
 				object->mCorner[0]._x, object->mCorner[0]._y,
 				object->mCorner[1]._x, object->mCorner[1]._y);
-			DebugRenderer::GetInstance().DrawLine(
+			DrawDebugLine(
 				object->mCorner[1]._x, object->mCorner[1]._y,
 				object->mCorner[2]._x, object->mCorner[2]._y);
-			DebugRenderer::GetInstance().DrawLine(
+			DrawDebugLine(
 				object->mCorner[2]._x, object->mCorner[2]._y,
 				object->mCorner[3]._x, object->mCorner[3]._y);
-			DebugRenderer::GetInstance().DrawLine(
+			DrawDebugLine(
 				object->mCorner[3]._x, object->mCorner[3]._y,
 				object->mCorner[0]._x, object->mCorner[0]._y);
 

@@ -6,7 +6,7 @@
 
 AudioComponent::AudioComponent() :
 	_typeIdAudio{ (unsigned)TypeIdAudio::NONE },
-	_fileName { std::string() },
+	_fileName{ std::string() },
 	_fileTrackLength{ 0 },
 	_lifetimeCurrent{ 0 },
 	_loop{ false },
@@ -36,6 +36,16 @@ AudioComponent::AudioComponent(GameObject* parent, size_t uId, IComponentSystem*
 	}
 }
 
+bool AudioComponent::IsBGM()
+{
+	return _isBGM;
+}
+
+void AudioComponent::SetIsBGM(bool isbgm)
+{
+	_isBGM = isbgm;
+}
+
 unsigned& AudioComponent::GetTypeId()
 {
 	return _typeIdAudio;
@@ -51,6 +61,7 @@ std::string AudioComponent::ComponentName() const
 	return "Audio Component";
 }
 
+
 void AudioComponent::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("A.TypeId") && document["A.TypeId"].IsInt())
@@ -59,6 +70,23 @@ void AudioComponent::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("A.FileName") && document["A.FileName"].IsString())
 		_fileName = std::string(document["A.FileName"].GetString());
 
+	if (document.HasMember("IsBGM") && document["IsBGM"].IsBool())
+		_isBGM = document["IsBGM"].GetBool();
+
+}
+
+void AudioComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetInt(_typeIdAudio);
+	prototypeDoc.AddMember("A.TypeId", value);
+
+	value.SetString(rapidjson::StringRef(_fileName.c_str()));
+	prototypeDoc.AddMember("A.FileName", value);
+
+	value.SetBool(_isBGM);
+	prototypeDoc.AddMember("IsBGM", value);
 }
 
 void AudioComponent::Inspect()

@@ -13,6 +13,8 @@
 #include "PrecompiledHeaders.h"
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
+#include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
+#include "GameObjectComponents/GraphicComponents/FontComponent.h"
 #include "Shader.h"
 #include "QuadMesh.h"
 #include "TextureManager.h"
@@ -20,6 +22,9 @@
 #include "Camera.h"
 #include "FontRenderer.h"
 #include "../Animation/AnimationSystem.h"
+#include "../Animation/Animation.h"
+#include "UIMesh.h"
+
 
 enum RenderMode
 {
@@ -31,8 +36,9 @@ enum RenderMode
 class GraphicsSystem
 {
 public:
-
-	std::unordered_map < size_t, GraphicComponent* > _spriteList;
+	std::unordered_map < size_t, FontComponent*> _fontList;
+	std::unordered_map < size_t, GraphicComponent*> _spriteList;
+	std::unordered_map < size_t, AnimationComponent*> _animationList;
 	std::unordered_map < size_t, TransformComponent*>  _transformList;
 
 	void Update(double dt);
@@ -55,12 +61,16 @@ private:
 	TextureManager _textureManager;
 	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
 	glm::mat4 _proj;
+	
 	QuadMesh _quadmesh;
+	UIMesh _uimesh;
+
 	Camera _camera;
 	//PlayerMesh _playerMesh;
 	FontRenderer _fontRenderer;
 	AnimationSystem _animationSystem;
 
+	Animation _testAnimation;
 	
 };
 

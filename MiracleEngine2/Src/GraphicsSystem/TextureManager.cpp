@@ -1,5 +1,6 @@
-#include "TextureManager.h"
 #include "PrecompiledHeaders.h"
+#include "TextureManager.h"
+#include "../Tools/MemoryManager/ResourceManager.h"
 
 const std::map<std::string, Texture2D*>& TextureManager::GetTextureMap()
 {
@@ -9,6 +10,7 @@ const std::map<std::string, Texture2D*>& TextureManager::GetTextureMap()
 
 TextureManager::TextureManager()
 {
+	//ResourceManager::GetInstance().
 
 	_textureMap["player"] = new Texture2D("Resources/Image/Player.png");
 	_textureMap["enemy1"] = new Texture2D("Resources/Image/EnemyMove.png");
@@ -31,6 +33,7 @@ TextureManager::TextureManager()
 	_textureMap["idle"] = new Texture2D("Resources/Image/catidle.png");
 	_textureMap["run"] = new Texture2D("Resources/Image/catrun.png");
 	_textureMap["jump"] = new Texture2D("Resources/Image/catjump.png");
+	_textureMap["coin"] = new Texture2D("Resources/Image/coin.png");
 }
 
 TextureManager::~TextureManager()

@@ -2,6 +2,11 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+Bullet_T::Bullet_T() : _lifeTime{ -666.f }
+{}
+
+
+
 void Bullet_T::Update(double dt)
 {
 	if (_lifeTime > 0.0f)

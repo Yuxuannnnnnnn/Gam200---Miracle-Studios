@@ -38,6 +38,20 @@ void RigidBody2D::SerialiseComponent(Serialiser& document)
 
 }
 
+void RigidBody2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetFloat(_mass);
+	prototypeDoc.AddMember("Mass", value);
+
+	value.SetFloat(_fictionVal);
+	prototypeDoc.AddMember("Friction", value);
+
+	value.SetBool(_static);
+	prototypeDoc.AddMember("Static", value);
+}
+
 void RigidBody2D::Inspect()
 {
 	IComponentSystem::Inspect();

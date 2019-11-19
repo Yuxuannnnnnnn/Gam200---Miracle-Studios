@@ -2,6 +2,8 @@
 	"IdentityComponent": true,
 	"Name": "none",
 	"GameObjectType": 15,
+	"ObjectType": "Font",
+
 
 	"TransformComponent": true,
 	"Position": [ 0.0, 0.0 ],
@@ -9,5 +11,6 @@
 	"Rotate": 0.0,
 
 	"FontComponent": true,
-	"FontId": 0
+	"FontId": 0,
+	"FontString": "Hello World"
 }

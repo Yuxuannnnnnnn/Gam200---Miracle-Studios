@@ -219,12 +219,14 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 	ScreenSize temp; // temp object for reading in info
 	temp.FileRead_StartUp();
 
-
+	_fullScreen = temp.GetFullscreen();
 	_initWindowWidth = temp.GetResX();
 	_initWindowHeight = temp.GetResY();
 
 	_windowWidth = temp.GetResX();
 	_windowHeight = temp.GetResY();
+
+
 
 	RECT rect = { 0, 0, (LONG)(temp.GetResX() - 1), (LONG)(temp.GetResY() - 1) };
 	//The AdjustWindowRect sets the exact client area without the title bar and all the extra pixels
@@ -241,6 +243,11 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 		mainHWND = CreateWindowW(szWindowClass, szTitle,  /*WS_OVERLAPPEDWINDOW,*/ dwStyle,
 			CW_USEDEFAULT, 0, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr);
 	//}
+
+	if (_fullScreen)
+	{
+		SetFullscreenWindowMode();
+	}
 
 
 	if (!mainHWND)
@@ -266,6 +273,7 @@ void Window::SetFullscreenWindowMode()
 
 	_windowWidth = GetSystemMetrics(SM_CXSCREEN);
 	_windowHeight = GetSystemMetrics(SM_CYSCREEN);
+	_fullScreen = true;
 }
 
 void Window::SetNonFullScreenWindowMode()
@@ -277,9 +285,37 @@ void Window::SetNonFullScreenWindowMode()
 
 	_windowWidth = _initWindowWidth;
 	_windowHeight = _initWindowHeight;
+	_fullScreen = false;
 }
 
+void Window::CheckFullScreenToggle()
+{
+	WINDOWPLACEMENT wp;
+	wp.length = sizeof(wp);
+	wp.showCmd = 0; // Just to clear showCmd before reading.
 
+	GetWindowPlacement(mainHWND, &wp);
+	if (wp.showCmd == SW_MAXIMIZE)
+	{
+		if (_fullScreen != true)
+		{
+			_windowWidth = GetSystemMetrics(SM_CXSCREEN);
+			_windowHeight = GetSystemMetrics(SM_CYSCREEN);
+			_fullScreen = true;
+		}
+	}
+	else if (wp.showCmd == SW_MINIMIZE)
+	{
+		if (_fullScreen != false)
+		{
+			_windowWidth = _initWindowWidth;
+			_windowHeight = _initWindowHeight;
+			_fullScreen = false;
+		}
+	}
+
+
+}
 
 
 /*
@@ -361,12 +397,12 @@ HGLRC Window::Get_m_wglDC() const
 	return m_wglDC;
 }
 
-int Window::GetWindowWidth() const
+float Window::GetWindowWidth() const
 {
 	return _windowWidth;
 }
 
-int Window::GetWindowHeight() const
+float Window::GetWindowHeight() const
 {
 	return _windowHeight;
 }

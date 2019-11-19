@@ -4,13 +4,10 @@
 
 class PreFabImguiWindow: public IBaseImguiWindow
 {
-public:
 
-	PreFabImguiWindow(bool open = true,	//Set the settings for the imgui window
-		ImGuiWindowFlags flags = ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar)
-		:IBaseImguiWindow("PreFab", open, flags)
-	{
-	}
+public:
+	PreFabImguiWindow(bool open = true,	//Set the settings for the imgui windows
+		ImGuiWindowFlags flags = 0);
 
 	void Update() override;
 };

@@ -14,6 +14,7 @@ class AudioComponent : public IComponentSystem
 private:
 	unsigned _typeIdAudio;
 	std::string _fileName;
+	bool _isBGM;
 
 	unsigned _fileTrackLength;
 	size_t _lifetimeTotal;
@@ -22,8 +23,12 @@ private:
 public:
 	AudioComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 
+	bool IsBGM();
+	void SetIsBGM(bool isbgm);
+
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void Inspect() override;
 
 

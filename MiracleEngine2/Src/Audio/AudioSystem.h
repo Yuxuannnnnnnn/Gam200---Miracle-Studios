@@ -8,6 +8,7 @@
 #include "../Dep/fmod/inc/fmod.h"
 #include "../Dep/fmod/inc/fmod_errors.h"
 #include "../Dep/fmod/inc/fmod.hpp"
+#include "../GameObjectComponents/AudioComponent.h"
 
 
 #include "SoundEnum.h"
@@ -34,6 +35,8 @@ public:
 	~AudioSystem();
 
 	void Play(SoundEnum sound);
+
+	std::unordered_map < size_t, AudioComponent*> _soundList;
 private:
 	void PlaySFX(SoundEnum sound);
 	void PlayBGM();

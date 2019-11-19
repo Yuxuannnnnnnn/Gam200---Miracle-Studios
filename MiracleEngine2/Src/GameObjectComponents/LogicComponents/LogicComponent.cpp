@@ -2,9 +2,11 @@
 #include "LogicComponent.h"
 #include "Engine/EngineSystems.h"
 
+LogicComponent::LogicComponent() : _componentEnable{ true }
+{};
 
 LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	:IComponentSystem(parent, uId)
+	: IComponentSystem(parent, uId), _componentEnable{ true }
 {
 	if (component)
 	{
@@ -15,7 +17,6 @@ LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponentSystem*
 			IScript* Script = new IScript(*(script.second));
 			_scriptList.insert(std::pair<unsigned, IScript*>(script.first, Script));
 		}
-
 	}
 }
 
@@ -27,7 +28,6 @@ std::string LogicComponent::ComponentName() const
 
 void LogicComponent::SerialiseComponent(Serialiser& document)
 {
-
 	if (document.HasMember("ScriptId") && document["ScriptId"].IsArray())	//Checks if the variable exists in .Json file
 		for (unsigned i = 0; i < document["ScriptId"].Size(); i++)
 		{
@@ -39,11 +39,28 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 		}
 }
 
+void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetArray();
+	for (auto& scriptPair : _scriptList)
+	{
+		value.PushBack(rapidjson::Value(scriptPair.first).Move(), prototypeDoc.Allocator());
+	}
+
+	prototypeDoc.AddMember("ScriptId", value);
+}
+
 
 
 void LogicComponent::Inspect()
 {
 	IComponentSystem::Inspect();
+	for (auto& scriptPair : _scriptList)
+	{
+		scriptPair.second->Inspect();
+	}
 }
 
 
@@ -78,7 +95,7 @@ IScript* LogicComponent::AddScript(ScriptId scriptType)
 	if (CheckScript(scriptType))
 		return GetScript(scriptType);
 
-	IScript* newScript = EngineSystems::GetInstance()._gameObjectFactory->AddScript(this, scriptType);
+	IScript* newScript = EngineSystems::GetInstance()._logicSystem->AddScript(this, scriptType);
 	_scriptList.insert(std::pair<unsigned, IScript*>((unsigned)scriptType, newScript));
 
 	return newScript;
@@ -89,7 +106,7 @@ void LogicComponent::RemoveScript(ScriptId scriptType)
 	if (!CheckScript(scriptType))
 		return;
 
-	EngineSystems::GetInstance()._gameObjectFactory->RemoveScript(this, scriptType);
+	EngineSystems::GetInstance()._logicSystem->RemoveScript(this, scriptType);
 	_scriptList.erase((unsigned)scriptType);
 }
 

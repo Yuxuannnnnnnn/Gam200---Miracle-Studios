@@ -20,6 +20,14 @@ void ButtonComponent::SerialiseComponent(Serialiser& document)
 	}
 }
 
+void ButtonComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetInt(_buttonType);
+	prototypeDoc.AddMember("ButtonType", value);
+}
+
 void ButtonComponent::Inspect()
 {
 	IComponentSystem::Inspect();

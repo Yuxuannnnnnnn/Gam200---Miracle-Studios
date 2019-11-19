@@ -27,6 +27,20 @@ void Collider2D::SerialiseComponent(Serialiser& document)
 		_trigger = document["ColliderTrigger"].GetBool();
 }
 
+void Collider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetInt(_type);
+	prototypeDoc.AddMember("ColliderTypeId", value);
+
+	value.SetInt(_tag);
+	prototypeDoc.AddMember("ColliderTag", value);
+
+	value.SetBool(_trigger);
+	prototypeDoc.AddMember("ColliderTrigger", value);
+}
+
 
 
 void Collider2D::Inspect()

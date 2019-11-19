@@ -31,6 +31,7 @@ public:
 
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
 
 

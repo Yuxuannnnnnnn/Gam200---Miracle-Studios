@@ -82,7 +82,6 @@ void Node::SetPrev(Node* prev)
 	_PtrNodePrev = prev;
 }
 
-
 // NODE stuff
 /////////////////////////
 
@@ -105,7 +104,7 @@ void AISystem::SetTileMap(std::unordered_map < size_t, Node* > map)
 {
 	_tilemap = map;
 }
-unsigned AISystem::GetMapTileSize()
+size_t AISystem::GetMapTileSize()
 {
 	return _mapTileSize;
 }
@@ -145,7 +144,6 @@ void AISystem::Exit()
 
 void AISystem::CreateNodeMap()
 {
-
 	size_t id = 0; // id for Node's id
 	Node* tempNode = nullptr;
 	bool solid = false;
@@ -153,8 +151,8 @@ void AISystem::CreateNodeMap()
 	Vector3 tempVec;
 	Vector3 tempVecOrigin;
 	// offset the map's origin	// pos.x = ( totalMap.x/2 + offset for tile's node ) // _tileMapInput[y][x]
-	int originX = -(_mapTileSize * _mapWidth) / 2;
-	int originY = -(_mapTileSize * _mapHeight) / 2;
+	int originX = -(int)((_mapTileSize * _mapWidth) / 2);
+	int originY = -(int)((_mapTileSize * _mapHeight) / 2);
 	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
 	
 	EngineSystems::GetInstance()._physicsSystem->_collisionMap.AddNewMap(
@@ -283,7 +281,7 @@ void AISystem::CreateNodeMap()
 	com->SetPos(position);
 	Vector3 scale(MAP_WIDTH* MAP_SIZE,0,0);
 	com->SetScale(scale);
-	com->SetRotate(PI);
+	com->SetRotate(((const float)PI));
 
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
@@ -293,7 +291,7 @@ void AISystem::CreateNodeMap()
 	com->SetPos(position1);
 	Vector3 scale1(MAP_WIDTH* MAP_SIZE, 0, 0);
 	com->SetScale(scale1);
-	com->SetRotate(0);
+	com->SetRotate(0.f);
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
 		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
@@ -302,7 +300,7 @@ void AISystem::CreateNodeMap()
 	com->SetPos(position2);
 	Vector3 scale2(0, MAP_HEIGHT* MAP_SIZE, 0);
 	com->SetScale(scale2);
-	com->SetRotate(-(PI/2));
+	com->SetRotate(-((const float)(PI/2)));
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
 		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
@@ -311,7 +309,7 @@ void AISystem::CreateNodeMap()
 	com->SetPos(position3);
 	Vector3 scale3(0, MAP_HEIGHT* MAP_SIZE, 0);
 	com->SetScale(scale3);
-	com->SetRotate(PI/2);
+	com->SetRotate(((const float)PI/2));
 
 
 }
@@ -439,13 +437,6 @@ std::vector<Node*> AISystem::PathFindingOld(Vector3 curr, Vector3 dest)
 	// TODO: BFS Implementation
 }
 
-
-//----------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------
-
-
 void Node::CalcFGH(Vector3 _start, Vector3 _dest)
 {
 	Vector3 temp;
@@ -458,17 +449,16 @@ void Node::CalcFGH(Vector3 _start, Vector3 _dest)
 	// F
 	_f = _g + _h;
 }
-
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
 std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 {
+	bool testSkip = false; // seems to fix the random crashing
+
 	float x, y;
 	size_t nodeIdStart, nodeIdDest;
-	// start node, end node // based on closest postiion, set the start(obj.pos()) and end (target.pos())
-				//formula ( (x % _mapTileSize) + _mapTileSize/2 )
-		// offset the map's origin	// pos.x = ( totalMap.x/2 + offset for tile's node ) // _tileMapInput[y][x]
-		//int originX = -(_mapTileSize * _mapWidth) / 2;
-		//int originY = -(_mapTileSize * _mapHeight) / 2;
+	std::vector<Node*> tempVec, finalVec;
+	std::list<Node*> queOpen;
+
 	x = (curr._x / _mapTileSize);
 	y = (curr._y / _mapTileSize);
 	x += (_mapWidth / 2); // compensate for the map origin shift
@@ -493,23 +483,24 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 // create node to start & dest
 	Node* tempStart = _tilemap[nodeIdStart];
 	Node* tempDest = _tilemap[nodeIdDest];
-				std::cout
-					<< "tempDest  : " << tempDest->GetNodeId() << " :: "
-					<< tempDest->GetPosition()._x << ", " << tempDest->GetPosition()._y
-					<< std::endl;
-				std::cout
-					<< "tempStart : " << tempStart->GetNodeId() << " :: "
-					<< tempStart->GetPosition()._x << ", " << tempStart->GetPosition()._y
-					<< std::endl;
-	if (curr == dest)
+	if (displayDebug)
+		std::cout
+			<< "tempDest  : " << tempDest->GetNodeId() << " :: "
+			<< tempDest->GetPosition()._x << ", " << tempDest->GetPosition()._y
+			<< std::endl;
+	if (displayDebug)
+		std::cout
+			<< "tempStart : " << tempStart->GetNodeId() << " :: "
+			<< tempStart->GetPosition()._x << ", " << tempStart->GetPosition()._y
+			<< std::endl;
+	if (nodeIdStart == nodeIdDest)
 	{
-				std::cout << "\t Start&End same!" << std::endl;
-		std::vector<Node*> a;
-		a.push_back(tempStart);
-		return a;
+		if(displayDebug)
+			std::cout << "\t Start&End same!" << std::endl;
+		finalVec.push_back(tempDest);
+		return finalVec;
 	}
 // A*
-	std::list<Node*> queOpen;
 	Node* temp = tempStart;
 	queOpen.push_back(temp);
 	while (temp != tempDest)
@@ -548,6 +539,15 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 			queOpen.push_back(temp->GetRight());
 			//temp->GetRight()->SetClosed(true);
 		}
+		if (queOpen.empty())
+		{
+			if (displayDebug)
+				std::cout << "queOpen.empty()" << std::endl;
+			finalVec.push_back(tempDest);
+			testSkip = true;
+			break;
+		}
+			
 	// take lowest node in queOpen()
 		std::list<Node*>::iterator itrQue = queOpen.begin();
 		// first loop to find lowest F
@@ -568,7 +568,12 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 				occurenceListF.push_back(*itrQue);
 			++itrQue;
 		}
-		if (occurenceListF.size() == 1) // single F
+		if (occurenceListF.size() == 0) // if for some reason got n
+		{
+			finalVec.push_back(tempStart);
+			return finalVec;
+		}
+		else if (occurenceListF.size() == 1) // single F
 		{
 			temp = occurenceListF.front();
 			// remove and push to front of list
@@ -601,25 +606,29 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 			queOpen.push_front(temp);
 		}
 	}
-// get reversed path (from end node to start node)
-	std::vector<Node*> tempVec, finalVec;
-	temp = tempDest;
-	while (temp != tempStart)
-	{
-		tempVec.push_back(temp);
-		temp = temp->GetPrev();
-	}
-// reverse tempVec and push to finalVec
-	std::vector<Node*>::reverse_iterator itrVecReverse;
-	itrVecReverse = tempVec.rbegin();
-	while (itrVecReverse != tempVec.rend())
-	{
-		std::cout << ((Node*)* itrVecReverse)->GetNodeId() << ", ";
-		finalVec.push_back(*itrVecReverse++);
-	}
-	std::cout << std::endl;
 
-// after A* done, reset _tileMap Node.visited to false
+	if (!testSkip)
+	{
+		// get reversed path (from end node to start node)
+		temp = tempDest;
+		while (temp != tempStart)
+		{
+			tempVec.push_back(temp);
+			temp = temp->GetPrev();
+		}
+		// reverse tempVec and push to finalVec
+		std::vector<Node*>::reverse_iterator itrVecReverse;
+		itrVecReverse = tempVec.rbegin();
+		while (itrVecReverse != tempVec.rend())
+		{
+			if (displayDebug)
+				std::cout << ((Node*)* itrVecReverse)->GetNodeId() << ", ";
+			finalVec.push_back(*itrVecReverse++);
+		}
+		if (displayDebug)
+			std::cout << std::endl;
+	}
+// after A* done, reset _tileMap Node.Closed to false
 	std::unordered_map < size_t, Node* >::iterator itrMap = _tilemap.begin();
 	while (itrMap != _tilemap.end())
 	{
@@ -631,11 +640,6 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 		++itrMap;
 	}
 	return finalVec;
-
-
-	// run pathfinding algorithm based on '_curr' toward '_dest'
-		// A* (std use) or BFS(more expensive but easier)	
-	// TODO: BFS Implementation
 }
 
 // AISystem stuff

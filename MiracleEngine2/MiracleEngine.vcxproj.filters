@@ -77,7 +77,6 @@
     <ClCompile Include="Src\Gameplay\Turret.cpp" />
     <ClCompile Include="Src\Gameplay\Spawner.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
-    <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
     <ClCompile Include="Src\Gameplay\Bullet_E.cpp" />
     <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
@@ -91,6 +90,12 @@
     <ClCompile Include="Src\PhysicSystem\IForce.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FrameBuffer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\AnimatedMesh.cpp" />
+    <ClCompile Include="Src\Gameplay\Boss.cpp" />
+    <ClCompile Include="Src\Gameplay\PickUps.cpp" />
+    <ClCompile Include="Src\ImguiSystem\AssetsImguiWindow.cpp" />
+    <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
+    <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -477,7 +482,6 @@
     <ClInclude Include="Src\Gameplay\Spawner.h" />
     <ClInclude Include="Src\Audio\SoundEnum.h" />
     <ClInclude Include="Src\PhysicSystem\CollisionTable.h" />
-    <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\GraphicsSystem\Camera.h" />
     <ClInclude Include="Src\Gameplay\Bullet_E.h" />
     <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
@@ -491,6 +495,13 @@
     <ClInclude Include="Src\PhysicSystem\IForce.h" />
     <ClInclude Include="Src\GraphicsSystem\FrameBuffer.h" />
     <ClInclude Include="Src\GraphicsSystem\AnimatedMesh.h" />
+    <ClInclude Include="Src\Gameplay\Boss.h" />
+    <ClInclude Include="Src\ImguiSystem\AssetsImguiWindow.h" />
+    <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
+    <ClInclude Include="Src\Tools\FileIO\JsonHeader.h" />
+    <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
+    <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -657,6 +668,7 @@
     <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Ammo.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Health.json" />
+    <None Include="Resources\TextFiles\GameObjects\BGM.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\States\MainMenu.txt" />

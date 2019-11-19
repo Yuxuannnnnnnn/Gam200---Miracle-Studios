@@ -22,13 +22,22 @@ void Engine::Update()
 {
 	bool open = true; //for imgui show demo, to be deleted later
 
-	_sceneManager->ChangeScene(Scenes::MAIN_MENU);
+	_sceneManager->ChangeScene(Scenes::LEVEL1);
+	//_sceneManager->ChangeScene(Scenes::MAIN_MENU);
+
+	_gameObjectFactory->De_SerialiseLevel("hello.json");
 
 	while (_sceneManager->GetCurrentScene() != Scenes::QUIT)	//GameState Logic Starts here
 	{
 
 		//_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
+
+		if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
+		{
+			//_gameStateManager->SetNextGameState(GameStateId::GS_QUIT); 
+			return;
+		}
 
 #ifdef LEVELEDITOR
 		_frameRateControl->StartTimeCounter();
@@ -46,11 +55,7 @@ void Engine::Update()
 		_performanceUsage->FPS = _frameRateControl->GetFPS();
 #endif
 
-		if (!_windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
-		{
-			//_gameStateManager->SetNextGameState(GameStateId::GS_QUIT);
-			return;
-		}
+
 #ifdef LEVELEDITOR
 		_frameRateControl->StartTimeCounter();
 #endif
@@ -123,6 +128,8 @@ void Engine::Update()
 		// Graphics
 		_frameRateControl->StartTimeCounter();
 #endif
+
+		
 		_graphicsSystem->Update(dt);
 
 #ifdef LEVELEDITOR
@@ -136,11 +143,6 @@ void Engine::Update()
 		DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
 
 		_frameRateControl->StartTimeCounter();
-		if (false)
-		{
-			ImGui::ShowDemoWindow(&open); 		//Show Demo Window
-		}
-
 		_imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 		_performanceUsage->IMGUIFrameTime += _frameRateControl->EndTimeCounter();
 #endif

@@ -5,28 +5,6 @@
 #include "imgui_internal.h"
 
 
-enum class ImguiWindows //The List of ImguiWindows 
-{
-	HIERARCHY = 0,
-	INSPECTOR = 1,
-	PREFAB_FOLDER = 2, 
-	//SCENE = 2,
-
-	 //COMMAND_DEBUG = 3,
-	 //CONSOLE = 4,
-	 //PROFILER = 5,
-	 //MEMORY_DEBUG = 6,
-	 //GLOBAL_SETTINGS = 7,
-	 //FILE_SYSTEM = 8,
-	 //TREE_GRAPH = 9,
-	 //RESOURCE_WINDOW = 10,
-	 //MATERIAL_EDITOR = 11,
-	 //GAME = 12,
-
-	 COUNT //for now, 3 priority ImguiWindow to code
-
-};
-
 
 class IBaseImguiWindow
 {

@@ -1,25 +1,29 @@
 #pragma once
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
+#ifndef EXPLOSION_H
+#define	EXPLOSION_H
+
 class Explosion : public IScript
 {
 private:
-
-public:
 	double _lifeTime;
+public:
+	Explosion();
+	void SerialiseComponent(Serialiser& document);
 
-	Explosion() : _lifeTime{ -666.f } {}
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+
+	}
+
+	void Inspect() override
+	{
+
+	}
 
 	void Update(double dt);
 
 	void OnTrigger2DEnter(Collider2D* other);
-
-
-	void SerialiseComponent(Serialiser& document)
-	{
-		if (document.HasMember("Lifetime") && document["Lifetime"].IsFloat())	//Checks if the variable exists in .Json file
-		{
-			_lifeTime = (document["Lifetime"].GetFloat());
-		}
-	}
 };
+#endif

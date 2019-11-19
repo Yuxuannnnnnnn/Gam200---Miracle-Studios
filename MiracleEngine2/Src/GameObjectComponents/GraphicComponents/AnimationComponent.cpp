@@ -2,6 +2,17 @@
 #include "AnimationComponent.h"
 
 
+void AnimationComponent::SetFilePath(const std::string path)
+{
+	_type = path;
+}
+
+std::string& AnimationComponent::GetFilePath()
+{
+	return _type;
+}
+
+
 AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponentSystem* component)
 	: IComponentSystem(parent, uId)
 {
@@ -9,11 +20,18 @@ AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponen
 	{
 		AnimationComponent* animationComponent = dynamic_cast<AnimationComponent*>(component);
 	}
+
+
+	testanim = new Animation();
+
 }
 
 void AnimationComponent::SerialiseComponent(Serialiser& document)
 {
-
+	if (document.HasMember("Type") && document["Type"].IsString())
+	{
+		_type = document["Type"].GetString();
+	}
 }
 
 

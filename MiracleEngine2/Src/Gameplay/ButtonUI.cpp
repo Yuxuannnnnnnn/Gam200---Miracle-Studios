@@ -2,6 +2,19 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+ButtonUI::ButtonUI() :
+	_buttonType{ (int)ButtonType::PLAY }
+{
+}
+
+void ButtonUI::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("ButtonType") && document["ButtonType"].IsInt())	//Checks if the variable exists in .Json file
+	{
+		_buttonType = (document["ButtonType"].IsInt());
+	}
+}
+
 void ButtonUI::OnMouseDown()
 {
 	switch (_buttonType)
@@ -41,20 +54,8 @@ void ButtonUI::OnMouseExit()
 	;
 }
 
-ButtonUI::ButtonUI() :
-	_buttonType{ (int)ButtonType::PLAY }
-{
-}
-
 void ButtonUI::Update()
 {
 
 }
 
-void ButtonUI::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("ButtonType") && document["ButtonType"].IsInt())	//Checks if the variable exists in .Json file
-	{
-		_buttonType = (document["ButtonType"].IsInt());
-	}
-}

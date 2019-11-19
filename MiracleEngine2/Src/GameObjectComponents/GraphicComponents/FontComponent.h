@@ -8,6 +8,7 @@ class FontComponent : public IComponentSystem
 {
 public:
 	void SerialiseComponent(Serialiser& document) override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	
 	void SetFontID(int num);
 

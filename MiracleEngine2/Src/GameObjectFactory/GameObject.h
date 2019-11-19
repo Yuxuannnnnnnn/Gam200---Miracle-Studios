@@ -8,6 +8,7 @@
 #include "error/en.h"		// Json error displaying
 
 #include "Tools/FileIO/FileIO.h"
+#include "Tools/FileIO/DeSerialiser.h"
 
 #include "GameObjectComponents/LogicComponents/LogicComponent.h"
 
@@ -21,7 +22,8 @@ enum class TypeIdGO {
 	WEAPON, PISTOL, SHOTGUN, SNIPER, RPG, //Weapons	
 	SPAWNER, CAMERA, FONT, ENEMYTWO, BULLET_T, BULLET_E, SPAWNERTWO,
 	EXPLOSION, BUTTON_UI,
-	MAPEDGE, PICK_UPS_HEALTH, PICK_UPS_AMMO,
+	MAPEDGE, PICK_UPS_HEALTH, PICK_UPS_AMMO, BOSS,
+	BGM,
 
 	COUNT
 };
@@ -54,7 +56,7 @@ inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const
 	case TypeIdGO::MAPEDGE:		return "MapEdge";
 	case TypeIdGO::PICK_UPS_HEALTH:	return "Health_PickUps";
 	case TypeIdGO::PICK_UPS_AMMO:	return "Ammo_PickUps";
-
+	case TypeIdGO::BOSS:		return "Boss";
 	default:      return "[Unknown TypeIdGO]";
 	}
 }
@@ -64,15 +66,16 @@ typedef std::unordered_map < unsigned, IComponentSystem* > Map_ComponentList;
 class GameObject
 {
 private:
-
 	Map_ComponentList _ComponentList; // Component List
-	unsigned _typeId; // GameObject Type
 	size_t _uId; // Unique ID
+
+	unsigned _typeId; // GameObject Type
+
 	bool _destory;
 	bool _enable;
-public:
 	bool _alive;
 
+public:
 	GameObject(size_t uId, unsigned typeId = (unsigned)TypeIdGO::NONE); // Ctor : Inits w/ a Unique id
 
 	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
@@ -82,12 +85,9 @@ public:
 	size_t Get_uID() const; // Return _uId
 
 	void Set_typeId(TypeIdGO type);
-
-	virtual void Init() { std::cout << "IGO : INIT" << std::endl; }			// InUpEx
-	virtual void Update() { std::cout << "IGO : UPDATE" << std::endl; }		//
-	virtual void Exit() { std::cout << "IGO : EXIT" << std::endl; }			//
 		
 	void Serialise(std::string file);
+	void DeSerialise();
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
 
@@ -97,6 +97,8 @@ public:
 	void RemoveComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 	void DestoryGameObject();
 
+	bool GetAlive() { return _alive; }
+	void SetAlive(bool alive) { _alive = alive; }
 	bool GetDestory() const { return _destory; }
 	void SetDestory() 
 	{

@@ -24,12 +24,11 @@ class GameObjectFactory final
 	std::unordered_map < size_t, CameraComponent*>		_CameraComponents;		//
 	std::unordered_map < size_t, RigidBody2D* >			_rigidBody2dComponents;	//
 	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;	//
-	std::unordered_map < size_t, LogicComponent* >		_logicComponents;	//
-	std::unordered_multimap<size_t, IScript*>			_scriptComponets;
+	std::unordered_map < size_t, LogicComponent* >		_logicComponents;		//
 	std::unordered_multimap<size_t, PickingCollider*>	_pickList;
 	std::unordered_map<size_t, AudioComponent*>			_audioComponent;		//
 	std::unordered_map<size_t, FontComponent*>			_FontComponent;
-	std::unordered_map<size_t, ButtonComponent*>			_buttonComponent;
+	std::unordered_map<size_t, ButtonComponent*>		_buttonComponent;
 
 public:
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
@@ -46,7 +45,6 @@ public:
 	std::unordered_map < size_t, RigidBody2D* > getRigidBodyComponent();	
 	std::unordered_map < size_t, Collider2D* > getCollider2dComponent();
 	std::unordered_map < size_t, LogicComponent* > getLogicComponent();
-	std::unordered_multimap<size_t, IScript*> getScriptComponent();
 	std::unordered_map < size_t, CameraComponent*>	 getCameraComponent()
 	{
 		return _CameraComponents;
@@ -68,11 +66,11 @@ public:
 
 	LogicComponent* CloneLogicComponent(GameObject* object, LogicComponent* component);
 
-	IScript* AddScript(LogicComponent* object, ScriptId scriptType);
-	IScript* CloneScript(LogicComponent* object, IScript* script, ScriptId scriptType);
-	void RemoveScript(LogicComponent* object, ScriptId scriptType);
 
-	void FileRead_Level(const char* FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
+	void SerialiseLevel(const char* FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
 	void DeleteLevel();								//Level is Deleted when out of In-GameState
 	void DeleteLevelNotPrefab();
+
+	//void SerialiseLevel(std::string FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
+	void De_SerialiseLevel(std::string filename);
 };

@@ -34,22 +34,22 @@ void SceneManager::ChangeScene(Scenes scene)
 	{
 	case Scenes::RESTART:
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(_currScene));
+		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(_currScene));
 		return;
 	case Scenes::MAIN_MENU:
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::MAIN_MENU));
+		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::MAIN_MENU));
 		break;
 	case Scenes::LEVEL1:
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::LEVEL1));
+		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LEVEL1));
 		EngineSystems::GetInstance()._aiSystem->CreateNodeMap();
 		break;
 	case Scenes::WIN:
-		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::WIN));
+		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::WIN));
 		break;
 	case Scenes::LOSE:
-		EngineSystems::GetInstance()._gameObjectFactory->FileRead_Level(ToString(Scenes::LOSE));
+		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LOSE));
 		break;
 	default:
 		break;
