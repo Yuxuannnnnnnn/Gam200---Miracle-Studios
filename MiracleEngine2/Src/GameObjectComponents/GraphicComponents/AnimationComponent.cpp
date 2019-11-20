@@ -22,6 +22,7 @@ AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponen
 	}
 
 
+	// temporary test
 	testanim = new Animation();
 
 }
