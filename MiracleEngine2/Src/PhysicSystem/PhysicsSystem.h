@@ -76,6 +76,8 @@ private:
 	void DrawCollider2D();
 	void DrawButton();
 
+	void EditTransform(const float* cameraView, float* cameraProjection, float* matrix);
+
 public:
 	static void AddForce(size_t uId, Vector3 forceDir, float force);
 	static void AddForwardForce(size_t uId, float force);
