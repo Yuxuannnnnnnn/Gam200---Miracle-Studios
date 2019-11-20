@@ -6,7 +6,7 @@
 
 Boss::Boss() :
 	_init {false},
-	_health{ 69 },
+	_health{ 70 },
 	_healthRage{ 20 },
 
 	_timerAttack{ 0.0 },
