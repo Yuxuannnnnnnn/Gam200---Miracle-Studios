@@ -6,6 +6,14 @@
 #include "Frame.h"
 #include "../GraphicsSystem/QuadMesh.h"
 
+/* ------------------------------------------------------
+
+	resource manager hold a container of animation pointers
+
+	each animation contain a vector of frames
+
+ --------------------------------------------------------*/
+
 class Animation
 {
 public:
