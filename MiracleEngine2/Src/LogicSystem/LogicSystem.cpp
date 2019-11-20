@@ -75,24 +75,6 @@ IScript* LogicSystem::AddScript(LogicComponent* object, ScriptId scriptType)
 		_scriptList.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}
-	case ScriptId::BULLET_E:
-	{
-		Bullet_E* newScript = new Bullet_E();
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::BULLET_E);
-		_scriptList.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
-	case ScriptId::BULLET_T:
-	{
-		Bullet_T* newScript = new Bullet_T();
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::BULLET_T);
-		_scriptList.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
 	case ScriptId::SPAWNERTWO:
 	{
 		SpawnerTwo* newScript = new SpawnerTwo();
@@ -196,24 +178,6 @@ IScript* LogicSystem::CloneScript(LogicComponent* object, IScript* script, Scrip
 		newScript->SetParentPtr(object->GetParentPtr());
 		newScript->SetParentId(object->GetParentId());
 		newScript->SetType(ScriptId::SPAWNER);
-		_scriptList.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
-	case ScriptId::BULLET_E:
-	{
-		Bullet_E* newScript = new Bullet_E(*reinterpret_cast<Bullet_E*>(script));
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::BULLET_E);
-		_scriptList.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
-		return newScript;
-	}
-	case ScriptId::BULLET_T:
-	{
-		Bullet_T* newScript = new Bullet_T(*reinterpret_cast<Bullet_T*>(script));
-		newScript->SetParentPtr(object->GetParentPtr());
-		newScript->SetParentId(object->GetParentId());
-		newScript->SetType(ScriptId::BULLET_T);
 		_scriptList.insert(std::pair<size_t, IScript*>(object->GetParentId(), newScript));
 		return newScript;
 	}

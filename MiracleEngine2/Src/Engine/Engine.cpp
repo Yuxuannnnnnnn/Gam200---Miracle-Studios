@@ -1,5 +1,5 @@
 #include "PrecompiledHeaders.h"
-
+#include "Tools/EventHandler/EventHandler.h"
 
 
 
@@ -61,7 +61,7 @@ void Engine::Update()
 #endif
 
 		_inputSystem->Update(_windowSystem->getWindow());
-
+		EventHandler::GetInstance().BroadcastInputEvents();
 #ifdef LEVELEDITOR
 		_performanceUsage->InputFrameTime = _frameRateControl->EndTimeCounter();
 
@@ -104,10 +104,10 @@ void Engine::Update()
 				{
 
 					_physicsSystem->Update(fixedDt);
+					EventHandler::GetInstance().BroadcastCollisionEvents();
 					--accumlatedframes;
 				}
 			}
-			_gameObjectFactory->UpdateDestoryObjects();
 		}
 
 #ifdef LEVELEDITOR
@@ -147,6 +147,7 @@ void Engine::Update()
 		_performanceUsage->IMGUIFrameTime += _frameRateControl->EndTimeCounter();
 #endif
 
+		EventHandler::GetInstance().BroadcastObjectEvents();
 		::SwapBuffers(_windowSystem->getWindow().get_m_windowDC()); 		// swap double buffer at the end
 //-------------------------------------------------------------------------------------------------------------
 	}

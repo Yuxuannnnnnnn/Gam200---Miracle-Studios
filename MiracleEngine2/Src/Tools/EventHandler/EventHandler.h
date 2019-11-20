@@ -11,9 +11,9 @@
 
 #include "../../ISingleton.h"
 
+#include "GameObjectComponents/IComponentSystem.h"
 #include "GameObjectComponents/PhysicsComponents/Collider2D.h"
 #include "GameObjectComponents/LogicComponents/IScript.h"
-#include "Engine/EngineSystems.h"
 
 #include <unordered_set>
 #include <unordered_map>
@@ -33,110 +33,80 @@ enum class EventMessageType {
 
 	ON_MOUSE_HOVER_ENTER,
 	ON_MOUSE_HOVER_OVER,
-	ON_MOUSE_HOVER_EXIT
+	ON_MOUSE_HOVER_EXIT,
+
+	COMPONENT_CREATION,
+	COMPONENT_DELETION,
+
+	OBJECT_DELETION
 };
 
-class EventHandler : public ISingleton<EventHandler> {
+class EventHandler : public ISingleton<EventHandler> 
+{
+	typedef std::pair<Collider2D*, Collider2D*> ColliderPair;
+	typedef std::unordered_map<size_t, ColliderPair> Collider2DList;
+	typedef std::unordered_map<size_t, Collider2DList> Collider2DQueue;
+
+	typedef std::pair<ComponentId, IComponentSystem*> ComponentPair;
+	typedef std::unordered_multimap<size_t, ComponentPair> NewComponentQueue;
+	typedef std::unordered_multimap<size_t, ComponentId> DeleteComponentQueue;
+
+	typedef std::unordered_set<size_t> IdQueue;
 
 private:
-	typedef std::unordered_multimap<Collider2D*, Collider2D*> Collide2DQueue;
-	typedef std::unordered_set<size_t> MouseQueue;
+	Collider2DQueue _Collide2DQuePre;
+	Collider2DQueue _Collide2DQueCurr;
 
-	Collide2DQueue _Collide2DQuePre;
-	Collide2DQueue _Collide2DQueCurr;
+	Collider2DQueue _Trigger2DQuePre;
+	Collider2DQueue _Trigger2DQueCurr;
 
-	Collide2DQueue _Trigger2DQuePre;
-	Collide2DQueue _Trigger2DQueCurr;
+	IdQueue _MouseClickQuePre;
+	IdQueue _MouseClickQueCurr;
 
-	MouseQueue _MouseClickQuePre;
-	MouseQueue _MouseClickQueCurr;
+	IdQueue _MouseHoverQuePre;
+	IdQueue _MouseHoverQueCurr;
 
-	MouseQueue _MouseHoverQuePre;
-	MouseQueue _MouseHoverQueCurr;
+	NewComponentQueue _NewComponentQueue;
+	DeleteComponentQueue _DeleteComponentQueue;
+
+	IdQueue _DeleteObjectQueue;
 
 public:
 	EventHandler() {}
 	virtual ~EventHandler();
 
-	void UpdateEvent();
+	void BroadcastCollisionEvents();
+	void BroadcastInputEvents();
+	void BroadcastObjectEvents();
 
-	void UpdateCollided2DEvent();
-	void AddCollided2DEvent(Collider2D& first, Collider2D& second);
-
-	void UpdateTriggered2DEvent();
-	void AddTriggered2DEvent(Collider2D& first, Collider2D& second);
-
-	void UpdateMouseClickEvent();
+	void AddCollided2DEvent(Collider2D* first, Collider2D* second);
+	void AddTriggered2DEvent(Collider2D* first, Collider2D* second);
 	void AddMouseClickEvent(size_t id);
-
-	void UpdateMouseHoverEvent();
 	void AddMouseHoverEvent(size_t id);
+	void AddDeletionEvent(size_t id, ComponentId cId = ComponentId::COUNTCOMPONENT);
+	void AddCreationEvent(size_t id, ComponentId cId, IComponentSystem* ptr);
+
+	void ClearAllEvents();
 
 private:
-	
+	void BroadcastCollided2DEvents();
+	void BroadcastTriggered2DEvents();
+	void BroadcastMouseClickEvents();
+	void BroadcastMouseHoverEvents();
+	void BroadcastObjectDeletionEvents();
 
-	void RemoveCollided2DEvent(Collide2DQueue& queue, Collider2D* first, Collider2D* second);
-	void RemoveTriggered2DEvent(Collide2DQueue& queue, Collider2D* first, Collider2D* second);
+	void BroadcastComponentDeletionEvents();
+	void BroadcastComponentCreationEvents();
 
-	void RemoveMouseClickEvent(MouseQueue& queue, size_t id);
-	void RemoveMouseHoverEvent(MouseQueue& queue, size_t id);
+	void RemoveCollider2DEvent(Collider2DQueue& queue, size_t first, size_t second = 0);
 
 	template<typename T>
-	void SendEventMessage(GameObject* object, EventMessageType type, T message = 0)
-	{
-		Map_ScriptList list = EngineSystems::GetInstance()._gameObjectFactory->getObjectScript(object);
+	void SendLogicEventMessage(size_t uId, EventMessageType type, T message = 0);
 
-		for (auto it : list)
-		{
-			switch (type)
-			{
-			case EventMessageType::ON_COLLISION_TRIGGER:
-				it.second->OnCollision2DTrigger(message);
-				break;
-			case EventMessageType::ON_COLLISION_STAY:
-				it.second->OnCollision2DStay(message);
-				break;
-			case EventMessageType::ON_COLLISION_EXIT:
-				it.second->OnCollision2DExit(message);
-				break;
-			case EventMessageType::ON_TRIGGER_ENTER:
-				it.second->OnTrigger2DEnter(message);
-				break;
-			case EventMessageType::ON_TRIGGER_STAY:
-				it.second->OnTrigger2DStay(message);
-				break;
-			case EventMessageType::ON_TRIGGER_EXIT:
-				it.second->OnTrigger2DExit(message);
-				break;
-			case EventMessageType::ON_MOUSE_CLICK_DOWN:
-				it.second->OnMouseDown();
-				break;
-			case EventMessageType::ON_MOUSE_CLICK_DRAG:
-				it.second->OnMouseDrag();
-				break;
-			case EventMessageType::ON_MOUSE_CLICK_UP:
-				it.second->OnMouseUp();
-				break;
-			case EventMessageType::ON_MOUSE_HOVER_ENTER:
-				it.second->OnMouseEnter();
-				break;
-			case EventMessageType::ON_MOUSE_HOVER_OVER:
-				it.second->OnMouseOver();
-				break;
-			case EventMessageType::ON_MOUSE_HOVER_EXIT:
-				it.second->OnMouseExit();
-				break;
-			default:
-				break;
-			}
-
-		}
-
-		(void)message;
-	}
-
-	void ClearAllQueue();
+	template<typename T, typename T2>
+	void SendSystemEventMessage(size_t uId, EventMessageType type, T message = 0, T2 message2 = 0);
 };
 
+#include "EventHandler.hpp"
 
 #endif

@@ -172,6 +172,7 @@
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
     <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
+    <ClInclude Include="Src\Tools\EventHandler\EventHandler.hpp" />
     <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
     <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />

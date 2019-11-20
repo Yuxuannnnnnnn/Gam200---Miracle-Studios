@@ -32,7 +32,6 @@ void PhysicsSystem::Update(double dt)
 	UpdateCollision(dt);
 	UpdateStaticCollision(dt);
 	UpdateTransform(dt);
-	UpdateEvents();
 }
 
 void PhysicsSystem::UpdatePhyiscs(double dt)
@@ -377,8 +376,6 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	}
 }
 
-
-
 void PhysicsSystem::UpdateButtons()
 {
 	Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
@@ -401,11 +398,6 @@ void PhysicsSystem::UpdateButtons()
 			EventHandler::GetInstance().AddMouseHoverEvent(it.first);
 		}
 	}
-}
-
-void PhysicsSystem::UpdateEvents()
-{
-	EventHandler::GetInstance().UpdateEvent();
 }
 
 void PhysicsSystem::DrawRigidbody2D()
@@ -519,11 +511,44 @@ void PhysicsSystem::UpdateDraw()
 
 void PhysicsSystem::UpdatePicking()
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KEYB_S) && EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
+	
+	if (_pickUId != 0 && 
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_Q) && 
+		EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
+	{
+		if (_pickList.find(_pickUId) == _pickList.end())
+			return;
+
+		TransformComponent* transform = _transformList[_pickUId];
+		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
+		transform->SetPos(pos);
+
+	}
+	else if (_pickUId != 0 && 
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_W) && 
+		EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
+	{
+		if (_pickList.find(_pickUId) == _pickList.end())
+			return;
+
+		TransformComponent* transform = _transformList[_pickUId];
+
+		if (EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_A))
+		{
+			transform->GetRotate() += 0.3f;
+		}
+		else if (EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_D))
+		{
+			transform->GetRotate() -= 0.3f;
+		}
+	}
+	else if (EngineSystems::GetInstance()._inputSystem->KeyDown(KEYB_S) &&
+		EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
 	{
 		InspectionImguiWindow::InspectGameObject(nullptr);
 	}
-	else if (EngineSystems::GetInstance()._inputSystem->KeyDown(KEYB_A) && EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
+	else if (EngineSystems::GetInstance()._inputSystem->KeyDown(KEYB_A) &&
+		EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
 	{
 		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 
@@ -541,17 +566,6 @@ void PhysicsSystem::UpdatePicking()
 				return;
 			}
 		}
-	}
-	else if (_pickUId != 0 && EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_W) && EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
-	{
-		if (_pickList.find(_pickUId) == _pickList.end())
-			return;
-
-		TransformComponent* transform = _transformList[_pickUId];
-		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
-		transform->SetPos(pos);
-
-		std::cout << "Picking  Pos :" << pos << std::endl;
 	}
 }
 
@@ -582,4 +596,31 @@ void PhysicsSystem::AddForwardForce(size_t uId, float force)
 	object->_direction.Normalize();
 
 	object->_appliedForce += object->_direction * force;
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
+void PhysicsSystem::RemoveRigidBody2d(size_t uid)
+{
+	_rigidBody2dList.erase(uid);
+}
+
+void PhysicsSystem::RemoveCollider2d(size_t uid)
+{
+	_collider2dList.erase(uid);
+}
+
+void PhysicsSystem::RemoveButton(size_t uid)
+{
+	_buttonList.erase(uid);
+}
+
+void PhysicsSystem::RemovePick(size_t uid)
+{
+	_pickList.erase(uid);
+}
+
+void PhysicsSystem::RemoveTransform(size_t uid)
+{
+	_transformList.erase(uid);
 }
