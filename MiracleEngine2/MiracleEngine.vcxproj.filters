@@ -97,6 +97,9 @@
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -505,6 +508,8 @@
     <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
     <ClInclude Include="Src\Tools\EventHandler\EventHandler.hpp" />
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
+    <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
+    <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

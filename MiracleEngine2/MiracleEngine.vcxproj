@@ -168,7 +168,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
+    <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
     <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Tools\EventHandler\EventHandler.hpp" />
@@ -581,6 +583,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
