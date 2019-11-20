@@ -6,6 +6,11 @@
 
 
 /* ------------------------------------------------------
+	frame constructor take in uv offset of bottom left 
+	and top right vertices
+
+	_u0, _v0 - bottom left
+	_u1, _v1 - top right
 
  --------------------------------------------------------*/
 
