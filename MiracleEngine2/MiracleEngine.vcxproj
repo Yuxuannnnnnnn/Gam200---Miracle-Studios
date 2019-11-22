@@ -178,8 +178,6 @@
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
     <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />
     <ClInclude Include="Src\Gameplay\Boss.h" />
-    <ClInclude Include="Src\Gameplay\Bullet_E.h" />
-    <ClInclude Include="Src\Gameplay\Bullet_T.h" />
     <ClInclude Include="Src\Gameplay\ButtonUI.h" />
     <ClInclude Include="Src\Gameplay\Explosion.h" />
     <ClInclude Include="Src\Gameplay\PickUps.h" />
@@ -583,6 +581,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
@@ -592,8 +591,6 @@
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
     <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
     <ClCompile Include="Src\Gameplay\Boss.cpp" />
-    <ClCompile Include="Src\Gameplay\Bullet_E.cpp" />
-    <ClCompile Include="Src\Gameplay\Bullet_T.cpp" />
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
     <ClCompile Include="Src\Gameplay\PickUps.cpp" />

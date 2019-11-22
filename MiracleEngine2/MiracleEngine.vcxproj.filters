@@ -78,9 +78,7 @@
     <ClCompile Include="Src\Gameplay\Spawner.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
     <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
-    <ClCompile Include="Src\Gameplay\Bullet_E.cpp" />
     <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
-    <ClCompile Include="Src\Gameplay\Bullet_T.cpp" />
     <ClCompile Include="Src\Gameplay\Explosion.cpp" />
     <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
@@ -100,6 +98,7 @@
     <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -487,9 +486,7 @@
     <ClInclude Include="Src\Audio\SoundEnum.h" />
     <ClInclude Include="Src\PhysicSystem\CollisionTable.h" />
     <ClInclude Include="Src\GraphicsSystem\Camera.h" />
-    <ClInclude Include="Src\Gameplay\Bullet_E.h" />
     <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
-    <ClInclude Include="Src\Gameplay\Bullet_T.h" />
     <ClInclude Include="Src\Gameplay\Explosion.h" />
     <ClInclude Include="Src\Gameplay\ButtonUI.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
