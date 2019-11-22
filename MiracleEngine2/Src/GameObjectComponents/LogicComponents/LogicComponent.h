@@ -6,6 +6,8 @@
 #ifndef LOGICCOMPONENT_H
 #define LOGICCOMPONENT_H
 
+//class IScript; //forward declare, for the ScriptStringToInt()
+
 typedef std::unordered_map <unsigned, IScript*> Map_ScriptList;
 
 class LogicComponent : public IComponentSystem

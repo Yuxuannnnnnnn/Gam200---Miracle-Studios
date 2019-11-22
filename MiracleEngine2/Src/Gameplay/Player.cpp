@@ -28,9 +28,37 @@ void Player::SerialiseComponent(Serialiser& document)
 void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
-
+// Logic Data - General
 	value.SetInt(_health);
 	prototypeDoc.AddMember("Health", value);
+	value.Clear();
+	value.SetInt(_weaponActive);
+	prototypeDoc.AddMember("WeaponActive", value);
+	value.Clear();
+// Logic Data - Weapons
+	value.SetInt(_ammoRpg);
+	prototypeDoc.AddMember("AmmoRpg", value);
+	value.Clear();
+	value.SetInt(_ammoTurret);
+	prototypeDoc.AddMember("AmmoTurret", value);
+	value.Clear();
+	value.SetInt(_ammoWall);
+	prototypeDoc.AddMember("AmmoWall", value);
+	value.Clear();
+	value.SetDouble(_fireratePistol);
+	prototypeDoc.AddMember("FireratePistol", value);
+	value.Clear();
+	value.SetDouble(_firerateShotgun);
+	prototypeDoc.AddMember("FirerateShotgun", value);
+	value.Clear();
+	value.SetDouble(_firerateRPG);
+	prototypeDoc.AddMember("FirerateRpg", value);
+	value.Clear();
+	value.SetDouble(_firerateTurret);
+	prototypeDoc.AddMember("FirerateTurret", value);
+	value.Clear();
+	value.SetDouble(_firerateWall);
+	prototypeDoc.AddMember("FirerateWall", value);
 	value.Clear();
 }
 
@@ -40,7 +68,7 @@ void Player::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("Health ", &_health);
 	ImGui::Spacing();
-	ImGui::InputInt("Weapon ", &_weaponActive);
+	ImGui::InputInt("WeaponActive ", &_weaponActive);
 	ImGui::Spacing();
 // Logic Data - Weapons
 	ImGui::Spacing();

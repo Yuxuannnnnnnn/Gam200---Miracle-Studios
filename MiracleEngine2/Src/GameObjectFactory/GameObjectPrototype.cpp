@@ -27,6 +27,7 @@ GameObjectPrototype::GameObjectPrototype()
 	SerialPrefabObjects(TypeIdGO::PICK_UPS_HEALTH);
 	SerialPrefabObjects(TypeIdGO::PICK_UPS_AMMO);
 	SerialPrefabObjects(TypeIdGO::BOSS);
+	SerialPrefabObjects(TypeIdGO::ENEMYTHREE);
 
 
 	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
@@ -127,6 +128,9 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 		break;
 	case TypeIdGO::BOSS:
 		temp->Serialise("./Resources/TextFiles/GameObjects/Boss.json");
+		break;
+	case TypeIdGO::ENEMYTHREE:
+		temp->Serialise("./Resources/TextFiles/GameObjects/EnemyThree.json");
 		break;
 	default:
 		delete temp;

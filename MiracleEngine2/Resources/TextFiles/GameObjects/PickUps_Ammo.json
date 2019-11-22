@@ -1,25 +1,25 @@
 {
-	"IdentityComponent": true,
-	"Name": "none",
-	"GameObjectType": 24,
-	"ObjectType": "PickUps_Ammo",
+  "IdentityComponent": true,
+  "Name": "none",
+  "GameObjectType": 24,
+  "ObjectType": "PickUps_Ammo",
 
-	"TransformComponent": true,
-	"Position": [ 0.0, 0.0 ],
-	"Scale": [ 50.0, 50.0 ],
-	"Rotate": 0.0,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 50.0, 50.0 ],
+  "Rotate": 0.0,
 
-	"GraphicsComponent": true,
-	"G.TypeId": 0,
-	"G.FileName": "rocket",
+  "GraphicsComponent": true,
+  "G.TypeId": 0,
+  "G.FileName": "rocket",
 
-	"CircleColliderComponent": true,
-	"ColliderTypeId": 2,
-	"ColliderTag": 9,
-	"ColliderTrigger": true,
+  "CircleColliderComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 9,
+  "ColliderTrigger": true,
 
-	"LogicComponent": true,
-	"ScriptId": [ 12 ],
-	"Lifetime": 3.0,
-	"PickUps_Type": 2
+  "LogicComponent": true,
+  "ScriptId": [ "PICK_UPS" ],
+  "Lifetime": 3.0,
+  "PickUps_Type": 2
 }a

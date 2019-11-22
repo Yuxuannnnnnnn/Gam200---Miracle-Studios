@@ -42,7 +42,6 @@ void Turret::Update(double dt)
 	FSM();
 }
 
-
 Vector3& Turret::GetDestinationPos()
 {
 	if (!_target || _target->GetDestory()) // if not target, find player

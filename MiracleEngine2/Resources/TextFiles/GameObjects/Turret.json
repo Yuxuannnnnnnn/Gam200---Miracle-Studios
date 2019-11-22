@@ -19,6 +19,6 @@
 	"ColliderTrigger": true,
 
 	"LogicComponent": true,
-	"ScriptId": [ 4 ],
+	"ScriptId": [ "TURRET" ],
 	"Health": 5
 }

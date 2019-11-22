@@ -24,7 +24,7 @@
   "ColliderTrigger": false,
 
   "LogicComponent": true,
-  "ScriptId": [ 2 ],
+  "ScriptId": [ "BULLET" ],
   "Lifetime": 3.0,
   "BulletType": "BulletEnemy",
   "BulletSpeed": 5.0
