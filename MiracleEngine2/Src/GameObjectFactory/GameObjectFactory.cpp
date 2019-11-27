@@ -105,10 +105,10 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 		EngineSystems::GetInstance()._physicsSystem->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 	}
 		
-	//By Default should add a Identity component when new ProtoType is created
-	IComponentSystem* component = newObject->AddComponent(ComponentId::IDENTITY_COMPONENT);
-	component->SetParentId(newObject->Get_uID());
-	component->SetParentPtr(newObject);
+	////By Default should add a Identity component when new ProtoType is created
+	//IComponentSystem* component = newObject->AddComponent(ComponentId::IDENTITY_COMPONENT);
+	//component->SetParentId(newObject->Get_uID());
+	//component->SetParentPtr(newObject);
 
 	_listObject.insert(std::pair< size_t, GameObject* >(newObject->Get_uID(), newObject));
 
@@ -370,7 +370,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 	{
 	case ComponentId::IDENTITY_COMPONENT:
 	{
-		IdentityComponent* newComponent = new IdentityComponent(*dynamic_cast<IdentityComponent*>(component));
+		IdentityComponent* newComponent = new IdentityComponent(*reinterpret_cast<IdentityComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_IdentityComponents.insert(std::pair< size_t, IdentityComponent* >(object->Get_uID(), newComponent));

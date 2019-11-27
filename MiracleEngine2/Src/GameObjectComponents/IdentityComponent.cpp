@@ -7,21 +7,12 @@
 
 
 
-IdentityComponent::IdentityComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId), _typeId{ (unsigned)TypeIdGO::NONE }, _ObjectType{""}
-{
-	if (component)
-	{
-		IdentityComponent* Icom = dynamic_cast<IdentityComponent*>(component);
-		_typeId = Icom->_typeId;
-		_name = Icom->_name;
-	}
-}
 
-IdentityComponent::IdentityComponent(IdentityComponent* component)
+IdentityComponent::IdentityComponent(IdentityComponent& component)
 {
-	_typeId = component->_typeId;
-	_name = component->_name;
+	_typeId = component._typeId;
+	_name = component._name;
+	_ObjectType = component._ObjectType;
 }
 
 

@@ -94,7 +94,6 @@
     <ClCompile Include="Src\Gameplay\PickUps.cpp" />
     <ClCompile Include="Src\ImguiSystem\AssetsImguiWindow.cpp" />
     <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
-    <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -498,7 +497,6 @@
     <ClInclude Include="Src\ImguiSystem\AssetsImguiWindow.h" />
     <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
     <ClInclude Include="Src\Tools\FileIO\JsonHeader.h" />
-    <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

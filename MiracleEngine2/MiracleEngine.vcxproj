@@ -167,7 +167,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
     <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />
@@ -571,7 +570,6 @@
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
     <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
