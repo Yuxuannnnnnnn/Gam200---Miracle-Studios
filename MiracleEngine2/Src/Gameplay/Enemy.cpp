@@ -10,10 +10,17 @@ void Enemy::SerialiseComponent(Serialiser& document)
 	{
 		_health = (document["Health"].GetInt());
 	}
-
 	if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())	//Checks if the variable exists in .Json file
 	{
 		_enemyType = (document["EnemyType"].GetInt());
+	}
+	if (document.HasMember("StunDuration") && document["StunDuration"].IsDouble())	//Checks if the variable exists in .Json file
+	{
+		_timerStunCooldown = (document["StunDuration"].GetDouble());
+	}
+	if (document.HasMember("AttackRange") && document["AttackRange"].IsDouble())	//Checks if the variable exists in .Json file
+	{
+		_attackRange = (document["AttackRange"].IsDouble());
 	}
 }
 
@@ -32,6 +39,9 @@ Enemy::Enemy() :
 	_health{ 5 },
 	_enemyType{ (int)Enemy_Type::BASIC },
 
+	_stunned{ false },
+	_timerStun{ 0.0 },
+	_timerStunCooldown{ 2.0 },
 	_timerAttack{ 0.0 },
 	_timerAttackCooldown{ 1.0 },
 	_attackRange{ 0 },
@@ -78,6 +88,17 @@ void Enemy::Update(double dt)
 	{
 		ChancePickUps();
 		DestoryThis();
+	}
+
+	if (_stunned)
+	{
+		_timerStun -= dt;
+		if (_timerStun <= 0)
+		{
+			_timerStun = _timerStunCooldown;
+			_stunned = false;
+		}
+		return;
 	}
 
 	_timerAttack -= dt;
@@ -319,6 +340,10 @@ void Enemy::SetHealth(int val)
 void Enemy::DecrementHealth()
 {
 	--_health;
+}
+void Enemy::SetStunned()
+{
+	_stunned = true;
 }
 
 void Enemy::OnCollision2DTrigger(Collider2D* other)

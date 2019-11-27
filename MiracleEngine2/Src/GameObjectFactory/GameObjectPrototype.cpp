@@ -9,25 +9,32 @@
 GameObjectPrototype::GameObjectPrototype()
 {
 	SerialPrefabObjects(TypeIdGO::PLAYER);
-	SerialPrefabObjects(TypeIdGO::BULLET);
-	SerialPrefabObjects(TypeIdGO::ENEMY);
-	SerialPrefabObjects(TypeIdGO::WALL);
-	SerialPrefabObjects(TypeIdGO::FLOOR);
 	SerialPrefabObjects(TypeIdGO::TURRET);
-	SerialPrefabObjects(TypeIdGO::SPAWNER);
-	SerialPrefabObjects(TypeIdGO::CAMERA);
-	SerialPrefabObjects(TypeIdGO::FONT);
-	SerialPrefabObjects(TypeIdGO::ENEMYTWO);
+
+	SerialPrefabObjects(TypeIdGO::BULLET);
 	SerialPrefabObjects(TypeIdGO::BULLET_T);
 	SerialPrefabObjects(TypeIdGO::BULLET_E);
-	SerialPrefabObjects(TypeIdGO::SPAWNERTWO);
 	SerialPrefabObjects(TypeIdGO::EXPLOSION);
-	SerialPrefabObjects(TypeIdGO::BUTTON_UI);
-	SerialPrefabObjects(TypeIdGO::MAPEDGE);
+
+	SerialPrefabObjects(TypeIdGO::ENEMY);
+	SerialPrefabObjects(TypeIdGO::ENEMYTWO);
+	SerialPrefabObjects(TypeIdGO::ENEMYTHREE);
+	SerialPrefabObjects(TypeIdGO::BOSS);
 	SerialPrefabObjects(TypeIdGO::PICK_UPS_HEALTH);
 	SerialPrefabObjects(TypeIdGO::PICK_UPS_AMMO);
-	SerialPrefabObjects(TypeIdGO::BOSS);
-	SerialPrefabObjects(TypeIdGO::ENEMYTHREE);
+
+	SerialPrefabObjects(TypeIdGO::WALL);
+	SerialPrefabObjects(TypeIdGO::FLOOR);
+
+	SerialPrefabObjects(TypeIdGO::SPAWNER);
+	SerialPrefabObjects(TypeIdGO::SPAWNERTWO);
+	SerialPrefabObjects(TypeIdGO::SPAWNERTHREE);
+
+	SerialPrefabObjects(TypeIdGO::CAMERA);
+	SerialPrefabObjects(TypeIdGO::FONT);
+	SerialPrefabObjects(TypeIdGO::BUTTON_UI);
+	SerialPrefabObjects(TypeIdGO::MAPEDGE);
+
 
 
 	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
@@ -131,6 +138,9 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 		break;
 	case TypeIdGO::ENEMYTHREE:
 		temp->Serialise("./Resources/TextFiles/GameObjects/EnemyThree.json");
+		break;
+	case TypeIdGO::SPAWNERTHREE:
+		temp->Serialise("./Resources/TextFiles/GameObjects/SpawnerThree.json");
 		break;
 	default:
 		delete temp;

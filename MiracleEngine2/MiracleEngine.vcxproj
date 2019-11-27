@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
+    <ClInclude Include="Src\Gameplay\EnemyThree.h" />
     <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
@@ -582,6 +583,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
+    <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
@@ -871,10 +873,14 @@
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
     <None Include="Resources\TextFiles\GameObjects\BGM.json" />
+    <None Include="Resources\TextFiles\GameObjects\Boss.json" />
+    <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
     <None Include="Resources\TextFiles\GameObjects\Buttons.json" />
     <None Include="Resources\TextFiles\GameObjects\Camera.json" />
+    <None Include="Resources\TextFiles\GameObjects\Enemy.json" />
+    <None Include="Resources\TextFiles\GameObjects\EnemyThree.json" />
     <None Include="Resources\TextFiles\GameObjects\EnemyTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
@@ -882,6 +888,7 @@
     <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Ammo.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Health.json" />
+    <None Include="Resources\TextFiles\GameObjects\player.json" />
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />

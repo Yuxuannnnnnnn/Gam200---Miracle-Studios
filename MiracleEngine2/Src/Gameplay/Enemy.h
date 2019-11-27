@@ -19,6 +19,9 @@ private:
 	int _health;
 	int _enemyType;
 // Logic - Behaviour
+	bool _stunned;
+	double _timerStun;
+	double _timerStunCooldown;
 	double _timerAttack;
 	double _timerAttackCooldown;
 	size_t _attackRange; // manually set in ctor
@@ -58,6 +61,7 @@ public:
 	int GetHealth();
 	void SetHealth(int val);
 	void DecrementHealth();
+	void SetStunned();
 
 	void OnCollision2DTrigger(Collider2D* other);
 };

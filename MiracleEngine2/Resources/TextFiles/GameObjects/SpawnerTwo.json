@@ -19,6 +19,8 @@
   "ColliderTrigger": true,
 
   "LogicComponent": true,
-  "ScriptId": [ "SPAWNERTWO" ],
-  "Health": 20
+  "ScriptId": [ "SPAWNER" ],
+  "Health": 20,
+  "SpawnType": 2,
+  "SpawnRate": 10.0
 }

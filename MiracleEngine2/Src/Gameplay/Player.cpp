@@ -218,13 +218,13 @@ void Player::UpdateInput()
 				((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 		}
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
-	{	// spawn ENEMY
-		GameObject* enemy = nullptr;
-		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BOSS]);
-		((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3(0, 0, 0));
-	}
+	//if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
+	//	EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
+	//{	// spawn ENEMY
+	//	GameObject* enemy = nullptr;
+	//	enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BOSS]);
+	//	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3(0, 0, 0));
+	//}
 // KEYS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q))
 	{

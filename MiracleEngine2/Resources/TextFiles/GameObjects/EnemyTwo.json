@@ -27,6 +27,8 @@
   "ScriptId": [ "ENEMY" ],
   "Health": 5,
   "EnemyType": 1,
+  "AttackRange": 5,
+  "StunDuration": 5.0,
 
   "AudioComponent": true,
   "A.TypeId": 0,

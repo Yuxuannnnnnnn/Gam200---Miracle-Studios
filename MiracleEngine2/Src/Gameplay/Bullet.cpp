@@ -87,12 +87,21 @@ void Bullet::Update(double dt)
 
 void Bullet::BulletCollisionPlayer(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY ||
+		other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
 	{
 		DestoryThis();
 		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
 		enemy->DecrementHealth();
+		enemy->SetStunned();
 	}
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTHREE)
+	{
+		DestoryThis();
+		EnemyThree* enemy = reinterpret_cast<EnemyThree*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMYTHREE));
+		enemy->DecrementHealth();
+	}
+
 	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER ||
 		other->_tag == (unsigned)ColliderTag::BUILDING ||
 		other->_tag == (unsigned)ColliderTag::EDGES)

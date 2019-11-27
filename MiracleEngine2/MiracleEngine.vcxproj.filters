@@ -99,6 +99,7 @@
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
+    <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -507,6 +508,7 @@
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
     <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
+    <ClInclude Include="Src\Gameplay\EnemyThree.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -674,6 +676,11 @@
     <None Include="Resources\TextFiles\GameObjects\PickUps_Ammo.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Health.json" />
     <None Include="Resources\TextFiles\GameObjects\BGM.json" />
+    <None Include="Resources\TextFiles\GameObjects\EnemyThree.json" />
+    <None Include="Resources\TextFiles\GameObjects\Enemy.json" />
+    <None Include="Resources\TextFiles\GameObjects\Boss.json" />
+    <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
+    <None Include="Resources\TextFiles\GameObjects\player.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\States\MainMenu.txt" />

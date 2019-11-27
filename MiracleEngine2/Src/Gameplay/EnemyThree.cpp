@@ -10,10 +10,11 @@ void EnemyThree::SerialiseComponent(Serialiser& document)
 	{
 		_health = (document["Health"].GetInt());
 	}
-
-	if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())	//Checks if the variable exists in .Json file
+	if (document.HasMember("AttackRange") && document["AttackRange"].IsInt())	//Checks if the variable exists in .Json file
 	{
-		_enemyType = (document["EnemyType"].GetInt());
+		_attackRange = (document["AttackRange"].GetInt());
+		_attackRange *= _mapTileSize;
+		//_attackRange *= _attackRange; // pow(2) for vector3.length() comparison
 	}
 }
 
@@ -30,12 +31,14 @@ void EnemyThree::Inspect()
 EnemyThree::EnemyThree() :
 	_init{ false },
 	_health{ 5 },
-	_enemyType{ (int)Enemy_Type::BASIC },
+	_stunned{ false },
+	_charging{ false },
 
 	_timerAttack{ 0.0 },
+	_timerStun{ 0.0 },
 	_timerAttackCooldown{ 1.0 },
+	_timerStunCooldown{ 1.0 },
 	_attackRange{ 0 },
-	_attackMelee{ 0 },
 
 	_target{ nullptr },
 	_state{ 0 },
@@ -46,12 +49,8 @@ EnemyThree::EnemyThree() :
 	_destNode{ nullptr },
 	_mapTileSize{ 0 }
 {
-	_attackMelee = _attackRange = _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackRange = _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_mapTileSize *= _mapTileSize;
-	_attackRange *= 5; // XxX tileSize
-	_attackMelee *= 2;
-	_attackRange *= _attackRange; // pow(2) for vector3.length() comparison
-	_attackMelee *= _attackMelee;
 }
 
 void EnemyThree::Init()
@@ -80,7 +79,30 @@ void EnemyThree::Update(double dt)
 		DestoryThis();
 	}
 
-	_timerAttack -= dt;
+	if (_stunned)
+	{
+		_timerStun -= dt;
+		if (_timerStun <= 0)
+		{
+			_timerStun = _timerStunCooldown;
+			_stunned = false;
+		}
+		return;
+	}
+
+	if (_charging)
+	{
+		_timerAttack -= dt;
+		if (_timerAttack <= 0)
+		{
+			_stunned = true;
+			_charging = false;
+			_timerAttack = _timerAttackCooldown;
+		}
+		AttackMelee();
+		return;
+	}
+
 	_timerPathing -= dt;
 
 	CheckState();
@@ -102,40 +124,13 @@ void EnemyThree::AttackMelee()
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
-	AddForwardForce(GetParentId(), 6000);
+	AddForwardForce(GetParentId(), 13000);
 
 	// bump into player
 	if (_timerAttack <= 0)
 		_timerAttack = _timerAttackCooldown;
 }
-void EnemyThree::AttackRange()
-{
-	Vector3 moveVec(
-		(GetDestinationPos()._x - GetPosition()._x),
-		(GetDestinationPos()._y - GetPosition()._y),
-		0
-	);
 
-	// rotate to face player
-	Vector3 compareVec = { 0, 1, 0 };
-	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
-	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
-
-	// shoot player
-	if (_timerAttack <= 0)
-	{
-		_timerAttack = _timerAttackCooldown;
-		// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_E]);
-		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
-		AddForwardForce(bullet->Get_uID(), 70000);
-	}
-}
 void EnemyThree::CheckState()
 {
 	// _destinationPos - currPos
@@ -144,6 +139,7 @@ void EnemyThree::CheckState()
 	if (tempVec3.SquaredLength() < _attackRange)
 	{
 		_state = (unsigned)AiState::ATTACKING;
+		_charging = true;
 		// set Anim state to EyeRed
 		((GraphicComponent*)this->GetSibilingComponent((unsigned)ComponentId::GRAPHICS_COMPONENT))->SetTextureState(0);
 	}
@@ -191,10 +187,7 @@ void EnemyThree::FSM()
 	case (unsigned)AiState::ATTACKING:
 	{
 		//std::cout << "/t AI ATK!!\n";
-		if (_enemyType == (int)Enemy_Type::BASIC)
-			AttackMelee();
-		else
-			AttackRange();
+		AttackMelee();
 		break;
 	}
 	default:
@@ -323,8 +316,9 @@ void EnemyThree::DecrementHealth()
 
 void EnemyThree::OnCollision2DTrigger(Collider2D* other)
 {
-	//if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
-	//{
-	//	DestoryThis();
-	//}
+	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
+	{
+		_stunned = true;
+		_charging = false;
+	}
 }

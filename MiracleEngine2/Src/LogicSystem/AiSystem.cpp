@@ -171,6 +171,7 @@ void AISystem::CreateNodeMap()
 			solid = _tilemapInput[y][x] == 1 ? true : false;
 			bool spawner = _tilemapInput[y][x] == 2 ? true : false;
 			bool spawner2 = _tilemapInput[y][x] == 3 ? true : false;
+			bool spawner3 = _tilemapInput[y][x] == 4 ? true : false;
 			tempNode = new Node(solid, id, tempVec);
 			//_tilemap[id] = tempNode;
 			_tilemap.insert(std::pair<size_t, Node*>(id, tempNode));
@@ -195,11 +196,19 @@ void AISystem::CreateNodeMap()
 				//std::cout << "*";
 			}
 			else if (spawner2)
-			{	// create spawner if tileMapInput[][] == 2
+			{	// create spawner if tileMapInput[][] == 3
 				GameObject* spawner = nullptr;
 				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::SPAWNERTWO]);
 				((TransformComponent*)spawner->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
 				
+				//std::cout << "*";
+			}
+			else if (spawner3)
+			{	// create spawner if tileMapInput[][] == 4
+				GameObject* spawner = nullptr;
+				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::SPAWNERTHREE]);
+				((TransformComponent*)spawner->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+
 				//std::cout << "*";
 			}
 			else
