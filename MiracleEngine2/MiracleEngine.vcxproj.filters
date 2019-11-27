@@ -681,6 +681,7 @@
     <None Include="Resources\TextFiles\GameObjects\Boss.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
     <None Include="Resources\TextFiles\GameObjects\player.json" />
+    <None Include="Resources\TextFiles\AnimationData\Data_file_Explosion_Blue_Plasma_24FPS_Sprite.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\States\MainMenu.txt" />

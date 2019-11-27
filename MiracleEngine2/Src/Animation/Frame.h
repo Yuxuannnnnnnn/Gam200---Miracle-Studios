@@ -3,6 +3,8 @@
 #ifndef FRAME_H
 #define FRAME_H
 #include "../GraphicsSystem/QuadMesh.h"
+#include "Tools/FileIO/DeSerialiser.h"
+
 
 
 /* ------------------------------------------------------
@@ -17,6 +19,7 @@
 class Frame
 {
 public:
+	Frame() = default;
 	Frame(float u0, float v0, float u1, float v1);
 	void Select();
 
@@ -30,6 +33,8 @@ public:
 	//float w;
 	//float h;
 	QuadMesh _quadMesh;
+
+
 };
 
 #endif
