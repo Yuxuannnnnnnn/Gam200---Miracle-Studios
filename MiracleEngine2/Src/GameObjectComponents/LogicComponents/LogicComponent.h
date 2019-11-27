@@ -6,6 +6,8 @@
 #ifndef LOGICCOMPONENT_H
 #define LOGICCOMPONENT_H
 
+//class IScript; //forward declare, for the ScriptStringToInt()
+
 typedef std::unordered_map <unsigned, IScript*> Map_ScriptList;
 
 class LogicComponent : public IComponentSystem
@@ -14,13 +16,12 @@ class LogicComponent : public IComponentSystem
 public:
 	Map_ScriptList _scriptList;
 	bool _componentEnable;
-	// CompName
+
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser & document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void Inspect() override;
 
-	//Constructor
 	LogicComponent();
 	LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 	virtual ~LogicComponent() {};

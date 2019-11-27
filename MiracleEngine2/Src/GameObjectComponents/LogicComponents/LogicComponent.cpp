@@ -31,9 +31,11 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("ScriptId") && document["ScriptId"].IsArray())	//Checks if the variable exists in .Json file
 		for (unsigned i = 0; i < document["ScriptId"].Size(); i++)
 		{
-			if (document["ScriptId"][i].IsInt())
+			if (document["ScriptId"][i].IsString())
 			{
-				IScript* newScript = AddScript((ScriptId)document["ScriptId"][i].GetInt());
+				std::string str = document["ScriptId"][i].GetString();
+				ScriptId temp = IScript::ScriptStringToInt(str);
+				IScript* newScript = AddScript((ScriptId)temp);
 				newScript->SerialiseComponent(document);
 			}
 		}

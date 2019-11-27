@@ -28,9 +28,37 @@ void Player::SerialiseComponent(Serialiser& document)
 void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
-
+// Logic Data - General
 	value.SetInt(_health);
 	prototypeDoc.AddMember("Health", value);
+	value.Clear();
+	value.SetInt(_weaponActive);
+	prototypeDoc.AddMember("WeaponActive", value);
+	value.Clear();
+// Logic Data - Weapons
+	value.SetInt(_ammoRpg);
+	prototypeDoc.AddMember("AmmoRpg", value);
+	value.Clear();
+	value.SetInt(_ammoTurret);
+	prototypeDoc.AddMember("AmmoTurret", value);
+	value.Clear();
+	value.SetInt(_ammoWall);
+	prototypeDoc.AddMember("AmmoWall", value);
+	value.Clear();
+	value.SetDouble(_fireratePistol);
+	prototypeDoc.AddMember("FireratePistol", value);
+	value.Clear();
+	value.SetDouble(_firerateShotgun);
+	prototypeDoc.AddMember("FirerateShotgun", value);
+	value.Clear();
+	value.SetDouble(_firerateRPG);
+	prototypeDoc.AddMember("FirerateRpg", value);
+	value.Clear();
+	value.SetDouble(_firerateTurret);
+	prototypeDoc.AddMember("FirerateTurret", value);
+	value.Clear();
+	value.SetDouble(_firerateWall);
+	prototypeDoc.AddMember("FirerateWall", value);
 	value.Clear();
 }
 
@@ -40,37 +68,27 @@ void Player::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("Health ", &_health);
 	ImGui::Spacing();
-	ImGui::Spacing();
-	ImGui::InputInt("Weapon ", &_weaponActive);
+	ImGui::InputInt("WeaponActive ", &_weaponActive);
 	ImGui::Spacing();
 // Logic Data - Weapons
 	ImGui::Spacing();
 	ImGui::InputInt("Ammo RPG ", &_ammoRpg);
 	ImGui::Spacing();
-	ImGui::Spacing();
 	ImGui::InputInt("Ammo Turret ", &_ammoTurret);
-	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::InputInt("Ammo Wall ", &_ammoWall);
 	ImGui::Spacing();
-	ImGui::Spacing();
 	ImGui::InputDouble("Timer Shoot ", &_timerShoot);
-	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::InputDouble("Timer Deploy ", &_timerDeploy);
 	ImGui::Spacing();
-	ImGui::Spacing();
 	ImGui::InputDouble("Firerate Pistol ", &_fireratePistol);
-	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::InputDouble("Firerate Shotgun ", &_firerateShotgun);
 	ImGui::Spacing();
-	ImGui::Spacing();
 	ImGui::InputDouble("Firerate RPG ", &_firerateRPG);
 	ImGui::Spacing();
-	ImGui::Spacing();
 	ImGui::InputDouble("Firerate Turret ", &_firerateTurret);
-	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::InputDouble("Firerate Wall ", &_firerateWall);
 	ImGui::Spacing();
@@ -200,13 +218,13 @@ void Player::UpdateInput()
 				((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 		}
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
-	{	// spawn ENEMY
-		GameObject* enemy = nullptr;
-		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BOSS]);
-		((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3(0, 0, 0));
-	}
+	//if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
+	//	EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
+	//{	// spawn ENEMY
+	//	GameObject* enemy = nullptr;
+	//	enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BOSS]);
+	//	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3(0, 0, 0));
+	//}
 // KEYS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q))
 	{

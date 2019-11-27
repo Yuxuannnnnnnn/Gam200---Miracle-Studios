@@ -23,6 +23,7 @@ enum class TypeIdGO {
 	SPAWNER, CAMERA, FONT, ENEMYTWO, BULLET_T, BULLET_E, SPAWNERTWO,
 	EXPLOSION, BUTTON_UI,
 	MAPEDGE, PICK_UPS_HEALTH, PICK_UPS_AMMO, BOSS,
+	BGM, ENEMYTHREE, SPAWNERTHREE,
 
 	COUNT
 };
@@ -56,6 +57,8 @@ inline const char* ToString(TypeIdGO type)	//Convert TypeIdGO Enum type to const
 	case TypeIdGO::PICK_UPS_HEALTH:	return "Health_PickUps";
 	case TypeIdGO::PICK_UPS_AMMO:	return "Ammo_PickUps";
 	case TypeIdGO::BOSS:		return "Boss";
+	case TypeIdGO::ENEMYTHREE:		return "EnemyThree";
+	case TypeIdGO::SPAWNERTHREE:		return "SpawnerThree";
 	default:      return "[Unknown TypeIdGO]";
 	}
 }

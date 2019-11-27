@@ -77,15 +77,15 @@ void BOX_BOX_CollisionCR(Collider2D* colliderA,
 			if (rigidbodyB)
 				rigidbodyB->_velocity = reflectedVecB * rigidbodyB->_velocity.Length();
 
-			EventHandler::GetInstance().AddCollided2DEvent(*boxA, *boxB);
-			EventHandler::GetInstance().AddCollided2DEvent(*boxB, *boxA);
+			EventHandler::GetInstance().AddCollided2DEvent(boxA, boxB);
+			EventHandler::GetInstance().AddCollided2DEvent(boxB, boxA);
 		}
 		else
 		{
 			if (boxA->_trigger || boxB->_trigger)
 			{
-				EventHandler::GetInstance().AddTriggered2DEvent(*boxA, *boxB);
-				EventHandler::GetInstance().AddTriggered2DEvent(*boxB, *boxA);
+				EventHandler::GetInstance().AddTriggered2DEvent(boxA, boxB);
+				EventHandler::GetInstance().AddTriggered2DEvent(boxB, boxA);
 			}
 		}
 	}
@@ -172,18 +172,18 @@ void CIRCLE_CIRCLE_CollisionCR(Collider2D* colliderA,
 
 
 			//std::cout << "circleA collided circleB" << std::endl;
-			EventHandler::GetInstance().AddCollided2DEvent(*circleA, *circleB);
+			EventHandler::GetInstance().AddCollided2DEvent(circleA, circleB);
 			//std::cout << "circleB collided circleA" << std::endl;
-			EventHandler::GetInstance().AddCollided2DEvent(*circleB, *circleA);
+			EventHandler::GetInstance().AddCollided2DEvent(circleB, circleA);
 		}
 		else
 		{
 			if (circleA->_trigger || circleB->_trigger)
 			{
 				//std::cout << "circleB trigger circleA" << std::endl;
-				EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *circleB);
+				EventHandler::GetInstance().AddTriggered2DEvent(circleA, circleB);
 				//std::cout << "circleA trigger circleB" << std::endl;
-				EventHandler::GetInstance().AddTriggered2DEvent(*circleB, *circleA);
+				EventHandler::GetInstance().AddTriggered2DEvent(circleB, circleA);
 			}
 		}
 
@@ -214,18 +214,18 @@ void CIRCLE_CIRCLE_CollisionCR(Collider2D* colliderA,
 				}
 
 				//std::cout << "circleA collided circleB" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*circleA, *circleB);
+				EventHandler::GetInstance().AddCollided2DEvent(circleA, circleB);
 				//std::cout << "circleB collided circleA" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*circleB, *circleA);
+				EventHandler::GetInstance().AddCollided2DEvent(circleB, circleA);
 			}
 			else
 			{
 				if (circleA->_trigger || circleB->_trigger)
 				{
 					//std::cout << "circleB trigger circleA" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *circleB);
+					EventHandler::GetInstance().AddTriggered2DEvent(circleA, circleB);
 					//std::cout << "circleA trigger circleB" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*circleB, *circleA);
+					EventHandler::GetInstance().AddTriggered2DEvent(circleB, circleA);
 				}
 			}
 		}
@@ -348,18 +348,18 @@ void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
 
 
 			//std::cout << "circleA collided circleB" << std::endl;
-			EventHandler::GetInstance().AddCollided2DEvent(*circleA, *boxB);
+			EventHandler::GetInstance().AddCollided2DEvent(circleA, boxB);
 			//std::cout << "circleB collided circleA" << std::endl;
-			EventHandler::GetInstance().AddCollided2DEvent(*boxB, *circleA);
+			EventHandler::GetInstance().AddCollided2DEvent(boxB, circleA);
 		}
 		else
 		{
 			if (circleA->_trigger || boxB->_trigger)
 			{
 				//std::cout << "circleB trigger circleA" << std::endl;
-				EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *boxB);
+				EventHandler::GetInstance().AddTriggered2DEvent(circleA, boxB);
 				//std::cout << "circleA trigger circleB" << std::endl;
-				EventHandler::GetInstance().AddTriggered2DEvent(*boxB, *circleA);
+				EventHandler::GetInstance().AddTriggered2DEvent(boxB, circleA);
 			}
 		}
 
@@ -385,18 +385,18 @@ void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
 					rigidbodyB->_velocity = reflectedVecB * rigidbodyB->_velocity.Length();
 
 				//std::cout << "circleA collided boxB" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*circleA, *boxB);
+				EventHandler::GetInstance().AddCollided2DEvent(circleA, boxB);
 				//std::cout << "boxB collided circleA" << std::endl;
-				EventHandler::GetInstance().AddCollided2DEvent(*boxB, *circleA);
+				EventHandler::GetInstance().AddCollided2DEvent(boxB, circleA);
 			}
 			else
 			{
 				if (circleA->_trigger || boxB->_trigger)
 				{
 					//std::cout << "boxB trigger circleA" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *boxB);
+					EventHandler::GetInstance().AddTriggered2DEvent(circleA, boxB);
 					//std::cout << "circleA trigger boxB" << std::endl;
-					EventHandler::GetInstance().AddTriggered2DEvent(*boxB, *circleA);
+					EventHandler::GetInstance().AddTriggered2DEvent(boxB, circleA);
 				}
 			}
 		}
@@ -458,18 +458,18 @@ void CIRCLE_EDGE_CollisionCR(Collider2D* colliderA,
 				rigidbodyA->SetVelocity(Vec3::Vec3Zero);
 
 			//std::cout << "circleA collided lineB" << std::endl;
-			EventHandler::GetInstance().AddCollided2DEvent(*circleA, *lineB);
+			EventHandler::GetInstance().AddCollided2DEvent(circleA, lineB);
 			//std::cout << "lineB collided circleA" << std::endl;
-			EventHandler::GetInstance().AddCollided2DEvent(*lineB, *circleA);
+			EventHandler::GetInstance().AddCollided2DEvent(lineB, circleA);
 		}
 		else
 		{
 			if (circleA->_trigger || lineB->_trigger)
 			{
 				//std::cout << "lineB trigger circleA" << std::endl;
-				EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *lineB);
+				EventHandler::GetInstance().AddTriggered2DEvent(circleA, lineB);
 				//std::cout << "circleA trigger lineB" << std::endl;
-				EventHandler::GetInstance().AddTriggered2DEvent(*lineB, *circleA);
+				EventHandler::GetInstance().AddTriggered2DEvent(lineB, circleA);
 			}
 		}
 
@@ -485,18 +485,18 @@ void CIRCLE_EDGE_CollisionCR(Collider2D* colliderA,
 				rigidbodyA->_velocity = reflectedVecA * rigidbodyA->_velocity.Length();
 
 			//std::cout << "circleA collided lineB" << std::endl;
-			EventHandler::GetInstance().AddCollided2DEvent(*circleA, *lineB);
+			EventHandler::GetInstance().AddCollided2DEvent(circleA, lineB);
 			//std::cout << "lineB collided circleA" << std::endl;
-			EventHandler::GetInstance().AddCollided2DEvent(*lineB, *circleA);
+			EventHandler::GetInstance().AddCollided2DEvent(lineB, circleA);
 		}
 		else
 		{
 			if (circleA->_trigger || lineB->_trigger)
 			{
 				//std::cout << "lineB trigger circleA" << std::endl;
-				EventHandler::GetInstance().AddTriggered2DEvent(*circleA, *lineB);
+				EventHandler::GetInstance().AddTriggered2DEvent(circleA, lineB);
 				//std::cout << "circleA trigger lineB" << std::endl;
-				EventHandler::GetInstance().AddTriggered2DEvent(*lineB, *circleA);
+				EventHandler::GetInstance().AddTriggered2DEvent(lineB, circleA);
 			}
 		}
 	}
@@ -546,15 +546,15 @@ void BOX_EDGE_CollisionCR(Collider2D* colliderA,
 			if (rigidbodyA)
 				rigidbodyA->_velocity = reflectedVecA * rigidbodyA->_velocity.Length();
 
-			EventHandler::GetInstance().AddCollided2DEvent(*boxA, *edgeB);
-			EventHandler::GetInstance().AddCollided2DEvent(*edgeB, *boxA);
+			EventHandler::GetInstance().AddCollided2DEvent(boxA, edgeB);
+			EventHandler::GetInstance().AddCollided2DEvent(edgeB, boxA);
 		}
 		else
 		{
 			if (boxA->_trigger || edgeB->_trigger)
 			{
-				EventHandler::GetInstance().AddTriggered2DEvent(*boxA, *edgeB);
-				EventHandler::GetInstance().AddTriggered2DEvent(*edgeB, *boxA);
+				EventHandler::GetInstance().AddTriggered2DEvent(boxA, edgeB);
+				EventHandler::GetInstance().AddTriggered2DEvent(edgeB, boxA);
 			}
 		}
 	}

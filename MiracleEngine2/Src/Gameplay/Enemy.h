@@ -19,6 +19,9 @@ private:
 	int _health;
 	int _enemyType;
 // Logic - Behaviour
+	bool _stunned;
+	double _timerStun;
+	double _timerStunCooldown;
 	double _timerAttack;
 	double _timerAttackCooldown;
 	size_t _attackRange; // manually set in ctor
@@ -34,39 +37,31 @@ private:
 	size_t _mapTileSize;
 
 public:
+	void SerialiseComponent(Serialiser& document);
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
+	void Inspect() override;
+
 	Enemy();
-	void SerialiseComponent(Serialiser& document);	
-
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
-	{
-
-	}
-
-	void Inspect() override
-	{
-
-	}
 
 	void Init();
 	void Update(double dt);
-
+// Logic - Behaviour
+	void AttackMelee();
+	void AttackRange();
+	void CheckState();
+	void FSM();
+	void ChancePickUps();
+// Logic - Pathfinding
 	Vector3& GetDestinationPos();	// _target's position
 	Vector3& GetPosition();			// _parent's / self position
 	std::vector<Node*>& GetPath();
-
-	void AttackMelee();
-	void AttackRange();
 	void Move();
 	void MoveNode(bool start = false); // Move using path (toward _destination)
-
-	void FSM();
-	void CheckState();
-
-	void ChancePickUps();
 
 	int GetHealth();
 	void SetHealth(int val);
 	void DecrementHealth();
+	void SetStunned();
 
 	void OnCollision2DTrigger(Collider2D* other);
 };

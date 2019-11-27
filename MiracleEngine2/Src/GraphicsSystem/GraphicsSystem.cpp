@@ -28,11 +28,26 @@ const TextureManager& GraphicsSystem::GetTextureManager() const
 
 void GraphicsSystem::Update(double dt)
 {
+	
+	//DrawDebugLine(0.0f, 0.0f, 100.0f, 200.0f);
+	
+	//DrawDebugLine(0.0f, 0.0f, .0f, 100.0f);
+	
+
 	UnitTest();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0);
 	ClearScreen();
+
+	// batch render
+	//DrawDebugLine(-100.0f, 0.0f, -100.0f, 100.0f);
+
+	// non - batch
+	//DebugRenderer::GetInstance().DrawLine(-150.0f, 0.0f, -150.0f, 100.0f);
+
+	// flush the batch vertices
+	DebugRendererLineDraw();
 
 	_animationSystem.Update(_animationList, dt);
 
@@ -60,7 +75,7 @@ void GraphicsSystem::Update(double dt)
 		if (graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
 		{
 			AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT);
-			
+
 			anim->testanim->Select();
 			//_testAnimation.Select();
 			_textureManager._textureMap[anim->GetFilePath()]->Select();
@@ -69,6 +84,12 @@ void GraphicsSystem::Update(double dt)
 		else
 			// texture without animation
 		{
+			if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
+			{
+				_uimesh.Select();
+				//_quadmesh.Select();
+			}
+			else
 			_quadmesh.Select();
 			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
 		}
@@ -94,6 +115,14 @@ void GraphicsSystem::Update(double dt)
 	if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
 	{
 		_fontRenderer.Draw();
+	}
+
+	for (auto& e : _fontList)
+	{
+		FontComponent* fontcomptr = e.second;
+		//TransformComponent* transptr = (TransformComponent*)fontcomptr->GetSibilingComponent((unsigned int)ComponentId::TRANSFORM_COMPONENT);
+		//if (transptr)
+			//_fontRenderer.DrawFont(fontcomptr->GetFontString(), transptr->GetPos()._x, transptr->GetPos()._y);
 	}
 
 	//for (auto& fontComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getFontComponent())
@@ -130,6 +159,8 @@ void GraphicsSystem::Update(double dt)
 	// loop through every element in graphic component
 		// get texture ID and shader ID
 		// get its transform component 
+
+	
 }
 
 

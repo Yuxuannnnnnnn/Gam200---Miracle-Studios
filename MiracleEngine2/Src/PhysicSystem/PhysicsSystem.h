@@ -48,6 +48,13 @@ public:
 
 	void UpdateColliderData(Collider2D* collider);
 
+	// 
+	void RemoveRigidBody2d(size_t uid);
+	void RemoveCollider2d(size_t uid);
+	void RemoveButton(size_t uid);
+	void RemovePick(size_t uid);
+	void RemoveTransform(size_t uid);
+
 protected:
 	RigidBody2D* GetRigidBody2D(size_t uId);
 	TransformComponent* GetTransform(size_t uId);
@@ -64,11 +71,12 @@ private:
 	void CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt);
 	void UpdateButtons();
 
-	// EventHandler
-	void UpdateEvents();
+
 	void DrawRigidbody2D();
 	void DrawCollider2D();
 	void DrawButton();
+
+	void EditTransform(const float* cameraView, float* cameraProjection, float* matrix);
 
 public:
 	static void AddForce(size_t uId, Vector3 forceDir, float force);

@@ -12,19 +12,22 @@
 
 enum class ScriptId {
 	EMPTY = 0,
-	PLAYER = 1,
-	BULLET = 2,
-	ENEMY = 3,
-	TURRET = 4,
-	SPAWNER = 5,
-	ENEMYTWO = 6,
-	BULLET_E = 7,
-	SPAWNERTWO = 8,
-	BULLET_T = 9,
-	EXPLOSION = 10,
-	BUTTON_UI = 11,
-	PICK_UPS = 12,
-	BOSS = 13,
+
+	PLAYER,
+	TURRET,
+
+	ENEMY,
+	ENEMYTWO,
+	ENEMYTHREE,
+	BOSS,	
+	SPAWNER,	
+	SPAWNERTWO,
+
+	PICK_UPS,
+	BULLET,
+	EXPLOSION,
+
+	BUTTON_UI,	
 };
 
 class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler, public IForce
@@ -34,10 +37,8 @@ private:
 public:
 	bool _componentEnable;
 
-
 	IScript() : _ScriptType{ (unsigned)ScriptId::EMPTY }, _componentEnable{ true } {}
 	virtual ~IScript() {}
-
 
 	IScript(const IScript& copy) = default;
 
@@ -46,20 +47,11 @@ public:
 		return "IScript Component";
 	}
 
-	void SerialiseComponent(Serialiser& document) 
-	{
+	void SerialiseComponent(Serialiser& document) 	{}
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override	{}
+	void Inspect() override	{}
 
-	}
-
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
-	{
-
-	}
-
-	void Inspect() override
-	{
-
-	}
+	ScriptId static ScriptStringToInt(std::string& in) ;
 
 	virtual void Update(double dt) {}
 

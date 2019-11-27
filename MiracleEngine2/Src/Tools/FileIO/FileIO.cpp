@@ -35,10 +35,9 @@ bool JsonParseChecker(const char c)
 {
 	if (AsciiNumberCheck(c) ||
 		AsciiLetterCheck(c) ||
-		c == '\"' || c == ',' ||
-		c == ':'|| c == '.' ||
-		c == '{' || c == '}' ||
-		c == '[' || c == ']'
+		c == '\"' || c == ',' || c == ':'|| c == '.' ||
+		c == '{' || c == '}' ||	c == '[' || c == ']' ||
+		c == '_'
 		)
 		return true;
 	return false;
