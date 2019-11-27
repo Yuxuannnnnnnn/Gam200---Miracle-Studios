@@ -21,8 +21,8 @@ public:
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void Inspect() override;
 
-	IdentityComponent() = default; //Constructor
-	IdentityComponent(IdentityComponent& component);
+	IdentityComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem * component = nullptr); //Constructor
+	IdentityComponent(IdentityComponent* component);
 
 	unsigned GameObjectType() const;
 
