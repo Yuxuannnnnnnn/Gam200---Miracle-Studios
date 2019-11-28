@@ -34,12 +34,20 @@ public:
 		std::string statesPath =	  "./Resources/TextFiles/States";
 		std::string gameObjectsPath = "./Resources/TextFiles/GameObjects";
 
+		typedef std::unordered_map<std::string, std::string> NamePath;
+
+		NamePath ResourceList;
+
 		for (const auto& audioFile : std::filesystem::directory_iterator(audiosPath))
 		{
 			std::cout << audioFile.path() << std::endl;
 			std::string path = audioFile.path().u8string();
-			path.substr(0, path.find_last_of("\\/"));
+			std::string fileName = path.substr(0, path.find_last_of("\\/"));
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
+		ResourceManager::GetInstance().AddAudioResourceList(ResourceList);
+		ResourceList.clear();
+
 
 		for (const auto& textureFile : std::filesystem::directory_iterator(texturesPath))
 		{
@@ -59,7 +67,13 @@ public:
 		for (const auto& gameObjectFile : std::filesystem::directory_iterator(gameObjectsPath))
 		{
 			std::cout << gameObjectFile.path() << std::endl;
+			std::string path = gameObjectFile.path().u8string();
+			std::string fileName = path.substr(0, path.find_last_of("\\/"));
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
+
+		//EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(ResourceList);
+
 	}
 
 	void Update() override;

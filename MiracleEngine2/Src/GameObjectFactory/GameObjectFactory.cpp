@@ -631,7 +631,7 @@ GameObject* GameObjectFactory::CloneGameObject(GameObject* object)	//Create a ga
 
 	for (auto it : object->GetComponentList())
 	{
-		newObject->GetComponentList().insert(std::pair<unsigned, IComponentSystem*>(it.first, CloneComponent(newObject, it.second, (ComponentId)it.first)));
+		newObject->GetComponentList().insert(std::pair<ComponentId, IComponentSystem*>(it.first, CloneComponent(newObject, it.second, (ComponentId)it.first)));
 	}
 
 	return newObject;
@@ -663,6 +663,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	//Serialise BinaryMap - Used creating Static gameobjects on screen & collision data & AI node Map
 	//Serialise Mobile GameObjects with components 
 		//Player components
+
+
 
 //Serialise Prototypes
 	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
@@ -760,6 +762,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 
 }
 
+
+//For Level Editor Only
 void GameObjectFactory::De_SerialiseLevel(std::string filename)
 {
 	std::string fileName = "./Resources/TextFiles/States/" + filename;
