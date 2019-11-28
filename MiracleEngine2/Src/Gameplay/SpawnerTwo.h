@@ -13,7 +13,7 @@ private:
 	// Logic - Behaviour
 	double _timer;
 	const double _timeCooldown;
-	TypeIdGO _typeId;
+	//TypeIdGO _typeId;
 	const float _radiusSpawn;
 
 public:

@@ -7,8 +7,8 @@ SpawnerTwo::SpawnerTwo() :
 	_health{ 10 },
 	_timer{ -1.0 },
 	_timeCooldown{ 20 },
-	_radiusSpawn{ 2.f },
-	_typeId{ TypeIdGO::SPAWNERTWO }
+	_radiusSpawn{ 2.f }
+	//_typeId{ TypeIdGO::SPAWNERTWO }
 {
 }
 
@@ -34,7 +34,7 @@ void SpawnerTwo::Spawn()
 {
 	_timer = _timeCooldown;
 	//std::cout << "Spawned!" << std::endl;
-	GameObject* enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMYTWO]);
+	GameObject* enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyTwo"]);
 	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 }

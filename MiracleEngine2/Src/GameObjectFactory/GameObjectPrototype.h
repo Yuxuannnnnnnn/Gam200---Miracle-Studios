@@ -3,12 +3,12 @@
 
 
 
-
-
 class GameObjectPrototype final
 {
 
 	std::unordered_map<std::string, GameObject*> _listObjectPrototype;		//Dynamic array of GameObject Prototypes
+
+	std::deque<std::string> ComponentTypes;
 
 public:
 	GameObjectPrototype(const GameObjectPrototype& rhs) = delete;
@@ -23,6 +23,13 @@ public:
 	//GameObject* SerialPrefabObjects(TypeIdGO type);
 
 	GameObject* SerialPrefabObjects(Serialiser& document);
+
+	void RegisterComponent(std::string componentName);
+	
+	std::deque<std::string> GetComponentTypes()
+	{
+		return ComponentTypes;
+	}
 
 	//void CreatePreFabObject();
 

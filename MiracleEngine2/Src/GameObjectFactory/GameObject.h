@@ -63,7 +63,7 @@
 //	}
 //}
 
-typedef std::unordered_map < unsigned, IComponentSystem* > Map_ComponentList;
+typedef std::unordered_map <ComponentId, IComponentSystem* > Map_ComponentList;
 
 class GameObject
 {
@@ -91,6 +91,7 @@ public:
 	size_t Get_uID() const; // Return _uId
 
 	void Serialise(std::string file);
+	//void SerialiseFromLevel(rapidjson::Value& fileObject);
 	void DeSerialise();
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList

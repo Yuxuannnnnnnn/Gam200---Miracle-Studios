@@ -361,6 +361,15 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 
 		return component;
 	}
+	case ComponentId::TILEMAP_COMPONENT:
+	{
+		TileMapComponent* newComponent = new TileMapComponent();
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_TileMapComponents.insert(std::pair< size_t, TileMapComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
 	default:
 		break;
 	}
@@ -518,6 +527,16 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 	{
 		return CloneLogicComponent(object, reinterpret_cast<LogicComponent*>(component));
 	}
+
+	case ComponentId::TILEMAP_COMPONENT:
+	{
+		TileMapComponent* newComponent = dynamic_cast<TileMapComponent*>(component)->CloneComponent();
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		_TileMapComponents.insert(std::pair< size_t, TileMapComponent* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
 	default:
 		break;
 	}
@@ -607,7 +626,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 GameObject* GameObjectFactory::CloneGameObject(GameObject* object)	//Create a gameObject type along with its Components
 {
 	GameObject* newObject = CreateNewGameObject();
-	newObject->Set_typeId((TypeIdGO)object->Get_typeId());
+	//newObject->Set_typeId((TypeIdGO)object->Get_typeId());
 	//Map_ComponentList& objectMap = newObject->GetComponentList();
 
 	for (auto it : object->GetComponentList())
@@ -635,110 +654,123 @@ LogicComponent* GameObjectFactory::CloneLogicComponent(GameObject* object, Logic
 	return newComponent;
 }
 
-//Read LevelText and Instantiate GObj - When Next Game State is In-Game, Create all level objects
-//void GameObjectFactory::SerialiseLevel(const char* FileName)
-//{ // will move to ObjectFactory
-//	std::cout << "FileRead_Level( " << FileName << " )" << std::endl;
-//	std::fstream _file;
-//	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
-//	if (!_file.is_open())
-//	{
-//		std::cout << "! WARNING !! File Cannot Open!!!" << std::endl
-//			<< FileName << std::endl;
-//		return;
-//	}
-//	char* strType = new char[20]; // for Type
-//	// for any input (max inputs)
-//	char* strNum1 = new char[10];
-//	char* strNum2 = new char[10];
-//	float num1, num2;
-//	GameObject* tempGO = nullptr;
-//	IComponentSystem* tempComp = nullptr;
-//
-//	while (_file.good()) // each loop read 4 lines: Type, Pos, Scale, Rot
-//	{
-//	// Get Type
-//		//_file.getline(strType, 20, '\n\r');
-//		_file >> strType;
-//		if (std::strcmp(strType, "Player") == 0)
-//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::PLAYER]);
-//		else if (std::strcmp(strType, "Enemy") == 0)
-//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
-//		else if (std::strcmp(strType, "Wall") == 0)
-//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
-//		else if (std::strcmp(strType, "Camera") == 0)
-//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
-//		else if (std::strcmp(strType, "Button") == 0)
-//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BUTTON_UI]);
-//		else
-//			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
-//	// TransformComponent from 'temp'
-//		tempComp = tempGO->GetComponentList()[(unsigned)ComponentId::TRANSFORM_COMPONENT];
-//
-//	// get Position
-//		ASSERT(_file.getline(strNum1, 10, ','));
-//		ASSERT(_file.getline(strNum2, 10));
-//		num1 = std::stof(strNum1);
-//		num2 = std::stof(strNum2);
-//		((TransformComponent*)tempComp)->GetPos() = Vector3(num1, num2, 1);
-//	// get Scale
-//		ASSERT(_file.getline(strNum1, 10, ','));
-//		ASSERT(_file.getline(strNum2, 10));
-//		num1 = std::stof(strNum1);
-//		num2 = std::stof(strNum2);
-//		((TransformComponent*)tempComp)->GetScale() = Vector3(num1, num2, 1);
-//
-//	// get Rotate
-//		ASSERT(_file.getline(strNum1, 10));
-//		num1 = std::stof(strNum1);
-//		((TransformComponent*)tempComp)->GetRotate() = num1;
-//	}
-//
-//
-//	_file.close();
-//	delete[] strType;
-//	delete[] strNum1;
-//	delete[] strNum2;
-//	return;
-//}
-
-
 
 void GameObjectFactory::SerialiseLevel(std::string FileName)
 {
 	Serialiser Level(FileName);
 
-	//Serialise textures for resourceManager - Texture Manager
-	//Serialise Audio for resourceManager - Audio Manager
-	//Serialise Prototypes - prefabFactory
+
 	//Serialise BinaryMap - Used creating Static gameobjects on screen & collision data & AI node Map
 	//Serialise Mobile GameObjects with components 
 		//Player components
 
+//Serialise Prototypes
+	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
 
 	typedef std::unordered_map<std::string, std::string> NamePath;
 	NamePath ResourceList;
 
+//Serialise Resources
 	if (Level.HasMember("TexturesFilesPaths"))
 	{
 		for (int i = 0; i < Level["TexturesFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["TexturesFilesPaths"][i].GetString();
-			s1.substr(0, s1.find_last_of("\\/"));
+			//std::cout << "FilePath" << filePath << std::endl;
+			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
+			//std::cout << "FileName" << fileName << std::endl;
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+		}
+		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
+		ResourceList.clear();
+	}
+	if (Level.HasMember("AnimationDataFilesPaths"))
+	{
+		for (int i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			std::string filePath = Level["AnimationDataFilesPaths"][i].GetString();
+			//std::cout << "FilePath" << filePath << std::endl;
+			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
+			//std::cout << "FileName" << fileName << std::endl;
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+		}
+		ResourceManager::GetInstance().AddAnimationResourceList(ResourceList);
+		ResourceList.clear();
+	}
+	if (Level.HasMember("AudioFilesPaths"))
+	{
+		for (int i = 0; i < Level["AudioFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			std::string filePath = Level["AudioFilesPaths"][i].GetString();
+			//std::cout << "FilePath" << filePath << std::endl;
+			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
+			//std::cout << "FileName" << fileName << std::endl;
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+		}
+		ResourceManager::GetInstance().AddAudioResourceList(ResourceList);
+		ResourceList.clear();
+	}
+	if (Level.HasMember("ShaderFilesPaths"))
+	{
+		for (int i = 0; i < Level["ShaderFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			std::string filePath = Level["ShaderFilesPaths"][i].GetString();
+			//std::cout << "FilePath" << filePath << std::endl;
+			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
+			//std::cout << "FileName" << fileName << std::endl;
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+		}
+		ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
+		ResourceList.clear();
+	}
+	if (Level.HasMember("FontFilesPath"))
+	{
+		for (int i = 0; i < Level["FontFilesPath"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			std::string filePath = Level["FontFilesPath"][i].GetString();
+			//std::cout << "FilePath" << filePath << std::endl;
+			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
+			//std::cout << "FileName" << fileName << std::endl;
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+		}
+		ResourceManager::GetInstance().AddFontResourceList(ResourceList);
+		ResourceList.clear();
+	}
+
+//Create and Serialise TileMaps
+	if (Level.HasMember("AllTileMaps"))
+	{
+		for (int i = 0; i < Level["AllTileMaps"].Size(); i++)
+		{
+			rapidjson::Value& tileMapInfo = Level["AllTileMaps"][i];
+			GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
+			dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SerialiseComponentFromLevelFile(tileMapInfo);
+			dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT))->SerialiseComponentFromLevelFile(tileMapInfo);
 		}
 	}
 
+//Create dynamic GameObjects
+	if (Level.HasMember("GameObjects"))
+	{
+		for (int i = 0; Level["GameObjects"].Size(); i++)
+		{
+			CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[Level["GameObjects"][i].GetString()]);
+		}
+	}
 
-	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
-	EngineSystems::GetInstance()._resourceManager->AddTexture2DResourceList();
-	EngineSystems::GetInstance()._resourceManager->AddShaderResourceList();
-	EngineSystems::GetInstance()._resourceManager->AddFontResourceList();
-	EngineSystems::GetInstance()._resourceManager->AddAudioResourceList();
-	EngineSystems::GetInstance()._resourceManager->AddAnimationResourceList();
-
-	BinaryMap Map(Level);						   
 }
 
+void GameObjectFactory::De_SerialiseLevel(std::string filename)
+{
+	std::string fileName = "./Resources/TextFiles/States/" + filename;
+	DeSerialiser level(fileName);
+
+	//Deserialise the Audio from GameObjects AudioComponent
+	//Deserialise the textures from GameObject GraphicComponent & AnimationComponents 
+	//Deserialise the Prototypes 
+	//Deserialise the Binary map
+	//Deserialise the components of player 
+}
 
 
 void GameObjectFactory::DeleteLevel()
@@ -816,15 +848,72 @@ void GameObjectFactory::DeleteLevelNotPrefab()
 
 
 
-void GameObjectFactory::De_SerialiseLevel(std::string filename)
-{
-	std::string fileName = "./Resources/TextFiles/States/" + filename;
-	DeSerialiser level(fileName);
 
-	//Deserialise the Audio from GameObjects AudioComponent
-	//Deserialise the textures from GameObject GraphicComponent & AnimationComponents 
-	//Deserialise the Prototypes 
-	//Deserialise the Binary map
-	//Deserialise the components of player 
-}
- 
+
+
+//Read LevelText and Instantiate GObj - When Next Game State is In-Game, Create all level objects
+//void GameObjectFactory::SerialiseLevel(const char* FileName)
+//{ // will move to ObjectFactory
+//	std::cout << "FileRead_Level( " << FileName << " )" << std::endl;
+//	std::fstream _file;
+//	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
+//	if (!_file.is_open())
+//	{
+//		std::cout << "! WARNING !! File Cannot Open!!!" << std::endl
+//			<< FileName << std::endl;
+//		return;
+//	}
+//	char* strType = new char[20]; // for Type
+//	// for any input (max inputs)
+//	char* strNum1 = new char[10];
+//	char* strNum2 = new char[10];
+//	float num1, num2;
+//	GameObject* tempGO = nullptr;
+//	IComponentSystem* tempComp = nullptr;
+//
+//	while (_file.good()) // each loop read 4 lines: Type, Pos, Scale, Rot
+//	{
+//	// Get Type
+//		//_file.getline(strType, 20, '\n\r');
+//		_file >> strType;
+//		if (std::strcmp(strType, "Player") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::PLAYER]);
+//		else if (std::strcmp(strType, "Enemy") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
+//		else if (std::strcmp(strType, "Wall") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
+//		else if (std::strcmp(strType, "Camera") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
+//		else if (std::strcmp(strType, "Button") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BUTTON_UI]);
+//		else
+//			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
+//	// TransformComponent from 'temp'
+//		tempComp = tempGO->GetComponentList()[(unsigned)ComponentId::TRANSFORM_COMPONENT];
+//
+//	// get Position
+//		ASSERT(_file.getline(strNum1, 10, ','));
+//		ASSERT(_file.getline(strNum2, 10));
+//		num1 = std::stof(strNum1);
+//		num2 = std::stof(strNum2);
+//		((TransformComponent*)tempComp)->GetPos() = Vector3(num1, num2, 1);
+//	// get Scale
+//		ASSERT(_file.getline(strNum1, 10, ','));
+//		ASSERT(_file.getline(strNum2, 10));
+//		num1 = std::stof(strNum1);
+//		num2 = std::stof(strNum2);
+//		((TransformComponent*)tempComp)->GetScale() = Vector3(num1, num2, 1);
+//
+//	// get Rotate
+//		ASSERT(_file.getline(strNum1, 10));
+//		num1 = std::stof(strNum1);
+//		((TransformComponent*)tempComp)->GetRotate() = num1;
+//	}
+//
+//
+//	_file.close();
+//	delete[] strType;
+//	delete[] strNum1;
+//	delete[] strNum2;
+//	return;
+//}

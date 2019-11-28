@@ -35,6 +35,20 @@ GameObjectPrototype::GameObjectPrototype()
 	//SerialPrefabObjects(TypeIdGO::BUTTON_UI);
 	//SerialPrefabObjects(TypeIdGO::MAPEDGE);
 
+	RegisterComponent("IdentityComponent");
+	RegisterComponent("TransformComponent");
+	RegisterComponent("GraphicsComponent");
+	RegisterComponent("AnimationComponent");
+	RegisterComponent("CameraComponent");
+	RegisterComponent("FontComponent");
+	RegisterComponent("RigidBodyComponent");
+	RegisterComponent("CircleColliderComponent");
+	RegisterComponent("BoxColliderComponent");
+	RegisterComponent("EdgeColliderComponent");
+	RegisterComponent("LogicComponent");
+	RegisterComponent("AudioComponent");
+	RegisterComponent("ButtonComponent");
+	RegisterComponent("TileMapComponent");
 }
 
 
@@ -70,6 +84,11 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(Serialiser& document)
 
 		}
 	}
+}
+
+void GameObjectPrototype::RegisterComponent(std::string componentName)
+{
+	ComponentTypes.push_back(componentName);
 }
 
 

@@ -17,7 +17,11 @@ public:
 		_level.SetObject();	//Set the document as an OverArching Object
 	}
 
+	rapidjson::Value& operator[](const char* string)
+	{
+		return _level[string];
 
+	}
 	//Value b(true);    // calls Value(bool)
 	//Value i(-123);    // calls Value(int)
 	//Value u(123u);    // calls Value(unsigned)

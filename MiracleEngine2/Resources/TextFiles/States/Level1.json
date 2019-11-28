@@ -7,58 +7,86 @@
 		"./Resources/TextFiles/GameObjects/Bullet.json",
 		"./Resources/TextFiles/GameObjects/Turret.json",
 		"./Resources/TextFiles/GameObjects/Spawner.json",
-		"./Resources/TextFiles/GameObjects/Font.json"
+		"./Resources/TextFiles/GameObjects/Font.json",
+		"./Resources/TextFiles/GameObjects/TileMap.json"
 	],
 
 	"TexturesFilesPaths": [
 		"./Resources/Image/background.png"
 	],
 
-	"AnimationDataFiles": [
+	"AnimationDataFilesPaths": [
 		"./Resources/TextFiles/AnimationData/Data_file_Explosion_Blue_Plasma_24FPS_Sprite.json"
 	],
 
-	"AudioFiles": [
+	"AudioFilesPaths": [
 		"./Resources/Audio/Level1.ogg"
 	],
 
-	"ShaderFiles": [
+	"ShaderFilesPaths": [
 		"./Resources/Shader/basic.frag"
 	],
 
+	"FontFilesPath": [
+		"./arial.ttf"
+	],
 
-	"Legend": {
-		"0": "Background(floors)",
-		"1": "Line Borders",
-		"2": "Walls",
-		"3": "Spawner",
-		"4": "Spawner2"
-	},
 
-	"Width": 20,
-	"Height": 20,
+	"AllTileMaps": [
+		{
 
-	"TileMap": [
-		" 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
-		"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ",
-		"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ",
-		"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ",
-		"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ",
-		"1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 ",
-		"1 3 0 0 0 0 2 0 0 0 0 0 0 0 3 1 0 0 0 0 ",
-		"1 4 0 0 0 0 2 0 0 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 0 0 0 2 0 0 0 0 0 2 2 2 0 0 1 0 0 0 0 ",
-		"1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 0 2 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 0 0 0 2 0 0 0 2 2 2 0 0 0 0 1 0 0 0 0 ",
-		"1 0 0 0 2 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 2 0 2 2 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 0 0 0 0 0 0 2 2 0 0 0 0 0 0 1 0 0 0 0 ",
-		"1 3 0 2 0 0 0 2 0 0 0 0 0 4 3 1 0 0 0 0 ",
-		"1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 "
-	]
+			"TransformComponent": true,
+			"Position": [ 0.0, 0.0 ],
+			"Scale": [ 70.0, 70.0 ],
+			"Rotate": 0.0,
 
+			"TileMapComponent": true,
+			"Palette": [
+				[
+					0,
+					"Floor"
+				],
+				[
+					1,
+					"MapEdge"
+				],
+				[
+					2,
+					"Wall"
+				],
+				[
+					3,
+					"Spawner"
+				],
+				[
+					4,
+					"SpawnerTwo"
+				]
+			],
+
+			"Width": 16,
+			"Height": 15,
+
+			"TileMap": [
+					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+					1, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 1,
+					1, 4, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+					1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+					1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+					1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 1,
+					1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+					1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+					1, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 1,
+					1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+					1, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+					1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+					1, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 1,
+					1, 3, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 4, 3, 1,
+					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+				]
+		}
+	], 
+	
+	
+	"GameObjects": [ "Player", "Camera"] 
 }

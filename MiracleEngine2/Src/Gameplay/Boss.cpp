@@ -44,13 +44,14 @@ Boss::Boss() :
 
 void Boss::Init()
 {
-	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-	for (auto it : temp)
-	{
+	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
-		if (it.second->Get_uID() >= 1000 && it.second->GameObjectType() == (unsigned)TypeIdGO::PLAYER)
+	std::unordered_map<size_t, IdentityComponent*> idComList = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+	for (auto& it : idComList)
+	{
+		if (it.second->GetParentPtr()->Get_uID() >= 1000 && it.second->ObjectType().compare("Player"))
 		{
-			_target = it.second;
+			_target = it.second->GetParentPtr();
 			break;
 		}
 	}

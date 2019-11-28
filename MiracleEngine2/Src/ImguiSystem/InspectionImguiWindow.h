@@ -20,7 +20,7 @@ public:
 		if (_inspectObj)
 		{
 
-			std::unordered_map < unsigned, IComponentSystem* > componentList = _inspectObj->GetComponentList();
+			std::unordered_map < ComponentId, IComponentSystem* > componentList = _inspectObj->GetComponentList();
 			for (auto& commponentPair : componentList)
 			{
 				if (ImGui::CollapsingHeader(commponentPair.second->ComponentName().c_str()))

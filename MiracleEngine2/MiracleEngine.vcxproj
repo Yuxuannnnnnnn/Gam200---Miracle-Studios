@@ -574,6 +574,7 @@
     <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.h" />
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
+    <ClInclude Include="Src\GameObjectComponents\TileMapComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp">
@@ -724,6 +725,7 @@
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.cpp" />
     <ClCompile Include="Src\WindowsSystem\WIndowsSystem.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\TileMapComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />
@@ -878,7 +880,7 @@
     <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
-    <None Include="Resources\TextFiles\GameObjects\Buttons.json" />
+    <None Include="Resources\TextFiles\GameObjects\Button.json" />
     <None Include="Resources\TextFiles\GameObjects\Camera.json" />
     <None Include="Resources\TextFiles\GameObjects\Enemy.json" />
     <None Include="Resources\TextFiles\GameObjects\EnemyThree.json" />
@@ -892,6 +894,7 @@
     <None Include="Resources\TextFiles\GameObjects\player.json" />
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
+    <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Resources\TextFiles\States\Level1.json" />

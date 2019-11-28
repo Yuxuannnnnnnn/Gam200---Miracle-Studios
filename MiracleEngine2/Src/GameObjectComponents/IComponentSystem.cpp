@@ -39,8 +39,9 @@ void IComponentSystem::SetParentPtr(GameObject* inVal)
 	_ParentId = inVal->Get_uID();
 }
 
-IComponentSystem* IComponentSystem::GetSibilingComponent(unsigned _componentId)
+IComponentSystem* IComponentSystem::GetSibilingComponent(ComponentId _componentId)
 {
+
 	if(_ParentPtr->GetComponentList().find(_componentId) != _ParentPtr->GetComponentList().end())
 		return _ParentPtr->GetComponentList()[_componentId];
 

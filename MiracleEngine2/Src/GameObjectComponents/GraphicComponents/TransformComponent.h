@@ -31,6 +31,8 @@ public:
 
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
+	void SerialiseComponentFromLevelFile(rapidjson::Value& document);
+
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
 

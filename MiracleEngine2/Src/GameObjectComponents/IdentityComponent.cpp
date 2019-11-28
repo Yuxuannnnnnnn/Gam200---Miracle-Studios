@@ -70,7 +70,7 @@ void IdentityComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 void IdentityComponent::Inspect()
 {
 	ImGui::Spacing();
-	std::string string = std::string("Game Object Type: ") + ToString((TypeIdGO)_typeId);
+	std::string string = std::string("Game Object Type: ") + _ObjectType;
 	ImGui::Text(string.c_str()); 
 	ImGui::Spacing();
 

@@ -1,8 +1,7 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "ObjectType": "Buttons",
-
+  "ObjectType": "Button",
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],

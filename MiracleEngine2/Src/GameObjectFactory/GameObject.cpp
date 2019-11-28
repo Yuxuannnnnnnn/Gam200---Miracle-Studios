@@ -43,13 +43,23 @@ IComponentSystem* GameObject::GetComponent(ComponentId typeId, ScriptId script) 
 	if (CheckComponent(typeId))
 	{
 		if (typeId == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY)
-			return reinterpret_cast<LogicComponent*>(_ComponentList[(unsigned)typeId])->GetScript(script);
+			return reinterpret_cast<LogicComponent*>(_ComponentList[typeId])->GetScript(script);
 
-		return _ComponentList[(unsigned)typeId];
+		return _ComponentList[typeId];
 	}
 
 	return nullptr;
 }
+
+
+//void GameObject::SerialiseFromLevel(rapidjson::Value& fileObject)
+//{
+//	for (auto& ComPair : _ComponentList)
+//	{
+//		ComPair.second->SerialiseComponent(fileObject);
+//	}
+//
+//}
 
 void GameObject::Serialise(std::string file)
 {
@@ -57,6 +67,9 @@ void GameObject::Serialise(std::string file)
 
 	Serialiser document(file);
 	int i = 0;
+	//auto ComponentTypes = EngineSystems::GetInstance()._prefabFactory->GetComponentTypes();
+
+
 	for (int i = 0; i < (int)ComponentId::COUNTCOMPONENT; i++)
 	{
 		if (document.HasMember(ToString((ComponentId)i)))
@@ -70,7 +83,7 @@ void GameObject::Serialise(std::string file)
 
 void GameObject::DeSerialise()
 {
-	IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[(unsigned)ComponentId::IDENTITY_COMPONENT]);
+	IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[ComponentId::IDENTITY_COMPONENT]);
 	std::string fileName = "./Resources/TextFiles/GameObjects/" + IdComponent->ObjectType() + ".json";
 	DeSerialiser prototypeDoc(fileName);
 

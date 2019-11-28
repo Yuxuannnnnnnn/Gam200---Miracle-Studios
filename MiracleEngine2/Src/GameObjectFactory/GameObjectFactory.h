@@ -4,11 +4,11 @@
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
 #include "GameObjectComponents/PickingCollider.h"
 #include "GameObjectComponents/IdentityComponent.h"
+#include "GameObjectComponents/TileMapComponent.h"
 #include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
 #include "GameObjectComponents/GraphicComponents/CameraComponent.h"
 #include "GameObjectComponents/GraphicComponents/FontComponent.h"
 #include "Tools/FileIO/Serialiser.h"
-#include "GameObjectFactory/BinaryMap.h"
 
 class GameObjectFactory final
 {	
@@ -30,7 +30,20 @@ class GameObjectFactory final
 	std::unordered_map<size_t, FontComponent*>			_FontComponent;
 	std::unordered_map<size_t, ButtonComponent*>		_buttonComponent;
 
+	std::unordered_map<size_t, TileMapComponent*>		_TileMapComponents;
+
 public:
+
+	std::unordered_map < size_t, TileMapComponent*> getTileMapComponents ()
+	{
+		return _TileMapComponents;
+	}
+
+	std::unordered_map < size_t, IdentityComponent*> GetIdentityComponents()
+	{
+		return _IdentityComponents;
+	}
+
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
 	GameObjectFactory& operator= (const GameObjectFactory& rhs) = delete;
 
@@ -53,6 +66,8 @@ public:
 	{
 		return _FontComponent;
 	}
+
+
 
 	Map_ScriptList getObjectScript(GameObject* object);
 
