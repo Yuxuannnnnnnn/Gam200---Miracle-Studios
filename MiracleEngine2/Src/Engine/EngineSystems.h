@@ -45,13 +45,14 @@ public:
 		_aiSystem{ nullptr },
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
-		_audioSystem{ nullptr},
+		_audioSystem{ nullptr },
 
 		_frameRateControl{ nullptr },
-		_performanceUsage{nullptr},
+		_performanceUsage{ nullptr },
 
 		_gameObjectFactory{ nullptr },
 		_prefabFactory{ nullptr },
+		_resourceManager{ nullptr };
 		_sceneManager{ nullptr }
 	{
 	}
@@ -76,6 +77,7 @@ public:
 		
 		_gameObjectFactory = new GameObjectFactory();
 		_prefabFactory = new GameObjectPrototype();
+		_resourceManager = new ResourceManager();
 
 		_sceneManager = new SceneManager();
 	}
@@ -98,6 +100,7 @@ public:
 		delete _performanceUsage;
 
 		delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
+		delete _resourceManager;
 		delete _sceneManager;
 	}
 
@@ -121,6 +124,7 @@ public:
 
 	GameObjectFactory* _gameObjectFactory;
 	GameObjectPrototype* _prefabFactory;
+	ResourceManager* _resourceManager;
 
 	SceneManager* _sceneManager;
 };

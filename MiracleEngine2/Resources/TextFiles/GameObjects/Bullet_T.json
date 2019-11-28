@@ -1,7 +1,6 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "GameObjectType": 18,
   "ObjectType": "Bullet_T",
 
   "TransformComponent": true,

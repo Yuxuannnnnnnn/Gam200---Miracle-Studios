@@ -1,7 +1,6 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "GameObjectType": 27,
   "ObjectType": "EnemyThree",
 
   "TransformComponent": true,

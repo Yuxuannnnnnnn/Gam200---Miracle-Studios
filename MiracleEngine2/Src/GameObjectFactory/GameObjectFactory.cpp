@@ -636,90 +636,108 @@ LogicComponent* GameObjectFactory::CloneLogicComponent(GameObject* object, Logic
 }
 
 //Read LevelText and Instantiate GObj - When Next Game State is In-Game, Create all level objects
-void GameObjectFactory::SerialiseLevel(const char* FileName)
-{ // will move to ObjectFactory
-	std::cout << "FileRead_Level( " << FileName << " )" << std::endl;
-	std::fstream _file;
-	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
-	if (!_file.is_open())
-	{
-		std::cout << "! WARNING !! File Cannot Open!!!" << std::endl
-			<< FileName << std::endl;
-		return;
-	}
-	char* strType = new char[20]; // for Type
-	// for any input (max inputs)
-	char* strNum1 = new char[10];
-	char* strNum2 = new char[10];
-	float num1, num2;
-	GameObject* tempGO = nullptr;
-	IComponentSystem* tempComp = nullptr;
-
-	while (_file.good()) // each loop read 4 lines: Type, Pos, Scale, Rot
-	{
-	// Get Type
-		//_file.getline(strType, 20, '\n\r');
-		_file >> strType;
-		if (std::strcmp(strType, "Player") == 0)
-			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::PLAYER]);
-		else if (std::strcmp(strType, "Enemy") == 0)
-			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
-		else if (std::strcmp(strType, "Wall") == 0)
-			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
-		else if (std::strcmp(strType, "Camera") == 0)
-			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
-		else if (std::strcmp(strType, "Button") == 0)
-			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BUTTON_UI]);
-		else
-			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
-	// TransformComponent from 'temp'
-		tempComp = tempGO->GetComponentList()[(unsigned)ComponentId::TRANSFORM_COMPONENT];
-
-	// get Position
-		ASSERT(_file.getline(strNum1, 10, ','));
-		ASSERT(_file.getline(strNum2, 10));
-		num1 = std::stof(strNum1);
-		num2 = std::stof(strNum2);
-		((TransformComponent*)tempComp)->GetPos() = Vector3(num1, num2, 1);
-	// get Scale
-		ASSERT(_file.getline(strNum1, 10, ','));
-		ASSERT(_file.getline(strNum2, 10));
-		num1 = std::stof(strNum1);
-		num2 = std::stof(strNum2);
-		((TransformComponent*)tempComp)->GetScale() = Vector3(num1, num2, 1);
-
-	// get Rotate
-		ASSERT(_file.getline(strNum1, 10));
-		num1 = std::stof(strNum1);
-		((TransformComponent*)tempComp)->GetRotate() = num1;
-	}
-
-
-	_file.close();
-	delete[] strType;
-	delete[] strNum1;
-	delete[] strNum2;
-	return;
-}
-
-
-
-
-
-//void GameObjectFactory::SerialiseLevel(std::string FileName)
-//{
-//	Serialiser Level(FileName);
+//void GameObjectFactory::SerialiseLevel(const char* FileName)
+//{ // will move to ObjectFactory
+//	std::cout << "FileRead_Level( " << FileName << " )" << std::endl;
+//	std::fstream _file;
+//	_file.open(FileName, std::ios_base::in | std::ios_base::binary);
+//	if (!_file.is_open())
+//	{
+//		std::cout << "! WARNING !! File Cannot Open!!!" << std::endl
+//			<< FileName << std::endl;
+//		return;
+//	}
+//	char* strType = new char[20]; // for Type
+//	// for any input (max inputs)
+//	char* strNum1 = new char[10];
+//	char* strNum2 = new char[10];
+//	float num1, num2;
+//	GameObject* tempGO = nullptr;
+//	IComponentSystem* tempComp = nullptr;
 //
-//	//Serialise textures for resourceManager - Texture Manager
-//	//Serialise Audio for resourceManager - Audio Manager
-//	//Serialise Prototypes - prefabFactory
-//	//Serialise BinaryMap - Used creating Static gameobjects on screen & collision data & AI node Map
-//	//Serialise Mobile GameObjects with components 
-//		//Player components
-//	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
+//	while (_file.good()) // each loop read 4 lines: Type, Pos, Scale, Rot
+//	{
+//	// Get Type
+//		//_file.getline(strType, 20, '\n\r');
+//		_file >> strType;
+//		if (std::strcmp(strType, "Player") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::PLAYER]);
+//		else if (std::strcmp(strType, "Enemy") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
+//		else if (std::strcmp(strType, "Wall") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
+//		else if (std::strcmp(strType, "Camera") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
+//		else if (std::strcmp(strType, "Button") == 0)
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BUTTON_UI]);
+//		else
+//			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
+//	// TransformComponent from 'temp'
+//		tempComp = tempGO->GetComponentList()[(unsigned)ComponentId::TRANSFORM_COMPONENT];
 //
-//	BinaryMap Map(Level);
+//	// get Position
+//		ASSERT(_file.getline(strNum1, 10, ','));
+//		ASSERT(_file.getline(strNum2, 10));
+//		num1 = std::stof(strNum1);
+//		num2 = std::stof(strNum2);
+//		((TransformComponent*)tempComp)->GetPos() = Vector3(num1, num2, 1);
+//	// get Scale
+//		ASSERT(_file.getline(strNum1, 10, ','));
+//		ASSERT(_file.getline(strNum2, 10));
+//		num1 = std::stof(strNum1);
+//		num2 = std::stof(strNum2);
+//		((TransformComponent*)tempComp)->GetScale() = Vector3(num1, num2, 1);
+//
+//	// get Rotate
+//		ASSERT(_file.getline(strNum1, 10));
+//		num1 = std::stof(strNum1);
+//		((TransformComponent*)tempComp)->GetRotate() = num1;
+//	}
+//
+//
+//	_file.close();
+//	delete[] strType;
+//	delete[] strNum1;
+//	delete[] strNum2;
+//	return;
 //}
+
+
+
+void GameObjectFactory::SerialiseLevel(std::string FileName)
+{
+	Serialiser Level(FileName);
+
+	//Serialise textures for resourceManager - Texture Manager
+	//Serialise Audio for resourceManager - Audio Manager
+	//Serialise Prototypes - prefabFactory
+	//Serialise BinaryMap - Used creating Static gameobjects on screen & collision data & AI node Map
+	//Serialise Mobile GameObjects with components 
+		//Player components
+
+
+	typedef std::unordered_map<std::string, std::string> NamePath;
+	NamePath ResourceList;
+
+	if (Level.HasMember("TexturesFilesPaths"))
+	{
+		for (int i = 0; i < Level["TexturesFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			std::string filePath = Level["TexturesFilesPaths"][i].GetString();
+			s1.substr(0, s1.find_last_of("\\/"));
+		}
+	}
+
+
+	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
+	EngineSystems::GetInstance()._resourceManager->AddTexture2DResourceList();
+	EngineSystems::GetInstance()._resourceManager->AddShaderResourceList();
+	EngineSystems::GetInstance()._resourceManager->AddFontResourceList();
+	EngineSystems::GetInstance()._resourceManager->AddAudioResourceList();
+	EngineSystems::GetInstance()._resourceManager->AddAnimationResourceList();
+
+	BinaryMap Map(Level);						   
+}
 
 
 

@@ -6,8 +6,8 @@
 #include "Engine/EngineSystems.h"
 #include "Tools/FileIO/Serialiser.h"
 
-GameObject::GameObject(size_t uId, unsigned typeId)
-	:_uId{ uId }, _typeId{ typeId }, _destory{ false }, _enable{ true }, _alive{ true }
+GameObject::GameObject(size_t uId)
+	:_uId{ uId }, _destory{ false }, _enable{ true }, _alive{ true }
 {
 	//std::cout << "GameObject::GameObject()" << std::endl;
 }
@@ -17,14 +17,21 @@ GameObject::~GameObject()
 }
 
 
-unsigned GameObject::GameObjectType() const
-{
-	return _typeId;
-}
-unsigned GameObject::Get_typeId() const
-{
-	return _typeId;
-}
+//unsigned GameObject::GameObjectType() const
+//{
+//	return _typeId;
+//}
+//unsigned GameObject::Get_typeId() const
+//{
+//	return _typeId;
+//}
+
+//void GameObject::Set_typeId(TypeIdGO type)
+//{
+//	_typeId = (unsigned)type;
+//}
+
+
 size_t GameObject::Get_uID() const
 {
 	return _uId;
@@ -132,7 +139,3 @@ void GameObject::DestoryGameObject()
 	EngineSystems::GetInstance()._gameObjectFactory->DestoryGameObject(this);
 }
 
-void GameObject::Set_typeId(TypeIdGO type)
-{
-	_typeId = (unsigned)type;
-}

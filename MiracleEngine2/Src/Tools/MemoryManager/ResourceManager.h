@@ -25,12 +25,15 @@ public:
 	typedef std::unordered_map<std::string, Shader_Resource*> ShaderMap;
 	typedef std::unordered_map<std::string, Font_Resource*> FontMap;
 	typedef std::unordered_map<std::string, Audio_Resource*> AudioMap;
+	typedef std::unordered_map<std::string, Animation*> AnimationMap;
+
 
 private:
 	Texture2DMap _Texture2DMap;
 	ShaderMap _ShaderMap;
 	FontMap _FontMap;
 	AudioMap _AudioMap;
+	AnimationMap _AnimationMap;
 
 	ObjectAllocator<Texture2D_Resource> _Texture2DAllocater;
 	ObjectAllocator<Shader_Resource> _ShaderAllocater;
@@ -46,6 +49,7 @@ private:
 	NamePath _ShaderList;
 	NamePath _FontList;
 	NamePath _AudioList;
+	NamePath _AnimationList;
 
 public:
 	ResourceManager() {};
@@ -59,6 +63,7 @@ public:
 	void AddShaderResourceList(NamePath list);
 	void AddFontResourceList(NamePath list);
 	void AddAudioResourceList(NamePath list);
+	void AddAnimationResourceList(NamePath list);
 
 	unsigned char* GetTexture2DResource(std::string file, int& width, int& height, int& bpp);
 	int GetShaderResource(std::string vert, std::string frag, const char*& vertexCode, const char*& fragmentCode);

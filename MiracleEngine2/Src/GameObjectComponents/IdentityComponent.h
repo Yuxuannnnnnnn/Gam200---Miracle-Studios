@@ -11,8 +11,8 @@ class IdentityComponent: public IComponentSystem
 {
 private:
 
-	unsigned _typeId; // GameObject Type //Change to string
-	std::string _ObjectType;
+	//unsigned _typeId;  //Change to string
+	std::string _ObjectType; // GameObject Type
 	std::string _name;
 
 public:
@@ -24,7 +24,7 @@ public:
 	IdentityComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem * component = nullptr); //Constructor
 	IdentityComponent(IdentityComponent* component);
 
-	unsigned GameObjectType() const;
+	//unsigned GameObjectType() const;
 
 	const std::string& ObjectType() const
 	{

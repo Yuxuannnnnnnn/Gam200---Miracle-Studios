@@ -37,6 +37,7 @@ public:
 		for (const auto& audioFile : std::filesystem::directory_iterator(audiosPath))
 		{
 			std::cout << audioFile.path() << std::endl;
+			s1.substr(0, s1.find_last_of("\\/"));
 		}
 
 		for (const auto& textureFile : std::filesystem::directory_iterator(texturesPath))

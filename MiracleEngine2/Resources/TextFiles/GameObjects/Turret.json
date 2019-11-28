@@ -1,7 +1,6 @@
 {
 	"IdentityComponent": true,
 	"Name": "none",
-	"GameObjectType": 7,
 	"ObjectType": "Turret",
 
 	"TransformComponent": true,

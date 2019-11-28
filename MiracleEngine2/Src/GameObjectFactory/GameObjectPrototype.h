@@ -7,7 +7,8 @@
 
 class GameObjectPrototype final
 {
-	std::unordered_map<TypeIdGO, GameObject*> _listObjectPrototype;		//Dynamic array of GameObject Prototypes
+
+	std::unordered_map<std::string, GameObject*> _listObjectPrototype;		//Dynamic array of GameObject Prototypes
 
 public:
 	GameObjectPrototype(const GameObjectPrototype& rhs) = delete;
@@ -17,9 +18,9 @@ public:
 	GameObjectPrototype();
 	~GameObjectPrototype();	//Destructed when GameStateQuit
 
-	std::unordered_map<TypeIdGO, GameObject*>& GetPrototypeList();	// Get _listObjectProrotype
+	std::unordered_map<std::string, GameObject*>& GetPrototypeList();	// Get _listObjectProrotype
 
-	GameObject* SerialPrefabObjects(TypeIdGO type);
+	//GameObject* SerialPrefabObjects(TypeIdGO type);
 
 	GameObject* SerialPrefabObjects(Serialiser& document);
 
