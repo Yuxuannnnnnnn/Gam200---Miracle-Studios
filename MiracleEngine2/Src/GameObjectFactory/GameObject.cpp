@@ -107,7 +107,7 @@ Map_ComponentList& GameObject::GetComponentList() // Get ComponentList
 
 bool  GameObject::CheckComponent(ComponentId componentType, ScriptId script)
 {
-	Map_ComponentList::iterator it = _ComponentList.find((unsigned)componentType);
+	Map_ComponentList::iterator it = _ComponentList.find(componentType);
 
 	if (it == _ComponentList.end() || !it->second)
 		return false;
@@ -131,7 +131,7 @@ IComponentSystem* GameObject::AddComponent(ComponentId componentType, ScriptId s
 	IComponentSystem* newComponent = EngineSystems::GetInstance()._gameObjectFactory->AddComponent(this, componentType, script);
 	
 	if (!CheckComponent(componentType))
-		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)componentType, newComponent));
+		_ComponentList.insert(std::pair<ComponentId, IComponentSystem*>(componentType, newComponent));
 
 
 	return GetComponent(componentType, script);
@@ -143,8 +143,8 @@ void GameObject::RemoveComponent(ComponentId componentType, ScriptId script)
 
 	EngineSystems::GetInstance()._gameObjectFactory->RemoveComponent(this, componentType, script);
 
-	if (script == ScriptId::EMPTY)
-		_ComponentList.erase((unsigned)componentType + (unsigned)script);
+	//if (script == ScriptId::EMPTY)
+		//_ComponentList.erase((ComponentId((unsigned)componentType + (unsigned)script)));
 }
 
 void GameObject::DestoryGameObject()
