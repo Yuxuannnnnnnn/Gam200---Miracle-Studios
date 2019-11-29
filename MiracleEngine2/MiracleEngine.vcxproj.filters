@@ -685,6 +685,7 @@
     <None Include="Resources\TextFiles\AnimationData\Data_file_Explosion_Blue_Plasma_24FPS_Sprite.json" />
     <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
     <None Include="Resources\TextFiles\GameObjects\Button.json" />
+    <None Include="Resources\TextFiles\States\GameScenes.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\States\MainMenu.txt" />

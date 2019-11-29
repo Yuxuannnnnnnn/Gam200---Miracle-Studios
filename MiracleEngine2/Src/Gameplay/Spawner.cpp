@@ -63,19 +63,19 @@ void Spawner::Spawn()
 	{
 	case 1:
 		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
-			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Enemy"]);
 		break;
 	case 2:
 		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
-			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMYTWO]);
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyTwo"]);
 		break;
 	case 3:
 		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
-			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMYTHREE]);
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyThree"]);
 		break;
 	default:
 		return;
 	}
 	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 }

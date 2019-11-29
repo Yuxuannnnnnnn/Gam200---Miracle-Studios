@@ -1,0 +1,6 @@
+{
+	"GameScenes": [
+		"./Resources/TextFiles/States/Level1.json",
+		"./Resources/TextFiles/States/MainMenu.txt"
+	]
+}

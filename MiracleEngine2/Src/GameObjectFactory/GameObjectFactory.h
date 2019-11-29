@@ -34,12 +34,12 @@ class GameObjectFactory final
 
 public:
 
-	std::unordered_map < size_t, TileMapComponent*> getTileMapComponents ()
+	const std::unordered_map < size_t, TileMapComponent*>& getTileMapComponents ()
 	{
 		return _TileMapComponents;
 	}
 
-	std::unordered_map < size_t, IdentityComponent*> GetIdentityComponents()
+	const std::unordered_map < size_t, IdentityComponent*>& GetIdentityComponents()
 	{
 		return _IdentityComponents;
 	}

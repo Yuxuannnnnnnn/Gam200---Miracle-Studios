@@ -64,16 +64,16 @@ std::unordered_map <std::string , GameObject* > & GameObjectPrototype::GetProtot
 }
 
 
-
-GameObject* GameObjectPrototype::SerialPrefabObjects(Serialiser& document)
+//For GamePlay 
+void GameObjectPrototype::SerialPrefabObjects(Serialiser& Level)
 {
-	if (document.HasMember("PrototypesFilePaths"))
+	if (Level.HasMember("PrototypesFilePaths"))
 	{
-		for (int i = 0; i < document["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
+		for (int i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 
-			temp->Serialise(document["PrototypesFilePaths"][i].GetString());	//Serialise a gameobject with the string
+			temp->Serialise(Level["PrototypesFilePaths"][i].GetString());	//Serialise a gameobject with the string
 
 			std::string typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->ObjectType();
 
@@ -85,6 +85,24 @@ GameObject* GameObjectPrototype::SerialPrefabObjects(Serialiser& document)
 		}
 	}
 }
+
+void GameObjectPrototype::SerialiseAllPrefabAssets(NamePath& list)
+{
+	_prototypeFileList = list;
+
+	//Serialise all Prototypesu8
+	for (auto& nameFile : _prototypeFileList)
+	{
+		GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+		temp->Serialise(nameFile.second);	//Serialise a gameobject with fileName
+
+		//insert into the prototype list
+		_listObjectPrototype.insert(std::pair <std::string, GameObject*>(nameFile.first, temp));
+	}
+
+}
+
+
 
 void GameObjectPrototype::RegisterComponent(std::string componentName)
 {

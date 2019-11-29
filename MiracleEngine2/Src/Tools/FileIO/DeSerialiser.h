@@ -65,7 +65,7 @@ public:
 
 
 
-	~DeSerialiser()
+	~DeSerialiser() 
 	{
 		rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document	
 		rapidjson::Writer<rapidjson::StringBuffer> writer(buf);	//Writer handler - that contains the stringbuffer

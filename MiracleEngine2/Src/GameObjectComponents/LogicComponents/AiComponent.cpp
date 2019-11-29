@@ -77,7 +77,7 @@ Vector3& AiComponent::GetDestinationPos()
 
 Vector3& AiComponent::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
 }
 
 std::vector<Node*>& AiComponent::GetPath()

@@ -19,11 +19,13 @@ Turret::Turret() :
 void Turret::Init()
 {
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-	for (auto it : temp)
+	auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+
+	for (auto& idPair : IdentityComponents)
 	{
-		if (it.second->Get_uID() >= 1000 && it.second->GameObjectType() == (unsigned)TypeIdGO::PLAYER)
+		if (idPair.second->GetParentPtr()->Get_uID() >= 1000 && idPair.second->ObjectType().compare("Player"))
 		{
-			_target = it.second;
+			_target = idPair.second->GetParentPtr();
 			break;
 		}
 	}
@@ -46,17 +48,24 @@ Vector3& Turret::GetDestinationPos()
 {
 	if (!_target || _target->GetDestory()) // if not target, find player
 	{
-		std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-		for (auto itr : temp)
-			if (itr.second->Get_uID() >= 1000 && itr.second->GameObjectType() == (unsigned)TypeIdGO::PLAYER)
-				_target = itr.second;
+		//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+		auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+
+		for (auto& idPair : IdentityComponents)
+		{
+			if (idPair.second->GetParentPtr()->Get_uID() >= 1000 && idPair.second->ObjectType().compare("Player"))
+			{
+				_target = idPair.second->GetParentPtr();
+				break;
+			}
+		}
 	}
 	return ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
 }
 
 Vector3& Turret::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
 }
 
 void Turret::SearchTarget()

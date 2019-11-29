@@ -23,7 +23,10 @@ void Explosion::Update(double dt)
 
 void Explosion::OnTrigger2DEnter(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
+	std::string Id = IdCom->ObjectType();
+
+	if (Id.compare("Enemy") || Id.compare("EnemyTwo"))
 	{
 		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
 		enemy->DestoryThis();
