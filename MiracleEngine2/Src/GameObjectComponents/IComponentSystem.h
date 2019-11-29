@@ -81,7 +81,7 @@ public:
 	virtual void SerialiseComponent(Serialiser & document) = 0; //Every Component has to have a serialise function
 	virtual void DeSerialiseComponent(DeSerialiser & prototypeDoc) = 0; //Every Component has to have a DeSerialise function
 	virtual void Inspect() = 0;	//Every Component has an Inspect function for InspectionImguiWindow
-	virtual IComponentSystem* CloneComponent();
+	//virtual IComponentSystem* CloneComponent() = 0;
 
 
 	size_t GetParentId() const;

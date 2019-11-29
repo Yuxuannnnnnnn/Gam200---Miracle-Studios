@@ -119,7 +119,7 @@ public:
 	}
 
 
-	TileMapComponent* CloneComponent() override
+	TileMapComponent* CloneComponent()
 	{
 		return new TileMapComponent(*this);
 	}
