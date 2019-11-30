@@ -84,7 +84,7 @@ void SceneManager::SerialiseScenes(Serialiser GameSceneFile)
 {
 	if (GameSceneFile.HasMember("GameScenes"))
 	{
-		for (int i = 0; i < GameSceneFile["GameScenes"].Size(); i++)
+		for (unsigned i = 0; i < GameSceneFile["GameScenes"].Size(); i++)
 		{
 			std::string filePath = GameSceneFile["GameScenes"][i].GetString();
 			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));

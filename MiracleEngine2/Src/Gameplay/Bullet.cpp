@@ -43,7 +43,7 @@ void Bullet::Inspect()
 	ImGui::Spacing();
 }
 
-Bullet::Bullet() : _lifeTime{ 0.0 }, _bulletType{ 0 } {}
+Bullet::Bullet() : _lifeTime{ 0.0 }, _bulletType{ 0 }, _bulletSpeed{ 0.0 }{}
 
 int Bullet::StringToInt(std::string& in)
 {

@@ -10,7 +10,7 @@ IComponentSystem::IComponentSystem()
 
 
 IComponentSystem::IComponentSystem(GameObject* parent, size_t uId)
-	: _ParentPtr{ parent }, _ParentId{ uId }
+	: _ParentPtr{ parent }, _ParentId{ uId }, _enable{ true }
 {}
 
 

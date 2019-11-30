@@ -237,7 +237,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::RIGIDBODY_COMPONENT:
 	{
-		TransformComponent* transform;
+		//TransformComponent* transform;
 
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
 			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
@@ -264,7 +264,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::CIRCLECOLLIDER_COMPONENT:
 	{
-		TransformComponent* transform;
+		//TransformComponent* transform;
 
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
 			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
@@ -285,7 +285,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::BOXCOLLIDER_COMPONENT:
 	{
-		TransformComponent* transform;
+		//TransformComponent* transform;
 
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
 			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
@@ -305,7 +305,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	}
 	case ComponentId::EDGECOLLIDER_COMPONENT:
 	{
-		TransformComponent* transform;
+		//TransformComponent* transform;
 
 		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
 			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
@@ -675,7 +675,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 //Serialise Resources
 	if (Level.HasMember("TexturesFilesPaths"))
 	{
-		for (int i = 0; i < Level["TexturesFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		for (unsigned i = 0; i < Level["TexturesFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["TexturesFilesPaths"][i].GetString();
 			//std::cout << "FilePath" << filePath << std::endl;
@@ -688,7 +688,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	}
 	if (Level.HasMember("AnimationDataFilesPaths"))
 	{
-		for (int i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		for (unsigned i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["AnimationDataFilesPaths"][i].GetString();
 			//std::cout << "FilePath" << filePath << std::endl;
@@ -701,7 +701,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	}
 	if (Level.HasMember("AudioFilesPaths"))
 	{
-		for (int i = 0; i < Level["AudioFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		for (unsigned i = 0; i < Level["AudioFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["AudioFilesPaths"][i].GetString();
 			//std::cout << "FilePath" << filePath << std::endl;
@@ -714,7 +714,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	}
 	if (Level.HasMember("ShaderFilesPaths"))
 	{
-		for (int i = 0; i < Level["ShaderFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		for (unsigned i = 0; i < Level["ShaderFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["ShaderFilesPaths"][i].GetString();
 			//std::cout << "FilePath" << filePath << std::endl;
@@ -727,7 +727,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	}
 	if (Level.HasMember("FontFilesPath"))
 	{
-		for (int i = 0; i < Level["FontFilesPath"].Size(); i++)	//Loop through the Serialisation Array
+		for (unsigned i = 0; i < Level["FontFilesPath"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["FontFilesPath"][i].GetString();
 			//std::cout << "FilePath" << filePath << std::endl;
@@ -742,7 +742,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 //Create and Serialise TileMaps
 	if (Level.HasMember("AllTileMaps"))
 	{
-		for (int i = 0; i < Level["AllTileMaps"].Size(); i++)
+		for (unsigned i = 0; i < Level["AllTileMaps"].Size(); i++)
 		{
 			rapidjson::Value& tileMapInfo = Level["AllTileMaps"][i];
 			GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
@@ -754,7 +754,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 //Create dynamic GameObjects
 	if (Level.HasMember("GameObjects"))
 	{
-		for (int i = 0; Level["GameObjects"].Size(); i++)
+		for (unsigned i = 0; Level["GameObjects"].Size(); i++)
 		{
 			CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[Level["GameObjects"][i].GetString()]);
 		}

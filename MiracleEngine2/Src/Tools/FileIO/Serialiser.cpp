@@ -58,6 +58,7 @@ bool Serialiser::JsonParseChecker(const char c)
 {
 	if (AsciiNumberCheck(c) ||
 		AsciiLetterCheck(c) ||
+		c == '/' || c == '\\' ||
 		c == '\"' || c == ',' ||
 		c == ':' || c == '.' ||
 		c == '{' || c == '}' ||

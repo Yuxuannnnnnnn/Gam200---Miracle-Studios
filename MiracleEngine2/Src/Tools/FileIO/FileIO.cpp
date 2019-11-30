@@ -3,7 +3,7 @@
 #include "FileIO.h"
 
 
-#define MAX_CHAR_ARR_BUFFER 1000
+//#define MAX_CHAR_ARR_BUFFER 1000
 
 // take in power, x10 by power amt
 int MultTen(int power)

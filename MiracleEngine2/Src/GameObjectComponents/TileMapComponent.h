@@ -17,7 +17,7 @@ class TileMapComponent: public IComponentSystem
 	std::unordered_map<size_t, std::string> palette;
 
 public:
-	TileMapComponent() = default;
+	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilemap{ nullptr } {};
 	TileMapComponent(const TileMapComponent& copy) = default;
 
 	std::string ComponentName() const override
@@ -43,7 +43,7 @@ public:
 
 		if (document.HasMember("Palette"))
 		{
-			for (int i = 0; i < document["Palette"].Size(); i++)
+			for (unsigned i = 0; i < document["Palette"].Size(); i++)
 			{
 				palette[document["Palette"][i][1].GetInt()] = document["Palette"][i][2].GetString();
 			}

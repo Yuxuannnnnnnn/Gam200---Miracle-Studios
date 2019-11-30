@@ -18,6 +18,10 @@ private:
 	float _attackRange; // currently set to 1*_mapTileSize
 
 public:
+	void SerialiseComponent(Serialiser& document) override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
+	void Inspect() override;
+
 	Turret();
 
 	void Init();

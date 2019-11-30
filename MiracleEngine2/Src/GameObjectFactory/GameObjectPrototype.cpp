@@ -69,7 +69,7 @@ void GameObjectPrototype::SerialPrefabObjects(Serialiser& Level)
 {
 	if (Level.HasMember("PrototypesFilePaths"))
 	{
-		for (int i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
+		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 

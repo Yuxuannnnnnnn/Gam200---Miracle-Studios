@@ -22,7 +22,7 @@ inline const char* ToString(Scenes type)	//Convert TypeIdGO Enum type to const c
 	{
 	case Scenes::RESTART:	return " ";
 	case Scenes::MAIN_MENU:	return "./Resources/TextFiles/States/MainMenu.txt";
-	case Scenes::LEVEL1:	return "./Resources/TextFiles/States/TestLevel.txt";
+	case Scenes::LEVEL1:	return "./Resources/TextFiles/States/Level1.json";
 	case Scenes::WIN:		return " ";
 	case Scenes::LOSE:		return " ";
 	case Scenes::QUIT:		return " ";
