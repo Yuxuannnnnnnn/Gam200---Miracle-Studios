@@ -15,7 +15,7 @@ private:
 	int _state;
 	double _timerAttack;
 	double _timeAttackCooldown;	
-	float _attackRange; // currently set to 1*_mapTileSize
+	size_t _attackRange; // currently set to 1*_mapTileSize
 
 public:
 	void SerialiseComponent(Serialiser& document) override;

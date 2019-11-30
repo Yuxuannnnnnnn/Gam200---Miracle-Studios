@@ -11,7 +11,7 @@ void Turret::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("AttackRange") && document["AttackRange"].IsInt())
 	{
 		_attackRange = (document["AttackRange"].GetInt());
-		_attackRange *= (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+		_attackRange *= EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 		_attackRange *= _attackRange; // pow(2)
 	}
 }
@@ -23,7 +23,7 @@ void Turret::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	value.SetInt(_health);
 	prototypeDoc.AddMember("Health", value);
 	value.Clear();
-	value.SetInt(_timeAttackCooldown);
+	value.SetDouble(_timeAttackCooldown);
 	prototypeDoc.AddMember("Firerate", value);
 	value.Clear();
 	value.SetInt(_attackRange);
@@ -38,20 +38,6 @@ void Turret::Inspect()
 	ImGui::Spacing();
 	ImGui::InputDouble("Firerate ", &_timeAttackCooldown);
 	ImGui::Spacing();
-}
-
-Turret::Turret() :
-	_init{ false },
-	_health{ 1 },
-	_target{ nullptr },
-	_state{ (unsigned)AiState::IDLE },
-	_timerAttack{ 0.0 },
-	_timeAttackCooldown{ 3.0 }
-
-{
-	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 5; // 5 tileSize
-	_attackRange *= _attackRange; // pow(2)
 }
 
 Turret::Turret() : 
