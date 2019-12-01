@@ -160,7 +160,7 @@ void AISystem::CreateNodeMap()
 
 	for (int y = 0; y < (int)_mapHeight; ++y)
 	{
-		for (int x = 0; x < _mapWidth; ++x)
+		for (int x = 0; x < (int)_mapWidth; ++x)
 		{
 			// Update tempVec
 			tempVec = Vector3(
@@ -326,6 +326,15 @@ void AISystem::CreateNodeMap()
 
 void AISystem::CreateNodeMapFromTileComp()
 {
+	unsigned height = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetHeight();
+	unsigned width = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetWidth();
+	size_t** temp = new size_t*[height];
+	for (int i = 0; i < width; ++i)
+		temp[i] = new size_t[width];
+	std::string** tilemap = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetTileMap();
+
+
+
 	size_t id = 0; // id for Node's id
 	Node* tempNode = nullptr;
 	bool solid = false;
@@ -337,28 +346,22 @@ void AISystem::CreateNodeMapFromTileComp()
 	int originY = -(int)((_mapTileSize * _mapHeight) / 2);
 	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
 
-	_engineSystems._collisionManager->_collisionMap.AddNewMap(
-		MAP_HEIGHT, MAP_WIDTH, Vec2{ MAP_SIZE, MAP_SIZE }, tempVecOrigin);
-
-	for (int y = 0; y < (int)_mapHeight; ++y)
+	for (unsigned y = 0; y < height; ++y)
 	{
-		for (int x = 0; x < _mapWidth; ++x)
+		for (unsigned x = 0; x < width; ++x)
 		{
-			// Update tempVec
 			tempVec = Vector3(
 				tempVecOrigin._x + (x * _mapTileSize), // map grows rightwards
 				tempVecOrigin._y + (y * _mapTileSize), // map grows upwards
 				0);
-			// Create node
-			solid = _tilemapInput[y][x] == 1 ? true : false;
-			bool spawner = _tilemapInput[y][x] == 2 ? true : false;
-			bool spawner2 = _tilemapInput[y][x] == 3 ? true : false;
-			bool spawner3 = _tilemapInput[y][x] == 4 ? true : false;
+			// check solidity
+			std::string tempStr = tilemap[height][width];
+			// if tempStr compared w/ palette == solid, set solid = true
+			solid = _tilemapInput[y][x] == 1 ? true : false; // need 'palette' to determine solidty
+			// create node
 			tempNode = new Node(solid, id, tempVec);
-			//_tilemap[id] = tempNode;
 			_tilemap.insert(std::pair<size_t, Node*>(id, tempNode));
-			// Assign id to the current _tilemap[][]
-			_tilemapInput[y][x] = id++; //increment the id
+			//*((temp + (y*width)) + x) = id++; // idk if the ptr arithmatic is correct // ((ptr + (jumpToRow)) + rowOffset)
 		}
 	}
 
