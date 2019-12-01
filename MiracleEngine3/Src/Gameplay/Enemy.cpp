@@ -64,6 +64,11 @@ Enemy::Enemy() :
 	_attackMelee *= _attackMelee;
 }
 
+Enemy::~Enemy()
+{
+	dynamic_cast<Player*>(((LogicComponent*)(_target->GetComponent(ComponentId::LOGIC_COMPONENT)))->GetScript(ScriptId::PLAYER))->ProgressIncement();
+}
+
 void Enemy::Init()
 {
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();

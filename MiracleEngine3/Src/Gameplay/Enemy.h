@@ -42,6 +42,7 @@ public:
 	void Inspect() override;
 
 	Enemy();
+	~Enemy();
 
 	void Init();
 	void Update(double dt);

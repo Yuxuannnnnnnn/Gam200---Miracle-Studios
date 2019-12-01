@@ -18,6 +18,7 @@
 #include <comdef.h>			// For _bstr_t class, to convert const wchar_t* to const char*
 #include <functional>		// using for funcPtrs
 #include <unordered_map>
+#include <memory>
 
 //#include "glm/glm.hpp"
 //#include "glm/gtc/matrix_transform.hpp"
@@ -57,6 +58,7 @@
 #include "GameObjectComponents/PhysicsComponents/Collider2D.h"
 #include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
 #include "GameObjectComponents/LogicComponents/LogicComponent.h"
+#include "GameObjectComponents/LogicComponents/DataComponent.h"
 #include "GameObjectComponents/LogicComponents/AiComponent.h"
 #include "GameObjectComponents/LogicComponents/IScript.h"
 #include "GameObjectComponents/AudioComponent.h"

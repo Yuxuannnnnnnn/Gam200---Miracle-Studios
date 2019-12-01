@@ -28,6 +28,7 @@
 
   "LogicComponent": true,
   "ScriptId": [ "PLAYER" ],
+  "Health" : 50,
   "WeaponActive": 2,
   "AmmoRpg": 5,
   "AmmoTurret": 5,

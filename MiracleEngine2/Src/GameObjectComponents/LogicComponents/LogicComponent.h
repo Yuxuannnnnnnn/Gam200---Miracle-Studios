@@ -7,8 +7,10 @@
 #define LOGICCOMPONENT_H
 
 //class IScript; //forward declare, for the ScriptStringToInt()
+class DataComponent;
 
-typedef std::unordered_map <unsigned, IScript*> Map_ScriptList;
+using Map_ScriptList = std::unordered_map <unsigned, IScript*>;
+using Map_DataList = std::unordered_map <std::string, DataComponent*>;
 
 class LogicComponent : public IComponentSystem
 {
