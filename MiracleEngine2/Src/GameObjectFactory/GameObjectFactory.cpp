@@ -605,7 +605,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _transformComponents[object->Get_uID()];
 		_transformComponents.erase(object->Get_uID());
-		MyTransformManager.RemoveObject(object->Get_uID());
+		//MyTransformManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::TRANSFORM_COMPONENT);
 		break;
 	}
@@ -613,7 +613,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _graphicComponents[object->Get_uID()];
 		_graphicComponents.erase(object->Get_uID());
-		MyGraphicsSystem.RemoveSpriteObject(object->Get_uID());
+		//MyGraphicsSystem.RemoveSpriteObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT);
 
 		{
@@ -628,7 +628,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _rigidBody2dComponents[object->Get_uID()];
 		_rigidBody2dComponents.erase(object->Get_uID());
-		MyRigidbodyManager.RemoveObject(object->Get_uID());
+		//MyRigidbodyManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::RIGIDBODY_COMPONENT);
 		break;
 	}
@@ -636,7 +636,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
-		MyCollisionManager.RemoveObject(object->Get_uID());
+		//MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::CIRCLECOLLIDER_COMPONENT);
 		break;
 	}
@@ -644,7 +644,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
-		MyCollisionManager.RemoveObject(object->Get_uID());
+		//MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::BOXCOLLIDER_COMPONENT);
 		break;
 	}
@@ -652,7 +652,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
-		MyCollisionManager.RemoveObject(object->Get_uID());
+		//MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::EDGECOLLIDER_COMPONENT);
 		break;
 	}
@@ -673,7 +673,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 
 			delete _logicComponents[object->Get_uID()];
 			_logicComponents.erase(object->Get_uID());
-			MyLogicSystem.RemoveObject(object->Get_uID());
+			//MyLogicSystem.RemoveObject(object->Get_uID());
 			MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::LOGIC_COMPONENT);
 			break;
 		}
@@ -708,7 +708,7 @@ LogicComponent* GameObjectFactory::CloneLogicComponent(GameObject* object, Logic
 	newComponent->SetParentPtr(object);
 	_logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), newComponent));
 
-	MyLogicSystem.AddObject(object->Get_uID(), newComponent);
+	//MyLogicSystem.AddObject(object->Get_uID(), newComponent);
 	MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::LOGIC_COMPONENT, newComponent);
 
 	Map_ScriptList& scriptMap = newComponent->GetScriptMap();

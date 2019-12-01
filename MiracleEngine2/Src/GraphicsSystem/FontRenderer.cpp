@@ -11,7 +11,6 @@ void FontRenderer::DrawFont(std::string& text, float xpos, float ypos, const glm
 
 void FontRenderer::Draw()
 {
-
 	RenderText(*_shader, "Start", 200.0f, 250.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
 
 	RenderText(*_shader, "Option", -75.0f, 0.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
