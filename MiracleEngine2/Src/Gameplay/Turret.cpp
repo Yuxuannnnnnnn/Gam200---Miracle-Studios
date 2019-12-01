@@ -2,6 +2,44 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+void Turret::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("Health") && document["Health"].IsInt())
+		_health = (document["Health"].GetInt());
+	if (document.HasMember("Firerate") && document["Firerate"].IsDouble())
+		_timeAttackCooldown = (document["Firerate"].GetDouble());
+	if (document.HasMember("AttackRange") && document["AttackRange"].IsInt())
+	{
+		_attackRange = (document["AttackRange"].GetInt());
+		_attackRange *= EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+		_attackRange *= _attackRange; // pow(2)
+	}
+}
+
+void Turret::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetInt(_health);
+	prototypeDoc.AddMember("Health", value);
+	value.Clear();
+	value.SetDouble(_timeAttackCooldown);
+	prototypeDoc.AddMember("Firerate", value);
+	value.Clear();
+	value.SetInt(_attackRange);
+	prototypeDoc.AddMember("AttackRange", value);
+	value.Clear();
+}
+
+void Turret::Inspect()
+{
+	ImGui::Spacing();
+	ImGui::InputInt("Health ", &_health);
+	ImGui::Spacing();
+	ImGui::InputDouble("Firerate ", &_timeAttackCooldown);
+	ImGui::Spacing();
+}
+
 Turret::Turret() : 
 	_init{ false },
 	_health{ 1 },
@@ -19,11 +57,13 @@ Turret::Turret() :
 void Turret::Init()
 {
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-	for (auto it : temp)
+	auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+
+	for (auto& idPair : IdentityComponents)
 	{
-		if (it.second->Get_uID() >= 1000 && it.second->GameObjectType() == (unsigned)TypeIdGO::PLAYER)
+		if (idPair.second->GetParentPtr()->Get_uID() >= 1000 && idPair.second->ObjectType().compare("Player"))
 		{
-			_target = it.second;
+			_target = idPair.second->GetParentPtr();
 			break;
 		}
 	}
@@ -46,17 +86,24 @@ Vector3& Turret::GetDestinationPos()
 {
 	if (!_target || _target->GetDestory()) // if not target, find player
 	{
-		std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-		for (auto itr : temp)
-			if (itr.second->Get_uID() >= 1000 && itr.second->GameObjectType() == (unsigned)TypeIdGO::PLAYER)
-				_target = itr.second;
+		//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+		auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+
+		for (auto& idPair : IdentityComponents)
+		{
+			if (idPair.second->GetParentPtr()->Get_uID() >= 1000 && idPair.second->ObjectType().compare("Player"))
+			{
+				_target = idPair.second->GetParentPtr();
+				break;
+			}
+		}
 	}
 	return ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
 }
 
 Vector3& Turret::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
 }
 
 void Turret::SearchTarget()
@@ -64,19 +111,25 @@ void Turret::SearchTarget()
 	// loop through _listObject, get closest 
 
 
-	GameObject* tempGO = nullptr, *tempPlayer = nullptr;
-	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-	for (auto itr : temp)
+	GameObject* tempGO = nullptr, * tempPlayer = nullptr;
+	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+
+	std::unordered_map<size_t, IdentityComponent*> idComList = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+	for (auto& it : idComList)
 	{
-		if (itr.second->Get_uID() >= 1000 &&
-			((itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMY) || (itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMYTWO))&&
-			!itr.second->GetDestory())
+		if (it.second->GetParentPtr()->Get_uID() >= 1000 &&
+			(	(it.second->ObjectType().compare("Enemy") ||
+				it.second->ObjectType().compare("EnemyTwo") ||
+				it.second->ObjectType().compare("EnemyThree"))
+			) && !it.second->GetParentPtr()->GetDestory())
 		{
+			IdentityComponent* idCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::IDENTITY_COMPONENT));
+
 			// check if current target is player
-			if (_target->Get_typeId() == (unsigned)TypeIdGO::PLAYER)
-				_target = itr.second;
+			if (idCom->ObjectType().compare("Player"))
+				_target = it.second->GetParentPtr();
 		// check distance of both objects
-			tempGO = itr.second;
+			tempGO = it.second->GetParentPtr();
 			// if _target closer than tempGO,
 			Vector3 distTarget(
 				(((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._x - GetPosition()._x),
@@ -94,9 +147,9 @@ void Turret::SearchTarget()
 	}
 	// else no Enemies detected, so look at player
 	if (!tempGO && !_target)
-		for (auto itr : temp)
-			if (itr.second->Get_uID() >= 1000 && itr.second->GameObjectType() == (unsigned)TypeIdGO::PLAYER)
-					_target = itr.second;
+		for (auto& itr : idComList)
+			if (itr.second->GetParentPtr()->Get_uID() >= 1000 && itr.second->ObjectType().compare("Player"))
+					_target = itr.second->GetParentPtr();
 }
 void Turret::ShootTarget()
 {
@@ -105,12 +158,12 @@ void Turret::ShootTarget()
 		_timerAttack = _timeAttackCooldown;
 		//std::cout << "Fired!" << std::endl;
 		// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BULLET_T]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Bullet_T"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 50000);
 	}
 }
@@ -124,14 +177,16 @@ void Turret::RotateToTarget()
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = targetVec._x * compareVec._x + targetVec._y * compareVec._y;
 	float det = targetVec._x * compareVec._y - targetVec._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 }
 
 void Turret::FSM()
 {
 	SearchTarget();
 	// if no enemy
-	if (_target->Get_uID() == (unsigned)TypeIdGO::PLAYER)
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::IDENTITY_COMPONENT));
+	std::string id = IdCom->ObjectType();
+	if (id.compare("Player"))
 		_state = (unsigned)AiState::IDLE;
 	else
 	{
@@ -139,7 +194,7 @@ void Turret::FSM()
 		Vector3 tempVec3 = GetDestinationPos() - GetPosition();
 		if (tempVec3.SquaredLength() > _attackRange)
 			_state = (unsigned)AiState::MOVING;
-		else if (_target->Get_typeId() == (unsigned)TypeIdGO::PLAYER)
+		else if (id.compare("Player"))
 			_state = (unsigned)AiState::MOVING;
 		else
 			_state = (unsigned)AiState::ATTACKING;

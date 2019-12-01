@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
+    <ClInclude Include="Src\Gameplay\EnemyThree.h" />
     <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
@@ -579,6 +580,7 @@
     <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.h" />
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
+    <ClInclude Include="Src\GameObjectComponents\TileMapComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp">
@@ -588,6 +590,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
+    <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
@@ -733,6 +736,7 @@
     <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.cpp" />
     <ClCompile Include="Src\WindowsSystem\WIndowsSystem.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\TileMapComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />
@@ -881,11 +885,16 @@
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
+    <None Include="Resources\TextFiles\AnimationData\Data_file_Explosion_Blue_Plasma_24FPS_Sprite.json" />
     <None Include="Resources\TextFiles\GameObjects\BGM.json" />
+    <None Include="Resources\TextFiles\GameObjects\Boss.json" />
+    <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
-    <None Include="Resources\TextFiles\GameObjects\Buttons.json" />
+    <None Include="Resources\TextFiles\GameObjects\Button.json" />
     <None Include="Resources\TextFiles\GameObjects\Camera.json" />
+    <None Include="Resources\TextFiles\GameObjects\Enemy.json" />
+    <None Include="Resources\TextFiles\GameObjects\EnemyThree.json" />
     <None Include="Resources\TextFiles\GameObjects\EnemyTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
@@ -893,10 +902,13 @@
     <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Ammo.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Health.json" />
+    <None Include="Resources\TextFiles\GameObjects\player.json" />
     <None Include="Resources\TextFiles\GameObjects\Spawner.json" />
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
+    <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
+    <None Include="Resources\TextFiles\States\GameScenes.json" />
     <None Include="Resources\TextFiles\States\Level1.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />

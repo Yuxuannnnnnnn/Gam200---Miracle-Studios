@@ -1,7 +1,6 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "GameObjectType": 20,
   "ObjectType": "Explosion",
 
   "TransformComponent": true,

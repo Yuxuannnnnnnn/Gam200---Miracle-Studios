@@ -1,7 +1,7 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "ObjectType": "Spawner",
+  "ObjectType": "SpawnerTwo",
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],
@@ -20,6 +20,6 @@
   "LogicComponent": true,
   "ScriptId": [ "SPAWNER" ],
   "Health": 20,
-  "SpawnType": 1,
-  "SpawnRate": 10.0
+  "SpawnType": 3,
+  "SpawnRate": 5.0
 }

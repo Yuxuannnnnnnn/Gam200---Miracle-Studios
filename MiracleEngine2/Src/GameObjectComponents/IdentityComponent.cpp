@@ -8,20 +8,20 @@
 
 
 IdentityComponent::IdentityComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId), _typeId{ (unsigned)TypeIdGO::NONE }, _ObjectType{""}
+	: IComponentSystem(parent, uId)/*, _typeId{ (unsigned)TypeIdGO::NONE }*/, _ObjectType{""}
 {
-	if (component)
-	{
-		IdentityComponent* Icom = dynamic_cast<IdentityComponent*>(component);
-		_typeId = Icom->_typeId;
-		_name = Icom->_name;
-		_ObjectType = Icom->_ObjectType;
-	}
+	//if (component)
+	//{
+	//	IdentityComponent* Icom = dynamic_cast<IdentityComponent*>(component);
+	//	_typeId = Icom->_typeId;
+	//	_name = Icom->_name;
+	//	_ObjectType = Icom->_ObjectType;
+	//}
 }
 
 IdentityComponent::IdentityComponent(IdentityComponent* component)
 {
-	_typeId = component->_typeId;
+	//_typeId = component->_typeId;
 	_name = component->_name;
 	_ObjectType = component->_ObjectType;
 }
@@ -41,10 +41,10 @@ void IdentityComponent::SerialiseComponent(Serialiser& document)
 		_name = document["Name"].GetString();
 	}
 
-	if (document.HasMember("GameObjectType") && document["GameObjectType"].IsInt())	//Checks if the variable exists in .Json file
-	{
-		_typeId = document["GameObjectType"].GetInt();
-	}	
+	//if (document.HasMember("GameObjectType") && document["GameObjectType"].IsInt())	//Checks if the variable exists in .Json file
+	//{
+	//	_typeId = document["GameObjectType"].GetInt();
+	//}	
 	
 	if (document.HasMember("ObjectType") && document["ObjectType"].IsString())	//Checks if the variable exists in .Json file
 	{
@@ -59,8 +59,8 @@ void IdentityComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	value.SetString(rapidjson::StringRef(_name.c_str()));
 	prototypeDoc.AddMember("Name", value);
 
-	value.SetInt(_typeId);
-	prototypeDoc.AddMember("GameObjectType", value);
+	//value.SetInt(_typeId);
+	//prototypeDoc.AddMember("GameObjectType", value);
 
 	value.SetString(rapidjson::StringRef(_ObjectType.c_str()));
 	prototypeDoc.AddMember("ObjectType", value);
@@ -70,7 +70,7 @@ void IdentityComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 void IdentityComponent::Inspect()
 {
 	ImGui::Spacing();
-	std::string string = std::string("Game Object Type: ") + ToString((TypeIdGO)_typeId);
+	std::string string = std::string("Game Object Type: ") + _ObjectType;
 	ImGui::Text(string.c_str()); 
 	ImGui::Spacing();
 
@@ -80,7 +80,7 @@ void IdentityComponent::Inspect()
 }
 
 
-unsigned IdentityComponent::GameObjectType() const
-{
-	return _typeId;
-}
+//unsigned IdentityComponent::GameObjectType() const
+//{
+//	return _typeId;
+//}

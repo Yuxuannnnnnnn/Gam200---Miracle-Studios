@@ -80,46 +80,60 @@ GraphicComponent& GraphicComponent::operator= (const GraphicComponent& rhs)
 
 void GraphicComponent::RenderLayerResolver()
 {
-	switch (GetParentPtr()->Get_typeId())
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
+	std::string type = IdCom->ObjectType();
+
+	if (type.compare("Floor"))
 	{
-	case (unsigned)TypeIdGO::FLOOR:
 		_renderLayer = -1;
-		break;
-	case (unsigned)TypeIdGO::WALL:
+	}
+	else if (type.compare("Wall"))
+	{
 		_renderLayer = 10;
-		break;
-	case (unsigned)TypeIdGO::SPAWNER:
+	}
+	else if (type.compare("Spawner"))
+	{
 		_renderLayer = 1;
-		break;
-	case (unsigned)TypeIdGO::SPAWNERTWO:
+	}
+	else if (type.compare("SpawnerTwo"))
+	{
 		_renderLayer = 2;
-		break;
-	case (unsigned)TypeIdGO::PLAYER:
+	}
+	else if (type.compare("Player"))
+	{
 		_renderLayer = 7;
-		break;
-	case (unsigned)TypeIdGO::ENEMY:
+	}
+	else if (type.compare("Enemy"))
+	{
 		_renderLayer = 4;
-		break;
-	case (unsigned)TypeIdGO::TURRET:
+	}
+	else if (type.compare("Turret"))
+	{
 		_renderLayer = 6;
-		break;
-	case (unsigned)TypeIdGO::ENEMYTWO:
+	}
+	else if (type.compare("EnemyTwo"))
+	{
 		_renderLayer = 3;
-		break;
-	case (unsigned)TypeIdGO::BULLET:
+	}
+	else if (type.compare("Bullet"))
+	{
 		_renderLayer = 9;
-		break;
-	case (unsigned)TypeIdGO::BULLET_T:
+	}
+	else if (type.compare("Bullet_T"))
+	{
 		_renderLayer = 9;
-		break;
-	case (unsigned)TypeIdGO::BULLET_E:
+	}
+	else if (type.compare("Bullet_E"))
+	{
 		_renderLayer = 9;
-		break;
-	case (unsigned)TypeIdGO::EXPLOSION:
+	}
+	else if (type.compare("Explosion"))
+	{
 		_renderLayer = 9;
-	case (unsigned)TypeIdGO::BUTTON_UI:
+	}
+	else if (type.compare("Button"))
+	{		
 		_renderLayer = -10;
-		break;
 	}
 }
 

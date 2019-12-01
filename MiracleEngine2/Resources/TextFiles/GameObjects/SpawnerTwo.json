@@ -1,7 +1,6 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "GameObjectType": 4,
   "ObjectType": "SpawnerTwo",
 
   "TransformComponent": true,
@@ -19,6 +18,8 @@
   "ColliderTrigger": true,
 
   "LogicComponent": true,
-  "ScriptId": [ "SPAWNERTWO" ],
-  "Health": 20
+  "ScriptId": [ "SPAWNER" ],
+  "Health": 20,
+  "SpawnType": 2,
+  "SpawnRate": 10.0
 }

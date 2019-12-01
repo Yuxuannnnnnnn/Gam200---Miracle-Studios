@@ -43,7 +43,7 @@ void Bullet::Inspect()
 	ImGui::Spacing();
 }
 
-Bullet::Bullet() : _lifeTime{ 0.0 }, _bulletType{ 0 } {}
+Bullet::Bullet() : _lifeTime{ 0.0 }, _bulletType{ 0 }, _bulletSpeed{ 0.0 }{}
 
 int Bullet::StringToInt(std::string& in)
 {
@@ -87,13 +87,25 @@ void Bullet::Update(double dt)
 
 void Bullet::BulletCollisionPlayer(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMY || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::ENEMYTWO)
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
+	std::string Id = IdCom->ObjectType();
+
+	if (Id.compare("Enemy") ||
+		Id.compare("EnemyTwo"))
 	{
 		DestoryThis();
 		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
 		enemy->DecrementHealth();
+		enemy->SetStunned();
 	}
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER ||
+	if (Id.compare("EnemyThree"))
+	{
+		DestoryThis();
+		EnemyThree* enemy = reinterpret_cast<EnemyThree*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMYTHREE));
+		enemy->DecrementHealth();
+	}
+
+	if (Id.compare("Spawner") ||
 		other->_tag == (unsigned)ColliderTag::BUILDING ||
 		other->_tag == (unsigned)ColliderTag::EDGES)
 	{
@@ -102,14 +114,16 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 }
 void Bullet::BulletCollisionTurret(Collider2D* other)
 {
-	GameObject* explosion = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::EXPLOSION]);
+	GameObject* explosion = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Explosion"]);
 	((TransformComponent*)explosion->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 	DestoryThis();
 }
 void Bullet::BulletCollisionEnemy(Collider2D* other)
 {
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER)
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
+
+	if (IdCom->ObjectType().compare("Player"))
 	{
 		DestoryThis();
 		Player* player = reinterpret_cast<Player*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PLAYER));
@@ -117,8 +131,8 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 		hp -= 2;
 		player->SetHealth(hp);
 	}
-	if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::SPAWNER ||
-		other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::WALL ||
+	else if (IdCom->ObjectType().compare("Spawner") ||
+		IdCom->ObjectType().compare("Wall") ||
 		other->_tag == (unsigned)ColliderTag::EDGES)
 	{
 		DestoryThis();

@@ -6,8 +6,8 @@
 #include "Engine/EngineSystems.h"
 #include "Tools/FileIO/Serialiser.h"
 
-GameObject::GameObject(size_t uId, unsigned typeId)
-	:_uId{ uId }, _typeId{ typeId }, _destory{ false }, _enable{ true }, _alive{ true }
+GameObject::GameObject(size_t uId)
+	:_uId{ uId }, _destory{ false }, _enable{ true }, _alive{ true }
 {
 	//std::cout << "GameObject::GameObject()" << std::endl;
 }
@@ -17,14 +17,21 @@ GameObject::~GameObject()
 }
 
 
-unsigned GameObject::GameObjectType() const
-{
-	return _typeId;
-}
-unsigned GameObject::Get_typeId() const
-{
-	return _typeId;
-}
+//unsigned GameObject::GameObjectType() const
+//{
+//	return _typeId;
+//}
+//unsigned GameObject::Get_typeId() const
+//{
+//	return _typeId;
+//}
+
+//void GameObject::Set_typeId(TypeIdGO type)
+//{
+//	_typeId = (unsigned)type;
+//}
+
+
 size_t GameObject::Get_uID() const
 {
 	return _uId;
@@ -36,13 +43,23 @@ IComponentSystem* GameObject::GetComponent(ComponentId typeId, ScriptId script) 
 	if (CheckComponent(typeId))
 	{
 		if (typeId == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY)
-			return reinterpret_cast<LogicComponent*>(_ComponentList[(unsigned)typeId])->GetScript(script);
+			return reinterpret_cast<LogicComponent*>(_ComponentList[typeId])->GetScript(script);
 
-		return _ComponentList[(unsigned)typeId];
+		return _ComponentList[typeId];
 	}
 
 	return nullptr;
 }
+
+
+//void GameObject::SerialiseFromLevel(rapidjson::Value& fileObject)
+//{
+//	for (auto& ComPair : _ComponentList)
+//	{
+//		ComPair.second->SerialiseComponent(fileObject);
+//	}
+//
+//}
 
 void GameObject::Serialise(std::string file)
 {
@@ -50,6 +67,9 @@ void GameObject::Serialise(std::string file)
 
 	Serialiser document(file);
 	int i = 0;
+	//auto ComponentTypes = EngineSystems::GetInstance()._prefabFactory->GetComponentTypes();
+
+
 	for (int i = 0; i < (int)ComponentId::COUNTCOMPONENT; i++)
 	{
 		if (document.HasMember(ToString((ComponentId)i)))
@@ -63,7 +83,7 @@ void GameObject::Serialise(std::string file)
 
 void GameObject::DeSerialise()
 {
-	IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[(unsigned)ComponentId::IDENTITY_COMPONENT]);
+	IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[ComponentId::IDENTITY_COMPONENT]);
 	std::string fileName = "./Resources/TextFiles/GameObjects/" + IdComponent->ObjectType() + ".json";
 	DeSerialiser prototypeDoc(fileName);
 
@@ -87,7 +107,7 @@ Map_ComponentList& GameObject::GetComponentList() // Get ComponentList
 
 bool  GameObject::CheckComponent(ComponentId componentType, ScriptId script)
 {
-	Map_ComponentList::iterator it = _ComponentList.find((unsigned)componentType);
+	Map_ComponentList::iterator it = _ComponentList.find(componentType);
 
 	if (it == _ComponentList.end() || !it->second)
 		return false;
@@ -111,7 +131,7 @@ IComponentSystem* GameObject::AddComponent(ComponentId componentType, ScriptId s
 	IComponentSystem* newComponent = EngineSystems::GetInstance()._gameObjectFactory->AddComponent(this, componentType, script);
 	
 	if (!CheckComponent(componentType))
-		_ComponentList.insert(std::pair<unsigned, IComponentSystem*>((unsigned)componentType, newComponent));
+		_ComponentList.insert(std::pair<ComponentId, IComponentSystem*>(componentType, newComponent));
 
 
 	return GetComponent(componentType, script);
@@ -123,8 +143,8 @@ void GameObject::RemoveComponent(ComponentId componentType, ScriptId script)
 
 	EngineSystems::GetInstance()._gameObjectFactory->RemoveComponent(this, componentType, script);
 
-	if (script == ScriptId::EMPTY)
-		_ComponentList.erase((unsigned)componentType + (unsigned)script);
+	//if (script == ScriptId::EMPTY)
+		//_ComponentList.erase((ComponentId((unsigned)componentType + (unsigned)script)));
 }
 
 void GameObject::DestoryGameObject()
@@ -132,7 +152,3 @@ void GameObject::DestoryGameObject()
 	EngineSystems::GetInstance()._gameObjectFactory->DestoryGameObject(this);
 }
 
-void GameObject::Set_typeId(TypeIdGO type)
-{
-	_typeId = (unsigned)type;
-}

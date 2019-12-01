@@ -26,7 +26,9 @@ enum class ComponentId {
 
 	AUDIO_COMPONENT,	//Audio Component
 	BUTTON_COMPONENT,
-	COUNTCOMPONENT
+	COUNTCOMPONENT,
+
+	TILEMAP_COMPONENT
 };
 
 inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui
@@ -51,6 +53,7 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 	case ComponentId::AUDIO_COMPONENT:			return "AudioComponent";
 
 	case ComponentId::BUTTON_COMPONENT:			return "ButtonComponent";
+	case ComponentId::TILEMAP_COMPONENT:		return "TileMapComponent";
 
 	default:      return "[Unknown TypeIdComponent]";
 	}
@@ -78,13 +81,15 @@ public:
 	virtual void SerialiseComponent(Serialiser & document) = 0; //Every Component has to have a serialise function
 	virtual void DeSerialiseComponent(DeSerialiser & prototypeDoc) = 0; //Every Component has to have a DeSerialise function
 	virtual void Inspect() = 0;	//Every Component has an Inspect function for InspectionImguiWindow
+	//virtual IComponentSystem* CloneComponent() = 0;
+
 
 	size_t GetParentId() const;
 	void SetParentId(size_t inVal);
 	GameObject* GetParentPtr();
 	void SetParentPtr(GameObject* inVal);
 
-	IComponentSystem* GetSibilingComponent(unsigned _componentId);
+	IComponentSystem* GetSibilingComponent(ComponentId _componentId);
 
 	bool GetEnable() const { return _enable; }
 	void SetEnable(bool enable) { _enable = enable; }

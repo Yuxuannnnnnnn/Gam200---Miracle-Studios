@@ -22,7 +22,7 @@ inline const char* ToString(Scenes type)	//Convert TypeIdGO Enum type to const c
 	{
 	case Scenes::RESTART:	return " ";
 	case Scenes::MAIN_MENU:	return "./Resources/TextFiles/States/MainMenu.txt";
-	case Scenes::LEVEL1:	return "./Resources/TextFiles/States/TestLevel.txt";
+	case Scenes::LEVEL1:	return "./Resources/TextFiles/States/Level1.json";
 	case Scenes::WIN:		return " ";
 	case Scenes::LOSE:		return " ";
 	case Scenes::QUIT:		return " ";
@@ -31,11 +31,32 @@ inline const char* ToString(Scenes type)	//Convert TypeIdGO Enum type to const c
 }
 class SceneManager
 {
+
 	Scenes _currScene;
 public:
 	SceneManager();
 	void ChangeScene(Scenes scene = Scenes::RESTART);
 	Scenes GetCurrentScene();
+
+
+
+//For Dynamic Scene Changing based on .json file
+private:
+	typedef std::unordered_map <std::string, std::string> NamePath;
+
+	NamePath _scenes;
+	std::string _currentScene;
+
+public:
+
+	void InitScene();
+	void ChangeScene(std::string scene);
+
+//For GamePlay 
+	void SerialiseScenes(Serialiser GameSceneFile);
+
+//For Level Editor
+	void LoadAllSceneAssets(NamePath GameSceneFile);
 };
 
 #endif

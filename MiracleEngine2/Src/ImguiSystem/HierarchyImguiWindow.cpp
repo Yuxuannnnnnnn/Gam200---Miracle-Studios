@@ -45,8 +45,11 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 		GameObject* gameObject = gameObjectPair.second; //Get GameObject* from std::pair
 
 		size_t uID = gameObject->Get_uID();				//Get Unique Number of each GameObject
-		unsigned ObjectTypeID = gameObject->GameObjectType(); //Get Object Type of each GameObject
-		std::string string = ToString((TypeIdGO)ObjectTypeID) + std::string(" ") + std::to_string(uID); // "Object Type + Object unique number" string
+
+		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (gameObject->GetComponent(ComponentId::IDENTITY_COMPONENT));
+
+		std::string ObjectTypeID = IdCom->ObjectType(); //Get Object Type of each GameObject
+		std::string string = ObjectTypeID + std::string(" ") + std::to_string(uID); // "Object Type + Object unique number" string
 
 		static bool selected;
 		if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))

@@ -72,9 +72,9 @@ void GraphicsSystem::Update(double dt)
 
 
 			// texture with animation
-		if (graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
+		if (graphicComponent->GetSibilingComponent(ComponentId::ANIMATION_COMPONENT))
 		{
-			AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT);
+			AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent(ComponentId::ANIMATION_COMPONENT);
 
 			anim->testanim->Select();
 			//_testAnimation.Select();

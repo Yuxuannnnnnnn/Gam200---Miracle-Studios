@@ -74,6 +74,18 @@ void ResourceManager::AddAudioResourceList(NamePath list)
 		GetAudioResource(it.second); */
 }
 
+void ResourceManager::AddAnimationResourceList(NamePath list)
+{
+	_AnimationList = list;
+	Animation* resource = new Animation();
+	for (auto& filePath : _AnimationList)
+	{
+		resource->Serialise(filePath.second);
+		_AnimationMap.insert(std::pair<std::string, Animation*>(filePath.second, resource));
+	}
+
+}
+
 unsigned char* ResourceManager::GetTexture2DResource(std::string file, int& width, int& height, int& bpp)
 {
 	Texture2D_Resource* result = nullptr;

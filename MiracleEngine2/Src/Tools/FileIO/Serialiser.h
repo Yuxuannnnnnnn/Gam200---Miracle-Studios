@@ -5,7 +5,7 @@
 #ifndef SERIALISER_H
 #define SERIALISER_H
 
-#define MAX_CHAR_ARR_BUFFER 1000
+#define MAX_CHAR_ARR_BUFFER 100000
 
 class Serialiser
 {

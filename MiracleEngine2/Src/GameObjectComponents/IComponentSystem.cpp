@@ -10,7 +10,7 @@ IComponentSystem::IComponentSystem()
 
 
 IComponentSystem::IComponentSystem(GameObject* parent, size_t uId)
-	: _ParentPtr{ parent }, _ParentId{ uId }
+	: _ParentPtr{ parent }, _ParentId{ uId }, _enable{ true }
 {}
 
 
@@ -39,8 +39,9 @@ void IComponentSystem::SetParentPtr(GameObject* inVal)
 	_ParentId = inVal->Get_uID();
 }
 
-IComponentSystem* IComponentSystem::GetSibilingComponent(unsigned _componentId)
+IComponentSystem* IComponentSystem::GetSibilingComponent(ComponentId _componentId)
 {
+
 	if(_ParentPtr->GetComponentList().find(_componentId) != _ParentPtr->GetComponentList().end())
 		return _ParentPtr->GetComponentList()[_componentId];
 

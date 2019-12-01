@@ -12,15 +12,17 @@ private:
 // Logic Data - General
 	bool _init;
 	int _health;
-	int _enemyType;
+	bool _stunned;
+	bool _charging;
 // Logic - Behaviour
 	double _timerAttack;
+	double _timerStun;
 	double _timerAttackCooldown;
+	double _timerStunCooldown;
 	size_t _attackRange; // manually set in ctor
-	size_t _attackMelee; // manually set in ctor
 // Logic - Pathfinding
 	GameObject* _target;
-	int _state;	
+	int _state;
 	double _timerPathing;
 	double _timerPathingCooldown;
 	std::vector<Node*> _path;
@@ -39,7 +41,6 @@ public:
 	void Update(double dt);
 // Logic - Behaviour
 	void AttackMelee();
-	void AttackRange();
 	void CheckState();
 	void FSM();
 	void ChancePickUps();

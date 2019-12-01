@@ -46,7 +46,7 @@ ImguiSystem::ImguiSystem(const Window& window)
 	_ImguiWindows["Hierarchy"] = new HierarchyImguiWindow();
 	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
 	_ImguiWindows["Assets"] = new AssetsImguiWindow();
-	_ImguiWindows["PreFab"] = new PreFabImguiWindow();
+	//_ImguiWindows["PreFab"] = new PreFabImguiWindow();
 	/*
 	_ImguiWindows[ImguiWindows::SCENE] = new Scene();
 	*/

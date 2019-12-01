@@ -4,11 +4,11 @@
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
 #include "GameObjectComponents/PickingCollider.h"
 #include "GameObjectComponents/IdentityComponent.h"
+#include "GameObjectComponents/TileMapComponent.h"
 #include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
 #include "GameObjectComponents/GraphicComponents/CameraComponent.h"
 #include "GameObjectComponents/GraphicComponents/FontComponent.h"
 #include "Tools/FileIO/Serialiser.h"
-#include "GameObjectFactory/BinaryMap.h"
 
 class GameObjectFactory final
 {	
@@ -30,7 +30,20 @@ class GameObjectFactory final
 	std::unordered_map<size_t, FontComponent*>			_FontComponent;
 	std::unordered_map<size_t, ButtonComponent*>		_buttonComponent;
 
+	std::unordered_map<size_t, TileMapComponent*>		_TileMapComponents;
+
 public:
+
+	const std::unordered_map < size_t, TileMapComponent*>& getTileMapComponents ()
+	{
+		return _TileMapComponents;
+	}
+
+	const std::unordered_map < size_t, IdentityComponent*>& GetIdentityComponents()
+	{
+		return _IdentityComponents;
+	}
+
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
 	GameObjectFactory& operator= (const GameObjectFactory& rhs) = delete;
 
@@ -54,6 +67,8 @@ public:
 		return _FontComponent;
 	}
 
+
+
 	Map_ScriptList getObjectScript(GameObject* object);
 
 	GameObject* CreateNewGameObject(bool prefab = false);
@@ -67,10 +82,9 @@ public:
 	LogicComponent* CloneLogicComponent(GameObject* object, LogicComponent* component);
 
 
-	void SerialiseLevel(const char* FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
+	void SerialiseLevel(std::string FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
 	void DeleteLevel();								//Level is Deleted when out of In-GameState
 	void DeleteLevelNotPrefab();
 
-	//void SerialiseLevel(std::string FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
 	void De_SerialiseLevel(std::string filename);
 };

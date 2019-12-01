@@ -8,35 +8,47 @@
 
 GameObjectPrototype::GameObjectPrototype()
 {
-	SerialPrefabObjects(TypeIdGO::PLAYER);
-	SerialPrefabObjects(TypeIdGO::BULLET);
-	SerialPrefabObjects(TypeIdGO::ENEMY);
-	SerialPrefabObjects(TypeIdGO::WALL);
-	SerialPrefabObjects(TypeIdGO::FLOOR);
-	SerialPrefabObjects(TypeIdGO::TURRET);
-	SerialPrefabObjects(TypeIdGO::SPAWNER);
-	SerialPrefabObjects(TypeIdGO::CAMERA);
-	SerialPrefabObjects(TypeIdGO::FONT);
-	SerialPrefabObjects(TypeIdGO::ENEMYTWO);
-	SerialPrefabObjects(TypeIdGO::BULLET_T);
-	SerialPrefabObjects(TypeIdGO::BULLET_E);
-	SerialPrefabObjects(TypeIdGO::SPAWNERTWO);
-	SerialPrefabObjects(TypeIdGO::EXPLOSION);
-	SerialPrefabObjects(TypeIdGO::BUTTON_UI);
-	SerialPrefabObjects(TypeIdGO::MAPEDGE);
-	SerialPrefabObjects(TypeIdGO::PICK_UPS_HEALTH);
-	SerialPrefabObjects(TypeIdGO::PICK_UPS_AMMO);
-	SerialPrefabObjects(TypeIdGO::BOSS);
-	SerialPrefabObjects(TypeIdGO::ENEMYTHREE);
+	//SerialPrefabObjects(TypeIdGO::PLAYER);
+	//SerialPrefabObjects(TypeIdGO::TURRET);
 
+	//SerialPrefabObjects(TypeIdGO::BULLET);
+	//SerialPrefabObjects(TypeIdGO::BULLET_T);
+	//SerialPrefabObjects(TypeIdGO::BULLET_E);
+	//SerialPrefabObjects(TypeIdGO::EXPLOSION);
+	//
+	//SerialPrefabObjects(TypeIdGO::ENEMY);
+	//SerialPrefabObjects(TypeIdGO::ENEMYTWO);
+	//SerialPrefabObjects(TypeIdGO::ENEMYTHREE);
+	//SerialPrefabObjects(TypeIdGO::BOSS);
+	//SerialPrefabObjects(TypeIdGO::PICK_UPS_HEALTH);
+	//SerialPrefabObjects(TypeIdGO::PICK_UPS_AMMO);
+	//
+	//SerialPrefabObjects(TypeIdGO::WALL);
+	//SerialPrefabObjects(TypeIdGO::FLOOR);
+	//
+	//SerialPrefabObjects(TypeIdGO::SPAWNER);
+	//SerialPrefabObjects(TypeIdGO::SPAWNERTWO);
+	//SerialPrefabObjects(TypeIdGO::SPAWNERTHREE);
+	//
+	//SerialPrefabObjects(TypeIdGO::CAMERA);
+	//SerialPrefabObjects(TypeIdGO::FONT);
+	//SerialPrefabObjects(TypeIdGO::BUTTON_UI);
+	//SerialPrefabObjects(TypeIdGO::MAPEDGE);
 
-	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
-	temp->Set_typeId(TypeIdGO::BGM);
-	temp->Serialise("./Resources/TextFiles/GameObjects/BGM.json");
- temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
-	temp->Set_typeId(TypeIdGO::FONT);
-	temp->Serialise("./Resources/TextFiles/GameObjects/Font.json");
-
+	RegisterComponent("IdentityComponent");
+	RegisterComponent("TransformComponent");
+	RegisterComponent("GraphicsComponent");
+	RegisterComponent("AnimationComponent");
+	RegisterComponent("CameraComponent");
+	RegisterComponent("FontComponent");
+	RegisterComponent("RigidBodyComponent");
+	RegisterComponent("CircleColliderComponent");
+	RegisterComponent("BoxColliderComponent");
+	RegisterComponent("EdgeColliderComponent");
+	RegisterComponent("LogicComponent");
+	RegisterComponent("AudioComponent");
+	RegisterComponent("ButtonComponent");
+	RegisterComponent("TileMapComponent");
 }
 
 
@@ -46,123 +58,161 @@ GameObjectPrototype::~GameObjectPrototype()
 }
 
 // Get _listObjectProrotype
-std::unordered_map<TypeIdGO, GameObject*>& GameObjectPrototype::GetPrototypeList()
+std::unordered_map <std::string , GameObject* > & GameObjectPrototype::GetPrototypeList()
 {
 	return _listObjectPrototype;
 }
 
-GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
-{
-	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
-	temp->Set_typeId(type);
 
-	switch (type)
+//For GamePlay 
+void GameObjectPrototype::SerialPrefabObjects(Serialiser& Level)
+{
+	if (Level.HasMember("PrototypesFilePaths"))
 	{
-	case TypeIdGO::NONE:
-		break;
-	case TypeIdGO::WALL:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Wall.json");
-		break;
-	case TypeIdGO::FLOOR:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Floor.json");
-		break;
-	case TypeIdGO::OBSTACLE:
-		break;
-	case TypeIdGO::PLAYER:
-		temp->Serialise("./Resources/TextFiles/GameObjects/player.json");
-		break;
-	case TypeIdGO::ENEMY:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Enemy.json");
-		break;
-	case TypeIdGO::BULLET:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Bullet.json");
-		break;
-	case TypeIdGO::TURRET:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Turret.json");
-		break;
-	case TypeIdGO::WEAPON:
-		break;
-	case TypeIdGO::PISTOL:
-		break;
-	case TypeIdGO::SHOTGUN:
-		break;
-	case TypeIdGO::SNIPER:
-		break;
-	case TypeIdGO::RPG:
-		break;
-	case TypeIdGO::SPAWNER:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Spawner.json");
-		break;
-	case TypeIdGO::CAMERA:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Camera.json");
-		break;
-	case TypeIdGO::ENEMYTWO:
-		temp->Serialise("./Resources/TextFiles/GameObjects/EnemyTwo.json");
-		break;
-	case TypeIdGO::FONT:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Font.json");
-		break;
-	case TypeIdGO::BULLET_T:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Bullet_T.json");
-		break;
-	case TypeIdGO::BULLET_E:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Bullet_E.json");
-		break;
-	case TypeIdGO::SPAWNERTWO:
-		temp->Serialise("./Resources/TextFiles/GameObjects/SpawnerTwo.json");
-		break;
-	case TypeIdGO::EXPLOSION:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Explosion.json");
-		break;
-	case TypeIdGO::BUTTON_UI:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Buttons.json");
-		break;
-	case TypeIdGO::MAPEDGE:
-		temp->Serialise("./Resources/TextFiles/GameObjects/MapEdge.json");
-		break;
-	case TypeIdGO::PICK_UPS_HEALTH:
-		temp->Serialise("./Resources/TextFiles/GameObjects/PickUps_Health.json");
-		break;
-	case TypeIdGO::PICK_UPS_AMMO:
-		temp->Serialise("./Resources/TextFiles/GameObjects/PickUps_Ammo.json");
-		break;
-	case TypeIdGO::BOSS:
-		temp->Serialise("./Resources/TextFiles/GameObjects/Boss.json");
-		break;
-	case TypeIdGO::ENEMYTHREE:
-		temp->Serialise("./Resources/TextFiles/GameObjects/EnemyThree.json");
-		break;
-	default:
-		delete temp;
-		break;
+		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+
+			temp->Serialise(Level["PrototypesFilePaths"][i].GetString());	//Serialise a gameobject with the string
+
+			std::string typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->ObjectType();
+
+			//insert into the prototype list
+			_listObjectPrototype.insert(std::pair <std::string, GameObject*>(typeId, temp));
+
+			//temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
+
+		}
+	}
+}
+
+void GameObjectPrototype::SerialiseAllPrefabAssets(NamePath& list)
+{
+	_prototypeFileList = list;
+
+	//Serialise all Prototypesu8
+	for (auto& nameFile : _prototypeFileList)
+	{
+		GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+		temp->Serialise(nameFile.second);	//Serialise a gameobject with fileName
+
+		//insert into the prototype list
+		_listObjectPrototype.insert(std::pair <std::string, GameObject*>(nameFile.first, temp));
 	}
 
-	_listObjectPrototype.insert(std::pair <TypeIdGO, GameObject*>(type, temp));
-
-	return temp;
 }
 
 
-//GameObject* GameObjectPrototype::SerialPrefabObjects(Serialiser& document)
-//{
-//	if (document["Serialisation"].IsArray())	//Check if it is an array
-//	{
-//		for (int i = 0; i < document["Serialisation"].Size(); i++)	//Loop through the Serialisation Array
-//		{
-//			if (document["Serialisation"][i].IsString())	//Checks if the element in the array is a string
-//			{
-//				GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
-//
-//				temp->Serialise(document["Serialisation"][i].GetString());	//Serialise a gameobject with the string
-//
-//				unsigned typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->GameObjectType();
-//
-//				temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
-//			}
-//		}
-//	}
-//}
 
+void GameObjectPrototype::RegisterComponent(std::string componentName)
+{
+	ComponentTypes.push_back(componentName);
+}
+
+
+
+
+
+//GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
+//{
+//	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
+//	temp->Set_typeId(TypeIdGO::BGM);
+//	temp->Serialise("./Resources/TextFiles/GameObjects/BGM.json");
+//	temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
+//	temp->Set_typeId(TypeIdGO::FONT);
+//	temp->Serialise("./Resources/TextFiles/GameObjects/Font.json");
+//
+//	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+//	temp->Set_typeId(type);
+//
+//	switch (type)
+//	{
+//	case TypeIdGO::NONE:
+//		break;
+//	case TypeIdGO::WALL:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Wall.json");
+//		break;
+//	case TypeIdGO::FLOOR:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Floor.json");
+//		break;
+//	case TypeIdGO::OBSTACLE:
+//		break;
+//	case TypeIdGO::PLAYER:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/player.json");
+//		break;
+//	case TypeIdGO::ENEMY:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Enemy.json");
+//		break;
+//	case TypeIdGO::BULLET:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Bullet.json");
+//		break;
+//	case TypeIdGO::TURRET:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Turret.json");
+//		break;
+//	case TypeIdGO::WEAPON:
+//		break;
+//	case TypeIdGO::PISTOL:
+//		break;
+//	case TypeIdGO::SHOTGUN:
+//		break;
+//	case TypeIdGO::SNIPER:
+//		break;
+//	case TypeIdGO::RPG:
+//		break;
+//	case TypeIdGO::SPAWNER:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Spawner.json");
+//		break;
+//	case TypeIdGO::CAMERA:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Camera.json");
+//		break;
+//	case TypeIdGO::ENEMYTWO:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/EnemyTwo.json");
+//		break;
+//	case TypeIdGO::FONT:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Font.json");
+//		break;
+//	case TypeIdGO::BULLET_T:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Bullet_T.json");
+//		break;
+//	case TypeIdGO::BULLET_E:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Bullet_E.json");
+//		break;
+//	case TypeIdGO::SPAWNERTWO:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/SpawnerTwo.json");
+//		break;
+//	case TypeIdGO::EXPLOSION:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Explosion.json");
+//		break;
+//	case TypeIdGO::BUTTON_UI:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Buttons.json");
+//		break;
+//	case TypeIdGO::MAPEDGE:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/MapEdge.json");
+//		break;
+//	case TypeIdGO::PICK_UPS_HEALTH:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/PickUps_Health.json");
+//		break;
+//	case TypeIdGO::PICK_UPS_AMMO:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/PickUps_Ammo.json");
+//		break;
+//	case TypeIdGO::BOSS:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/Boss.json");
+//		break;
+//	case TypeIdGO::ENEMYTHREE:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/EnemyThree.json");
+//		break;
+//	case TypeIdGO::SPAWNERTHREE:
+//		temp->Serialise("./Resources/TextFiles/GameObjects/SpawnerThree.json");
+//		break;
+//	default:
+//		delete temp;
+//		break;
+//	}
+//
+//	_listObjectPrototype.insert(std::pair <TypeIdGO, GameObject*>(type, temp));
+//
+//	return temp;
+//}
 
 // AddComponent for during Serialisation
 //void GameObjectPrototype::SerialAddComponent(GameObject* object, SerialTypeId componentType, rapidjson::Value& s, rapidjson::Document& d)

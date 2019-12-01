@@ -17,7 +17,11 @@ public:
 		_level.SetObject();	//Set the document as an OverArching Object
 	}
 
+	rapidjson::Value& operator[](const char* string)
+	{
+		return _level[string];
 
+	}
 	//Value b(true);    // calls Value(bool)
 	//Value i(-123);    // calls Value(int)
 	//Value u(123u);    // calls Value(unsigned)
@@ -61,7 +65,7 @@ public:
 
 
 
-	~DeSerialiser()
+	~DeSerialiser() 
 	{
 		rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document	
 		rapidjson::Writer<rapidjson::StringBuffer> writer(buf);	//Writer handler - that contains the stringbuffer

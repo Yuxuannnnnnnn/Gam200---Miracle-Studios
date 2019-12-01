@@ -45,13 +45,14 @@ public:
 		_aiSystem{ nullptr },
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
-		_audioSystem{ nullptr},
+		_audioSystem{ nullptr },
 
 		_frameRateControl{ nullptr },
-		_performanceUsage{nullptr},
+		_performanceUsage{ nullptr },
 
 		_gameObjectFactory{ nullptr },
 		_prefabFactory{ nullptr },
+
 		_sceneManager{ nullptr }
 	{
 	}

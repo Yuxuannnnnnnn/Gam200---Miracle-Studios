@@ -2,13 +2,38 @@
 #include "../Engine/EngineSystems.h"
 #include "../GameObjectComponents/LogicComponents/PrecompiledScriptType.h"
 
+void Spawner::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("Health") && document["Health"].IsInt())
+	{
+		_health = (document["Health"].GetInt());
+	}
+	if (document.HasMember("SpawnType") && document["SpawnType"].IsInt())
+	{
+		_spawntype = (document["SpawnType"].GetInt());
+	}
+	if (document.HasMember("SpawnRate") && document["SpawnRate"].IsDouble())
+	{
+		_timerCooldownSpawn = (document["SpawnRate"].GetDouble());
+	}
+
+}
+void Spawner::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+}
+void Spawner::Inspect()
+{
+
+}
+
 Spawner::Spawner() :
 	_init{ false },
 	_health{ 10 },
-	_timer{ -1.0 },
-	_timeCooldown{ 20 },
-	_radiusSpawn{ 2.f },
-	_typeId{ TypeIdGO::SPAWNER }
+	_spawntype{ 0 },
+	_timerSpawn{ -1.0 },
+	_timerCooldownSpawn{ 20 }
 {
 }
 
@@ -25,16 +50,32 @@ void Spawner::Update(double dt)
 		Init();
 		_init = true;
 	}
-	_timer -= dt;
-	if (_timer <= 0)
+	_timerSpawn -= dt;
+	if (_timerSpawn <= 0)
 		Spawn();
 }
 
 void Spawner::Spawn()
 {
-	_timer = _timeCooldown;
-	//std::cout << "Spawned!" << std::endl;
-	GameObject* enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
+	_timerSpawn = _timerCooldownSpawn;
+	GameObject* enemy = nullptr;
+	switch (_spawntype)
+	{
+	case 1:
+		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Enemy"]);
+		break;
+	case 2:
+		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyTwo"]);
+		break;
+	case 3:
+		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyThree"]);
+		break;
+	default:
+		return;
+	}
 	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-		((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 }

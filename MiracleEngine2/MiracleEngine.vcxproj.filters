@@ -104,6 +104,8 @@
     <ClCompile Include="Src\TransformManager.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionManager.cpp" />
     <ClCompile Include="Src\PhysicSystem\RigidBodyManager.cpp" />
+    <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\TileMapComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -518,6 +520,8 @@
     <ClInclude Include="Src\TransformManager.h" />
     <ClInclude Include="Src\IContainer.h" />
     <ClInclude Include="Src\PhysicSystem\RigidBodyManager.h" />
+    <ClInclude Include="Src\Gameplay\EnemyThree.h" />
+    <ClInclude Include="Src\GameObjectComponents\TileMapComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -680,11 +684,19 @@
     <None Include="Resources\TextFiles\States\Level1.json" />
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
-    <None Include="Resources\TextFiles\GameObjects\Buttons.json" />
     <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Ammo.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Health.json" />
     <None Include="Resources\TextFiles\GameObjects\BGM.json" />
+    <None Include="Resources\TextFiles\GameObjects\EnemyThree.json" />
+    <None Include="Resources\TextFiles\GameObjects\Enemy.json" />
+    <None Include="Resources\TextFiles\GameObjects\Boss.json" />
+    <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
+    <None Include="Resources\TextFiles\GameObjects\player.json" />
+    <None Include="Resources\TextFiles\AnimationData\Data_file_Explosion_Blue_Plasma_24FPS_Sprite.json" />
+    <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
+    <None Include="Resources\TextFiles\GameObjects\Button.json" />
+    <None Include="Resources\TextFiles\States\GameScenes.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\States\MainMenu.txt" />

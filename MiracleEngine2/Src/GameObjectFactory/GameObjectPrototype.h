@@ -3,25 +3,46 @@
 
 
 
-
-
 class GameObjectPrototype final
 {
-	std::unordered_map<TypeIdGO, GameObject*> _listObjectPrototype;		//Dynamic array of GameObject Prototypes
+private:
+//For Level Editor
+	typedef std::unordered_map<std::string, std::string> NamePath;
+	NamePath _prototypeFileList;
+//--------------------------------------------------------------------
+
+	typedef std::unordered_map<std::string, GameObject*> NameObject;		//Dynamic array of GameObject Prototypes
+	NameObject _listObjectPrototype;
+
+	std::deque<std::string> ComponentTypes;//Dynamic string of Component Types
 
 public:
 	GameObjectPrototype(const GameObjectPrototype& rhs) = delete;
 	GameObjectPrototype& operator=(const GameObjectPrototype& rhs) = delete;
 
-
 	GameObjectPrototype();
 	~GameObjectPrototype();	//Destructed when GameStateQuit
 
-	std::unordered_map<TypeIdGO, GameObject*>& GetPrototypeList();	// Get _listObjectProrotype
+	std::unordered_map<std::string, GameObject*>& GetPrototypeList();	// Get _listObjectProrotype
 
-	GameObject* SerialPrefabObjects(TypeIdGO type);
 
-	GameObject* SerialPrefabObjects(Serialiser& document);
+	//Gameplay mode
+	void SerialPrefabObjects(Serialiser& Level);	
+
+	//LevelEditor mode
+	void SerialiseAllPrefabAssets(NamePath& list);
+
+
+	void RegisterComponent(std::string componentName);
+	
+	std::deque<std::string> GetComponentTypes()
+	{
+		return ComponentTypes;
+	}
+
+
+
+	//GameObject* SerialPrefabObjects(TypeIdGO type);
 
 	//void CreatePreFabObject();
 
