@@ -24,7 +24,7 @@ AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponen
 
 	// temporary test
 	testanim = new Animation();
-	testanim->load("./Resources/TextFiles/AnimationData/DatafileExplosionBluePlasma24FPSSprite.json");
+	testanim->load("./Resources/TextFiles/AnimationData/CatAnimation.json");
 }
 
 void AnimationComponent::SerialiseComponent(Serialiser& document)
