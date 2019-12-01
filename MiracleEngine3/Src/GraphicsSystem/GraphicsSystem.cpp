@@ -38,6 +38,14 @@ const TextureManager& GraphicsSystem::GetTextureManager() const
 	return _textureManager;
 }
 
+void GraphicsSystem::CalculateProjectionMatrix(int windowWidth, int windowHeight)
+{
+	_proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
+		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f);
+
+	DebugRenderCalculateProjMatrix(windowWidth, windowHeight);
+}
+
 void GraphicsSystem::Update(double dt)
 {
 	
