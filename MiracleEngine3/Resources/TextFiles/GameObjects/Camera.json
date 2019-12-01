@@ -1,0 +1,17 @@
+{
+	"IdentityComponent": true,
+	"Name": "none",
+	"GameObjectType": 14,
+	"ObjectType": "Camera",
+
+	"TransformComponent": true,
+	"Position": [ 0.0, 0.0 ],
+	"Scale": [ 1.0, 1.0 ],
+	"Rotate": 0.0,
+
+	"CameraComponent": true,
+	"MovementSpeed": 1.0,
+	"xZoom": 1.0,
+	"yZoom": 1.0
+
+}
