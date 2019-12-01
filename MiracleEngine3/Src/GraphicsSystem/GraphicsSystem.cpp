@@ -9,29 +9,37 @@
 #include "FrameBuffer.h"
 
 
-void GraphicsSystem::DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale)
+void GraphicsSystem::DrawRockyTile(const glm::vec3& position, const glm::vec3& scale, float rotationAngle)
 {
-
 	glm::vec3 _position1 = position;
 	glm::vec3 _scale1 = scale;
 
-	_circularplatformList.push_back(CircularBatterPlatform{ _position1, _scale1 });
+	_rockyTileList.push_back(RockyTile{ _position1, _scale1, rotationAngle });
 }
 
-void GraphicsSystem::DrawBuilding1(const glm::vec3& position, const glm::vec3& scale)
+void GraphicsSystem::DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale, float rotationAngle)
 {
+
 	glm::vec3 _position1 = position;
 	glm::vec3 _scale1 = scale;
 
-	_building1List.push_back(Building1{ _position1, _scale1 });
+	_circularplatformList.push_back(CircularBatterPlatform{ _position1, _scale1, rotationAngle });
 }
 
-void GraphicsSystem::DrawBuilding2(const glm::vec3& position, const glm::vec3& scale)
+void GraphicsSystem::DrawBuilding1(const glm::vec3& position, const glm::vec3& scale, float rotationAngle)
 {
 	glm::vec3 _position1 = position;
 	glm::vec3 _scale1 = scale;
 
-	_building2List.push_back(Building2{ _position1, _scale1 });
+	_building1List.push_back(Building1{ _position1, _scale1, rotationAngle });
+}
+
+void GraphicsSystem::DrawBuilding2(const glm::vec3& position, const glm::vec3& scale, float rotationAngle)
+{
+	glm::vec3 _position1 = position;
+	glm::vec3 _scale1 = scale;
+
+	_building2List.push_back(Building2{ _position1, _scale1,rotationAngle });
 }
 
 void GraphicsSystem::SetHealthPercentage(float percentage)
@@ -106,7 +114,9 @@ void GraphicsSystem::Update(double dt)
 	{
 		GraphicComponent* graphicComponent = graphicComponentpair.second;
 
-		if (!graphicComponent->GetEnable())
+
+
+		if (!graphicComponent->GetEnable() || graphicComponent->GetFileName() == "floor")
 			continue;
 		/*
 				if (graphicComponent->GetRenderLayer() == 10)
@@ -203,8 +213,8 @@ void GraphicsSystem::Update(double dt)
 		_shader.Select();
 
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(element._position.x, element._position.y, 14.0f));
-		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
-		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), element._rotationAngle, glm::vec3(0, 0, 1));
+		glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
 			glm::vec3(element._scale.x, element._scale.y, 1.0f));
 
 		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
@@ -224,7 +234,8 @@ void GraphicsSystem::Update(double dt)
 
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(element._position.x, element._position.y, 14.0f));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
-		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+
+		glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
 			glm::vec3(element._scale.x, element._scale.y, 1.0f));
 
 		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
@@ -245,7 +256,8 @@ void GraphicsSystem::Update(double dt)
 
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(element._position.x, element._position.y, 14.0f));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
-		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+
+		glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
 			glm::vec3(element._scale.x, element._scale.y, 1.0f));
 
 		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
@@ -256,6 +268,28 @@ void GraphicsSystem::Update(double dt)
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
+
+	for (const auto& element : _rockyTileList)
+	{
+		_quadmesh.Select();
+		_textureManager._textureMap["floor"]->Select();
+		_shader.Select();
+
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(element._position.x, element._position.y, 14.0f));
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+
+		glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
+			glm::vec3(element._scale.x, element._scale.y, 1.0f));
+
+		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
+
+		//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+
+		_shader.SetUniformMat4f("u_MVP", mvp);
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
+
 
 	_quadmesh.Select();
 	_textureManager._textureMap["background"]->Select();
