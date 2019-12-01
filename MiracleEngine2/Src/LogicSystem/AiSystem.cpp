@@ -323,6 +323,144 @@ void AISystem::CreateNodeMap()
 
 }
 
+
+void AISystem::CreateNodeMapFromTileComp()
+{
+	size_t id = 0; // id for Node's id
+	Node* tempNode = nullptr;
+	bool solid = false;
+	GameObject* tempGo;
+	Vector3 tempVec;
+	Vector3 tempVecOrigin;
+	// offset the map's origin	// pos.x = ( totalMap.x/2 + offset for tile's node ) // _tileMapInput[y][x]
+	int originX = -(int)((_mapTileSize * _mapWidth) / 2);
+	int originY = -(int)((_mapTileSize * _mapHeight) / 2);
+	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
+
+	_engineSystems._collisionManager->_collisionMap.AddNewMap(
+		MAP_HEIGHT, MAP_WIDTH, Vec2{ MAP_SIZE, MAP_SIZE }, tempVecOrigin);
+
+	for (int y = 0; y < (int)_mapHeight; ++y)
+	{
+		for (int x = 0; x < _mapWidth; ++x)
+		{
+			// Update tempVec
+			tempVec = Vector3(
+				tempVecOrigin._x + (x * _mapTileSize), // map grows rightwards
+				tempVecOrigin._y + (y * _mapTileSize), // map grows upwards
+				0);
+			// Create node
+			solid = _tilemapInput[y][x] == 1 ? true : false;
+			bool spawner = _tilemapInput[y][x] == 2 ? true : false;
+			bool spawner2 = _tilemapInput[y][x] == 3 ? true : false;
+			bool spawner3 = _tilemapInput[y][x] == 4 ? true : false;
+			tempNode = new Node(solid, id, tempVec);
+			//_tilemap[id] = tempNode;
+			_tilemap.insert(std::pair<size_t, Node*>(id, tempNode));
+			// Assign id to the current _tilemap[][]
+			_tilemapInput[y][x] = id++; //increment the id
+		}
+	}
+
+	size_t currNode = 0;
+	Node* up, * down, * left, * right;
+	// link the Node's updownleftfight
+	for (int y = 0; y < (int)_mapHeight; ++y)
+		for (int x = 0; x < (int)_mapWidth; ++x)
+		{
+			currNode = _tilemapInput[y][x];
+			// Left
+			if (x > 0)
+			{
+				id = _tilemapInput[y][x - 1]; // add left ptr
+				left = _tilemap[id];
+				//std::cout << "L " << id << " ";
+			}
+			else
+				left = nullptr; // put nullptr
+		// Right
+			if (x < (int)_mapWidth - 1)
+			{
+				id = _tilemapInput[y][x + 1];
+				right = _tilemap[id];
+				//std::cout << "R " << id << " ";
+			}
+			else
+				right = nullptr;
+			// Up
+			if (y > 0)
+			{
+				id = _tilemapInput[y - 1][x];
+				up = _tilemap[id];
+				//std::cout << "U " << id << " ";
+			}
+			else
+				up = nullptr;
+			// Down
+			if (y < (int)_mapHeight - 1)
+			{
+				id = _tilemapInput[y + 1][x];
+				down = _tilemap[id];
+				//std::cout << "D " << id << " ";
+			}
+			else
+				down = nullptr;
+			// Set Adjacent Nodes
+				//std::cout << std::endl;
+			_tilemap[currNode]->SetNodeAdjacent(up, down, left, right);
+		}
+	// Print the _tilemapInput
+	//for (int y = 0; y < (int)_mapHeight; ++y)
+	//{
+	//	for (int x = 0; x < (int)_mapWidth; ++x)
+	//	{
+	//		std::cout << _tilemapInput[y][x] << "\t";
+	//	}
+	//	std::cout << std::endl;
+	//}
+
+
+
+	GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
+	TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position(0, (MAP_HEIGHT - 1) * MAP_SIZE / 2, 1);
+	com->SetPos(position);
+	Vector3 scale(MAP_WIDTH * MAP_SIZE, 0, 0);
+	com->SetScale(scale);
+	com->SetRotate(((const float)PI));
+
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position1(0, -((MAP_HEIGHT + 1) * MAP_SIZE / 2), 1);
+	com->SetPos(position1);
+	Vector3 scale1(MAP_WIDTH * MAP_SIZE, 0, 0);
+	com->SetScale(scale1);
+	com->SetRotate(0.f);
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position2(-((MAP_WIDTH + 1) * MAP_SIZE / 2), 0, 1);
+	com->SetPos(position2);
+	Vector3 scale2(0, MAP_HEIGHT * MAP_SIZE, 0);
+	com->SetScale(scale2);
+	com->SetRotate(-((const float)(PI / 2)));
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position3((MAP_WIDTH - 1) * MAP_SIZE / 2, 0, 1);
+	com->SetPos(position3);
+	Vector3 scale3(0, MAP_HEIGHT * MAP_SIZE, 0);
+	com->SetScale(scale3);
+	com->SetRotate(((const float)PI / 2));
+
+
+}
+
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
 std::vector<Node*> AISystem::PathFindingOld(Vector3 curr, Vector3 dest)
 {

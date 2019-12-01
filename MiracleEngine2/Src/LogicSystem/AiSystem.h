@@ -152,6 +152,7 @@ public:
 
 // Create a node map from _tilemap
 	void CreateNodeMap(); // sets up _tilemap with Nodes with their UpDownLeftRight Node*
+	void CreateNodeMapFromTileComp();
 
 // PathFinding
 	//std::vector<Node*> PathFinding(Vector3& _curr, Vector3& _dest);
