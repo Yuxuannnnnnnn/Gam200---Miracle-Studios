@@ -101,6 +101,7 @@
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
     <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
     <ClCompile Include="Src\GameObjectComponents\TileMapComponent.cpp" />
+    <ClCompile Include="Src\GameObjectComponents\LogicComponents\DataComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -511,6 +512,7 @@
     <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
     <ClInclude Include="Src\Gameplay\EnemyThree.h" />
     <ClInclude Include="Src\GameObjectComponents\TileMapComponent.h" />
+    <ClInclude Include="Src\GameObjectComponents\LogicComponents\DataComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
