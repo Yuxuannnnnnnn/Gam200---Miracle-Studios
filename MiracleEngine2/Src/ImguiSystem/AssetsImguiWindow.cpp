@@ -49,7 +49,15 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << shaderFile.path() << std::endl;
 			std::string path = shaderFile.path().u8string();
-			std::string fileName = path.substr(0, path.find_last_of("\\/"));
+			std::string fileName = path.substr(path.find_last_of("\\"));
+			if (fileName.find(".vert") != std::string::npos)
+			{
+				_vertexFiles.insert(std::pair<std::string, std::string>(fileName, path));
+			}
+			else if (fileName.find(".frag") != std::string::npos)
+			{
+				_fragmentFiles.insert(std::pair<std::string, std::string>(fileName, path));
+			}
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
@@ -98,25 +106,45 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		ResourceList.clear();
 
 	}
-	auto& it = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList();
 }
 
 void AssetsImguiWindow::Update()
 {
-	static bool selected;
-	if (ImGui::TreeNode("Textures"))
+	ImGui::SetWindowFontScale(1);
+
+	if (ImGui::CollapsingHeader("Scenes"))
 	{
-		ImGui::TreePop();
+		auto& allScenes = _engineSystems._sceneManager->GetAllScenes();
+
+		for (auto& scenePair : allScenes)
+		{
+			static bool selected;
+			std::string string = " - " + scenePair.first;
+
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+				}
+			}
+		}
+		//ImGui::TreePop();
 	}
 
 
-	if (ImGui::TreeNode("Prototypes"))
+	if (ImGui::CollapsingHeader("Prototypes"))
 	{
 		std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
 
+	//	int i = 0;
 		for (auto& ObjPair: PrototypeList)
 		{
-			if (ImGui::Selectable(ObjPair.first.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			//std::string objName = std::to_string(i) + ". " + ObjPair.first;
+			//i++;
+			static bool selected;
+			std::string string = " - " + ObjPair.first;
+
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
 			{
 				if (ImGui::IsMouseReleased(0))
 				{
@@ -135,15 +163,120 @@ void AssetsImguiWindow::Update()
 			//ImGui::GetStateStorage()->SetInt(id, 0);
 		}
 		
-		ImGui::TreePop();
+		//ImGui::TreePop();
 
 	}
 
-	if (ImGui::TreeNode("Textures"))
+	if (ImGui::CollapsingHeader("Textures"))
 	{
-		ImGui::TreePop();
+		auto textureFiles = ResourceManager::GetInstance().GetTexture2DList();
+
+		for (auto& texturePair : textureFiles)
+		{
+			static bool selected;
+			std::string string = " - " + texturePair.first;
+
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+				}
+			}
+		}
+		//ImGui::TreePop();
+
 	}
 
+
+	if (ImGui::CollapsingHeader("Shaders"))
+	{
+		//ImGui::TreePop();
+		for (auto& vertexPair : _vertexFiles)
+		{
+			static bool selected;
+			std::string string = " - " + vertexPair.first;
+
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+				}
+			}
+		}
+
+		for (auto& fragmentPair : _fragmentFiles)
+		{
+			static bool selected;
+			std::string string = " - " + fragmentPair.first;
+
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+				}
+			}
+		}
+
+	}
+
+	if (ImGui::CollapsingHeader("Fonts"))
+	{
+		auto fontFiles = ResourceManager::GetInstance().GetFontList();
+
+		for (auto& fontPair : fontFiles)
+		{
+			static bool selected;
+			std::string string = " - " + fontPair.first;
+
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+				}
+			}
+		}
+
+		//ImGui::TreePop();
+	}
+
+	if (ImGui::CollapsingHeader("Audio"))
+	{
+		auto audioFiles = ResourceManager::GetInstance().GetSoundList();
+
+		for (auto& audioPair : audioFiles)
+		{
+			static bool selected;
+			std::string string = " - " + audioPair.first;
+
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+				}
+			}
+		}
+
+		//ImGui::TreePop();
+	}
+
+	if (ImGui::CollapsingHeader("Animation Data Files"))
+	{
+		auto animationData = ResourceManager::GetInstance().GetSoundList();
+
+		for (auto& animationPair : animationData)
+		{
+			static bool selected;
+			std::string string = " - " + animationPair.first;
+
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+				}
+			}
+		}
+		//ImGui::TreePop();
+	}
 
 	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
 	//ImVec2 main_viewport_pos = ImGui::GetMainViewport()->Pos;

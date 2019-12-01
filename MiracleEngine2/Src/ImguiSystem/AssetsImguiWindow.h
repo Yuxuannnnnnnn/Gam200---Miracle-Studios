@@ -22,6 +22,10 @@
 
 class AssetsImguiWindow: public IBaseImguiWindow
 {
+	typedef std::unordered_map<std::string, std::string> NamePath;
+	NamePath _vertexFiles;
+	NamePath _fragmentFiles;
+
 public:
 
 	AssetsImguiWindow(bool open = true,	//Set the settings for the imgui window

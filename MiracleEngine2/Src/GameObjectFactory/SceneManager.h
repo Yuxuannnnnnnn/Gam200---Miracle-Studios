@@ -55,6 +55,11 @@ public:
 		return _currentScene;
 	}
 
+	NamePath& GetAllScenes()
+	{
+		return _scenes;
+	}
+
 //For GamePlay 
 	void SerialiseScenes(Serialiser GameSceneFile);
 

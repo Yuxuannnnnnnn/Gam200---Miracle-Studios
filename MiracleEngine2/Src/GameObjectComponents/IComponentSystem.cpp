@@ -57,6 +57,7 @@ void IComponentSystem::DestoryThis()
 void  IComponentSystem::Inspect()
 {
 	ImGui::Spacing();
-	ImGui::Checkbox("Component Enable", &_enable);
+	std::string string = "Component Enable " + ComponentName();
+	ImGui::Checkbox(string.c_str(), &_enable);
 	ImGui::Spacing();
 }
