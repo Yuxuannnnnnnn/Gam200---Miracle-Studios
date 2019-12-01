@@ -287,6 +287,10 @@ void AISystem::CreateNodeMap()
 	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -10.0f * tilesize, -8.0f * tilesize,1 }, { 1200,900,1 }, 3.0f);
 	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 10.0f * tilesize, 7.0f * tilesize,1 }, { 1200,900,1 }, 1.0f);
 	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 12.0 * tilesize, -7.0f * tilesize,1 }, { 500,600,1 }, 5.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -12.0 * tilesize, 7.0f * tilesize,1 }, { 700,700,1 }, 6.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -13.0 * tilesize, 0.0f * tilesize,1 }, { 1000,400,1 }, 7.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 3.0 * tilesize, -10.0f * tilesize,1 }, { 800,1000,1 }, 9.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 1.0 * tilesize, 10.0f * tilesize,1 }, { 600,1000,1 }, 11.0f);
 
 	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ -5.5f * tilesize,-3.5f * tilesize,1 }, { 900,900,1 },4.0f);
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 0.0f * tilesize, 3.0f * tilesize,1 }, { 550, 950,1 });
