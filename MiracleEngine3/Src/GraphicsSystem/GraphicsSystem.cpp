@@ -86,7 +86,7 @@ GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::
 	_windowWidth = windowWidth;
 	_windowHeight = windowHeight;
 
-	DrawRockyTile({ 0,0,0 }, { 100,100,1 });
+	//DrawRockyTile({ 0,0,0 }, { 100,100,1 });
 }
 
 Camera& GraphicsSystem::GetCamera()
