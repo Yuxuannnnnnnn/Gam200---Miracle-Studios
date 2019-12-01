@@ -55,6 +55,8 @@ public:
 
 	void CalculateProjectionMatrix(int windowWidth, int windowHeight);
 
+	void DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale);
+
 private:
 	void ClearScreen() const;
 	void UnitTest();
@@ -78,6 +80,9 @@ private:
 	
 	float _healthpercentage = 1.0f;
 	float _progresspercentage = 1.0f;
+
+	int _windowWidth;
+	int _windowHeight;
 
 };
 
