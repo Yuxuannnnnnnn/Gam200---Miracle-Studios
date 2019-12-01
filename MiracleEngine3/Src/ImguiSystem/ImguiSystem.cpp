@@ -62,7 +62,7 @@ void ImguiSystem::UpdateFrame()
 
 	if (true)
 	{
-		ImGui::ShowDemoWindow(); 		//Show Demo Window
+		//ImGui::ShowDemoWindow(); 		//Show Demo Window
 	}
 
 	if (ImGui::BeginMainMenuBar())
