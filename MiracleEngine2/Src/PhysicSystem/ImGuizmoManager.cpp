@@ -6,44 +6,7 @@
 
 void ImGuizmoManager::Update()
 {
-	if (_pickUId != 0 &&
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_Q) &&
-		EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
-	{
-		if (_pickList.find(_pickUId) == _pickList.end())
-			return;
-
-		TransformComponent* transform = _engineSystems._transforManager->GetTransform(_pickUId);
-		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
-		transform->SetPos(pos);
-
-	}
-	else if (_pickUId != 0 &&
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_W) &&
-		EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
-	{
-		if (_pickList.find(_pickUId) == _pickList.end())
-			return;
-
-		TransformComponent* transform = _engineSystems._transforManager->GetTransform(_pickUId);
-
-		if (EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_A))
-		{
-			transform->GetRotate() += 0.3f;
-		}
-		else if (EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_D))
-		{
-			transform->GetRotate() -= 0.3f;
-		}
-	}
-	else if (EngineSystems::GetInstance()._inputSystem->KeyDown(KEYB_S) &&
-		EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
-	{
-		InspectionImguiWindow::InspectGameObject(nullptr);
-		_pickUId = 0;
-	}
-	else if (EngineSystems::GetInstance()._inputSystem->KeyDown(KEYB_A) &&
-		EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
 	{
 		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 
@@ -63,33 +26,38 @@ void ImGuizmoManager::Update()
 		}
 	}
 
+	if (_pickUId != 0)
+	{
+		TransformComponent* transform = MyTransformManager.GetTransform(_pickUId);
 
-	//_pickUId = 1002;
+		if (!transform)
+		{
+			_pickUId = 0;
+			return;
+		}
 
-	//if (_pickUId != 0)
-	//{
-	//	TransformComponent* transform = _transformList[_pickUId];
+		//ImGuizmo::SetOrthographic(true);
+		ImGuizmo::BeginFrame();
+		ImGui::SetNextWindowPos(ImVec2(300, 0));
+		ImGui::SetNextWindowSize(ImVec2(300, 60));
+		ImGui::Begin("Editor");
 
-	//	//ImGuizmo::SetOrthographic(true/false);
-	//	ImGuizmo::BeginFrame();
-	//	ImGui::SetNextWindowPos(ImVec2(10, 10));
-	//	ImGui::SetNextWindowSize(ImVec2(320, 340));
-	//	ImGui::Begin("Editor");
+		const float* cameraView = nullptr;
+		float* cameraProjection = nullptr;
+		float* objectMatrix = nullptr;
+		MyGraphicsSystem.GetZmoInfo(_pickUId, cameraView, cameraProjection, objectMatrix);
+		EditTransform(cameraView, cameraProjection, objectMatrix);
 
-	//	const float* cameraView;
-	//	float* cameraProjection;
-	//	float* objectMatrix;
-	//	EngineSystems::GetInstance()._graphicsSystem->TestFuction(_pickUId, cameraView, cameraProjection, objectMatrix);
-	//	EditTransform(cameraView, cameraProjection, objectMatrix);
+		float m[3] = { 0,0,0 };
 
-	//	float m[3] = { 0,0,0 };
 
-	//	ImGuizmo::DecomposeMatrixToComponents(objectMatrix, transform->GetPos().m, m, transform->GetScale().m);
+		ImGuizmo::DecomposeMatrixToComponents(objectMatrix, transform->GetPos().m, m, transform->GetScale().m);
 
-	//	//ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, objectMatrix);
 
-	//	ImGui::End();
-	//}
+		//ImGuizmo::RecomposeMatrixFromComponents(transform->GetPos().m, m, transform->GetScale().m, objectMatrix);
+
+		ImGui::End();
+	}
 }
 
 void ImGuizmoManager::Draw()
@@ -141,48 +109,48 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 {
 	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
-	static bool useSnap = false;
-	static float snap[3] = { 1.f, 1.f, 1.f };
-	static float bounds[] = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
-	static float boundsSnap[] = { 0.1f, 0.1f, 0.1f };
-	static bool boundSizing = false;
-	static bool boundSizingSnap = false;
+	/*static bool useSnap = false;
+	static float snap[3] = { 1.f, 1.f, 1.f };*/
+	//static float bounds[] = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f };
+	//static float boundsSnap[] = { 0.1f, 0.1f, 0.1f };
+	//static bool boundSizing = false;
+	//static bool boundSizingSnap = false;
 
-	if (ImGui::IsKeyPressed(90))
+	if (ImGui::IsKeyPressed(KEYB_Q))
 		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	if (ImGui::IsKeyPressed(69))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	if (ImGui::IsKeyPressed(82)) // r Key
+	/*if (ImGui::IsKeyPressed(KEYB_W))
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;*/
+	if (ImGui::IsKeyPressed(KEYB_E))
 		mCurrentGizmoOperation = ImGuizmo::SCALE;
 	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
 		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 	ImGui::SameLine();
-	if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;
+	/*if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;*/
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
 		mCurrentGizmoOperation = ImGuizmo::SCALE;
-	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+	/*float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 	ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
 	ImGui::InputFloat3("Tr", matrixTranslation, 3);
 	ImGui::InputFloat3("Rt", matrixRotation, 3);
 	ImGui::InputFloat3("Sc", matrixScale, 3);
-	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
+	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);*/
 
-	if (mCurrentGizmoOperation != ImGuizmo::SCALE)
-	{
-		if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
-			mCurrentGizmoMode = ImGuizmo::LOCAL;
-		ImGui::SameLine();
-		if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
-			mCurrentGizmoMode = ImGuizmo::WORLD;
-	}
-	if (ImGui::IsKeyPressed(83))
-		useSnap = !useSnap;
-	ImGui::Checkbox("", &useSnap);
-	ImGui::SameLine();
+	//if (mCurrentGizmoOperation != ImGuizmo::SCALE)
+	//{
+	//	if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
+	//		mCurrentGizmoMode = ImGuizmo::LOCAL;
+	//	ImGui::SameLine();
+	//	if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
+	//		mCurrentGizmoMode = ImGuizmo::WORLD;
+	//}
+	//if (ImGui::IsKeyPressed(83))
+	//	useSnap = !useSnap;
+	//ImGui::Checkbox("", &useSnap);
+	//ImGui::SameLine();
 
-	switch (mCurrentGizmoOperation)
+	/*switch (mCurrentGizmoOperation)
 	{
 	case ImGuizmo::TRANSLATE:
 		ImGui::InputFloat3("Snap", &snap[0]);
@@ -202,10 +170,12 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 		ImGui::SameLine();
 		ImGui::InputFloat3("Snap", boundsSnap);
 		ImGui::PopID();
-	}
+	}*/
 
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-	ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
+	//ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
+
+	ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, NULL, NULL,  NULL);
 
 }

@@ -62,6 +62,8 @@ public:
 
 	void CalculateProjectionMatrix(int windowWidth, int windowHeight);
 
+	void GetZmoInfo(size_t objectUId, const float*& cameraView, float*& cameraProjection, float*& transformMatrix);
+
 private:
 	void ClearScreen() const;
 	void UnitTest();
@@ -78,7 +80,7 @@ private:
 
 	Camera _camera;
 	//PlayerMesh _playerMesh;
-	FontRenderer _fontRenderer;
+	FontRenderer* _fontRenderer;
 	AnimationSystem _animationSystem;
 
 	Animation _testAnimation;

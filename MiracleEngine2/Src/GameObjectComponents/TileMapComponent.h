@@ -96,6 +96,13 @@ public:
 		return palette;
 	}
 
-
+	unsigned GetHeight()
+	{
+		return _height;
+	}
+	unsigned GetWidth()
+	{
+		return _width;
+	}
 };
 

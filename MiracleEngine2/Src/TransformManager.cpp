@@ -13,6 +13,9 @@ void TransformManager::RemoveObject(size_t uId)
 
 TransformComponent* TransformManager::GetTransform(size_t uId)
 {
+	if (_transformList.find(uId) == _transformList.end())
+		return nullptr;
+
 	return _transformList[uId];
 }
 
@@ -22,5 +25,9 @@ void TransformManager::UpdateTransformMartix(TransformComponent* transform)
 
 Mtx44 TransformManager::GetTransformMartix(TransformComponent* transform)
 {
+	/*Mtx44 scale = Mtx44::CreateScale(transform->GetScale());
+	Mtx44 rotation = Mtx44::CreateRotationZ(transform->GetRotate());
+	Mtx44 translation = Mtx44::CreateTranslation(transform->GetPos());*/
+
 	return Mtx44();
 }

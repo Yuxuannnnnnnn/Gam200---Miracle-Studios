@@ -27,7 +27,7 @@ void Engine::Init()
 void Engine::Update()
 {
 
-	_engineSystems._sceneManager->ChangeScene("Level1");
+	_engineSystems._sceneManager->ChangeScene("MainMenu");
 	//_sceneManager->ChangeScene(Scenes::MAIN_MENU);
 
 	//_gameObjectFactory->De_SerialiseLevel("hello.json");
@@ -61,6 +61,12 @@ void Engine::Update()
 		_engineSystems._inputSystem->Update(_engineSystems._windowSystem->getWindow());
 		EventHandler::GetInstance().BroadcastInputEvents();
 		_engineSystems._performanceUsage->InputFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
+
+		if (!_engineSystems._imguiSystem->_editorMode)
+			MyButtonManager.Update();
+		else
+			MyImGuizmoManager.Update();
+
 
 		/*if (_inputSystem->KeyRelease(KEYB_Z))
 			std::cout << "Z Released";

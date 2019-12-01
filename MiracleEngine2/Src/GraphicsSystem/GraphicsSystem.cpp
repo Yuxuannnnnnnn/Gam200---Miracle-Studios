@@ -16,6 +16,21 @@ void GraphicsSystem::CalculateProjectionMatrix(int windowWidth, int windowHeight
 	DebugRenderCalculateProjMatrix(windowWidth, windowHeight);
 }
 
+void  GraphicsSystem::GetZmoInfo(size_t objectUId, const float*& cameraView, float*& cameraProjection, float*& transformMatrix)
+{
+	TransformComponent* transform = MyTransformManager.GetTransform(objectUId);
+
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(transform->GetPos()._x
+		, transform->GetPos()._y, 0));
+	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transform->GetRotate(), glm::vec3(0, 0, 1));
+	glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(transform->GetScale()._x, transform->GetScale()._y, 1.0f));
+
+	cameraView = (const float*)glm::value_ptr(_camera.GetCamMatrix());
+	cameraProjection = (float*)glm::value_ptr(_proj);
+	transformMatrix = (float*)glm::value_ptr(model);
+}
+
 GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
 {
@@ -30,6 +45,16 @@ GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::
 
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
+
+
+	temp = "arial";
+
+	_fontRenderer = ResourceManager::GetInstance().GetFontResource(temp);
+
+	if (!_fontRenderer && ResourceManager::GetInstance().AddNewFontResource({ temp,"Resources/Fonts/arial.ttf" }))
+	{
+		_fontRenderer = ResourceManager::GetInstance().GetFontResource(temp);
+	}
 }
 
 Camera& GraphicsSystem::GetCamera()
@@ -135,7 +160,7 @@ void GraphicsSystem::Update(double dt)
 
 	if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene().compare("MainMenu") == 0)
 	{
-		_fontRenderer.Draw();
+		_fontRenderer->Draw();
 	}
 
 	for (auto& e : _fontList)
