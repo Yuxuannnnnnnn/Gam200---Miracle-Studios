@@ -8,6 +8,14 @@
 #include "../LogicSystem/AiSystem.h"
 #include "FrameBuffer.h"
 
+void GraphicsSystem::CalculateProjectionMatrix(int windowWidth, int windowHeight)
+{
+	_proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
+		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f);
+
+	DebugRenderCalculateProjMatrix(windowWidth, windowHeight);
+}
+
 GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
 {
