@@ -25,6 +25,18 @@
 #include "../Animation/Animation.h"
 #include "UIMesh.h"
 
+#include <vector>
+
+struct CircularBatterPlatform
+{
+	CircularBatterPlatform(glm::vec3 pos, glm::vec3 scale)
+	{
+		_position = pos;
+		_scale = scale;
+	}
+	glm::vec3 _position;
+	glm::vec3 _scale;
+};
 
 enum RenderMode
 {
@@ -55,6 +67,9 @@ public:
 
 	void CalculateProjectionMatrix(int windowWidth, int windowHeight);
 
+	void DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale);
+
+
 private:
 	void ClearScreen() const;
 	void UnitTest();
@@ -82,6 +97,8 @@ private:
 	int _windowWidth;
 	int _windowHeight;
 
+	std::vector<CircularBatterPlatform> _circularplatformList;
+	
 };
 
 #define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix

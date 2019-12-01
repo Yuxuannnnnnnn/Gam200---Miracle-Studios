@@ -42,6 +42,11 @@ TextureManager::TextureManager()
 	// props
 	_textureMap["CircularBatteryPlatform"] = new Texture2D("Resources/Image/CircularBatteryPlatform.png");
 
+	_textureMap["Building1"] = new Texture2D("Resources/Image/Building1.png");
+	_textureMap["Building2"] = new Texture2D("Resources/Image/Building2.png");
+	_textureMap["Building3"] = new Texture2D("Resources/Image/Building3.png");
+	_textureMap["Building4"] = new Texture2D("Resources/Image/Building4.png");
+	_textureMap["Crate"] = new Texture2D("Resources/Image/Crate.png");
 }
 
 TextureManager::~TextureManager()

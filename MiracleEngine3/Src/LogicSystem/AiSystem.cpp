@@ -282,45 +282,115 @@ void AISystem::CreateNodeMap()
 	//}
 
 
-
-	GameObject * obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-	Vector3 position(0, (MAP_HEIGHT - 1)* MAP_SIZE / 2, 1);
-	com->SetPos(position);
-	Vector3 scale(MAP_WIDTH* MAP_SIZE,0,0);
-	com->SetScale(scale);
-	com->SetRotate(((const float)PI));
+	GameObject* tempGO = nullptr;
+	// 3up, 1/2left
+	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 50,300,1 }, { 100,100,1 });
 
 
-	 obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-	Vector3 position1(0, -((MAP_HEIGHT + 1) * MAP_SIZE/2), 1);
-	com->SetPos(position1);
-	Vector3 scale1(MAP_WIDTH* MAP_SIZE, 0, 0);
-	com->SetScale(scale1);
-	com->SetRotate(0.f);
 
-	 obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-	Vector3 position2(-((MAP_WIDTH + 1) * MAP_SIZE/2), 0, 1);
-	com->SetPos(position2);
-	Vector3 scale2(0, MAP_HEIGHT* MAP_SIZE, 0);
-	com->SetScale(scale2);
-	com->SetRotate(-((const float)(PI/2)));
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
 
-	 obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
-	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-	Vector3 position3((MAP_WIDTH - 1)* MAP_SIZE / 2, 0, 1);
-	com->SetPos(position3);
-	Vector3 scale3(0, MAP_HEIGHT* MAP_SIZE, 0);
-	com->SetScale(scale3);
-	com->SetRotate(((const float)PI/2));
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
 
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
 
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
+
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
+
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
+
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
+
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
+
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
+
+	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
+	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
+	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
+	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
+	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
+
+	//// top
+	//GameObject * obj = EngineSystems::GetInstance()._gameObjectFactory->
+	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	//TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//Vector3 position(0, (MAP_HEIGHT - 1)* MAP_SIZE / 2, 1);
+	//com->SetPos(position);
+	//Vector3 scale(MAP_WIDTH* MAP_SIZE,0,0);
+	//com->SetScale(scale);
+	//com->SetRotate(((const float)PI));
+	// obj = EngineSystems::GetInstance()._gameObjectFactory->
+	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	// com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//Vector3 position1(0, -((MAP_HEIGHT + 1) * MAP_SIZE/2), 1);
+	//com->SetPos(position1);
+	//Vector3 scale1(MAP_WIDTH* MAP_SIZE, 0, 0);
+	//com->SetScale(scale1);
+	//com->SetRotate(0.f);
+	// obj = EngineSystems::GetInstance()._gameObjectFactory->
+	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	// com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//Vector3 position2(-((MAP_WIDTH + 1) * MAP_SIZE/2), 0, 1);
+	//com->SetPos(position2);
+	//Vector3 scale2(0, MAP_HEIGHT* MAP_SIZE, 0);
+	//com->SetScale(scale2);
+	//com->SetRotate(-((const float)(PI/2)));
+	// obj = EngineSystems::GetInstance()._gameObjectFactory->
+	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::MAPEDGE]);
+	// com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//Vector3 position3((MAP_WIDTH - 1)* MAP_SIZE / 2, 0, 1);
+	//com->SetPos(position3);
+	//Vector3 scale3(0, MAP_HEIGHT* MAP_SIZE, 0);
+	//com->SetScale(scale3);
+	//com->SetRotate(((const float)PI/2));
 }
 
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)

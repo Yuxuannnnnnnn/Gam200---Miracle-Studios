@@ -8,6 +8,16 @@
 #include "../LogicSystem/AiSystem.h"
 #include "FrameBuffer.h"
 
+
+void GraphicsSystem::DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale)
+{
+
+	glm::vec3 _position1 = position;
+	glm::vec3 _scale1 = scale;
+
+	_circularplatformList.push_back(CircularBatterPlatform{ _position1, _scale1 });
+}
+
 void GraphicsSystem::SetHealthPercentage(float percentage)
 {
 	_healthpercentage = percentage;
@@ -51,11 +61,11 @@ void GraphicsSystem::CalculateProjectionMatrix(int windowWidth, int windowHeight
 
 void GraphicsSystem::Update(double dt)
 {
-	
+
 	//DrawDebugLine(0.0f, 0.0f, 100.0f, 200.0f);
-	
+
 	//DrawDebugLine(0.0f, 0.0f, .0f, 100.0f);
-	
+
 
 	UnitTest();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -107,14 +117,14 @@ void GraphicsSystem::Update(double dt)
 		//else
 			// texture without animation
 		//{
-			if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
-			{
-				_uimesh.Select();
-				//_quadmesh.Select();
-			}
-			else
+		if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
+		{
+			_uimesh.Select();
+			//_quadmesh.Select();
+		}
+		else
 			_quadmesh.Select();
-			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
+		_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
 		//}
 		_shader.Select();
 
@@ -169,6 +179,29 @@ void GraphicsSystem::Update(double dt)
 		_fontRenderer.DrawUIBG();
 	}
 
+
+	for (const auto& element : _circularplatformList)
+	{
+		_quadmesh.Select();
+		_textureManager._textureMap["CircularBatteryPlatform"]->Select();
+		_shader.Select();
+
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(element._position.x, element._position.y, 14.0f));
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+			glm::vec3(element._scale.x, element._scale.y, 1.0f));
+
+		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
+
+		//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+
+		_shader.SetUniformMat4f("u_MVP", mvp);
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
+
+
+
 	for (auto& e : _fontList)
 	{
 		FontComponent* fontcomptr = e.second;
@@ -212,7 +245,7 @@ void GraphicsSystem::Update(double dt)
 		// get texture ID and shader ID
 		// get its transform component 
 
-	
+
 }
 
 

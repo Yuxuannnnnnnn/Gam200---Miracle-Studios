@@ -99,6 +99,7 @@ void Player::Inspect()
 }
 
 Player::Player() :
+	_god{ false },
 	_init{ false },
 	_camera{ nullptr },
 	_health{ 30 }, _healthMax{ 30 },
@@ -114,7 +115,8 @@ Player::Player() :
 	_firerateShotgun{ 0.5 },
 	_firerateRPG{ 2 },
 	_firerateTurret{ 5 },
-	_firerateWall{ 4 }
+	_firerateWall{ 4 },
+	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 }
 {
 }
 
@@ -139,9 +141,16 @@ void Player::Update(double dt)
 		Init();
 		_init = true;
 	}
+	if (_god)
+	{
+		_health = _healthMax;
+		_ammoRpg = _ammoTurret = _ammoWall = 10;
+		_timerShoot = _timerDeploy = 0.0;
+	}
 
 	_timerShoot -= dt;
 	_timerDeploy -= dt;
+	_timerProg -= dt;
 
 	UpdateInput();
 	UpdateCamera();
@@ -157,8 +166,16 @@ void Player::UpdateCamera()
 
 void Player::UpdateUI()
 {
-	// calc percents
-	(float)(_health / _healthMax);
+	if (_timerProg <= 0)
+	{
+		_timerProg = _timerProgCooldown;
+		ProgressIncement();
+	}
+	if (_progress == _progressMax)
+	{
+		_progress = 0;
+		_progressMax *= 1.5f;
+	}
 	// set percents
 	EngineSystems::GetInstance()._graphicsSystem->SetHealthPercentage(static_cast<float>(_health) / _healthMax);
 	EngineSystems::GetInstance()._graphicsSystem->SetProgressPercentage(static_cast<float>(_progress) / _progressMax);
@@ -233,6 +250,11 @@ void Player::UpdateInput()
 				((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 		}
 	}
+// KEYS
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q))
+	{
+		WeaponSwitch();
+	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
 	{
@@ -250,10 +272,25 @@ void Player::UpdateInput()
 			}
 		}
 	}
-// KEYS
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9))
 	{
-		WeaponSwitch();
+		_god = !_god;
+		if (!_god)
+			return;
+		_health = _healthMax;
+		_timerShoot = _timerDeploy = 0.0;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_P))
+	{
+		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::WIN);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_O))
+	{
+		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::LOSE);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_I))
+	{
+		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::MAIN_MENU);
 	}
 }
 
@@ -268,7 +305,7 @@ void Player::WeaponShoot()
 	// 'snap' weapon selection to lowest or highest value
 	_weaponActive < 1 ? _weaponActive = 1 : _weaponActive;
 	_weaponActive > 3 ? _weaponActive = 3 : _weaponActive;
-	if (_timerShoot <= 0)
+	if (_timerShoot <= 0) 
 		switch (_weaponActive)
 		{
 		case (int)WeaponId::PISTOL:
