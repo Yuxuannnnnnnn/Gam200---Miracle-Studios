@@ -160,7 +160,7 @@ void AISystem::CreateNodeMap()
 
 	for (int y = 0; y < (int)_mapHeight; ++y)
 	{
-		for (int x = 0; x < _mapWidth; ++x)
+		for (int x = 0; x < (int)_mapWidth; ++x)
 		{
 			// Update tempVec
 			tempVec = Vector3(
@@ -319,6 +319,147 @@ void AISystem::CreateNodeMap()
 	Vector3 scale3(0, MAP_HEIGHT* MAP_SIZE, 0);
 	com->SetScale(scale3);
 	com->SetRotate(((const float)PI/2));
+
+
+}
+
+
+void AISystem::CreateNodeMapFromTileComp()
+{
+	unsigned height = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetHeight();
+	unsigned width = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetWidth();
+	size_t** temp = new size_t*[height];
+	for (int i = 0; i < width; ++i)
+		temp[i] = new size_t[width];
+	std::string** tilemap = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetTileMap();
+
+
+
+	size_t id = 0; // id for Node's id
+	Node* tempNode = nullptr;
+	bool solid = false;
+	GameObject* tempGo;
+	Vector3 tempVec;
+	Vector3 tempVecOrigin;
+	// offset the map's origin	// pos.x = ( totalMap.x/2 + offset for tile's node ) // _tileMapInput[y][x]
+	int originX = -(int)((_mapTileSize * _mapWidth) / 2);
+	int originY = -(int)((_mapTileSize * _mapHeight) / 2);
+	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
+
+	for (unsigned y = 0; y < height; ++y)
+	{
+		for (unsigned x = 0; x < width; ++x)
+		{
+			tempVec = Vector3(
+				tempVecOrigin._x + (x * _mapTileSize), // map grows rightwards
+				tempVecOrigin._y + (y * _mapTileSize), // map grows upwards
+				0);
+			// check solidity
+			std::string tempStr = tilemap[height][width];
+			// if tempStr compared w/ palette == solid, set solid = true
+			solid = _tilemapInput[y][x] == 1 ? true : false; // need 'palette' to determine solidty
+			// create node
+			tempNode = new Node(solid, id, tempVec);
+			_tilemap.insert(std::pair<size_t, Node*>(id, tempNode));
+			//*((temp + (y*width)) + x) = id++; // idk if the ptr arithmatic is correct // ((ptr + (jumpToRow)) + rowOffset)
+		}
+	}
+
+	size_t currNode = 0;
+	Node* up, * down, * left, * right;
+	// link the Node's updownleftfight
+	for (int y = 0; y < (int)_mapHeight; ++y)
+		for (int x = 0; x < (int)_mapWidth; ++x)
+		{
+			currNode = _tilemapInput[y][x];
+			// Left
+			if (x > 0)
+			{
+				id = _tilemapInput[y][x - 1]; // add left ptr
+				left = _tilemap[id];
+				//std::cout << "L " << id << " ";
+			}
+			else
+				left = nullptr; // put nullptr
+		// Right
+			if (x < (int)_mapWidth - 1)
+			{
+				id = _tilemapInput[y][x + 1];
+				right = _tilemap[id];
+				//std::cout << "R " << id << " ";
+			}
+			else
+				right = nullptr;
+			// Up
+			if (y > 0)
+			{
+				id = _tilemapInput[y - 1][x];
+				up = _tilemap[id];
+				//std::cout << "U " << id << " ";
+			}
+			else
+				up = nullptr;
+			// Down
+			if (y < (int)_mapHeight - 1)
+			{
+				id = _tilemapInput[y + 1][x];
+				down = _tilemap[id];
+				//std::cout << "D " << id << " ";
+			}
+			else
+				down = nullptr;
+			// Set Adjacent Nodes
+				//std::cout << std::endl;
+			_tilemap[currNode]->SetNodeAdjacent(up, down, left, right);
+		}
+	// Print the _tilemapInput
+	//for (int y = 0; y < (int)_mapHeight; ++y)
+	//{
+	//	for (int x = 0; x < (int)_mapWidth; ++x)
+	//	{
+	//		std::cout << _tilemapInput[y][x] << "\t";
+	//	}
+	//	std::cout << std::endl;
+	//}
+
+
+
+	GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
+	TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position(0, (MAP_HEIGHT - 1) * MAP_SIZE / 2, 1);
+	com->SetPos(position);
+	Vector3 scale(MAP_WIDTH * MAP_SIZE, 0, 0);
+	com->SetScale(scale);
+	com->SetRotate(((const float)PI));
+
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position1(0, -((MAP_HEIGHT + 1) * MAP_SIZE / 2), 1);
+	com->SetPos(position1);
+	Vector3 scale1(MAP_WIDTH * MAP_SIZE, 0, 0);
+	com->SetScale(scale1);
+	com->SetRotate(0.f);
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position2(-((MAP_WIDTH + 1) * MAP_SIZE / 2), 0, 1);
+	com->SetPos(position2);
+	Vector3 scale2(0, MAP_HEIGHT * MAP_SIZE, 0);
+	com->SetScale(scale2);
+	com->SetRotate(-((const float)(PI / 2)));
+
+	obj = EngineSystems::GetInstance()._gameObjectFactory->
+		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
+	com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	Vector3 position3((MAP_WIDTH - 1) * MAP_SIZE / 2, 0, 1);
+	com->SetPos(position3);
+	Vector3 scale3(0, MAP_HEIGHT * MAP_SIZE, 0);
+	com->SetScale(scale3);
+	com->SetRotate(((const float)PI / 2));
 
 
 }

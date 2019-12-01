@@ -319,21 +319,18 @@ void Window::CheckFullScreenToggle()
 		_windowState = wp.showCmd;
 		if (wp.showCmd == SW_MAXIMIZE)
 		{
-			if (_fullScreen != true)
-			{
-				_windowWidth = GetSystemMetrics(SM_CXSCREEN);
-				_windowHeight = GetSystemMetrics(SM_CYSCREEN);
-				_fullScreen = true;
-			}
+			_windowWidth = GetSystemMetrics(SM_CXSCREEN);
+			_windowHeight = GetSystemMetrics(SM_CYSCREEN);
+			_fullScreen = true;
+			ResizeGraphics(_windowWidth, _windowHeight);
 		}
 		else if (wp.showCmd == SW_MINIMIZE)
 		{
-			if (_fullScreen != false)
-			{
-				_windowWidth = _initWindowWidth;
-				_windowHeight = _initWindowHeight;
-				_fullScreen = false;
-			}
+			_windowWidth = _initWindowWidth;
+			_windowHeight = _initWindowHeight;
+			_fullScreen = false;
+			ResizeGraphics(_windowWidth, _windowHeight);
+			
 		}
 	}
 
