@@ -281,75 +281,31 @@ void AISystem::CreateNodeMap()
 	//	std::cout << std::endl;
 	//}
 
+	size_t tilesize = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	// circle // down 3.5 , left 5.5 
+	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ -5.5f * tilesize,-3.5f * tilesize,1 }, { 900,900,1 },4.0f);
+	// square
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 0.0f * tilesize, 3.0f * tilesize,1 }, { 550, 950,1 });
+	// square
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding1({ 4.0f * tilesize, 8.4f * tilesize,1 }, { 400, 450,1 });
+	// square
+	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 5.5f * tilesize, 11.5f * tilesize,1 }, { 400, 400,1 },1.0f);
+	// square
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 10.0f * tilesize, 10.1f * tilesize,1 }, { -450, -580,1 });
+	// circle
+	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 12.0f * tilesize, 1.0f * tilesize,1 }, { 1080, 1080,1 },3.0f);
+	// square
+	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 6.5f * tilesize, -7.5f * tilesize,1 }, { 900, 900,1 },2.0f);
+	// square
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding1({ -6.0f * tilesize, 9.8f * tilesize,1 }, { 1150, 900,1 });
+	// square-ish
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ -15.5f * tilesize, 10.9f * tilesize,1 }, { -650, -580,1 });
+	// square-ish
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ -15.5f * tilesize, 5.1f * tilesize,1 }, { 650, 580,1 });
+	// square-ish
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding1({ -12.9f * tilesize, -10.7f * tilesize,1 }, { 900, 650,1 }, PI);
 
-	GameObject* tempGO = nullptr;
-	// 3up, 1/2left
-	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 50,300,1 }, { 100,100,1 });
 
-
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
-
-	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
-	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());
-	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(Vector3());
-	//tempGO->AddComponent(ComponentId::GRAPHICS_COMPONENT);
-	//((GraphicComponent*)(tempGO->GetComponent(ComponentId::GRAPHICS_COMPONENT)))->SetFileName("");
 
 	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
 	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
