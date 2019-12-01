@@ -27,9 +27,7 @@ Scenes SceneManager::GetCurrentScene()
 
 void SceneManager::ChangeScene(Scenes scene)
 {
-	
 
-	
 	switch (scene)
 	{
 	case Scenes::RESTART:
@@ -98,4 +96,8 @@ void SceneManager::SerialiseScenes(Serialiser GameSceneFile)
 void SceneManager::LoadAllSceneAssets(NamePath GameSceneFile)
 {
 	_scenes = GameSceneFile;
+
+
+	for (auto& scene : _scenes)
+		std::cout << scene.second <<std::endl;
 }

@@ -36,7 +36,6 @@ public:
 	EngineSystems() :
 		_console{ nullptr },
 		_windowSystem{ nullptr },
-		_imguiSystem{ nullptr },
 
 		_gameStateManager{ nullptr },
 
@@ -53,7 +52,9 @@ public:
 		_gameObjectFactory{ nullptr },
 		_prefabFactory{ nullptr },
 
-		_sceneManager{ nullptr }
+		_sceneManager{ nullptr },
+		_imguiSystem{ nullptr }
+
 	{
 	}
 
@@ -61,7 +62,6 @@ public:
 	{
 		_console = new Console(); //Create a Logging console
 		_windowSystem = new WindowsSystem(hInstance, nCmdShow); //Create Window object in it
-		_imguiSystem = new ImguiSystem(_windowSystem->getWindow());
 
 		_gameStateManager = new GameStateManager();
 
@@ -79,6 +79,7 @@ public:
 		_prefabFactory = new GameObjectPrototype();
 
 		_sceneManager = new SceneManager();
+		_imguiSystem = new ImguiSystem(_windowSystem->getWindow());
 	}
 
 	virtual ~EngineSystems()
@@ -105,7 +106,6 @@ public:
 
 	Console* _console;
 	WindowsSystem* _windowSystem;
-	ImguiSystem* _imguiSystem;
 
 	GameStateManager* _gameStateManager;
 
@@ -124,6 +124,8 @@ public:
 	GameObjectPrototype* _prefabFactory;
 
 	SceneManager* _sceneManager;
+
+	ImguiSystem* _imguiSystem;
 };
 
 

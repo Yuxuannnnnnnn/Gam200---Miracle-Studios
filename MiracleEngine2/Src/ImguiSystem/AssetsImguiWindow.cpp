@@ -22,7 +22,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << audioFile.path() << std::endl;
 			std::string path = audioFile.path().u8string();
-			std::string fileName = path.substr(0, path.find_last_of("\\/"));
+			size_t namesize = path.find_last_of(".ogg") - 4 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 		ResourceManager::GetInstance().AddAudioResourceList(ResourceList);
@@ -34,7 +35,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << textureFile.path() << std::endl;
 			std::string path = textureFile.path().u8string();
-			std::string fileName = path.substr(0, path.find_last_of("\\/"));
+			size_t namesize = path.find_last_of(".png") - 4 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
@@ -51,7 +53,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
+		//ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
 		ResourceList.clear();
 	}
 
@@ -60,7 +62,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << fontFile.path() << std::endl;
 			std::string path = fontFile.path().u8string();
-			std::string fileName = path.substr(0, path.find_last_of("\\/"));
+			size_t namesize = path.find_last_of(".ttf") - 4 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 		ResourceManager::GetInstance().AddFontResourceList(ResourceList);
@@ -72,7 +75,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << stateFile.path() << std::endl;
 			std::string path = stateFile.path().u8string();
-			std::string fileName = path.substr(0, path.find_last_of("\\/"));
+			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
@@ -85,7 +89,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << gameObjectFile.path() << std::endl;
 			std::string path = gameObjectFile.path().u8string();
-			std::string fileName = path.substr(0, path.find_last_of("\\/"));
+			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 

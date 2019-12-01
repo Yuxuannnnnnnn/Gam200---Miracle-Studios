@@ -17,7 +17,7 @@ void TileMapComponent::SerialiseComponentFromLevelFile(rapidjson::Value& documen
 	{
 		for (unsigned i = 0; i < document["Palette"].Size(); i++)
 		{
-			palette[document["Palette"][i][1].GetInt()] = document["Palette"][i][2].GetString();
+			palette[document["Palette"][i][0].GetInt()] = document["Palette"][i][1].GetString();
 		}
 	}
 

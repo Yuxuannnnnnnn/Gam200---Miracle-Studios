@@ -15,7 +15,6 @@ public:
 		EngineSystems::GetInstance().Init(hInstance, nCmdShow);
 		_console = EngineSystems::GetInstance()._console;
 		_windowSystem = EngineSystems::GetInstance()._windowSystem;
-		_imguiSystem = EngineSystems::GetInstance()._imguiSystem;
 
 		_gameStateManager = EngineSystems::GetInstance()._gameStateManager;
 
@@ -31,6 +30,7 @@ public:
 		_sceneManager = EngineSystems::GetInstance()._sceneManager;
 
 		_gameObjectFactory = EngineSystems::GetInstance()._gameObjectFactory;
+		_imguiSystem = EngineSystems::GetInstance()._imguiSystem;
 	}
 
 	void Init();

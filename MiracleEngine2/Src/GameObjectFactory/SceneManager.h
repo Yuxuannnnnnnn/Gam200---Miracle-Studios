@@ -39,10 +39,9 @@ public:
 	Scenes GetCurrentScene();
 
 
-
 //For Dynamic Scene Changing based on .json file
 private:
-	typedef std::unordered_map <std::string, std::string> NamePath;
+	typedef std::unordered_map<std::string, std::string> NamePath;
 
 	NamePath _scenes;
 	std::string _currentScene;
