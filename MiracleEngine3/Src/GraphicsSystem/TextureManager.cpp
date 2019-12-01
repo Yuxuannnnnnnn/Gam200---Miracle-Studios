@@ -21,7 +21,10 @@ TextureManager::TextureManager()
 	_textureMap["bullet"] = new Texture2D("Resources/Image/PlayerBullet.png");
 	_textureMap["bulletE"] = new Texture2D("Resources/Image/Bullet_E.png");
 	_textureMap["bulletT"] = new Texture2D("Resources/Image/Bullet_T.png");
-	_textureMap["floor"] = new Texture2D("Resources/Image/Floor.png");
+
+	_textureMap["floor"] = new Texture2D("Resources/Image/RockyTexture.png");
+	_textureMap["background"] = new Texture2D("Resources/Image/Background.png");
+	
 	_textureMap["wall"] = new Texture2D("Resources/Image/Wall.png");
 	_textureMap["turret"] = new Texture2D("Resources/Image/Turret.png");
 	_textureMap["spawner"] = new Texture2D("Resources/Image/Spawner.png");
