@@ -29,6 +29,8 @@ public:
 	void AddObject(size_t uId);
 	void RemoveObject(size_t uId);
 
+	TransformComponent* GetTransform(size_t uId);
+
 	static void UpdateTransformMartix(TransformComponent* transform);
 	static Mtx44 GetTransformMartix(TransformComponent* transform);
 };

@@ -13,7 +13,7 @@ void ImGuizmoManager::Update()
 		if (_pickList.find(_pickUId) == _pickList.end())
 			return;
 
-		TransformComponent* transform = _transformList[_pickUId];
+		TransformComponent* transform = _engineSystems._transforManager->GetTransform(_pickUId);
 		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 		transform->SetPos(pos);
 
@@ -25,7 +25,7 @@ void ImGuizmoManager::Update()
 		if (_pickList.find(_pickUId) == _pickList.end())
 			return;
 
-		TransformComponent* transform = _transformList[_pickUId];
+		TransformComponent* transform = _engineSystems._transforManager->GetTransform(_pickUId);
 
 		if (EngineSystems::GetInstance()._inputSystem->KeyHold(KEYB_A))
 		{
@@ -52,7 +52,7 @@ void ImGuizmoManager::Update()
 			if (!it.second->GetEnable())
 				continue;
 
-			UpdateColliderData(it.second);
+			_engineSystems._collisionManager->UpdateColliderData(it.second);
 
 			if (TestBoxVsPoint(*it.second, pos))
 			{
@@ -99,7 +99,7 @@ void ImGuizmoManager::Draw()
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
-		EngineSystems::GetInstance()._physicsSystem->UpdateColliderData(it.second);
+		_engineSystems._collisionManager->UpdateColliderData(it.second);
 
 		BoxCollider2D* object = (BoxCollider2D*)it.second;
 

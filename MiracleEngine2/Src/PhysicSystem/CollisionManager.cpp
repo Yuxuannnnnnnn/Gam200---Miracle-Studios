@@ -1,5 +1,8 @@
 #include "PrecompiledHeaders.h"
 #include "CollisionManager.h"
+#include "Collision.h"
+
+#include "Engine/EngineSystems.h"
 
 void CollisionManager::Update(double dt)
 {
@@ -145,7 +148,7 @@ void CollisionManager::UpdateStaticCollision(double dt)
 		if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, ColliderTag::BUILDING))
 			continue;
 
-		TransformComponent* transform = _transformList[it->first];
+		TransformComponent* transform = _engineSystems._transforManager->GetTransform(it->first);
 
 		unsigned tileId = _collisionMap.GetTileOnMap(transform->GetPos());
 
@@ -208,17 +211,17 @@ int CollisionManager::CollisionCheckTile(Collider2D* object, unsigned centerTile
 
 void CollisionManager::CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt)
 {
-	TransformComponent* transform = _transformList[collider1->GetParentId()];
-	TransformComponent* transform2 = _transformList[collider2->GetParentId()];
+	TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider1->GetParentId());
+	TransformComponent* transform2 = _engineSystems._transforManager->GetTransform(collider2->GetParentId());
 
 	RigidBody2D* rigidbody = nullptr;
 	RigidBody2D* rigidbody2 = nullptr;
 
 	if (collider1->_attachedRigidboy)
-		rigidbody = _rigidBody2dList[collider1->GetParentId()];
+		rigidbody = _engineSystems._rigidbodyManager->_rigidBody2dList[collider1->GetParentId()];
 
 	if (collider2->_attachedRigidboy)
-		rigidbody2 = _rigidBody2dList[collider2->GetParentId()];
+		rigidbody2 = _engineSystems._rigidbodyManager->_rigidBody2dList[collider2->GetParentId()];
 
 	if (collider1->_type == (unsigned)ColliderType::BOX_COLLIDER)
 	{
@@ -298,7 +301,7 @@ void CollisionManager::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::EDGE_COLLIDER:
 	{
 		EdgeCollider2D* object = (EdgeCollider2D*)collider;
-		TransformComponent* transform = _transformList[collider->GetParentId()];
+		TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider->GetParentId());
 
 		float dir = transform->GetRotate();
 		object->m_origin = transform->GetPos();
@@ -322,7 +325,7 @@ void CollisionManager::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::BOX_COLLIDER:
 	{
 		BoxCollider2D* object = (BoxCollider2D*)collider;
-		TransformComponent* transform = _transformList[collider->GetParentId()];
+		TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider->GetParentId());
 
 		object->mScale = transform->GetScale();
 		object->mOrigin = transform->GetPos();
@@ -375,7 +378,7 @@ void CollisionManager::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::CIRCLE_COLLIDER:
 	{
 		CircleCollider2D* object = (CircleCollider2D*)collider;
-		TransformComponent* transform = _transformList[collider->GetParentId()];
+		TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider->GetParentId());
 
 		object->mCenPos = transform->GetPos();
 		object->mRadius = transform->GetScale()._y * 0.5f;

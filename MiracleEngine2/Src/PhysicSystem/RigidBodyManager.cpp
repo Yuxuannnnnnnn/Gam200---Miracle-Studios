@@ -37,7 +37,7 @@ void RigidbodyManager::ApplyVelocityToObject(double dt)
 			continue;
 
 		// newPos = newVel * dt + currPos;
-		_transformList[it.first]->GetPos() += it.second->_velocity * (float)dt;
+		_engineSystems._transforManager->GetTransform(it.first)->GetPos() += it.second->_velocity * (float)dt;
 	}
 }
 
@@ -54,14 +54,16 @@ void RigidbodyManager::Draw()
 		Vector3 newVel = it.second->_velocity.Normalized();
 		float length = it.second->_velocity.SquaredLength();
 
+		TransformComponent* transform = _engineSystems._transforManager->GetTransform(it.first);
+
 		if (length > 50.f)
 			length = 50.f;
 
 		DrawDebugLine(
-			_transformList[it.first]->GetPos()._x,
-			_transformList[it.first]->GetPos()._y,
-			_transformList[it.first]->GetPos()._x + newVel._x * length,
-			_transformList[it.first]->GetPos()._y + newVel._y * length);
+			transform->GetPos()._x,
+			transform->GetPos()._y,
+			transform->GetPos()._x + newVel._x * length,
+			transform->GetPos()._y + newVel._y * length);
 	}
 }
 
@@ -78,7 +80,7 @@ void RigidbodyManager::RemoveObject(size_t uId)
 
 void RigidbodyManager::AddForce(size_t uId, Vector3 forceDir, float force)
 {
-	RigidBody2D* object = EngineSystems::GetInstance()._physicsSystem->GetRigidBody2D(uId);
+	RigidBody2D* object = _engineSystems._rigidbodyManager->_rigidBody2dList[uId];
 
 	if (!object)
 		return;
@@ -89,8 +91,8 @@ void RigidbodyManager::AddForce(size_t uId, Vector3 forceDir, float force)
 
 void RigidbodyManager::AddForwardForce(size_t uId, float force)
 {
-	RigidBody2D* object = EngineSystems::GetInstance()._physicsSystem->GetRigidBody2D(uId);
-	TransformComponent* transform = EngineSystems::GetInstance()._physicsSystem->GetTransform(uId);
+	RigidBody2D* object = _engineSystems._rigidbodyManager->_rigidBody2dList[uId];
+	TransformComponent* transform = _engineSystems._transforManager->GetTransform(uId);
 
 	if (!object)
 		return;

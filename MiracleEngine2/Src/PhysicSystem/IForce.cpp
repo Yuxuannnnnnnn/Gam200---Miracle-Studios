@@ -4,10 +4,10 @@
 
 void IForce::AddForce(size_t uId, Vector3 forceDir, float force)
 {
-	PhysicsSystem::AddForce(uId, forceDir, force);
+	_engineSystems._rigidbodyManager->AddForce(uId, forceDir, force);
 }
 
 void IForce::AddForwardForce(size_t uId, float force)
 {
-	PhysicsSystem::AddForwardForce(uId, force);
+	_engineSystems._rigidbodyManager->AddForwardForce(uId, force);
 }

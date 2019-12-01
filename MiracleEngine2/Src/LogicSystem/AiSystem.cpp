@@ -155,7 +155,7 @@ void AISystem::CreateNodeMap()
 	int originY = -(int)((_mapTileSize * _mapHeight) / 2);
 	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
 	
-	EngineSystems::GetInstance()._physicsSystem->_collisionMap.AddNewMap(
+	_engineSystems._collisionManager->_collisionMap.AddNewMap(
 		MAP_HEIGHT, MAP_WIDTH, Vec2{ MAP_SIZE, MAP_SIZE }, tempVecOrigin);
 
 	for (int y = 0; y < (int)_mapHeight; ++y)
@@ -184,7 +184,7 @@ void AISystem::CreateNodeMap()
 				//tempGo->Set_typeId(TypeIdGO::WALL);
 				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
 				
-				EngineSystems::GetInstance()._physicsSystem->_collisionMap.AddNewTile(y, x, MapTile{ TileType::HARD_WALL, tempGo->Get_uID() });
+				_engineSystems._collisionManager->_collisionMap.AddNewTile(y, x, MapTile{ TileType::HARD_WALL, tempGo->Get_uID() });
 				//std::cout << id;
 			}
 			else if (spawner)

@@ -10,7 +10,9 @@ Texture2D::Texture2D(const std::string& path)
 	: _id(0), _filePath(path), _localBuffer(nullptr),
 	_width(0), _height(0), _bpp(0)
 {
-	_localBuffer = ResourceManager::GetInstance().GetTexture2DResource(path, _width, _height, _bpp);
+
+	stbi_set_flip_vertically_on_load(1);
+	unsigned char* buffer = stbi_load(path.c_str(), &_width, &_height, &_bpp, 4);
 
 	glEnable(GL_BLEND);
 	

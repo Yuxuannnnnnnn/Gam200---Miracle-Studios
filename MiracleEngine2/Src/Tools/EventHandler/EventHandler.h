@@ -107,6 +107,8 @@ private:
 	void SendSystemEventMessage(size_t uId, EventMessageType type, T message = 0, T2 message2 = 0);
 };
 
+#define MyEventHandler EventHandler::GetInstance()
+
 #include "EventHandler.hpp"
 
 #endif

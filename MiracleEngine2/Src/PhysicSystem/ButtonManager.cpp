@@ -4,6 +4,8 @@
 #include "../Tools/EventHandler/EventHandler.h"
 #include "Collision.h"
 
+#include "Engine/EngineSystems.h"
+
 
 void ButtonManager::Update()
 {
@@ -14,7 +16,7 @@ void ButtonManager::Update()
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
-		EngineSystems::GetInstance()._physicsSystem->UpdateColliderData(it.second);
+		_engineSystems._collisionManager->UpdateColliderData(it.second);
 
 		if (TestBoxVsPoint(*it.second, pos))
 		{
@@ -36,7 +38,7 @@ void ButtonManager::Draw()
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
-		EngineSystems::GetInstance()._physicsSystem->UpdateColliderData(it.second);
+		_engineSystems._collisionManager->UpdateColliderData(it.second);
 
 		BoxCollider2D* object = (BoxCollider2D*)it.second;
 

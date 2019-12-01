@@ -51,7 +51,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
+		//ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
 		ResourceList.clear();
 	}
 

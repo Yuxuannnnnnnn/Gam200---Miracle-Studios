@@ -1244,7 +1244,7 @@ int CircleBox_Intersection(const CircleCollider2D& circleA,
 
 	newBox.mScale = Vector3(boxB.mScale._x * 0.5f + circleA.mRadius, boxB.mScale._y * 0.5f + circleA.mRadius);
 
-	EngineSystems::GetInstance()._physicsSystem->UpdateColliderData(&newBox);
+	_engineSystems._collisionManager->UpdateColliderData(&newBox);
 
 	int outcode = TestOutCode(newBox, nextPos);
 

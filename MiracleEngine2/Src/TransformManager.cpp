@@ -10,6 +10,11 @@ void TransformManager::RemoveObject(size_t uId)
 	_transformList.erase(uId);
 }
 
+TransformComponent* TransformManager::GetTransform(size_t uId)
+{
+	return _transformList[uId];
+}
+
 void TransformManager::UpdateTransformMartix(TransformComponent* transform)
 {
 }

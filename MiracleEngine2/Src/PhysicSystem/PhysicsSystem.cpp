@@ -8,10 +8,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "PrecompiledHeaders.h"
 #include "PhysicsSystem.h"
+#include "Engine/EngineSystems.h"
 
 void PhysicsSystem::Update(double dt)
 {
-	
+	_engineSystems._rigidbodyManager->UpdateVelocity(dt);
+	_engineSystems._collisionManager->Update(dt);
+	_engineSystems._rigidbodyManager->ApplyVelocityToObject(dt);
 }
 
 
@@ -20,6 +23,7 @@ void PhysicsSystem::Update(double dt)
 
 void PhysicsSystem::Draw()
 {
-	
+	_engineSystems._rigidbodyManager->Draw();
+	_engineSystems._collisionManager->Draw();
 }
 

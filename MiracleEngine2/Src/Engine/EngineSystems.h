@@ -25,6 +25,14 @@
 #include "Audio/AudioSystem.h"
 #include "GameObjectFactory/SceneManager.h"
 
+
+#include "PhysicSystem/ButtonManager.h"
+#include "PhysicSystem/CollisionManager.h"
+#include "PhysicSystem/RigidBodyManager.h"
+#include "PhysicSystem/ImGuizmoManager.h"
+
+#include "TransformManager.h"
+
 #include "ImguiSystem.h"
 #include "WindowsSystem.h"
 #include "Console.h"
@@ -53,7 +61,12 @@ public:
 		_gameObjectFactory{ nullptr },
 		_prefabFactory{ nullptr },
 
-		_sceneManager{ nullptr }
+		_sceneManager{ nullptr },
+		_buttonManager{ nullptr },
+		_collisionManager{ nullptr },
+		_rigidbodyManager{ nullptr },
+		_imGuizmoManager{ nullptr },
+		_transforManager{ nullptr }
 	{
 	}
 
@@ -79,6 +92,12 @@ public:
 		_prefabFactory = new GameObjectPrototype();
 
 		_sceneManager = new SceneManager();
+
+		_buttonManager = new ButtonManager();
+		_collisionManager = new CollisionManager();
+		_rigidbodyManager = new RigidbodyManager();
+		_imGuizmoManager = new ImGuizmoManager();
+		_transforManager = new TransformManager();
 	}
 
 	virtual ~EngineSystems()
@@ -100,6 +119,14 @@ public:
 
 		delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 		delete _sceneManager;
+
+
+		delete _buttonManager;
+		delete _collisionManager;
+		delete _rigidbodyManager;
+		delete _imGuizmoManager;
+		delete _transforManager;
+
 	}
 
 
@@ -123,9 +150,15 @@ public:
 	GameObjectFactory* _gameObjectFactory;
 	GameObjectPrototype* _prefabFactory;
 
-	SceneManager* _sceneManager;
+	SceneManager* _sceneManager; 
+
+	ButtonManager* _buttonManager;
+	CollisionManager* _collisionManager;
+	ImGuizmoManager* _imGuizmoManager;
+	TransformManager* _transforManager;
+	RigidbodyManager* _rigidbodyManager;
 };
 
-
+#define _engineSystems EngineSystems::GetInstance()
 
 #endif
