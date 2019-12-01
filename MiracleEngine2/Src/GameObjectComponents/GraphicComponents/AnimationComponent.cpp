@@ -14,7 +14,7 @@ std::string& AnimationComponent::GetFilePath()
 
 
 AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId)
+	: IComponentSystem(parent, uId), _currentAnimation{ 0 }, _startingFrame{ 0 }
 {
 	if (component)
 	{
@@ -24,7 +24,7 @@ AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponen
 
 	// temporary test
 	testanim = new Animation();
-
+	testanim->load("./Resources/TextFiles/AnimationData/CatAnimation.json");
 }
 
 void AnimationComponent::SerialiseComponent(Serialiser& document)

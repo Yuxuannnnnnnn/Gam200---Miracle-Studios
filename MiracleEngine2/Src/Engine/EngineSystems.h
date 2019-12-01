@@ -168,4 +168,28 @@ public:
 
 #define _engineSystems EngineSystems::GetInstance()
 
+#define MyConsole (*EngineSystems::GetInstance()._console)
+#define MyWindowsSystem (*EngineSystems::GetInstance()._windowSystem)
+#define MyImguiSystem (*EngineSystems::GetInstance()._imguiSystem)
+#define MyImGuizmoManager (*EngineSystems::GetInstance()._imGuizmoManager)
+
+#define MyInputSystem (*EngineSystems::GetInstance()._inputSystem)
+#define MyLogicSystem (*EngineSystems::GetInstance()._logicSystem)
+#define MyGraphicsSystem (*EngineSystems::GetInstance()._graphicsSystem)
+#define MyPhysicsSystem (*EngineSystems::GetInstance()._physicsSystem)
+#define MyAudioSystem (*EngineSystems::GetInstance()._audioSystem)
+
+#define MyFrameRateController (*EngineSystems::GetInstance()._frameRateControl)
+#define MyPerformanceUsage (*EngineSystems::GetInstance()._performanceUsage)
+
+#define MyButtonManager (*EngineSystems::GetInstance()._buttonManager)
+#define MyCollisionManager (*EngineSystems::GetInstance()._collisionManager)
+#define MyRigidbodyManager (*EngineSystems::GetInstance()._rigidbodyManager)
+#define MyTransformManager (*EngineSystems::GetInstance()._transforManager)
+
+#define MyGameObjectFactory (*EngineSystems::GetInstance()._gameObjectFactory)
+#define MyPrototypeFactory (*EngineSystems::GetInstance()._prefabFactory)
+
+#define MySceneManager (*EngineSystems::GetInstance()._sceneManager)
+
 #endif

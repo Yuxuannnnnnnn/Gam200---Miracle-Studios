@@ -36,7 +36,7 @@ public:
 	void Update(double dt);
 	void Draw();
 
-	void AddObject(size_t uId);
+	void AddObject(size_t uId, void* component = 0);
 	void RemoveObject(size_t uId);
 
 	static void UpdateColliderData(Collider2D* collider);

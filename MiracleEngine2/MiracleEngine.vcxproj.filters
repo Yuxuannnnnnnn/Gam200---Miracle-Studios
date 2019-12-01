@@ -699,6 +699,7 @@
     <None Include="Resources\TextFiles\GameObjects\Button.json" />
     <None Include="Resources\TextFiles\States\GameScenes.json" />
     <None Include="Resources\TextFiles\AnimationData\DatafileExplosionBluePlasma24FPSSprite.json" />
+    <None Include="Resources\TextFiles\AnimationData\CatAnimation.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\States\MainMenu.json" />

@@ -6,6 +6,7 @@
 #include <map>
 #include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
 
+#include "IContainer.h"
 
 /* ------------------------------------------------------
 
@@ -16,11 +17,14 @@
  --------------------------------------------------------*/
 
 
-class AnimationSystem
+class AnimationSystem : public IContainer
 {
 public:
 	void Update(std::unordered_map < size_t, AnimationComponent*>& _animationList, double dt);
 	void Exit();
+
+	void AddObject(size_t uId, void* component = 0);
+	void RemoveObject(size_t uId);
 };
 
 #endif

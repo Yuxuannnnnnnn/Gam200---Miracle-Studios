@@ -127,9 +127,9 @@ void ImGuizmoManager::Draw()
 	}
 }
 
-void ImGuizmoManager::AddObject(size_t uId)
+void ImGuizmoManager::AddObject(size_t uId, void* component)
 {
-
+	_pickList.insert({ uId, (PickingCollider*)component });
 }
 
 void ImGuizmoManager::RemoveObject(size_t uId)

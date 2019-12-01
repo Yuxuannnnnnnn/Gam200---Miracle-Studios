@@ -66,9 +66,9 @@ void ButtonManager::Draw()
 	}
 }
 
-void ButtonManager::AddObject(size_t uId)
+void ButtonManager::AddObject(size_t uId, void* component)
 {
-
+	_buttonList.insert({ uId, (ButtonComponent*)component });
 }
 
 void ButtonManager::RemoveObject(size_t uId)

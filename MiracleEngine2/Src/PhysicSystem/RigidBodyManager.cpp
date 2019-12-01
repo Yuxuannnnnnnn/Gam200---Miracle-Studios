@@ -67,9 +67,14 @@ void RigidbodyManager::Draw()
 	}
 }
 
-void RigidbodyManager::AddObject(size_t uId)
+void RigidbodyManager::AddObject(size_t uId, void* component)
 {
+	RigidBody2D* temp = MyGameObjectFactory.getRigidBodyComponent()[uId];
 
+	if (temp == nullptr)
+		return;
+
+	_rigidBody2dList.insert({ uId, temp });
 }
 
 void RigidbodyManager::RemoveObject(size_t uId)

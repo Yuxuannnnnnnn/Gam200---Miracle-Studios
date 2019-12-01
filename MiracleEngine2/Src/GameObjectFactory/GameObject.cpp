@@ -5,6 +5,7 @@
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
 #include "Engine/EngineSystems.h"
 #include "Tools/FileIO/Serialiser.h"
+#include "Tools/EventHandler/EventHandler.h"
 
 GameObject::GameObject(size_t uId)
 	:_uId{ uId }, _destory{ false }, _enable{ true }, _alive{ true }
@@ -153,3 +154,38 @@ void GameObject::DestoryGameObject()
 	EngineSystems::GetInstance()._gameObjectFactory->DestoryGameObject(this);
 }
 
+
+bool GameObject::GetAlive()
+{ 
+	return _alive; 
+}
+
+void GameObject::SetAlive(bool alive)
+{ 
+	_alive = alive; 
+}
+
+bool GameObject::GetDestory() const
+{ 
+	return _destory; 
+}
+
+void GameObject::SetDestory()
+{
+	_destory = true;
+	SetEnable(false);
+	MyEventHandler.AddDeletionEvent(_uId);
+}
+
+bool GameObject::GetEnable() const
+{ 
+	return _enable; 
+}
+
+void GameObject::SetEnable(bool enable)
+{
+	_enable = enable;
+
+	for (auto it : _ComponentList)
+		it.second->SetEnable(enable);
+}

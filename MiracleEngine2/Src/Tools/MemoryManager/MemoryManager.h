@@ -56,4 +56,6 @@ private:
 	
 };
 
+#define MyMemoryManager MemoryManager::GetInstance()
+
 #endif

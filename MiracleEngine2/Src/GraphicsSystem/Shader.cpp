@@ -14,10 +14,6 @@ void Shader::SetUniform1f(const std::string& name, float value)
 	glUniform1f(location, value);
 }
 
-Shader::Shader()
-{
-}
-
 void Shader::Select() const
 {
 	glUseProgram(_id);
