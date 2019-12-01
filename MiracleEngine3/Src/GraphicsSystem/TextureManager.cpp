@@ -39,6 +39,8 @@ TextureManager::TextureManager()
 	_textureMap["Progress_Bar"] = new Texture2D("Resources/Image/Progress_Bar.png");
 	_textureMap["UI_Background"] = new Texture2D("Resources/Image/UI_Background.png");
 
+	// props
+	_textureMap["CircularBatteryPlatform"] = new Texture2D("Resources/Image/CircularBatteryPlatform.png");
 
 }
 
