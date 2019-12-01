@@ -178,7 +178,7 @@ bool ResourceManager::AddNewAnimationResource(NamePath list)
 }
 
 
-Texture2D* ResourceManager::GetTexture2DResource(std::string& name)
+Texture2D* ResourceManager::GetTexture2DResource(std::string name)
 {
 	if (_Texture2DMap.find(name) != _Texture2DMap.end())
 		return _Texture2DMap[name];
@@ -186,7 +186,7 @@ Texture2D* ResourceManager::GetTexture2DResource(std::string& name)
 	return nullptr;
 }
 
-Shader* ResourceManager::GetShaderResource(std::string& name)
+Shader* ResourceManager::GetShaderResource(std::string name)
 {
 	if (_ShaderMap.find(name) != _ShaderMap.end())
 		return _ShaderMap[name];
@@ -194,7 +194,7 @@ Shader* ResourceManager::GetShaderResource(std::string& name)
 	return nullptr;
 }
 
-FontRenderer* ResourceManager::GetFontResource(std::string& name)
+FontRenderer* ResourceManager::GetFontResource(std::string name)
 {
 	if (_FontMap.find(name) != _FontMap.end())
 		return _FontMap[name];
@@ -202,7 +202,7 @@ FontRenderer* ResourceManager::GetFontResource(std::string& name)
 	return nullptr;
 }
 
-Sound* ResourceManager::GetSoundResource(std::string& name)
+Sound* ResourceManager::GetSoundResource(std::string name)
 {
 	if (_AudioMap.find(name) != _AudioMap.end())
 		return _AudioMap[name];
@@ -210,7 +210,7 @@ Sound* ResourceManager::GetSoundResource(std::string& name)
 	return nullptr;
 }
 
-Animation* ResourceManager::GetAnimationResource(std::string& name)
+Animation* ResourceManager::GetAnimationResource(std::string name)
 {
 	if (_AnimationMap.find(name) != _AnimationMap.end())
 		return _AnimationMap[name];
@@ -218,27 +218,27 @@ Animation* ResourceManager::GetAnimationResource(std::string& name)
 	return nullptr;
 }
 
-std::string ResourceManager::GetTexture2DResourcePath(std::string& name)
+std::string ResourceManager::GetTexture2DResourcePath(std::string name)
 {
 	return _Texture2DList[name];
 }
 
-std::pair<std::string, std::string> ResourceManager::GetShaderResourcePath(std::string& name)
+std::pair<std::string, std::string> ResourceManager::GetShaderResourcePath(std::string name)
 {
 	return _ShaderList[name];
 }
 
-std::string ResourceManager::GetFontResourcePath(std::string& name)
+std::string ResourceManager::GetFontResourcePath(std::string name)
 {
 	return _FontList[name];
 }
 
-std::string ResourceManager::GetSoundResourcePath(std::string& name)
+std::string ResourceManager::GetSoundResourcePath(std::string name)
 {
 	return _AudioList[name];
 }
 
-std::string ResourceManager::GetAnimationResourcePath(std::string& name)
+std::string ResourceManager::GetAnimationResourcePath(std::string name)
 {
 	return _AnimationList[name];
 }

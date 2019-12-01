@@ -15,7 +15,7 @@ public:
 	IContainer() = default;
 	virtual ~IContainer() {}
 
-	virtual void AddObject(size_t uId) = 0;
+	virtual void AddObject(size_t uId, void* component = 0) = 0;
 	virtual void RemoveObject(size_t uId) = 0;
 };
 

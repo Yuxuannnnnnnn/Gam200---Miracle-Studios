@@ -98,16 +98,7 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 		component->SetParentPtr(newObject);
 	}
 	else
-	{
 		newObject = new GameObject(_uId++);
-
-		PickingCollider* pickObject = new PickingCollider();
-		pickObject->SetParentId(newObject->Get_uID());
-		pickObject->SetParentPtr(newObject);
-
-		_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
-		_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
-	}
 
 	_listObject.insert(std::pair< size_t, GameObject* >(newObject->Get_uID(), newObject));
 
@@ -123,11 +114,6 @@ void GameObjectFactory::DestoryGameObject(GameObject* object)
 
 	for (auto it : _listObject[id]->GetComponentList())
 		RemoveComponent(_listObject[id], (ComponentId)it.first);
-
-	{
-		_pickList.erase(id);
-		_engineSystems._imGuizmoManager->_pickList.erase(id);
-	}
 
 	delete _listObject[id];
 	_listObject.erase(id);
@@ -159,7 +145,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		_transformComponents.insert(std::pair< size_t, TransformComponent* >(object->Get_uID(), newComponent));
 
 		if (!prefab)
+		{
+
+			MyTransformManager.AddObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::TRANSFORM_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -174,7 +164,17 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		_graphicComponents.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
 		newComponent->RenderLayerResolver();
 		if (!prefab)
+		{
+			PickingCollider* pickObject = new PickingCollider();
+			pickObject->SetParentId(object->Get_uID());
+			pickObject->SetParentPtr(object);
+
+			_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+			_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+
+			MyGraphicsSystem.AddSpriteObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -189,7 +189,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		_AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
 
 		if (!prefab)
+		{
+
+			MyGraphicsSystem.AddAnimationObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::ANIMATION_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -216,8 +220,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
 
 		if (!prefab)
-			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::FONT_COMPONENT, newComponent);
+		{
 
+			MyGraphicsSystem.AddFontObject(object->Get_uID(), newComponent);
+			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::FONT_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -229,7 +236,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
 		if (!prefab)
+		{
+
+			MyButtonManager.AddObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::BUTTON_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -256,7 +267,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 			collider->_attachedRigidboy = true;
 
 		if (!prefab)
+		{
+
+			MyRigidbodyManager.AddObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::RIGIDBODY_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -277,7 +292,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		
 
 		if (!prefab)
+		{
+
+			MyCollisionManager.AddObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::CIRCLECOLLIDER_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -297,7 +316,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 			newComponent->_attachedRigidboy = true;
 
 		if (!prefab)
+		{
+
+			MyCollisionManager.AddObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::BOXCOLLIDER_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -317,7 +340,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 			newComponent->_attachedRigidboy = true;
 
 		if (!prefab)
+		{
+
+			MyCollisionManager.AddObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::EDGECOLLIDER_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -329,8 +356,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		_audioComponent.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
 
 		if (!prefab)
-			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::AUDIO_COMPONENT, newComponent);
+		{
 
+			MyAudioSystem.AddObject(object->Get_uID(), newComponent);
+			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::AUDIO_COMPONENT, newComponent);
+		}
 
 		return newComponent;
 	}
@@ -350,8 +380,11 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 			_logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), component));
 
 			if (!prefab)
-				MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::LOGIC_COMPONENT, component);
+			{
 
+				MyLogicSystem.AddObject(object->Get_uID(), component);
+				MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::LOGIC_COMPONENT, component);
+			}
 		}
 
 		if (script != ScriptId::EMPTY)
@@ -398,6 +431,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_transformComponents.insert(std::pair< size_t, TransformComponent* >(object->Get_uID(), newComponent));
 		
+
+		MyTransformManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::TRANSFORM_COMPONENT, newComponent);
 		
 		return newComponent;
@@ -409,7 +444,15 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_graphicComponents.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
 		newComponent->RenderLayerResolver();
-	
+
+		PickingCollider* pickObject = new PickingCollider();
+		pickObject->SetParentId(object->Get_uID());
+		pickObject->SetParentPtr(object);
+
+		_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+		_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+
+		MyGraphicsSystem.AddSpriteObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT, newComponent);
 		
 		return newComponent;
@@ -421,6 +464,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
 		
+
+		MyGraphicsSystem.AddAnimationObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::ANIMATION_COMPONENT, newComponent);
 
 		return newComponent;
@@ -441,6 +486,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
 		
+
+		MyGraphicsSystem.AddFontObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::FONT_COMPONENT, newComponent);
 
 		return newComponent;
@@ -452,6 +499,8 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_buttonComponent.insert(std::pair< size_t, ButtonComponent* >(object->Get_uID(), newComponent));
 
+
+		MyButtonManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::BUTTON_COMPONENT, newComponent);
 
 		return newComponent;
@@ -465,6 +514,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_rigidBody2dComponents.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
 
+		MyRigidbodyManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::RIGIDBODY_COMPONENT, newComponent);
 
 		return newComponent;
@@ -478,6 +528,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
+		MyCollisionManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::CIRCLECOLLIDER_COMPONENT, newComponent);
 
 		return newComponent;
@@ -491,6 +542,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
+		MyCollisionManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::BOXCOLLIDER_COMPONENT, newComponent);
 
 		return newComponent;
@@ -505,6 +557,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
 
+		MyCollisionManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::EDGECOLLIDER_COMPONENT, newComponent);
 
 		return newComponent;
@@ -516,6 +569,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentPtr(object);
 		_audioComponent.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
 
+		MyAudioSystem.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::AUDIO_COMPONENT, newComponent);
 
 		return newComponent;
@@ -551,6 +605,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _transformComponents[object->Get_uID()];
 		_transformComponents.erase(object->Get_uID());
+		MyTransformManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::TRANSFORM_COMPONENT);
 		break;
 	}
@@ -558,13 +613,22 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _graphicComponents[object->Get_uID()];
 		_graphicComponents.erase(object->Get_uID());
+		MyGraphicsSystem.RemoveSpriteObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT);
+
+		{
+			_pickList.erase(object->Get_uID());
+			MyImGuizmoManager.RemoveObject(object->Get_uID());
+			_engineSystems._imGuizmoManager->_pickList.erase(object->Get_uID());
+		}
+
 		break;
 	}
 	case ComponentId::RIGIDBODY_COMPONENT:
 	{
 		delete _rigidBody2dComponents[object->Get_uID()];
 		_rigidBody2dComponents.erase(object->Get_uID());
+		MyRigidbodyManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::RIGIDBODY_COMPONENT);
 		break;
 	}
@@ -572,6 +636,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
+		MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::CIRCLECOLLIDER_COMPONENT);
 		break;
 	}
@@ -579,6 +644,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
+		MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::BOXCOLLIDER_COMPONENT);
 		break;
 	}
@@ -586,6 +652,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
+		MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::EDGECOLLIDER_COMPONENT);
 		break;
 	}
@@ -606,6 +673,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 
 			delete _logicComponents[object->Get_uID()];
 			_logicComponents.erase(object->Get_uID());
+			MyLogicSystem.RemoveObject(object->Get_uID());
 			MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::LOGIC_COMPONENT);
 			break;
 		}
@@ -640,6 +708,7 @@ LogicComponent* GameObjectFactory::CloneLogicComponent(GameObject* object, Logic
 	newComponent->SetParentPtr(object);
 	_logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), newComponent));
 
+	MyLogicSystem.AddObject(object->Get_uID(), newComponent);
 	MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::LOGIC_COMPONENT, newComponent);
 
 	Map_ScriptList& scriptMap = newComponent->GetScriptMap();

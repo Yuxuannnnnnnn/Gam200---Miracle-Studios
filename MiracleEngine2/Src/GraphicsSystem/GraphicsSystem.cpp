@@ -68,7 +68,7 @@ void GraphicsSystem::Update(double dt)
 
 	_animationSystem.Update(_animationList, dt);
 
-	_camera.Update(_transformList);
+	_camera.Update();
 	//Check for Graphic component first then get Transform COmponent
 	for (auto& graphicComponentpair : _spriteList)
 	{
@@ -80,7 +80,7 @@ void GraphicsSystem::Update(double dt)
 				if (graphicComponent->GetRenderLayer() == 10)
 					continue;*/
 		size_t objID = graphicComponentpair.first;	//Get GameObjectID
-		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
+		TransformComponent* transformComponent = MyTransformManager.GetTransform(objID); //Get transform from GameObjectID
 
 		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 
@@ -108,8 +108,12 @@ void GraphicsSystem::Update(double dt)
 			}
 			else
 			_quadmesh.Select();
-			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
+			
+
+			Texture2D* temp = _textureManager._textureMap[graphicComponent->GetFileName()];
+			temp->Select();
 		}
+
 		_shader->Select();
 
 
@@ -249,4 +253,34 @@ void GraphicsSystem::UnitTest()
 	{
 		_showfont = 0;
 	}
+}
+
+void GraphicsSystem::AddFontObject(size_t uId, void* component)
+{
+	_fontList.insert({ uId, (FontComponent*)component });
+}
+
+void GraphicsSystem::RemoveFontObject(size_t uId)
+{
+	_fontList.erase(uId);
+}
+
+void GraphicsSystem::AddSpriteObject(size_t uId, void* component)
+{
+	_spriteList.insert({ uId, (GraphicComponent*)component });
+}
+
+void GraphicsSystem::RemoveSpriteObject(size_t uId)
+{
+	_spriteList.erase(uId);
+}
+
+void GraphicsSystem::AddAnimationObject(size_t uId, void* component)
+{
+	_animationList.insert({ uId, (AnimationComponent*)component });
+}
+
+void GraphicsSystem::RemoveAnimationObject(size_t uId)
+{
+	_animationList.erase(uId);
 }

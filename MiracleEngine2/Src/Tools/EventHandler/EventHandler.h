@@ -103,8 +103,8 @@ private:
 	template<typename T>
 	void SendLogicEventMessage(size_t uId, EventMessageType type, T message = 0);
 
-	template<typename T, typename T2>
-	void SendSystemEventMessage(size_t uId, EventMessageType type, T message = 0, T2 message2 = 0);
+	template<typename T>
+	void SendSystemEventMessage(size_t uId, EventMessageType type, ComponentId message = ComponentId::COUNTCOMPONENT, T message2 = 0);
 };
 
 #define MyEventHandler EventHandler::GetInstance()

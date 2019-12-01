@@ -349,7 +349,7 @@ void EventHandler::BroadcastObjectDeletionEvents()
 {
 	for (auto it = _DeleteObjectQueue.begin(); it != _DeleteObjectQueue.end(); ++it)
 	{
-		SendSystemEventMessage(*it, EventMessageType::OBJECT_DELETION, nullptr, nullptr);
+		SendSystemEventMessage(*it, EventMessageType::OBJECT_DELETION, ComponentId::COUNTCOMPONENT, nullptr);
 
 		RemoveCollider2DEvent(_Collide2DQuePre, *it);
 		RemoveCollider2DEvent(_Collide2DQueCurr, *it);

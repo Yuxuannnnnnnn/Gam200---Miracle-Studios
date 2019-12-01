@@ -6,6 +6,8 @@
 int Texture2D::GetWidth() const { return _width; }
 int Texture2D::GetHeight() const { return _height; }
 
+std::vector<unsigned char*> Texture2D::list{};
+
 Texture2D::Texture2D()
 	: _id(0),
 	_width(0), _height(0), _bpp(0)
@@ -42,6 +44,8 @@ bool Texture2D::load(std::string path)
 
 	if (!buffer)
 		return false;
+
+	list.push_back(buffer);
 
 
 	glEnable(GL_BLEND);

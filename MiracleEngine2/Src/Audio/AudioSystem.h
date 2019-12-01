@@ -10,6 +10,7 @@
 #include "../Dep/fmod/inc/fmod.hpp"
 #include "../GameObjectComponents/AudioComponent.h"
 
+#include "IContainer.h"
 
 #include "SoundEnum.h"
 
@@ -24,7 +25,7 @@ static bool possible = true;
 //static FMOD_CHANNELGROUP* soundMusic;
 //static FMOD_CHANNELGROUP* soundEffects;
 
-class AudioSystem
+class AudioSystem : public IContainer
 {
 public:
 	// call this every frame
@@ -38,6 +39,8 @@ public:
 
 	void StopAllSound();
 
+	void AddObject(size_t uId, void* component = 0);
+	void RemoveObject(size_t uId);
 
 	std::unordered_map < size_t, AudioComponent*> _soundList;
 

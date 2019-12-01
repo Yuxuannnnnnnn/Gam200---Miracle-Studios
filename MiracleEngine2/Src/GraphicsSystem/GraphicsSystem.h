@@ -46,6 +46,15 @@ public:
 	//RenderMode _renderMode = None;
 	int num = 0;
 
+	void AddFontObject(size_t uId, void* component = 0);
+	void RemoveFontObject(size_t uId);
+
+	void AddSpriteObject(size_t uId, void* component = 0);
+	void RemoveSpriteObject(size_t uId);
+
+	void AddAnimationObject(size_t uId, void* component = 0);
+	void RemoveAnimationObject(size_t uId);
+
 
 	GraphicsSystem(int windowWidth, int windowHeight);
 	Camera& GetCamera();

@@ -8,6 +8,9 @@
 
 class Texture2D
 {
+
+	static std::vector<unsigned char*> list;
+
 private:
 	unsigned int _id;
 	int _width;   // width and height of texture

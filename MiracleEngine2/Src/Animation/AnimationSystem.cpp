@@ -24,3 +24,15 @@ void AnimationSystem::Update(std::unordered_map < size_t, AnimationComponent*>& 
 void AnimationSystem::Exit()
 {
 }
+
+
+void AnimationSystem::AddObject(size_t uId, void* component)
+{
+	(void)uId;
+	(void)component;
+}
+
+void AnimationSystem::RemoveObject(size_t uId)
+{
+	(void)uId;
+}

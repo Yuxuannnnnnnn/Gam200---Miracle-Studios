@@ -32,7 +32,7 @@ public:
 
 	void Draw();
 
-	void AddObject(size_t uId);
+	void AddObject(size_t uId, void* component = 0);
 	void RemoveObject(size_t uId);
 
 	static void AddForce(size_t uId, Vector3 forceDir, float force);
