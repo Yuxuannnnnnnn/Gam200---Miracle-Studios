@@ -29,37 +29,104 @@
 
 struct CircularBatterPlatform
 {
-	CircularBatterPlatform(glm::vec3 pos, glm::vec3 scale)
+	CircularBatterPlatform(glm::vec3 pos, glm::vec3 scale, float rotation)
 	{
 		_position = pos;
 		_scale = scale;
+		_rotationAngle = rotation;
 	}
 	glm::vec3 _position;
 	glm::vec3 _scale;
+	float _rotationAngle;
 };
 
 struct Building1
 {
-	Building1(glm::vec3 pos, glm::vec3 scale)
+	Building1(glm::vec3 pos, glm::vec3 scale, float rotation)
 	{
 		_position = pos;
 		_scale = scale;
+		_rotationAngle = rotation;
 	}
 	glm::vec3 _position;
 	glm::vec3 _scale;
+	float _rotationAngle;
 };
 
 
 struct Building2
 {
-	Building2(glm::vec3 pos, glm::vec3 scale)
+	Building2(glm::vec3 pos, glm::vec3 scale, float rotation)
 	{
 		_position = pos;
 		_scale = scale;
+		_rotationAngle = rotation;
 	}
 	glm::vec3 _position;
 	glm::vec3 _scale;
+	float _rotationAngle;
 };
+
+struct Building3
+{
+	Building3(glm::vec3 pos, glm::vec3 scale, float rotation)
+	{
+		_position = pos;
+		_scale = scale;
+		_rotationAngle = rotation;
+	}
+	glm::vec3 _position;
+	glm::vec3 _scale;
+	float _rotationAngle;
+};
+
+
+
+struct Building4
+{
+	Building4(glm::vec3 pos, glm::vec3 scale, float rotation)
+	{
+		_position = pos;
+		_scale = scale;
+		_rotationAngle = rotation;
+	}
+	glm::vec3 _position;
+	glm::vec3 _scale;
+	float _rotationAngle;
+};
+
+
+struct Crate
+{
+	Crate(glm::vec3 pos, glm::vec3 scale, float rotation)
+	{
+		_position = pos;
+		_scale = scale;
+		_rotationAngle = rotation;
+	}
+	glm::vec3 _position;
+	glm::vec3 _scale;
+	float _rotationAngle;
+};
+
+
+
+
+
+
+struct RockyTile
+{
+	RockyTile(glm::vec3 pos, glm::vec3 scale, float rotation)
+	{
+		_position = pos;
+		_scale = scale;
+		_rotationAngle = rotation;
+	}
+	glm::vec3 _position;
+	glm::vec3 _scale;
+	float _rotationAngle;
+};
+
 enum RenderMode
 {
 	None,
@@ -89,9 +156,17 @@ public:
 
 	void CalculateProjectionMatrix(int windowWidth, int windowHeight);
 
-	void DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale);
-	void DrawBuilding1(const glm::vec3& position, const glm::vec3& scale);
-	void DrawBuilding2(const glm::vec3& position, const glm::vec3& scale);
+
+	void DrawRockyTile(const glm::vec3& position, const glm::vec3& scale, float rotationAngle = 0.0f);
+
+	void DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale, float rotationAngle = 0.0f);
+	void DrawBuilding1(const glm::vec3& position, const glm::vec3& scale, float rotationAngle = 0.0f);
+	void DrawBuilding2(const glm::vec3& position, const glm::vec3& scale, float rotationAngle = 0.0f);
+
+	void DrawBuilding3(const glm::vec3& position, const glm::vec3& scale, float rotationAngle = 0.0f);
+	void DrawBuilding4(const glm::vec3& position, const glm::vec3& scale, float rotationAngle = 0.0f);
+
+	void DrawCrate(const glm::vec3& position, const glm::vec3& scale, float rotationAngle = 0.0f);
 
 private:
 	void ClearScreen() const;
@@ -120,9 +195,13 @@ private:
 	int _windowWidth;
 	int _windowHeight;
 
+	std::vector<RockyTile> _rockyTileList;
 	std::vector<CircularBatterPlatform> _circularplatformList;
 	std::vector<Building1> _building1List;
 	std::vector<Building2> _building2List;
+	std::vector<Crate> _crateList;
+	std::vector<Building3> _building3List;
+	std::vector<Building4> _building4List;
 };
 
 #define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix
