@@ -6,7 +6,9 @@
 void Engine::Init()
 {
 	// scene loading
+#ifndef LEVELEDITOR
 	_engineSystems._sceneManager->SerialiseScenes(Serialiser("./Resources/TextFiles/States/GameScenes.json"));
+#endif
 
 
 //--Init replaced by Constructor?---------------------------
@@ -24,7 +26,6 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	bool open = true; //for imgui show demo, to be deleted later
 
 	_engineSystems._sceneManager->ChangeScene("Level1");
 	//_sceneManager->ChangeScene(Scenes::MAIN_MENU);

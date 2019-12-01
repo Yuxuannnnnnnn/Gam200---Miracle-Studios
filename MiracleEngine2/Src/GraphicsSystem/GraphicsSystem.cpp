@@ -101,7 +101,7 @@ void GraphicsSystem::Update(double dt)
 		else
 			// texture without animation
 		{
-			if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
+			if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene().compare("MainMenu") == 0)
 			{
 				_uimesh.Select();
 				//_quadmesh.Select();
@@ -129,7 +129,7 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
-	if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
+	if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene().compare("MainMenu") == 0)
 	{
 		_fontRenderer.Draw();
 	}

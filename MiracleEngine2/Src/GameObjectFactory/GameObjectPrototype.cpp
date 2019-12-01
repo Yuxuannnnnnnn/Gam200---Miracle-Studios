@@ -73,13 +73,13 @@ void GameObjectPrototype::SerialPrefabObjects(Serialiser& Level)
 		{
 			GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 
-			temp->Serialise(Level["PrototypesFilePaths"][i].GetString());	//Serialise a gameobject with the string
+			std::string path = Level["PrototypesFilePaths"][i].GetString();
 
+			temp->Serialise(path);	//Serialise a gameobject with the string
 			std::string typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->ObjectType();
-
 			//insert into the prototype list
 			_listObjectPrototype.insert(std::pair <std::string, GameObject*>(typeId, temp));
-
+			_prototypeFileList.insert(std::pair<std::string, std::string>(typeId, path));
 			//temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
 
 		}

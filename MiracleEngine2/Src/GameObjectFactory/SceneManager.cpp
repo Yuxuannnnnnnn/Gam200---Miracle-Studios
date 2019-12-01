@@ -84,14 +84,8 @@ void SceneManager::ChangeScene(std::string scene)
 	if (scene.compare("Restart") == 0 || scene.compare("restart") == 0)
 	{
 #ifdef LEVELEDITOR //for Level editor Mode
-		if (_engineSystems.GetInstance()._imguiSystem->_editorMode) //when level editor mode is ON
-		{
-			EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-		}
-		else //when level editor mode is OFF
-		{
-			EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
-		}
+
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
 #else	//for GamePlay mode
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
 #endif
@@ -100,14 +94,7 @@ void SceneManager::ChangeScene(std::string scene)
 	else
 	{
 #ifdef LEVELEDITOR //for Level editor Mode
-		if (_engineSystems.GetInstance()._imguiSystem->_editorMode) //when level editor mode is ON
-		{
-			EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-		}
-		else //when level editor mode is OFF
-		{
-			EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
-		}
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
 #else	//for GamePlay mode
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
 #endif
@@ -135,7 +122,4 @@ void SceneManager::LoadAllSceneAssets(NamePath GameSceneFile)
 {
 	_scenes = GameSceneFile;
 
-
-	for (auto& scene : _scenes)
-		std::cout << scene.second <<std::endl;
 }
