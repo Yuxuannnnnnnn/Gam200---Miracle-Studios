@@ -65,18 +65,18 @@ void EventHandler::SendSystemEventMessage(size_t uId, EventMessageType type, T m
 
 	if (type == EventMessageType::COMPONENT_CREATION)
 	{
-		EngineSystems::GetInstance()._physicsSystem->RemoveRigidBody2d(uId);
+		/*EngineSystems::GetInstance()._physicsSystem->RemoveRigidBody2d(uId);
 		EngineSystems::GetInstance()._physicsSystem->RemoveCollider2d(uId);
 		EngineSystems::GetInstance()._physicsSystem->RemoveButton(uId);
 		EngineSystems::GetInstance()._physicsSystem->RemovePick(uId);
-		EngineSystems::GetInstance()._physicsSystem->RemoveTransform(uId);
+		EngineSystems::GetInstance()._physicsSystem->RemoveTransform(uId);*/
 
 		/*EngineSystems::GetInstance()._graphicsSystem->RemoveSprite(uId);
 		EngineSystems::GetInstance()._graphicsSystem->RemoveTransform(uId);*/
 
 		//remove logic component
 
-		gameObject->DestoryGameObject();
+		//gameObject->DestoryGameObject();
 	}
 	else if (type == EventMessageType::COMPONENT_CREATION || type == EventMessageType::COMPONENT_DELETION)
 	{

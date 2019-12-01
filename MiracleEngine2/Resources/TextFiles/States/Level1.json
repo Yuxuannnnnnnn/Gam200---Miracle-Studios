@@ -1,15 +1,17 @@
 {
-	"PrototypesFilePaths": [
-		"./Resources/TextFiles/GameObjects/Wall.json",
-		"./Resources/TextFiles/GameObjects/Floor.json",
-		"./Resources/TextFiles/GameObjects/player.json",
-		"./Resources/TextFiles/GameObjects/Enemy.json",
-		"./Resources/TextFiles/GameObjects/Bullet.json",
-		"./Resources/TextFiles/GameObjects/Turret.json",
-		"./Resources/TextFiles/GameObjects/Spawner.json",
-		"./Resources/TextFiles/GameObjects/Font.json",
-		"./Resources/TextFiles/GameObjects/TileMap.json"
-	],
+  "PrototypesFilePaths": [
+    "./Resources/TextFiles/GameObjects/Wall.json",
+    "./Resources/TextFiles/GameObjects/Floor.json",
+    "./Resources/TextFiles/GameObjects/player.json",
+    "./Resources/TextFiles/GameObjects/Enemy.json",
+    "./Resources/TextFiles/GameObjects/Camera.json",
+    "./Resources/TextFiles/GameObjects/Bullet.json",
+    "./Resources/TextFiles/GameObjects/Turret.json",
+    "./Resources/TextFiles/GameObjects/Spawner.json",
+    "./Resources/TextFiles/GameObjects/SpawnerTwo.json",
+    "./Resources/TextFiles/GameObjects/Font.json",
+    "./Resources/TextFiles/GameObjects/TileMap.json"
+  ],
 
 	"TexturesFilesPaths": [
 		"./Resources/Image/background.png"

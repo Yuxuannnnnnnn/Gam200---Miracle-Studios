@@ -12,7 +12,10 @@ TextureManager::TextureManager()
 {
 	//ResourceManager::GetInstance().
 
-	_textureMap["player"] = new Texture2D("Resources/Image/Player.png");
+
+
+
+	/*_textureMap["player"] = new Texture2D("Resources/Image/Player.png");
 	_textureMap["enemy1"] = new Texture2D("Resources/Image/EnemyMove.png");
 	_textureMap["enemy2"] = new Texture2D("Resources/Image/EnemyAttack.png");
 	
@@ -33,7 +36,7 @@ TextureManager::TextureManager()
 	_textureMap["idle"] = new Texture2D("Resources/Image/catidle.png");
 	_textureMap["run"] = new Texture2D("Resources/Image/catrun.png");
 	_textureMap["jump"] = new Texture2D("Resources/Image/catjump.png");
-	_textureMap["coin"] = new Texture2D("Resources/Image/coin.png");
+	_textureMap["coin"] = new Texture2D("Resources/Image/coin.png");*/
 }
 
 TextureManager::~TextureManager()

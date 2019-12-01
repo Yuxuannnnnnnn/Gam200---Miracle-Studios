@@ -46,8 +46,8 @@ private:
 	VertexBuffer* _vboCircle;
 
 	glm::mat4 _proj;  // projection matrix
-	Shader _shader{ "Resources/Shader/debug.vert", "Resources/Shader/debug.frag" };
-	Shader _batchshader{ "Resources/Shader/batchdebug.vert", "Resources/Shader/batchdebug.frag" };
+	Shader* _shader;
+	Shader* _batchshader;
 
 	DebugBatchRenderer _debugBatchRenderer;
 	VertexArray* _vaobatch;

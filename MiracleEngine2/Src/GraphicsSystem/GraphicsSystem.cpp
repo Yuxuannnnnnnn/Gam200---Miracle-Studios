@@ -19,6 +19,15 @@ void GraphicsSystem::CalculateProjectionMatrix(int windowWidth, int windowHeight
 GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
 {
+	std::string temp = "DefaultShader";
+
+	_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+
+	if (!_shader && ResourceManager::GetInstance().AddNewShaderResource({ temp,{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" } }))
+	{
+		_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+	}
+
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -101,7 +110,7 @@ void GraphicsSystem::Update(double dt)
 			_quadmesh.Select();
 			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
 		}
-		_shader.Select();
+		_shader->Select();
 
 
 		// calculate model matrix = TRS
@@ -115,7 +124,7 @@ void GraphicsSystem::Update(double dt)
 
 		//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
 
-		_shader.SetUniformMat4f("u_MVP", mvp);
+		_shader->SetUniformMat4f("u_MVP", mvp);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}

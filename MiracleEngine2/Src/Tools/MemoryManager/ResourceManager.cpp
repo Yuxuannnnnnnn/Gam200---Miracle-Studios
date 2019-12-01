@@ -12,283 +12,258 @@
 #include "../stb_image/stb_image.h"
 #include <string>
 
-size_t Texture2D_Resource::_idCount = 0;
-size_t Shader_Resource::_idCount = 0;
-size_t Font_Resource::_idCount = 0;
-
 ResourceManager::~ResourceManager()
 {
-	for (auto it : _bufferList)
-		stbi_image_free(it);
-	
+	ClearCurrentResources();
+}
+
+void ResourceManager::ClearCurrentResources()
+{
+	for (auto it : _Texture2DMap)
+	{
+		//unload
+		it.second->unload();
+
+		_Texture2DAllocater.Free(it.second);
+	}
+
+	for (auto it : _ShaderMap)
+	{
+		//unload
+		it.second->unload();
+
+		_ShaderAllocater.Free(it.second);
+	}
+
 	for (auto it : _FontMap)
 	{
-		// Destroy FreeType once we're finished
-		FT_Done_Face(it.second->_face);
-		FT_Done_FreeType(it.second->_ft);
+		//unload
+		it.second->unload();
+
+		_FontAllocater.Free(it.second);
 	}
 
 	for (auto it : _AudioMap)
-		FMOD_Sound_Release(it.second->_sound);
+	{
+		//unload
+		it.second->unload();
 
-	_characterList.clear();
-	_bufferList.clear();
-	_vertexCodeList.clear();
-	_fragmentCodeList.clear();
+		_AudioAllocater.Free(it.second);
+	}
+
+	for (auto it : _AnimationMap)
+	{
+		//unload
+		it.second->unload();
+
+		_AnimationAllocater.Free(it.second);
+	}
 
 	_Texture2DMap.clear();
 	_ShaderMap.clear();
 	_FontMap.clear();
 	_AudioMap.clear();
+	_AnimationMap.clear();
+
+	_Texture2DList.clear();
+	_ShaderList.clear();
+	_FontList.clear();
+	_AudioList.clear();
+	_AnimationList.clear();
 }
 
-void ResourceManager::AddTexture2DResourceList(NamePath list)
+void ResourceManager::AddTexture2DResourceList(NamePathMap list)
 {
-	_Texture2DList = list;
-
-	for (auto it : _Texture2DList)
-		NewGraphicResource(it.second);
+	for (auto it : list)
+		AddNewTexture2DResource(it);
 }
 
-void ResourceManager::AddShaderResourceList(NamePath list)
+void ResourceManager::AddShaderResourceList(NamePairMap list)
 {
-	_ShaderList = list;
-
-	/*for (auto it : _ShaderList)
-		GetShaderResource(it.second);*/
+	for (auto it : list)
+		AddNewShaderResource(it);
 }
 
-void ResourceManager::AddFontResourceList(NamePath list)
+void ResourceManager::AddFontResourceList(NamePathMap list)
 {
-	_FontList = list;
-
-	for (auto it : _FontList)
-		(void)GetFontResource(it.second);
+	for (auto it : list)
+		AddNewFontResource(it);
 }
 
-void ResourceManager::AddAudioResourceList(NamePath list)
+void ResourceManager::AddAudioResourceList(NamePathMap list)
 {
-	_AudioList = list;
-
-	/*for (auto it : _AudioList)
-		GetAudioResource(it.second); */
+	for (auto it : list)
+		AddNewAudioResource(it);
 }
 
-void ResourceManager::AddAnimationResourceList(NamePath list)
+void ResourceManager::AddAnimationResourceList(NamePathMap list)
 {
-	_AnimationList = list;
-	Animation* resource = new Animation();
-	for (auto& filePath : _AnimationList)
+	for (auto it : list)
+		AddNewAnimationResource(it);
+}
+
+bool ResourceManager::AddNewTexture2DResource(NamePath list)
+{
+	Texture2D* newTexture2D = (Texture2D*)_Texture2DAllocater.Allocate();
+
+	// load
+	if (newTexture2D->load(list.second))
 	{
-		//std::cout << filePath.second<<std::endl;
-		resource->Serialise(filePath.second);
-		_AnimationMap.insert(std::pair<std::string, Animation*>(filePath.second, resource));
+		_Texture2DMap.insert(std::pair<std::string, Texture2D*>(list.first, newTexture2D));
+		_Texture2DList.insert(list);
+		return true;
 	}
 
+	return false;
 }
 
-unsigned char* ResourceManager::GetTexture2DResource(std::string file, int& width, int& height, int& bpp)
+bool ResourceManager::AddNewShaderResource(NamePair list)
 {
-	Texture2D_Resource* result = nullptr;
+	Shader* newShader = (Shader*)_ShaderAllocater.Allocate();
 
-	Texture2DMap::iterator it = _Texture2DMap.find(file);
-
-	if (it != _Texture2DMap.end())
-		result = it->second;
-	else
-		result = NewGraphicResource(file);
-		
-	width = result->_width;
-	height = result->_height;
-	bpp = result->_bpp;
-	return _bufferList[result->_uId];
-}
-
-int ResourceManager::GetShaderResource(std::string vert, std::string frag, const char*& vertexCode, const char*& fragmentCode)
-{
-	Shader_Resource* result = nullptr;
-
-	ShaderMap::iterator it = _ShaderMap.find(vert);
-
-	if (it != _ShaderMap.end())
-		result = it->second;
-	else
-		result = NewShaderResource(vert.c_str(), frag.c_str());
-
-	if (result->_success)
+	// load
+	if (newShader->load(list.second.first, list.second.second))
 	{
-		vertexCode = _vertexCodeList[result->_uId].c_str();
-		fragmentCode = _fragmentCodeList[result->_uId].c_str();
+		_ShaderMap.insert(std::pair<std::string, Shader*>(list.first, newShader));
+		_ShaderList.insert(list);
+		return true;
 	}
 
-	return result->_success;
+	return false;
 }
 
-std::map<GLchar, Character> ResourceManager::GetFontResource(std::string file)
+bool ResourceManager::AddNewFontResource(NamePath list)
 {
-	Font_Resource* result = nullptr;
+	FontRenderer* newFont = (FontRenderer*)_FontAllocater.Allocate();
 
-	FontMap::iterator it = _FontMap.find(file);
-
-	if (it != _FontMap.end())
-		result = it->second;
-	else
-		result = NewFontResource(file);
-
-	return _characterList[result->_uId];
-}
-
-FMOD_SOUND* ResourceManager::GetAudioResource(std::string file, FMOD_SYSTEM* system, FMOD_MODE mode)
-{
-	Audio_Resource* result = nullptr;
-
-	AudioMap::iterator it = _AudioMap.find(file);
-
-	if (it != _AudioMap.end())
-		result = it->second;
-	else
-		result = NewAudioResource(file, system, mode);
-
-	return result->_sound;
-}
-
-Texture2D_Resource* ResourceManager::NewGraphicResource(std::string file)
-{
-	Texture2D_Resource* newResource = reinterpret_cast<Texture2D_Resource*>(_Texture2DAllocater.Allocate());
-
-	stbi_set_flip_vertically_on_load(1);
-	unsigned char* buffer = stbi_load(file.c_str(), &newResource->_width, &newResource->_height, &newResource->_bpp, 4);
-
-	_bufferList.push_back(buffer);
-	newResource->_uId = newResource->_idCount++;
-
-	_Texture2DMap.insert(std::pair<std::string, Texture2D_Resource*>(file, newResource));
-
-	return newResource;
-}
-
-Shader_Resource* ResourceManager::NewShaderResource(std::string vert, std::string frag)
-{
-	Shader_Resource* newResource = reinterpret_cast<Shader_Resource*>(_ShaderAllocater.Allocate());
-	newResource->_success = 1;
-
-	std::string vertexCode;
-	std::string fragmentCode;
-	std::ifstream vShaderFile;
-	std::ifstream fShaderFile;
-	// ensure ifstream objects can throw exceptions:
-	vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	try
+	// load
+	if (newFont->load(list.second))
 	{
-		// open files
-		vShaderFile.open(vert);
-		fShaderFile.open(frag);
-		std::stringstream vShaderStream, fShaderStream;
-		// read file's buffer contents into streams
-		vShaderStream << vShaderFile.rdbuf();
-		fShaderStream << fShaderFile.rdbuf();
-		// close file handlers
-		vShaderFile.close();
-		fShaderFile.close();
-		// convert stream into string
-		vertexCode = vShaderStream.str();
-		fragmentCode = fShaderStream.str();
-
-		_vertexCodeList.push_back(vertexCode);
-		_fragmentCodeList.push_back(fragmentCode);
-		newResource->_uId = newResource->_idCount++;
+		_FontMap.insert(std::pair<std::string, FontRenderer*>(list.first, newFont));
+		_FontList.insert(list);
+		return true;
 	}
-	catch (std::ifstream::failure e)
-	{
-		newResource->_success = 0;
-		//std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-	}
-	
-	_ShaderMap.insert(std::pair<std::string, Shader_Resource*>(vert, newResource));
 
-	return newResource;
+	return false;
 }
 
-Font_Resource* ResourceManager::NewFontResource(std::string file)
+bool ResourceManager::AddNewAudioResource(NamePath list)
 {
-	Font_Resource* newResource = reinterpret_cast<Font_Resource*>(_FontAllocater.Allocate());
+	Sound* newSound = (Sound*)_AudioAllocater.Allocate();
 
-	std::map<GLchar, Character> temp;
-
-	if (FT_Init_FreeType(&newResource->_ft) != 0) {
-		std::cout << "Couldn't initialize FreeType library\n";
-
-	}
-
-	if (FT_New_Face(newResource->_ft, file.c_str(), 0, &newResource->_face) != 0) {
-		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
-
-	}
-
-
-	// Set size to load glyphs as
-	FT_Set_Pixel_Sizes(newResource->_face, 0, 48);
-
-	// Disable byte-alignment restriction
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	// Load first 128 characters of ASCII set
-	for (GLubyte c = 0; c < 128; c++)
+	// load
+	if (newSound->load(list.second, 0))
 	{
-		// Load character glyph 
-		if (FT_Load_Char(newResource->_face, c, FT_LOAD_RENDER))
-		{
-			std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
-			continue;
-		}
-		// Generate texture
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RED,
-			newResource->_face->glyph->bitmap.width,
-			newResource->_face->glyph->bitmap.rows,
-			0,
-			GL_RED,
-			GL_UNSIGNED_BYTE,
-			newResource->_face->glyph->bitmap.buffer
-		);
-		// Set texture options
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// Now store character for later use
-		Character character = {
-			texture,
-			glm::ivec2(newResource->_face->glyph->bitmap.width, newResource->_face->glyph->bitmap.rows),
-			glm::ivec2(newResource->_face->glyph->bitmap_left, newResource->_face->glyph->bitmap_top),
-			(GLuint)newResource->_face->glyph->advance.x
-		};
-		temp.insert(std::pair<GLchar, Character>(c, character));
+		_AudioMap.insert(std::pair<std::string, Sound*>(list.first, newSound));
+		_AudioList.insert(list);
+		return true;
 	}
-	glBindTexture(GL_TEXTURE_2D, 0);
 
-	_characterList.push_back(temp);
-	newResource->_uId = newResource->_idCount++;
-
-	_FontMap.insert(std::pair<std::string, Font_Resource*>(file, newResource));
-
-	return newResource;
+	return false;
 }
 
-Audio_Resource* ResourceManager::NewAudioResource(std::string file, FMOD_SYSTEM* system, FMOD_MODE mode)
+bool ResourceManager::AddNewAnimationResource(NamePath list)
 {
-	Audio_Resource* newResource = reinterpret_cast<Audio_Resource*>(_AudioAllocater.Allocate());
+	Animation* newAnimation = (Animation*)_AnimationAllocater.Allocate();
 
-	FMOD_System_CreateSound(system, file.c_str(), mode, NULL, &newResource->_sound);
-	newResource->_mode = mode;
+	// load
+	if (newAnimation->load(list.second))
+	{
+		_AnimationMap.insert(std::pair<std::string, Animation*>(list.first, newAnimation));
+		_AnimationList.insert(list);
+		return true;
+	}
 
-	_AudioMap.insert(std::pair<std::string, Audio_Resource*>(file, newResource));
+	return false;
+}
 
-	return newResource;
+
+Texture2D* ResourceManager::GetTexture2DResource(std::string& name)
+{
+	if (_Texture2DMap.find(name) != _Texture2DMap.end())
+		return _Texture2DMap[name];
+
+	return nullptr;
+}
+
+Shader* ResourceManager::GetShaderResource(std::string& name)
+{
+	if (_ShaderMap.find(name) != _ShaderMap.end())
+		return _ShaderMap[name];
+
+	return nullptr;
+}
+
+FontRenderer* ResourceManager::GetFontResource(std::string& name)
+{
+	if (_FontMap.find(name) != _FontMap.end())
+		return _FontMap[name];
+
+	return nullptr;
+}
+
+Sound* ResourceManager::GetSoundResource(std::string& name)
+{
+	if (_AudioMap.find(name) != _AudioMap.end())
+		return _AudioMap[name];
+
+	return nullptr;
+}
+
+Animation* ResourceManager::GetAnimationResource(std::string& name)
+{
+	if (_AnimationMap.find(name) != _AnimationMap.end())
+		return _AnimationMap[name];
+
+	return nullptr;
+}
+
+std::string ResourceManager::GetTexture2DResourcePath(std::string& name)
+{
+	return _Texture2DList[name];
+}
+
+std::pair<std::string, std::string> ResourceManager::GetShaderResourcePath(std::string& name)
+{
+	return _ShaderList[name];
+}
+
+std::string ResourceManager::GetFontResourcePath(std::string& name)
+{
+	return _FontList[name];
+}
+
+std::string ResourceManager::GetSoundResourcePath(std::string& name)
+{
+	return _AudioList[name];
+}
+
+std::string ResourceManager::GetAnimationResourcePath(std::string& name)
+{
+	return _AnimationList[name];
+}
+
+ResourceManager::NamePathMap ResourceManager::GetTexture2DList()
+{
+	return _Texture2DList;
+}
+
+ResourceManager::NamePairMap ResourceManager::GetShaderList()
+{
+	return _ShaderList;
+}
+
+ResourceManager::NamePathMap ResourceManager::GetFontList()
+{
+	return _FontList;
+}
+
+ResourceManager::NamePathMap ResourceManager::GetSoundList()
+{
+	return _AudioList;
+}
+
+ResourceManager::NamePathMap ResourceManager::GetAnimationlist()
+{
+	return _AnimationList;
 }

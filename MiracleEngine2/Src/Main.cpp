@@ -5,8 +5,6 @@
 
 //Global pointers----------------------------------------------------
 
-GraphicsSystem* graphicsSystem;
-GameObjectFactory* gameObjectFactory;
 //--------------------------------------------------------------------
 
 
@@ -21,10 +19,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 	Engine* coreEngine = new Engine(hInstance, nCmdShow); //Engine Creation: Creation of all systems
-
-	gameObjectFactory = coreEngine->_gameObjectFactory;
-	graphicsSystem = coreEngine->_graphicsSystem;
-
 
 	coreEngine->Init(); // Engine Initialise all systems --Init replaced by Constructor?--------------
 	coreEngine->Update(); 	// engine update here

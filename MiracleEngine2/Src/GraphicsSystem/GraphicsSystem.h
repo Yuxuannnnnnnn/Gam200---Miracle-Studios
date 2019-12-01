@@ -61,7 +61,7 @@ private:
 	int _numAnim = 0;
 	int _showfont = 0;
 	TextureManager _textureManager;
-	Shader _shader{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
+	Shader* _shader;
 	glm::mat4 _proj;
 	
 	QuadMesh _quadmesh;

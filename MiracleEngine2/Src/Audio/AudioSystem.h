@@ -34,19 +34,18 @@ public:
 	AudioSystem();
 	~AudioSystem();
 
-	void Play(SoundEnum sound);
+	void Play(std::string& name);
+
+	void StopAllSound();
+
 
 	std::unordered_map < size_t, AudioComponent*> _soundList;
-private:
-	void PlaySFX(SoundEnum sound);
-	void PlayBGM();
-	void Sound_CreateOneShot(const char* filename, FMOD_SOUND** sound);
-	SoundManager _soundManager;
 
 	FMOD_SYSTEM* _fmodSystem;
-	FMOD_SOUND* _level1;
-	FMOD_SOUND* _shoot;
-	FMOD_SOUND* _enemydeath;
+private:
+
+	SoundManager _soundManager;
+
 	FMOD_CHANNEL* _channel1;
 	FMOD_CHANNEL* _channel2;
 

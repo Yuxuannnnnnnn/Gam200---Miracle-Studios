@@ -99,6 +99,11 @@
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
+    <ClCompile Include="Src\PhysicSystem\ButtonManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\ImGuizmoManager.cpp" />
+    <ClCompile Include="Src\TransformManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\RigidBodyManager.cpp" />
     <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
     <ClCompile Include="Src\GameObjectComponents\TileMapComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\DataComponent.cpp" />
@@ -510,6 +515,12 @@
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
     <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
+    <ClInclude Include="Src\PhysicSystem\ButtonManager.h" />
+    <ClInclude Include="Src\PhysicSystem\ImGuizmoManager.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionManager.h" />
+    <ClInclude Include="Src\TransformManager.h" />
+    <ClInclude Include="Src\IContainer.h" />
+    <ClInclude Include="Src\PhysicSystem\RigidBodyManager.h" />
     <ClInclude Include="Src\Gameplay\EnemyThree.h" />
     <ClInclude Include="Src\GameObjectComponents\TileMapComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\DataComponent.h" />

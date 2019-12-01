@@ -11,6 +11,24 @@ void DebugRenderer::CalculateProjMatrix(int windowWidth, int windowHeight)
 }
 DebugRenderer::DebugRenderer()
 {
+	std::string temp = "DefaultDebugShader";
+
+	_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+
+	if (!_shader && ResourceManager::GetInstance().AddNewShaderResource({ temp,{ "Resources/Shader/debug.vert", "Resources/Shader/debug.frag" } }))
+	{
+		_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+	}
+
+	temp = "DefaultBatchShader";
+
+	_batchshader = ResourceManager::GetInstance().GetShaderResource(temp);
+
+	if (!_batchshader && ResourceManager::GetInstance().AddNewShaderResource({ temp,{ "Resources/Shader/batchdebug.vert", "Resources/Shader/batchdebug.frag" } }))
+	{
+		_batchshader = ResourceManager::GetInstance().GetShaderResource(temp);
+	}
+
 	_proj = glm::ortho(-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2,
 		-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, -15.0f, 15.0f);
 
@@ -40,7 +58,6 @@ DebugRenderer::DebugRenderer()
 	BufferLayout layout2;
 	layout2.Push<float>(3);
 	_vaoCircle->AddBuffer(*_vboCircle, layout2);
-
 }
 
 DebugRenderer::~DebugRenderer()
@@ -59,16 +76,16 @@ void DebugRenderer::Update()
 void DebugRenderer::DrawCircle(float x, float y, float radiusin)
 {
 	_vaoCircle->Select();
-	_shader.Select();
+	_shader->Select();
 
 	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 12));
 	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(radiusin * 2, radiusin * 2, 0));
 	glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix() * model;
 	//glm::mat4 mvp = _proj * trans;
-	int location = glGetUniformLocation(_shader._id, "u_Color");
+	int location = glGetUniformLocation(_shader->_id, "u_Color");
 	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
 
-	location = glGetUniformLocation(_shader._id, "u_MVP");
+	location = glGetUniformLocation(_shader->_id, "u_MVP");
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
 	/*glEnableVertexAttribArray(0);
@@ -79,7 +96,7 @@ void DebugRenderer::DrawCircle(float x, float y, float radiusin)
 
 void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 {
-	_shader.Select();
+	_shader->Select();
 	_vao->Select();
 
 	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 12));
@@ -89,10 +106,10 @@ void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 
 
 
-	int location = glGetUniformLocation(_shader._id, "u_Color");
+	int location = glGetUniformLocation(_shader->_id, "u_Color");
 	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
 
-	location = glGetUniformLocation(_shader._id, "u_MVP");
+	location = glGetUniformLocation(_shader->_id, "u_MVP");
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
 	glEnableVertexAttribArray(0);
@@ -144,7 +161,7 @@ void DebugRenderer::BatchDrawDebugLine()
 	_vaobatch->Select();
 
 	// select batch shader
-	_shader.Select();
+	_shader->Select();
 
 
 	// bind buffer in batch renderer
@@ -159,10 +176,10 @@ void DebugRenderer::BatchDrawDebugLine()
 	glm::mat4 view = EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
 	glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
 	
-	int location = glGetUniformLocation(_batchshader._id, "u_Color");
+	int location = glGetUniformLocation(_batchshader->_id, "u_Color");
 	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
 
-	location = glGetUniformLocation(_shader._id, "u_MVP");
+	location = glGetUniformLocation(_shader->_id, "u_MVP");
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
 	glDrawArrays(GL_LINES, 0, _debugBatchRenderer.vert.size() / 3);
@@ -178,7 +195,7 @@ void DebugRenderer::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 	_quadmesh.Select();
 
 
-	_shader.Select();
+	_shader->Select();
 
 	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 12));
 	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
@@ -186,8 +203,8 @@ void DebugRenderer::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 
 	glm::mat4 mvp = _proj * model;
 
-	_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
-	_shader.SetUniformMat4f("u_MVP", mvp);
+	_shader->SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+	_shader->SetUniformMat4f("u_MVP", mvp);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	// this one encapsulate into another class

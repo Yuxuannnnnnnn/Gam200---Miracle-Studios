@@ -174,7 +174,12 @@
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
     <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
+    <ClInclude Include="Src\IContainer.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
+    <ClInclude Include="Src\PhysicSystem\ButtonManager.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionManager.h" />
+    <ClInclude Include="Src\PhysicSystem\ImGuizmoManager.h" />
+    <ClInclude Include="Src\PhysicSystem\RigidBodyManager.h" />
     <ClInclude Include="Src\Tools\EventHandler\EventHandler.hpp" />
     <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
@@ -239,6 +244,7 @@
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
     <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.hpp" />
     <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />
+    <ClInclude Include="Src\TransformManager.h" />
     <ClInclude Include="Src\WindowsSystem\ScreenSize.h" />
     <ClInclude Include="Src\WindowsSystem\Console.h" />
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -592,6 +598,10 @@
     <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
+    <ClCompile Include="Src\PhysicSystem\ButtonManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\ImGuizmoManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\RigidBodyManager.cpp" />
     <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
     <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
@@ -641,6 +651,7 @@
     <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
     <ClCompile Include="Src\PhysicSystem\PhysicsSystem.cpp" />
     <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
+    <ClCompile Include="Src\TransformManager.cpp" />
     <ClCompile Include="Src\WindowsSystem\ScreenSize.cpp" />
     <ClCompile Include="Src\WindowsSystem\Console.cpp" />
     <ClCompile Include="Dep\glm\detail\glm.cpp" />

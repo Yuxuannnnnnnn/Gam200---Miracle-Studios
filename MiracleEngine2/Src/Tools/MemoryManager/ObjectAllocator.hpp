@@ -19,6 +19,10 @@ ObjectAllocator<T>::ObjectAllocator() :
 	_ObjectBlockSize{ 0 }
 {
 	_Stats._ObjectSize = sizeof(ObjectTpye);
+
+	if (_Stats._ObjectSize < sizeof(GenericObject))
+		_Stats._ObjectSize = sizeof(GenericObject);
+
 	_Config._ObjectsPerPage = (DEFAULT_OBJECT_SIZE - sizeof(GenericObject)) / (_Stats._ObjectSize + _Config._HeaderBytes);
 
 	// update offsets
