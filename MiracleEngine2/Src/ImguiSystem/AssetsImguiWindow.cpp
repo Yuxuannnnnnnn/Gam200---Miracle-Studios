@@ -104,33 +104,44 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 void AssetsImguiWindow::Update()
 {
 	static bool selected;
-	if (ImGui::Selectable("Prototypes", selected, ImGuiSelectableFlags_AllowDoubleClick))
+	if (ImGui::TreeNode("Textures"))
 	{
-		if (ImGui::IsMouseReleased(0))
-		{
-			std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
+		ImGui::TreePop();
+	}
 
-			for (auto& ObjPair: PrototypeList)
+
+	if (ImGui::TreeNode("Prototypes"))
+	{
+		std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
+
+		for (auto& ObjPair: PrototypeList)
+		{
+			if (ImGui::Selectable(ObjPair.first.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
 			{
-				if (ImGui::Selectable(ObjPair.first.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+				if (ImGui::IsMouseReleased(0))
 				{
-					if (ImGui::IsMouseReleased(0))
-					{
-						InspectionImguiWindow::InspectGameObject(ObjPair.second);
-						//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
-						//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
-						//ImGui::TreePop();
-						//ImGuiID id = ImGui::GetID(string.c_str());
-						//ImGui::GetStateStorage()->SetInt(id, 0);
-					}
+					InspectionImguiWindow::InspectGameObject(ObjPair.second);
+					//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+					//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+					//ImGui::TreePop();
+					//ImGuiID id = ImGui::GetID(string.c_str());
+					//ImGui::GetStateStorage()->SetInt(id, 0);
 				}
-				//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
-				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
-				//ImGui::TreePop();
-				//ImGuiID id = ImGui::GetID(string.c_str());
-				//ImGui::GetStateStorage()->SetInt(id, 0);
 			}
+			//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+			//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+			//ImGui::TreePop();
+			//ImGuiID id = ImGui::GetID(string.c_str());
+			//ImGui::GetStateStorage()->SetInt(id, 0);
 		}
+		
+		ImGui::TreePop();
+
+	}
+
+	if (ImGui::TreeNode("Textures"))
+	{
+		ImGui::TreePop();
 	}
 
 
