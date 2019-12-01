@@ -763,9 +763,11 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 //Create dynamic GameObjects
 	if (Level.HasMember("GameObjects"))
 	{
-		for (unsigned i = 0; Level["GameObjects"].Size(); i++)
+		for (unsigned i = 0; i < Level["GameObjects"].Size(); i++)
 		{
-			CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[Level["GameObjects"][i].GetString()]);
+			std::string name = Level["GameObjects"][i].GetString();
+
+			CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name]);
 		}
 	}
 
