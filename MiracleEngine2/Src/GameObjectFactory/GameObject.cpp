@@ -51,16 +51,17 @@ IComponentSystem* GameObject::GetComponent(ComponentId typeId, ScriptId script) 
 	return nullptr;
 }
 
+//For Level File
+void GameObject::SerialiseFromLevel(Serialiser& fileObject)
+{
+	for (auto& ComPair : _ComponentList)
+	{
+		ComPair.second->SerialiseComponent(fileObject);
+	}
 
-//void GameObject::SerialiseFromLevel(rapidjson::Value& fileObject)
-//{
-//	for (auto& ComPair : _ComponentList)
-//	{
-//		ComPair.second->SerialiseComponent(fileObject);
-//	}
-//
-//}
+}
 
+//For Prototype Files
 void GameObject::Serialise(std::string file)
 {
 	IComponentSystem* component = nullptr;

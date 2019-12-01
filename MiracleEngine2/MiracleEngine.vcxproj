@@ -916,7 +916,7 @@
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Resources\TextFiles\MainMenu.json" />
+    <Text Include="Resources\TextFiles\States\MainMenu.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

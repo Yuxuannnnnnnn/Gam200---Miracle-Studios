@@ -661,7 +661,6 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		//Player components
 
 
-
 //Serialise Prototypes
 	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
 
@@ -682,7 +681,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
 		ResourceList.clear();
 	}
-	if (Level.HasMember(" "))
+	if (Level.HasMember("AnimationDataFilesPaths"))
 	{
 		for (unsigned i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
@@ -740,7 +739,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	{
 		for (rapidjson::SizeType i = 0; i < Level["AllTileMaps"].Size(); i++)
 		{
-			auto& tileMapInfo = Level["AllTileMaps"][i];
+			Serialiser tileMapInfo(Level["AllTileMaps"][i]);
 
 			//rapidjson::Document tileMapDoc;
 			//tileMapDoc.SetObject();
@@ -755,8 +754,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 
 			GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
 			TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
-			tmCom->SerialiseComponentFromLevelFile(tileMapInfo);
-			dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SerialiseComponentFromLevelFile(tileMapInfo);
+			tmCom->SerialiseComponent(tileMapInfo);
+			dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SerialiseComponent(tileMapInfo);
 		}
 	}
 
@@ -765,9 +764,11 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	{
 		for (unsigned i = 0; i < Level["GameObjects"].Size(); i++)
 		{
-			std::string name = Level["GameObjects"][i].GetString();
+			Serialiser datafile(Level["GameObjects"][i]);
 
-			CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name]);
+			std::string name = datafile["Object"].GetString();
+			GameObject * tmp = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name]);
+			tmp->SerialiseFromLevel(datafile);
 		}
 	}
 

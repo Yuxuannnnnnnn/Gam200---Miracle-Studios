@@ -91,7 +91,7 @@ public:
 	size_t Get_uID() const; // Return _uId
 
 	void Serialise(std::string file);
-	//void SerialiseFromLevel(rapidjson::Value& fileObject);
+	void SerialiseFromLevel(Serialiser& fileObject);
 	void DeSerialise();
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList

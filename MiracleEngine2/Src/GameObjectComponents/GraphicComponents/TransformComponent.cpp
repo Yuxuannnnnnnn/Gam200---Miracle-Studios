@@ -27,23 +27,23 @@ void TransformComponent::SerialiseComponent(Serialiser& document)
 	}
 }
 
-void TransformComponent::SerialiseComponentFromLevelFile(rapidjson::Value& document)
-{
-	if (document.HasMember("Position"))	//Checks if the variable exists in .Json file
-	{
-		_pos = Vector3{ document["Position"][0].GetFloat(), document["Position"][1].GetFloat(), 1 };
-	}
-
-	if (document.HasMember("Scale"))
-	{
-		_scale = Vector3{ document["Scale"][0].GetFloat(), document["Scale"][1].GetFloat(), 1 };
-	}
-
-	if (document.HasMember("Rotate"))	//Checks if the variable exists in .Json file
-	{
-		_rotationAngle = (document["Rotate"].GetFloat());
-	}
-}
+//void TransformComponent::SerialiseComponentFromLevelFile(rapidjson::Value& document)
+//{
+//	if (document.HasMember("Position"))	//Checks if the variable exists in .Json file
+//	{
+//		_pos = Vector3{ document["Position"][0].GetFloat(), document["Position"][1].GetFloat(), 1 };
+//	}
+//
+//	if (document.HasMember("Scale"))
+//	{
+//		_scale = Vector3{ document["Scale"][0].GetFloat(), document["Scale"][1].GetFloat(), 1 };
+//	}
+//
+//	if (document.HasMember("Rotate"))	//Checks if the variable exists in .Json file
+//	{
+//		_rotationAngle = (document["Rotate"].GetFloat());
+//	}
+//}
 
 void TransformComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
