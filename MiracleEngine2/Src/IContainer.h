@@ -1,25 +1,22 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	PhysicsSystem.cpp
+//	ISingleton.h
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-#include "PrecompiledHeaders.h"
-#include "PhysicsSystem.h"
+#ifndef _ICONTAIONER_H
+#define _ICONTAIONER_H
 
-void PhysicsSystem::Update(double dt)
+class IContainer
 {
-	
-}
+public:
+	IContainer() = default;
+	virtual ~IContainer() {}
 
+	virtual void AddObject(size_t uId) = 0;
+	virtual void RemoveObject(size_t uId) = 0;
+};
 
-
-/////////////////////////////////////////////////////
-
-void PhysicsSystem::Draw()
-{
-	
-}
-
+#endif

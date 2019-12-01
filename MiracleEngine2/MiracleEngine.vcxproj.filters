@@ -99,6 +99,11 @@
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
+    <ClCompile Include="Src\PhysicSystem\ButtonManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\ImGuizmoManager.cpp" />
+    <ClCompile Include="Src\TransformManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\CollisionManager.cpp" />
+    <ClCompile Include="Src\PhysicSystem\RigidBodyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -507,6 +512,12 @@
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
     <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
+    <ClInclude Include="Src\PhysicSystem\ButtonManager.h" />
+    <ClInclude Include="Src\PhysicSystem\ImGuizmoManager.h" />
+    <ClInclude Include="Src\PhysicSystem\CollisionManager.h" />
+    <ClInclude Include="Src\TransformManager.h" />
+    <ClInclude Include="Src\IContainer.h" />
+    <ClInclude Include="Src\PhysicSystem\RigidBodyManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
