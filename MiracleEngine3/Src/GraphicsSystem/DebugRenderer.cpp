@@ -165,6 +165,12 @@ void DebugRenderer::BatchDrawDebugLine()
 	_debugBatchRenderer.vert.clear();
 }
 
+void DebugRenderer::CalculateProjMatrix(int windowWidth, int windowHeight)
+{
+	_proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
+		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f);
+}
+
 
 
 void DebugRenderer::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
