@@ -91,10 +91,10 @@ void FontRenderer::DrawHealth(float percentage)
 
 	// calculate model matrix = TRS
 
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(-490.0f, 420.0f, 13.0f));
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(-488.0f, 420.0f, 13.0f));
 
 	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
-		glm::vec3(460 * percentage, 70, 1.0f));
+		glm::vec3(470 * percentage, 70, 1.0f));
 
 	glm::mat4 mvp = _projection * model;
 
@@ -109,10 +109,10 @@ void FontRenderer::DrawProgress(float percentage)
 	_uimesh.Select();
 	// calculate model matrix = TRS
 
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(-482.0f, 370.0f, 13.0f));
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(-480.0f, 370.0f, 13.0f));
 
 	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
-		glm::vec3(260 * percentage, 60, 1.0f));
+		glm::vec3(240 * percentage, 60, 1.0f));
 
 	glm::mat4 mvp = _projection * model;
 

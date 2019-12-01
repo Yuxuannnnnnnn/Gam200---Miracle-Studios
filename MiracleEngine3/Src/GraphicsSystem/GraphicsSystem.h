@@ -53,6 +53,8 @@ public:
 	Camera& GetCamera();
 	const TextureManager& GetTextureManager() const;
 
+	void CalculateProjectionMatrix(int windowWidth, int windowHeight);
+
 private:
 	void ClearScreen() const;
 	void UnitTest();
@@ -77,7 +79,12 @@ private:
 	float _healthpercentage = 1.0f;
 	float _progresspercentage = 1.0f;
 
+	int _windowWidth;
+	int _windowHeight;
+
 };
+
+#define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix
 
 #endif
 

@@ -682,7 +682,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
 		ResourceList.clear();
 	}
-	if (Level.HasMember("AnimationDataFilesPaths"))
+	if (Level.HasMember(" "))
 	{
 		for (unsigned i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
@@ -738,12 +738,25 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 //Create and Serialise TileMaps
 	if (Level.HasMember("AllTileMaps"))
 	{
-		for (unsigned i = 0; i < Level["AllTileMaps"].Size(); i++)
+		for (rapidjson::SizeType i = 0; i < Level["AllTileMaps"].Size(); i++)
 		{
-			rapidjson::Value& tileMapInfo = Level["AllTileMaps"][i];
+			auto& tileMapInfo = Level["AllTileMaps"][i];
+
+			//rapidjson::Document tileMapDoc;
+			//tileMapDoc.SetObject();
+			//tileMapDoc.CopyFrom(Level["AllTileMaps"][i], tileMapDoc.GetAllocator());
+
+			//rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document	
+			//rapidjson::Writer<rapidjson::StringBuffer> writer(buf);	//Writer handler - that contains the stringbuffer
+			//tileMapDoc.Accept(writer);									//Output as json text into stringbuffer via Writer
+			//std::string json(buf.GetString(), buf.GetSize());		//convert stringbuffer to std::string
+			//std::ofstream file("./Resources/TextFiles/States/test.json"); //open a file with the param name
+			//file << json;							//Write std::string type into the file
+
 			GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
+			TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
+			tmCom->SerialiseComponentFromLevelFile(tileMapInfo);
 			dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SerialiseComponentFromLevelFile(tileMapInfo);
-			dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT))->SerialiseComponentFromLevelFile(tileMapInfo);
 		}
 	}
 

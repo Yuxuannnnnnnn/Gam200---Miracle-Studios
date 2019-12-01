@@ -5,6 +5,10 @@
 
 void Engine::Init()
 {
+	// scene loading
+	_sceneManager->SerialiseScenes(Serialiser("./Resources/TextFiles/States/GameScenes.json"));
+
+
 //--Init replaced by Constructor?---------------------------
 
 	_engineSystems._inputSystem->Init();	//does nothing?

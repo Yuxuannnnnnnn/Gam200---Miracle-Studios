@@ -51,6 +51,8 @@ public:
 	Camera& GetCamera();
 	const TextureManager& GetTextureManager() const;
 
+	void CalculateProjectionMatrix(int windowWidth, int windowHeight);
+
 private:
 	void ClearScreen() const;
 	void UnitTest();
@@ -72,7 +74,9 @@ private:
 
 	Animation _testAnimation;
 	
-};
+};	
+
+#define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix
 
 #endif
 

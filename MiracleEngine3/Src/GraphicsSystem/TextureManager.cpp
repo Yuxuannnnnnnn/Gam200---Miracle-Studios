@@ -29,7 +29,7 @@ TextureManager::TextureManager()
 	_textureMap["rocket"] = new Texture2D("Resources/Image/Rocket_icon_glow.png");
 	
 
-	_textureMap["zombie"] = new Texture2D("Resources/Image/zombie.png");	
+	_textureMap["startscreen"] = new Texture2D("Resources/Image/StartScreen.png");	
 	_textureMap["idle"] = new Texture2D("Resources/Image/catidle.png");
 	_textureMap["run"] = new Texture2D("Resources/Image/catrun.png");
 	_textureMap["jump"] = new Texture2D("Resources/Image/catjump.png");
@@ -38,6 +38,9 @@ TextureManager::TextureManager()
 	_textureMap["HP_Bar"] = new Texture2D("Resources/Image/HP_Bar.png");
 	_textureMap["Progress_Bar"] = new Texture2D("Resources/Image/Progress_Bar.png");
 	_textureMap["UI_Background"] = new Texture2D("Resources/Image/UI_Background.png");
+
+	// props
+	_textureMap["CircularBatteryPlatform"] = new Texture2D("Resources/Image/CircularBatteryPlatform.png");
 
 }
 

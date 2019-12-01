@@ -24,6 +24,9 @@ GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::
 {
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
+
+	_windowWidth = windowWidth;
+	_windowHeight = windowHeight;
 }
 
 Camera& GraphicsSystem::GetCamera()
@@ -36,6 +39,14 @@ Camera& GraphicsSystem::GetCamera()
 const TextureManager& GraphicsSystem::GetTextureManager() const
 {
 	return _textureManager;
+}
+
+void GraphicsSystem::CalculateProjectionMatrix(int windowWidth, int windowHeight)
+{
+	_proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
+		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f);
+
+	DebugRenderCalculateProjMatrix(windowWidth, windowHeight);
 }
 
 void GraphicsSystem::Update(double dt)
@@ -84,18 +95,18 @@ void GraphicsSystem::Update(double dt)
 
 
 			// texture with animation
-		if (graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
-		{
-			AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT);
+		//if (graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
+		//{
+		//	AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT);
 
-			anim->testanim->Select();
-			//_testAnimation.Select();
-			_textureManager._textureMap[anim->GetFilePath()]->Select();
+		//	anim->testanim->Select();
+		//	//_testAnimation.Select();
+		//	_textureManager._textureMap[anim->GetFilePath()]->Select();
 
-		}
-		else
+		//}
+		//else
 			// texture without animation
-		{
+		//{
 			if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
 			{
 				_uimesh.Select();
@@ -104,7 +115,7 @@ void GraphicsSystem::Update(double dt)
 			else
 			_quadmesh.Select();
 			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
-		}
+		//}
 		_shader.Select();
 
 
@@ -124,23 +135,39 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
-	//if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
-	//{
-		//_fontRenderer.Draw();
-	//}
+	if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
+	{
+		_quadmesh.Select();
+		_textureManager._textureMap["startscreen"]->Select();
+		_shader.Select();
 
-	_textureManager._textureMap["HP_Bar"]->Select();
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 14.0f));
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+			glm::vec3((float)_windowWidth, (float)_windowHeight, 1.0f));
 
-	_fontRenderer.DrawHealth(_healthpercentage);
+		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
 
-	_textureManager._textureMap["Progress_Bar"]->Select();
+		//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
 
-	_fontRenderer.DrawProgress(_progresspercentage);
+		_shader.SetUniformMat4f("u_MVP", mvp);
 
-	_textureManager._textureMap["UI_Background"]->Select();
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
+	else
+	{
+		_textureManager._textureMap["HP_Bar"]->Select();
 
-	_fontRenderer.DrawUIBG();
+		_fontRenderer.DrawHealth(_healthpercentage);
 
+		_textureManager._textureMap["Progress_Bar"]->Select();
+
+		_fontRenderer.DrawProgress(_progresspercentage);
+
+		_textureManager._textureMap["UI_Background"]->Select();
+
+		_fontRenderer.DrawUIBG();
+	}
 
 	for (auto& e : _fontList)
 	{

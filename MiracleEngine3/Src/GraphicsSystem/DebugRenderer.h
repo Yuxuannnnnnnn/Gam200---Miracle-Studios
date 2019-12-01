@@ -33,6 +33,8 @@ public:
 	void SubmitDebugLine(float x1, float y1, float x2, float y2);
 	void BatchDrawDebugLine();
 
+	void CalculateProjMatrix(int windowWidth, int windowHeight);
+
 private:
 	QuadMesh _quadmesh;
 	GLfloat verts[6] = {
@@ -53,7 +55,8 @@ private:
 	VertexArray* _vaobatch;
 	GLuint _batchvbo;
 };
-
+ 
+#define DebugRenderCalculateProjMatrix DebugRenderer::GetInstance().CalculateProjMatrix
 #define DrawDebugLine DebugRenderer::GetInstance().SubmitDebugLine
 #define DebugRendererLineDraw DebugRenderer::GetInstance().BatchDrawDebugLine
 

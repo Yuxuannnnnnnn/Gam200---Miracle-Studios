@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
+    <ClInclude Include="Src\GameObjectComponents\LogicComponents\DataComponent.h" />
     <ClInclude Include="Src\Gameplay\EnemyThree.h" />
     <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
@@ -589,6 +590,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\GameObjectComponents\LogicComponents\DataComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
     <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
@@ -885,7 +887,7 @@
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
-    <None Include="Resources\TextFiles\AnimationData\Data_file_Explosion_Blue_Plasma_24FPS_Sprite.json" />
+    <None Include="Resources\TextFiles\AnimationData\DatafileExplosionBluePlasma24FPSSprite.json" />
     <None Include="Resources\TextFiles\GameObjects\BGM.json" />
     <None Include="Resources\TextFiles\GameObjects\Boss.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
