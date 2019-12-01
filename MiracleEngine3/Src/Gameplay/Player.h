@@ -15,6 +15,7 @@ class Player : public IScript
 {
 private:
 // Logic Data - General
+	bool _god;
 	bool _init;
 	GameObject* _camera;
 	int _health, _healthMax;
@@ -31,7 +32,8 @@ private:
 	double _firerateRPG;		// d = 1/rps
 	double _firerateTurret;
 	double _firerateWall;
-// Logic Data - FadeScreen
+// Logic Data - Progression
+	double _timerProg, _timerProgCooldown;
 public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
