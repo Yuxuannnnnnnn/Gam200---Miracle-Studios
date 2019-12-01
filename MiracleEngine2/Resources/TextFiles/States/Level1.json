@@ -81,7 +81,14 @@
 					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 				]
 		}],
-	
-	
-	"GameObjects": [ "Player", "Camera"] 
+
+
+	"GameObjects": [
+		{
+			"Object": "player"
+		},
+		{
+			"Object": "Camera"
+		}
+	] 
 }

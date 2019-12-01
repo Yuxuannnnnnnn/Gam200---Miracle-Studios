@@ -15,6 +15,12 @@ private:
 
 public:
 	Serialiser(std::string file);
+	Serialiser(rapidjson::Value& data)
+		:_document{}, iBuffer{nullptr}
+	{
+		_document.CopyFrom(data, _document.GetAllocator());
+	}
+
 	~Serialiser();
 
 	bool HasMember(const char* string);

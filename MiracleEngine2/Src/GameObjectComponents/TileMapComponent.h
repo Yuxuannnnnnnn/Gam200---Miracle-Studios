@@ -25,11 +25,8 @@ public:
 		return "TileMapComponent";
 	}
 
-	void SerialiseComponent(Serialiser& document)	//Empty
-	{
-	}
 
-	void SerialiseComponentFromLevelFile(rapidjson::Value& document);
+	void SerialiseComponent(Serialiser& document) override;
 
 	void DeSerialiseComponent(DeSerialiser& levelDoc) override
 	{

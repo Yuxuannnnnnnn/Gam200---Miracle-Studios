@@ -729,8 +729,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	//Serialise Mobile GameObjects with components 
 		//Player components
 
-
-
+#ifndef LEVELEDITOR
 //Serialise Prototypes
 	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
 
@@ -751,7 +750,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
 		ResourceList.clear();
 	}
-	if (Level.HasMember(" "))
+	if (Level.HasMember("AnimationDataFilesPaths"))
 	{
 		for (unsigned i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
@@ -803,13 +802,14 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		ResourceManager::GetInstance().AddFontResourceList(ResourceList);
 		ResourceList.clear();
 	}
+#endif
 
 //Create and Serialise TileMaps
 	if (Level.HasMember("AllTileMaps"))
 	{
 		for (rapidjson::SizeType i = 0; i < Level["AllTileMaps"].Size(); i++)
 		{
-			auto& tileMapInfo = Level["AllTileMaps"][i];
+			Serialiser tileMapInfo(Level["AllTileMaps"][i]);
 
 			//rapidjson::Document tileMapDoc;
 			//tileMapDoc.SetObject();
@@ -824,8 +824,9 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 
 			GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
 			TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
-			tmCom->SerialiseComponentFromLevelFile(tileMapInfo);
-			dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SerialiseComponentFromLevelFile(tileMapInfo);
+			tmCom->SerialiseComponent(tileMapInfo);
+			TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+			tfCom->SerialiseComponent(tileMapInfo);
 		}
 	}
 
@@ -834,9 +835,11 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	{
 		for (unsigned i = 0; i < Level["GameObjects"].Size(); i++)
 		{
-			std::string name = Level["GameObjects"][i].GetString();
+			Serialiser datafile(Level["GameObjects"][i]);
 
-			CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name]);
+			std::string name = datafile["Object"].GetString();
+			GameObject * tmp = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name]);
+			tmp->SerialiseFromLevel(datafile);
 		}
 	}
 
@@ -848,6 +851,25 @@ void GameObjectFactory::De_SerialiseLevel(std::string filename)
 {
 	std::string fileName = "./Resources/TextFiles/States/" + filename;
 	DeSerialiser level(fileName);
+
+	std::vector<std::string> Prototypes;
+	std::vector<std::string>;
+
+	for (auto& objPair : _listObject)
+	{
+		IdentityComponent* idCom = dynamic_cast <IdentityComponent*> (objPair.second->GetComponent(ComponentId::IDENTITY_COMPONENT));
+		if (idCom)
+		{
+			std::string objType = idCom->ObjectType();
+			if (std::find(Prototypes.begin(), Prototypes.end(), objType) == Prototypes.end())
+			{
+				Prototypes.emplace_back(objType);
+			}
+		}
+
+
+	}
+	
 
 	//Deserialise the Audio from GameObjects AudioComponent
 	//Deserialise the textures from GameObject GraphicComponent & AnimationComponents 

@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "TileMapComponent.h"
 
-void TileMapComponent::SerialiseComponentFromLevelFile(rapidjson::Value& document)
+void TileMapComponent::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("Width") && document["Width"].IsInt())
 	{

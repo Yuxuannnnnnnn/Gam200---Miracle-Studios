@@ -22,7 +22,7 @@ void ButtonUI::OnMouseDown()
 	case (int)ButtonType::NONE:
 		break;
 	case (int)ButtonType::PLAY:
-		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::LEVEL1);
+		EngineSystems::GetInstance()._sceneManager->ChangeScene("Level1");
 		break;
 	case (int)ButtonType::PAUSE:
 

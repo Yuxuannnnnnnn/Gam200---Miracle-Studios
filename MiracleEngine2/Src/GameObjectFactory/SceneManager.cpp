@@ -2,61 +2,60 @@
 #include"SceneManager.h"
 
 SceneManager::SceneManager() :
-	_currScene{Scenes::MAIN_MENU}
+	_scenes{},
+	_currentScene{ "MainMenu" }
 {
 }
 
-Scenes SceneManager::GetCurrentScene()
-{
-	switch (_currScene)
-	{
-	case Scenes::RESTART:
-		return Scenes::RESTART;
-	case Scenes::MAIN_MENU:
-		return Scenes::MAIN_MENU;
-	case Scenes::LEVEL1:
-		return Scenes::LEVEL1;
-	case Scenes::WIN:
-		return Scenes::WIN;
-	case Scenes::LOSE:
-		return Scenes::LOSE;
-	default:
-		return Scenes::RESTART;
-	}
-}
+//Scenes SceneManager::GetCurrentScene()
+//{
+//	switch (_currScene)
+//	{
+//	case Scenes::RESTART:
+//		return Scenes::RESTART;
+//	case Scenes::MAIN_MENU:
+//		return Scenes::MAIN_MENU;
+//	case Scenes::LEVEL1:
+//		return Scenes::LEVEL1;
+//	case Scenes::WIN:
+//		return Scenes::WIN;
+//	case Scenes::LOSE:
+//		return Scenes::LOSE;
+//	default:
+//		return Scenes::RESTART;
+//	}
+//}
 
-void SceneManager::ChangeScene(Scenes scene)
-{
-	
-
-	
-	switch (scene)
-	{
-	case Scenes::RESTART:
-		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(_currScene));
-		return;
-	case Scenes::MAIN_MENU:
-		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::MAIN_MENU));
-		break;
-	case Scenes::LEVEL1:
-		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LEVEL1));
-		EngineSystems::GetInstance()._aiSystem->CreateNodeMap();
-		break;
-	case Scenes::WIN:
-		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::WIN));
-		break;
-	case Scenes::LOSE:
-		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LOSE));
-		break;
-	default:
-		break;
-	}
-
-	_currScene = scene;
-}
+//void SceneManager::ChangeScene(Scenes scene)
+//{
+//
+//	switch (scene)
+//	{
+//	case Scenes::RESTART:
+//		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
+//		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(_currScene));
+//		return;
+//	case Scenes::MAIN_MENU:
+//		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
+//		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::MAIN_MENU));
+//		break;
+//	case Scenes::LEVEL1:
+//		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
+//		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LEVEL1));
+//		EngineSystems::GetInstance()._aiSystem->CreateNodeMap();
+//		break;
+//	case Scenes::WIN:
+//		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::WIN));
+//		break;
+//	case Scenes::LOSE:
+//		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LOSE));
+//		break;
+//	default:
+//		break;
+//	}
+//
+//	_currScene = scene;
+//}
 
 
 
@@ -68,14 +67,38 @@ void SceneManager::InitScene()
 
 void SceneManager::ChangeScene(std::string scene)
 {
-	if (scene.compare("Restart") || scene.compare("restart"))
+	NamePath::const_iterator  it = _scenes.find(scene);
+	if (it == _scenes.end() && (scene.compare("Restart")) && (scene.compare("restart"))
+		&& scene.compare("Quit") && scene.compare("quit") )	//No such scene
 	{
+		return;
+	}
+
+	_currentScene = scene;
+
+	if (scene.compare("Quit") == 0 && scene.compare("quit") == 0)
+	{
+		return;
+	}
+
+	if (scene.compare("Restart") == 0 || scene.compare("restart") == 0)
+	{
+#ifdef LEVELEDITOR //for Level editor Mode
+
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
+#else	//for GamePlay mode
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
+#endif
 		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_currentScene);
 	}
 	else
 	{
+#ifdef LEVELEDITOR //for Level editor Mode
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
+#else	//for GamePlay mode
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
+#endif
+
 		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_scenes[scene]);
 	}
 }
@@ -98,4 +121,5 @@ void SceneManager::SerialiseScenes(Serialiser GameSceneFile)
 void SceneManager::LoadAllSceneAssets(NamePath GameSceneFile)
 {
 	_scenes = GameSceneFile;
+
 }

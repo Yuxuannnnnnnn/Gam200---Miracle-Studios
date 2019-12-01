@@ -96,26 +96,44 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 
 		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList);
 		ResourceList.clear();
+
 	}
+	auto& it = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList();
 }
 
 void AssetsImguiWindow::Update()
 {
 	static bool selected;
-	if (ImGui::Selectable("Desrialise", selected, ImGuiSelectableFlags_AllowDoubleClick))
+	if (ImGui::Selectable("Prototypes", selected, ImGuiSelectableFlags_AllowDoubleClick))
 	{
 		if (ImGui::IsMouseReleased(0))
 		{
+			std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
 
-			GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
-			obj->DeSerialise();
-			//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
-			//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
-			//ImGui::TreePop();
-			//ImGuiID id = ImGui::GetID(string.c_str());
-			//ImGui::GetStateStorage()->SetInt(id, 0);
+			for (auto& ObjPair: PrototypeList)
+			{
+				if (ImGui::Selectable(ObjPair.first.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+				{
+					if (ImGui::IsMouseReleased(0))
+					{
+						InspectionImguiWindow::InspectGameObject(ObjPair.second);
+						//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+						//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+						//ImGui::TreePop();
+						//ImGuiID id = ImGui::GetID(string.c_str());
+						//ImGui::GetStateStorage()->SetInt(id, 0);
+					}
+				}
+				//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+				//ImGui::TreePop();
+				//ImGuiID id = ImGui::GetID(string.c_str());
+				//ImGui::GetStateStorage()->SetInt(id, 0);
+			}
 		}
 	}
+
+
 	// We specify a default position/size in case there's no data in the .ini file. Typically this isn't required! We only do it to make the Demo applications a little more welcoming.
 	//ImVec2 main_viewport_pos = ImGui::GetMainViewport()->Pos;
 	//ImGui::SetNextWindowPos(ImVec2(main_viewport_pos.x + 650, main_viewport_pos.y + 20), ImGuiCond_FirstUseEver);

@@ -44,7 +44,6 @@ public:
 	EngineSystems() :
 		_console{ nullptr },
 		_windowSystem{ nullptr },
-		_imguiSystem{ nullptr },
 
 		_gameStateManager{ nullptr },
 
@@ -62,6 +61,8 @@ public:
 		_prefabFactory{ nullptr },
 
 		_sceneManager{ nullptr },
+		_imguiSystem{ nullptr },
+
 		_buttonManager{ nullptr },
 		_collisionManager{ nullptr },
 		_rigidbodyManager{ nullptr },
@@ -78,8 +79,7 @@ public:
 
 		_audioSystem = new AudioSystem();
 
-		
-
+	
 		_gameStateManager = new GameStateManager();
 
 		_inputSystem = new InputSystem();
@@ -138,7 +138,6 @@ public:
 
 	Console* _console;
 	WindowsSystem* _windowSystem;
-	ImguiSystem* _imguiSystem;
 
 	GameStateManager* _gameStateManager;
 
@@ -156,7 +155,9 @@ public:
 	GameObjectFactory* _gameObjectFactory;
 	GameObjectPrototype* _prefabFactory;
 
-	SceneManager* _sceneManager; 
+	SceneManager* _sceneManager;
+
+	ImguiSystem* _imguiSystem;
 
 	ButtonManager* _buttonManager;
 	CollisionManager* _collisionManager;
