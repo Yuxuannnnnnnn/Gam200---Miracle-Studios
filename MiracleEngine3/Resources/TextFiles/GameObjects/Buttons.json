@@ -1,0 +1,26 @@
+{
+  "IdentityComponent": true,
+  "Name": "none",
+  "GameObjectType": 21,
+  "ObjectType": "Buttons",
+
+
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 100.0, 100.0 ],
+  "Rotate": 0.0,
+
+  "GraphicsComponent": true,
+  "G.TypeId": 0,
+  "G.FileName": "button",
+
+  "Font Component": true,
+  "FontId": 0,
+
+  "LogicComponent": true,
+  "ScriptId": [ "BUTTON_UI" ],
+
+  "ButtonComponent": true,
+  "ButtonType": 1
+
+}
