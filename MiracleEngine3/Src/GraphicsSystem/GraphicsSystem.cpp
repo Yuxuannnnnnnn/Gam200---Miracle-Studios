@@ -85,6 +85,8 @@ GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::
 
 	_windowWidth = windowWidth;
 	_windowHeight = windowHeight;
+
+	DrawRockyTile({ 0,0,0 }, { 100,100,1 });
 }
 
 Camera& GraphicsSystem::GetCamera()
@@ -133,6 +135,23 @@ void GraphicsSystem::Update(double dt)
 	_animationSystem.Update(_animationList, dt);
 
 	_camera.Update(_transformList);
+	
+	_quadmesh.Select();
+	_textureManager._textureMap["background"]->Select();
+	_shader.Select();
+
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -10.0f));
+	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(10000.0f, 10000.0f, 1.0f));
+
+	glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
+
+	//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+
+	_shader.SetUniformMat4f("u_MVP", mvp);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	//Check for Graphic component first then get Transform COmponent
 	for (auto& graphicComponentpair : _spriteList)
 	{
@@ -342,7 +361,7 @@ void GraphicsSystem::Update(double dt)
 		_textureManager._textureMap["floor"]->Select();
 		_shader.Select();
 
-		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(element._position.x, element._position.y, 14.0f));
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(element._position.x, element._position.y, -2.0f));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), element._rotationAngle, glm::vec3(0, 0, 1));
 
 		glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
@@ -378,22 +397,7 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
-	_quadmesh.Select();
-	_textureManager._textureMap["background"]->Select();
-	_shader.Select();
-
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -10.0f));
-	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
-	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
-		glm::vec3(10000.0f, 10000.0f, 1.0f));
-
-	glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
-
-	//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
-
-	_shader.SetUniformMat4f("u_MVP", mvp);
-
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	
 
 
 	for (auto& e : _fontList)
