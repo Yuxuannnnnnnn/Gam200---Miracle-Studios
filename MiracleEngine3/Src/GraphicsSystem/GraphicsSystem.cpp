@@ -8,6 +8,27 @@
 #include "../LogicSystem/AiSystem.h"
 #include "FrameBuffer.h"
 
+
+void GraphicsSystem::DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale)
+{
+	_quadmesh.Select();
+	_textureManager._textureMap["CircularBatteryPlatform"]->Select();
+	_shader.Select();
+
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 14.0f));
+	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(scale.x, scale.y, 1.0f));
+
+	glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
+
+	//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+
+	_shader.SetUniformMat4f("u_MVP", mvp);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
 void GraphicsSystem::SetHealthPercentage(float percentage)
 {
 	_healthpercentage = percentage;
