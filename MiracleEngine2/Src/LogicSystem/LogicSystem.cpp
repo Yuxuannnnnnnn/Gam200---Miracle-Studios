@@ -291,3 +291,13 @@ void LogicSystem::DeleteLevelScripts()
 		delete it.second;
 	_scriptList.clear();
 }
+
+void LogicSystem::AddObject(size_t uId, void* component)
+{
+	_logicList.insert({ uId, (LogicComponent*)component });
+}
+
+void LogicSystem::RemoveObject(size_t uId)
+{
+	_logicList.erase(uId);
+}

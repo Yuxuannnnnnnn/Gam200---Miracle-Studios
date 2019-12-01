@@ -29,7 +29,7 @@ public:
 	void Update();
 	void Draw();
 
-	void AddObject(size_t uId);
+	void AddObject(size_t uId, void* component = 0);
 	void RemoveObject(size_t uId);
 };
 

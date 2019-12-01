@@ -119,9 +119,9 @@ void CollisionManager::UpdateCollision(double dt)
 	}
 }
 
-void CollisionManager::AddObject(size_t uId)
+void CollisionManager::AddObject(size_t uId, void* component)
 {
-
+	_collider2dList.insert({ uId, (Collider2D*)component });
 }
 
 void CollisionManager::RemoveObject(size_t uId)

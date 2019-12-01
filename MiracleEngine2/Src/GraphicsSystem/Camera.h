@@ -19,7 +19,7 @@ class Camera
 {
 public:
 	glm::mat4 GetCamMatrix();
-	void Update(std::unordered_map < size_t, TransformComponent*>&  _transformList);
+	void Update();
 	void ZoomIn(float x);
 	void ZoomOut(float x);
 	void SetCameraPos(float x, float y);

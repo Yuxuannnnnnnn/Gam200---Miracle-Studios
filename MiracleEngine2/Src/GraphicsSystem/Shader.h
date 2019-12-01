@@ -1,5 +1,4 @@
 #pragma once
-
 #ifndef SHADER_H
 #define SHADER_H
 
@@ -19,7 +18,7 @@ public:
 	GLint _id;
 
 public:
-	Shader();
+	Shader() = default;
 	void Select() const;
 	int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const;

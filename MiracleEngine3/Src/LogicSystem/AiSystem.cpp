@@ -282,31 +282,25 @@ void AISystem::CreateNodeMap()
 	//}
 
 	size_t tilesize = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	// circle // down 3.5 , left 5.5 
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 0.0f * tilesize, 0.0f * tilesize,1 }, { 900,900,1 }, 4.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -7.0f * tilesize, 5.0f * tilesize,1 }, { 500,500,1 }, 2.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -10.0f * tilesize, -8.0f * tilesize,1 }, { 1200,900,1 }, 3.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 10.0f * tilesize, 7.0f * tilesize,1 }, { 1200,900,1 }, 1.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 12.0 * tilesize, -7.0f * tilesize,1 }, { 500,600,1 }, 5.0f);
+
 	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ -5.5f * tilesize,-3.5f * tilesize,1 }, { 900,900,1 },4.0f);
-	// square
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 0.0f * tilesize, 3.0f * tilesize,1 }, { 550, 950,1 });
-	// square
-	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding1({ 4.0f * tilesize, 8.4f * tilesize,1 }, { 400, 450,1 });
-	// square
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 4.0f * tilesize, 8.5f * tilesize,1 }, { 425, 330,1 }, PI/2);
 	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 5.5f * tilesize, 11.5f * tilesize,1 }, { 400, 400,1 },1.0f);
-	// square
-	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 10.0f * tilesize, 10.1f * tilesize,1 }, { -450, -580,1 });
-	// circle
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 10.0f * tilesize, 9.9f * tilesize,1 }, { -450, -580,1 });
 	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 12.0f * tilesize, 1.0f * tilesize,1 }, { 1080, 1080,1 },3.0f);
-	// square
-	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 6.5f * tilesize, -7.5f * tilesize,1 }, { 900, 900,1 },2.0f);
-	// square
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding1({ -6.0f * tilesize, 9.8f * tilesize,1 }, { 1150, 900,1 });
-	// square-ish
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ -15.5f * tilesize, 10.9f * tilesize,1 }, { -650, -580,1 });
-	// square-ish
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ -15.5f * tilesize, 5.1f * tilesize,1 }, { 650, 580,1 });
-	// square-ish
-	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding1({ -12.9f * tilesize, -10.7f * tilesize,1 }, { 900, 650,1 }, PI);
-
-
-
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ -13.0f * tilesize, -11.0f * tilesize,1 }, { 680,780,1 }, PI/2);
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding3({ 11.5f * tilesize, -9.5f * tilesize,1 }, { 1000, 1000,1 });
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 7.5f * tilesize, -9.5f * tilesize,1 }, { 500, 680,1 });
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 15.5f * tilesize, -9.5f * tilesize,1 }, { 500, 680,1 });
 	//tempGO = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject();
 	//tempGO->AddComponent(ComponentId::TRANSFORM_COMPONENT);
 	//((TransformComponent*)(tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT)))->SetPos(Vector3());

@@ -57,33 +57,117 @@ void EventHandler::SendLogicEventMessage(size_t uId, EventMessageType type, T me
 	(void)message;
 }
 
-template<typename T, typename T2>
-void EventHandler::SendSystemEventMessage(size_t uId, EventMessageType type, T message, T2 message2)
+template<typename T>
+void EventHandler::SendSystemEventMessage(size_t uId, EventMessageType type, ComponentId message, T message2)
 {
-	GameObject* gameObject = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[uId];
-	ComponentId id;
-
 	if (type == EventMessageType::COMPONENT_CREATION)
 	{
-		/*EngineSystems::GetInstance()._physicsSystem->RemoveRigidBody2d(uId);
-		EngineSystems::GetInstance()._physicsSystem->RemoveCollider2d(uId);
-		EngineSystems::GetInstance()._physicsSystem->RemoveButton(uId);
-		EngineSystems::GetInstance()._physicsSystem->RemovePick(uId);
-		EngineSystems::GetInstance()._physicsSystem->RemoveTransform(uId);*/
+		if (message2 == nullptr)
+			return;
 
-		/*EngineSystems::GetInstance()._graphicsSystem->RemoveSprite(uId);
-		EngineSystems::GetInstance()._graphicsSystem->RemoveTransform(uId);*/
-
-		//remove logic component
-
-		//gameObject->DestoryGameObject();
+		switch (message)
+		{
+		case ComponentId::IDENTITY_COMPONENT:
+			break;
+		case ComponentId::TRANSFORM_COMPONENT:
+			MyTransformManager.AddObject(uId, message2);
+			break;
+		case ComponentId::GRAPHICS_COMPONENT:
+			MyGraphicsSystem.AddSpriteObject(uId, message2);
+			break;
+		case ComponentId::ANIMATION_COMPONENT:
+			MyGraphicsSystem.AddAnimationObject(uId, message2);
+			break;
+		case ComponentId::CAMERA_COMPONENT:
+			//MyTransformManager.AddObject(uId, message2);
+			break;
+		case ComponentId::FONT_COMPONENT:
+			MyGraphicsSystem.AddFontObject(uId, message2);
+			break;
+		case ComponentId::RIGIDBODY_COMPONENT:
+			MyRigidbodyManager.AddObject(uId, message2);
+			break;
+		case ComponentId::CIRCLECOLLIDER_COMPONENT:
+			MyCollisionManager.AddObject(uId, message2);
+			break;
+		case ComponentId::BOXCOLLIDER_COMPONENT:
+			MyCollisionManager.AddObject(uId, message2);
+			break;
+		case ComponentId::EDGECOLLIDER_COMPONENT:
+			MyCollisionManager.AddObject(uId, message2);
+			break;
+		case ComponentId::LOGIC_COMPONENT:
+			MyLogicSystem.AddObject(uId, message2);
+			break;
+		case ComponentId::AUDIO_COMPONENT:
+			MyAudioSystem.AddObject(uId, message2);
+			break;
+		case ComponentId::BUTTON_COMPONENT:
+			MyButtonManager.AddObject(uId, message2);
+			break;
+		case ComponentId::TILEMAP_COMPONENT:
+			break;
+		case ComponentId::COUNTCOMPONENT:
+			break;
+		default:
+			break;
+		}
 	}
-	else if (type == EventMessageType::COMPONENT_CREATION || type == EventMessageType::COMPONENT_DELETION)
+	else if (type == EventMessageType::COMPONENT_DELETION)
 	{
-
-
-
+		switch (message)
+		{
+		case ComponentId::IDENTITY_COMPONENT:
+			break;
+		case ComponentId::TRANSFORM_COMPONENT:
+			MyTransformManager.RemoveObject(uId);
+			break;
+		case ComponentId::GRAPHICS_COMPONENT:
+			MyGraphicsSystem.RemoveSpriteObject(uId);
+			break;
+		case ComponentId::ANIMATION_COMPONENT:
+			MyGraphicsSystem.RemoveAnimationObject(uId);
+			break;
+		case ComponentId::CAMERA_COMPONENT:
+			//MyTransformManager.AddObject(uId, message2);
+			break;
+		case ComponentId::FONT_COMPONENT:
+			MyGraphicsSystem.RemoveFontObject(uId);
+			break;
+		case ComponentId::RIGIDBODY_COMPONENT:
+			MyRigidbodyManager.RemoveObject(uId);
+			break;
+		case ComponentId::CIRCLECOLLIDER_COMPONENT:
+			MyCollisionManager.RemoveObject(uId);
+			break;
+		case ComponentId::BOXCOLLIDER_COMPONENT:
+			MyCollisionManager.RemoveObject(uId);
+			break;
+		case ComponentId::EDGECOLLIDER_COMPONENT:
+			MyCollisionManager.RemoveObject(uId);
+			break;
+		case ComponentId::LOGIC_COMPONENT:
+			MyLogicSystem.RemoveObject(uId);
+			break;
+		case ComponentId::AUDIO_COMPONENT:
+			MyAudioSystem.RemoveObject(uId);
+			break;
+		case ComponentId::BUTTON_COMPONENT:
+			MyButtonManager.RemoveObject(uId);
+			break;
+		case ComponentId::TILEMAP_COMPONENT:
+			break;
+		case ComponentId::COUNTCOMPONENT:
+			break;
+		default:
+			break;
+		}
 	}
+	else if (type == EventMessageType::OBJECT_DELETION)
+	{
+	MyGameObjectFactory.getObjectlist()[uId]->DestoryGameObject();
+	}
+
 	(void)message;
 	(void)message2;
 }

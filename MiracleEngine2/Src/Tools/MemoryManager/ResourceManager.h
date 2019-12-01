@@ -75,17 +75,17 @@ public:
 	bool AddNewAudioResource(NamePath list);
 	bool AddNewAnimationResource(NamePath list);
 
-	Texture2D* GetTexture2DResource(std::string& name);
-	Shader* GetShaderResource(std::string& name);
-	FontRenderer* GetFontResource(std::string& name);
-	Sound* GetSoundResource(std::string& name);
-	Animation* GetAnimationResource(std::string& name);
+	Texture2D* GetTexture2DResource(std::string name);
+	Shader* GetShaderResource(std::string name);
+	FontRenderer* GetFontResource(std::string name);
+	Sound* GetSoundResource(std::string name);
+	Animation* GetAnimationResource(std::string name);
 
-	std::string GetTexture2DResourcePath(std::string& name);
-	std::pair<std::string, std::string> GetShaderResourcePath(std::string& name);
-	std::string GetFontResourcePath(std::string& name);
-	std::string GetSoundResourcePath(std::string& name);
-	std::string GetAnimationResourcePath(std::string& name);
+	std::string GetTexture2DResourcePath(std::string name);
+	std::pair<std::string, std::string> GetShaderResourcePath(std::string name);
+	std::string GetFontResourcePath(std::string name);
+	std::string GetSoundResourcePath(std::string name);
+	std::string GetAnimationResourcePath(std::string name);
 
 	NamePathMap GetTexture2DList();
 	NamePairMap GetShaderList();
@@ -93,5 +93,7 @@ public:
 	NamePathMap GetSoundList();
 	NamePathMap GetAnimationlist();
 };
+
+#define MyResourceManager ResourceManager::GetInstance()
 
 #endif

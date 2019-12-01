@@ -94,17 +94,6 @@ void ImguiSystem::UpdateFrame()
 			}
 			//ImGui::Separator();
 
-
-			if (ImGui::MenuItem("Editor Mode Turn Off "))
-			{
-				_editorMode = 0;
-			}
-
-			if (ImGui::MenuItem("Editor Mode Turn On "))
-			{
-				_editorMode = 1;
-			}
-
 			if (ImGui::BeginMenu("FullScreen  "))
 			{
 				if (ImGui::MenuItem("ON  "))

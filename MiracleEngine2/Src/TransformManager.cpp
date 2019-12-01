@@ -1,8 +1,9 @@
 #include "PrecompiledHeaders.h"
 #include "TransformManager.h"
 
-void TransformManager::AddObject(size_t uId)
+void TransformManager::AddObject(size_t uId, void* component)
 {
+	_transformList.insert({ uId, (TransformComponent*)component });
 }
 
 void TransformManager::RemoveObject(size_t uId)

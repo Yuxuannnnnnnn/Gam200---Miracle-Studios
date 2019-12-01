@@ -5,12 +5,14 @@ AudioSystem::AudioSystem()
 {
 	_fmodSystem = nullptr;
 	_channel1 = nullptr;
+	_channel2 = nullptr;
 	_bgmGroup = nullptr;
 	_sfxGroup = nullptr;
 	FMOD_System_Create(&_fmodSystem);
 	FMOD_System_Init(_fmodSystem, 32, FMOD_INIT_NORMAL, 0);
 	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &_bgmGroup);
 	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &_sfxGroup);
+	
 }
 
 AudioSystem::~AudioSystem()
@@ -53,4 +55,14 @@ void AudioSystem::StopAllSound()
 {
 	FMOD_ChannelGroup_Stop(_bgmGroup);
 	FMOD_ChannelGroup_Stop(_sfxGroup);
+}
+
+void AudioSystem::AddObject(size_t uId, void* component)
+{
+	_soundList.insert({ uId, (AudioComponent*)component });
+}
+
+void AudioSystem::RemoveObject(size_t uId)
+{
+	_soundList.erase(uId);
 }

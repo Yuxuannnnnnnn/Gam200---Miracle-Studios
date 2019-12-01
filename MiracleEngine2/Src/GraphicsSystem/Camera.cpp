@@ -7,7 +7,7 @@ glm::mat4 Camera::GetCamMatrix()
 	return glm::inverse(CamMatrix);
 }
 
-void Camera::Update(std::unordered_map < size_t, TransformComponent*>&  _transformList)
+void Camera::Update()
 {
 
 	for (auto& camComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getCameraComponent())
@@ -16,7 +16,7 @@ void Camera::Update(std::unordered_map < size_t, TransformComponent*>&  _transfo
 			continue;
 
 		size_t objID = camComponentpair.first;	//Get GameObjectID
-		TransformComponent* transformComponent = _transformList[objID]; //Get transform from GameObjectID
+		TransformComponent* transformComponent = MyTransformManager.GetTransform(objID); //Get transform from GameObjectID
 
 		if (!transformComponent)
 			continue;
