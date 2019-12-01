@@ -26,12 +26,12 @@ void Engine::Update()
 {
 	bool open = true; //for imgui show demo, to be deleted later
 
-	_engineSystems._sceneManager->ChangeScene(Scenes::LEVEL1);
+	_engineSystems._sceneManager->ChangeScene("Level1");
 	//_sceneManager->ChangeScene(Scenes::MAIN_MENU);
 
 	//_gameObjectFactory->De_SerialiseLevel("hello.json");
 
-	while (_engineSystems._sceneManager->GetCurrentScene() != Scenes::QUIT)	//GameState Logic Starts here
+	while (_engineSystems._sceneManager->GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{
 
 		//_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
@@ -49,22 +49,16 @@ void Engine::Update()
 		_engineSystems._imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
 		_engineSystems._performanceUsage->IMGUIFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
 
-		_engineSystems._performanceUsage->PrintPerformanceUsage();
 
 		double dt = _engineSystems._frameRateControl->UpdateFrameTime();
 		int accumlatedframes = _engineSystems._frameRateControl->GetSteps();
-
-
 		_engineSystems._performanceUsage->PerFrameTime = _engineSystems._frameRateControl->GetFrameTime();
 		_engineSystems._performanceUsage->FPS = _engineSystems._frameRateControl->GetFPS();
 
+
 		_engineSystems._frameRateControl->StartTimeCounter();
-
-
 		_engineSystems._inputSystem->Update(_engineSystems._windowSystem->getWindow());
 		EventHandler::GetInstance().BroadcastInputEvents();
-
-
 		_engineSystems._performanceUsage->InputFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
 
 		/*if (_inputSystem->KeyRelease(KEYB_Z))
@@ -73,15 +67,13 @@ void Engine::Update()
 
 		// Logic
 		_engineSystems._frameRateControl->StartTimeCounter();
-
-		if (!_engineSystems._imguiSystem->_pause)
+		if (!_engineSystems._imguiSystem->_editorMode)
 		{
 			_engineSystems._logicSystem->Update(dt);
 		}
-
 		_engineSystems._aiSystem->Update(dt);
-
 		_engineSystems._performanceUsage->LogicFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
+
 
 		// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
 		_engineSystems._frameRateControl->StartTimeCounter();
@@ -93,7 +85,7 @@ void Engine::Update()
 		{
 			double fixedDt = _engineSystems._frameRateControl->GetLockedDt();
 
-			if (!_engineSystems._imguiSystem->_pause)
+			if (!_engineSystems._imguiSystem->_editorMode)
 			{
 				while (accumlatedframes)
 				{
@@ -109,8 +101,7 @@ void Engine::Update()
 
 		// Audio
 		_engineSystems._frameRateControl->StartTimeCounter();
-
-		if (!_engineSystems._imguiSystem->_pause)
+		if (!_engineSystems._imguiSystem->_editorMode)
 		{
 			_engineSystems._audioSystem->Update();
 		}
@@ -118,9 +109,7 @@ void Engine::Update()
 
 		// Graphics
 		_engineSystems._frameRateControl->StartTimeCounter();
-
 		_engineSystems._graphicsSystem->Update(dt);
-
 		_engineSystems._performanceUsage->GraphicFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
 
 		/*if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
@@ -129,6 +118,7 @@ void Engine::Update()
 		// example to draw debug line and circle, to remove later
 		/*DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
 		DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
+		_engineSystems._performanceUsage->PrintPerformanceUsage();
 
 		_engineSystems._frameRateControl->StartTimeCounter();
 		_engineSystems._imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
@@ -137,7 +127,6 @@ void Engine::Update()
 
 
 #endif
-
 
 		EventHandler::GetInstance().BroadcastObjectEvents();
 		::SwapBuffers(_engineSystems._windowSystem->getWindow().get_m_windowDC()); 		// swap double buffer at the end

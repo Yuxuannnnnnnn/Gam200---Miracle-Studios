@@ -14,7 +14,6 @@ private:
 
 	
 public:
-	bool _pause;
 	bool _editorMode;
 
 

@@ -61,7 +61,7 @@ public:
 		_prefabFactory{ nullptr },
 
 		_sceneManager{ nullptr },
-		_imguiSystem{ nullptr }
+		_imguiSystem{ nullptr },
 
 		_buttonManager{ nullptr },
 		_collisionManager{ nullptr },
@@ -158,8 +158,6 @@ public:
 	SceneManager* _sceneManager;
 
 	ImguiSystem* _imguiSystem;
-
-	SceneManager* _sceneManager; 
 
 	ButtonManager* _buttonManager;
 	CollisionManager* _collisionManager;

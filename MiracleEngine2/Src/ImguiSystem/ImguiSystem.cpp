@@ -6,7 +6,7 @@
 
 
 ImguiSystem::ImguiSystem(const Window& window)
-	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }, _pause{ false }, _editorMode{ false }
+	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }, _editorMode{ false }
 {
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -80,15 +80,20 @@ void ImguiSystem::UpdateFrame()
 		//}
 		if(ImGui::BeginMenu("Editor Settings  "))
 		{
-			if (ImGui::MenuItem("Pause  ")) 
+			if (ImGui::BeginMenu("Editor Mode  "))
 			{
-				_pause = 1;
+				if (ImGui::MenuItem("ON  "))
+				{
+					_editorMode = true;
+				}
+				if (ImGui::MenuItem("OFF  "))
+				{
+					_editorMode = false;
+				}
+				ImGui::EndMenu();
 			}
 			//ImGui::Separator();
-			if (ImGui::MenuItem("Play  "))
-			{
-				_pause = 0;
-			}
+
 
 			if (ImGui::MenuItem("Editor Mode Turn Off "))
 			{

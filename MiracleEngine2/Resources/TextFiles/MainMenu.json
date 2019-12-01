@@ -1,0 +1,48 @@
+{
+	"PrototypesFilePaths": [
+		"./Resources/TextFiles/GameObjects/Button.json"
+	],
+
+	"TexturesFilesPaths": [
+		"./Resources/Image/button.png"
+	],
+
+	"AudioFilesPaths": [
+		"./Resources/Audio/Button.ogg"
+	],
+
+	"FontFilesPath": [
+		"./arial.ttf"
+	],
+
+	"GameObjects": [
+		{
+			"Object": "Button",
+			"TransformComponent": true,
+			"Position": [ 0.0, 0.0 ],
+			"Scale": [ 300.0, 300.0 ],
+			"Rotate": 0.0
+		},
+		{
+			"Object": "Button",
+			"TransformComponent": true,
+			"Position": [ -250, -250 ],
+			"Scale": [ 300.0, 300.0 ],
+			"Rotate": 0.0
+		},
+		{
+			"Object": "Button",
+			"TransformComponent": true,
+			"Position": [250, 250],
+			"Scale": [ 300.0, 300.0 ],
+			"Rotate": 0.0
+		},
+		{
+			"Object": "Camera",
+			"TransformComponent": true,
+			"Position": [ 200.0, 200.0 ],
+			"Scale": [ 1.0, 1.0 ],
+			"Rotate": 0.0
+		}
+	]
+}

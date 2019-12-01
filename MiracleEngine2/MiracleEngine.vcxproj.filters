@@ -701,6 +701,6 @@
     <None Include="Resources\TextFiles\AnimationData\DatafileExplosionBluePlasma24FPSSprite.json" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Resources\TextFiles\MainMenu.txt" />
+    <Text Include="Resources\TextFiles\MainMenu.json" />
   </ItemGroup>
 </Project>
