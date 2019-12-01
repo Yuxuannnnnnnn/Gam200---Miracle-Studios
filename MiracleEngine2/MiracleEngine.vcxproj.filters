@@ -682,10 +682,10 @@
     <None Include="Resources\TextFiles\GameObjects\Boss.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
     <None Include="Resources\TextFiles\GameObjects\player.json" />
-    <None Include="Resources\TextFiles\AnimationData\Data_file_Explosion_Blue_Plasma_24FPS_Sprite.json" />
     <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
     <None Include="Resources\TextFiles\GameObjects\Button.json" />
     <None Include="Resources\TextFiles\States\GameScenes.json" />
+    <None Include="Resources\TextFiles\AnimationData\DatafileExplosionBluePlasma24FPSSprite.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\States\MainMenu.txt" />

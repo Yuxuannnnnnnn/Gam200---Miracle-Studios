@@ -1,11 +1,11 @@
 {
 	"IdentityComponent": true,
-  "Name": "none",
+	"Name": "none",
 	"ObjectType": "TileMap",
 
 	"TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 70.0, 70.0 ],
+	"Position": [ 0.0, 0.0 ],
+	"Scale": [ 70.0, 70.0 ],
 	"Rotate": 0.0,
 
 	"TileMapComponent": true

@@ -16,7 +16,7 @@
 	],
 
 	"AnimationDataFilesPaths": [
-		"./Resources/TextFiles/AnimationData/Data_file_Explosion_Blue_Plasma_24FPS_Sprite.json"
+		"./Resources/TextFiles/AnimationData/DatafileExplosionBluePlasma24FPSSprite.json"
 	],
 
 	"AudioFilesPaths": [
@@ -32,15 +32,13 @@
 	],
 
 
-	"AllTileMaps": [
-		{
-
+	"AllTileMaps": [{
 			"TransformComponent": true,
 			"Position": [ 0.0, 0.0 ],
 			"Scale": [ 70.0, 70.0 ],
 			"Rotate": 0.0,
-
-			"TileMapComponent": true,
+			"Width": 16,
+			"Height": 15,
 			"Palette": [
 				[
 					0,
@@ -63,10 +61,6 @@
 					"SpawnerTwo"
 				]
 			],
-
-			"Width": 16,
-			"Height": 15,
-
 			"TileMap": [
 					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 					1, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 1,
@@ -84,8 +78,7 @@
 					1, 3, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 4, 3, 1,
 					1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 				]
-		}
-	], 
+		}],
 	
 	
 	"GameObjects": [ "Player", "Camera"] 

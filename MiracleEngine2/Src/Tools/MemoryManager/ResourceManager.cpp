@@ -80,6 +80,7 @@ void ResourceManager::AddAnimationResourceList(NamePath list)
 	Animation* resource = new Animation();
 	for (auto& filePath : _AnimationList)
 	{
+		//std::cout << filePath.second<<std::endl;
 		resource->Serialise(filePath.second);
 		_AnimationMap.insert(std::pair<std::string, Animation*>(filePath.second, resource));
 	}

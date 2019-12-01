@@ -37,7 +37,7 @@ public:
 		Frame* ptr = nullptr;
 		float uv[4];	//buffer to contain the uv values temporary
 
-		for (int i = 0; i < NumOfFrames; i++)
+		for (int i = 1; i <= NumOfFrames; i++)
 		{
 			// Array of U0, V0, U1, V1 - Array of 4 floats
 			for (int a = 0; a < 4; a++)
