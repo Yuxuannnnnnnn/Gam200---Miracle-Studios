@@ -248,6 +248,12 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 	{
 		SetFullscreenWindowMode();
 	}
+	
+	WINDOWPLACEMENT wp;
+	wp.showCmd = 0; // Just to clear showCmd before reading.
+	GetWindowPlacement(mainHWND, &wp);
+	_windowState = wp.showCmd;
+
 
 
 	if (!mainHWND)
@@ -274,6 +280,12 @@ void Window::SetFullscreenWindowMode()
 	_windowWidth = GetSystemMetrics(SM_CXSCREEN);
 	_windowHeight = GetSystemMetrics(SM_CYSCREEN);
 	_fullScreen = true;
+	ResizeGraphics(_windowWidth, _windowHeight);
+
+	WINDOWPLACEMENT wp;
+	wp.showCmd = 0; // Just to clear showCmd before reading.
+	GetWindowPlacement(mainHWND, &wp);
+	_windowState = wp.showCmd;
 }
 
 void Window::SetNonFullScreenWindowMode()
@@ -286,6 +298,12 @@ void Window::SetNonFullScreenWindowMode()
 	_windowWidth = _initWindowWidth;
 	_windowHeight = _initWindowHeight;
 	_fullScreen = false;
+	ResizeGraphics(_windowWidth, _windowHeight);
+
+	WINDOWPLACEMENT wp;
+	wp.showCmd = 0; // Just to clear showCmd before reading.
+	GetWindowPlacement(mainHWND, &wp);
+	_windowState = wp.showCmd;
 }
 
 void Window::CheckFullScreenToggle()
@@ -295,22 +313,27 @@ void Window::CheckFullScreenToggle()
 	wp.showCmd = 0; // Just to clear showCmd before reading.
 
 	GetWindowPlacement(mainHWND, &wp);
-	if (wp.showCmd == SW_MAXIMIZE)
+
+	if (_windowState != wp.showCmd)
 	{
-		if (_fullScreen != true)
+		_windowState = wp.showCmd;
+		if (wp.showCmd == SW_MAXIMIZE)
 		{
-			_windowWidth = GetSystemMetrics(SM_CXSCREEN);
-			_windowHeight = GetSystemMetrics(SM_CYSCREEN);
-			_fullScreen = true;
+			if (_fullScreen != true)
+			{
+				_windowWidth = GetSystemMetrics(SM_CXSCREEN);
+				_windowHeight = GetSystemMetrics(SM_CYSCREEN);
+				_fullScreen = true;
+			}
 		}
-	}
-	else if (wp.showCmd == SW_MINIMIZE)
-	{
-		if (_fullScreen != false)
+		else if (wp.showCmd == SW_MINIMIZE)
 		{
-			_windowWidth = _initWindowWidth;
-			_windowHeight = _initWindowHeight;
-			_fullScreen = false;
+			if (_fullScreen != false)
+			{
+				_windowWidth = _initWindowWidth;
+				_windowHeight = _initWindowHeight;
+				_fullScreen = false;
+			}
 		}
 	}
 

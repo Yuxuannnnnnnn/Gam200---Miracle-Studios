@@ -34,6 +34,8 @@ private:
 	
 	bool _fullScreen;
 
+	UINT _windowState;
+
 public:
 
 	Window(HINSTANCE hInstance, int nCmdShow);
