@@ -26,9 +26,11 @@ enum class ComponentId {
 
 	AUDIO_COMPONENT,	//Audio Component
 	BUTTON_COMPONENT,
+
+	TILEMAP_COMPONENT,
+
 	COUNTCOMPONENT,
 
-	TILEMAP_COMPONENT
 };
 
 inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui

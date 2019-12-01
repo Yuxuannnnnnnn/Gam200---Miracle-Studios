@@ -84,18 +84,18 @@ void GraphicsSystem::Update(double dt)
 
 
 			// texture with animation
-		if (graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
-		{
-			AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT);
+		//if (graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT))
+		//{
+		//	AnimationComponent* anim = (AnimationComponent*)graphicComponent->GetSibilingComponent((unsigned int)ComponentId::ANIMATION_COMPONENT);
 
-			anim->testanim->Select();
-			//_testAnimation.Select();
-			_textureManager._textureMap[anim->GetFilePath()]->Select();
+		//	anim->testanim->Select();
+		//	//_testAnimation.Select();
+		//	_textureManager._textureMap[anim->GetFilePath()]->Select();
 
-		}
-		else
+		//}
+		//else
 			// texture without animation
-		{
+		//{
 			if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
 			{
 				_uimesh.Select();
@@ -104,7 +104,7 @@ void GraphicsSystem::Update(double dt)
 			else
 			_quadmesh.Select();
 			_textureManager._textureMap[graphicComponent->GetFileName()]->Select();
-		}
+		//}
 		_shader.Select();
 
 
