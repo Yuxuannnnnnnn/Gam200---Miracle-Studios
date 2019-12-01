@@ -13,9 +13,6 @@
   "G.TypeId": 0,
   "G.FileName": "player",
 
-  "AnimationComponent": true,
-  "Type": "idle",
-
   "RigidBodyComponent": true,
   "Mass": 10.0,
   "Friction": 0.1,

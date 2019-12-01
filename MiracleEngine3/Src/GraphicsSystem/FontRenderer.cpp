@@ -94,7 +94,7 @@ void FontRenderer::DrawHealth(float percentage)
 	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(-488.0f, 420.0f, 13.0f));
 
 	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
-		glm::vec3(460 * percentage, 70, 1.0f));
+		glm::vec3(470 * percentage, 70, 1.0f));
 
 	glm::mat4 mvp = _projection * model;
 
