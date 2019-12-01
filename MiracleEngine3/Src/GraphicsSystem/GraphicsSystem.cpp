@@ -447,17 +447,6 @@ void GraphicsSystem::Exit()
 {
 }
 
-void GraphicsSystem::DrawBuilding3(const glm::vec3& position, const glm::vec3& scale, float rotationAngle)
-{
-}
-
-void GraphicsSystem::DrawBuilding4(const glm::vec3& position, const glm::vec3& scale, float rotationAngle)
-{
-}
-
-void GraphicsSystem::DrawCrate(const glm::vec3& position, const glm::vec3& scale, float rotationAngle)
-{
-}
 
 void GraphicsSystem::ClearScreen() const
 {
