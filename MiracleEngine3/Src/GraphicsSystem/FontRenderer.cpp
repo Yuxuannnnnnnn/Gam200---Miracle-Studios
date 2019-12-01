@@ -9,9 +9,9 @@ FontRenderer::FontRenderer()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glm::mat4 projection = glm::ortho(-640.0f, 640.0f, -512.0f, 512.0f, -15.0f, 15.0f);
+	_projection = glm::ortho(-640.0f, 640.0f, -512.0f, 512.0f, -15.0f, 15.0f);
 	_shader.Select();
-	glUniformMatrix4fv(glGetUniformLocation(_shader._id, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(glGetUniformLocation(_shader._id, "projection"), 1, GL_FALSE, glm::value_ptr(_projection));
 
 	if (FT_Init_FreeType(&_ft) != 0) {
 		std::cout << "Couldn't initialize FreeType library\n";
@@ -82,6 +82,60 @@ FontRenderer::FontRenderer()
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+}
+
+void FontRenderer::DrawHealth(float percentage)
+{
+	_uimesh.Select();
+
+
+	// calculate model matrix = TRS
+
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(-490.0f, 420.0f, 13.0f));
+
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(460 * percentage, 70, 1.0f));
+
+	glm::mat4 mvp = _projection * model;
+
+	_shaderUI.SetUniformMat4f("u_MVP", mvp);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+}
+
+void FontRenderer::DrawProgress(float percentage)
+{
+	_uimesh.Select();
+	// calculate model matrix = TRS
+
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(-482.0f, 370.0f, 13.0f));
+
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(260 * percentage, 60, 1.0f));
+
+	glm::mat4 mvp = _projection * model;
+
+	_shaderUI.SetUniformMat4f("u_MVP", mvp);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
+void FontRenderer::DrawUIBG()
+{
+	_uimesh.Select();
+	// calculate model matrix = TRS
+
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(-530.0f, 380.0f, 14.0f));
+
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(500, 250, 1.0f));
+
+	glm::mat4 mvp = _projection * model;
+
+	_shaderUI.SetUniformMat4f("u_MVP", mvp);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
 void FontRenderer::DrawFont(std::string& text, float xpos, float ypos, const glm::vec3& color)

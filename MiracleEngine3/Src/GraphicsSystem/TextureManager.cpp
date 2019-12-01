@@ -34,6 +34,11 @@ TextureManager::TextureManager()
 	_textureMap["run"] = new Texture2D("Resources/Image/catrun.png");
 	_textureMap["jump"] = new Texture2D("Resources/Image/catjump.png");
 	_textureMap["coin"] = new Texture2D("Resources/Image/coin.png");
+
+	_textureMap["HP_Bar"] = new Texture2D("Resources/Image/HP_Bar.png");
+	_textureMap["Progress_Bar"] = new Texture2D("Resources/Image/Progress_Bar.png");
+	_textureMap["UI_Background"] = new Texture2D("Resources/Image/UI_Background.png");
+
 }
 
 TextureManager::~TextureManager()

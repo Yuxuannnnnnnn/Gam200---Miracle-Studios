@@ -7,6 +7,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "Shader.h"
 
+#include "UIMesh.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <map>
 #include <ft2build.h>
@@ -27,6 +28,9 @@ public:
 	FontRenderer();
 
 	
+	void DrawHealth(float percentage);
+	void DrawProgress(float percentage);
+	void DrawUIBG();
 
 
 	void DrawFont(std::string& text, float xpos, float ypos, const glm::vec3& color = glm::vec3(0.2f, 0.8f, 0.2f));
@@ -43,4 +47,7 @@ private:
 	FT_Library _ft = nullptr;
 	FT_Face _face = nullptr;
 	Shader _shader{ "Resources/Shader/font.vert", "Resources/Shader/font.frag" };
+	Shader _shaderUI{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" };
+	UIMesh _uimesh;
+	glm::mat4 _projection;
 };

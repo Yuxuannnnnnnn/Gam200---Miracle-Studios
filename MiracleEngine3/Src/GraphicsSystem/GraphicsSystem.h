@@ -46,6 +46,8 @@ public:
 	//RenderMode _renderMode = None;
 	int num = 0;
 
+	void SetHealthPercentage(float percentage);
+	void SetProgressPercentage(float percentage);
 
 	GraphicsSystem(int windowWidth, int windowHeight);
 	Camera& GetCamera();
@@ -72,6 +74,9 @@ private:
 
 	Animation _testAnimation;
 	
+	float _healthpercentage = 1.0f;
+	float _progresspercentage = 1.0f;
+
 };
 
 #endif

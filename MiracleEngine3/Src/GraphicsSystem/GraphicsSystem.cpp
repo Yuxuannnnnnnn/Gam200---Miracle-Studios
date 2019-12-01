@@ -8,6 +8,17 @@
 #include "../LogicSystem/AiSystem.h"
 #include "FrameBuffer.h"
 
+void GraphicsSystem::SetHealthPercentage(float percentage)
+{
+	_healthpercentage = percentage;
+}
+
+void GraphicsSystem::SetProgressPercentage(float percentage)
+{
+	_progresspercentage = percentage;
+
+}
+
 GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight) : _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f) }
 {
@@ -19,6 +30,7 @@ Camera& GraphicsSystem::GetCamera()
 {
 	return _camera;
 }
+
 
 
 const TextureManager& GraphicsSystem::GetTextureManager() const
@@ -112,10 +124,23 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
-	if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
-	{
-		_fontRenderer.Draw();
-	}
+	//if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::MAIN_MENU)
+	//{
+		//_fontRenderer.Draw();
+	//}
+
+	_textureManager._textureMap["HP_Bar"]->Select();
+
+	_fontRenderer.DrawHealth(_healthpercentage);
+
+	_textureManager._textureMap["Progress_Bar"]->Select();
+
+	_fontRenderer.DrawProgress(_progresspercentage);
+
+	_textureManager._textureMap["UI_Background"]->Select();
+
+	_fontRenderer.DrawUIBG();
+
 
 	for (auto& e : _fontList)
 	{
