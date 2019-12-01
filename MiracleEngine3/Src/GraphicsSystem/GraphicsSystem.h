@@ -38,6 +38,28 @@ struct CircularBatterPlatform
 	glm::vec3 _scale;
 };
 
+struct Building1
+{
+	Building1(glm::vec3 pos, glm::vec3 scale)
+	{
+		_position = pos;
+		_scale = scale;
+	}
+	glm::vec3 _position;
+	glm::vec3 _scale;
+};
+
+
+struct Building2
+{
+	Building2(glm::vec3 pos, glm::vec3 scale)
+	{
+		_position = pos;
+		_scale = scale;
+	}
+	glm::vec3 _position;
+	glm::vec3 _scale;
+};
 enum RenderMode
 {
 	None,
@@ -68,7 +90,8 @@ public:
 	void CalculateProjectionMatrix(int windowWidth, int windowHeight);
 
 	void DrawCircularBatteryPlatform(const glm::vec3& position, const glm::vec3& scale);
-
+	void DrawBuilding1(const glm::vec3& position, const glm::vec3& scale);
+	void DrawBuilding2(const glm::vec3& position, const glm::vec3& scale);
 
 private:
 	void ClearScreen() const;
@@ -98,7 +121,8 @@ private:
 	int _windowHeight;
 
 	std::vector<CircularBatterPlatform> _circularplatformList;
-	
+	std::vector<Building1> _building1List;
+	std::vector<Building2> _building2List;
 };
 
 #define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix
