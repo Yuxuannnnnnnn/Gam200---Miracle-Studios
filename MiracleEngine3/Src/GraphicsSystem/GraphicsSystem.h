@@ -84,6 +84,8 @@ private:
 	int _windowWidth;
 	int _windowHeight;
 
+	glm::vec3 _position1;
+	glm::vec3 _scale1;
 };
 
 #define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix
