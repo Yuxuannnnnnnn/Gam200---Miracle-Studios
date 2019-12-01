@@ -40,11 +40,11 @@ public:
 
 
 	std::unordered_map < size_t, AudioComponent*> _soundList;
+
+	FMOD_SYSTEM* _fmodSystem;
 private:
 
 	SoundManager _soundManager;
-
-	FMOD_SYSTEM* _fmodSystem;
 
 	FMOD_CHANNEL* _channel1;
 	FMOD_CHANNEL* _channel2;

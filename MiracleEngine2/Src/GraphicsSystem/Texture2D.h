@@ -10,15 +10,13 @@ class Texture2D
 {
 private:
 	unsigned int _id;
-	std::string _filePath;
-	unsigned char* _localBuffer;
 	int _width;   // width and height of texture
 	int _height;
 	int _bpp;  // bit per pixel
 public:
 	unsigned int GetTextureID() const;
 
-	Texture2D(const std::string& path);
+	Texture2D();
 	~Texture2D();
 
 	void Select(unsigned int slot = 0) const;
@@ -26,6 +24,9 @@ public:
 
 	int GetWidth() const;
 	int GetHeight() const;
+
+	bool load(std::string path);
+	void unload();
 };
 
 #endif

@@ -27,41 +27,16 @@ public:
 	// delay between frames
 	float _frameDelay = 1.0f;
 
-
-	void Serialise(std::string filepath)
-	{
-		Serialiser file(filepath);
-
-		size_t NumOfFrames = file["NoofFrames"].GetInt();
-
-		Frame* ptr = nullptr;
-		float uv[4];	//buffer to contain the uv values temporary
-
-		for (int i = 0; i < NumOfFrames; i++)
-		{
-			// Array of U0, V0, U1, V1 - Array of 4 floats
-			for (int a = 0; a < 4; a++)
-			{
-				uv[a] = file[std::to_string(i).c_str()][a].GetFloat();
-			}
-
-			ptr = new Frame(uv[0], uv[1], uv[2], uv[3]);
-
-			frame.push_back(ptr);
-		}
-
-	}
+	bool load(std::string path);
+	void unload();
 
 private:
 
 	// vector of sprite frame make up a sequence of images, each frame is 1 image
-	std::vector<Frame*> frame;
+	std::vector<Frame*>* frame;
 	
 	// ID to select which spritesheet
 	int _textureID;
-
-
-	
 };
 
 #endif

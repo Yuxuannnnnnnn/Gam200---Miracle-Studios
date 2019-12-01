@@ -19,7 +19,7 @@ public:
 	GLint _id;
 
 public:
-	Shader(const char* vert, const char* frag);
+	Shader();
 	void Select() const;
 	int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const;
@@ -30,6 +30,9 @@ public:
 	
 	void SetUniform1f(const std::string& name, float value);
 	GLuint CompileShader(GLuint type, const std::string& source) const;
+
+	bool load(std::string path, std::string path2);
+	void unload();
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "SoundManager.h"
+#include "Tools/MemoryManager/ResourceManager.h"
 
 std::map<std::string, Sound*>& SoundManager::GetSoundMap()
 {
@@ -13,5 +14,8 @@ Sound* SoundManager::GetSound(std::string& name)
 
 void SoundManager::AddSound(std::string& name, std::string& path, SoundType type)
 {
-	_soundMap[name] = new Sound{ path, type };
+	if (ResourceManager::GetInstance().AddNewAudioResource({ name,path }))
+	{
+		_soundMap[name] = ResourceManager::GetInstance().GetSoundResource(name);
+	}
 }

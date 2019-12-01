@@ -17,71 +17,7 @@
 #include "../Dep/fmod/inc/fmod.h"
 #include "../Dep/fmod/inc/fmod_errors.h"
 #include "../Dep/fmod/inc/fmod.hpp"
-
-
-//void Load_Sound(Sound* sound);
-
-
-
-
 /*
-Texture2D_Resource* ResourceManager::NewGraphicResource(std::string file)
-{
-	Texture2D_Resource* newResource = reinterpret_cast<Texture2D_Resource*>(_Texture2DAllocater.Allocate());
-
-	stbi_set_flip_vertically_on_load(1);
-	unsigned char* buffer = stbi_load(file.c_str(), &newResource->_width, &newResource->_height, &newResource->_bpp, 4);
-
-	_bufferList.push_back(buffer);
-	newResource->_uId = newResource->_idCount++;
-
-	_Texture2DMap.insert(std::pair<std::string, Texture2D_Resource*>(file, newResource));
-
-	return newResource;
-}
-
-Shader_Resource* ResourceManager::NewShaderResource(std::string vert, std::string frag)
-{
-	Shader_Resource* newResource = reinterpret_cast<Shader_Resource*>(_ShaderAllocater.Allocate());
-	newResource->_success = 1;
-
-	std::string vertexCode;
-	std::string fragmentCode;
-	std::ifstream vShaderFile;
-	std::ifstream fShaderFile;
-	// ensure ifstream objects can throw exceptions:
-	vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	try
-	{
-		// open files
-		vShaderFile.open(vert);
-		fShaderFile.open(frag);
-		std::stringstream vShaderStream, fShaderStream;
-		// read file's buffer contents into streams
-		vShaderStream << vShaderFile.rdbuf();
-		fShaderStream << fShaderFile.rdbuf();
-		// close file handlers
-		vShaderFile.close();
-		fShaderFile.close();
-		// convert stream into string
-		vertexCode = vShaderStream.str();
-		fragmentCode = fShaderStream.str();
-
-		_vertexCodeList.push_back(vertexCode);
-		_fragmentCodeList.push_back(fragmentCode);
-		newResource->_uId = newResource->_idCount++;
-	}
-	catch (std::ifstream::failure e)
-	{
-		newResource->_success = 0;
-		//std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-	}
-
-	_ShaderMap.insert(std::pair<std::string, Shader_Resource*>(vert, newResource));
-
-	return newResource;
-}
 
 Font_Resource* ResourceManager::NewFontResource(std::string file)
 {

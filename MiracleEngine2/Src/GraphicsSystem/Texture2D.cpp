@@ -6,27 +6,10 @@
 int Texture2D::GetWidth() const { return _width; }
 int Texture2D::GetHeight() const { return _height; }
 
-Texture2D::Texture2D(const std::string& path)
-	: _id(0), _filePath(path), _localBuffer(nullptr),
+Texture2D::Texture2D()
+	: _id(0),
 	_width(0), _height(0), _bpp(0)
 {
-
-	stbi_set_flip_vertically_on_load(1);
-	unsigned char* buffer = stbi_load(path.c_str(), &_width, &_height, &_bpp, 4);
-
-	glEnable(GL_BLEND);
-	
-	glGenTextures(1, &_id);
-	glBindTexture(GL_TEXTURE_2D, _id);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _localBuffer);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
 }
 
 Texture2D::~Texture2D()
@@ -50,3 +33,35 @@ unsigned int Texture2D::GetTextureID() const
 {
 	return _id;
 }
+
+
+bool Texture2D::load(std::string path)
+{
+	stbi_set_flip_vertically_on_load(1);
+	unsigned char* buffer = stbi_load(path.c_str(), &_width, &_height, &_bpp, 4);
+
+	if (!buffer)
+		return false;
+
+
+	glEnable(GL_BLEND);
+
+	glGenTextures(1, &_id);
+	glBindTexture(GL_TEXTURE_2D, _id);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return true;
+}
+
+void Texture2D::unload()
+{
+	glDeleteTextures(1, &_id);
+}
+

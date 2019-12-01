@@ -24,23 +24,25 @@ struct Character {
 class FontRenderer
 {
 public:
-	FontRenderer();
-
-	
-
-
+	FontRenderer() = default;
 	void DrawFont(std::string& text, float xpos, float ypos, const glm::vec3& color = glm::vec3(0.2f, 0.8f, 0.2f));
 
 	void Draw();
 
+	bool load(std::string path);
+	void unload();
+
 private:
 	void RenderText(Shader& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color);
-	std::map<GLchar, Character> _characters;
+	size_t _characterMapId;
 	GLuint _texture;
 	GLuint _sampler;
 	GLuint _vao;
 	GLuint _vbo;
 	FT_Library _ft = nullptr;
 	FT_Face _face = nullptr;
-	Shader _shader{ "Resources/Shader/font.vert", "Resources/Shader/font.frag" };
+	Shader* _shader;
+
+
+	static size_t mapCounts;
 };

@@ -31,7 +31,9 @@ public:
 	typedef std::unordered_map<std::string, Sound*> AudioMap;
 	typedef std::unordered_map<std::string, Animation*> AnimationMap;
 
+	typedef std::unordered_map<size_t, std::unordered_map<GLchar, Character>> FontCharacterMap;
 
+	FontCharacterMap _fontCharacterMaps;
 private:
 	Texture2DMap _Texture2DMap;
 	ShaderMap _ShaderMap;
@@ -67,17 +69,29 @@ public:
 	void AddAudioResourceList(NamePathMap list);
 	void AddAnimationResourceList(NamePathMap list);
 
-	void AddNewTexture2DResource(NamePath list);
-	void AddNewShaderResource(NamePair list);
-	void AddNewFontResource(NamePath list);
-	void AddNewAudioResource(NamePath list);
-	void AddNewAnimationResource(NamePath list);
+	bool AddNewTexture2DResource(NamePath list);
+	bool AddNewShaderResource(NamePair list);
+	bool AddNewFontResource(NamePath list);
+	bool AddNewAudioResource(NamePath list);
+	bool AddNewAnimationResource(NamePath list);
 
 	Texture2D* GetTexture2DResource(std::string& name);
 	Shader* GetShaderResource(std::string& name);
 	FontRenderer* GetFontResource(std::string& name);
 	Sound* GetSoundResource(std::string& name);
 	Animation* GetAnimationResource(std::string& name);
+
+	std::string GetTexture2DResourcePath(std::string& name);
+	std::pair<std::string, std::string> GetShaderResourcePath(std::string& name);
+	std::string GetFontResourcePath(std::string& name);
+	std::string GetSoundResourcePath(std::string& name);
+	std::string GetAnimationResourcePath(std::string& name);
+
+	NamePathMap GetTexture2DList();
+	NamePairMap GetShaderList();
+	NamePathMap GetFontList();
+	NamePathMap GetSoundList();
+	NamePathMap GetAnimationlist();
 };
 
 #endif

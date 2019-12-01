@@ -74,7 +74,11 @@ public:
 	{
 		_console = new Console(); //Create a Logging console
 		_windowSystem = new WindowsSystem(hInstance, nCmdShow); //Create Window object in it
-		_imguiSystem = new ImguiSystem(_windowSystem->getWindow());
+
+
+		_audioSystem = new AudioSystem();
+
+		
 
 		_gameStateManager = new GameStateManager();
 
@@ -83,7 +87,7 @@ public:
 		_aiSystem = new AISystem();
 		_graphicsSystem = new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), _windowSystem->getWindow().GetWindowHeight());
 		_physicsSystem = new PhysicsSystem();
-		_audioSystem = new AudioSystem();
+		
 
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
 		_performanceUsage = new PerformanceUsage();
@@ -98,6 +102,8 @@ public:
 		_rigidbodyManager = new RigidbodyManager();
 		_imGuizmoManager = new ImGuizmoManager();
 		_transforManager = new TransformManager();
+
+		_imguiSystem = new ImguiSystem(_windowSystem->getWindow());
 	}
 
 	virtual ~EngineSystems()
