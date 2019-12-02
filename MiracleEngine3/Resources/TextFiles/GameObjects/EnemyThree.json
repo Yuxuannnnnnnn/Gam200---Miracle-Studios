@@ -6,12 +6,12 @@
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],
-  "Scale": [ 70.0, 70.0 ],
+  "Scale": [ 100.0, 100.0 ],
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "enemy2",
+  "G.FileName": "enemy3",
 
   "RigidBodyComponent": true,
   "Mass": 5.0,
@@ -25,8 +25,8 @@
 
   "LogicComponent": true,
   "ScriptId": [ "ENEMYTHREE" ],
-  "Health": 5,
-  "AttackRange": 4,
+  "Health": 20,
+  "AttackRange": 10,
   "StunDuration": 5.0,
 
   "AudioComponent": true,

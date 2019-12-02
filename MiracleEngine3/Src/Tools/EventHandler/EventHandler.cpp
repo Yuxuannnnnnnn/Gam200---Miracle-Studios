@@ -31,6 +31,7 @@ void EventHandler::BroadcastObjectEvents()
 	BroadcastComponentCreationEvents();
 	BroadcastComponentDeletionEvents();
 	BroadcastObjectDeletionEvents();
+	
 }
 
 
@@ -369,7 +370,7 @@ void EventHandler::BroadcastComponentDeletionEvents()
 {
 	for (auto it = _DeleteComponentQueue.begin(); it != _DeleteComponentQueue.end(); ++it)
 	{
-		SendSystemEventMessage(it->first, EventMessageType::COMPONENT_DELETION, it->second, nullptr);
+		SendSystemEventMessage(it->first, EventMessageType::COMPONENT_DELETION, nullptr, nullptr);
 
 		if (it->second == ComponentId::BUTTON_COMPONENT)
 		{

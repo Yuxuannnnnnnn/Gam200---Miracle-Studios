@@ -37,7 +37,7 @@ void GameObjectFactory::UpdateDestoryObjects()
 			if(!it.second->GetAlive())
 				DestoryGameObject(it.second);
 
-			it.second->SetAlive(false);
+			//it.second->SetAlive(false);
 		}
 	}
 }
@@ -101,12 +101,12 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 	{
 		newObject = new GameObject(_uId++);
 
-		PickingCollider* pickObject = new PickingCollider();
+	/*	PickingCollider* pickObject = new PickingCollider();
 		pickObject->SetParentId(newObject->Get_uID());
 		pickObject->SetParentPtr(newObject);
 
 		_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
-		EngineSystems::GetInstance()._physicsSystem->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+		EngineSystems::GetInstance()._physicsSystem->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));*/
 	}
 
 	_listObject.insert(std::pair< size_t, GameObject* >(newObject->Get_uID(), newObject));
@@ -124,10 +124,10 @@ void GameObjectFactory::DestoryGameObject(GameObject* object)
 	for (auto it : _listObject[id]->GetComponentList())
 		RemoveComponent(_listObject[id], (ComponentId)it.first);
 
-	{
+	/*{
 		_pickList.erase(id);
 		EngineSystems::GetInstance()._physicsSystem->_pickList.erase(id);
-	}
+	}*/
 
 	delete _listObject[id];
 	_listObject.erase(id);

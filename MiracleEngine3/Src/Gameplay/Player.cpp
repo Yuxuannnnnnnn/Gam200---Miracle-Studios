@@ -183,10 +183,10 @@ void Player::UpdateUI()
 
 void Player::UpdateInput()
 {
- //OTHERS
-	//if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu
-	//	_InputStyle = INGAME_PAUSE_ESCAPE;
-// SCALE
+	//OTHERS
+	   //if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu
+	   //	_InputStyle = INGAME_PAUSE_ESCAPE;
+   // SCALE
 	Vector3 scaleVec = ((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetScale();
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_LEFT))
 		scaleVec._x -= 1;
@@ -197,8 +197,8 @@ void Player::UpdateInput()
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_DOWN))
 		scaleVec._y -= 1;
 	((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->SetScale(scaleVec);
-// MOVEMENT
-	float spd = 5.f * 10000; // get spd
+	// MOVEMENT
+	float spd = 3.f * 10000; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
 		AddForce(GetParentId(), Vector3(0, 1, 0), spd);
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_A))
@@ -207,7 +207,7 @@ void Player::UpdateInput()
 		AddForce(GetParentId(), Vector3(1, 0, 0), spd);
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_S))
 		AddForce(GetParentId(), Vector3(0, -1, 0), spd);
-// MOUSE
+	// MOUSE
 	Vector3 aimVector = { // use aimVector to determine direction player is facing
 		EngineSystems::GetInstance()._inputSystem->GetMousePos()._x,
 		EngineSystems::GetInstance()._inputSystem->GetMousePos()._y,
@@ -222,7 +222,7 @@ void Player::UpdateInput()
 	{
 		WeaponShoot();
 	}
-// NUMBERS
+	// NUMBERS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_1))
 	{	// spawn TURRET
@@ -250,8 +250,9 @@ void Player::UpdateInput()
 				((TransformComponent*)(GetSibilingComponent((unsigned)ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 		}
 	}
-// KEYS
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q))
+	// KEYS
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
 	{
 		WeaponSwitch();
 	}
@@ -272,7 +273,8 @@ void Player::UpdateInput()
 			}
 		}
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
 	{
 		_god = !_god;
 		if (!_god)

@@ -31,6 +31,9 @@ void Engine::Update()
 	while (_sceneManager->GetCurrentScene() != Scenes::QUIT)	//GameState Logic Starts here
 	{
 
+		double dt = _frameRateControl->UpdateFrameTime();
+		int accumlatedframes = _frameRateControl->GetSteps();
+
 		//_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
@@ -46,24 +49,13 @@ void Engine::Update()
 		_performanceUsage->IMGUIFrameTime = _frameRateControl->EndTimeCounter();
 
 		_performanceUsage->PrintPerformanceUsage();
-#endif
-
-		double dt = _frameRateControl->UpdateFrameTime();
-		int accumlatedframes = _frameRateControl->GetSteps();
-
-#ifdef LEVELEDITOR
 		_performanceUsage->PerFrameTime = _frameRateControl->GetFrameTime();
 		_performanceUsage->FPS = _frameRateControl->GetFPS();
-#endif
 
 
-#ifdef LEVELEDITOR
 		_frameRateControl->StartTimeCounter();
-#endif
-
 		_inputSystem->Update(_windowSystem->getWindow());
 		EventHandler::GetInstance().BroadcastInputEvents();
-#ifdef LEVELEDITOR
 		_performanceUsage->InputFrameTime = _frameRateControl->EndTimeCounter();
 
 		/*if (_inputSystem->KeyRelease(KEYB_Z))
@@ -72,34 +64,21 @@ void Engine::Update()
 
 		// Logic
 		_frameRateControl->StartTimeCounter();
-
 		if (!_imguiSystem->_pause)
-#endif 
-		{
 			_logicSystem->Update(dt);
-		}
-
 		_aiSystem->Update(dt);
-
-#ifdef LEVELEDITOR
-
-
 		_performanceUsage->LogicFrameTime = _frameRateControl->EndTimeCounter();
 
 		// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
+	
 		_frameRateControl->StartTimeCounter();
-
 		if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
 			_physicsSystem->UpdatePicking();
-#endif
 
 		if (accumlatedframes)
 		{
 			double fixedDt = _frameRateControl->GetLockedDt();
-
-#ifdef LEVELEDITOR
 			if (!_imguiSystem->_pause)
-#endif
 			{
 				while (accumlatedframes)
 				{
@@ -110,34 +89,23 @@ void Engine::Update()
 				}
 			}
 		}
+		if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
+			_physicsSystem->UpdateDraw();
 
-#ifdef LEVELEDITOR
 		_performanceUsage->PhysicFrameTime = _frameRateControl->EndTimeCounter();
+
+		
 
 		// Audio
 		_frameRateControl->StartTimeCounter();
-
 		if (!_imguiSystem->_pause)
-#endif
-		{
 			_audioSystem->Update();
-		}
-
-#ifdef LEVELEDITOR
 		_performanceUsage->AudioFrameTime = _frameRateControl->EndTimeCounter();
 
 		// Graphics
 		_frameRateControl->StartTimeCounter();
-#endif
-
-		
 		_graphicsSystem->Update(dt);
-
-#ifdef LEVELEDITOR
 		_performanceUsage->GraphicFrameTime = _frameRateControl->EndTimeCounter();
-
-		if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
-			_physicsSystem->UpdateDraw();
 
 		// example to draw debug line and circle, to remove later
 		/*DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
@@ -146,6 +114,31 @@ void Engine::Update()
 		_frameRateControl->StartTimeCounter();
 		_imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 		_performanceUsage->IMGUIFrameTime += _frameRateControl->EndTimeCounter();
+#else
+
+		_inputSystem->Update(_windowSystem->getWindow());
+		_physicsSystem->UpdateButtons();
+		EventHandler::GetInstance().BroadcastInputEvents();
+
+
+		if (accumlatedframes)
+		{
+			double fixedDt = _frameRateControl->GetLockedDt();
+
+			while (accumlatedframes)
+			{
+				_logicSystem->Update(dt);
+				_aiSystem->Update(dt);
+				_physicsSystem->Update(fixedDt);
+				EventHandler::GetInstance().BroadcastCollisionEvents();
+				--accumlatedframes;
+			}
+		}
+
+
+		_audioSystem->Update();
+		_graphicsSystem->Update(dt);
+
 #endif
 
 		EventHandler::GetInstance().BroadcastObjectEvents();

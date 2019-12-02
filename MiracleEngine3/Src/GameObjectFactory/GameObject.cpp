@@ -6,6 +6,8 @@
 #include "Engine/EngineSystems.h"
 #include "Tools/FileIO/Serialiser.h"
 
+#include"Tools/EventHandler/EventHandler.h"
+
 GameObject::GameObject(size_t uId, unsigned typeId)
 	:_uId{ uId }, _typeId{ typeId }, _destory{ false }, _enable{ true }, _alive{ true }
 {
@@ -135,4 +137,40 @@ void GameObject::DestoryGameObject()
 void GameObject::Set_typeId(TypeIdGO type)
 {
 	_typeId = (unsigned)type;
+}
+
+bool  GameObject::GetAlive()
+{ 
+	return _alive; 
+}
+
+void  GameObject::SetAlive(bool alive) 
+{ 
+	_alive = alive; 
+	EventHandler::GetInstance().AddDeletionEvent(_uId);
+}
+
+bool  GameObject::GetDestory() const 
+{ 
+	return _destory; 
+}
+
+void  GameObject::SetDestory()
+{
+	_destory = true;
+	SetEnable(false);
+	EventHandler::GetInstance().AddDeletionEvent(_uId);;
+}
+
+bool  GameObject::GetEnable() const 
+{ 
+	return _enable; 
+}
+
+void  GameObject::SetEnable(bool enable)
+{
+	_enable = enable;
+
+	for (auto it : _ComponentList)
+		it.second->SetEnable(enable);
 }

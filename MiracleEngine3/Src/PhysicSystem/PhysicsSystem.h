@@ -55,6 +55,8 @@ public:
 	void RemovePick(size_t uid);
 	void RemoveTransform(size_t uid);
 
+	void UpdateButtons();
+
 protected:
 	RigidBody2D* GetRigidBody2D(size_t uId);
 	TransformComponent* GetTransform(size_t uId);
@@ -69,7 +71,7 @@ private:
 	void UpdateStaticCollision(double dt);
 	int CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir = 0, unsigned checked = 0);
 	void CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt);
-	void UpdateButtons();
+	
 
 
 	void DrawRigidbody2D();

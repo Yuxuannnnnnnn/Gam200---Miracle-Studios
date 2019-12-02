@@ -224,8 +224,19 @@ void GraphicsSystem::Update(double dt)
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(transformComponent->GetPos()._x
 			, transformComponent->GetPos()._y, graphicComponent->GetRenderLayer()));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transformComponent->GetRotate(), glm::vec3(0, 0, 1));
-		glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
-			glm::vec3(transformComponent->GetScale()._x, transformComponent->GetScale()._y, 1.0f));
+		glm::mat4 model;
+		if (graphicComponent->GetFileName() == "enemy3")
+		{
+			model = translate * rotate * glm::scale(glm::mat4(1.0f),
+				glm::vec3(transformComponent->GetScale()._x * 3, transformComponent->GetScale()._y * 3, 1.0f));
+		}
+		else
+		{
+			 model = translate * rotate * glm::scale(glm::mat4(1.0f),
+				glm::vec3(transformComponent->GetScale()._x, transformComponent->GetScale()._y, 1.0f));
+		}
+
+	
 
 		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
 
