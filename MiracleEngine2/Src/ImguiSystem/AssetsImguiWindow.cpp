@@ -110,7 +110,23 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 
 void AssetsImguiWindow::Update()
 {
+
 	ImGui::SetWindowFontScale(1);
+
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File  "))
+		{
+			if (ImGui::MenuItem("Create New Prototype  "))
+			{
+				GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+				EngineSystems::GetInstance()._gameObjectFactory->AddComponent(newGameobject, ComponentId::IDENTITY_COMPONENT);
+				InspectionImguiWindow::InspectGameObject(newGameobject);
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
 
 	if (ImGui::CollapsingHeader("Scenes"))
 	{
@@ -155,6 +171,14 @@ void AssetsImguiWindow::Update()
 					//ImGuiID id = ImGui::GetID(string.c_str());
 					//ImGui::GetStateStorage()->SetInt(id, 0);
 				}
+			}
+
+			ImGui::Spacing();
+			std::string string1 = "Create Game Object " + ObjPair.first;
+			if (ImGui::Button(string1.c_str()))
+			{
+				GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[ObjPair.first]);
+				dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3::Vec3Zero);
 			}
 			//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 			//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
