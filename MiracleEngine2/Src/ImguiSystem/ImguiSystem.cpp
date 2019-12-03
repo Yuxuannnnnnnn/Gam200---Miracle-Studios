@@ -46,6 +46,8 @@ ImguiSystem::ImguiSystem(const Window& window)
 	_ImguiWindows["Hierarchy"] = new HierarchyImguiWindow();
 	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
 	_ImguiWindows["Assets"] = new AssetsImguiWindow();
+	_ImguiWindows["Texture"] = new TextureImguiWindow();
+
 	//_ImguiWindows["PreFab"] = new PreFabImguiWindow();
 	/*
 	_ImguiWindows[ImguiWindows::SCENE] = new Scene();
@@ -60,10 +62,10 @@ void ImguiSystem::UpdateFrame()
 	ImGui_ImplWin32_NewFrame();		//
 	ImGui::NewFrame();				///
 
-	//if (true)
-	//{
-	//	ImGui::ShowDemoWindow(); 		//Show Demo Window
-	//}
+	if (true)
+	{
+		ImGui::ShowDemoWindow(); 		//Show Demo Window
+	}
 
 	if (ImGui::BeginMainMenuBar())
 	{

@@ -19,7 +19,6 @@ void ImGuizmoManager::Update()
 
 			if (TestBoxVsPoint(*it.second, pos))
 			{
-				_pickUId = it.second->GetParentId();
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
 				return;
 			}

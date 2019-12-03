@@ -582,6 +582,7 @@
     <ClInclude Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.h" />
     <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
     <ClInclude Include="Src\GameObjectComponents\TileMapComponent.h" />
+    <ClInclude Include="Src\ImguiSystem\TextureImguiWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp">
@@ -739,6 +740,7 @@
     <ClCompile Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.cpp" />
     <ClCompile Include="Src\WindowsSystem\WIndowsSystem.cpp" />
     <ClCompile Include="Src\GameObjectComponents\TileMapComponent.cpp" />
+    <ClCompile Include="Src\ImguiSystem\TextureImguiWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />
@@ -911,13 +913,13 @@
     <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
-    <None Include="Resources\TextFiles\States\GameScenes.json" />
-    <None Include="Resources\TextFiles\States\Level1.json" />
+    <None Include="Resources\TextFiles\Scenes\GameScenes\GameScenes.json" />
+    <None Include="Resources\TextFiles\Scenes\Scenes\Level1.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Resources\TextFiles\States\MainMenu.json" />
+    <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

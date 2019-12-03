@@ -3,6 +3,8 @@
 #include "IBaseImguiWindow.h"
 #include "AssetsImguiWindow.h"
 #include "PreFabImguiWindow.h"
+#include "TextureImguiWindow.h"
+
 
 class ImguiSystem
 {
@@ -16,6 +18,10 @@ private:
 public:
 	bool _editorMode;
 
+	std::unordered_map<std::string, IBaseImguiWindow*> GetWindows()
+	{
+		return _ImguiWindows;
+	}
 
 	ImguiSystem(const Window& window); //Initialise ImguiSystem
 

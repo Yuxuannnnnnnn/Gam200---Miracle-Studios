@@ -9,6 +9,7 @@
 #include "GameObjectComponents/GraphicComponents/CameraComponent.h"
 #include "GameObjectComponents/GraphicComponents/FontComponent.h"
 #include "Tools/FileIO/Serialiser.h"
+#include <algorithm>
 
 class GameObjectFactory final
 {	
@@ -32,7 +33,19 @@ class GameObjectFactory final
 
 	std::unordered_map<size_t, TileMapComponent*>		_TileMapComponents;
 
+
 public:
+
+	bool CheckObjOrignialPointer(GameObject * obj)
+	{
+		for (auto& pair : _listObject)
+		{
+			if(pair.second == obj)
+				return true;
+		}
+		return false;
+	}
+
 
 	const std::unordered_map < size_t, TileMapComponent*>& getTileMapComponents ()
 	{

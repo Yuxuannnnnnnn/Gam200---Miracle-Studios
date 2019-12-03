@@ -107,6 +107,7 @@
     <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
     <ClCompile Include="Src\GameObjectComponents\TileMapComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\DataComponent.cpp" />
+    <ClCompile Include="Src\ImguiSystem\TextureImguiWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -524,6 +525,7 @@
     <ClInclude Include="Src\Gameplay\EnemyThree.h" />
     <ClInclude Include="Src\GameObjectComponents\TileMapComponent.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\DataComponent.h" />
+    <ClInclude Include="Src\ImguiSystem\TextureImguiWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -683,7 +685,6 @@
     <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
     <None Include="Resources\TextFiles\GameObjects\Font.json" />
-    <None Include="Resources\TextFiles\States\Level1.json" />
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
     <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
@@ -697,11 +698,12 @@
     <None Include="Resources\TextFiles\GameObjects\player.json" />
     <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
     <None Include="Resources\TextFiles\GameObjects\Button.json" />
-    <None Include="Resources\TextFiles\States\GameScenes.json" />
     <None Include="Resources\TextFiles\AnimationData\DatafileExplosionBluePlasma24FPSSprite.json" />
     <None Include="Resources\TextFiles\AnimationData\CatAnimation.json" />
+    <None Include="Resources\TextFiles\Scenes\GameScenes\GameScenes.json" />
+    <None Include="Resources\TextFiles\Scenes\Scenes\Level1.json" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Resources\TextFiles\States\MainMenu.json" />
+    <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />
   </ItemGroup>
 </Project>

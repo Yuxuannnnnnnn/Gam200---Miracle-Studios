@@ -74,7 +74,7 @@ void ResourceManager::ClearCurrentResources()
 
 void ResourceManager::AddTexture2DResourceList(NamePathMap list)
 {
-	for (auto it : list)
+	for (auto& it : list)
 		AddNewTexture2DResource(it);
 }
 

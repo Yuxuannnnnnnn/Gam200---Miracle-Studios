@@ -11,7 +11,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 	std::string shadersPath = "./Resources/Shader";	//Can Write and Add New Shader File?
 	std::string fontsPath = "./Resources/Fonts";
 
-	std::string statesPath = "./Resources/TextFiles/States";
+	std::string statesPath = "./Resources/TextFiles/Scenes/Scenes";
 	std::string gameObjectsPath = "./Resources/TextFiles/GameObjects";
 
 	typedef std::unordered_map<std::string, std::string> NamePath;
@@ -35,8 +35,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << textureFile.path() << std::endl;
 			std::string path = textureFile.path().u8string();
-			size_t namesize = path.find_last_of(".png") - 4 - path.find_last_of("\\");
-			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
+			//size_t namesize = path.find_last_of(".png") - 4 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
@@ -110,27 +110,20 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 
 void AssetsImguiWindow::Update()
 {
-
 	ImGui::SetWindowFontScale(1);
 
-	if (ImGui::BeginMainMenuBar())
+	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("File  "))
 		{
-			if (ImGui::MenuItem("Create New Prototype  "))
-			{
-				GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
-				EngineSystems::GetInstance()._gameObjectFactory->AddComponent(newGameobject, ComponentId::IDENTITY_COMPONENT);
-				InspectionImguiWindow::InspectGameObject(newGameobject);
-			}
-			ImGui::EndMenu();
 		}
-		ImGui::EndMainMenuBar();
+		ImGui::EndMenuBar();
 	}
 
 	if (ImGui::CollapsingHeader("Scenes"))
 	{
 		auto& allScenes = _engineSystems._sceneManager->GetAllScenes();
+		ImGui::Spacing();
 
 		for (auto& scenePair : allScenes)
 		{
@@ -141,8 +134,10 @@ void AssetsImguiWindow::Update()
 			{
 				if (ImGui::IsMouseReleased(0))
 				{
+					_engineSystems._sceneManager->ChangeScene(scenePair.first);
 				}
 			}
+			ImGui::Spacing();
 		}
 		//ImGui::TreePop();
 	}
@@ -151,6 +146,18 @@ void AssetsImguiWindow::Update()
 	if (ImGui::CollapsingHeader("Prototypes"))
 	{
 		std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
+		ImGui::Spacing();
+
+		std::string string1 = "Create New Prototype ";
+		if (ImGui::Button(string1.c_str()))
+		{
+			GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+			EngineSystems::GetInstance()._gameObjectFactory->AddComponent(newGameobject, ComponentId::IDENTITY_COMPONENT);
+			InspectionImguiWindow::InspectGameObject(newGameobject);
+		}
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
 
 	//	int i = 0;
 		for (auto& ObjPair: PrototypeList)
@@ -173,8 +180,9 @@ void AssetsImguiWindow::Update()
 				}
 			}
 
-			ImGui::Spacing();
-			std::string string1 = "Create Game Object " + ObjPair.first;
+			ImGui::SameLine();
+
+			std::string string1 = "Clone " + ObjPair.first;
 			if (ImGui::Button(string1.c_str()))
 			{
 				GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[ObjPair.first]);
@@ -185,6 +193,8 @@ void AssetsImguiWindow::Update()
 			//ImGui::TreePop();
 			//ImGuiID id = ImGui::GetID(string.c_str());
 			//ImGui::GetStateStorage()->SetInt(id, 0);
+
+			ImGui::Spacing();
 		}
 		
 		//ImGui::TreePop();
@@ -193,19 +203,27 @@ void AssetsImguiWindow::Update()
 
 	if (ImGui::CollapsingHeader("Textures"))
 	{
+		ImGui::Spacing();
+
 		auto textureFiles = ResourceManager::GetInstance().GetTexture2DList();
 
 		for (auto& texturePair : textureFiles)
 		{
 			static bool selected;
 			std::string string = " - " + texturePair.first;
+			Texture2D* texture = ResourceManager::GetInstance().GetTexture2DResource(texturePair.first);
+			TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
 
 			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
 			{
 				if (ImGui::IsMouseReleased(0))
 				{
+					TextureImguiWindow::setTexture(textureWindow, texture, texturePair.first);
 				}
 			}
+
+			ImGui::Spacing();
+
 		}
 		//ImGui::TreePop();
 
@@ -214,6 +232,8 @@ void AssetsImguiWindow::Update()
 
 	if (ImGui::CollapsingHeader("Shaders"))
 	{
+		ImGui::Spacing();
+
 		//ImGui::TreePop();
 		for (auto& vertexPair : _vertexFiles)
 		{
@@ -226,6 +246,8 @@ void AssetsImguiWindow::Update()
 				{
 				}
 			}
+			ImGui::Spacing();
+
 		}
 
 		for (auto& fragmentPair : _fragmentFiles)
@@ -239,12 +261,15 @@ void AssetsImguiWindow::Update()
 				{
 				}
 			}
+			ImGui::Spacing();
 		}
 
 	}
 
 	if (ImGui::CollapsingHeader("Fonts"))
 	{
+		ImGui::Spacing();
+
 		auto fontFiles = ResourceManager::GetInstance().GetFontList();
 
 		for (auto& fontPair : fontFiles)
@@ -258,6 +283,7 @@ void AssetsImguiWindow::Update()
 				{
 				}
 			}
+			ImGui::Spacing();
 		}
 
 		//ImGui::TreePop();
@@ -265,6 +291,8 @@ void AssetsImguiWindow::Update()
 
 	if (ImGui::CollapsingHeader("Audio"))
 	{
+		ImGui::Spacing();
+
 		auto audioFiles = ResourceManager::GetInstance().GetSoundList();
 
 		for (auto& audioPair : audioFiles)
@@ -278,6 +306,8 @@ void AssetsImguiWindow::Update()
 				{
 				}
 			}
+			ImGui::Spacing();
+
 		}
 
 		//ImGui::TreePop();
@@ -285,6 +315,8 @@ void AssetsImguiWindow::Update()
 
 	if (ImGui::CollapsingHeader("Animation Data Files"))
 	{
+		ImGui::Spacing();
+
 		auto animationData = ResourceManager::GetInstance().GetSoundList();
 
 		for (auto& animationPair : animationData)
@@ -298,6 +330,8 @@ void AssetsImguiWindow::Update()
 				{
 				}
 			}
+			ImGui::Spacing();
+
 		}
 		//ImGui::TreePop();
 	}

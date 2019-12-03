@@ -1,10 +1,10 @@
 {
 	"IdentityComponent": true,
 	"Name": "none",
-	"ObjectType": "Background Music",
+	"ObjectType": "BackgroundMusic",
 
 	"AudioComponent": true,
 	"A.TypeId": 0,
-	"A.FileName": "audio_enemy.ogg",
+	"A.FileName": "audioEnemy.ogg",
 	"IsBGM": true
 }

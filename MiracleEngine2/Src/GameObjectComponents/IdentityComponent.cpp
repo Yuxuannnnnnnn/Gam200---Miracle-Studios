@@ -71,16 +71,18 @@ void IdentityComponent::Inspect()
 {
 	ImGui::Spacing();
 	std::string string = std::string("Game Object Type ");
-
-	char name[100] = " ";
-	ImGui::InputText(string.c_str(), name, 100);
+	char ptr[100] = " ";
+	strncpy(ptr, _ObjectType.c_str(), _ObjectType.length());
+	ImGui::InputText(string.c_str(), ptr, 100);
 	ImGui::Spacing();
-	_ObjectType = name;
+	_ObjectType = ptr;
 
-	char name1[100] =  " ";
+
+	char ptr1[100] = " ";
+	strncpy(ptr1, _name.c_str(), _name.length());
 	string = "Name of Object ";
-	ImGui::InputText(string.c_str(), name, 100);
-	_name = name1;
+	ImGui::InputText(string.c_str(), ptr1, 100);
+	_name = ptr1;
 	ImGui::Spacing();
 }
 
