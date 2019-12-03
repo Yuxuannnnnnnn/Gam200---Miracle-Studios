@@ -63,26 +63,20 @@ void EventHandler::SendSystemEventMessage(size_t uId, EventMessageType type, T m
 	GameObject* gameObject = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[uId];
 	ComponentId id;
 
-	if (type == EventMessageType::COMPONENT_CREATION)
-	{
+	if (type == EventMessageType::OBJECT_DELETION)
+	{/*
 		EngineSystems::GetInstance()._physicsSystem->RemoveRigidBody2d(uId);
 		EngineSystems::GetInstance()._physicsSystem->RemoveCollider2d(uId);
 		EngineSystems::GetInstance()._physicsSystem->RemoveButton(uId);
 		EngineSystems::GetInstance()._physicsSystem->RemovePick(uId);
-		EngineSystems::GetInstance()._physicsSystem->RemoveTransform(uId);
+		EngineSystems::GetInstance()._physicsSystem->RemoveTransform(uId);*/
 
 		/*EngineSystems::GetInstance()._graphicsSystem->RemoveSprite(uId);
 		EngineSystems::GetInstance()._graphicsSystem->RemoveTransform(uId);*/
 
 		//remove logic component
-
 		gameObject->DestoryGameObject();
-	}
-	else if (type == EventMessageType::COMPONENT_CREATION || type == EventMessageType::COMPONENT_DELETION)
-	{
-
-
-
+		
 	}
 	(void)message;
 	(void)message2;

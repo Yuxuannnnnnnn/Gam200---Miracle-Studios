@@ -292,16 +292,16 @@ void AISystem::CreateNodeMap()
 	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 3.0 * tilesize, -10.0f * tilesize,1 }, { 800,1000,1 }, 9.0f);
 	EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 1.0 * tilesize, 10.0f * tilesize,1 }, { 600,1000,1 }, 11.0f);
 
-	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ -5.5f * tilesize,-3.5f * tilesize,1 }, { 900,900,1 },4.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ -5.3f * tilesize,-3.5f * tilesize,1 }, { 900,900,1 },4.0f);
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 0.0f * tilesize, 3.0f * tilesize,1 }, { 550, 950,1 });
-	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 4.0f * tilesize, 8.5f * tilesize,1 }, { 425, 330,1 }, PI/2);
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 4.0f * tilesize, 8.5f * tilesize,1 }, { 280, 330,1 }, PI/2);
 	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 5.5f * tilesize, 11.5f * tilesize,1 }, { 400, 400,1 },1.0f);
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 10.0f * tilesize, 9.9f * tilesize,1 }, { -450, -580,1 });
-	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 12.0f * tilesize, 1.0f * tilesize,1 }, { 1080, 1080,1 },3.0f);
+	EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 11.9f * tilesize, 0.9f * tilesize,1 }, { 1080, 1080,1 },3.0f);
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding1({ -6.0f * tilesize, 9.8f * tilesize,1 }, { 1150, 900,1 });
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ -15.5f * tilesize, 10.9f * tilesize,1 }, { -650, -580,1 });
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ -15.5f * tilesize, 5.1f * tilesize,1 }, { 650, 580,1 });
-	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ -13.0f * tilesize, -11.0f * tilesize,1 }, { 680,780,1 }, PI/2);
+	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ -12.9f * tilesize, -11.0f * tilesize,1 }, {430,780,1 }, PI/2);
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding3({ 11.5f * tilesize, -9.5f * tilesize,1 }, { 1000, 1000,1 });
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 7.5f * tilesize, -9.5f * tilesize,1 }, { 500, 680,1 });
 	EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 15.5f * tilesize, -9.5f * tilesize,1 }, { 500, 680,1 });

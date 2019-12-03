@@ -27,7 +27,7 @@ TransformComponent* PhysicsSystem::GetTransform(size_t uId)
 
 void PhysicsSystem::Update(double dt)
 {
-	UpdateButtons();
+	//UpdateButtons();
 	UpdatePhyiscs(dt);
 	UpdateCollision(dt);
 	UpdateStaticCollision(dt);

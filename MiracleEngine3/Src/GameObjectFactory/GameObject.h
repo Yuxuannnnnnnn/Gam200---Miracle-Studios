@@ -99,23 +99,13 @@ public:
 	void RemoveComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 	void DestoryGameObject();
 
-	bool GetAlive() { return _alive; }
-	void SetAlive(bool alive) { _alive = alive; }
-	bool GetDestory() const { return _destory; }
-	void SetDestory() 
-	{
-		_destory = true; 
-		SetEnable(false);
-	}
+	bool GetAlive();
+	void SetAlive(bool alive);
+	bool GetDestory() const;
+	void SetDestory();
 
-	bool GetEnable() const { return _enable; }
-	void SetEnable(bool enable) 
-	{ 
-		_enable = enable;
-
-		for (auto it : _ComponentList)
-			it.second->SetEnable(enable);
-	}
+	bool GetEnable() const;
+	void SetEnable(bool enable);
 
 
 	IComponentSystem* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent

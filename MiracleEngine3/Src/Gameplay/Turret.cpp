@@ -102,16 +102,29 @@ void Turret::SearchTarget()
 	// loop through _listObject, get closest 
 
 
+	
+
 	GameObject* tempGO = nullptr, *tempPlayer = nullptr;
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+
+	
+
 	for (auto itr : temp)
 	{
 		if (itr.second->Get_uID() >= 1000 &&
 			(	(itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMY) ||
 				(itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMYTWO) ||
 				(itr.second->GameObjectType() == (unsigned)TypeIdGO::ENEMYTHREE) ) &&
-			!itr.second->GetDestory())	
+				//EngineSystems::GetInstance()._gameObjectFactory->getObjectlist().find(itr.second->Get_uID()) != temp.end() && 
+				!itr.second->GetDestory()
+			)	
 		{
+			if (_target->GetDestory())
+			{
+				_target = itr.second;;
+				continue;
+			}
+
 			// check if current target is player
 			if (_target->Get_typeId() == (unsigned)TypeIdGO::PLAYER)
 				_target = itr.second;
