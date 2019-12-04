@@ -149,8 +149,8 @@ void Player::Update(double dt)
 		_timerShoot = _timerDeploy = 0.0;
 	}
 
-	if (_progress <= 0)
-		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::WIN);
+	//if (_progress <= 0)
+	//	EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::WIN);
 	if (_health <= 0)
 		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::LOSE);
 
