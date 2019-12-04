@@ -61,12 +61,10 @@ private:
 	double _timeCooldown{ 0.1 };
 
 	// hard coded tilemap
-	std::unordered_map < size_t, Node* > _tilemap;
-	size_t _mapTileSize = MAP_SIZE;
-	size_t _mapHeight = MAP_HEIGHT;
-	size_t _mapWidth = MAP_WIDTH;
-
+	std::unordered_map < size_t, Node* > _tileNodeMap;
 	size_t** _tilemapInput;
+	size_t _mapHeight, _mapWidth, _mapTileSize;
+	
 	//32 * 32
 	//size_t _tilemapInput[MAP_HEIGHT][MAP_WIDTH] = {
 	//	{ 1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1 },

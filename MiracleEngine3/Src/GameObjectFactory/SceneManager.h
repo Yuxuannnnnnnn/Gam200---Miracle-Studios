@@ -14,7 +14,8 @@ enum class Scenes {
 	LEVEL1,
 	WIN,
 	LOSE,
-	QUIT
+	QUIT,
+	INSTRUCTION
 };
 inline const char* ToString(Scenes type)	//Convert TypeIdGO Enum type to const char* - For Use only in Imgui
 {
@@ -23,9 +24,10 @@ inline const char* ToString(Scenes type)	//Convert TypeIdGO Enum type to const c
 	case Scenes::RESTART:	return " ";
 	case Scenes::MAIN_MENU:	return "./Resources/TextFiles/States/MainMenu.txt";
 	case Scenes::LEVEL1:	return "./Resources/TextFiles/States/TestLevel.txt";
-	case Scenes::WIN:		return " ";
-	case Scenes::LOSE:		return " ";
+	case Scenes::WIN:		return "./Resources/TextFiles/States/Win.txt";
+	case Scenes::LOSE:		return "./Resources/TextFiles/States/Lose.txt";
 	case Scenes::QUIT:		return " ";
+	case Scenes::INSTRUCTION:		return "./Resources/TextFiles/States/Instruction.txt";
 	default:      return "Unknown Scene";
 	}
 }

@@ -15,11 +15,12 @@ class Player : public IScript
 {
 private:
 // Logic Data - General
+	bool _pause;
 	bool _god;
 	bool _init;
 	GameObject* _camera;
 	int _health, _healthMax;
-	int _progress, _progressMax;
+	int _progress, _progressMax, _progressCount;
 // Logic Data - Weapons
 	int _weaponActive;
 	int _ammoRpg;

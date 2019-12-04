@@ -654,7 +654,7 @@ void GameObjectFactory::SerialiseLevel(const char* FileName)
 	float num1, num2;
 	GameObject* tempGO = nullptr;
 	IComponentSystem* tempComp = nullptr;
-
+	int buttonCount = 0; // for change button type
 	while (_file.good()) // each loop read 4 lines: Type, Pos, Scale, Rot
 	{
 	// Get Type
@@ -669,7 +669,31 @@ void GameObjectFactory::SerialiseLevel(const char* FileName)
 		else if (std::strcmp(strType, "Camera") == 0)
 			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
 		else if (std::strcmp(strType, "Button") == 0)
+		{
 			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BUTTON_UI]);
+			if (FileName == "./Resources/TextFiles/States/MainMenu.txt")
+			{
+				buttonCount++;
+				switch (buttonCount)
+				{
+				case 1:
+					((ButtonUI*)((LogicComponent*)tempGO->GetComponentList()[(unsigned)ComponentId::LOGIC_COMPONENT])->GetScriptMap().begin()->second)->_buttonType = (int)ButtonType::PLAY;
+					break;
+				case 2:
+					((ButtonUI*)((LogicComponent*)tempGO->GetComponentList()[(unsigned)ComponentId::LOGIC_COMPONENT])->GetScriptMap().begin()->second)->_buttonType = (int)ButtonType::INSTRUCTION;
+					break;
+				case 3:
+					((ButtonUI*)((LogicComponent*)tempGO->GetComponentList()[(unsigned)ComponentId::LOGIC_COMPONENT])->GetScriptMap().begin()->second)->_buttonType = (int)ButtonType::QUIT;
+					break;
+				}
+			}
+			if (FileName == "./Resources/TextFiles/States/Instruction.txt")
+				((ButtonUI*)((LogicComponent*)tempGO->GetComponentList()[(unsigned)ComponentId::LOGIC_COMPONENT])->GetScriptMap().begin()->second)->_buttonType = (int)ButtonType::MENU;
+			if (FileName == "./Resources/TextFiles/States/Win.txt")
+				((ButtonUI*)((LogicComponent*)tempGO->GetComponentList()[(unsigned)ComponentId::LOGIC_COMPONENT])->GetScriptMap().begin()->second)->_buttonType = (int)ButtonType::MENU;
+			if (FileName == "./Resources/TextFiles/States/Lose.txt")
+				((ButtonUI*)((LogicComponent*)tempGO->GetComponentList()[(unsigned)ComponentId::LOGIC_COMPONENT])->GetScriptMap().begin()->second)->_buttonType = (int)ButtonType::MENU;
+		}
 		else
 			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
 	// TransformComponent from 'temp'
@@ -692,7 +716,13 @@ void GameObjectFactory::SerialiseLevel(const char* FileName)
 		ASSERT(_file.getline(strNum1, 10));
 		num1 = std::stof(strNum1);
 		((TransformComponent*)tempComp)->GetRotate() = num1;
+
+
+
+
+
 	}
+
 
 
 	_file.close();
@@ -770,7 +800,7 @@ void GameObjectFactory::DeleteLevel()
 		delete it.second;
 	_logicComponents.clear();
 
-	EngineSystems::GetInstance()._logicSystem->DeleteLevelScripts();
+	//EngineSystems::GetInstance()._logicSystem->DeleteLevelScripts();
 
 	for (auto it : _pickList)
 		delete it.second;
