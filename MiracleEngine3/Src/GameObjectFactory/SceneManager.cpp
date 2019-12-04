@@ -46,9 +46,11 @@ void SceneManager::ChangeScene(Scenes scene)
 		EngineSystems::GetInstance()._aiSystem->CreateNodeMap();
 		break;
 	case Scenes::WIN:
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
 		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::WIN));
 		break;
 	case Scenes::LOSE:
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
 		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LOSE));
 		break;
 	default:
