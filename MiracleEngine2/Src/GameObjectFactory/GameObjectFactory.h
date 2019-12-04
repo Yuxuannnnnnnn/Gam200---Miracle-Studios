@@ -37,11 +37,6 @@ class GameObjectFactory final
 public:
 
 
-	size_t TotalSceneObjs() const
-	{
-		return _uId;
-	}
-
 	bool CheckObjOrignialPointer(GameObject * obj)
 	{
 		for (auto& pair : _listObject)
