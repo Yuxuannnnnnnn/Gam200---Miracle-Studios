@@ -55,6 +55,10 @@ void SceneManager::ChangeScene(Scenes scene)
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
 		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LOSE));
 		break;
+	case Scenes::INSTRUCTION:
+		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
+		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::INSTRUCTION));
+		break;
 	case Scenes::QUIT:
 		//EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
 		_currScene = Scenes::QUIT;

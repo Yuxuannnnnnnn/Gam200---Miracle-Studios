@@ -28,6 +28,9 @@ void ButtonUI::OnMouseDown()
 	case (int)ButtonType::INSTRUCTION:
 		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::INSTRUCTION);
 		break;
+	case (int)ButtonType::MENU:
+		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::MAIN_MENU);
+		break;
 	default:
 		break;
 	}
