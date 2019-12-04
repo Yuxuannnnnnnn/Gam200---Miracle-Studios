@@ -139,13 +139,13 @@ void AssetsImguiWindow::Update()
 {
 	ImGui::SetWindowFontScale(1);
 
-	if (ImGui::BeginMenuBar())
-	{
-		if (ImGui::BeginMenu("File  "))
-		{
-		}
-		ImGui::EndMenuBar();
-	}
+	//if (ImGui::BeginMenuBar())
+	//{
+	//	if (ImGui::BeginMenu("File  "))
+	//	{
+	//	}
+	//	ImGui::EndMenuBar();
+	//}
 
 	if (ImGui::CollapsingHeader("Scenes"))
 	{
