@@ -268,7 +268,6 @@ void GraphicsSystem::Update(double dt)
 	}
 	else if(EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::INSTRUCTION)
 	{
-		int a = 0;
 		_quadmesh.Select();
 		_textureManager._textureMap["Instruction"]->Select();
 		_shader.Select();
