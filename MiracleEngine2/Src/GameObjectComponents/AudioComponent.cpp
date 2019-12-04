@@ -73,6 +73,7 @@ void AudioComponent::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("IsBGM") && document["IsBGM"].IsBool())
 		_isBGM = document["IsBGM"].GetBool();
 
+
 }
 
 void AudioComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -92,4 +93,46 @@ void AudioComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 void AudioComponent::Inspect()
 {
 	IComponentSystem::Inspect();
+
+
+	static auto AudioList = ResourceManager::GetInstance().GetSoundList();
+
+	std::vector<const char*> list( AudioList.size() + 1);
+	list[0] = "Audio Files ";
+
+	int i = 1;
+	static int select;
+	for(auto audioPair = AudioList.begin(); audioPair != AudioList.end(); audioPair++)
+	{
+		const char* ptr = audioPair->first.c_str();
+		list[i] = ptr;
+		if (strncmp(audioPair->first.c_str(), _fileName.c_str(), 20) && (item_current_fileName== nullptr))
+		{
+			select = i;
+		}
+		i++;
+	}
+	//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
+
+	item_current_fileName = list[select];            // Here our selection is a single pointer stored outside the object.
+
+
+	if (ImGui::BeginCombo(" ", item_current_fileName, 0)) // The second parameter is the label previewed before opening the combo.
+	{
+		for (int n = 0; n < list.size(); n++)
+		{
+			bool is_selected = (item_current_fileName == list[n]);
+			if (ImGui::Selectable(list[n], is_selected))
+			{
+				item_current_fileName = list[n];
+				select = n;
+			}
+
+			//if (is_selected);
+			//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+
+		}
+		ImGui::EndCombo();
+	}
+
 }

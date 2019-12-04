@@ -174,8 +174,47 @@ void GraphicComponent::Inspect()
 
 	ImGui::Spacing();
 	//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
-	std::string string = "Graphic File Name: " + _fileName;
-	ImGui::Text(string.c_str());
+
+
+	static auto graphicList = ResourceManager::GetInstance().GetTexture2DList();
+	std::vector<const char*> list(graphicList.size() + 1);
+	list[0] = "Texture Files ";
+
+	int i = 1;
+	int select;
+	for (auto graphicPair = graphicList.begin(); graphicPair != graphicList.end(); graphicPair++)
+	{
+		const char* ptr = graphicPair->first.c_str();
+		list[i] = ptr;
+		if (strncmp(graphicPair->first.c_str(), _fileName.c_str(), 20))
+		{
+			select = i;
+		}
+		i++;
+	}
+	//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
+
+	static const char* item_current = list[select];            // Here our selection is a single pointer stored outside the object.
+	if (ImGui::BeginCombo(" ", item_current, 0)) // The second parameter is the label previewed before opening the combo.
+	{
+		for (int n = 0; n < list.size(); n++)
+		{
+			bool is_selected = (item_current == list[n]);
+			if (ImGui::Selectable(list[n], is_selected))
+			{
+				item_current = list[n];
+			}
+
+			//if (is_selected);
+			//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+
+		}
+		ImGui::EndCombo();
+	}
+
+
+
+
 	ImGui::Spacing();
 	ImGui::InputInt("Shader ID", &_shaderID);
 	ImGui::Spacing();

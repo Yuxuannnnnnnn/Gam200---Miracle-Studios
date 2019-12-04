@@ -20,6 +20,11 @@ private:
 	size_t _lifetimeTotal;
 	size_t _lifetimeCurrent;
 	bool _loop;
+
+private:
+	//Level Editor
+	const char* item_current_fileName;
+
 public:
 	AudioComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
 
@@ -30,6 +35,11 @@ public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void Inspect() override;
+
+	void saveComponent()
+	{
+		_fileName = item_current_fileName;
+	}
 
 
 	AudioComponent();

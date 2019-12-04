@@ -27,8 +27,12 @@ public:
 
 
 	void SerialiseComponent(Serialiser& document) override;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
 
-	void DeSerialiseComponent(DeSerialiser& levelDoc) override
+	}
+
+	void DeSerialiseComponent_LevelFile(DeSerialiser& levelDoc) 
 	{
 		rapidjson::Value tileMapObject;
 		tileMapObject.SetObject();
