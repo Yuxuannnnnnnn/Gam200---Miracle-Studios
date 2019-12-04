@@ -902,6 +902,7 @@
     <Text Include="Resources\TextFiles\States\Instruction.txt" />
     <Text Include="Resources\TextFiles\States\Lose.txt" />
     <Text Include="Resources\TextFiles\States\MainMenu.txt" />
+    <Text Include="Resources\TextFiles\States\TestLevel.txt" />
     <Text Include="Resources\TextFiles\States\Win.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

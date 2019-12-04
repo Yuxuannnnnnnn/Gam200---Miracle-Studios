@@ -138,6 +138,12 @@ void FontRenderer::DrawUIBG()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
+void FontRenderer::DisplayWave(int a)
+{
+	std::string x = "Wave : ";
+	RenderText(_shader, x + std::to_string(a) , -520.0f, 250.0f, 1.0f, glm::vec3(1.0f, 1.0f, 0.0f));
+}
+
 void FontRenderer::DrawFont(std::string& text, float xpos, float ypos, const glm::vec3& color)
 {
 	RenderText(_shader, text, xpos, ypos, 1.0f, color);

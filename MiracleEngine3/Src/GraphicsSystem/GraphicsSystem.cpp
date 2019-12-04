@@ -298,6 +298,8 @@ void GraphicsSystem::Update(double dt)
 		_textureManager._textureMap["UI_Background"]->Select();
 
 		_fontRenderer.DrawUIBG();
+
+		_fontRenderer.DisplayWave(_currWave);
 	}
 
 
