@@ -1,5 +1,6 @@
 #pragma once
 #include "QuadMesh.h"
+#include "Shader.h"
 
 // basic non-batch renderer
 
