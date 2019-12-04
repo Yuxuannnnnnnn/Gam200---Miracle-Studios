@@ -19,22 +19,14 @@ void ButtonUI::OnMouseDown()
 {
 	switch (_buttonType)
 	{
-	case (int)ButtonType::NONE:
-		break;
 	case (int)ButtonType::PLAY:
 		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::LEVEL1);
 		break;
-	case (int)ButtonType::PAUSE:
-
-		break;
 	case (int)ButtonType::QUIT:
-
+		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::QUIT);
 		break;
-	case (int)ButtonType::MENU:
-
-		break;
-	case (int)ButtonType::RESTART:
-
+	case (int)ButtonType::INSTRUCTION:
+		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::INSTRUCTION);
 		break;
 	default:
 		break;

@@ -20,6 +20,8 @@ Scenes SceneManager::GetCurrentScene()
 		return Scenes::WIN;
 	case Scenes::LOSE:
 		return Scenes::LOSE;
+	case Scenes::QUIT:
+		return Scenes::QUIT;
 	default:
 		return Scenes::RESTART;
 	}
@@ -52,6 +54,10 @@ void SceneManager::ChangeScene(Scenes scene)
 	case Scenes::LOSE:
 		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
 		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(ToString(Scenes::LOSE));
+		break;
+	case Scenes::QUIT:
+		//EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
+		_currScene = Scenes::QUIT;
 		break;
 	default:
 		break;
