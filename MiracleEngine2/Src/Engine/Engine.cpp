@@ -76,8 +76,9 @@ void Engine::Update()
 		_engineSystems._frameRateControl->StartTimeCounter();
 		if (!_engineSystems._imguiSystem->_editorMode)
 		{
-			_engineSystems._logicSystem->Update(dt);
+				_engineSystems._logicSystem->Update(dt);
 		}
+		//_engineSystems._logicSystem->Update(dt);
 		_engineSystems._aiSystem->Update(dt);
 		_engineSystems._performanceUsage->LogicFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
 
@@ -137,6 +138,14 @@ void Engine::Update()
 
 		EventHandler::GetInstance().BroadcastObjectEvents();
 		::SwapBuffers(_engineSystems._windowSystem->getWindow().get_m_windowDC()); 		// swap double buffer at the end
+
+		// delete toBeDeleted objs
+		for (auto it : _engineSystems.GetInstance()._gameObjectFactory->getObjectlist())
+		{
+			if (!it.second->GetAlive())
+				_engineSystems.GetInstance()._gameObjectFactory->DestoryGameObject(it.second);
+		}
+
 //-------------------------------------------------------------------------------------------------------------
 	}
 

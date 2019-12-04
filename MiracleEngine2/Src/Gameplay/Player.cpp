@@ -5,6 +5,8 @@
 
 void Player::SerialiseComponent(Serialiser& document)
 {
+	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
+		_health = _healthMax = document["Health"].GetInt();
 	if (document.HasMember("WeaponActive") && document["WeaponActive"].IsInt())	//Checks if the variable exists in .Json file
 		_weaponActive = document["WeaponActive"].GetInt();
 	if (document.HasMember("AmmoRpg") && document["AmmoRpg"].IsInt())	//Checks if the variable exists in .Json file
@@ -68,6 +70,8 @@ void Player::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("Health ", &_health);
 	ImGui::Spacing();
+	ImGui::InputInt("HealthMax ", &_healthMax);
+	ImGui::Spacing();
 	ImGui::InputInt("WeaponActive ", &_weaponActive);
 	ImGui::Spacing();
 // Logic Data - Weapons
@@ -95,9 +99,11 @@ void Player::Inspect()
 }
 
 Player::Player() :
+	_god{ false },
 	_init{ false },
 	_camera{ nullptr },
-	_health{ 30 },
+	_health{ 30 }, _healthMax{ 30 },
+	_progress{ 0 }, _progressMax{ 30 },
 
 	_weaponActive{ (int)WeaponId::PISTOL },
 	_ammoRpg{ 5 },
@@ -109,7 +115,8 @@ Player::Player() :
 	_firerateShotgun{ 0.5 },
 	_firerateRPG{ 2 },
 	_firerateTurret{ 5 },
-	_firerateWall{ 4 }
+	_firerateWall{ 4 },
+	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 }
 {
 }
 
@@ -137,12 +144,20 @@ void Player::Update(double dt)
 		Init();
 		_init = true;
 	}
+	if (_god)
+	{
+		_health = _healthMax;
+		_ammoRpg = _ammoTurret = _ammoWall = 10;
+		_timerShoot = _timerDeploy = 0.0;
+	}
 
 	_timerShoot -= dt;
 	_timerDeploy -= dt;
+	_timerProg -= dt;
 
 	UpdateInput();
 	UpdateCamera();
+	UpdateUI();
 }
 
 void Player::UpdateCamera()
@@ -150,6 +165,23 @@ void Player::UpdateCamera()
 	auto a = EngineSystems::GetInstance()._graphicsSystem;
 	a->GetCamera().SetCameraPos(((TransformComponent*)GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._x,
 		((TransformComponent*)GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._y);
+}
+
+void Player::UpdateUI()
+{
+	if (_timerProg <= 0)
+	{
+		_timerProg = _timerProgCooldown;
+		ProgressIncement();
+	}
+	if (_progress == _progressMax)
+	{
+		_progress = 0;
+		_progressMax *= 2;
+	}
+	// set percents
+	//EngineSystems::GetInstance()._graphicsSystem->SetHealthPercentage(static_cast<float>(_health) / _healthMax);
+	//EngineSystems::GetInstance()._graphicsSystem->SetProgressPercentage(static_cast<float>(_progress) / _progressMax);
 }
 
 void Player::UpdateInput()
@@ -169,7 +201,7 @@ void Player::UpdateInput()
 		scaleVec._y -= 1;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(scaleVec);
 // MOVEMENT
-	float spd = 5.f * 10000; // get spd
+	float spd = 3.f * 10000; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
 		AddForce(GetParentId(), Vector3(0, 1, 0), spd);
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_A))
@@ -221,17 +253,53 @@ void Player::UpdateInput()
 				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
 		}
 	}
-	//if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
-	//	EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
-	//{	// spawn ENEMY
-	//	GameObject* enemy = nullptr;
-	//	enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BOSS]);
-	//	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3(0, 0, 0));
-	//}
 // KEYS
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
 	{
 		WeaponSwitch();
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
+	{
+		GameObject* tempGO = nullptr;
+		IdentityComponent* IdCom;
+		std::string Id;
+		std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+		for (auto it : temp)
+		{
+			IdCom = dynamic_cast<IdentityComponent*>(it.second->GetComponent(ComponentId::IDENTITY_COMPONENT));
+			Id = IdCom->ObjectType();
+			if ((Id.compare("Enemy") ||
+				Id.compare("EnemyTwo") ||
+				Id.compare("EnemyThree")
+				) && it.second->Get_uID() >= 1000)
+			{
+				tempGO = it.second;
+				tempGO->SetDestory();
+			}
+		}
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
+	{
+		_god = !_god;
+		if (!_god)
+			return;
+		_health = _healthMax;
+		_timerShoot = _timerDeploy = 0.0;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_P))
+	{
+		;//EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::WIN);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_O))
+	{
+		;//EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::LOSE);
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_I))
+	{
+		;//EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::MAIN_MENU);
 	}
 }
 
@@ -320,6 +388,26 @@ int Player::GetHealth()
 void Player::SetHealth(int val)
 {
 	_health = val;
+}
+int Player::GetHealthMax()
+{
+	return _healthMax;
+}
+int Player::GetProgress()
+{
+	return _progress;
+}
+void Player::SetProgress(int val)
+{
+	_progress = val;
+}
+int Player::GetProgressMax()
+{
+	return _progressMax;
+}
+void Player::ProgressIncement(int in)
+{
+	_progress += in;
 }
 
 void Player::OnTrigger2DEnter(Collider2D* other)
