@@ -53,6 +53,9 @@ TextureManager::TextureManager()
 	_textureMap["Building3"] = new Texture2D("Resources/Image/Building3.png");
 	_textureMap["Building4"] = new Texture2D("Resources/Image/Building4.png");
 	_textureMap["Crate"] = new Texture2D("Resources/Image/Crate.png");
+
+	_textureMap["VictoryScreen"] = new Texture2D("Resources/Image/VictoryScreen.png");
+	_textureMap["DefeatScreen"] = new Texture2D("Resources/Image/DefeatScreen.png");
 }
 
 TextureManager::~TextureManager()

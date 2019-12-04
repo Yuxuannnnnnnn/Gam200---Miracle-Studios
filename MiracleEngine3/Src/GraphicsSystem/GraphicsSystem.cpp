@@ -285,6 +285,44 @@ void GraphicsSystem::Update(double dt)
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
+	else if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::WIN)
+	{
+		_quadmesh.Select();
+		_textureManager._textureMap["VictoryScreen"]->Select();
+		_shader.Select();
+
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 15.0f));
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+			glm::vec3((float)_windowWidth, (float)_windowHeight, 1.0f));
+
+		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
+
+		//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+
+		_shader.SetUniformMat4f("u_MVP", mvp);
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
+	else if (EngineSystems::GetInstance()._sceneManager->GetCurrentScene() == Scenes::LOSE)
+	{
+		_quadmesh.Select();
+		_textureManager._textureMap["DefeatScreen"]->Select();
+		_shader.Select();
+
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 15.0f));
+		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+		glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+			glm::vec3((float)_windowWidth, (float)_windowHeight, 1.0f));
+
+		glm::mat4 mvp = _proj * _camera.GetCamMatrix() * model;
+
+		//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+
+		_shader.SetUniformMat4f("u_MVP", mvp);
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
 	else
 	{
 		_textureManager._textureMap["HP_Bar"]->Select();
@@ -298,6 +336,8 @@ void GraphicsSystem::Update(double dt)
 		_textureManager._textureMap["UI_Background"]->Select();
 
 		_fontRenderer.DrawUIBG();
+
+		_fontRenderer.DisplayWave(_currWave);
 	}
 
 

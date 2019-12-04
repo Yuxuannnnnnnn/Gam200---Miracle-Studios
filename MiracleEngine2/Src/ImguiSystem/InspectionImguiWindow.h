@@ -11,6 +11,7 @@
 class InspectionImguiWindow : public IBaseImguiWindow
 {
 	static GameObject* _inspectObj;	//Changed based on picking OR clicking on object inside the HierarchyImguWindow
+	static int _componentSelected;
 
 public:
 	InspectionImguiWindow(bool open = true,	//Set the settings for the imgui windows
