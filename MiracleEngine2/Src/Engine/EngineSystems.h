@@ -37,6 +37,7 @@
 #include "WindowsSystem.h"
 #include "Console.h"
 
+//#define LEVELEDITOR	1
 
 class EngineSystems final : public ISingleton<EngineSystems>
 {
@@ -78,8 +79,6 @@ public:
 
 
 		_audioSystem = new AudioSystem();
-
-	
 		_gameStateManager = new GameStateManager();
 
 		_inputSystem = new InputSystem();
@@ -90,8 +89,7 @@ public:
 		
 
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
-		_performanceUsage = new PerformanceUsage();
-		
+
 		_gameObjectFactory = new GameObjectFactory();
 		_prefabFactory = new GameObjectPrototype();
 
@@ -100,10 +98,13 @@ public:
 		_buttonManager = new ButtonManager();
 		_collisionManager = new CollisionManager();
 		_rigidbodyManager = new RigidbodyManager();
-		_imGuizmoManager = new ImGuizmoManager();
 		_transforManager = new TransformManager();
 
+#ifdef LEVELEDITOR
+		_performanceUsage = new PerformanceUsage();
+		_imGuizmoManager = new ImGuizmoManager();
 		_imguiSystem = new ImguiSystem(_windowSystem->getWindow());
+#endif
 	}
 
 	virtual ~EngineSystems()
@@ -178,6 +179,8 @@ public:
 #define MyGraphicsSystem (*EngineSystems::GetInstance()._graphicsSystem)
 #define MyPhysicsSystem (*EngineSystems::GetInstance()._physicsSystem)
 #define MyAudioSystem (*EngineSystems::GetInstance()._audioSystem)
+
+#define MyAiSystem (*EngineSystems::GetInstance()._aiSystem)
 
 #define MyFrameRateController (*EngineSystems::GetInstance()._frameRateControl)
 #define MyPerformanceUsage (*EngineSystems::GetInstance()._performanceUsage)

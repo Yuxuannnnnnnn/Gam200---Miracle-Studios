@@ -165,12 +165,17 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->RenderLayerResolver();
 		if (!prefab)
 		{
+
+#ifdef LEVELEDITOR
+
 			PickingCollider* pickObject = new PickingCollider();
 			pickObject->SetParentId(object->Get_uID());
 			pickObject->SetParentPtr(object);
 
 			_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 			_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+
+#endif
 
 			MyGraphicsSystem.AddSpriteObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT, newComponent);
@@ -445,12 +450,16 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		_graphicComponents.insert(std::pair< size_t, GraphicComponent* >(object->Get_uID(), newComponent));
 		newComponent->RenderLayerResolver();
 
+
+#ifdef LEVELEDITOR
+
 		PickingCollider* pickObject = new PickingCollider();
 		pickObject->SetParentId(object->Get_uID());
 		pickObject->SetParentPtr(object);
 
 		_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 		_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+#endif
 
 		MyGraphicsSystem.AddSpriteObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT, newComponent);
@@ -605,7 +614,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _transformComponents[object->Get_uID()];
 		_transformComponents.erase(object->Get_uID());
-		//MyTransformManager.RemoveObject(object->Get_uID());
+		MyTransformManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::TRANSFORM_COMPONENT);
 		break;
 	}
@@ -613,22 +622,22 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _graphicComponents[object->Get_uID()];
 		_graphicComponents.erase(object->Get_uID());
-		//MyGraphicsSystem.RemoveSpriteObject(object->Get_uID());
+		MyGraphicsSystem.RemoveSpriteObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT);
 
-		{
-			_pickList.erase(object->Get_uID());
-			MyImGuizmoManager.RemoveObject(object->Get_uID());
-			_engineSystems._imGuizmoManager->_pickList.erase(object->Get_uID());
-		}
+#ifdef LEVELEDITOR
 
+		_pickList.erase(object->Get_uID());
+		MyImGuizmoManager.RemoveObject(object->Get_uID());
+		_engineSystems._imGuizmoManager->_pickList.erase(object->Get_uID());
+#endif
 		break;
 	}
 	case ComponentId::RIGIDBODY_COMPONENT:
 	{
 		delete _rigidBody2dComponents[object->Get_uID()];
 		_rigidBody2dComponents.erase(object->Get_uID());
-		//MyRigidbodyManager.RemoveObject(object->Get_uID());
+		MyRigidbodyManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::RIGIDBODY_COMPONENT);
 		break;
 	}
@@ -636,7 +645,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
-		//MyCollisionManager.RemoveObject(object->Get_uID());
+		MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::CIRCLECOLLIDER_COMPONENT);
 		break;
 	}
@@ -644,7 +653,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
-		//MyCollisionManager.RemoveObject(object->Get_uID());
+		MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::BOXCOLLIDER_COMPONENT);
 		break;
 	}
@@ -652,7 +661,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _collider2dComponents[object->Get_uID()];
 		_collider2dComponents.erase(object->Get_uID());
-		//MyCollisionManager.RemoveObject(object->Get_uID());
+		MyCollisionManager.RemoveObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::EDGECOLLIDER_COMPONENT);
 		break;
 	}
@@ -673,7 +682,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 
 			delete _logicComponents[object->Get_uID()];
 			_logicComponents.erase(object->Get_uID());
-			//MyLogicSystem.RemoveObject(object->Get_uID());
+			MyLogicSystem.RemoveObject(object->Get_uID());
 			MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::LOGIC_COMPONENT);
 			break;
 		}
@@ -708,7 +717,7 @@ LogicComponent* GameObjectFactory::CloneLogicComponent(GameObject* object, Logic
 	newComponent->SetParentPtr(object);
 	_logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), newComponent));
 
-	//MyLogicSystem.AddObject(object->Get_uID(), newComponent);
+	MyLogicSystem.AddObject(object->Get_uID(), newComponent);
 	MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::LOGIC_COMPONENT, newComponent);
 
 	Map_ScriptList& scriptMap = newComponent->GetScriptMap();
@@ -742,9 +751,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["TexturesFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["TexturesFilesPaths"][i].GetString();
-			//std::cout << "FilePath" << filePath << std::endl;
-			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
-			//std::cout << "FileName" << fileName << std::endl;
+			size_t namesize = filePath.find_last_of(".png") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
 		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
@@ -755,9 +763,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["AnimationDataFilesPaths"][i].GetString();
-			//std::cout << "FilePath" << filePath << std::endl;
-			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
-			//std::cout << "FileName" << fileName << std::endl;
+			size_t namesize = filePath.find_last_of(".json") - 5 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
 		ResourceManager::GetInstance().AddAnimationResourceList(ResourceList);
@@ -768,8 +775,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["AudioFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["AudioFilesPaths"][i].GetString();
-			//std::cout << "FilePath" << filePath << std::endl;
-			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
+			size_t namesize = filePath.find_last_of(".ogg") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 			//std::cout << "FileName" << fileName << std::endl;
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
@@ -781,10 +788,19 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["ShaderFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["ShaderFilesPaths"][i].GetString();
-			//std::cout << "FilePath" << filePath << std::endl;
-			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
-			//std::cout << "FileName" << fileName << std::endl;
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+			std::string fileName = "";
+			if (filePath.find(".vert") != std::string::npos)
+			{
+				size_t namesize = filePath.find_last_of(".vert") - 5 - filePath.find_last_of("\\/");
+				fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+				ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+			}
+			else if (filePath.find(".frag") != std::string::npos)
+			{
+				size_t namesize = filePath.find_last_of(".frag") - 5 - filePath.find_last_of("\\/");
+				fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+				ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+			}
 		}
 		//ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
 		ResourceList.clear();
@@ -794,9 +810,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["FontFilesPath"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["FontFilesPath"][i].GetString();
-			//std::cout << "FilePath" << filePath << std::endl;
-			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
-			//std::cout << "FileName" << fileName << std::endl;
+			size_t namesize = filePath.find_last_of(".ttf") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
 		ResourceManager::GetInstance().AddFontResourceList(ResourceList);
@@ -838,7 +853,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 			Serialiser datafile(Level["GameObjects"][i]);
 
 			std::string name = datafile["Object"].GetString();
-			GameObject * tmp = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name]);
+			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name];
+			GameObject * tmp = CloneGameObject(tmp2);
 			tmp->SerialiseFromLevel(datafile);
 		}
 	}
@@ -887,7 +903,11 @@ void GameObjectFactory::DeleteLevel()
 	EngineSystems::GetInstance()._logicSystem->_logicList.clear();
 	EngineSystems::GetInstance()._buttonManager->_buttonList.clear();
 	EngineSystems::GetInstance()._collisionManager->_collider2dList.clear();
+
+#ifdef LEVELEDITOR
 	EngineSystems::GetInstance()._imGuizmoManager->_pickList.clear();
+#endif
+
 	EngineSystems::GetInstance()._rigidbodyManager->_rigidBody2dList.clear();
 
 	for (auto it : _listObject)

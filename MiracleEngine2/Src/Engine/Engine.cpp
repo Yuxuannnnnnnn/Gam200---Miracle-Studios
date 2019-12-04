@@ -5,20 +5,8 @@
 
 void Engine::Init()
 {
-	// scene loading
-#ifndef LEVELEDITOR
-	_engineSystems._sceneManager->SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
-#endif
-
-
-//--Init replaced by Constructor?---------------------------
-
-	_engineSystems._inputSystem->Init();	//does nothing?
-	//_logicSystem->Init();	// does nothing for now
-	//_PhysicsSystem->Init();
-	//_AudioSystem->Init();
-	
-	//_sceneManager->ChangeScene(Scenes::LEVEL1);
+	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
+	_engineSystems._inputSystem->Init();
 
 //-------------------------------------------------------------
 }
@@ -27,18 +15,19 @@ void Engine::Init()
 void Engine::Update()
 {
 
-	_engineSystems._sceneManager->ChangeScene("MainMenu");
-	//_sceneManager->ChangeScene(Scenes::MAIN_MENU);
+	MySceneManager.ChangeScene("MainMenu");
 
-	//_gameObjectFactory->De_SerialiseLevel("hello.json");
-
-	while (_engineSystems._sceneManager->GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
+	while (MySceneManager.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{
+
+		double dt = MyFrameRateController.UpdateFrameTime();
+		double fixedDt = MyFrameRateController.GetLockedDt();
+		int accumlatedframes = MyFrameRateController.GetSteps();
 
 		//_gameObjectFactory->FileRead_Level("./Resources/TextFiles/States/TestLevel.txt");
 			//------Systems update here----- Please do not change the Order of the Systems Update--------------------------
 
-		if (!_engineSystems._windowSystem->Update()) //Update the window Object - reads all messages received in this window objects
+		if (!MyWindowsSystem.Update()) //Update the window Object - reads all messages received in this window objects
 		{
 			//_gameStateManager->SetNextGameState(GameStateId::GS_QUIT); 
 			return;
@@ -46,106 +35,128 @@ void Engine::Update()
 
 #ifdef LEVELEDITOR
 
-		_engineSystems._frameRateControl->StartTimeCounter();
-		_engineSystems._imguiSystem->UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
-		_engineSystems._performanceUsage->IMGUIFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
+		MyPerformanceUsage.PerFrameTime = MyFrameRateController.GetFrameTime();
+		MyPerformanceUsage.FPS = MyFrameRateController.GetFPS();
+
+		MyFrameRateController.StartTimeCounter();
+		MyImguiSystem.UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
+		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 
 
-		double dt = _engineSystems._frameRateControl->UpdateFrameTime();
-		int accumlatedframes = _engineSystems._frameRateControl->GetSteps();
-		_engineSystems._performanceUsage->PerFrameTime = _engineSystems._frameRateControl->GetFrameTime();
-		_engineSystems._performanceUsage->FPS = _engineSystems._frameRateControl->GetFPS();
+		MyFrameRateController.StartTimeCounter();
+		MyInputSystem.Update(MyWindowsSystem.getWindow());
+		MyPerformanceUsage.InputFrameTime += MyFrameRateController.EndTimeCounter();
 
 
-		_engineSystems._frameRateControl->StartTimeCounter();
-		_engineSystems._inputSystem->Update(_engineSystems._windowSystem->getWindow());
-		EventHandler::GetInstance().BroadcastInputEvents();
-		_engineSystems._performanceUsage->InputFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
-
-		if (!_engineSystems._imguiSystem->_editorMode)
+		MyFrameRateController.StartTimeCounter();
+		if (!MyImguiSystem._editorMode)
+		{
 			MyButtonManager.Update();
-		else
-			MyImGuizmoManager.Update();
-
-
-		/*if (_inputSystem->KeyRelease(KEYB_Z))
-			std::cout << "Z Released";
-		*/
-
-		// Logic
-		_engineSystems._frameRateControl->StartTimeCounter();
-		if (!_engineSystems._imguiSystem->_editorMode)
-		{
-				_engineSystems._logicSystem->Update(dt);
+			MyEventHandler.BroadcastInputEvents();
+			MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
 		}
-		//_engineSystems._logicSystem->Update(dt);
-		_engineSystems._aiSystem->Update(dt);
-		_engineSystems._performanceUsage->LogicFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
-
-
-		// Phy & Coll - Changes the Game State - Calculate GameOver? - Need to pass in GameStateManager?
-		_engineSystems._frameRateControl->StartTimeCounter();
-
-		/*if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
-			_engineSystems._physicsSystem->UpdatePicking();*/
-
-		if (accumlatedframes)
+		else
 		{
-			double fixedDt = _engineSystems._frameRateControl->GetLockedDt();
+			MyImGuizmoManager.Update();
+			MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
+		}
 
-			if (!_engineSystems._imguiSystem->_editorMode)
+
+		if (!MyImguiSystem._editorMode)
+		{
+			if (fixedDt)
 			{
 				while (accumlatedframes)
 				{
+					// Logic
+					MyFrameRateController.StartTimeCounter();
+					MyLogicSystem.Update(fixedDt);
+					MyAiSystem.Update(fixedDt);
+					MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
 
-					_engineSystems._physicsSystem->Update(fixedDt);
-					EventHandler::GetInstance().BroadcastCollisionEvents();
+					//physics
+					MyFrameRateController.StartTimeCounter();
+					MyPhysicsSystem.Update(fixedDt);
+					MyEventHandler.BroadcastCollisionEvents();
+					MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
+
 					--accumlatedframes;
 				}
 			}
-		}
+			else
+			{
+				MyFrameRateController.StartTimeCounter();
+				MyLogicSystem.Update(dt);
+				MyAiSystem.Update(dt);
+				MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
 
-		_engineSystems._performanceUsage->PhysicFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
+				//physics
+				MyFrameRateController.StartTimeCounter();
+				MyPhysicsSystem.Update(dt);
+				MyEventHandler.BroadcastCollisionEvents();
+				MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
+			}
 
-		// Audio
-		_engineSystems._frameRateControl->StartTimeCounter();
-		if (!_engineSystems._imguiSystem->_editorMode)
-		{
-			_engineSystems._audioSystem->Update();
+			// Audio
+			MyFrameRateController.StartTimeCounter();
+			MyAudioSystem.Update();
+			MyPerformanceUsage.AudioFrameTime += MyFrameRateController.EndTimeCounter();
 		}
-		_engineSystems._performanceUsage->AudioFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
 
 		// Graphics
-		_engineSystems._frameRateControl->StartTimeCounter();
-		_engineSystems._graphicsSystem->Update(dt);
-		_engineSystems._performanceUsage->GraphicFrameTime = _engineSystems._frameRateControl->EndTimeCounter();
+		MyFrameRateController.StartTimeCounter();
+		MyGraphicsSystem.Update(dt);
+		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
 
-		/*if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
-			_engineSystems._physicsSystem->UpdateDraw();
-		*/
-		// example to draw debug line and circle, to remove later
-		/*DebugRenderer::GetInstance().DrawLine(-200, 200, 50, 50);
-		DebugRenderer::GetInstance().DrawCircle(50, 50, 50);*/
-		_engineSystems._performanceUsage->PrintPerformanceUsage();
+		MyFrameRateController.StartTimeCounter();
+		MyPerformanceUsage.PrintPerformanceUsage();
+		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 
-		_engineSystems._frameRateControl->StartTimeCounter();
-		_engineSystems._imguiSystem->Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
-		_engineSystems._performanceUsage->IMGUIFrameTime += _engineSystems._frameRateControl->EndTimeCounter();
+		MyFrameRateController.StartTimeCounter();
+		MyImguiSystem.Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
+		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
+
 #else
+		MyInputSystem.Update(MyWindowsSystem.getWindow());
 
-
-#endif
-
-		EventHandler::GetInstance().BroadcastObjectEvents();
-		::SwapBuffers(_engineSystems._windowSystem->getWindow().get_m_windowDC()); 		// swap double buffer at the end
-
-		// delete toBeDeleted objs
-		for (auto it : _engineSystems.GetInstance()._gameObjectFactory->getObjectlist())
+		MyButtonManager.Update();
+		MyEventHandler.BroadcastInputEvents();
+	
+		if (fixedDt)
 		{
-			if (!it.second->GetAlive())
-				_engineSystems.GetInstance()._gameObjectFactory->DestoryGameObject(it.second);
+			while (accumlatedframes)
+			{
+				// Logic
+				MyLogicSystem.Update(fixedDt);
+				MyAiSystem.Update(fixedDt);
+
+				//physics
+				MyPhysicsSystem.Update(fixedDt);
+				MyEventHandler.BroadcastCollisionEvents();
+
+				--accumlatedframes;
+			}
+		}
+		else
+		{
+			MyLogicSystem.Update(dt);
+			MyAiSystem.Update(dt);
+
+			//physics
+			MyPhysicsSystem.Update(dt);
+			MyEventHandler.BroadcastCollisionEvents();
 		}
 
+		// Audio
+		MyAudioSystem.Update();
+			
+		// Graphics
+		MyGraphicsSystem.Update(dt);
+#endif
+
+		MyEventHandler.BroadcastObjectEvents();
+		MyGameObjectFactory.UpdateDestoryObjects();
+		::SwapBuffers(MyWindowsSystem.getWindow().get_m_windowDC()); 		// swap double buffer at the end
 //-------------------------------------------------------------------------------------------------------------
 	}
 
@@ -154,5 +165,5 @@ void Engine::Update()
 
 int Engine::Exit()
 {
-	return (int)_engineSystems._windowSystem->Get_msg().wParam;
+	return (int)MyWindowsSystem.Get_msg().wParam;
 }

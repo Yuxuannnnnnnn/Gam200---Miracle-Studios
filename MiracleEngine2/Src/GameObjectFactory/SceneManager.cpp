@@ -67,40 +67,49 @@ void SceneManager::InitScene()
 
 void SceneManager::ChangeScene(std::string scene)
 {
-	NamePath::const_iterator  it = _scenes.find(scene);
-	if (it == _scenes.end() && (scene.compare("Restart")) && (scene.compare("restart"))
-		&& scene.compare("Quit") && scene.compare("quit") )	//No such scene
+	
+#ifdef LEVELEDITOR //for Level editor Mode
+
+	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
 	{
+		_currentScene = scene;
 		return;
 	}
 
-	_currentScene = scene;
-
-	if (scene.compare("Quit") == 0 && scene.compare("quit") == 0)
+	if (!(scene.compare("Restart") == 0 || scene.compare("restart") == 0))
 	{
+		NamePath::const_iterator  it = _scenes.find(scene);
+		if (it == _scenes.end())	//No such scene
+			return;
+
+		_currentScene = scene;
+	}
+
+	EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
+	EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_scenes[_currentScene]);
+
+#else	//for GamePlay mode
+
+	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
+	{
+		_currentScene = scene;
 		return;
 	}
 
-	if (scene.compare("Restart") == 0 || scene.compare("restart") == 0)
+	if (!(scene.compare("Restart") == 0 || scene.compare("restart") == 0))
 	{
-#ifdef LEVELEDITOR //for Level editor Mode
+		NamePath::const_iterator  it = _scenes.find(scene);
+		if (it == _scenes.end())	//No such scene
+			return;
 
-		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-#else	//for GamePlay mode
-		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
-#endif
-		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_currentScene);
+		_currentScene = scene;
 	}
-	else
-	{
-#ifdef LEVELEDITOR //for Level editor Mode
-		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-#else	//for GamePlay mode
-		EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
+
+	EngineSystems::GetInstance()._gameObjectFactory->DeleteLevel();
+	EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_scenes[_currentScene]);
+
 #endif
 
-		EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_scenes[scene]);
-	}
 }
 
 void SceneManager::SerialiseScenes(Serialiser GameSceneFile)
@@ -110,9 +119,8 @@ void SceneManager::SerialiseScenes(Serialiser GameSceneFile)
 		for (unsigned i = 0; i < GameSceneFile["GameScenes"].Size(); i++)
 		{
 			std::string filePath = GameSceneFile["GameScenes"][i].GetString();
-			std::string fileName = filePath.substr(0, filePath.find_last_of("\\/"));
-			fileName = filePath.substr(filePath.find_last_of("."), filePath.back());
-
+			size_t namesize = filePath.find_last_of(".json") - 5 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 			_scenes.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
 	}

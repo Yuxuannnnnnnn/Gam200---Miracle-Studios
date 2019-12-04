@@ -85,7 +85,7 @@
 
 	"GameObjects": [
 		{
-			"Object": "player"
+			"Object": "Player"
 		},
 		{
 			"Object": "Camera"

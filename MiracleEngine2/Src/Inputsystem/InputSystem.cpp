@@ -47,6 +47,8 @@ void InputSystem::Update(Window& window)
 	//int ret = GetKeyboardState(_currBuffer);
 	//(void)ret;
 	
+
+	InterruptCheck();
 }
 
 Vector3 InputSystem::GetMousePos() const
@@ -57,5 +59,13 @@ Vector3 InputSystem::GetMousePos() const
 
 void InputSystem::Exit()
 {
+
+}
+
+void InputSystem::InterruptCheck()
+{
+	if (KeyDown(KEYB_ESCAPE))
+		MySceneManager.ChangeScene("Quit");
+
 
 }

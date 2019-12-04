@@ -49,5 +49,13 @@ void PerformanceUsage::PrintPerformanceUsage()
 		ImGui::Text("IMGUI usage   : %.3f%% ", imgui);
 		ImGui::Text("Others usage  : %.3f%% ", others);
 		ImGui::End();
+
+		InputFrameTime = 0.0;
+		LogicFrameTime = 0.0;
+		PhysicFrameTime = 0.0;
+		AudioFrameTime = 0.0;
+		GraphicFrameTime = 0.0;
+		IMGUIFrameTime = 0.0;
+
 	}
 }

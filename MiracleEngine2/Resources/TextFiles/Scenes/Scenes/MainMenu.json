@@ -1,10 +1,11 @@
 {
-	"PrototypesFilePaths": [
-		"./Resources/TextFiles/GameObjects/Button.json"
-	],
+  "PrototypesFilePaths": [
+    "./Resources/TextFiles/GameObjects/Button.json",
+    "./Resources/TextFiles/GameObjects/Camera.json"
+  ],
 
 	"TexturesFilesPaths": [
-		"./Resources/Image/button.png"
+    "./Resources/Image/button.png"
 	],
 
 	"AudioFilesPaths": [
@@ -37,12 +38,12 @@
 			"Scale": [ 300.0, 300.0 ],
 			"Rotate": 0.0
 		},
-		{
-			"Object": "Camera",
-			"TransformComponent": true,
-			"Position": [ 200.0, 200.0 ],
-			"Scale": [ 1.0, 1.0 ],
-			"Rotate": 0.0
-		}
+    {
+      "Object": "Camera",
+      "TransformComponent": true,
+      "Position": [ 200.0, 200.0 ],
+      "Scale": [ 1.0, 1.0 ],
+      "Rotate": 0.0
+    }
 	]
 }

@@ -183,25 +183,6 @@ void GraphicsSystem::Update(double dt)
 	//	//	transformComponent->GetPos()._y, glm::vec3(0.2f, 0.8f, 0.2f));
 	//}
 
-	Vector3 position(0, MAP_HEIGHT * MAP_SIZE / 2, 1);
-
-	Vector3 position1(0, -(MAP_HEIGHT * MAP_SIZE / 2), 1);
-
-	Vector3 position2(-(MAP_WIDTH * MAP_SIZE / 2), 0, 1);
-
-	Vector3 position3((MAP_WIDTH * MAP_SIZE / 2), 0, 1);
-
-
-	if (EngineSystems::GetInstance()._imguiSystem->_editorMode)
-	{
-
-		DebugRenderer::GetInstance().DrawLine(position._x + 640, position._y, position1._x + 640, position1._y);
-		DebugRenderer::GetInstance().DrawLine(position._x - 635, position._y, position1._x - 635, position1._y);
-
-		DebugRenderer::GetInstance().DrawLine(position2._x, position2._y + 510, position3._x, position3._y + 510);
-		DebugRenderer::GetInstance().DrawLine(position2._x, position2._y - 510, position3._x, position3._y - 510);
-
-	}
 	// loop through every element in graphic component
 		// get texture ID and shader ID
 		// get its transform component 
