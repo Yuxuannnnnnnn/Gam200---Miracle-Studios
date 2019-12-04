@@ -18,7 +18,6 @@ public:
 	void Update(Window& window);
 	void Exit();
 
-
 	Vector3 GetMousePos() const;
 private:
 

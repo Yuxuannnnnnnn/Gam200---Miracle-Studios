@@ -1,7 +1,7 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "ObjectType": "Player",
+  "ObjectType": "player",
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],

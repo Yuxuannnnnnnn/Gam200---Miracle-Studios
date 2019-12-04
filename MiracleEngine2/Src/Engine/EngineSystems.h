@@ -37,7 +37,7 @@
 #include "WindowsSystem.h"
 #include "Console.h"
 
-//#define LEVELEDITOR	1
+#define LEVELEDITOR	1
 
 class EngineSystems final : public ISingleton<EngineSystems>
 {
