@@ -16,9 +16,13 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 	std::string gameObjectsPath = "./Resources/TextFiles/GameObjects";
 	std::string AnimationDataPath = "./Resources/TextFiles/AnimationData";
 
-	typedef std::unordered_map<std::string, std::string> NamePath;
+	typedef std::map<std::string, std::string> NamePath;
 
 	NamePath ResourceList;
+
+	typedef std::unordered_map<std::string, std::string> unorderedNamePath;
+
+	unorderedNamePath ResourceList1;
 	{
 		for (const auto& audioFile : std::filesystem::directory_iterator(audiosPath))
 		{
@@ -92,13 +96,13 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << stateFile.path() << std::endl;
 			std::string path = stateFile.path().u8string();
-			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\/");
-			std::string fileName = path.substr(path.find_last_of("\\/") + 1, namesize);
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
+			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
+			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		EngineSystems::GetInstance()._sceneManager->LoadAllSceneAssets(ResourceList);
-		ResourceList.clear();
+		EngineSystems::GetInstance()._sceneManager->LoadAllSceneAssets(ResourceList1);
+		ResourceList1.clear();
 	}
 
 	{
@@ -106,13 +110,13 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << gameObjectFile.path() << std::endl;
 			std::string path = gameObjectFile.path().u8string();
-			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\/");
-			std::string fileName = path.substr(path.find_last_of("\\/") + 1, namesize);
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
+			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
+			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList);
-		ResourceList.clear();
+		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList1);
+		ResourceList1.clear();
 	}
 
 	{
@@ -165,68 +169,76 @@ void AssetsImguiWindow::Update()
 		//ImGui::TreePop();
 	}
 
-	std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
-	size_t prototypeCount = PrototypeList.size();
-	std::string string = "Prototypes (" + std::to_string(prototypeCount) + ")";
 
-	if (ImGui::CollapsingHeader(string.c_str()))
 	{
-		ImGui::Spacing();
+		std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
+		size_t prototypeCount = PrototypeList.size();
+		std::string string = "Prototypes (" + std::to_string(prototypeCount) + ")";
 
-		std::string string1 = "Create New Prototype ";
-		if (ImGui::Button(string1.c_str()))
+		if (ImGui::CollapsingHeader(string.c_str()))
 		{
-			GameObject* newGameobject = _engineSystems._gameObjectFactory->CreateNewGameObject(true);
-			newGameobject->AddComponent(ComponentId::IDENTITY_COMPONENT);
-			InspectionImguiWindow::InspectGameObject(newGameobject);
-		}
-		ImGui::Spacing();
-		ImGui::Separator();
-		ImGui::Spacing();
+			ImGui::Spacing();
 
-	//	int i = 0;
-		for (auto& ObjPair: PrototypeList)
-		{
-			//std::string objName = std::to_string(i) + ". " + ObjPair.first;
-			//i++;
-			static bool selected;
-			std::string string = " - " + ObjPair.first;
-
-			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
-			{
-				if (ImGui::IsMouseReleased(0))
-				{
-					InspectionImguiWindow::InspectGameObject(ObjPair.second);
-					//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
-					//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
-					//ImGui::TreePop();
-					//ImGuiID id = ImGui::GetID(string.c_str());
-					//ImGui::GetStateStorage()->SetInt(id, 0);
-				}
-			}
-
-			ImGui::SameLine();
-
-			std::string string1 = "Clone " + ObjPair.first;
+			std::string string1 = "Create New Prototype ";
 			if (ImGui::Button(string1.c_str()))
 			{
-				GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[ObjPair.first]);
-				dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3::Vec3Zero);
+				GameObject* newGameobject = _engineSystems._gameObjectFactory->CreateNewGameObject(true);
+				newGameobject->AddComponent(ComponentId::IDENTITY_COMPONENT);
+				InspectionImguiWindow::InspectGameObject(newGameobject);
 			}
-			//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
-			//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
-			//ImGui::TreePop();
-			//ImGuiID id = ImGui::GetID(string.c_str());
-			//ImGui::GetStateStorage()->SetInt(id, 0);
-
 			ImGui::Spacing();
-		}
-		
-		//ImGui::TreePop();
+			ImGui::Separator();
+			ImGui::Spacing();
 
+			//	int i = 0;
+			for (auto& ObjPair : PrototypeList)
+			{
+				//std::string objName = std::to_string(i) + ". " + ObjPair.first;
+				//i++;
+				static bool selected;
+				std::string string = " - " + ObjPair.first;
+
+				if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+				{
+					if (ImGui::IsMouseReleased(0))
+					{
+						InspectionImguiWindow::InspectGameObject(ObjPair.second);
+						//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+						//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+						//ImGui::TreePop();
+						//ImGuiID id = ImGui::GetID(string.c_str());
+						//ImGui::GetStateStorage()->SetInt(id, 0);
+					}
+				}
+
+				ImGui::SameLine();
+
+				std::string string1 = "Clone " + ObjPair.first;
+				if (ImGui::Button(string1.c_str()))
+				{
+					GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[ObjPair.first]);
+					dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3::Vec3Zero);
+				}
+				//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+				//ImGui::TreePop();
+				//ImGuiID id = ImGui::GetID(string.c_str());
+				//ImGui::GetStateStorage()->SetInt(id, 0);
+
+				ImGui::Spacing();
+			}
+
+			//ImGui::TreePop();
+
+		}
 	}
 
-	if (ImGui::CollapsingHeader("Textures"))
+
+	auto textureFiles = ResourceManager::GetInstance().GetTexture2DList();
+	size_t textureCount = textureFiles.size();
+	std::string string = "Textures (" + std::to_string(textureCount) + ")";
+
+	if (ImGui::CollapsingHeader(string.c_str()))
 	{
 		ImGui::Spacing();
 

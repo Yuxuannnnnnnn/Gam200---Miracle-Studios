@@ -20,7 +20,7 @@ class ResourceManager final : public ISingleton<ResourceManager>
 {
 public:
 	typedef std::pair<std::string, std::string> NamePath;
-	typedef std::unordered_map<std::string, std::string> NamePathMap;
+	typedef std::map<std::string, std::string> NamePathMap;
 
 	typedef std::pair<std::string, std::pair<std::string, std::string>> NamePair;
 	typedef std::unordered_map<std::string, std::pair<std::string, std::string>> NamePairMap;

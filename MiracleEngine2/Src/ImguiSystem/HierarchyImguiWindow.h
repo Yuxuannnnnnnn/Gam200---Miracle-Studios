@@ -14,6 +14,8 @@
 //When removing objects, make sure to remove child object along with parent object
 class HierarchyImguiWindow : public IBaseImguiWindow
 {
+
+
 public:
 
 	HierarchyImguiWindow(bool open = true,	//Set the settings for the imgui window

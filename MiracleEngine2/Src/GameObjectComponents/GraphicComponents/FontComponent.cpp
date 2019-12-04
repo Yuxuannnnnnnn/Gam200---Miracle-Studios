@@ -49,8 +49,7 @@ std::string& FontComponent::GetFontString()
 
 void FontComponent::Inspect()
 {
-	char* string = new char[300];
-	ImGui::InputText("Text To OutPut  ", string, 300);
-	_fontString = string;
-	delete []string;
+	static char buffer[300] = " ";
+	ImGui::InputText("Text To OutPut  ", buffer, 300);
+	_fontString = buffer;
 }
