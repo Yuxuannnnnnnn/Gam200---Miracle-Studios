@@ -280,6 +280,31 @@ void AISystem::CreateNodeMap()
 	//	}
 	//	std::cout << std::endl;
 	//}
+	
+	size_t tilesize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 0.0f * tilesize, 0.0f * tilesize,1 }, { 900,900,1 }, 4.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -7.0f * tilesize, 5.0f * tilesize,1 }, { 500,500,1 }, 2.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -10.0f * tilesize, -8.0f * tilesize,1 }, { 1200,900,1 }, 3.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 10.0f * tilesize, 7.0f * tilesize,1 }, { 1200,900,1 }, 1.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 12.0 * tilesize, -7.0f * tilesize,1 }, { 500,600,1 }, 5.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -12.0 * tilesize, 7.0f * tilesize,1 }, { 700,700,1 }, 6.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -13.0 * tilesize, 0.0f * tilesize,1 }, { 1000,400,1 }, 7.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 3.0 * tilesize, -10.0f * tilesize,1 }, { 800,1000,1 }, 9.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 1.0 * tilesize, 10.0f * tilesize,1 }, { 600,1000,1 }, 11.0f);
+
+	//EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ -5.3f * tilesize,-3.5f * tilesize,1 }, { 900,900,1 },4.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 0.0f * tilesize, 3.0f * tilesize,1 }, { 550, 950,1 });
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 4.0f * tilesize, 8.5f * tilesize,1 }, { 280, 330,1 }, PI/2);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 5.5f * tilesize, 11.5f * tilesize,1 }, { 400, 400,1 },1.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ 10.0f * tilesize, 9.9f * tilesize,1 }, { -450, -580,1 });
+	//EngineSystems::GetInstance()._graphicsSystem->DrawCircularBatteryPlatform({ 11.9f * tilesize, 0.9f * tilesize,1 }, { 1080, 1080,1 },3.0f);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding1({ -6.0f * tilesize, 9.8f * tilesize,1 }, { 1150, 900,1 });
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ -15.5f * tilesize, 10.9f * tilesize,1 }, { -650, -580,1 });
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding2({ -15.5f * tilesize, 5.1f * tilesize,1 }, { 650, 580,1 });
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ -12.9f * tilesize, -11.0f * tilesize,1 }, {430,780,1 }, PI/2);
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding3({ 11.5f * tilesize, -9.5f * tilesize,1 }, { 1000, 1000,1 });
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 7.5f * tilesize, -9.5f * tilesize,1 }, { 500, 680,1 });
+	//EngineSystems::GetInstance()._graphicsSystem->DrawBuilding4({ 15.5f * tilesize, -9.5f * tilesize,1 }, { 500, 680,1 });
 
 
 
@@ -329,7 +354,7 @@ void AISystem::CreateNodeMapFromTileComp()
 	unsigned height = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetHeight();
 	unsigned width = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetWidth();
 	size_t** temp = new size_t*[height];
-	for (int i = 0; i < width; ++i)
+	for (unsigned i = 0; i < width; ++i)
 		temp[i] = new size_t[width];
 	std::string** tilemap = (EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin()->second->GetTileMap();
 
@@ -338,7 +363,7 @@ void AISystem::CreateNodeMapFromTileComp()
 	size_t id = 0; // id for Node's id
 	Node* tempNode = nullptr;
 	bool solid = false;
-	GameObject* tempGo;
+	GameObject* tempGo = nullptr;
 	Vector3 tempVec;
 	Vector3 tempVecOrigin;
 	// offset the map's origin	// pos.x = ( totalMap.x/2 + offset for tile's node ) // _tileMapInput[y][x]

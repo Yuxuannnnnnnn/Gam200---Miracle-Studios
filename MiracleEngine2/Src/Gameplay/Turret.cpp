@@ -49,7 +49,7 @@ Turret::Turret() :
 	_timeAttackCooldown{ 3.0 }
 	
 {
-	_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackRange = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_attackRange *= 5; // 5 tileSize
 	_attackRange *= _attackRange; // pow(2)
 }
@@ -94,7 +94,7 @@ Vector3& Turret::GetDestinationPos()
 			if (idPair.second->GetParentPtr()->Get_uID() >= 1000 && idPair.second->ObjectType().compare("Player"))
 			{
 				_target = idPair.second->GetParentPtr();
-				break;
+				//break;
 			}
 		}
 	}
@@ -124,6 +124,11 @@ void Turret::SearchTarget()
 			) && !it.second->GetParentPtr()->GetDestory())
 		{
 			IdentityComponent* idCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::IDENTITY_COMPONENT));
+			if (_target->GetDestory())
+			{
+				_target = it.second->GetParentPtr();
+				continue;
+			}
 
 			// check if current target is player
 			if (idCom->ObjectType().compare("Player"))
@@ -172,8 +177,7 @@ void Turret::RotateToTarget()
 	Vector3 targetVec(
 		(GetDestinationPos()._x - GetPosition()._x),
 		(GetDestinationPos()._y - GetPosition()._y),
-		0
-	);
+		0 );
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = targetVec._x * compareVec._x + targetVec._y * compareVec._y;
 	float det = targetVec._x * compareVec._y - targetVec._y * compareVec._x;

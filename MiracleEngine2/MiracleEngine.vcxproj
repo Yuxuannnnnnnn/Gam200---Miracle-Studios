@@ -170,10 +170,13 @@
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\DataComponent.h" />
     <ClInclude Include="Src\Gameplay\EnemyThree.h" />
+    <ClInclude Include="Src\GraphicsSystem\BatchRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\FragmentShader.h" />
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
     <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
+    <ClInclude Include="Src\GraphicsSystem\VertexShader.h" />
     <ClInclude Include="Src\IContainer.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
     <ClInclude Include="Src\PhysicSystem\ButtonManager.h" />
@@ -594,10 +597,13 @@
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\DataComponent.cpp" />
     <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
     <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\BatchRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\FragmentShader.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\VertexShader.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\PhysicSystem\ButtonManager.cpp" />
     <ClCompile Include="Src\PhysicSystem\CollisionManager.cpp" />

@@ -15,9 +15,11 @@ class Player : public IScript
 {
 private:
 // Logic Data - General
+	bool _god;
 	bool _init;
 	GameObject* _camera;
-	int _health;
+	int _health, _healthMax;
+	int _progress, _progressMax;
 // Logic Data - Weapons
 	int _weaponActive;
 	int _ammoRpg;
@@ -30,7 +32,8 @@ private:
 	double _firerateRPG;		// d = 1/rps
 	double _firerateTurret;
 	double _firerateWall;
-	
+// Logic Data - Progression
+	double _timerProg, _timerProgCooldown;
 public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
@@ -48,9 +51,15 @@ public:
 	void WeaponShoot_RPG();
 	void UpdateCamera();
 	void UpdateInput();
+	void UpdateUI();
 
 	int GetHealth();
 	void SetHealth(int val);
+	int GetHealthMax();
+	int GetProgress();
+	void SetProgress(int val);
+	int GetProgressMax();
+	void ProgressIncement(int in = 1);
 
 	void OnTrigger2DEnter(Collider2D* other);
 };

@@ -11,8 +11,8 @@ class GameObject;	// forward declare from GameObject, need TypeId::WALL
 class AiComponent; // forward decalre from AiComp, cause AiComp need to be accessed
 
 #define MAP_SIZE 100
-#define MAP_HEIGHT 32
-#define MAP_WIDTH 32
+#define MAP_HEIGHT 30
+#define MAP_WIDTH 40
 
 class Node {
 private:

@@ -24,7 +24,7 @@
 
   "LogicComponent": true,
   "ScriptId": [ "ENEMY" ],
-  "Health": 5,
+  "Health": 2,
   "EnemyType": 0,
   "AttackRange": 2,
   "StunDuration": 5.0,

@@ -174,7 +174,7 @@ void GameObject::SetDestory()
 {
 	_destory = true;
 	SetEnable(false);
-	MyEventHandler.AddDeletionEvent(_uId);
+	//MyEventHandler.AddDeletionEvent(_uId);
 }
 
 bool GameObject::GetEnable() const
