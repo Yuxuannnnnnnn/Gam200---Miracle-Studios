@@ -109,7 +109,8 @@ void SceneManager::ChangeScene(std::string scene)
 	EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_scenes[_currentScene]);
 
 #endif
-
+	if (scene.compare("Level1") == 0)
+		EngineSystems::GetInstance()._aiSystem->CreateNodeMapFromTileComp();
 }
 
 void SceneManager::SerialiseScenes(Serialiser GameSceneFile)

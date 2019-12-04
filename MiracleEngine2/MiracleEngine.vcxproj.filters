@@ -688,8 +688,6 @@
     <None Include="Resources\Shader\basic.vert" />
     <None Include="Resources\TextFiles\GameObjects\Camera.json" />
     <None Include="Resources\TextFiles\GameObjects\EnemyTwo.json" />
-    <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
-    <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
     <None Include="Resources\TextFiles\GameObjects\Font.json" />
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
@@ -708,6 +706,8 @@
     <None Include="Resources\TextFiles\AnimationData\CatAnimation.json" />
     <None Include="Resources\TextFiles\Scenes\GameScenes\GameScenes.json" />
     <None Include="Resources\TextFiles\Scenes\Scenes\Level1.json" />
+    <None Include="Resources\TextFiles\GameObjects\BulletT.json" />
+    <None Include="Resources\TextFiles\GameObjects\BulletE.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />

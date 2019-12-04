@@ -1,7 +1,7 @@
 {
   "IdentityComponent": true,
   "Name": "none",
-  "ObjectType": "Bullet_T",
+  "ObjectType": "BulletE",
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],
@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "bulletT",
+  "G.FileName": "bulletE",
 
   "RigidBodyComponent": true,
   "Mass": 1.0,
@@ -19,12 +19,12 @@
 
   "CircleColliderComponent": true,
   "ColliderTypeId": 2,
-  "ColliderTag": 2,
+  "ColliderTag": 8,
   "ColliderTrigger": false,
 
   "LogicComponent": true,
   "ScriptId": [ "BULLET" ],
   "Lifetime": 3.0,
-  "BulletType": "BulletTurret",
+  "BulletType": "BulletEnemy",
   "BulletSpeed": 5.0
 }

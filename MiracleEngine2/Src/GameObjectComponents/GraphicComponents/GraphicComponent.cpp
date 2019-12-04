@@ -119,11 +119,11 @@ void GraphicComponent::RenderLayerResolver()
 	{
 		_renderLayer = 9;
 	}
-	else if (type.compare("Bullet_T"))
+	else if (type.compare("BulletT"))
 	{
 		_renderLayer = 9;
 	}
-	else if (type.compare("Bullet_E"))
+	else if (type.compare("BulletE"))
 	{
 		_renderLayer = 9;
 	}

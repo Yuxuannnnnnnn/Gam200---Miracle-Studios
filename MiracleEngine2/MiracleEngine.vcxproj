@@ -900,8 +900,8 @@
     <None Include="Resources\TextFiles\GameObjects\BGM.json" />
     <None Include="Resources\TextFiles\GameObjects\Boss.json" />
     <None Include="Resources\TextFiles\GameObjects\Bullet.json" />
-    <None Include="Resources\TextFiles\GameObjects\Bullet_E.json" />
-    <None Include="Resources\TextFiles\GameObjects\Bullet_T.json" />
+    <None Include="Resources\TextFiles\GameObjects\BulletE.json" />
+    <None Include="Resources\TextFiles\GameObjects\BulletT.json" />
     <None Include="Resources\TextFiles\GameObjects\Button.json" />
     <None Include="Resources\TextFiles\GameObjects\Camera.json" />
     <None Include="Resources\TextFiles\GameObjects\Enemy.json" />
