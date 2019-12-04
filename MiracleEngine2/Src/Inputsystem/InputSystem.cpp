@@ -46,7 +46,6 @@ void InputSystem::Update(Window& window)
 	//GetKeyState(0);
 	//int ret = GetKeyboardState(_currBuffer);
 	//(void)ret;
-	
 
 	InterruptCheck();
 }
@@ -65,7 +64,35 @@ void InputSystem::Exit()
 void InputSystem::InterruptCheck()
 {
 	if (KeyDown(KEYB_ESCAPE))
+	{
 		MySceneManager.ChangeScene("Quit");
+	}
 
+	//bool temp2 = false;
+	//if (KeyHold((KeyCode)18) || KeyDown((KeyCode)18))
+	//{
+	//	temp2 = true;
+	//	std::cout << "1" << std::endl;
+	//}
 
+	//bool temp = false;
+	//if (KeyHold(KEYB_TAB) || KeyDown(KEYB_TAB) || KeyRelease(KEYB_TAB))
+	//{
+	//	temp = true;
+	//	std::cout << "2" << std::endl;
+	//}
+
+	//
+
+	//if(temp && temp2)
+	//{
+	//	exit(0);
+
+	//	MySceneManager.ChangeScene("Quit");
+	//}
+
+	//if (KeyHold((KeyCode)18) && KeyHold((KeyCode)17) && KeyHold(KEYB_DELETE))
+	//{
+	//	MySceneManager.ChangeScene("Quit");
+	//}
 }
