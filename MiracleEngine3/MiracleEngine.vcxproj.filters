@@ -685,5 +685,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\States\MainMenu.txt" />
+    <Text Include="Resources\TextFiles\States\Win.txt" />
+    <Text Include="Resources\TextFiles\States\Instruction.txt" />
+    <Text Include="Resources\TextFiles\States\Lose.txt" />
+    <Text Include="Resources\TextFiles\States\TestLevel.txt" />
   </ItemGroup>
 </Project>

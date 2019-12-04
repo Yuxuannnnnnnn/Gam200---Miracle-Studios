@@ -6,6 +6,8 @@
     "./Resources/TextFiles/GameObjects/Enemy.json",
     "./Resources/TextFiles/GameObjects/Camera.json",
     "./Resources/TextFiles/GameObjects/Bullet.json",
+    "./Resources/TextFiles/GameObjects/BulletE.json",
+    "./Resources/TextFiles/GameObjects/BulletT.json",
     "./Resources/TextFiles/GameObjects/Turret.json",
     "./Resources/TextFiles/GameObjects/Spawner.json",
     "./Resources/TextFiles/GameObjects/SpawnerTwo.json",
@@ -40,7 +42,8 @@
 			"Scale": [ 70.0, 70.0 ],
 			"Rotate": 0.0,
 			"Width": 16,
-			"Height": 15,
+      "Height": 15,
+      "TileSize": 100,
 			"Palette": [
 				[
 					0,

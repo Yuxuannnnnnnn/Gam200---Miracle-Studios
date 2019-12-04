@@ -71,7 +71,7 @@ void Enemy::Init()
 	
 	for (auto& idPair : IdentityComponents)
 	{
-		if (idPair.second->GetParentPtr()->Get_uID() >= 1000 && idPair.second->ObjectType().compare("Player"))
+		if (idPair.second->GetParentPtr()->Get_uID() >= 1000 && (idPair.second->ObjectType().compare("Player") == 0))
 		{
 			_target = idPair.second->GetParentPtr();
 			break;
@@ -150,7 +150,7 @@ void Enemy::AttackRange()
 	{
 		_timerAttack = _timerAttackCooldown;
 		// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Bullet_E"]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());

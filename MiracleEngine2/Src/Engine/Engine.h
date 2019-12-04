@@ -4,8 +4,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#define LEVELEDITOR	1
-
 class Engine
 {
 public:

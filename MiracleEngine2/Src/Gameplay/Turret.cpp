@@ -163,7 +163,7 @@ void Turret::ShootTarget()
 		_timerAttack = _timeAttackCooldown;
 		//std::cout << "Fired!" << std::endl;
 		// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Bullet_T"]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletT"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());

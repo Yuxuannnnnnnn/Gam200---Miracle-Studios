@@ -90,27 +90,27 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
 	std::string Id = IdCom->ObjectType();
 
-	if (Id.compare("Enemy") ||
-		Id.compare("EnemyTwo"))
+	if (Id.compare("Enemy") == 0 ||
+		Id.compare("EnemyTwo") == 0)
 	{
 		DestoryThis();
 		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
 		enemy->DecrementHealth();
 		enemy->SetStunned();
 	}
-	if (Id.compare("EnemyThree"))
+	if (Id.compare("EnemyThree") == 0)
 	{
 		DestoryThis();
 		EnemyThree* enemy = reinterpret_cast<EnemyThree*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMYTHREE));
 		enemy->DecrementHealth();
 	}
 
-	if (Id.compare("Spawner") ||
-		other->_tag == (unsigned)ColliderTag::BUILDING ||
-		other->_tag == (unsigned)ColliderTag::EDGES)
-	{
-		DestoryThis();
-	}
+	//if (Id.compare("Spawner") == 0 ||
+	//	other->_tag == (unsigned)ColliderTag::BUILDING ||
+	//	other->_tag == (unsigned)ColliderTag::EDGES)
+	//{
+	//	DestoryThis();
+	//}
 }
 void Bullet::BulletCollisionTurret(Collider2D* other)
 {
@@ -123,7 +123,7 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 {
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
 
-	if (IdCom->ObjectType().compare("Player"))
+	if (IdCom->ObjectType().compare("Player") == 0)
 	{
 		DestoryThis();
 		Player* player = reinterpret_cast<Player*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PLAYER));
@@ -131,8 +131,8 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 		hp -= 2;
 		player->SetHealth(hp);
 	}
-	else if (IdCom->ObjectType().compare("Spawner") ||
-		IdCom->ObjectType().compare("Wall") ||
+	else if (IdCom->ObjectType().compare("Spawner") == 0 ||
+		IdCom->ObjectType().compare("Wall") == 0 ||
 		other->_tag == (unsigned)ColliderTag::EDGES)
 	{
 		DestoryThis();

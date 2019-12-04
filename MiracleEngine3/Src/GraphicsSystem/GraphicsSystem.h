@@ -137,6 +137,8 @@ enum RenderMode
 class GraphicsSystem
 {
 public:
+	int _currWave = 1;
+
 	std::unordered_map < size_t, FontComponent*> _fontList;
 	std::unordered_map < size_t, GraphicComponent*> _spriteList;
 	std::unordered_map < size_t, AnimationComponent*> _animationList;

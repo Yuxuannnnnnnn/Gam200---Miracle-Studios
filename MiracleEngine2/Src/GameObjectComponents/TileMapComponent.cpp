@@ -13,6 +13,11 @@ void TileMapComponent::SerialiseComponent(Serialiser& document)
 		_height = document["Height"].GetInt();
 	}
 
+	if (document.HasMember("TileSize"))
+	{
+		_tilesize = document["TileSize"].GetInt();
+	}
+
 	if (document.HasMember("Palette"))
 	{
 		for (unsigned i = 0; i < document["Palette"].Size(); i++)

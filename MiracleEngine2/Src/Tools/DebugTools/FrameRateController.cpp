@@ -32,12 +32,13 @@ FrameRateController::FrameRateController(double FPS) :
 
 	PrevTime_Main = Time::now();
 	CurrTime_Main = Time::now();
-	SetFPS(60);
+	SetFPS(FPS);
 }
 
 void FrameRateController::SetFPS(double FPS)
 {
-	LockedFPS = (long long)(oneSecNs / FPS);
+	if(FPS)
+		LockedFPS = (long long)(oneSecNs / FPS);
 }
 
 

@@ -11,8 +11,7 @@ class TileMapComponent: public IComponentSystem
 		
 	PaletteType** _tilemap;
 
-	unsigned _height;
-	unsigned _width;
+	int _height, _width, _tilesize;
 
 	std::unordered_map<size_t, std::string> palette;
 
@@ -82,6 +81,12 @@ public:
 		//Imgui::buttons for each palette type - when pressed, palette texture will appear, and can snap to position on screen 
 
 		//Remove Palette button - must have textbox to remove all such tile
+		ImGui::Spacing();
+		ImGui::InputInt("height ", &_height);
+		ImGui::Spacing();
+		ImGui::InputInt("width ", &_width);
+		ImGui::Spacing();
+		ImGui::InputInt("tilesize ", &_tilesize);
 	}
 
 
@@ -100,13 +105,17 @@ public:
 		return palette;
 	}
 
-	unsigned GetHeight()
+	int GetHeight()
 	{
 		return _height;
 	}
-	unsigned GetWidth()
+	int GetWidth()
 	{
 		return _width;
+	}
+	int GetTileSize()
+	{
+		return _tilesize;
 	}
 };
 

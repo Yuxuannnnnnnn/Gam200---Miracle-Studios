@@ -14,6 +14,7 @@ enum class ButtonType {
 	RESTART,
 	CLOSE,
 	OPEN,
+	INSTRUCTION
 };
 
 class ButtonUI : public IScript

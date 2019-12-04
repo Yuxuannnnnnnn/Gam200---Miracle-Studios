@@ -18,9 +18,11 @@ public:
 	void Update(Window& window);
 	void Exit();
 
-
 	Vector3 GetMousePos() const;
 private:
+
+	void InterruptCheck();
+
 	unsigned char _currBuffer[256];
 	unsigned char _prevBuffer[256];
 	POINT _p;

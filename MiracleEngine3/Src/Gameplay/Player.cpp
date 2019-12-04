@@ -99,11 +99,12 @@ void Player::Inspect()
 }
 
 Player::Player() :
+	_pause{ false },
 	_god{ false },
 	_init{ false },
 	_camera{ nullptr },
 	_health{ 30 }, _healthMax{ 30 },
-	_progress{ 0 }, _progressMax{ 30 },
+	_progress{ 0 }, _progressMax{ 30 }, _progressCount{ 0 },
 
 	_weaponActive{ (int)WeaponId::PISTOL },
 	_ammoRpg{ 5 },
@@ -148,6 +149,11 @@ void Player::Update(double dt)
 		_timerShoot = _timerDeploy = 0.0;
 	}
 
+	//if (_progress <= 0)
+	//	EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::WIN);
+	if (_health <= 0)
+		EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::LOSE);
+
 	_timerShoot -= dt;
 	_timerDeploy -= dt;
 	_timerProg -= dt;
@@ -175,6 +181,7 @@ void Player::UpdateUI()
 	{
 		_progress = 0;
 		_progressMax *= 1.5f;
+		_progressCount++;
 	}
 	// set percents
 	EngineSystems::GetInstance()._graphicsSystem->SetHealthPercentage(static_cast<float>(_health) / _healthMax);

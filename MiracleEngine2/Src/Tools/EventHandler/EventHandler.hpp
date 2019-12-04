@@ -8,6 +8,10 @@ template<typename T>
 void EventHandler::SendLogicEventMessage(size_t uId, EventMessageType type, T message)
 {
 	GameObject* gameObject = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[uId];
+
+	if (!gameObject)
+		return;
+
 	Map_ScriptList list = EngineSystems::GetInstance()._gameObjectFactory->getObjectScript(gameObject);
 
 	for (auto it : list)
