@@ -20,6 +20,7 @@ void ImGuizmoManager::Update()
 			if (TestBoxVsPoint(*it.second, pos))
 			{
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
+				_pickUId = it.first;
 				return;
 			}
 		}
@@ -104,6 +105,11 @@ void ImGuizmoManager::RemoveObject(size_t uId)
 	_pickList.erase(uId);
 }
 
+void ImGuizmoManager::SetPickObjectUId(size_t uId)
+{
+	_pickUId = uId;
+}
+
 void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjection, float* matrix)
 {
 	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
@@ -178,3 +184,5 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 	ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, NULL, NULL,  NULL);
 
 }
+
+

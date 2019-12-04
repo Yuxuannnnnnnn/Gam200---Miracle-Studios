@@ -33,6 +33,8 @@ public:
 	void AddObject(size_t uId, void* component = 0);
 	void RemoveObject(size_t uId);
 
+	void SetPickObjectUId(size_t uId);
+
 private:
 	void EditTransform(const float* cameraView, float* cameraProjection, float* matrix);
 
