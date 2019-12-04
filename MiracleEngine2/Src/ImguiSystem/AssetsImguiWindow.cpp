@@ -41,8 +41,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << textureFile.path() << std::endl;
 			std::string path = textureFile.path().u8string();
-			size_t namesize = path.find_last_of(".png") - 4 - path.find_last_of("\\/");
-			std::string fileName = path.substr(path.find_last_of("\\/") + 1, namesize);
+			//size_t namesize = path.find_last_of(".png") - 4 - path.find_last_of("\\/");
+			std::string fileName = path.substr(path.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
@@ -60,14 +60,14 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 
 			if (path.find(".vert") != std::string::npos)
 			{
-				size_t namesize = path.find_last_of(".vert") - 5 - path.find_last_of("\\/");
-				fileName = path.substr(path.find_last_of("\\/") + 1, namesize);
+			//	size_t namesize = path.find_last_of(".vert") - 5 - path.find_last_of("\\/");
+				fileName = path.substr(path.find_last_of("\\/") + 1);
 				_vertexFiles.insert(std::pair<std::string, std::string>(fileName, path));
 			}
 			else if (path.find(".frag") != std::string::npos)
 			{
-				size_t namesize = path.find_last_of(".frag") - 5 - path.find_last_of("\\/");
-				fileName = path.substr(path.find_last_of("\\/") + 1, namesize);
+			//	size_t namesize = path.find_last_of(".frag") - 5 - path.find_last_of("\\/");
+				fileName = path.substr(path.find_last_of("\\/") + 1);
 				_fragmentFiles.insert(std::pair<std::string, std::string>(fileName, path));
 			}
 

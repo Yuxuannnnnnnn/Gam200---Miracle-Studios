@@ -36,7 +36,7 @@ public:
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void Inspect() override;
 
-	void saveComponent()
+	void SaveComponent()
 	{
 		_fileName = item_current_fileName;
 	}

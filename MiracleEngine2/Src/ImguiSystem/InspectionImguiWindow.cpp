@@ -125,6 +125,7 @@ void InspectionImguiWindow::Update()
 			ImVec2 buttonSize(120, 20); // My button size
 			if (ImGui::Button("Save Component ", buttonSize))
 			{
+				componentList[(ComponentId)_componentSelected]->SaveComponent();
 			}
 			ImGui::SameLine();
 			ImGui::TextDisabled("(?)");

@@ -18,9 +18,14 @@ private:
 	unsigned _typeIdGraphic;
 	int _shaderID;
 
+	std::vector<std::string> _shaderList;
+
 	int _textureState = 0; // for enemy with move and attack, this tell you which texture to run
 	int _renderLayer = 0;
 	// bool transparent.. so on
+
+private:
+	std::vector<const char*> _current_ShaderList;
 
 public:
 

@@ -23,7 +23,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	}
 	ImGui::SameLine();
 	std::string string2 = "Save Scene ";
-	if (ImGui::Button(string1.c_str()))
+	if (ImGui::Button(string2.c_str()))
 	{
 		//EngineSystems::GetInstance()._gameObjectFactory->De_SerialiseLevel();
 	}
