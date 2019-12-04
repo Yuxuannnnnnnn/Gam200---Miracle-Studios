@@ -1,6 +1,7 @@
+#include "PrecompiledHeaders.h"
+#include "InstancedRenderer.h"
 
-
-InstancedSystem::InstancedSystem(int windowWidth, int windowHeight)
+InstancedRenderer::InstancedRenderer(int windowWidth, int windowHeight)
 	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
 		-(float)windowHeight / 2, (float)windowHeight / 2) }
 {
@@ -9,22 +10,24 @@ InstancedSystem::InstancedSystem(int windowWidth, int windowHeight)
 	glGenBuffers(1, &_instanceBufferID);
 	modelMatrices = new glm::mat4[1500];
 
+	// stress test
+
 	for (size_t j = 0; j < 1500; j++)
 	{
-		modelMatrices[j] = glm::translate(glm::mat4(1.0f), glm::vec3(objStressTestList[j]->_pos._x
+		/*modelMatrices[j] = glm::translate(glm::mat4(1.0f), glm::vec3(objStressTestList[j]->_pos._x
 			, objStressTestList[j]->_pos._y, 0)) * glm::scale(glm::mat4(1.0f),
-				glm::vec3(objStressTestList[j]->_scale._x, objStressTestList[j]->_scale._y, 1.0f));
+				glm::vec3(objStressTestList[j]->_scale._x, objStressTestList[j]->_scale._y, 1.0f));*/
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, _instanceBufferID);
 	glBufferData(GL_ARRAY_BUFFER, 1500 * sizeof(glm::mat4), &modelMatrices[0], GL_DYNAMIC_DRAW);
 }
 
-void InstancedSystem::Update()
+void InstancedRenderer::Update()
 {
 
 	_quadmesh.Select();
-	_shader.Select();
+	//_shader.Select();
 
 	glm::mat4 vp = _proj;
 	glBindBuffer(GL_ARRAY_BUFFER, _instanceBufferID);
@@ -43,9 +46,9 @@ void InstancedSystem::Update()
 	glVertexAttribDivisor(5, 1);
 	glVertexAttribDivisor(6, 1);
 
-	_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
-	_shader.SetUniformMat4f("u_VP", vp);
-	_shader.SetUniform1i("u_Texture", 0);
+	//_shader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+	//_shader.SetUniformMat4f("u_VP", vp);
+	//_shader.SetUniform1i("u_Texture", 0);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	// this one encapsulate into another class
 	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

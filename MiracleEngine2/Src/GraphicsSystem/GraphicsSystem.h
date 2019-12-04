@@ -18,13 +18,12 @@
 #include "Shader.h"
 #include "QuadMesh.h"
 #include "TextureManager.h"
-#include "PlayerMesh.h"
 #include "Camera.h"
 #include "FontRenderer.h"
 #include "../Animation/AnimationSystem.h"
 #include "../Animation/Animation.h"
 #include "UIMesh.h"
-
+#include "BasicRenderer.h"
 
 enum RenderMode
 {
@@ -81,6 +80,7 @@ private:
 	Camera _camera;
 	//PlayerMesh _playerMesh;
 	FontRenderer* _fontRenderer;
+	BasicRenderer _basicRenderer;
 	AnimationSystem _animationSystem;
 
 	Animation _testAnimation;

@@ -111,6 +111,8 @@
     <ClCompile Include="Src\GraphicsSystem\FragmentShader.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexShader.cpp" />
     <ClCompile Include="Src\GraphicsSystem\BatchRenderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\BasicRenderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\InstancedRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -532,6 +534,8 @@
     <ClInclude Include="Src\GraphicsSystem\VertexShader.h" />
     <ClInclude Include="Src\GraphicsSystem\FragmentShader.h" />
     <ClInclude Include="Src\GraphicsSystem\BatchRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\BasicRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\InstancedRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
