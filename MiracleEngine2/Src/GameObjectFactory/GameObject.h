@@ -78,7 +78,7 @@ private:
 	bool _alive;
 
 public:
-	GameObject(size_t uId); // Ctor : Inits w/ a Unique id
+	GameObject(size_t uId = 0); // Ctor : Inits w/ a Unique id
 
 	virtual ~GameObject();// Dtor : Deletes all Components in a Game Object
 

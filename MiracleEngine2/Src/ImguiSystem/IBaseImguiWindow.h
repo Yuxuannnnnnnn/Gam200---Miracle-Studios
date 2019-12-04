@@ -5,7 +5,6 @@
 #include "imgui_internal.h"
 
 
-
 class IBaseImguiWindow
 {
 private:
@@ -13,8 +12,13 @@ private:
 	char _name[40]; //name up to 40 char
 	ImGuiWindowFlags _flags;
 
+	int _xPos;
+	int _yPos;
+	unsigned _width;
+	unsigned _height;
+
 public:
-	IBaseImguiWindow(const char* name, bool open = true, 
+	IBaseImguiWindow(const char* name, int xPos, int yPos, unsigned width, unsigned height, bool open = true,
 		ImGuiWindowFlags flags = 0); 	//Set the settings for the imgui window
 
 	bool& GetOpen(); //get the bool for whether the window is opened - bool may be set false by Imgui::begin when the window is closed
@@ -28,5 +32,26 @@ public:
 
 	virtual void Update() = 0; //Derived ImguiWindow to override - Content for every frame
 	
+
+	int PosX() const
+	{
+		return _xPos;
+	}
+
+	int PosY() const
+	{
+		return _yPos;
+	}
+
+	size_t Width() const
+	{
+		return _width;
+	}
+
+	size_t Height() const
+	{
+		return _height;
+	}
+
 };
 

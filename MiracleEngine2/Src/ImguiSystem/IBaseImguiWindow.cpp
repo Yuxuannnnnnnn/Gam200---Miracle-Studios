@@ -4,9 +4,8 @@
 #include <cstring>
 
 
-IBaseImguiWindow::IBaseImguiWindow(const char* name, const bool open, 
-	const ImGuiWindowFlags flags)				//Set the settings for the imgui window
-	:_open{ open }, _name{"\0"}, _flags{ flags }
+IBaseImguiWindow::IBaseImguiWindow(const char* name, int xPos, int yPos, unsigned width, unsigned height, bool open, ImGuiWindowFlags flags)	//Set the settings for the imgui window
+	:_open{ open }, _name{ "\0" }, _flags{ flags }, _xPos{ xPos }, _yPos{ yPos }, _width{ width }, _height{ height }
 {
 	strcpy_s(_name, name);
 }
@@ -43,7 +42,6 @@ void IBaseImguiWindow::Setflags(ImGuiWindowFlags_ flag) //Set the flags for each
 {
 	_flags |= flag;
 }
-
 
 
 

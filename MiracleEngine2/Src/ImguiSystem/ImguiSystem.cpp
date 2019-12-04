@@ -135,6 +135,10 @@ void ImguiSystem::UpdateFrame()
 			IBaseImguiWindow* window = windowPair.second;
 			if (window->GetOpen()) //if false, window will not be created
 			{
+				ImVec2 main_viewport_pos = ImGui::GetMainViewport()->Pos;
+				ImGui::SetNextWindowPos(ImVec2(main_viewport_pos.x + window->PosX(), main_viewport_pos.y + window->PosY()), ImGuiCond_Once);
+				ImGui::SetNextWindowSize(ImVec2(window->Width(), window->Height()), ImGuiCond_Once);
+
 				// Start of Main window body.
 				if (!ImGui::Begin(window->GetName(), &(window->GetOpen()), window->GetFlags()))
 				{

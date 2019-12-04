@@ -5,7 +5,7 @@
 
 AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 
-	:IBaseImguiWindow("Assets", open, flags)
+	:IBaseImguiWindow("Assets",1, 20, 347, 505, open, flags)
 {
 	std::string audiosPath = "./Resources/Audio";
 	std::string texturesPath = "./Resources/Image";
@@ -158,17 +158,19 @@ void AssetsImguiWindow::Update()
 		//ImGui::TreePop();
 	}
 
+	std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
+	size_t prototypeCount = PrototypeList.size();
+	std::string string = "Prototypes (" + std::to_string(prototypeCount) + ")";
 
-	if (ImGui::CollapsingHeader("Prototypes"))
+	if (ImGui::CollapsingHeader(string.c_str()))
 	{
-		std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
 		ImGui::Spacing();
 
 		std::string string1 = "Create New Prototype ";
 		if (ImGui::Button(string1.c_str()))
 		{
-			GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
-			EngineSystems::GetInstance()._gameObjectFactory->AddComponent(newGameobject, ComponentId::IDENTITY_COMPONENT);
+			GameObject* newGameobject = _engineSystems._gameObjectFactory->CreateNewGameObject(true);
+			newGameobject->AddComponent(ComponentId::IDENTITY_COMPONENT);
 			InspectionImguiWindow::InspectGameObject(newGameobject);
 		}
 		ImGui::Spacing();
@@ -227,6 +229,7 @@ void AssetsImguiWindow::Update()
 		{
 			static bool selected;
 			std::string string = " - " + texturePair.first;
+
 			Texture2D* texture = ResourceManager::GetInstance().GetTexture2DResource(texturePair.first);
 			TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
 

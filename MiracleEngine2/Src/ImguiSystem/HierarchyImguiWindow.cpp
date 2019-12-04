@@ -7,7 +7,7 @@
 
 
 HierarchyImguiWindow::HierarchyImguiWindow(bool open, ImGuiWindowFlags flags)
-	:IBaseImguiWindow("Hierarchy", open, flags)
+	:IBaseImguiWindow("Hierarchy", 1, 515, 340, 570, open, flags)
 {
 }
 
@@ -28,16 +28,19 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 
 	const std::unordered_map<size_t, GameObject*>& objlist = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-	const std::unordered_map<std::string, GameObject*>& protolist = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList();
+	//const std::unordered_map<std::string, GameObject*>& protolist = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList();
 
-	size_t objListSize = objlist.size() - protolist.size(); //number of total gameObjects in the list
+	size_t objListSize = std::count_if(objlist.begin(), objlist.end(),
+		[](auto& i) {return i.first >= 1000; }); //number of total gameObjects in the list
 
-	std::string totalGameObjects("Total Number of GameObjects in this level is: ");
+	std::string totalGameObjects("Total Number of GameObjects in Scene is: ");
 	totalGameObjects += std::to_string(objListSize);  //"Total Number of GameObjects in this level is: objListSize" string
 	
 	ImGui::Text(totalGameObjects.c_str());	//Shows Total Number of GameObjects in this level on Imgui Window
+
 	ImGui::Spacing();
 	ImGui::Separator();
+	ImGui::Spacing();
 
 
 	for (auto& gameObjectPair : objlist)
