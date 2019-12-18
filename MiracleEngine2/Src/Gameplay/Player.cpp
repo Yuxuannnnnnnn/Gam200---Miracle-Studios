@@ -163,8 +163,8 @@ void Player::Update(double dt)
 void Player::UpdateCamera()
 {
 	auto a = EngineSystems::GetInstance()._graphicsSystem;
-	a->GetCamera().SetCameraPos(((TransformComponent*)GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._x,
-		((TransformComponent*)GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._y);
+	/*a->GetCamera().SetCameraPos(((TransformComponent*)GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._x,
+		((TransformComponent*)GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._y);*/
 }
 
 void Player::UpdateUI()

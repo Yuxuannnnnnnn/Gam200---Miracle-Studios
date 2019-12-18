@@ -185,8 +185,12 @@
     <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\FragmentShader.h" />
     <ClInclude Include="Src\GraphicsSystem\InstancedRenderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\Renderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\RenderLayer.h" />
+    <ClInclude Include="Src\GraphicsSystem\RenderObject.h" />
     <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
     <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
+    <ClInclude Include="Src\GraphicsSystem\UIRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\VertexShader.h" />
     <ClInclude Include="Src\IContainer.h" />
     <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
@@ -615,8 +619,11 @@
     <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\FragmentShader.cpp" />
     <ClCompile Include="Src\GraphicsSystem\InstancedRenderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Renderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\RenderLayer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
     <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\UIRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\VertexShader.cpp" />
     <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
     <ClCompile Include="Src\PhysicSystem\ButtonManager.cpp" />

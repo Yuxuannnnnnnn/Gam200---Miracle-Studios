@@ -13,16 +13,17 @@ void GraphicComponent::SetFileName(const std::string& filename)
 
 unsigned int GraphicComponent::GetTextureID() const
 {
-	auto it = EngineSystems::GetInstance()._graphicsSystem->GetTextureManager()._textureMap.find(_fileName);
-	
-	// if there is a filename in texturemap
-	if (it != EngineSystems::GetInstance()._graphicsSystem->GetTextureManager()._textureMap.end())
-	{
-		return it->second->GetTextureID();
-	}
+	//auto it = EngineSystems::GetInstance()._graphicsSystem->GetTextureManager()._textureMap.find(_fileName);
+	//
+	//// if there is a filename in texturemap
+	//if (it != EngineSystems::GetInstance()._graphicsSystem->GetTextureManager()._textureMap.end())
+	//{
+	//	return it->second->GetTextureID();
+	//}
 
 
-	return _textureID;
+	//return _textureID;
+	return 0;
 }
 
 

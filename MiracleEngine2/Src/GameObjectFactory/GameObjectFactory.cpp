@@ -34,7 +34,7 @@ void GameObjectFactory::UpdateDestoryObjects()
 	{
 		if (it.second->GetDestory())
 		{
-			if(!it.second->GetAlive())
+			if (!it.second->GetAlive())
 				DestoryGameObject(it.second);
 
 			it.second->SetAlive(false);
@@ -176,8 +176,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 			_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 
 #endif
-
-			MyGraphicsSystem.AddSpriteObject(object->Get_uID(), newComponent);
+			MyGraphicsSystem._graphicCompList.insert({ object->Get_uID(), (GraphicComponent*)newComponent });
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT, newComponent);
 		}
 
@@ -196,7 +195,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		if (!prefab)
 		{
 
-			MyGraphicsSystem.AddAnimationObject(object->Get_uID(), newComponent);
+			//MyGraphicsSystem.AddAnimationObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::ANIMATION_COMPONENT, newComponent);
 		}
 
@@ -227,7 +226,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		if (!prefab)
 		{
 
-			MyGraphicsSystem.AddFontObject(object->Get_uID(), newComponent);
+			//MyGraphicsSystem.AddFontObject(object->Get_uID(), newComponent);
 			MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::FONT_COMPONENT, newComponent);
 		}
 
@@ -260,7 +259,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_rigidBody2dComponents.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
-		
+
 		Collider2D* collider = nullptr;
 
 		if (object->CheckComponent(ComponentId::BOXCOLLIDER_COMPONENT))
@@ -294,7 +293,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 
 		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
 			newComponent->_attachedRigidboy = true;
-		
+
 
 		if (!prefab)
 		{
@@ -435,11 +434,11 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_transformComponents.insert(std::pair< size_t, TransformComponent* >(object->Get_uID(), newComponent));
-		
+
 
 		MyTransformManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::TRANSFORM_COMPONENT, newComponent);
-		
+
 		return newComponent;
 	}
 	case ComponentId::GRAPHICS_COMPONENT:
@@ -460,10 +459,10 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 		_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 #endif
-
-		MyGraphicsSystem.AddSpriteObject(object->Get_uID(), newComponent);
+		MyGraphicsSystem._graphicCompList.insert({ object->Get_uID(), (GraphicComponent*)newComponent });
+		//MyGraphicsSystem.AddSpriteObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT, newComponent);
-		
+
 		return newComponent;
 	}
 	case ComponentId::ANIMATION_COMPONENT:
@@ -472,9 +471,9 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
-		
 
-		MyGraphicsSystem.AddAnimationObject(object->Get_uID(), newComponent);
+
+		//MyGraphicsSystem.AddAnimationObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::ANIMATION_COMPONENT, newComponent);
 
 		return newComponent;
@@ -494,9 +493,9 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		_FontComponent.insert(std::pair< size_t, FontComponent* >(object->Get_uID(), newComponent));
-		
 
-		MyGraphicsSystem.AddFontObject(object->Get_uID(), newComponent);
+
+		//MyGraphicsSystem.AddFontObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::FONT_COMPONENT, newComponent);
 
 		return newComponent;
@@ -622,7 +621,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	{
 		delete _graphicComponents[object->Get_uID()];
 		_graphicComponents.erase(object->Get_uID());
-		MyGraphicsSystem.RemoveSpriteObject(object->Get_uID());
+		//MyGraphicsSystem.RemoveSpriteObject(object->Get_uID());
 		MyEventHandler.AddDeletionEvent(object->Get_uID(), ComponentId::GRAPHICS_COMPONENT);
 
 #ifdef LEVELEDITOR
@@ -745,7 +744,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	typedef std::unordered_map<std::string, std::string> NamePath;
 	NamePath ResourceList;
 
-//Serialise Resources
+	//Serialise Resources
 	if (Level.HasMember("TexturesFilesPaths"))
 	{
 		for (unsigned i = 0; i < Level["TexturesFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
@@ -819,7 +818,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	}
 #endif
 
-//Create and Serialise TileMaps
+	//Create and Serialise TileMaps
 	if (Level.HasMember("AllTileMaps"))
 	{
 		for (rapidjson::SizeType i = 0; i < Level["AllTileMaps"].Size(); i++)
@@ -845,7 +844,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		}
 	}
 
-//Create dynamic GameObjects
+	//Create dynamic GameObjects
 	if (Level.HasMember("GameObjects"))
 	{
 		for (unsigned i = 0; i < Level["GameObjects"].Size(); i++)
@@ -854,7 +853,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 
 			std::string name = datafile["Object"].GetString();
 			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name];
-			GameObject * tmp = CloneGameObject(tmp2);
+			GameObject* tmp = CloneGameObject(tmp2);
 			tmp->SerialiseFromLevel(datafile);
 		}
 	}
@@ -885,7 +884,7 @@ void GameObjectFactory::De_SerialiseLevel(std::string filename)
 
 
 	}
-	
+
 
 	//Deserialise the Audio from GameObjects AudioComponent
 	//Deserialise the textures from GameObject GraphicComponent & AnimationComponents 
@@ -898,8 +897,8 @@ void GameObjectFactory::De_SerialiseLevel(std::string filename)
 void GameObjectFactory::DeleteLevel()
 {
 	EngineSystems::GetInstance()._prefabFactory->GetPrototypeList().clear();
-	EngineSystems::GetInstance()._graphicsSystem->_spriteList.clear();
-	EngineSystems::GetInstance()._graphicsSystem->_transformList.clear();
+	EngineSystems::GetInstance()._graphicsSystem->_graphicCompList.clear();
+	EngineSystems::GetInstance()._graphicsSystem->_transformCompList.clear();
 	EngineSystems::GetInstance()._logicSystem->_logicList.clear();
 	EngineSystems::GetInstance()._buttonManager->_buttonList.clear();
 	EngineSystems::GetInstance()._collisionManager->_collider2dList.clear();

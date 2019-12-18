@@ -3,91 +3,71 @@
 #ifndef GRAPHICSYSTEM_H
 #define GRAPHICSYSTEM_H
 
-#include <glew.h>
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "Elementbuffer.h"
-#include "VertexBuffer.h"
-#include <string>
-#include "VertexArray.h"
-#include "PrecompiledHeaders.h"
+#include "Renderer.h"        // normal renderer
+#include "UIRenderer.h"      // ui renderer for ui, font etc in screen space
+#include "DebugRenderer.h"   // render debug lines
+#include "CameraManager.h"   // class contain one (or more) cameras
+
+// components
+// include UI component
+
 #include "GameObjectComponents/GraphicComponents/TransformComponent.h"
 #include "GameObjectComponents/GraphicComponents/GraphicComponent.h"
 #include "GameObjectComponents/GraphicComponents/AnimationComponent.h"
-#include "GameObjectComponents/GraphicComponents/FontComponent.h"
-#include "Shader.h"
+#include "GameObjectComponents/GraphicComponents/FontComponent.h" 
+
+// glm
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
+// renderobjects
+#include "RenderObject.h"
+#include <vector>
+
+// temporary
 #include "QuadMesh.h"
 #include "TextureManager.h"
-#include "Camera.h"
-#include "FontRenderer.h"
-#include "../Animation/AnimationSystem.h"
-#include "../Animation/Animation.h"
-#include "UIMesh.h"
-#include "BasicRenderer.h"
-
-enum RenderMode
-{
-	None,
-	Instance,
-	Font,
-	Font2
-};
 class GraphicsSystem
 {
+
 public:
-	std::unordered_map < size_t, FontComponent*> _fontList;
-	std::unordered_map < size_t, GraphicComponent*> _spriteList;
-	std::unordered_map < size_t, AnimationComponent*> _animationList;
-	std::unordered_map < size_t, TransformComponent*>  _transformList;
+	// GraphicsSystem(int& windowWidth, int& windowHeight); possible solution to resize : take the reference of window height and width
 
-	void Update(double dt);
-	void Exit();
-	//RenderMode _renderMode = None;
-	int num = 0;
-
-	void AddFontObject(size_t uId, void* component = 0);
-	void RemoveFontObject(size_t uId);
-
-	void AddSpriteObject(size_t uId, void* component = 0);
-	void RemoveSpriteObject(size_t uId);
-
-	void AddAnimationObject(size_t uId, void* component = 0);
-	void RemoveAnimationObject(size_t uId);
-
-
-	GraphicsSystem(int windowWidth, int windowHeight);
-	Camera& GetCamera();
-	const TextureManager& GetTextureManager() const;
-
-	void CalculateProjectionMatrix(int windowWidth, int windowHeight);
-
-	void GetZmoInfo(size_t objectUId, const float*& cameraView, float*& cameraProjection, float*& transformMatrix);
-
+	void Update(double dt);                              // Update function called every loop
+	GraphicsSystem(int windowWidth, int windowHeight);   // constructor
+	~GraphicsSystem();                                   // destructor
 private:
-	void ClearScreen() const;
-	void UnitTest();
-	
-	int _testAnim = 0;
-	int _numAnim = 0;
-	int _showfont = 0;
+	void BeginScene();
+	void EndScene();
+private:
+	void ClearSreen() const;
+	void UpdateViewMatrix();                             // called begin of loop, fletch the view matrix of the frame from the camera
+	void UpdateRenderObjectList();                       // called begin of loop, fill up the render objects list
+	glm::mat4 UpdateTransform(TransformComponent*, GraphicComponent*);
+private:
+	Renderer _renderer;             // normal renderer
+	//DebugRenderer _debugRenderer; // render debug lines
+	UIRenderer _uiRenderer;         // ui renderer for ui, font etc in screen space
+private:
+	glm::mat4 _proj;                // projection matrix depth ( z-axis ) range from -30 to 30
+	glm::mat4 _view;                // camera view matrix
+
+	CameraManager _cameraManager;   // class manage all the camera
+private:
+	std::vector<std::vector<RenderObject>> _renderObjects;
+
 	TextureManager _textureManager;
+	QuadMesh _quadMesh;
+	QuadMesh _q2{ 0.0f, 0.0f, 0.5f, 0.5f };
 	Shader* _shader;
-	glm::mat4 _proj;
-	
-	QuadMesh _quadmesh;
-	UIMesh _uimesh;
+public:
+	std::unordered_map < size_t, FontComponent*>       _fontCompList;
+	std::unordered_map < size_t, AnimationComponent*>  _animationCompList;
+	std::unordered_map < size_t, GraphicComponent*>    _graphicCompList;
+	std::unordered_map < size_t, TransformComponent*>  _transformCompList;
+};
 
-	Camera _camera;
-	//PlayerMesh _playerMesh;
-	FontRenderer* _fontRenderer;
-	BasicRenderer _basicRenderer;
-	AnimationSystem _animationSystem;
-
-	Animation _testAnimation;
-	
-};	
-
-#define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix
+//#define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix
 
 #endif
 

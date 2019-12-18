@@ -45,7 +45,7 @@ void ImGuizmoManager::Update()
 		const float* cameraView = nullptr;
 		float* cameraProjection = nullptr;
 		float* objectMatrix = nullptr;
-		MyGraphicsSystem.GetZmoInfo(_pickUId, cameraView, cameraProjection, objectMatrix);
+		//MyGraphicsSystem.GetZmoInfo(_pickUId, cameraView, cameraProjection, objectMatrix);
 		EditTransform(cameraView, cameraProjection, objectMatrix);
 
 		float m[3] = { 0,0,0 };

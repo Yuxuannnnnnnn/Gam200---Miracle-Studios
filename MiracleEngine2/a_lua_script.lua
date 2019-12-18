@@ -1,1 +1,0 @@
-print('hi from a lua script file')

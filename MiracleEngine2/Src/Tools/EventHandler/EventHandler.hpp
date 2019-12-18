@@ -77,16 +77,16 @@ void EventHandler::SendSystemEventMessage(size_t uId, EventMessageType type, Com
 			MyTransformManager.AddObject(uId, message2);
 			break;
 		case ComponentId::GRAPHICS_COMPONENT:
-			MyGraphicsSystem.AddSpriteObject(uId, message2);
+//			MyGraphicsSystem.AddSpriteObject(uId, message2);
 			break;
 		case ComponentId::ANIMATION_COMPONENT:
-			MyGraphicsSystem.AddAnimationObject(uId, message2);
+		//	MyGraphicsSystem.AddAnimationObject(uId, message2);
 			break;
 		case ComponentId::CAMERA_COMPONENT:
 			//MyTransformManager.AddObject(uId, message2);
 			break;
 		case ComponentId::FONT_COMPONENT:
-			MyGraphicsSystem.AddFontObject(uId, message2);
+			//MyGraphicsSystem.AddFontObject(uId, message2);
 			break;
 		case ComponentId::RIGIDBODY_COMPONENT:
 			MyRigidbodyManager.AddObject(uId, message2);
@@ -127,16 +127,16 @@ void EventHandler::SendSystemEventMessage(size_t uId, EventMessageType type, Com
 			MyTransformManager.RemoveObject(uId);
 			break;
 		case ComponentId::GRAPHICS_COMPONENT:
-			MyGraphicsSystem.RemoveSpriteObject(uId);
+			//MyGraphicsSystem.RemoveSpriteObject(uId);
 			break;
 		case ComponentId::ANIMATION_COMPONENT:
-			MyGraphicsSystem.RemoveAnimationObject(uId);
+			//MyGraphicsSystem.RemoveAnimationObject(uId);
 			break;
 		case ComponentId::CAMERA_COMPONENT:
 			//MyTransformManager.AddObject(uId, message2);
 			break;
 		case ComponentId::FONT_COMPONENT:
-			MyGraphicsSystem.RemoveFontObject(uId);
+			//MyGraphicsSystem.RemoveFontObject(uId);
 			break;
 		case ComponentId::RIGIDBODY_COMPONENT:
 			MyRigidbodyManager.RemoveObject(uId);

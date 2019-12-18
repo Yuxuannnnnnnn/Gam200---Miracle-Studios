@@ -114,6 +114,9 @@
     <ClCompile Include="Src\GraphicsSystem\BasicRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\InstancedRenderer.cpp" />
     <ClCompile Include="Src\ScriptSystem\LuaScriptTest.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\Renderer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\RenderLayer.cpp" />
+    <ClCompile Include="Src\GraphicsSystem\UIRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -547,6 +550,10 @@
     <ClInclude Include="Dep\lua\lualib.h" />
     <ClInclude Include="Dep\sol\assert.hpp" />
     <ClInclude Include="Src\ScriptSystem\LuaScriptTest.h" />
+    <ClInclude Include="Src\GraphicsSystem\Renderer.h" />
+    <ClInclude Include="Src\GraphicsSystem\RenderLayer.h" />
+    <ClInclude Include="Src\GraphicsSystem\RenderObject.h" />
+    <ClInclude Include="Src\GraphicsSystem\UIRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

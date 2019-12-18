@@ -22,7 +22,7 @@ void Engine::Update()
 		testfunc();
 	}
 
-	MySceneManager.ChangeScene("MainMenu");
+	MySceneManager.ChangeScene("Level1");
 
 	while (MySceneManager.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{

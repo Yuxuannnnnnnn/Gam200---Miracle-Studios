@@ -75,28 +75,28 @@ void DebugRenderer::Update()
 
 void DebugRenderer::DrawCircle(float x, float y, float radiusin)
 {
-	_vaoCircle->Select();
-	_shader->Select();
+	//_vaoCircle->Select();
+	//_shader->Select();
 
-	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 12));
-	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(radiusin * 2, radiusin * 2, 0));
-	glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix() * model;
-	//glm::mat4 mvp = _proj * trans;
-	int location = glGetUniformLocation(_shader->_id, "u_Color");
-	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
+	//glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 12));
+	//glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(radiusin * 2, radiusin * 2, 0));
+	////glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix() * model;
+	////glm::mat4 mvp = _proj * trans;
+	//int location = glGetUniformLocation(_shader->_id, "u_Color");
+	//glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
 
-	location = glGetUniformLocation(_shader->_id, "u_MVP");
-	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
+	//location = glGetUniformLocation(_shader->_id, "u_MVP");
+	//glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
-	/*glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
+	///*glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
 
-	glDrawArrays(GL_LINE_LOOP, 0, NUMBER_OF_VERTICES);
+	//glDrawArrays(GL_LINE_LOOP, 0, NUMBER_OF_VERTICES);
 }
 
 void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 {
-	_shader->Select();
+	/*_shader->Select();
 	_vao->Select();
 
 	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 12));
@@ -113,101 +113,101 @@ void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
 	glEnableVertexAttribArray(0);
-	glDrawArrays(GL_LINES, 0, 2);
+	glDrawArrays(GL_LINES, 0, 2);*/
 }
 
 
 
 void DebugRenderer::SubmitDebugLine(float x1, float y1, float x2, float y2)
 {
-	/*
-	GLfloat verts[6] = {
-	1.0f, 1.0f, 0.0f,
-	0.0f, 0.0f, 0.0f
-	};
-	*/
+	///*
+	//GLfloat verts[6] = {
+	//1.0f, 1.0f, 0.0f,
+	//0.0f, 0.0f, 0.0f
+	//};
+	//*/
 
-	// initial vertex application side
-	glm::vec4 vertex1{ x1, y1, 14, 0 };
-	glm::vec4 vertex2{ x2, y2, 14, 0 };
+	//// initial vertex application side
+	//glm::vec4 vertex1{ x1, y1, 14, 0 };
+	//glm::vec4 vertex2{ x2, y2, 14, 0 };
 
-	static float angle = 0.0f;
+	//static float angle = 0.0f;
 
-	// calculate MVP
-	//glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 12));
-	//glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2 - x1, y2 - y1, 0)) * glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 0.0f, 0.0f));
-	angle += 0.01f;
-	//glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
+	//// calculate MVP
+	////glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 12));
+	////glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2 - x1, y2 - y1, 0)) * glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 0.0f, 0.0f));
+	//angle += 0.01f;
+	////glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
 
 
-	// apply MVP to vertex
-	//glm::vec4 vertex1 = mvp * vertex01;
-	//glm::vec4 vertex2 = mvp * vertex02;
+	//// apply MVP to vertex
+	////glm::vec4 vertex1 = mvp * vertex01;
+	////glm::vec4 vertex2 = mvp * vertex02;
 
-	_debugBatchRenderer.vert.push_back(vertex1.x);
-	_debugBatchRenderer.vert.push_back(vertex1.y);
-	_debugBatchRenderer.vert.push_back(vertex1.z);
+	//_debugBatchRenderer.vert.push_back(vertex1.x);
+	//_debugBatchRenderer.vert.push_back(vertex1.y);
+	//_debugBatchRenderer.vert.push_back(vertex1.z);
 
-	_debugBatchRenderer.vert.push_back(vertex2.x);
-	_debugBatchRenderer.vert.push_back(vertex2.y);
-	_debugBatchRenderer.vert.push_back(vertex2.z);
+	//_debugBatchRenderer.vert.push_back(vertex2.x);
+	//_debugBatchRenderer.vert.push_back(vertex2.y);
+	//_debugBatchRenderer.vert.push_back(vertex2.z);
 }
 
 void DebugRenderer::BatchDrawDebugLine()
 {
-	if (_debugBatchRenderer.vert.empty())
-		return;
+	//if (_debugBatchRenderer.vert.empty())
+	//	return;
 
-	_vaobatch->Select();
+	//_vaobatch->Select();
 
-	// select batch shader
-	_shader->Select();
+	//// select batch shader
+	//_shader->Select();
 
 
-	// bind buffer in batch renderer
-	glBindBuffer(GL_ARRAY_BUFFER, _batchvbo);
-	glBufferData(GL_ARRAY_BUFFER, _debugBatchRenderer.vert.size() * 4, &_debugBatchRenderer.vert[0], GL_DYNAMIC_DRAW);
+	//// bind buffer in batch renderer
+	//glBindBuffer(GL_ARRAY_BUFFER, _batchvbo);
+	//glBufferData(GL_ARRAY_BUFFER, _debugBatchRenderer.vert.size() * 4, &_debugBatchRenderer.vert[0], GL_DYNAMIC_DRAW);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	
+	//
 
-	glm::mat4 view = EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
-	glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
-	
-	int location = glGetUniformLocation(_batchshader->_id, "u_Color");
-	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
+	//glm::mat4 view = EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
+	//glm::mat4 mvp = _proj * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
+	//
+	//int location = glGetUniformLocation(_batchshader->_id, "u_Color");
+	//glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
 
-	location = glGetUniformLocation(_shader->_id, "u_MVP");
-	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
+	//location = glGetUniformLocation(_shader->_id, "u_MVP");
+	//glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
-	glDrawArrays(GL_LINES, 0, _debugBatchRenderer.vert.size() / 3);
+	//glDrawArrays(GL_LINES, 0, _debugBatchRenderer.vert.size() / 3);
 
-	// clear buffer every loop
-	_debugBatchRenderer.vert.clear();
+	//// clear buffer every loop
+	//_debugBatchRenderer.vert.clear();
 }
 
 
 
 void DebugRenderer::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 {
-	_quadmesh.Select();
+	//_quadmesh.Select();
 
 
-	_shader->Select();
+	//_shader->Select();
 
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 12));
-	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
-	glm::mat4 model = translate * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix() * glm::scale(glm::mat4(1.0f), glm::vec3(xsize, ysize, 1.0f));
+	//glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 12));
+	//glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+	//glm::mat4 model = translate * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix() * glm::scale(glm::mat4(1.0f), glm::vec3(xsize, ysize, 1.0f));
 
-	glm::mat4 mvp = _proj * model;
+	//glm::mat4 mvp = _proj * model;
 
-	_shader->SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
-	_shader->SetUniformMat4f("u_MVP", mvp);
+	//_shader->SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+	//_shader->SetUniformMat4f("u_MVP", mvp);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	// this one encapsulate into another class
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//// this one encapsulate into another class
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
