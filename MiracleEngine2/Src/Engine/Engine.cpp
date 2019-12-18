@@ -2,6 +2,8 @@
 #include "Tools/EventHandler/EventHandler.h"
 
 
+// BRANDON::testing sol & lua
+#include "ScriptSystem/LuaScriptTest.h"
 
 void Engine::Init()
 {
@@ -14,6 +16,11 @@ void Engine::Init()
 
 void Engine::Update()
 {
+	bool test = true; // BRANDON::testing sol & lua
+	if (test)
+	{
+		testfunc();
+	}
 
 	MySceneManager.ChangeScene("MainMenu");
 

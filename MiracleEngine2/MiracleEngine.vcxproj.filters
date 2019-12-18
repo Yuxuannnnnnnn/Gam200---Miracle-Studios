@@ -113,6 +113,7 @@
     <ClCompile Include="Src\GraphicsSystem\BatchRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\BasicRenderer.cpp" />
     <ClCompile Include="Src\GraphicsSystem\InstancedRenderer.cpp" />
+    <ClCompile Include="Src\ScriptSystem\LuaScriptTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -536,9 +537,20 @@
     <ClInclude Include="Src\GraphicsSystem\BatchRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\BasicRenderer.h" />
     <ClInclude Include="Src\GraphicsSystem\InstancedRenderer.h" />
+    <ClInclude Include="Dep\sol\forward.hpp" />
+    <ClInclude Include="Dep\sol\sol.hpp" />
+    <ClInclude Include="Dep\lua\lauxlib.h" />
+    <ClInclude Include="Dep\lua\lua.h" />
+    <ClInclude Include="Dep\lua\lua.hpp" />
+    <ClInclude Include="Dep\lua\luaconf.h" />
+    <ClInclude Include="Dep\lua\luajit.h" />
+    <ClInclude Include="Dep\lua\lualib.h" />
+    <ClInclude Include="Dep\sol\assert.hpp" />
+    <ClInclude Include="Src\ScriptSystem\LuaScriptTest.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
+    <Library Include="Dep\lua\lib\lua51.lib" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />
@@ -712,6 +724,7 @@
     <None Include="Resources\TextFiles\GameObjects\BulletT.json" />
     <None Include="Resources\TextFiles\GameObjects\BulletE.json" />
     <None Include="Resources\TextFiles\GameObjects\BackgroundMusic.json" />
+    <None Include="Dep\lua\lib\lua51.dll" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />

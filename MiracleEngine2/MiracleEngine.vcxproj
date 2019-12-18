@@ -77,10 +77,10 @@
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,16 +89,16 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dep\freetype\lib;$(SolutionDir)Dep\fmod\lib;$(SolutionDir)Dep\glew-2.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype.lib;fmod64_vc.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dep\freetype\lib;$(SolutionDir)Dep\fmod\lib;$(SolutionDir)Dep\glew-2.1.0\lib;$(SolutionDir)Dep\lua\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;fmod64_vc.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,16 +108,16 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ConformanceMode>false</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dep\freetype\lib;$(SolutionDir)Dep\fmod\lib;$(SolutionDir)Dep\glew-2.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype.lib;fmod64_vc.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dep\freetype\lib;$(SolutionDir)Dep\fmod\lib;$(SolutionDir)Dep\glew-2.1.0\lib;$(SolutionDir)Dep\lua\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;fmod64_vc.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,9 +129,9 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -139,8 +139,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dep\freetype\lib;$(SolutionDir)Dep\fmod\lib;$(SolutionDir)Dep\glew-2.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype.lib;fmod64_vc.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dep\freetype\lib;$(SolutionDir)Dep\fmod\lib;$(SolutionDir)Dep\glew-2.1.0\lib;$(SolutionDir)Dep\lua\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;fmod64_vc.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,8 +152,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ConformanceMode>false</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -162,12 +162,21 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dep\freetype\lib;$(SolutionDir)Dep\fmod\lib;$(SolutionDir)Dep\glew-2.1.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype.lib;fmod64_vc.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dep\freetype\lib;$(SolutionDir)Dep\fmod\lib;$(SolutionDir)Dep\glew-2.1.0\lib;$(SolutionDir)Dep\lua\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;fmod64_vc.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
+    <ClInclude Include="Dep\lua\lauxlib.h" />
+    <ClInclude Include="Dep\lua\lua.h" />
+    <ClInclude Include="Dep\lua\lua.hpp" />
+    <ClInclude Include="Dep\lua\luaconf.h" />
+    <ClInclude Include="Dep\lua\luajit.h" />
+    <ClInclude Include="Dep\lua\lualib.h" />
+    <ClInclude Include="Dep\sol\assert.hpp" />
+    <ClInclude Include="Dep\sol\forward.hpp" />
+    <ClInclude Include="Dep\sol\sol.hpp" />
     <ClInclude Include="Src\GameObjectComponents\LogicComponents\DataComponent.h" />
     <ClInclude Include="Src\Gameplay\EnemyThree.h" />
     <ClInclude Include="Src\GraphicsSystem\BasicRenderer.h" />
@@ -185,6 +194,7 @@
     <ClInclude Include="Src\PhysicSystem\CollisionManager.h" />
     <ClInclude Include="Src\PhysicSystem\ImGuizmoManager.h" />
     <ClInclude Include="Src\PhysicSystem\RigidBodyManager.h" />
+    <ClInclude Include="Src\ScriptSystem\LuaScriptTest.h" />
     <ClInclude Include="Src\Tools\EventHandler\EventHandler.hpp" />
     <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
     <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
@@ -613,6 +623,7 @@
     <ClCompile Include="Src\PhysicSystem\CollisionManager.cpp" />
     <ClCompile Include="Src\PhysicSystem\ImGuizmoManager.cpp" />
     <ClCompile Include="Src\PhysicSystem\RigidBodyManager.cpp" />
+    <ClCompile Include="Src\ScriptSystem\LuaScriptTest.cpp" />
     <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
     <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
     <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
@@ -761,6 +772,7 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
+    <Library Include="Dep\lua\lib\lua51.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dep\glm\detail\func_common.inl" />
@@ -897,6 +909,7 @@
     <None Include="Dep\glm\gtx\vector_angle.inl" />
     <None Include="Dep\glm\gtx\vector_query.inl" />
     <None Include="Dep\glm\gtx\wrap.inl" />
+    <None Include="Dep\lua\lib\lua51.dll" />
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
     <None Include="Resources\TextFiles\AnimationData\CatAnimation.json" />
