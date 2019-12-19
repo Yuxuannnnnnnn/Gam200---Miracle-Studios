@@ -83,11 +83,11 @@ void GameObject::Serialise(std::string file)
 
 }
 
-void GameObject::DeSerialise()
+void GameObject::DeSerialise(std::string filePath)
 {
-	IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[ComponentId::IDENTITY_COMPONENT]);
-	std::string fileName = "./Resources/TextFiles/GameObjects/" + IdComponent->ObjectType() + ".json";
-	DeSerialiser prototypeDoc(fileName);
+	//IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[ComponentId::IDENTITY_COMPONENT]);
+	//std::string fileName = "./Resources/TextFiles/GameObjects/" + IdComponent->ObjectType() + ".json";
+	DeSerialiser prototypeDoc(filePath);
 
 	for (auto& ComponentPair : _ComponentList)
 	{

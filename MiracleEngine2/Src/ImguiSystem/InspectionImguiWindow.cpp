@@ -95,7 +95,30 @@ void InspectionImguiWindow::Update()
 
 				if (ImGui::Button("SAVE Prototype ", buttonSize))
 				{
-					_inspectObj->DeSerialise();	//Save Prototype into .json file but will overwrite existing file with same name
+					OPENFILENAME ofn = { sizeof ofn };
+					ZeroMemory(&ofn, sizeof(ofn));
+					ofn.lStructSize = sizeof(ofn);
+					ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
+					
+					char file[1024] = "\0";
+					std::string idType = dynamic_cast<IdentityComponent*>(_inspectObj->GetComponent(ComponentId::IDENTITY_COMPONENT))->ObjectType();
+					strncpy(file, idType.c_str(), idType.size());
+					ofn.lpstrFile = file;
+					ofn.nMaxFile = 1024;
+					ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER;
+					
+					ofn.lpstrFilter = ".json\0.json";
+					ofn.lpstrFileTitle = NULL;
+					ofn.nMaxFileTitle = 0;
+					ofn.lpstrInitialDir = NULL;
+					ofn.nFilterIndex = 1;
+					ofn.lpstrTitle = TEXT("Save As");
+					ofn.lpstrDefExt = "rle";
+					GetSaveFileName(&ofn); 
+
+					std::cout << ofn.lpstrFile;
+
+					_inspectObj->DeSerialise(ofn.lpstrFile);	//Save Prototype into .json file but will overwrite existing file with same name
 				}
 				ImGui::SameLine();
 				ImGui::TextDisabled("(?)");

@@ -92,7 +92,7 @@ public:
 
 	void Serialise(std::string file);
 	void SerialiseFromLevel(Serialiser& fileObject);
-	void DeSerialise();
+	void DeSerialise(std::string filePath);
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
 
