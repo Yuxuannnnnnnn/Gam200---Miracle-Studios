@@ -1,0 +1,44 @@
+{
+  "IdentityComponent": true,
+  "Name": "none",
+  "ObjectType": "player",
+
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 70.0, 70.0 ],
+  "Rotate": 0.0,
+
+  "GraphicsComponent": true,
+  "G.TypeId": 0,
+  "G.FileName": "player",
+
+  "AnimationComponent": true,
+  "Type": "idle",
+
+  "RigidBodyComponent": true,
+  "Mass": 10.0,
+  "Friction": 0.1,
+  "Static": false,
+
+  "CircleColliderComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 1,
+  "ColliderTrigger": false,
+
+  "LogicComponent": true,
+  "ScriptId": [ "PLAYER" ],
+  "WeaponActive": 2,
+  "AmmoRpg": 5,
+  "AmmoTurret": 5,
+  "AmmoWall": 5,
+  "FireratePistol": 0.1,
+  "FirerateShotgun": 0.5,
+  "FirerateRpg": 1.0,
+  "FirerateTurret": 5.0,
+  "FirerateWall": 4.0,
+
+  "AudioComponent": true,
+  "A.TypeId": 0,
+  "A.FileName": "audio_player.ogg"
+
+}

@@ -1,0 +1,28 @@
+{
+  "IdentityComponent": true,
+  "Name": "none",
+  "ObjectType": "Explosion",
+
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 200.0, 200.0 ],
+  "Rotate": 0.0,
+
+  "GraphicsComponent": true,
+  "G.TypeId": 0,
+  "G.FileName": "bullet",
+
+  "RigidBodyComponent": true,
+  "Mass": 1.0,
+  "Friction": 1.0,
+  "Static": false,
+
+  "CircleColliderComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 2,
+  "ColliderTrigger": true,
+
+  "LogicComponent": true,
+  "ScriptId": [ "EXPLOSION" ],
+  "Lifetime": 3.0
+}

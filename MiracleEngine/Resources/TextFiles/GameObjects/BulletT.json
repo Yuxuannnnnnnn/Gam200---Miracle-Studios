@@ -1,0 +1,30 @@
+{
+  "IdentityComponent": true,
+  "Name": "none",
+  "ObjectType": "BulletT",
+
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 20.0, 20.0 ],
+  "Rotate": 0.0,
+
+  "GraphicsComponent": true,
+  "G.TypeId": 0,
+  "G.FileName": "bulletT",
+
+  "RigidBodyComponent": true,
+  "Mass": 1.0,
+  "Friction": 0.0,
+  "Static": false,
+
+  "CircleColliderComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 2,
+  "ColliderTrigger": false,
+
+  "LogicComponent": true,
+  "ScriptId": [ "BULLET" ],
+  "Lifetime": 3.0,
+  "BulletType": "BulletTurret",
+  "BulletSpeed": 5.0
+}
