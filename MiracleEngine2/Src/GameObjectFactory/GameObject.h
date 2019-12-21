@@ -63,7 +63,7 @@
 //	}
 //}
 
-typedef std::unordered_map <ComponentId, IComponentSystem* > Map_ComponentList;
+typedef std::unordered_map <ComponentId, IComponent* > Map_ComponentList;
 
 class GameObject
 {
@@ -97,9 +97,9 @@ public:
 	Map_ComponentList& GetComponentList(); // Get ComponentList
 
 	bool CheckComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
-	IComponentSystem* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
+	IComponent* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
 
-	IComponentSystem* AddComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
+	IComponent* AddComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 	void RemoveComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 	void DestoryGameObject();
 

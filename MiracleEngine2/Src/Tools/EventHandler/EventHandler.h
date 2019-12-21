@@ -11,8 +11,8 @@
 
 #include "../../ISingleton.h"
 
-#include "GameObjectComponents/IComponentSystem.h"
-#include "GameObjectComponents/PhysicsComponents/Collider2D.h"
+#include "GameObjectComponents/IComponent.h"
+#include "GameObjectComponents/PhysicsComponents/ICollider2D.h"
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
 #include <unordered_set>
@@ -43,11 +43,11 @@ enum class EventMessageType {
 
 class EventHandler : public ISingleton<EventHandler> 
 {
-	typedef std::pair<Collider2D*, Collider2D*> ColliderPair;
+	typedef std::pair<ICollider2D*, ICollider2D*> ColliderPair;
 	typedef std::unordered_map<size_t, ColliderPair> Collider2DList;
 	typedef std::unordered_map<size_t, Collider2DList> Collider2DQueue;
 
-	typedef std::pair<ComponentId, IComponentSystem*> ComponentPair;
+	typedef std::pair<ComponentId, IComponent*> ComponentPair;
 	typedef std::unordered_multimap<size_t, ComponentPair> NewComponentQueue;
 	typedef std::unordered_multimap<size_t, ComponentId> DeleteComponentQueue;
 
@@ -79,12 +79,12 @@ public:
 	void BroadcastInputEvents();
 	void BroadcastObjectEvents();
 
-	void AddCollided2DEvent(Collider2D* first, Collider2D* second);
-	void AddTriggered2DEvent(Collider2D* first, Collider2D* second);
+	void AddCollided2DEvent(ICollider2D* first, ICollider2D* second);
+	void AddTriggered2DEvent(ICollider2D* first, ICollider2D* second);
 	void AddMouseClickEvent(size_t id);
 	void AddMouseHoverEvent(size_t id);
 	void AddDeletionEvent(size_t id, ComponentId cId = ComponentId::COUNTCOMPONENT);
-	void AddCreationEvent(size_t id, ComponentId cId, IComponentSystem* ptr);
+	void AddCreationEvent(size_t id, ComponentId cId, IComponent* ptr);
 
 	void ClearAllEvents();
 

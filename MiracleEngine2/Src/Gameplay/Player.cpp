@@ -410,7 +410,7 @@ void Player::ProgressIncement(int in)
 	_progress += in;
 }
 
-void Player::OnTrigger2DEnter(Collider2D* other)
+void Player::OnTrigger2DEnter(ICollider2D* other)
 {
 	IdentityComponent* idCom = dynamic_cast <IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
 	std::string id = idCom->ObjectType();

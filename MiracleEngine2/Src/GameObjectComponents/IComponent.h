@@ -64,7 +64,7 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 
 class GameObject; // forward declaration
 
-class IComponentSystem
+class IComponent
 {
 private:
 
@@ -74,16 +74,16 @@ private:
 
 public:
 
-	IComponentSystem();
-	IComponentSystem(GameObject * parent, size_t uId);	//Initialise Parent Ptr & ParentId
-	virtual ~IComponentSystem() = default;	//virtual destructor to delete deerived Components
+	IComponent();
+	IComponent(GameObject * parent, size_t uId);	//Initialise Parent Ptr & ParentId
+	virtual ~IComponent() = default;	//virtual destructor to delete deerived Components
 
 //Interface functions to be implemented by Derived Classes
 	virtual std::string ComponentName() const = 0; //Ever Comoponent has a ComponentName function
 	virtual void SerialiseComponent(Serialiser & document) = 0; //Every Component has to have a serialise function
 	virtual void DeSerialiseComponent(DeSerialiser & prototypeDoc) = 0; //Every Component has to have a DeSerialise function
 	virtual void Inspect() = 0;	//Every Component has an Inspect function for InspectionImguiWindow
-	//virtual IComponentSystem* CloneComponent() = 0;
+	//virtual IComponent* CloneComponent() = 0;
 	virtual void SaveComponent()
 	{
 
@@ -95,7 +95,7 @@ public:
 	GameObject* GetParentPtr();
 	void SetParentPtr(GameObject* inVal);
 
-	IComponentSystem* GetSibilingComponent(ComponentId _componentId);
+	IComponent* GetSibilingComponent(ComponentId _componentId);
 
 	bool GetEnable() const { return _enable; }
 	void SetEnable(bool enable) { _enable = enable; }

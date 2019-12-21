@@ -172,7 +172,7 @@ void GraphicComponent::Inspect()
 	//_fileName
 	//	_shaderID
 	//	_renderLayer
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 
 	{
 		ImGui::Spacing();

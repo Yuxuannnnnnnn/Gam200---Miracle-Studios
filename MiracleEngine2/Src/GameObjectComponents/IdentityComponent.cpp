@@ -5,8 +5,8 @@
 
 
 
-IdentityComponent::IdentityComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId)/*, _typeId{ (unsigned)TypeIdGO::NONE }*/, _ObjectType{ "" }, _current_ObjectType{ "" }, _current_Name{ "" }
+IdentityComponent::IdentityComponent(GameObject* parent, size_t uId, IComponent* component)
+	: IComponent(parent, uId)/*, _typeId{ (unsigned)TypeIdGO::NONE }*/, _ObjectType{ "" }, _current_ObjectType{ "" }, _current_Name{ "" }
 {
 	//if (component)
 	//{

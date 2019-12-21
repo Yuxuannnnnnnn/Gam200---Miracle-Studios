@@ -1,6 +1,6 @@
 #pragma once
 #include "PrecompiledHeaders.h"
-#include "IComponentSystem.h"
+#include "IComponent.h"
 
 
 // For both audio componentand graphic component, serialize a string and a typeid
@@ -9,7 +9,7 @@ enum class TypeIdAudio {
 
 };
 
-class AudioComponent : public IComponentSystem
+class AudioComponent : public IComponent
 {
 private:
 	unsigned _typeIdAudio;
@@ -26,7 +26,7 @@ private:
 	const char* item_current_fileName;
 
 public:
-	AudioComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+	AudioComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 
 	bool IsBGM();
 	void SetIsBGM(bool isbgm);

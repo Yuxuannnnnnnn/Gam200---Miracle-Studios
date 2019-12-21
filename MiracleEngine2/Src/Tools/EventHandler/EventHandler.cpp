@@ -34,7 +34,7 @@ void EventHandler::BroadcastObjectEvents()
 }
 
 
-void EventHandler::AddCollided2DEvent(Collider2D* first, Collider2D* second)
+void EventHandler::AddCollided2DEvent(ICollider2D* first, ICollider2D* second)
 {
 	auto it = _Collide2DQueCurr.find(first->GetParentId());
 
@@ -50,7 +50,7 @@ void EventHandler::AddCollided2DEvent(Collider2D* first, Collider2D* second)
 	it->second.insert({ second->GetParentId(), ColliderPair(first ,second) });
 }
 
-void EventHandler::AddTriggered2DEvent(Collider2D* first, Collider2D* second)
+void EventHandler::AddTriggered2DEvent(ICollider2D* first, ICollider2D* second)
 {
 	auto it = _Trigger2DQueCurr.find(first->GetParentId());
 
@@ -84,7 +84,7 @@ void EventHandler::AddDeletionEvent(size_t id, ComponentId cId)
 	_DeleteComponentQueue.insert({ id, cId });
 }
 
-void EventHandler::AddCreationEvent(size_t id, ComponentId cId, IComponentSystem* ptr)
+void EventHandler::AddCreationEvent(size_t id, ComponentId cId, IComponent* ptr)
 {
 	_NewComponentQueue.insert({ id, ComponentPair(cId, ptr) });
 }

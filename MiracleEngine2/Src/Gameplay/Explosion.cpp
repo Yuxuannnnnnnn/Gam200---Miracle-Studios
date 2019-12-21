@@ -21,7 +21,7 @@ void Explosion::Update(double dt)
 		DestoryThis();
 }
 
-void Explosion::OnTrigger2DEnter(Collider2D* other)
+void Explosion::OnTrigger2DEnter(ICollider2D* other)
 {
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
 	std::string Id = IdCom->ObjectType();

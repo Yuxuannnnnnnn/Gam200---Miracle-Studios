@@ -90,9 +90,9 @@ void CollisionManager::UpdateCollision(double dt)
 		UpdateColliderData(it.second);
 	}
 
-	std::unordered_map<size_t, Collider2D* >::iterator it;
+	std::unordered_map<size_t, ICollider2D* >::iterator it;
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+	for (std::unordered_map<size_t, ICollider2D* > tempList = _collider2dList;
 		!tempList.empty();
 		tempList.erase(it))
 	{
@@ -121,7 +121,7 @@ void CollisionManager::UpdateCollision(double dt)
 
 void CollisionManager::AddObject(size_t uId, void* component)
 {
-	_collider2dList.insert({ uId, (Collider2D*)component });
+	_collider2dList.insert({ uId, (ICollider2D*)component });
 }
 
 void CollisionManager::RemoveObject(size_t uId)
@@ -132,9 +132,9 @@ void CollisionManager::RemoveObject(size_t uId)
 
 void CollisionManager::UpdateStaticCollision(double dt)
 {
-	std::unordered_map<size_t, Collider2D* >::iterator it;
+	std::unordered_map<size_t, ICollider2D* >::iterator it;
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+	for (std::unordered_map<size_t, ICollider2D* > tempList = _collider2dList;
 		!tempList.empty();
 		tempList.erase(it))
 	{
@@ -155,14 +155,14 @@ void CollisionManager::UpdateStaticCollision(double dt)
 		// center
 		if (_collisionMap.GetTileType(tileId) == TileType::HARD_WALL)
 		{
-			Collider2D* other = _collider2dList[_collisionMap.GetTileUId(tileId)];
+			ICollider2D* other = _collider2dList[_collisionMap.GetTileUId(tileId)];
 			CollisionCheckResponse(it->second, other, dt);
 		}
 
 		CollisionCheckTile(it->second, tileId, dt);
 	}
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+	for (std::unordered_map<size_t, ICollider2D* > tempList = _collider2dList;
 		!tempList.empty();
 		tempList.erase(it))
 	{
@@ -187,7 +187,7 @@ void CollisionManager::UpdateStaticCollision(double dt)
 	}
 }
 
-int CollisionManager::CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir, unsigned checked)
+int CollisionManager::CollisionCheckTile(ICollider2D* object, unsigned centerTileId, double dt, unsigned dir, unsigned checked)
 {
 	unsigned neighbourTileId = _collisionMap.GetNeighborTile(centerTileId, (TileDirection)dir);
 
@@ -197,7 +197,7 @@ int CollisionManager::CollisionCheckTile(Collider2D* object, unsigned centerTile
 
 		if (neighbourTileType == TileType::HARD_WALL)
 		{
-			Collider2D* other = _collider2dList[_collisionMap.GetTileUId(neighbourTileId)];
+			ICollider2D* other = _collider2dList[_collisionMap.GetTileUId(neighbourTileId)];
 			CollisionCheckResponse(object, other, dt);
 			checked++;
 		}
@@ -209,7 +209,7 @@ int CollisionManager::CollisionCheckTile(Collider2D* object, unsigned centerTile
 	return CollisionCheckTile(object, centerTileId, dt, ++dir, checked);
 }
 
-void CollisionManager::CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt)
+void CollisionManager::CollisionCheckResponse(ICollider2D* collider1, ICollider2D* collider2, double dt)
 {
 	TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider1->GetParentId());
 	TransformComponent* transform2 = _engineSystems._transforManager->GetTransform(collider2->GetParentId());
@@ -294,7 +294,7 @@ void CollisionManager::CollisionCheckResponse(Collider2D* collider1, Collider2D*
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void CollisionManager::UpdateColliderData(Collider2D* collider)
+void CollisionManager::UpdateColliderData(ICollider2D* collider)
 {
 	switch (collider->_type)
 	{

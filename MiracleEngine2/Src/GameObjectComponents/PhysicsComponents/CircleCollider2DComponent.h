@@ -9,9 +9,9 @@
 #ifndef _CIRCLE_COLLIDER_2D_H
 #define _CIRCLE_COLLIDER_2D_H
 
-#include "Collider2D.h"
+#include "ICollider2D.h"
 
-class CircleCollider2D : public Collider2D
+class CircleCollider2D : public ICollider2D
 {
 public:
 	Vector3	mCenPos;

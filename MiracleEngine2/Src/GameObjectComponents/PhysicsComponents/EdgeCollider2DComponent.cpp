@@ -1,5 +1,5 @@
 #include "PrecompiledHeaders.h"
-#include"EdgeCollider2D.h"
+#include"EdgeCollider2DComponent.h"
 
 EdgeCollider2D::EdgeCollider2D() :
 	m_origin{},
@@ -17,18 +17,18 @@ std::string EdgeCollider2D::ComponentName() const
 
 void EdgeCollider2D::SerialiseComponent(Serialiser& document)
 {
-	Collider2D::SerialiseComponent(document);
+	ICollider2D::SerialiseComponent(document);
 
 }
 
 void EdgeCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
-	Collider2D::DeSerialiseComponent(prototypeDoc);
+	ICollider2D::DeSerialiseComponent(prototypeDoc);
 }
 
 void EdgeCollider2D::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

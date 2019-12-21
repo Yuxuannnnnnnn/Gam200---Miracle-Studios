@@ -7,7 +7,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "PrecompiledHeaders.h"
-#include "CircleCollider2D.h"
+#include "CircleCollider2DComponent.h"
 //#include "GraphicsSystem/DebugRenderer.h"
 
 CircleCollider2D::CircleCollider2D() :
@@ -24,18 +24,18 @@ std::string CircleCollider2D::ComponentName() const
 
 void CircleCollider2D::SerialiseComponent(Serialiser& document)
 {
-	Collider2D::SerialiseComponent(document);
+	ICollider2D::SerialiseComponent(document);
 
 }
 
 void CircleCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
-	Collider2D::DeSerialiseComponent(prototypeDoc);
+	ICollider2D::DeSerialiseComponent(prototypeDoc);
 }
 
 void CircleCollider2D::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

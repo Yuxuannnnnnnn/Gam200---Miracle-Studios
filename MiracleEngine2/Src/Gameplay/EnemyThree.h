@@ -55,6 +55,6 @@ public:
 	void SetHealth(int val);
 	void DecrementHealth();
 
-	void OnCollision2DTrigger(Collider2D* other);
+	void OnCollision2DTrigger(ICollider2D* other);
 };
 #endif

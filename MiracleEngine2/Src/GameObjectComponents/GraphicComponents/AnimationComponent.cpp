@@ -13,8 +13,8 @@ std::string& AnimationComponent::GetFilePath()
 }
 
 
-AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId), _currentAnimation{ 0 }, _startingFrame{ 0 }
+AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponent* component)
+	: IComponent(parent, uId), _currentAnimation{ 0 }, _startingFrame{ 0 }
 {
 	if (component)
 	{
@@ -44,7 +44,7 @@ std::string AnimationComponent::ComponentName() const
 
 void AnimationComponent::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 }
 
 void AnimationComponent::AddAnimation(const Animation& animation)

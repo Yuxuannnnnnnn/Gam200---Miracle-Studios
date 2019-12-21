@@ -3,8 +3,8 @@
 
 
 
-AiComponent::AiComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	:IComponentSystem(parent, uId), _nextNode{ nullptr }, _attackRange{ 1.0f }, _state{ 0 }, _target{ nullptr }
+AiComponent::AiComponent(GameObject* parent, size_t uId, IComponent* component)
+	:IComponent(parent, uId), _nextNode{ nullptr }, _attackRange{ 1.0f }, _state{ 0 }, _target{ nullptr }
 {
 	if (component)
 	{
@@ -15,8 +15,8 @@ AiComponent::AiComponent(GameObject* parent, size_t uId, IComponentSystem* compo
 }
 
 
-//AiComponent::AiComponent(GameObject* target, GameObject* parent, size_t uId, IComponentSystem* component)
-	//:IComponentSystem(parent, uId)
+//AiComponent::AiComponent(GameObject* target, GameObject* parent, size_t uId, IComponent* component)
+	//:IComponent(parent, uId)
 //{
 	//_attackRange = (float)EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	//_attackRange *= _attackRange; // shitty ^2 function
@@ -47,7 +47,7 @@ void AiComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void AiComponent::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 }
 
 

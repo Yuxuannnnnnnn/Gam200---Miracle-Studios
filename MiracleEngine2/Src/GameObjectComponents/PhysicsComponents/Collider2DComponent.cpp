@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
-#include "Collider2D.h"
+#include "ICollider2D.h"
 
-Collider2D::Collider2D() :
+ICollider2D::ICollider2D() :
 	_type{ (unsigned)ColliderType::NONE_COLLIDER },
 	_tag{ (unsigned)ColliderTag::NONE },
 	_layer{ 0 },
@@ -10,12 +10,12 @@ Collider2D::Collider2D() :
 	_componentEnable{ true }
 {}
 
-std::string Collider2D::ComponentName() const
+std::string ICollider2D::ComponentName() const
 {
 	return "ColliderComponent";
 }
 
-void Collider2D::SerialiseComponent(Serialiser& document)
+void ICollider2D::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("ColliderTypeId") && document["ColliderTypeId"].IsInt())	//Checks if the variable exists in .Json file
 		_type = document["ColliderTypeId"].GetUint();
@@ -27,7 +27,7 @@ void Collider2D::SerialiseComponent(Serialiser& document)
 		_trigger = document["ColliderTrigger"].GetBool();
 }
 
-void Collider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+void ICollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
 
@@ -43,6 +43,6 @@ void Collider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 
 
-void Collider2D::Inspect()
+void ICollider2D::Inspect()
 {
 }

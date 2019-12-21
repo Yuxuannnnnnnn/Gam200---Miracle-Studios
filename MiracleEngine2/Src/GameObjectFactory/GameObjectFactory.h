@@ -24,7 +24,7 @@ class GameObjectFactory final
 	std::unordered_map < size_t, AnimationComponent*>	_AnimationComponents;	//
 	std::unordered_map < size_t, CameraComponent*>		_CameraComponents;		//
 	std::unordered_map < size_t, RigidBody2D* >			_rigidBody2dComponents;	//
-	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;	//
+	std::unordered_map < size_t, ICollider2D* >			_collider2dComponents;	//
 	std::unordered_map < size_t, LogicComponent* >		_logicComponents;		//
 	std::unordered_multimap<size_t, PickingCollider*>	_pickList;
 	std::unordered_map<size_t, AudioComponent*>			_audioComponent;		//
@@ -70,7 +70,7 @@ public:
 	std::unordered_map < size_t, GraphicComponent* > getGraphicComponent();		
 	std::unordered_map < size_t, TransformComponent* > getTransformComponent();
 	std::unordered_map < size_t, RigidBody2D* > getRigidBodyComponent();	
-	std::unordered_map < size_t, Collider2D* > getCollider2dComponent();
+	std::unordered_map < size_t, ICollider2D* > getCollider2dComponent();
 	std::unordered_map < size_t, LogicComponent* > getLogicComponent();
 	std::unordered_map < size_t, CameraComponent*>	 getCameraComponent()
 	{
@@ -89,8 +89,8 @@ public:
 	GameObject* CloneGameObject(GameObject* object);
 	void DestoryGameObject(GameObject* object);
 
-	IComponentSystem* AddComponent(GameObject* object, ComponentId tpye, ScriptId script = ScriptId::EMPTY);
-	IComponentSystem* CloneComponent(GameObject* object, IComponentSystem* component, ComponentId tpye);
+	IComponent* AddComponent(GameObject* object, ComponentId tpye, ScriptId script = ScriptId::EMPTY);
+	IComponent* CloneComponent(GameObject* object, IComponent* component, ComponentId tpye);
 	void RemoveComponent(GameObject* object, ComponentId tpye, ScriptId script = ScriptId::EMPTY);
 
 	LogicComponent* CloneLogicComponent(GameObject* object, LogicComponent* component);

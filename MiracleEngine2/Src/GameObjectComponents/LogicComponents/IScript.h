@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObjectComponents/IComponentSystem.h" // need to be able to access other components
+#include "GameObjectComponents/IComponent.h" // need to be able to access other components
 #include "GameObjectComponents/PrecompiledComponentHeader.h"
 #include "Tools/EventHandler/IColliderHandler.h"
 #include "Tools/EventHandler/IMouseHandler.h"
@@ -30,7 +30,7 @@ enum class ScriptId {
 	BUTTON_UI,	
 };
 
-class IScript : public IComponentSystem, public IColliderHandler, public IMouseHandler, public IForce
+class IScript : public IComponent, public IColliderHandler, public IMouseHandler, public IForce
 {
 private:
 	unsigned _ScriptType;

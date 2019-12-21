@@ -39,7 +39,7 @@ size_t GameObject::Get_uID() const
 }
 
 
-IComponentSystem* GameObject::GetComponent(ComponentId typeId, ScriptId script) // GetChildComponent
+IComponent* GameObject::GetComponent(ComponentId typeId, ScriptId script) // GetChildComponent
 {
 	if (CheckComponent(typeId))
 	{
@@ -65,7 +65,7 @@ void GameObject::SerialiseFromLevel(Serialiser& fileObject)
 //For Prototype Files
 void GameObject::Serialise(std::string file)
 {
-	IComponentSystem* component = nullptr;
+	IComponent* component = nullptr;
 
 	Serialiser document(file);
 	int i = 0;
@@ -96,7 +96,7 @@ void GameObject::DeSerialise(std::string filePath)
 		prototypeDoc.AddMember(ToString((ComponentId)ComponentPair.first), value);
 		//value.Clear();
 
-		IComponentSystem* component = ComponentPair.second;
+		IComponent* component = ComponentPair.second;
 		component->DeSerialiseComponent(prototypeDoc);
 	}
 }
@@ -123,17 +123,17 @@ bool  GameObject::CheckComponent(ComponentId componentType, ScriptId script)
 	return true;
 }
 
-IComponentSystem* GameObject::AddComponent(ComponentId componentType, ScriptId script)
+IComponent* GameObject::AddComponent(ComponentId componentType, ScriptId script)
 {
 	if (CheckComponent(componentType, script))
 	{
 		return GetComponent(componentType, script);
 	}
 
-	IComponentSystem* newComponent = EngineSystems::GetInstance()._gameObjectFactory->AddComponent(this, componentType, script);
+	IComponent* newComponent = EngineSystems::GetInstance()._gameObjectFactory->AddComponent(this, componentType, script);
 	
 	if (!CheckComponent(componentType))
-		_ComponentList.insert(std::pair<ComponentId, IComponentSystem*>(componentType, newComponent));
+		_ComponentList.insert(std::pair<ComponentId, IComponent*>(componentType, newComponent));
 
 
 	return GetComponent(componentType, script);

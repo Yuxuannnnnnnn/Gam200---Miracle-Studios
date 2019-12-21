@@ -1,5 +1,5 @@
 #pragma once
-#include "IComponentSystem.h"
+#include "IComponent.h"
 #include <string>
 
 #ifndef IDENTITYCOMPONENT_H
@@ -7,7 +7,7 @@
 
 
 //Every Object is compulsory to have this Identity Component to store their uId and Type
-class IdentityComponent: public IComponentSystem
+class IdentityComponent: public IComponent
 {
 private:
 
@@ -34,7 +34,7 @@ public:
 
 
 
-	IdentityComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem * component = nullptr); //Constructor
+	IdentityComponent(GameObject* parent = nullptr, size_t uId = 0, IComponent * component = nullptr); //Constructor
 	IdentityComponent(IdentityComponent* component);
 
 	//unsigned GameObjectType() const;

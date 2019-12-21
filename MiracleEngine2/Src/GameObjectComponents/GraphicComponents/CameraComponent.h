@@ -2,7 +2,7 @@
 
 
 
-class CameraComponent: public IComponentSystem
+class CameraComponent: public IComponent
 {
 private:
 	float _movespeed;
@@ -10,7 +10,7 @@ private:
     float _yZoom;
 public:
 	//Constructor
-	CameraComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem* component = nullptr);
+	CameraComponent(GameObject* parent = nullptr, size_t uId = 0, IComponent* component = nullptr);
 
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;

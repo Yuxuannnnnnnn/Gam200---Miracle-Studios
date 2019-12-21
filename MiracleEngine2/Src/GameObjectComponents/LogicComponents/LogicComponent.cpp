@@ -5,8 +5,8 @@
 LogicComponent::LogicComponent() : _componentEnable{ true }
 {};
 
-LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId), _componentEnable{ true }
+LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponent* component)
+	: IComponent(parent, uId), _componentEnable{ true }
 {
 	if (component)
 	{
@@ -58,7 +58,7 @@ void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void LogicComponent::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 	for (auto& scriptPair : _scriptList)
 	{
 		scriptPair.second->Inspect();

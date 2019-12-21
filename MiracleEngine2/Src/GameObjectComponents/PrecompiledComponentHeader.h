@@ -5,10 +5,10 @@
 #include "GameObjectComponents/LogicComponents/LogicComponent.h"
 #include "GameObjectComponents/LogicComponents/IScript.h"
 #include "GameObjectComponents/AudioComponent.h"
-#include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
-#include "GameObjectComponents/PhysicsComponents/BoxCollider2D.h"
-#include "GameObjectComponents/PhysicsComponents/CircleCollider2D.h"
-#include "GameObjectComponents/PhysicsComponents/EdgeCollider2D.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBody2DComponent.h"
+#include "GameObjectComponents/PhysicsComponents/BoxCollider2DComponent.h"
+#include "GameObjectComponents/PhysicsComponents/CircleCollider2DComponent.h"
+#include "GameObjectComponents/PhysicsComponents/EdgeCollider2DComponent.h"
 #include "GameObjectComponents/ButtonComponent.h"
 
 

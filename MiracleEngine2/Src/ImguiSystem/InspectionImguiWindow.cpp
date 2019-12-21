@@ -17,7 +17,7 @@ void InspectionImguiWindow::Update()
 {
 	if (_engineSystems._gameObjectFactory->CheckObjOrignialPointer(_inspectObj))
 	{
-		std::unordered_map < ComponentId, IComponentSystem* > componentList = (_inspectObj)->GetComponentList();
+		std::unordered_map < ComponentId, IComponent* > componentList = (_inspectObj)->GetComponentList();
 
 		ImGui::BeginChild("left pane", ImVec2(215, 0), true);
 		{

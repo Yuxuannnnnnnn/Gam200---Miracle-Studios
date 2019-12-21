@@ -9,7 +9,7 @@
 #ifndef _BOX_COLLIDER_2D_H
 #define _BOX_COLLIDER_2D_H
 
-#include "Collider2D.h"
+#include "ICollider2D.h"
 
 typedef unsigned int outcode;
 #define TOP 0x0008 //1000
@@ -29,7 +29,7 @@ enum class OutCode_Type {
 	BOTTOM_RIGHT = 0110
 };
 
-class BoxCollider2D : public Collider2D // renderer
+class BoxCollider2D : public ICollider2D // renderer
 {
 public:
 	// AABB

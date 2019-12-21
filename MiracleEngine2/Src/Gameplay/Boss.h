@@ -41,7 +41,7 @@ public:
 
 	void FSM();	
 
-	void OnCollision2DTrigger(Collider2D* other);
+	void OnCollision2DTrigger(ICollider2D* other);
 };
 
 #endif

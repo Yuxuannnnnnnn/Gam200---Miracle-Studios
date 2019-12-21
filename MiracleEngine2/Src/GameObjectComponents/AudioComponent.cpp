@@ -16,8 +16,8 @@ AudioComponent::AudioComponent() :
 
 
 
-AudioComponent::AudioComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId),
+AudioComponent::AudioComponent(GameObject* parent, size_t uId, IComponent* component)
+	: IComponent(parent, uId),
 	_typeIdAudio{ (unsigned)TypeIdAudio::NONE },
 	_fileName{ std::string() },
 	_fileTrackLength{ 0 },
@@ -92,7 +92,7 @@ void AudioComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void AudioComponent::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 
 
 	static auto AudioList = ResourceManager::GetInstance().GetSoundList();

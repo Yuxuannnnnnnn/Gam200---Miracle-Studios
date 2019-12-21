@@ -4,7 +4,7 @@
 #include <string>
 
 
-class FontComponent : public IComponentSystem
+class FontComponent : public IComponent
 {
 public:
 	void SerialiseComponent(Serialiser& document) override;

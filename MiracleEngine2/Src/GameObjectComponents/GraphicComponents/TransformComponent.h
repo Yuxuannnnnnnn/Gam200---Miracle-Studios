@@ -1,8 +1,8 @@
 #pragma once
-#include "GameObjectComponents/IComponentSystem.h"
+#include "GameObjectComponents/IComponent.h"
 #include "MathLib/SYMath.h"
 
-class TransformComponent: public IComponentSystem
+class TransformComponent: public IComponent
 {
 private:
 	Vector3 _pos;
@@ -12,7 +12,7 @@ private:
 	Vector3 _transform;
 
 public:
-	TransformComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+	TransformComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 
 	TransformComponent() 
 		:_pos{ Vector3{ 0, 0, 1 } }, 

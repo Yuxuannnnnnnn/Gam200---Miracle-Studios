@@ -12,14 +12,14 @@
 #include <unordered_map>
 #include "CollisionTable.h"
 #include "CollisionMap.h"
-#include "GameObjectComponents/PhysicsComponents/Collider2D.h"
+#include "GameObjectComponents/PhysicsComponents/ICollider2D.h"
 
 #include "IContainer.h"
 
 class CollisionManager final : public IContainer
 {
 public:
-	std::unordered_map < size_t, Collider2D* > _collider2dList;
+	std::unordered_map < size_t, ICollider2D* > _collider2dList;
 
 	CollisionMap _collisionMap;
 
@@ -39,14 +39,14 @@ public:
 	void AddObject(size_t uId, void* component = 0);
 	void RemoveObject(size_t uId);
 
-	static void UpdateColliderData(Collider2D* collider);
+	static void UpdateColliderData(ICollider2D* collider);
 
 private:
 	// collision
 	void UpdateCollision(double dt);
 	void UpdateStaticCollision(double dt);
-	int CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir = 0, unsigned checked = 0);
-	void CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt);
+	int CollisionCheckTile(ICollider2D* object, unsigned centerTileId, double dt, unsigned dir = 0, unsigned checked = 0);
+	void CollisionCheckResponse(ICollider2D* collider1, ICollider2D* collider2, double dt);
 
 };
 

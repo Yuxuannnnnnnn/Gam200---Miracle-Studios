@@ -9,7 +9,7 @@
 #ifndef _PICKING_COLLIDER_H
 #define _PICKING_COLLIDER_H
 
-#include "PhysicsComponents/BoxCollider2D.h"
+#include "PhysicsComponents/BoxCollider2DComponent.h"
 
 class PickingCollider : public BoxCollider2D
 {

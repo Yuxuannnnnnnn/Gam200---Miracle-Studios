@@ -28,7 +28,7 @@
 //			if (ImGui::IsMouseReleased(0))
 //			{
 //				InspectionImguiWindow::InspectGameObject(gameObject);
-//				//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+//				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 //				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 //				//ImGui::TreePop();
 //				//ImGuiID id = ImGui::GetID(string.c_str());

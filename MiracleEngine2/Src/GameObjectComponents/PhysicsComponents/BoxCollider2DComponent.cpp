@@ -6,7 +6,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "PrecompiledHeaders.h"
-#include "BoxCollider2D.h"
+#include "BoxCollider2DComponent.h"
 
 BoxCollider2D::BoxCollider2D() :
 	mMinPos{},
@@ -27,17 +27,17 @@ std::string BoxCollider2D::ComponentName() const
 
 void BoxCollider2D::SerialiseComponent(Serialiser& document)
 {
-	Collider2D::SerialiseComponent(document);
+	ICollider2D::SerialiseComponent(document);
 }
 
 void BoxCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
-	Collider2D::DeSerialiseComponent(prototypeDoc);
+	ICollider2D::DeSerialiseComponent(prototypeDoc);
 }
 
 void BoxCollider2D::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

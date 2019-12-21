@@ -32,11 +32,11 @@ public:
 
 	void Update(double dt);
 
-	void BulletCollisionPlayer(Collider2D* other);
-	void BulletCollisionTurret(Collider2D* other);
-	void BulletCollisionEnemy(Collider2D* other);
+	void BulletCollisionPlayer(ICollider2D* other);
+	void BulletCollisionTurret(ICollider2D* other);
+	void BulletCollisionEnemy(ICollider2D* other);
 
-	void OnCollision2DTrigger(Collider2D* other);
+	void OnCollision2DTrigger(ICollider2D* other);
 };
 
 #endif

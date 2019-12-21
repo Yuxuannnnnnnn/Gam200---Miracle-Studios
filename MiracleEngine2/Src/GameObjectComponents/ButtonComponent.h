@@ -1,5 +1,5 @@
 #pragma once
-#include "IComponentSystem.h"
+#include "IComponent.h"
 
 #ifndef BUTTONCOMPONENT_H
 #define BUTTONCOMPONENT_H

@@ -30,7 +30,7 @@ void ButtonComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void ButtonComponent::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-class AnimationComponent: public IComponentSystem
+class AnimationComponent: public IComponent
 {
 private:
 	
@@ -21,7 +21,7 @@ public:
 	void SetFilePath(const std::string path);
 	std::string& GetFilePath();
 	
-	AnimationComponent(GameObject* parent = nullptr, size_t uId = 0, IComponentSystem* component = nullptr);
+	AnimationComponent(GameObject* parent = nullptr, size_t uId = 0, IComponent* component = nullptr);
 
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override

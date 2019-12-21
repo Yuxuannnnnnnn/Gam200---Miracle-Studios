@@ -63,7 +63,7 @@ std::unordered_map < size_t, RigidBody2D* > GameObjectFactory::getRigidBodyCompo
 	return _rigidBody2dComponents;
 }
 
-std::unordered_map < size_t, Collider2D* > GameObjectFactory::getCollider2dComponent()
+std::unordered_map < size_t, ICollider2D* > GameObjectFactory::getCollider2dComponent()
 {
 	return _collider2dComponents;
 }
@@ -93,7 +93,7 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 	{
 		newObject = new GameObject(_prefabId++);
 		//By Default should add a Identity component when new ProtoType is created
-		IComponentSystem* component = newObject->AddComponent(ComponentId::IDENTITY_COMPONENT);
+		IComponent* component = newObject->AddComponent(ComponentId::IDENTITY_COMPONENT);
 		component->SetParentId(newObject->Get_uID());
 		component->SetParentPtr(newObject);
 	}
@@ -119,7 +119,7 @@ void GameObjectFactory::DestoryGameObject(GameObject* object)
 	_listObject.erase(id);
 }
 
-IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentId type, ScriptId script)
+IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type, ScriptId script)
 {
 	if (!object)
 		return nullptr;
@@ -260,12 +260,12 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		newComponent->SetParentPtr(object);
 		_rigidBody2dComponents.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
 
-		Collider2D* collider = nullptr;
+		ICollider2D* collider = nullptr;
 
 		if (object->CheckComponent(ComponentId::BOXCOLLIDER_COMPONENT))
-			collider = reinterpret_cast<Collider2D*>(object->GetComponent(ComponentId::BOXCOLLIDER_COMPONENT));
+			collider = reinterpret_cast<ICollider2D*>(object->GetComponent(ComponentId::BOXCOLLIDER_COMPONENT));
 		else if (object->CheckComponent(ComponentId::CIRCLECOLLIDER_COMPONENT))
-			collider = reinterpret_cast<Collider2D*>(object->GetComponent(ComponentId::CIRCLECOLLIDER_COMPONENT));
+			collider = reinterpret_cast<ICollider2D*>(object->GetComponent(ComponentId::CIRCLECOLLIDER_COMPONENT));
 
 		if (collider)
 			collider->_attachedRigidboy = true;
@@ -289,7 +289,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		CircleCollider2D* newComponent = new CircleCollider2D(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+		_collider2dComponents.insert(std::pair< size_t, ICollider2D* >(object->Get_uID(), newComponent));
 
 		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
 			newComponent->_attachedRigidboy = true;
@@ -314,7 +314,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		BoxCollider2D* newComponent = new BoxCollider2D(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+		_collider2dComponents.insert(std::pair< size_t, ICollider2D* >(object->Get_uID(), newComponent));
 
 		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
 			newComponent->_attachedRigidboy = true;
@@ -338,7 +338,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 		EdgeCollider2D* newComponent = new EdgeCollider2D(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+		_collider2dComponents.insert(std::pair< size_t, ICollider2D* >(object->Get_uID(), newComponent));
 
 		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
 			newComponent->_attachedRigidboy = true;
@@ -412,7 +412,7 @@ IComponentSystem* GameObjectFactory::AddComponent(GameObject* object, ComponentI
 	return nullptr;
 }
 
-IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, IComponentSystem* component, ComponentId type)
+IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* component, ComponentId type)
 {
 	if (!component)
 		return nullptr;
@@ -534,7 +534,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		CircleCollider2D* newComponent = new CircleCollider2D(*reinterpret_cast<CircleCollider2D*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+		_collider2dComponents.insert(std::pair< size_t, ICollider2D* >(object->Get_uID(), newComponent));
 
 		MyCollisionManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::CIRCLECOLLIDER_COMPONENT, newComponent);
@@ -548,7 +548,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		BoxCollider2D* newComponent = new BoxCollider2D(*reinterpret_cast<BoxCollider2D*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+		_collider2dComponents.insert(std::pair< size_t, ICollider2D* >(object->Get_uID(), newComponent));
 
 		MyCollisionManager.AddObject(object->Get_uID(), newComponent);
 		MyEventHandler.AddCreationEvent(object->Get_uID(), ComponentId::BOXCOLLIDER_COMPONENT, newComponent);
@@ -562,7 +562,7 @@ IComponentSystem* GameObjectFactory::CloneComponent(GameObject* object, ICompone
 		EdgeCollider2D* newComponent = new EdgeCollider2D(*reinterpret_cast<EdgeCollider2D*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		_collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+		_collider2dComponents.insert(std::pair< size_t, ICollider2D* >(object->Get_uID(), newComponent));
 
 
 		MyCollisionManager.AddObject(object->Get_uID(), newComponent);
@@ -703,7 +703,7 @@ GameObject* GameObjectFactory::CloneGameObject(GameObject* object)	//Create a ga
 
 	for (auto it : object->GetComponentList())
 	{
-		newObject->GetComponentList().insert(std::pair<ComponentId, IComponentSystem*>(it.first, CloneComponent(newObject, it.second, (ComponentId)it.first)));
+		newObject->GetComponentList().insert(std::pair<ComponentId, IComponent*>(it.first, CloneComponent(newObject, it.second, (ComponentId)it.first)));
 	}
 
 	return newObject;
@@ -994,7 +994,7 @@ void GameObjectFactory::DeleteLevelNotPrefab()
 //	char* strNum2 = new char[10];
 //	float num1, num2;
 //	GameObject* tempGO = nullptr;
-//	IComponentSystem* tempComp = nullptr;
+//	IComponent* tempComp = nullptr;
 //
 //	while (_file.good()) // each loop read 4 lines: Type, Pos, Scale, Rot
 //	{

@@ -78,7 +78,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 			if (ImGui::IsMouseReleased(0))
 			{
 				InspectionImguiWindow::InspectGameObject(gameObject);
-				//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 				//ImGui::TreePop();
 				//ImGuiID id = ImGui::GetID(string.c_str());
@@ -90,11 +90,11 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 
 //void HierarchyImguiWindow::ShowGameObjectComponents(
-//	std::unordered_map < unsigned, IComponentSystem* > componentList)	//Show every Component of a GameObject - Used in ShowGameObjects()
+//	std::unordered_map < unsigned, IComponent* > componentList)	//Show every Component of a GameObject - Used in ShowGameObjects()
 //{
 //	for (auto& iComponentPair : componentList)
 //	{
-//		IComponentSystem* component = iComponentPair.second;	//Get component* from std::pair
+//		IComponent* component = iComponentPair.second;	//Get component* from std::pair
 //		unsigned componentType = iComponentPair.first;	//Get ComponentType from std::pair
 //
 //

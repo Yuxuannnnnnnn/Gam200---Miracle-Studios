@@ -2,8 +2,8 @@
 #include "CameraComponent.h"
 
 
-CameraComponent::CameraComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	: IComponentSystem(parent, uId)
+CameraComponent::CameraComponent(GameObject* parent, size_t uId, IComponent* component)
+	: IComponent(parent, uId)
 {
 	if (component)
 	{
@@ -54,7 +54,7 @@ std::string CameraComponent::ComponentName() const
 
 void CameraComponent::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 }
 
 

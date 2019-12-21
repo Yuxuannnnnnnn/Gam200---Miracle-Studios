@@ -1,6 +1,6 @@
 #pragma once
 #include "PrecompiledHeaders.h"
-#include "GameObjectComponents/IComponentSystem.h"
+#include "GameObjectComponents/IComponent.h"
 #include "GameObjectComponents/LogicComponents/IScript.h"
 
 #ifndef LOGICCOMPONENT_H
@@ -12,7 +12,7 @@ class DataComponent;
 using Map_ScriptList = std::unordered_map <unsigned, IScript*>;
 using Map_DataList = std::unordered_map <std::string, DataComponent*>;
 
-class LogicComponent : public IComponentSystem
+class LogicComponent : public IComponent
 {
 
 public:
@@ -25,7 +25,7 @@ public:
 	void Inspect() override;
 
 	LogicComponent();
-	LogicComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+	LogicComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 	virtual ~LogicComponent() {};
 	LogicComponent(const LogicComponent& rhs) = default;
 	LogicComponent& operator=(const LogicComponent& rhs) = default;

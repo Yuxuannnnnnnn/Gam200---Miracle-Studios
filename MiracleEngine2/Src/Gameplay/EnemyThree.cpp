@@ -316,7 +316,7 @@ void EnemyThree::DecrementHealth()
 	--_health;
 }
 
-void EnemyThree::OnCollision2DTrigger(Collider2D* other)
+void EnemyThree::OnCollision2DTrigger(ICollider2D* other)
 {
 	IdentityComponent* idCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
 	if (idCom->ObjectType().compare("Player") || idCom->ObjectType().compare("Turret"))

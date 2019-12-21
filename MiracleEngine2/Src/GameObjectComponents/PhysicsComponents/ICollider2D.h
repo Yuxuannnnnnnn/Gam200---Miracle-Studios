@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	Collider2D.h
+//	ICollider2D.h
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -11,7 +11,7 @@
 
 #include "MathLib/SYMath.h"
 #include "PhysicSystem/CollisionTable.h"
-#include "GameObjectComponents/IComponentSystem.h"
+#include "GameObjectComponents/IComponent.h"
 
 enum class ColliderType{
     
@@ -22,7 +22,7 @@ enum class ColliderType{
 
   };
 
-class Collider2D : public IComponentSystem
+class ICollider2D : public IComponent
 {
 public:
 	unsigned _type;
@@ -34,11 +34,11 @@ public:
 	bool _componentEnable;
 
 public:
-	Collider2D();
-	Collider2D(const Collider2D& rhs) = default;
-	virtual ~Collider2D() {}
+	ICollider2D();
+	ICollider2D(const ICollider2D& rhs) = default;
+	virtual ~ICollider2D() {}
 
-	Collider2D& operator=(const Collider2D& rhs) = delete;
+	ICollider2D& operator=(const ICollider2D& rhs) = delete;
 
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;

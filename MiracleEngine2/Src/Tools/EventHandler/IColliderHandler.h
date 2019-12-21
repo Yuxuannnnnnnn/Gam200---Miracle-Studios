@@ -8,18 +8,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef _ICOLLIDER_HANDLER_H
 #define _ICOLLIDER_HANDLER_H
-#include "../GameObjectComponents/PhysicsComponents/Collider2D.h"
+#include "../GameObjectComponents/PhysicsComponents/ICollider2D.h"
 
 class IColliderHandler
 {
 public:
-	virtual void OnCollision2DTrigger(Collider2D* other) { (void)other; }
-	virtual void OnCollision2DStay(Collider2D* other) { (void)other; }
-	virtual void OnCollision2DExit(Collider2D* other) { (void)other; }
+	virtual void OnCollision2DTrigger(ICollider2D* other) { (void)other; }
+	virtual void OnCollision2DStay(ICollider2D* other) { (void)other; }
+	virtual void OnCollision2DExit(ICollider2D* other) { (void)other; }
 
-	virtual void OnTrigger2DEnter(Collider2D* other) { (void)other; }
-	virtual void OnTrigger2DStay(Collider2D* other) { (void)other; }
-	virtual void OnTrigger2DExit(Collider2D* other) { (void)other; }
+	virtual void OnTrigger2DEnter(ICollider2D* other) { (void)other; }
+	virtual void OnTrigger2DStay(ICollider2D* other) { (void)other; }
+	virtual void OnTrigger2DExit(ICollider2D* other) { (void)other; }
 
 	virtual ~IColliderHandler() {}
 };

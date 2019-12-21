@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObjectComponents/IComponentSystem.h"
+#include "GameObjectComponents/IComponent.h"
 #include "LogicSystem/AiSystem.h"
 
 #ifndef AICOMPONENT_H
@@ -13,7 +13,7 @@ enum class AiState { // state for FSM
 
 class Node; // forward declare from 'AiSys>PathFinding'
 
-class AiComponent : public IComponentSystem
+class AiComponent : public IComponent
 {
 private:
 	// Target(endPoint) Transform
@@ -25,7 +25,7 @@ private:
 	float _attackRange; // currently set to 1*_mapTileSize
 public:
 	//Constructor
-	AiComponent(GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+	AiComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 
 	AiComponent(size_t id = 0);
 // CompName
@@ -35,7 +35,7 @@ public:
 	virtual void Inspect() override;
 	
 // InUpEx
-	//AiComponent(GameObject* target, GameObject* parent, size_t uId, IComponentSystem* component = nullptr);
+	//AiComponent(GameObject* target, GameObject* parent, size_t uId, IComponent* component = nullptr);
 
 	// CompName
 	//void SerialiseComponent(Serialiser& document) override;

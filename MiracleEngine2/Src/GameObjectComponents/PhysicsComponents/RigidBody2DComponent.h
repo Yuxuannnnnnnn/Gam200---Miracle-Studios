@@ -9,7 +9,7 @@
 #ifndef _RIGIDBODY_2D_H
 #define _RIGIDBODY_2D_H
 
-#include "GameObjectComponents/IComponentSystem.h"
+#include "GameObjectComponents/IComponent.h"
 #include "MathLib/SYMath.h"
 
 enum class RIGIDBODY_TYPE {
@@ -17,7 +17,7 @@ enum class RIGIDBODY_TYPE {
 	RB_DYNAMIC = false
 };
 
-class RigidBody2D : public IComponentSystem
+class RigidBody2D : public IComponent
 {
 public:
 	Vector3 _velocity;

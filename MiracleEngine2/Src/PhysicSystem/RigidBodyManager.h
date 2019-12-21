@@ -10,7 +10,7 @@
 #define _RIGIDBODY_MANAGER_H
 
 #include <unordered_map>
-#include "GameObjectComponents/PhysicsComponents/RigidBody2D.h"
+#include "GameObjectComponents/PhysicsComponents/RigidBody2DComponent.h"
 
 #include "IContainer.h"
 

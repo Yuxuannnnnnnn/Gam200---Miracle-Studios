@@ -87,8 +87,8 @@ void TransformComponent::Inspect()
 
 
 
-TransformComponent::TransformComponent(GameObject* parent, size_t uId, IComponentSystem* component)
-	:IComponentSystem(parent, uId),
+TransformComponent::TransformComponent(GameObject* parent, size_t uId, IComponent* component)
+	:IComponent(parent, uId),
 	_pos{ Vector3{ 0, 0, 0 } },
 	_scale{ Vector3{ 1, 1, 1 } },
 	_rotationAngle{ 0.0f }

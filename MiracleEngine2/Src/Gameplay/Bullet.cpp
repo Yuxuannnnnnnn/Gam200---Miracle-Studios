@@ -85,7 +85,7 @@ void Bullet::Update(double dt)
 		DestoryThis();
 }
 
-void Bullet::BulletCollisionPlayer(Collider2D* other)
+void Bullet::BulletCollisionPlayer(ICollider2D* other)
 {
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
 	std::string Id = IdCom->ObjectType();
@@ -112,14 +112,14 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 	//	DestoryThis();
 	//}
 }
-void Bullet::BulletCollisionTurret(Collider2D* other)
+void Bullet::BulletCollisionTurret(ICollider2D* other)
 {
 	GameObject* explosion = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Explosion"]);
 	((TransformComponent*)explosion->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 	DestoryThis();
 }
-void Bullet::BulletCollisionEnemy(Collider2D* other)
+void Bullet::BulletCollisionEnemy(ICollider2D* other)
 {
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
 
@@ -139,7 +139,7 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 	}
 }
 
-void Bullet::OnCollision2DTrigger(Collider2D* other )
+void Bullet::OnCollision2DTrigger(ICollider2D* other )
 {
 	std::string temp;
 	switch (_bulletType)

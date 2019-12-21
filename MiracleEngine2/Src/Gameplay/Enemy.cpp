@@ -348,7 +348,7 @@ void Enemy::SetStunned()
 	_stunned = true;
 }
 
-void Enemy::OnCollision2DTrigger(Collider2D* other)
+void Enemy::OnCollision2DTrigger(ICollider2D* other)
 {
 	//if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
 	//{

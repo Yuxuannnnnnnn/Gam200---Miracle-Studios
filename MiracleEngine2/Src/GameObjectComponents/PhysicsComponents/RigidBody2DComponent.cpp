@@ -7,7 +7,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "PrecompiledHeaders.h"
-#include "RigidBody2D.h"
+#include "RigidBody2DComponent.h"
 
 RigidBody2D::RigidBody2D() :
 	_velocity{},
@@ -54,7 +54,7 @@ void RigidBody2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void RigidBody2D::Inspect()
 {
-	IComponentSystem::Inspect();
+	IComponent::Inspect();
 
 	ImGui::Spacing();
 	ImGui::Checkbox("Static", &_static);

@@ -217,7 +217,7 @@ void GameObjectPrototype::RegisterComponent(std::string componentName)
 // AddComponent for during Serialisation
 //void GameObjectPrototype::SerialAddComponent(GameObject* object, SerialTypeId componentType, rapidjson::Value& s, rapidjson::Document& d)
 //{
-//	IComponentSystem* temp;
+//	IComponent* temp;
 //
 //	switch (componentType)
 //	{

@@ -5,7 +5,7 @@
 
 
 
-class TileMapComponent: public IComponentSystem
+class TileMapComponent: public IComponent
 {
 	typedef std::string PaletteType;
 		

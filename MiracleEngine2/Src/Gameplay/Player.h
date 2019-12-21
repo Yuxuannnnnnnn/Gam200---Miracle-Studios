@@ -61,7 +61,7 @@ public:
 	int GetProgressMax();
 	void ProgressIncement(int in = 1);
 
-	void OnTrigger2DEnter(Collider2D* other);
+	void OnTrigger2DEnter(ICollider2D* other);
 };
 
 #endif

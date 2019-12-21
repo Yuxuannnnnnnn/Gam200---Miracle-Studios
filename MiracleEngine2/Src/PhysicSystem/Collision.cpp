@@ -10,10 +10,10 @@
 #include "Collision.h"
 #include "../Tools/EventHandler/EventHandler.h"
 
-void BOX_BOX_CollisionCR(Collider2D* colliderA,
+void BOX_BOX_CollisionCR(ICollider2D* colliderA,
 	TransformComponent* transformA,
 	RigidBody2D* rigidbodyA,
-	Collider2D* colliderB,
+	ICollider2D* colliderB,
 	TransformComponent* transformB,
 	RigidBody2D* rigidbodyB,
 	double dt)
@@ -92,10 +92,10 @@ void BOX_BOX_CollisionCR(Collider2D* colliderA,
 
 }
 
-void CIRCLE_CIRCLE_CollisionCR(Collider2D* colliderA,
+void CIRCLE_CIRCLE_CollisionCR(ICollider2D* colliderA,
 	TransformComponent* transformA,
 	RigidBody2D* rigidbodyA,
-	Collider2D* colliderB,
+	ICollider2D* colliderB,
 	TransformComponent* transformB,
 	RigidBody2D* rigidbodyB,
 	double dt)
@@ -232,10 +232,10 @@ void CIRCLE_CIRCLE_CollisionCR(Collider2D* colliderA,
 
 }
 
-void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
+void CIRCLE_BOX_CollisionCR(ICollider2D* colliderA,
 	TransformComponent* transformA,
 	RigidBody2D* rigidbodyA,
-	Collider2D* colliderB,
+	ICollider2D* colliderB,
 	TransformComponent* transformB,
 	RigidBody2D* rigidbodyB,
 	double dt)
@@ -403,10 +403,10 @@ void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
 
 }
 
-void CIRCLE_EDGE_CollisionCR(Collider2D* colliderA,
+void CIRCLE_EDGE_CollisionCR(ICollider2D* colliderA,
 	TransformComponent* transformA,
 	RigidBody2D* rigidbodyA,
-	Collider2D* colliderB,
+	ICollider2D* colliderB,
 	double dt)
 {
 	CircleCollider2D* circleA = dynamic_cast<CircleCollider2D*>(colliderA);
@@ -505,10 +505,10 @@ void CIRCLE_EDGE_CollisionCR(Collider2D* colliderA,
 
 }
 
-void BOX_EDGE_CollisionCR(Collider2D* colliderA,
+void BOX_EDGE_CollisionCR(ICollider2D* colliderA,
 	TransformComponent* transformA,
 	RigidBody2D* rigidbodyA,
-	Collider2D* colliderB,
+	ICollider2D* colliderB,
 	double dt)
 {
 	BoxCollider2D* boxA = dynamic_cast<BoxCollider2D*>(colliderA);

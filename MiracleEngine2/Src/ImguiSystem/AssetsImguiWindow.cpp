@@ -203,7 +203,7 @@ void AssetsImguiWindow::Update()
 					if (ImGui::IsMouseReleased(0))
 					{
 						InspectionImguiWindow::InspectGameObject(ObjPair.second);
-						//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+						//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 						//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 						//ImGui::TreePop();
 						//ImGuiID id = ImGui::GetID(string.c_str());
@@ -219,7 +219,7 @@ void AssetsImguiWindow::Update()
 					GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[ObjPair.first]);
 					dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3::Vec3Zero);
 				}
-				//std::unordered_map < unsigned, IComponentSystem* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 				//ImGui::TreePop();
 				//ImGuiID id = ImGui::GetID(string.c_str());

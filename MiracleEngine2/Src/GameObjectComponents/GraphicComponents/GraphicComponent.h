@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObjectComponents/IComponentSystem.h"
+#include "GameObjectComponents/IComponent.h"
 #include "GameObjectComponents/IBase.h"
 
 enum class TypeIdGraphic {
@@ -7,7 +7,7 @@ enum class TypeIdGraphic {
 
 };
 
-class GraphicComponent : public IComponentSystem, public IBase<GraphicComponent>
+class GraphicComponent : public IComponent, public IBase<GraphicComponent>
 {
 private:
 

@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
-#include "IComponentSystem.h"
+#include "IComponent.h"
 
-IComponentSystem::IComponentSystem() 
+IComponent::IComponent() 
 	:
 	_ParentPtr{ nullptr },
 	_ParentId{ 0 },
@@ -9,37 +9,37 @@ IComponentSystem::IComponentSystem()
 {}
 
 
-IComponentSystem::IComponentSystem(GameObject* parent, size_t uId)
+IComponent::IComponent(GameObject* parent, size_t uId)
 	: _ParentPtr{ parent }, _ParentId{ uId }, _enable{ true }
 {}
 
 
-std::string IComponentSystem::ComponentName() const
+std::string IComponent::ComponentName() const
 {
-	std::cout << "IComponentSystem::ComponentName()" << std::endl;
+	std::cout << "IComponent::ComponentName()" << std::endl;
 	return "&";
 }
 
-size_t IComponentSystem::GetParentId() const
+size_t IComponent::GetParentId() const
 {
 	return _ParentId;
 }
-void IComponentSystem::SetParentId(size_t inVal)
+void IComponent::SetParentId(size_t inVal)
 {
 	_ParentId = inVal;
 }
 
-GameObject* IComponentSystem::GetParentPtr()
+GameObject* IComponent::GetParentPtr()
 {
 	return _ParentPtr;
 }
-void IComponentSystem::SetParentPtr(GameObject* inVal)
+void IComponent::SetParentPtr(GameObject* inVal)
 {
 	_ParentPtr = inVal;
 	_ParentId = inVal->Get_uID();
 }
 
-IComponentSystem* IComponentSystem::GetSibilingComponent(ComponentId _componentId)
+IComponent* IComponent::GetSibilingComponent(ComponentId _componentId)
 {
 
 	if(_ParentPtr->GetComponentList().find(_componentId) != _ParentPtr->GetComponentList().end())
@@ -48,13 +48,13 @@ IComponentSystem* IComponentSystem::GetSibilingComponent(ComponentId _componentI
 	return nullptr;
 }
 
-void IComponentSystem::DestoryThis() 
+void IComponent::DestoryThis() 
 {
 	_ParentPtr->SetDestory();
 }
 
 
-void  IComponentSystem::Inspect()
+void  IComponent::Inspect()
 {
 	ImGui::Spacing();
 	std::string string = "Component Enable " + ComponentName();
