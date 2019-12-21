@@ -732,8 +732,17 @@
     <None Include="Resources\TextFiles\GameObjects\BulletE.json" />
     <None Include="Resources\TextFiles\GameObjects\BackgroundMusic.json" />
     <None Include="Dep\lua\lib\lua51.dll" />
+    <None Include="fmod.dll" />
+    <None Include="fmod64.dll" />
+    <None Include="freetype.dll" />
+    <None Include="imgui.ini" />
+    <None Include="lua51.dll" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />
+    <Text Include="imgui_log.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
   </ItemGroup>
 </Project>

@@ -917,6 +917,11 @@
     <None Include="Dep\glm\gtx\vector_query.inl" />
     <None Include="Dep\glm\gtx\wrap.inl" />
     <None Include="Dep\lua\lib\lua51.dll" />
+    <None Include="fmod.dll" />
+    <None Include="fmod64.dll" />
+    <None Include="freetype.dll" />
+    <None Include="imgui.ini" />
+    <None Include="lua51.dll" />
     <None Include="Resources\Shader\basic.frag" />
     <None Include="Resources\Shader\basic.vert" />
     <None Include="Resources\TextFiles\AnimationData\CatAnimation.json" />
@@ -949,7 +954,11 @@
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="imgui_log.txt" />
     <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

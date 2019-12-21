@@ -1,2 +1,0 @@
-CRASH LOG
-ASSERT FAILED: val.IsFloat() @ C:\Users\yin.s\Desktop\MiracleEngine2\MiracleEngine2\Src\Tools\FileIO\FileIO.cpp (61)
