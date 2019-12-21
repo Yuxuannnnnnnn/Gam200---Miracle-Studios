@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\Engine;$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\Engine;$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src\Engine;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -131,7 +131,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\Engine;$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -153,7 +153,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\Engine;$(SolutionDir)Dep\freetype\include;D:\GAM200\Gam200---Miracle-Studios\MiracleEngine\Src\GameObjectComponents;$(Solution)Src\WindowsSystem;$(Solution)Src\ImguiSystem;$(SolutionDir)Dep\glew-2.1.0\include;$(SolutionDir)Resources;$(SolutionDir)Src\Engine;$(SolutionDir)Src;$(SolutionDir)Dep\rapidjson;$(SolutionDir)Dep;$(SolutionDir)Dep\glm;$(SolutionDir)Dep\glew-2.1.0\include\GL;$(SolutionDir)Dep\fmod;$(SolutionDir)Dep\Imgui;$(SolutionDir)Dep\lua;$(SolutionDir)Dep\sol</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>PrecompiledHeaders.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -177,96 +177,132 @@
     <ClInclude Include="Dep\sol\assert.hpp" />
     <ClInclude Include="Dep\sol\forward.hpp" />
     <ClInclude Include="Dep\sol\sol.hpp" />
-    <ClInclude Include="Src\GameObjectComponents\IComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\LogicComponents\DataComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2DComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2DComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2DComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\ICollider2D.h" />
-    <ClInclude Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2DComponent.h" />
-    <ClInclude Include="Src\Gameplay\EnemyThree.h" />
-    <ClInclude Include="Src\GraphicsSystem\BasicRenderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\BatchRenderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\CameraManager.h" />
-    <ClInclude Include="Src\GraphicsSystem\DebugBatchRenderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\FragmentShader.h" />
-    <ClInclude Include="Src\GraphicsSystem\InstancedRenderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\Renderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\RenderLayer.h" />
-    <ClInclude Include="Src\GraphicsSystem\RenderObject.h" />
-    <ClInclude Include="Src\GraphicsSystem\UIManager.h" />
-    <ClInclude Include="Src\GraphicsSystem\UIMesh.h" />
-    <ClInclude Include="Src\GraphicsSystem\UIRenderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\VertexShader.h" />
-    <ClInclude Include="Src\IContainer.h" />
-    <ClInclude Include="Src\ImguiSystem\PreFabImguiWindow.h" />
-    <ClInclude Include="Src\PhysicSystem\ButtonManager.h" />
-    <ClInclude Include="Src\PhysicSystem\CollisionManager.h" />
-    <ClInclude Include="Src\PhysicSystem\ImGuizmoManager.h" />
-    <ClInclude Include="Src\PhysicSystem\RigidBodyManager.h" />
-    <ClInclude Include="Src\ScriptSystem\LuaScriptTest.h" />
-    <ClInclude Include="Src\Tools\EventHandler\EventHandler.hpp" />
-    <ClInclude Include="Src\Tools\FileIO\DeSerialiser.h" />
-    <ClInclude Include="Src\GameObjectComponents\ButtonComponent.h" />
-    <ClInclude Include="Src\GameObjectFactory\SceneManager.h" />
-    <ClInclude Include="Src\Gameplay\Boss.h" />
-    <ClInclude Include="Src\Gameplay\ButtonUI.h" />
-    <ClInclude Include="Src\Gameplay\Explosion.h" />
-    <ClInclude Include="Src\Gameplay\PickUps.h" />
-    <ClInclude Include="Src\Gameplay\SpawnerTwo.h" />
-    <ClInclude Include="Src\GraphicsSystem\AnimatedMesh.h" />
-    <ClInclude Include="Src\GraphicsSystem\Camera.h" />
-    <ClInclude Include="Src\GraphicsSystem\FrameBuffer.h" />
-    <ClInclude Include="Src\ImguiSystem\AssetsImguiWindow.h" />
-    <ClInclude Include="Src\Animation\Animation.h" />
-    <ClInclude Include="Src\Animation\AnimationSystem.h" />
-    <ClInclude Include="Src\Animation\Frame.h" />
-    <ClInclude Include="Src\Audio\AudioSystem.h" />
-    <ClInclude Include="Src\Audio\Sound.h" />
-    <ClInclude Include="Src\Audio\SoundEnum.h" />
-    <ClInclude Include="Src\Audio\SoundManager.h" />
-    <ClInclude Include="Src\Engine\EngineSystems.h" />
-    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\FontComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\IdentityComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\IBase.h" />
-    <ClInclude Include="Src\GameObjectComponents\IBase.hpp" />
-    <ClInclude Include="Src\GameObjectComponents\LogicComponents\AiComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\LogicComponents\IScript.h" />
-    <ClInclude Include="Src\GameObjectComponents\LogicComponents\LogicComponent.h" />
-    <ClInclude Include="Src\GameObjectComponents\LogicComponents\LogicComponet.h" />
-    <ClInclude Include="Src\GameObjectComponents\LogicComponents\PrecompiledScriptType.h" />
-    <ClInclude Include="Src\GameObjectComponents\PickingCollider.h" />
-    <ClInclude Include="Src\GameObjectComponents\PrecompiledComponentHeader.h" />
-    <ClInclude Include="Src\GameObjectFactory\GameObjectPrototype.h" />
-    <ClInclude Include="Src\Gameplay\Bullet.h" />
-    <ClInclude Include="Src\Gameplay\Enemy.h" />
-    <ClInclude Include="Src\Gameplay\Player.h" />
-    <ClInclude Include="Src\Gameplay\Spawner.h" />
-    <ClInclude Include="Src\Gameplay\Turret.h" />
-    <ClInclude Include="Src\GraphicsSystem\FontRenderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\Texture2D.h" />
-    <ClInclude Include="Src\GraphicsSystem\TextureManager.h" />
-    <ClInclude Include="Src\LogicSystem\AiSystem.h" />
-    <ClInclude Include="Src\ImguiSystem\InspectionImguiWindow.h" />
-    <ClInclude Include="Src\ImguiSystem\HierarchyImguiWindow.h" />
-    <ClInclude Include="Src\MathLib\Matrix4x4.h" />
-    <ClInclude Include="Src\PhysicSystem\CollisionMap.h" />
-    <ClInclude Include="Src\PhysicSystem\CollisionTable.h" />
-    <ClInclude Include="Src\PhysicSystem\IForce.h" />
-    <ClInclude Include="Src\PhysicSystem\PhysicsSystem.h" />
-    <ClInclude Include="Src\Tools\EventHandler\IMouseHandler.h" />
-    <ClInclude Include="Src\Tools\FileIO\JsonHeader.h" />
-    <ClInclude Include="Src\Tools\FileIO\Serialiser.h" />
-    <ClInclude Include="Src\Tools\MemoryManager\IMemoryInfo.h" />
-    <ClInclude Include="Src\Tools\MemoryManager\IResourceInfo.h" />
-    <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.h" />
-    <ClInclude Include="Src\Tools\MemoryManager\ObjectAllocator.hpp" />
-    <ClInclude Include="Src\Tools\MemoryManager\ResourceManager.h" />
-    <ClInclude Include="Src\TransformManager.h" />
-    <ClInclude Include="Src\WindowsSystem\ScreenSize.h" />
-    <ClInclude Include="Src\WindowsSystem\Console.h" />
+    <ClInclude Include="Src\Engine\Editor\AssetsImguiWindow.h" />
+    <ClInclude Include="Src\Engine\Editor\HierarchyImguiWindow.h" />
+    <ClInclude Include="Src\Engine\Editor\IBaseImguiWindow.h" />
+    <ClInclude Include="Src\Engine\Editor\ImguiSystem.h" />
+    <ClInclude Include="Src\Engine\Editor\ImGuizmoManager.h" />
+    <ClInclude Include="Src\Engine\Editor\InspectionImguiWindow.h" />
+    <ClInclude Include="Src\Engine\Editor\PerformanceUsageWindow.h" />
+    <ClInclude Include="Src\Engine\Editor\PreFabImguiWindow.h" />
+    <ClInclude Include="Src\Engine\Editor\TextureImguiWindow.h" />
+    <ClInclude Include="Src\Engine\Factory.h" />
+    <ClInclude Include="Src\Engine\GameObjectFactory.h" />
+    <ClInclude Include="Src\Engine\GameObjectPrototype.h" />
+    <ClInclude Include="Src\Engine\GameObject\ComponentManager.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\AudioComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\ButtonComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Graphic\AnimationComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Graphic\CameraComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Graphic\FontComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Graphic\GraphicComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Graphic\TransformComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\IdentityComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\ImGuizmoComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\AiComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\LogicComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\PrecompiledScriptType.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Physic\CircleCollider2DComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Physic\EdgeCollider2DComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Physic\ICollider2D.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Physic\RigidBody2DComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\PrecompiledComponentHeader.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\TileMapComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\GameObject.h" />
+    <ClInclude Include="Src\Engine\GameObject\IAllocator.h" />
+    <ClInclude Include="Src\Engine\GameObject\IAllocator.hpp" />
+    <ClInclude Include="Src\Engine\GameObject\IComponent.h" />
+    <ClInclude Include="Src\Engine\GlobalContainer.h" />
+    <ClInclude Include="Src\Engine\IContainer.h" />
+    <ClInclude Include="Src\Engine\SceneManager.h" />
+    <ClInclude Include="Src\Engine\SystemAnimation\Animation.h" />
+    <ClInclude Include="Src\Engine\SystemAnimation\AnimationSystem.h" />
+    <ClInclude Include="Src\Engine\SystemAnimation\Frame.h" />
+    <ClInclude Include="Src\Engine\SystemAudio\AudioSystem.h" />
+    <ClInclude Include="Src\Engine\SystemAudio\Sound.h" />
+    <ClInclude Include="Src\Engine\SystemAudio\SoundEnum.h" />
+    <ClInclude Include="Src\Engine\SystemAudio\SoundManager.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\AnimatedMesh.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\BasicRenderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\BatchRenderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\BufferLayout.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\Camera.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\CameraManager.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\DebugBatchRenderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\DebugRenderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\Elementbuffer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\FontRenderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\FragmentShader.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\FrameBuffer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\GraphicsSystem.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\InstancedRenderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\QuadMesh.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\Renderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\RenderLayer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\RenderObject.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\Shader.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\Texture2D.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\TextureManager.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\UIManager.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\UIMesh.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\UIRenderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\VertexArray.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\VertexBuffer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\VertexShader.h" />
+    <ClInclude Include="Src\Engine\SystemInput\InputSystem.h" />
+    <ClInclude Include="Src\Engine\SystemInput\KeyCode.h" />
+    <ClInclude Include="Src\Engine\SystemInput\keydef.h" />
+    <ClInclude Include="Src\Engine\SystemLogic\AiSystem.h" />
+    <ClInclude Include="Src\Engine\SystemLogic\LogicSystem.h" />
+    <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\ButtonManager.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\Collision.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\CollisionManager.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\CollisionMap.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\CollisionTable.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\IForce.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\PhysicsSystem.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\RigidBodyManager.h" />
+    <ClInclude Include="Src\Engine\SystemWindows\Console.h" />
+    <ClInclude Include="Src\Engine\SystemWindows\ScreenSize.h" />
+    <ClInclude Include="Src\Engine\SystemWindows\Window.h" />
+    <ClInclude Include="Src\Engine\SystemWindows\WindowsSystem.h" />
+    <ClInclude Include="Src\Engine\Tools\EventHandler\EventHandler.h" />
+    <ClInclude Include="Src\Engine\Tools\EventHandler\EventHandler.hpp" />
+    <ClInclude Include="Src\Engine\Tools\EventHandler\IColliderHandler.h" />
+    <ClInclude Include="Src\Engine\Tools\EventHandler\IMouseHandler.h" />
+    <ClInclude Include="Src\Engine\Tools\FileIO\DeSerialiser.h" />
+    <ClInclude Include="Src\Engine\Tools\FileIO\FileIO.h" />
+    <ClInclude Include="Src\Engine\Tools\FileIO\JsonHeader.h" />
+    <ClInclude Include="Src\Engine\Tools\FileIO\Serialiser.h" />
+    <ClInclude Include="Src\Engine\Tools\ISingleton.h" />
+    <ClInclude Include="Src\Engine\Tools\MathLib\Math.h" />
+    <ClInclude Include="Src\Engine\Tools\MathLib\Matrix3x3.h" />
+    <ClInclude Include="Src\Engine\Tools\MathLib\Matrix4x4.h" />
+    <ClInclude Include="Src\Engine\Tools\MathLib\Vector2.h" />
+    <ClInclude Include="Src\Engine\Tools\MathLib\Vector3.h" />
+    <ClInclude Include="Src\Engine\Tools\Memory\IMemoryInfo.h" />
+    <ClInclude Include="Src\Engine\Tools\Memory\MemoryManager.h" />
+    <ClInclude Include="Src\Engine\Tools\Memory\ObjectAllocator.h" />
+    <ClInclude Include="Src\Engine\Tools\Memory\ObjectAllocator.hpp" />
+    <ClInclude Include="Src\Engine\Tools\Resource\IResourceInfo.h" />
+    <ClInclude Include="Src\Engine\Tools\Resource\ResourceManager.h" />
+    <ClInclude Include="Src\Engine\Tools\Time\FrameRateController.h" />
+    <ClInclude Include="Src\Engine\TransformManager.h" />
+    <ClInclude Include="Src\Scripts\Boss.h" />
+    <ClInclude Include="Src\Scripts\Bullet.h" />
+    <ClInclude Include="Src\Scripts\ButtonUI.h" />
+    <ClInclude Include="Src\Scripts\Enemy.h" />
+    <ClInclude Include="Src\Scripts\EnemyThree.h" />
+    <ClInclude Include="Src\Scripts\Explosion.h" />
+    <ClInclude Include="Src\Scripts\PickUps.h" />
+    <ClInclude Include="Src\Scripts\Player.h" />
+    <ClInclude Include="Src\Scripts\Spawner.h" />
+    <ClInclude Include="Src\Scripts\SpawnerTwo.h" />
+    <ClInclude Include="Src\Scripts\Turret.h" />
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
     <ClInclude Include="Dep\glew-2.1.0\include\GL\glew.h" />
     <ClInclude Include="Dep\glew-2.1.0\include\GL\glxew.h" />
@@ -558,50 +594,13 @@
     <ClInclude Include="Dep\rapidjson\stream.h" />
     <ClInclude Include="Dep\rapidjson\stringbuffer.h" />
     <ClInclude Include="Dep\rapidjson\writer.h" />
-    <ClInclude Include="Src\ImguiSystem\ImguiSystem.h" />
-    <ClInclude Include="Src\ImguiSystem\IBaseImguiWindow.h" />
-    <ClInclude Include="Src\GameObjectComponents\AudioComponent.h" />
-    <ClInclude Include="Src\GraphicsSystem\BufferLayout.h" />
-    <ClInclude Include="Src\GraphicsSystem\DebugRenderer.h" />
-    <ClInclude Include="Src\GraphicsSystem\QuadMesh.h" />
-    <ClInclude Include="Src\GameStateManager\GameStateManager.h" />
-    <ClInclude Include="Src\LogicSystem\LogicSystem.h" />
-    <ClInclude Include="Src\MathLib\Matrix3x3.h" />
-    <ClInclude Include="Src\MathLib\SYMath.h" />
-    <ClInclude Include="Src\PhysicSystem\Collision.h" />
-    <ClInclude Include="Src\Tools\EventHandler\EventHandler.h" />
-    <ClInclude Include="Src\Tools\DebugTools\FrameRateController.h" />
-    <ClInclude Include="Src\Tools\EventHandler\IColliderHandler.h" />
-    <ClInclude Include="Src\Engine\FrameRateController.h" />
     <ClInclude Include="Src\Main.h" />
     <ClInclude Include="Src\PrecompiledHeaders.h" />
-    <ClInclude Include="Src\GameObjectFactory\GameObjectFactory.h" />
-    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\GraphicComponent.h" />
-    <ClInclude Include="Src\GraphicsSystem\Shader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
-    <ClInclude Include="Src\GameObjectFactory\GameObject.h" />
-    <ClInclude Include="Src\GraphicsSystem\Elementbuffer.h" />
-    <ClInclude Include="Src\GraphicsSystem\GraphicsSystem.h" />
     <ClInclude Include="Resources\framework.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
-    <ClInclude Include="Src\GraphicsSystem\VertexBuffer.h" />
-    <ClInclude Include="Src\Inputsystem\InputSystem.h" />
-    <ClInclude Include="Src\Inputsystem\KeyCode.h" />
-    <ClInclude Include="Src\Inputsystem\keydef.h" />
-    <ClInclude Include="Src\MathLib\Vector2.h" />
-    <ClInclude Include="Src\MathLib\Vector3.h" />
-    <ClInclude Include="Src\Tools\FileIO\FileIO.h" />
-    <ClInclude Include="Src\ISingleton.h" />
-    <ClInclude Include="Src\Tools\MemoryManager\MemoryManager.h" />
-    <ClInclude Include="Src\Tools\DebugTools\PerformanceUsage.h" />
-    <ClInclude Include="Src\WindowsSystem\Window.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
-    <ClInclude Include="Src\GraphicsSystem\VertexArray.h" />
-    <ClInclude Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.h" />
-    <ClInclude Include="Src\WindowsSystem\WIndowsSystem.h" />
-    <ClInclude Include="Src\GameObjectComponents\TileMapComponent.h" />
-    <ClInclude Include="Src\ImguiSystem\TextureImguiWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp">
@@ -610,80 +609,111 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Src\GameObjectComponents\IComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\LogicComponents\DataComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\LogicComponents\IScript.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\BoxCollider2DComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\CircleCollider2DComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\Collider2DComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\EdgeCollider2DComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\PhysicsComponents\RigidBody2DComponent.cpp" />
-    <ClCompile Include="Src\Gameplay\EnemyThree.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\BasicRenderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\BatchRenderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\CameraManager.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\DebugBatchRenderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\FragmentShader.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\InstancedRenderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\Renderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\RenderLayer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\UIManager.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\UIMesh.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\UIRenderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\VertexShader.cpp" />
-    <ClCompile Include="Src\ImguiSystem\PreFabImguiWindow.cpp" />
-    <ClCompile Include="Src\PhysicSystem\ButtonManager.cpp" />
-    <ClCompile Include="Src\PhysicSystem\CollisionManager.cpp" />
-    <ClCompile Include="Src\PhysicSystem\ImGuizmoManager.cpp" />
-    <ClCompile Include="Src\PhysicSystem\RigidBodyManager.cpp" />
-    <ClCompile Include="Src\ScriptSystem\LuaScriptTest.cpp" />
-    <ClCompile Include="Src\Tools\FileIO\DeSerialiser.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\ButtonComponent.cpp" />
-    <ClCompile Include="Src\GameObjectFactory\SceneManager.cpp" />
-    <ClCompile Include="Src\Gameplay\Boss.cpp" />
-    <ClCompile Include="Src\Gameplay\ButtonUI.cpp" />
-    <ClCompile Include="Src\Gameplay\Explosion.cpp" />
-    <ClCompile Include="Src\Gameplay\PickUps.cpp" />
-    <ClCompile Include="Src\Gameplay\SpawnerTwo.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\AnimatedMesh.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\Camera.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\FontRenderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\FrameBuffer.cpp" />
-    <ClCompile Include="Src\ImguiSystem\AssetsImguiWindow.cpp" />
-    <ClCompile Include="Src\Animation\Animation.cpp" />
-    <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
-    <ClCompile Include="Src\Animation\Frame.cpp" />
-    <ClCompile Include="Src\Audio\AudioSystem.cpp" />
-    <ClCompile Include="Src\Audio\Sound.cpp" />
-    <ClCompile Include="Src\Audio\SoundManager.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\IdentityComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\AnimationComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\CameraComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\FontComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\LogicComponents\AiComponent.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\LogicComponents\LogicComponent.cpp" />
-    <ClCompile Include="Src\GameObjectFactory\GameObjectPrototype.cpp" />
-    <ClCompile Include="Src\Gameplay\Bullet.cpp" />
-    <ClCompile Include="Src\Gameplay\Enemy.cpp" />
-    <ClCompile Include="Src\Gameplay\Player.cpp" />
-    <ClCompile Include="Src\Gameplay\Spawner.cpp" />
-    <ClCompile Include="Src\Gameplay\Turret.cpp" />
-    <ClCompile Include="Src\GameStateManager\GameStateManager.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\Texture2D.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\TextureManager.cpp" />
-    <ClCompile Include="Src\LogicSystem\AiSystem.cpp" />
-    <ClCompile Include="Src\ImguiSystem\InspectionImguiWindow.cpp" />
-    <ClCompile Include="Src\ImguiSystem\HierarchyImguiWindow.cpp" />
-    <ClCompile Include="Src\MathLib\Matrix4x4.cpp" />
-    <ClCompile Include="Src\PhysicSystem\CollisionMap.cpp" />
-    <ClCompile Include="Src\PhysicSystem\IForce.cpp" />
-    <ClCompile Include="Src\Tools\FileIO\Serialiser.cpp" />
-    <ClCompile Include="Src\PhysicSystem\CollisionTable.cpp" />
-    <ClCompile Include="Src\PhysicSystem\PhysicsSystem.cpp" />
-    <ClCompile Include="Src\Tools\MemoryManager\ResourceManager.cpp" />
-    <ClCompile Include="Src\TransformManager.cpp" />
-    <ClCompile Include="Src\WindowsSystem\ScreenSize.cpp" />
-    <ClCompile Include="Src\WindowsSystem\Console.cpp" />
+    <ClCompile Include="Src\Engine\Editor\AssetsImguiWindow.cpp" />
+    <ClCompile Include="Src\Engine\Editor\HierarchyImguiWindow.cpp" />
+    <ClCompile Include="Src\Engine\Editor\IBaseImguiWindow.cpp" />
+    <ClCompile Include="Src\Engine\Editor\ImguiSystem.cpp" />
+    <ClCompile Include="Src\Engine\Editor\ImGuizmoManager.cpp" />
+    <ClCompile Include="Src\Engine\Editor\InspectionImguiWindow.cpp" />
+    <ClCompile Include="Src\Engine\Editor\PerformanceUsageWindow.cpp" />
+    <ClCompile Include="Src\Engine\Editor\PreFabImguiWindow.cpp" />
+    <ClCompile Include="Src\Engine\Editor\TextureImguiWindow.cpp" />
+    <ClCompile Include="Src\Engine\Factory.cpp" />
+    <ClCompile Include="Src\Engine\GameObjectFactory.cpp" />
+    <ClCompile Include="Src\Engine\GameObjectPrototype.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\ComponentManager.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\AudioComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\ButtonComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Graphic\AnimationComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Graphic\CameraComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Graphic\FontComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Graphic\GraphicComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Graphic\TransformComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\IdentityComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\AiComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\LogicComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Physic\CircleCollider2DComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Physic\Collider2DComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Physic\EdgeCollider2DComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Physic\RigidBody2DComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\TileMapComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\GameObject.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\IComponent.cpp" />
+    <ClCompile Include="Src\Engine\SceneManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemAnimation\Animation.cpp" />
+    <ClCompile Include="Src\Engine\SystemAnimation\AnimationSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemAnimation\Frame.cpp" />
+    <ClCompile Include="Src\Engine\SystemAudio\AudioSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemAudio\Sound.cpp" />
+    <ClCompile Include="Src\Engine\SystemAudio\SoundManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\AnimatedMesh.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\BasicRenderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\BatchRenderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\Camera.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\CameraManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\DebugBatchRenderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\DebugRenderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\Elementbuffer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\FontRenderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\FragmentShader.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\FrameBuffer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\GraphicsSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\InstancedRenderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\QuadMesh.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\Renderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\RenderLayer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\Shader.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\Texture2D.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\TextureManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\UIManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\UIMesh.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\UIRenderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\VertexArray.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\VertexBuffer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\VertexShader.cpp" />
+    <ClCompile Include="Src\Engine\SystemInput\InputSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemLogic\AiSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemLogic\LogicSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\ButtonManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\CollisionManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\CollisionMap.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\CollisionTable.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\IForce.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\RigidBodyManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemWindows\Console.cpp" />
+    <ClCompile Include="Src\Engine\SystemWindows\ScreenSize.cpp" />
+    <ClCompile Include="Src\Engine\SystemWindows\Window.cpp" />
+    <ClCompile Include="Src\Engine\SystemWindows\WindowsSystem.cpp" />
+    <ClCompile Include="Src\Engine\Tools\EventHandler\EventHandler.cpp" />
+    <ClCompile Include="Src\Engine\Tools\FileIO\DeSerialiser.cpp" />
+    <ClCompile Include="Src\Engine\Tools\FileIO\FileIO.cpp" />
+    <ClCompile Include="Src\Engine\Tools\FileIO\Serialiser.cpp" />
+    <ClCompile Include="Src\Engine\Tools\MathLib\Math.cpp" />
+    <ClCompile Include="Src\Engine\Tools\MathLib\Matrix3x3.cpp" />
+    <ClCompile Include="Src\Engine\Tools\MathLib\Matrix4x4.cpp" />
+    <ClCompile Include="Src\Engine\Tools\MathLib\Vector2.cpp" />
+    <ClCompile Include="Src\Engine\Tools\MathLib\Vector3.cpp" />
+    <ClCompile Include="Src\Engine\Tools\Memory\MemoryManager.cpp" />
+    <ClCompile Include="Src\Engine\Tools\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Src\Engine\Tools\Time\FrameRateController.cpp" />
+    <ClCompile Include="Src\Engine\TransformManager.cpp" />
+    <ClCompile Include="Src\Scripts\Boss.cpp" />
+    <ClCompile Include="Src\Scripts\Bullet.cpp" />
+    <ClCompile Include="Src\Scripts\ButtonUI.cpp" />
+    <ClCompile Include="Src\Scripts\Enemy.cpp" />
+    <ClCompile Include="Src\Scripts\EnemyThree.cpp" />
+    <ClCompile Include="Src\Scripts\Explosion.cpp" />
+    <ClCompile Include="Src\Scripts\PickUps.cpp" />
+    <ClCompile Include="Src\Scripts\Player.cpp" />
+    <ClCompile Include="Src\Scripts\Spawner.cpp" />
+    <ClCompile Include="Src\Scripts\SpawnerTwo.cpp" />
+    <ClCompile Include="Src\Scripts\Turret.cpp" />
     <ClCompile Include="Dep\glm\detail\glm.cpp" />
     <ClCompile Include="Dep\Imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -721,19 +751,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Src\ImguiSystem\ImguiSystem.cpp" />
-    <ClCompile Include="Src\ImguiSystem\IBaseImguiWindow.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\AudioComponent.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\DebugRenderer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\QuadMesh.cpp" />
-    <ClCompile Include="Src\LogicSystem\LogicSystem.cpp" />
-    <ClCompile Include="Src\MathLib\Matrix3x3.cpp" />
-    <ClCompile Include="Src\MathLib\SYMath.cpp" />
-    <ClCompile Include="Src\MathLib\Vector2.cpp" />
-    <ClCompile Include="Src\MathLib\Vector3.cpp" />
-    <ClCompile Include="Src\PhysicSystem\Collision.cpp" />
-    <ClCompile Include="Src\Tools\EventHandler\EventHandler.cpp" />
-    <ClCompile Include="Src\Tools\DebugTools\FrameRateController.cpp" />
     <ClCompile Include="Src\PrecompiledHeaders.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -744,31 +761,14 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PrecompiledHeaders.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Src\GameObjectFactory\GameObjectFactory.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\GraphicComponent.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\Shader.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
-    <ClCompile Include="Src\GameObjectFactory\GameObject.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\Elementbuffer.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\GraphicsSystem.cpp" />
-    <ClCompile Include="Src\GraphicsSystem\VertexBuffer.cpp" />
-    <ClCompile Include="Src\Inputsystem\InputSystem.cpp" />
     <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Src\Tools\FileIO\FileIO.cpp" />
-    <ClCompile Include="Src\Tools\MemoryManager\MemoryManager.cpp" />
-    <ClCompile Include="Src\Tools\DebugTools\PerformanceUsage.cpp" />
-    <ClCompile Include="Src\WindowsSystem\Window.cpp" />
     <ClCompile Include="Dep\stb_image\stb_image.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Src\GraphicsSystem\VertexArray.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\GraphicComponents\TransformComponent.cpp" />
-    <ClCompile Include="Src\WindowsSystem\WIndowsSystem.cpp" />
-    <ClCompile Include="Src\GameObjectComponents\TileMapComponent.cpp" />
-    <ClCompile Include="Src\ImguiSystem\TextureImguiWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />

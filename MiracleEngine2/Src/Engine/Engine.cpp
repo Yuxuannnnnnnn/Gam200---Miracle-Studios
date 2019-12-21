@@ -1,9 +1,7 @@
 #include "PrecompiledHeaders.h"
-#include "Tools/EventHandler/EventHandler.h"
-
 
 // BRANDON::testing sol & lua
-#include "ScriptSystem/LuaScriptTest.h"
+#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
 
 void Engine::Init()
 {
