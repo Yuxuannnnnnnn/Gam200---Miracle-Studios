@@ -10,7 +10,7 @@ public:
 
 	TextureImguiWindow(bool open = false,	//Set the settings for the imgui window
 		ImGuiWindowFlags flags = ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar)
-		:IBaseImguiWindow("Texture", 60, 60, 1000, 1000, open, flags)
+		:IBaseImguiWindow("Texture", 250, 60, 1000, 900, open, flags, ImGuiCond_Once)
 	{
 	}
 
@@ -20,7 +20,7 @@ public:
 		float height = _currTexture->GetHeight();
 
 		 float scaleW = width/900.0f;
-		 float scaleH = height/900.0f;
+		 float scaleH = height/800.0f;
 
 		 float scale;
 		 

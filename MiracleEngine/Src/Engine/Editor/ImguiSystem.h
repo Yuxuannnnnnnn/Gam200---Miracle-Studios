@@ -4,6 +4,7 @@
 #include "AssetsImguiWindow.h"
 #include "PreFabImguiWindow.h"
 #include "TextureImguiWindow.h"
+#include "PerformanceUsageWindow.h"
 
 
 class ImguiSystem
@@ -13,7 +14,6 @@ private:
 	const Window& _window; //Reference to win32
 
 	std::unordered_map<std::string, IBaseImguiWindow*> _ImguiWindows; //List of all ImGuiWindows
-
 	
 public:
 	bool _editorMode;
@@ -21,6 +21,11 @@ public:
 	std::unordered_map<std::string, IBaseImguiWindow*> GetWindows()
 	{
 		return _ImguiWindows;
+	}
+
+	IBaseImguiWindow* GetWindow(std::string windowName)
+	{
+		return _ImguiWindows[windowName];
 	}
 
 	ImguiSystem(const Window& window); //Initialise ImguiSystem
@@ -34,4 +39,6 @@ public:
 
 
 };
+
+#define MyPerformanceUsage (*(dynamic_cast<PerformanceUsageWindow *>(MyImguiSystem.GetWindow("PerformanceUsage"))))
 

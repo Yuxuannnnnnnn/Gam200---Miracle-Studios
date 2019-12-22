@@ -56,7 +56,6 @@ public:
 		_audioSystem{ nullptr },
 
 		_frameRateControl{ nullptr },
-		_performanceUsage{ nullptr },
 
 		_gameObjectFactory{ nullptr },
 		_prefabFactory{ nullptr },
@@ -99,7 +98,6 @@ public:
 		_rigidbodyManager = new RigidbodyManager();
 
 #ifdef LEVELEDITOR
-		_performanceUsage = new PerformanceUsage();
 		_imGuizmoManager = new ImGuizmoManager();
 		_imguiSystem = new ImguiSystem(_windowSystem->getWindow());
 #endif
@@ -121,7 +119,6 @@ public:
 		delete _physicsSystem;
 
 		delete _frameRateControl;
-		delete _performanceUsage;
 
 		delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 		delete _sceneManager;
@@ -149,7 +146,6 @@ public:
 	AudioSystem* _audioSystem;
 
 	FrameRateController* _frameRateControl;
-	PerformanceUsage* _performanceUsage;
 
 	GameObjectFactory* _gameObjectFactory;
 	GameObjectPrototype* _prefabFactory;
@@ -182,7 +178,6 @@ public:
 #define MyAiSystem (*EngineSystems::GetInstance()._aiSystem)
 
 #define MyFrameRateController (*EngineSystems::GetInstance()._frameRateControl)
-#define MyPerformanceUsage (*EngineSystems::GetInstance()._performanceUsage)
 
 #define MyButtonManager (*EngineSystems::GetInstance()._buttonManager)
 #define MyCollisionManager (*EngineSystems::GetInstance()._collisionManager)

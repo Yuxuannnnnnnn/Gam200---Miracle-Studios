@@ -9,7 +9,7 @@ int InspectionImguiWindow::_componentSelected = 0;
 
 
 InspectionImguiWindow::InspectionImguiWindow(bool open, ImGuiWindowFlags flags)
-	:IBaseImguiWindow("Inspection", 1301, 15, 620, 600, open, flags)
+	:IBaseImguiWindow("Inspection", 1240, 15, 680, 580, open, flags)
 {
 }
 
@@ -144,22 +144,22 @@ void InspectionImguiWindow::Update()
 			componentList[(ComponentId)_componentSelected]->Inspect();
 			//}
 			ImGui::EndChild();
-
-			ImVec2 buttonSize(120, 20); // My button size
-			if (ImGui::Button("Save Component ", buttonSize))
-			{
-				componentList[(ComponentId)_componentSelected]->SaveComponent();
-			}
-			ImGui::SameLine();
-			ImGui::TextDisabled("(?)");
-			if (ImGui::IsItemHovered())
-			{
-				ImGui::BeginTooltip();
-				ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-				ImGui::TextUnformatted("Component Data is saved into system but not into .json file");
-				ImGui::PopTextWrapPos();
-				ImGui::EndTooltip();
-			}
+			//
+			//ImVec2 buttonSize(120, 20); // My button size
+			//if (ImGui::Button("Save Component ", buttonSize))
+			//{
+			//	componentList[(ComponentId)_componentSelected]->SaveComponent();
+			//}
+			//ImGui::SameLine();
+			//ImGui::TextDisabled("(?)");
+			//if (ImGui::IsItemHovered())
+			//{
+			//	ImGui::BeginTooltip();
+			//	ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+			//	ImGui::TextUnformatted("Component Data is saved into system but not into .json file");
+			//	ImGui::PopTextWrapPos();
+			//	ImGui::EndTooltip();
+			//}
 		}
 		ImGui::EndGroup();
 	}

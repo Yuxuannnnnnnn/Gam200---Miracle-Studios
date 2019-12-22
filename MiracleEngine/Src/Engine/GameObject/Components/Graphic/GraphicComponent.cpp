@@ -27,23 +27,6 @@ unsigned int GraphicComponent::GetTextureID() const
 }
 
 
-int GraphicComponent::GetRenderLayer()
-{
-	return _renderLayer;
-}
-void GraphicComponent::SetRenderLayer(int layer)
-{
-	_renderLayer = layer;
-}
-
-int GraphicComponent::GetTextureState()
-{
-	return _textureState;
-}
-void GraphicComponent::SetTextureState(int state)
-{
-	_textureState = state;
-}
 
 
 GraphicComponent::GraphicComponent() :
@@ -62,21 +45,13 @@ GraphicComponent::~GraphicComponent()
 
 GraphicComponent::GraphicComponent(const GraphicComponent& rhs)
 {
-	_typeIdGraphic = rhs._typeIdGraphic;
-	_fileName = rhs._fileName;;
-	_shaderID = rhs._shaderID;
-	_textureID = rhs._textureID;
-	_renderLayer = rhs._renderLayer;
+
 
 }
 
 GraphicComponent& GraphicComponent::operator= (const GraphicComponent& rhs)
 {
-	_typeIdGraphic = rhs._typeIdGraphic;
-	_fileName = rhs._fileName;
-	_shaderID = rhs._shaderID;
-	_textureID = rhs._textureID;
-	_renderLayer = rhs._renderLayer;
+
 	return *this;
 }
 
@@ -85,58 +60,7 @@ void GraphicComponent::RenderLayerResolver()
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
 	std::string type = IdCom->ObjectType();
 
-	if (type.compare("Floor"))
-	{
-		_renderLayer = -1;
-	}
-	else if (type.compare("Wall"))
-	{
-		_renderLayer = 10;
-	}
-	else if (type.compare("Spawner"))
-	{
-		_renderLayer = 1;
-	}
-	else if (type.compare("SpawnerTwo"))
-	{
-		_renderLayer = 2;
-	}
-	else if (type.compare("Player"))
-	{
-		_renderLayer = 7;
-	}
-	else if (type.compare("Enemy"))
-	{
-		_renderLayer = 4;
-	}
-	else if (type.compare("Turret"))
-	{
-		_renderLayer = 6;
-	}
-	else if (type.compare("EnemyTwo"))
-	{
-		_renderLayer = 3;
-	}
-	else if (type.compare("Bullet"))
-	{
-		_renderLayer = 9;
-	}
-	else if (type.compare("BulletT"))
-	{
-		_renderLayer = 9;
-	}
-	else if (type.compare("BulletE"))
-	{
-		_renderLayer = 9;
-	}
-	else if (type.compare("Explosion"))
-	{
-		_renderLayer = 9;
-	}
-	else if (type.compare("Button"))
-	{		
-		_renderLayer = -10;
-	}
+	
 }
 
 

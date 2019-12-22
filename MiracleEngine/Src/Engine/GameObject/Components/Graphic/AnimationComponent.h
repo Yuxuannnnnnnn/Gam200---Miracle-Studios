@@ -1,23 +1,19 @@
 #pragma once
 
 #include "SystemAnimation/Animation.h"
-#include <vector>
+#include <map>
 #include <string>
 
 class AnimationComponent: public IComponent
 {
 private:
-	
-	std::vector<int> _animations;
-	int _currentAnimation;	//Current Playing Animation
-	int _startingFrame;
+	std::vector<std::string> _animations;
 
-
-	std::vector<Animation*> _animation;
-	std::string _type;
+	std::string _currentAnim;
+	std::string _startingAnim;
 public:
 	// temporary test, wait for resource manager
-	Animation* testanim;
+	
 	void SetFilePath(const std::string path);
 	std::string& GetFilePath();
 	
@@ -26,17 +22,30 @@ public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
+		rapidjson::Value value;
+		value.SetArray();
+		{
+			for (auto& anim : _animations)
+			{
+				value.PushBack(rapidjson::StringRef(anim.c_str()), prototypeDoc.Allocator());
+			}
+			prototypeDoc.AddMember("AnimationTypes", value);
+		}
 
+		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+		prototypeDoc.AddMember("StartAnim", value);
 	}
+
+
 	std::string ComponentName() const override;
 	virtual void Inspect() override;
 
 
-	void AddAnimation(const Animation& animation);
+	void AddAnimation(std::string animation);
 
-	void SetCurrentAnim(int curr);
+	void SetCurrentAnim(std::string curr);
 
-	void SetStartFrame(int frame);
+	void SetStartFrame(std::string frame);
 
 	~AnimationComponent();
 

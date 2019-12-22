@@ -4,8 +4,8 @@
 #include <cstring>
 
 
-IBaseImguiWindow::IBaseImguiWindow(const char* name, int xPos, int yPos, unsigned width, unsigned height, bool open, ImGuiWindowFlags flags)	//Set the settings for the imgui window
-	:_open{ open }, _name{ "\0" }, _flags{ flags }, _xPos{ xPos }, _yPos{ yPos }, _width{ width }, _height{ height }
+IBaseImguiWindow::IBaseImguiWindow(const char* name, int xPos, int yPos, unsigned width, unsigned height, bool open, ImGuiWindowFlags flags, ImGuiCond_ _windowCondition)	//Set the settings for the imgui window
+	:_open{ open }, _name{ "\0" }, _flags{ flags }, _xPos{ xPos }, _yPos{ yPos }, _width{ width }, _height{ height }, _windowCondition{ _windowCondition }
 {
 	strcpy_s(_name, name);
 }

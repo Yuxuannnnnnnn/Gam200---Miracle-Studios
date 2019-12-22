@@ -68,9 +68,9 @@ void TransformComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 void TransformComponent::Inspect()
 {	
 	ImGui::Spacing();
-	ImGui::InputFloat3("Input Position X, Y, Z", _pos.m);
+	ImGui::InputFloat3("Input Pos X, Y, Z", _pos.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat3("Slider Position X, Y, Z", _pos.m, -700, 700);
+	ImGui::SliderFloat3("Slider Pos X, Y, Z", _pos.m, -700, 700);
 	
 	ImGui::Spacing();
 	ImGui::InputFloat3("Input Scale X, Y, Z", _scale.m);

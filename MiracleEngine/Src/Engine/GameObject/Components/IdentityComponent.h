@@ -15,22 +15,11 @@ private:
 	std::string _ObjectType; // GameObject Type
 	std::string _name;
 
-private:
-//Level Editor
-    char _current_ObjectType[100];
-	char _current_Name[100];
-
-
 public:
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void Inspect() override;
-	void SaveComponent() override
-	{
-		_ObjectType = _current_ObjectType; //save gameObjectType
-		_name = _current_Name;
-	}
 
 
 

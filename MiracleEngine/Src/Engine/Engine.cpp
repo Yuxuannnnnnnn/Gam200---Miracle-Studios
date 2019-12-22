@@ -114,12 +114,7 @@ void Engine::Update()
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
 
 		MyFrameRateController.StartTimeCounter();
-		MyPerformanceUsage.PrintPerformanceUsage();
-		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
-
-		MyFrameRateController.StartTimeCounter();
 		MyImguiSystem.Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
-		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 
 #else
 		MyInputSystem.Update(MyWindowsSystem.getWindow());

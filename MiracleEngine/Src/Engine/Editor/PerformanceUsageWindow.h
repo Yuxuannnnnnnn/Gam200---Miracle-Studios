@@ -12,8 +12,9 @@
 #include "../Imgui/imgui_impl_win32.h"
 #include "../Imgui/imgui_impl_opengl3.h"
 #include "../Imgui/imgui_internal.h"
+#include "IBaseImguiWindow.h"
 
-class PerformanceUsage
+class PerformanceUsageWindow: public IBaseImguiWindow
 {
 public:
 	short FPS;
@@ -26,12 +27,24 @@ public:
 	double IMGUIFrameTime;
 
 public:
-	PerformanceUsage();
-	PerformanceUsage(const PerformanceUsage& rhs) = delete;
-	PerformanceUsage& operator= (const PerformanceUsage& rhs) = delete;
-	~PerformanceUsage() {}
+	PerformanceUsageWindow::PerformanceUsageWindow(bool open = true, ImGuiWindowFlags flags = 0)
+		:IBaseImguiWindow("PerformanceUsage", 1690, 800, 200, 200, open, flags),
+		 FPS{ 0 },
+		 PerFrameTime{ 0 },
+		 InputFrameTime{ 0 },
+		 LogicFrameTime{ 0 },
+		 PhysicFrameTime{ 0 },
+		 AudioFrameTime{ 0 },
+		 GraphicFrameTime{ 0 },
+		 IMGUIFrameTime{ 0 }
+	{
+	}
 
-	void PrintPerformanceUsage();
+	PerformanceUsageWindow(const PerformanceUsageWindow& rhs) = delete;
+	PerformanceUsageWindow& operator= (const PerformanceUsageWindow& rhs) = delete;
+	~PerformanceUsageWindow() {}
+
+	void Update() override;
 };
 
 #endif

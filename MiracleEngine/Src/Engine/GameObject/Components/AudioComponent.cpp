@@ -94,11 +94,12 @@ void AudioComponent::Inspect()
 {
 	IComponent::Inspect();
 
-
 	static auto AudioList = ResourceManager::GetInstance().GetSoundList();
+
 
 	std::vector<const char*> list( AudioList.size() + 1);
 	list[0] = "Audio Files ";
+	static const char* name = list[0];
 
 	int i = 1;
 	static int select;
@@ -106,7 +107,7 @@ void AudioComponent::Inspect()
 	{
 		const char* ptr = audioPair->first.c_str();
 		list[i] = ptr;
-		if (strncmp(audioPair->first.c_str(), _fileName.c_str(), 20) && (item_current_fileName== nullptr))
+		if (!strncmp(audioPair->first.c_str(), _fileName.c_str(), 20))
 		{
 			select = i;
 		}
@@ -114,17 +115,15 @@ void AudioComponent::Inspect()
 	}
 	//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
 
-	item_current_fileName = list[select];            // Here our selection is a single pointer stored outside the object.
 
-
-	if (ImGui::BeginCombo(" ", item_current_fileName, 0)) // The second parameter is the label previewed before opening the combo.
+	if (ImGui::BeginCombo(" ", list[select], 0)) // The second parameter is the label previewed before opening the combo.
 	{
 		for (int n = 0; n < list.size(); n++)
 		{
-			bool is_selected = (item_current_fileName == list[n]);
-			if (ImGui::Selectable(list[n], is_selected))
+			bool is_selected = (name == list[n]);
+			if (ImGui::Selectable(list[n], is_selected)) 
 			{
-				item_current_fileName = list[n];
+				_fileName = list[n];
 				select = n;
 			}
 

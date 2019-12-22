@@ -5,9 +5,9 @@
 class CameraComponent: public IComponent
 {
 private:
-	float _movespeed;
-	float _xZoom;
-    float _yZoom;
+	bool _isCurrentCamera;
+
+
 public:
 	//Constructor
 	CameraComponent(GameObject* parent = nullptr, size_t uId = 0, IComponent* component = nullptr);
@@ -19,11 +19,7 @@ public:
 
 
 public:
-	void SetMoveSpeed(float num);
 
-	void SetxZoom(float num);
-
-	void SetyZoom(float num);
 
 };
 
