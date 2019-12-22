@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 Explosion::Explosion() : _lifeTime{ -666.f }
 {}

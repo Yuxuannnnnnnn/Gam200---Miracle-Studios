@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 void Turret::SerialiseComponent(Serialiser& document)
 {
@@ -9,7 +10,7 @@ void Turret::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("AttackRange") && document["AttackRange"].IsInt())
 	{
 		_attackRange = (document["AttackRange"].GetInt());
-		_attackRange *= _GlobalContainer._aiSystem->GetMapTileSize();
+		_attackRange *= EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 		_attackRange *= _attackRange; // pow(2)
 	}
 }
@@ -47,15 +48,15 @@ Turret::Turret() :
 	_timeAttackCooldown{ 3.0 }
 	
 {
-	_attackRange = _GlobalContainer._aiSystem->GetMapTileSize();
+	_attackRange = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_attackRange *= 5; // 5 tileSize
 	_attackRange *= _attackRange; // pow(2)
 }
 
 void Turret::Init()
 {
-	std::unordered_map<size_t, GameObject*> temp = _GlobalContainer._gameObjectFactory->getObjectlist();
-	auto& IdentityComponents = _GlobalContainer._gameObjectFactory->GetIdentityComponents();
+	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+	auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
 
 	for (auto& idPair : IdentityComponents)
 	{
@@ -84,8 +85,8 @@ Vector3& Turret::GetDestinationPos()
 {
 	if (!_target || _target->GetDestory()) // if not target, find player
 	{
-		//std::unordered_map<size_t, GameObject*> temp = _GlobalContainer._gameObjectFactory->getObjectlist();
-		auto& IdentityComponents = _GlobalContainer._gameObjectFactory->GetIdentityComponents();
+		//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+		auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
 
 		for (auto& idPair : IdentityComponents)
 		{
@@ -110,9 +111,9 @@ void Turret::SearchTarget()
 
 
 	GameObject* tempGO = nullptr, * tempPlayer = nullptr;
-	//std::unordered_map<size_t, GameObject*> temp = _GlobalContainer._gameObjectFactory->getObjectlist();
+	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
-	std::unordered_map<size_t, IdentityComponent*> idComList = _GlobalContainer._gameObjectFactory->GetIdentityComponents();
+	std::unordered_map<size_t, IdentityComponent*> idComList = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
 	for (auto& it : idComList)
 	{
 		if (it.second->GetParentPtr()->Get_uID() >= 1000 &&
@@ -161,7 +162,7 @@ void Turret::ShootTarget()
 		_timerAttack = _timeAttackCooldown;
 		//std::cout << "Fired!" << std::endl;
 		// spawn bullet
-		GameObject* bullet = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["BulletT"]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletT"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());

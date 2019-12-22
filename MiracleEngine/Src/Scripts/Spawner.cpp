@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 void Spawner::SerialiseComponent(Serialiser& document)
 {
@@ -60,16 +61,16 @@ void Spawner::Spawn()
 	switch (_spawntype)
 	{
 	case 1:
-		enemy = _GlobalContainer._gameObjectFactory->CloneGameObject(
-			_GlobalContainer._prefabFactory->GetPrototypeList()["Enemy"]);
+		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Enemy"]);
 		break;
 	case 2:
-		enemy = _GlobalContainer._gameObjectFactory->CloneGameObject(
-			_GlobalContainer._prefabFactory->GetPrototypeList()["EnemyTwo"]);
+		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyTwo"]);
 		break;
 	case 3:
-		enemy = _GlobalContainer._gameObjectFactory->CloneGameObject(
-			_GlobalContainer._prefabFactory->GetPrototypeList()["EnemyThree"]);
+		enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(
+			EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyThree"]);
 		break;
 	default:
 		return;

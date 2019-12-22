@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _PRECOMPILEHEADER_H
-#define _PRECOMPILEHEADER_H
+#ifndef PRECOMPILEHEADER_H
+#define PRECOMPILEHEADER_H
 
 #include <Windows.h>
 
@@ -31,74 +31,9 @@
 //------------------------------------------------------
 
 //Source files
-
 #include "Engine.h"
-#include "GlobalContainer.h"
 #include "Factory.h"
-#include "SceneManager.h"
-
-#include "GameObject.h"
-#include "PrecompiledComponentHeaders.h"
-
-#include "Managers/ButtonManager.h"
-#include "Managers/CameraManager.h"
-#include "Managers/CollisionManager.h"
-#include "Managers/RigidBodyManager.h"
-#include "Managers/TransformManager.h"
-#include "Managers/AnimationManager.h"
-#include "Managers/AudioManager.h"
-#include "Managers/FontManager.h"
-
-#include "Systems/AnimationSystem.h"
-#include "Systems/AudioSystem.h"
-#include "Systems/GraphicsSystem.h"
-#include "Systems/InputSystem.h"
-#include "Systems/LogicSystem.h"
-#include "Systems/PhysicsSystem.h"
-
-#include "HelperClasses/Animation/Animation.h"
-#include "HelperClasses/Animation/Frame.h"
-
-#include "HelperClasses/Audio/Sound.h"
-#include "HelperClasses/Audio/SoundEnum.h"
-#include "HelperClasses/Audio/SoundManager.h"
-
-#include "HelperClasses/Camera/Camera.h"
-
-#include "HelperClasses/Graphic/AnimatedMesh.h"
-#include "HelperClasses/Graphic/BasicRenderer.h"
-#include "HelperClasses/Graphic/BatchRenderer.h"
-#include "HelperClasses/Graphic/BufferLayout.h"
-#include "HelperClasses/Graphic/Elementbuffer.h"
-#include "HelperClasses/Graphic/FontRenderer.h"
-#include "HelperClasses/Graphic/FragmentShader.h"
-#include "HelperClasses/Graphic/FrameBuffer.h"
-#include "HelperClasses/Graphic/InstancedRenderer.h"
-#include "HelperClasses/Graphic/QuadMesh.h"
-#include "HelperClasses/Graphic/Renderer.h"
-#include "HelperClasses/Graphic/RenderLayer.h"
-#include "HelperClasses/Graphic/RenderObject.h"
-#include "HelperClasses/Graphic/Shader.h"
-#include "HelperClasses/Graphic/Texture2D.h"
-#include "HelperClasses/Graphic/TextureManager.h"
-#include "HelperClasses/Graphic/UIManager.h"
-#include "HelperClasses/Graphic/UIMesh.h"
-#include "HelperClasses/Graphic/UIRenderer.h"
-#include "HelperClasses/Graphic/VertexArray.h"
-#include "HelperClasses/Graphic/VertexBuffer.h"
-#include "HelperClasses/Graphic/VertexShader.h"
-#include "HelperClasses/Graphic/DebugBatchRenderer.h"
-#include "HelperClasses/Graphic/DebugRenderer.h"
-
-#include "HelperClasses/Input/KeyCode.h"
-//#include "HelperClasses/Input/keydef.h"
-
-#include "HelperClasses/Logic/AiSystem.h"
-#include "HelperClasses/Logic/LuaScriptTest.h"
-
-#include "HelperClasses/Physic/Collision.h"
-#include "HelperClasses/Physic/CollisionMap.h"
-#include "HelperClasses/Physic/CollisionTable.h"
+#include "GlobalContainer.h"
 
 #include "Editor/AssetsImguiWindow.h"
 #include "Editor/HierarchyImguiWindow.h"
@@ -106,33 +41,125 @@
 #include "Editor/ImguiSystem.h"
 #include "Editor/ImGuizmoManager.h"
 #include "Editor/InspectionImguiWindow.h"
+#include "Editor/PerformanceUsageWindow.h"
 #include "Editor/PreFabImguiWindow.h"
 #include "Editor/TextureImguiWindow.h"
 
-#include "Tools/Debug/PerformanceUsage.h"
+#include "GameObject/Components/Graphic/AnimationComponent.h"
+#include "GameObject/Components/Graphic/CameraComponent.h"
+#include "GameObject/Components/Graphic/FontComponent.h"
+#include "GameObject/Components/Graphic/GraphicComponent.h"
+#include "GameObject/Components/Graphic/TransformComponent.h"
+
+#include "GameObject/Components/Logic/AiComponent.h"
+#include "GameObject/Components/Logic/DataComponent.h"
+#include "GameObject/Components/Logic/IScript.h"
+#include "GameObject/Components/Logic/LogicComponent.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
+
+#include "GameObject/Components/Physic/BoxCollider2DComponent.h"
+#include "GameObject/Components/Physic/CircleCollider2DComponent.h"
+#include "GameObject/Components/Physic/EdgeCollider2DComponent.h"
+#include "GameObject/Components/Physic/ICollider2D.h"
+#include "GameObject/Components/Physic/RigidBody2DComponent.h"
+
+#include "GameObject/Components/AudioComponent.h"
+#include "GameObject/Components/ButtonComponent.h"
+#include "GameObject/Components/IdentityComponent.h"
+#include "GameObject/Components/ImGuizmoComponent.h"
+#include "GameObject/Components/PrecompiledComponentHeader.h"
+#include "GameObject/Components/TileMapComponent.h"
+
+#include "GameObject/ComponentManager.h"
+#include "GameObject/GameObject.h"
+#include "GameObject/IAllocator.h"
+#include "GameObject/IComponent.h"
+
+#include "SystemAnimation/Animation.h"
+#include "SystemAnimation/AnimationSystem.h"
+#include "SystemAnimation/Frame.h"
+
+#include "SystemAudio/AudioSystem.h"
+#include "SystemAudio/Sound.h"
+#include "SystemAudio/SoundEnum.h"
+#include "SystemAudio/SoundManager.h"
+
+#include "SystemGraphics/AnimatedMesh.h"
+#include "SystemGraphics/BasicRenderer.h"
+#include "SystemGraphics/BatchRenderer.h"
+#include "SystemGraphics/BufferLayout.h"
+#include "SystemGraphics/Camera.h"
+#include "SystemGraphics/CameraManager.h"
+#include "SystemGraphics/DebugBatchRenderer.h"
+#include "SystemGraphics/DebugRenderer.h"
+#include "SystemGraphics/Elementbuffer.h"
+#include "SystemGraphics/FontRenderer.h"
+#include "SystemGraphics/FragmentShader.h"
+#include "SystemGraphics/FrameBuffer.h"
+#include "SystemGraphics/GraphicsSystem.h"
+#include "SystemGraphics/InstancedRenderer.h"
+#include "SystemGraphics/QuadMesh.h"
+#include "SystemGraphics/Renderer.h"
+#include "SystemGraphics/RenderLayer.h"
+#include "SystemGraphics/RenderObject.h"
+#include "SystemGraphics/Shader.h"
+#include "SystemGraphics/Texture2D.h"
+#include "SystemGraphics/TextureManager.h"
+#include "SystemGraphics/UIManager.h"
+#include "SystemGraphics/UIMesh.h"
+#include "SystemGraphics/UIRenderer.h"
+#include "SystemGraphics/VertexArray.h"
+#include "SystemGraphics/VertexBuffer.h"
+#include "SystemGraphics/VertexShader.h"
+
+#include "SystemInput/InputSystem.h"
+#include "SystemInput/KeyCode.h"
+
+#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
+#include "SystemLogic/AiSystem.h"
+#include "SystemLogic/LogicSystem.h"
+
+#include "SystemPhysics/ButtonManager.h"
+#include "SystemPhysics/Collision.h"
+#include "SystemPhysics/CollisionManager.h"
+#include "SystemPhysics/CollisionMap.h"
+#include "SystemPhysics/CollisionTable.h"
+#include "SystemPhysics/IForce.h"
+#include "SystemPhysics/PhysicsSystem.h"
+#include "SystemPhysics/RigidBodyManager.h"
+
+#include "SystemWindows/Console.h"
+#include "SystemWindows/ScreenSize.h"
+#include "SystemWindows/Window.h"
+#include "SystemWindows/WindowsSystem.h"
 
 #include "Tools/EventHandler/EventHandler.h"
-
+#include "Tools/EventHandler/IColliderHandler.h"
+#include "Tools/EventHandler/IMouseHandler.h"
 #include "Tools/FileIO/DeSerialiser.h"
 #include "Tools/FileIO/FileIO.h"
 #include "Tools/FileIO/JsonHeader.h"
 #include "Tools/FileIO/Serialiser.h"
-
+#include "Tools/ISingleton.h"
 #include "Tools/MathLib/Math.h"
 #include "Tools/MathLib/Matrix3x3.h"
 #include "Tools/MathLib/Matrix4x4.h"
 #include "Tools/MathLib/Vector2.h"
 #include "Tools/MathLib/Vector3.h"
-
 #include "Tools/Memory/IMemoryInfo.h"
 #include "Tools/Memory/MemoryManager.h"
 #include "Tools/Memory/ObjectAllocator.h"
-
 #include "Tools/Resource/IResourceInfo.h"
 #include "Tools/Resource/ResourceManager.h"
-
 #include "Tools/Time/FrameRateController.h"
 
-#include "PrecompiledScriptType.h"
+
+//TODO Delete this
+#include "GameObjectFactory.h"
+#include "GameObjectPrototype.h"
+#include "SceneManager.h"
+#include "IContainer.h"
+#include "TransformManager.h"
+//
 
 #endif

@@ -1,12 +1,12 @@
 #include "PrecompiledHeaders.h"
 
 // BRANDON::testing sol & lua
-#include "HelperClasses/Logic/LuaScriptTest.h"
+#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
 
 void Engine::Init()
 {
 	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
-	_GlobalContainer._inputSystem->Init();
+	_engineSystems._inputSystem->Init();
 
 //-------------------------------------------------------------
 }
@@ -165,7 +165,7 @@ void Engine::Update()
 //-------------------------------------------------------------------------------------------------------------
 	}
 
-	_GlobalContainer._gameObjectFactory->DeleteLevel();
+	_engineSystems._gameObjectFactory->DeleteLevel();
 }
 
 int Engine::Exit()

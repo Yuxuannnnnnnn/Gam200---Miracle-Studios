@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <string>
 
-#include "Interfaces/ISingleton.h"
+#include "../ISingleton.h"
 #include "IResourceInfo.h"
 #include "Tools/Memory/ObjectAllocator.h"
 

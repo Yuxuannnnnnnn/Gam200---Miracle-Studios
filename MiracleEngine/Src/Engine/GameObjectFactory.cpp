@@ -1,5 +1,5 @@
 #include "PrecompiledHeaders.h"
-#include "GameObjectFactory.h"
+
 
 //Constructor - Same as Initialisation
 //Prototypes initialised - Prototypes Used for during entire Game, Only when Quit Game State then delete Prototypes
@@ -169,7 +169,7 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 			pickObject->SetParentPtr(object);
 
 			_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
-			_GlobalContainer._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+			_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 
 #endif
 			MyGraphicsSystem._graphicCompList.insert({ object->Get_uID(), (GraphicComponent*)newComponent });
@@ -453,7 +453,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 		pickObject->SetParentPtr(object);
 
 		_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
-		_GlobalContainer._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
+		_engineSystems._imGuizmoManager->_pickList.insert(std::pair< size_t, PickingCollider* >(pickObject->GetParentId(), pickObject));
 #endif
 		MyGraphicsSystem._graphicCompList.insert({ object->Get_uID(), (GraphicComponent*)newComponent });
 		//MyGraphicsSystem.AddSpriteObject(object->Get_uID(), newComponent);
@@ -624,7 +624,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 
 		_pickList.erase(object->Get_uID());
 		MyImGuizmoManager.RemoveObject(object->Get_uID());
-		_GlobalContainer._imGuizmoManager->_pickList.erase(object->Get_uID());
+		_engineSystems._imGuizmoManager->_pickList.erase(object->Get_uID());
 #endif
 		break;
 	}
@@ -672,7 +672,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 		{
 			for (auto it : _logicComponents[object->Get_uID()]->GetScriptMap())
 			{
-				_GlobalContainer._logicSystem->RemoveScript(_logicComponents[object->Get_uID()], (ScriptId)it.first);
+				EngineSystems::GetInstance()._logicSystem->RemoveScript(_logicComponents[object->Get_uID()], (ScriptId)it.first);
 			}
 
 			delete _logicComponents[object->Get_uID()];
@@ -682,7 +682,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 			break;
 		}
 
-		_GlobalContainer._logicSystem->RemoveScript(_logicComponents[object->Get_uID()], script);
+		EngineSystems::GetInstance()._logicSystem->RemoveScript(_logicComponents[object->Get_uID()], script);
 		break;
 	}
 	default:
@@ -718,7 +718,7 @@ LogicComponent* GameObjectFactory::CloneLogicComponent(GameObject* object, Logic
 	Map_ScriptList& scriptMap = newComponent->GetScriptMap();
 
 	for (auto it : component->GetScriptMap())
-		scriptMap.insert(std::pair<unsigned, IScript*>(it.first, _GlobalContainer._logicSystem->CloneScript(newComponent, it.second, (ScriptId)it.first))); ;
+		scriptMap.insert(std::pair<unsigned, IScript*>(it.first, EngineSystems::GetInstance()._logicSystem->CloneScript(newComponent, it.second, (ScriptId)it.first))); ;
 
 	return newComponent;
 }
@@ -735,7 +735,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 
 #ifndef LEVELEDITOR
 //Serialise Prototypes
-	_GlobalContainer._prefabFactory->SerialPrefabObjects(Level);
+	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
 
 	typedef std::unordered_map<std::string, std::string> NamePath;
 	NamePath ResourceList;
@@ -832,7 +832,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 			//std::ofstream file("./Resources/TextFiles/States/test.json"); //open a file with the param name
 			//file << json;							//Write std::string type into the file
 
-			GameObject* tileMap = CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["TileMap"]);
+			GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
 			TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
 			tmCom->SerialiseComponent(tileMapInfo);
 			TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT));
@@ -848,7 +848,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 			Serialiser datafile(Level["GameObjects"][i]);
 
 			std::string name = datafile["Object"].GetString();
-			GameObject* tmp2 = _GlobalContainer._prefabFactory->GetPrototypeList()[name];
+			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name];
 			GameObject* tmp = CloneGameObject(tmp2);
 			tmp->SerialiseFromLevel(datafile);
 		}
@@ -892,18 +892,18 @@ void GameObjectFactory::De_SerialiseLevel(std::string filename)
 
 void GameObjectFactory::DeleteLevel()
 {
-	_GlobalContainer._prefabFactory->GetPrototypeList().clear();
-	_GlobalContainer._graphicsSystem->_graphicCompList.clear();
-	_GlobalContainer._graphicsSystem->_transformCompList.clear();
-	_GlobalContainer._logicSystem->_logicList.clear();
-	_GlobalContainer._buttonManager->_buttonList.clear();
-	_GlobalContainer._collisionManager->_collider2dList.clear();
+	EngineSystems::GetInstance()._prefabFactory->GetPrototypeList().clear();
+	EngineSystems::GetInstance()._graphicsSystem->_graphicCompList.clear();
+	EngineSystems::GetInstance()._graphicsSystem->_transformCompList.clear();
+	EngineSystems::GetInstance()._logicSystem->_logicList.clear();
+	EngineSystems::GetInstance()._buttonManager->_buttonList.clear();
+	EngineSystems::GetInstance()._collisionManager->_collider2dList.clear();
 
 #ifdef LEVELEDITOR
-	_GlobalContainer._imGuizmoManager->_pickList.clear();
+	EngineSystems::GetInstance()._imGuizmoManager->_pickList.clear();
 #endif
 
-	_GlobalContainer._rigidbodyManager->_rigidBody2dList.clear();
+	EngineSystems::GetInstance()._rigidbodyManager->_rigidBody2dList.clear();
 
 	for (auto it : _listObject)
 		delete it.second;
@@ -941,7 +941,7 @@ void GameObjectFactory::DeleteLevel()
 		delete it.second;
 	_logicComponents.clear();
 
-	_GlobalContainer._logicSystem->DeleteLevelScripts();
+	EngineSystems::GetInstance()._logicSystem->DeleteLevelScripts();
 
 	for (auto it : _pickList)
 		delete it.second;
@@ -998,15 +998,15 @@ void GameObjectFactory::DeleteLevelNotPrefab()
 //		//_file.getline(strType, 20, '\n\r');
 //		_file >> strType;
 //		if (std::strcmp(strType, "Player") == 0)
-//			tempGO = CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()[TypeIdGO::PLAYER]);
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::PLAYER]);
 //		else if (std::strcmp(strType, "Enemy") == 0)
-//			tempGO = CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::ENEMY]);
 //		else if (std::strcmp(strType, "Wall") == 0)
-//			tempGO = CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::WALL]);
 //		else if (std::strcmp(strType, "Camera") == 0)
-//			tempGO = CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::CAMERA]);
 //		else if (std::strcmp(strType, "Button") == 0)
-//			tempGO = CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()[TypeIdGO::BUTTON_UI]);
+//			tempGO = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[TypeIdGO::BUTTON_UI]);
 //		else
 //			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
 //	// TransformComponent from 'temp'

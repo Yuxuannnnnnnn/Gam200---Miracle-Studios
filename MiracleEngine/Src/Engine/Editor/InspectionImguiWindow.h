@@ -1,6 +1,6 @@
 #pragma once
 #include "IBaseImguiWindow.h"
-#include "GameObject.h"
+#include "GameObject/GameObject.h"
 
 #ifndef INSPECTION_IMGUI_WINDOW_H
 #define INSPECTION_IMGUI_WINDOW_H

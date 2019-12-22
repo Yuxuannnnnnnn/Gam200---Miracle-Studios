@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 ButtonUI::ButtonUI() :
 	_buttonType{ (int)ButtonType::PLAY }
@@ -20,7 +21,7 @@ void ButtonUI::OnMouseDown()
 	case (int)ButtonType::NONE:
 		break;
 	case (int)ButtonType::PLAY:
-		_GlobalContainer._sceneManager->ChangeScene("Level1");
+		EngineSystems::GetInstance()._sceneManager->ChangeScene("Level1");
 		break;
 	case (int)ButtonType::PAUSE:
 

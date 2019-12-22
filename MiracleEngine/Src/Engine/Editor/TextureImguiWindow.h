@@ -1,6 +1,5 @@
 #pragma once
 
-#include "HelperClasses/Graphic/Texture2D.h"
 
 
 class TextureImguiWindow: public IBaseImguiWindow

@@ -9,10 +9,11 @@
 #ifndef _EVENT_HANDLER_H
 #define _EVENT_HANDLER_H
 
-#include "Interfaces/ISingleton.h"
-#include "Interfaces/IComponent.h"
-#include "Interfaces/IScript.h"
-#include "Components/Collider2D.h"
+#include "../ISingleton.h"
+
+#include "GameObject/IComponent.h"
+#include "GameObject/Components/Physic/ICollider2D.h"
+#include "GameObject/Components/Logic/IScript.h"
 
 #include <unordered_set>
 #include <unordered_map>

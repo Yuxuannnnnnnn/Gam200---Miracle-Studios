@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 void Bullet::SerialiseComponent(Serialiser& document)
 {
@@ -112,7 +113,7 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 }
 void Bullet::BulletCollisionTurret(Collider2D* other)
 {
-	GameObject* explosion = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["Explosion"]);
+	GameObject* explosion = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Explosion"]);
 	((TransformComponent*)explosion->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 	DestoryThis();

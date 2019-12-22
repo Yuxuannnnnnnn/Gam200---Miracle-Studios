@@ -100,11 +100,11 @@ void ImguiSystem::UpdateFrame()
 			{
 				if (ImGui::MenuItem("ON  "))
 				{
-					_GlobalContainer._windowSystem->getWindow().SetFullscreenWindowMode();
+					EngineSystems::GetInstance()._windowSystem->getWindow().SetFullscreenWindowMode();
 				}
 				if (ImGui::MenuItem("OFF  "))
 				{
-					_GlobalContainer._windowSystem->getWindow().SetNonFullScreenWindowMode();
+					EngineSystems::GetInstance()._windowSystem->getWindow().SetNonFullScreenWindowMode();
 				}
 				ImGui::EndMenu();
 			}

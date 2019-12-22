@@ -10,7 +10,7 @@ public:
 
 	Engine(HINSTANCE hInstance, int nCmdShow) 	
 	{
-		_GlobalContainer.Init(hInstance, nCmdShow);
+		_engineSystems.Init(hInstance, nCmdShow);
 	}
 
 	void Init();

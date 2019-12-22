@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 
 void Player::SerialiseComponent(Serialiser& document)
@@ -121,9 +122,9 @@ Player::Player() :
 void Player::Init()
 {
 	// find Camera
-	//std::unordered_map<size_t, GameObject*> temp = _GlobalContainer._gameObjectFactory->getObjectlist();
+	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
-	std::unordered_map<size_t, IdentityComponent*> IdComList = _GlobalContainer._gameObjectFactory->GetIdentityComponents();
+	std::unordered_map<size_t, IdentityComponent*> IdComList = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
 
 	for (auto& idPair : IdComList)
 	{
@@ -160,7 +161,7 @@ void Player::Update(double dt)
 
 void Player::UpdateCamera()
 {
-	auto a = _GlobalContainer._graphicsSystem;
+	auto a = EngineSystems::GetInstance()._graphicsSystem;
 	/*a->GetCamera().SetCameraPos(((TransformComponent*)GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._x,
 		((TransformComponent*)GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._y);*/
 }
@@ -178,8 +179,8 @@ void Player::UpdateUI()
 		_progressMax *= 2;
 	}
 	// set percents
-	//_GlobalContainer._graphicsSystem->SetHealthPercentage(static_cast<float>(_health) / _healthMax);
-	//_GlobalContainer._graphicsSystem->SetProgressPercentage(static_cast<float>(_progress) / _progressMax);
+	//EngineSystems::GetInstance()._graphicsSystem->SetHealthPercentage(static_cast<float>(_health) / _healthMax);
+	//EngineSystems::GetInstance()._graphicsSystem->SetProgressPercentage(static_cast<float>(_progress) / _progressMax);
 }
 
 void Player::UpdateInput()
@@ -189,62 +190,62 @@ void Player::UpdateInput()
 	//	_InputStyle = INGAME_PAUSE_ESCAPE;
 // SCALE
 	Vector3 scaleVec = ((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetScale();
-	if (_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_LEFT))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_LEFT))
 		scaleVec._x -= 1;
-	if (_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_RIGHT))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_RIGHT))
 		scaleVec._x += 1;
-	if (_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_UP))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_UP))
 		scaleVec._y += 1;
-	if (_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_DOWN))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_DOWN))
 		scaleVec._y -= 1;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->SetScale(scaleVec);
 // MOVEMENT
 	float spd = 3.f * 10000; // get spd
-	if (_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_W))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
 		AddForce(GetParentId(), Vector3(0, 1, 0), spd);
-	if (_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_A))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_A))
 		AddForce(GetParentId(), Vector3(-1, 0, 0), spd);
-	if (_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_D))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_D))
 		AddForce(GetParentId(), Vector3(1, 0, 0), spd);
-	if (_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_S))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_S))
 		AddForce(GetParentId(), Vector3(0, -1, 0), spd);
 // MOUSE
 	Vector3 aimVector = { // use aimVector to determine direction player is facing
-		_GlobalContainer._inputSystem->GetMousePos()._x,
-		_GlobalContainer._inputSystem->GetMousePos()._y,
+		EngineSystems::GetInstance()._inputSystem->GetMousePos()._x,
+		EngineSystems::GetInstance()._inputSystem->GetMousePos()._y,
 		0 };
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = aimVector._x * compareVec._x + aimVector._y * compareVec._y;
 	float det = aimVector._x * compareVec._y - aimVector._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
 
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::MOUSE_LBUTTON) ||
-		_GlobalContainer._inputSystem->KeyHold(KeyCode::MOUSE_LBUTTON))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_LBUTTON) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_LBUTTON))
 	{
 		WeaponShoot();
 	}
 // NUMBERS
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::KEYB_1) ||
-		_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_1))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_1))
 	{	// spawn TURRET
 		if (_timerDeploy <= 0)
 		{
 			_timerDeploy = _firerateTurret; // reset timer to frWall
 			GameObject* turret = nullptr;
-			turret = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["Turret"]);
+			turret = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Turret"]);
 			// set bullet position & rotation as same as 'parent' obj
 			((TransformComponent*)turret->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 		}
 	}
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::KEYB_2) ||
-		_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_2))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_2))
 	{	// spawn WALL
 		if (_timerDeploy <= 0)
 		{
 			_timerDeploy = _firerateWall; // reset timer to frWall
 			GameObject* wall = nullptr;
-			wall = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["Wall"]);
+			wall = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Wall"]);
 			((TransformComponent*)wall->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 			((TransformComponent*)wall->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
@@ -252,18 +253,18 @@ void Player::UpdateInput()
 		}
 	}
 // KEYS
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::KEYB_Q) ||
-		_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_Q))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
 	{
 		WeaponSwitch();
 	}
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::KEYB_0) ||
-		_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_0))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
 	{
 		GameObject* tempGO = nullptr;
 		IdentityComponent* IdCom;
 		std::string Id;
-		std::unordered_map<size_t, GameObject*> temp = _GlobalContainer._gameObjectFactory->getObjectlist();
+		std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 		for (auto it : temp)
 		{
 			IdCom = dynamic_cast<IdentityComponent*>(it.second->GetComponent(ComponentId::IDENTITY_COMPONENT));
@@ -278,8 +279,8 @@ void Player::UpdateInput()
 			}
 		}
 	}
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::KEYB_9) ||
-		_GlobalContainer._inputSystem->KeyHold(KeyCode::KEYB_9))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
 	{
 		_god = !_god;
 		if (!_god)
@@ -287,17 +288,17 @@ void Player::UpdateInput()
 		_health = _healthMax;
 		_timerShoot = _timerDeploy = 0.0;
 	}
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::KEYB_P))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_P))
 	{
-		;//_GlobalContainer._sceneManager->ChangeScene(Scenes::WIN);
+		;//EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::WIN);
 	}
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::KEYB_O))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_O))
 	{
-		;//_GlobalContainer._sceneManager->ChangeScene(Scenes::LOSE);
+		;//EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::LOSE);
 	}
-	if (_GlobalContainer._inputSystem->KeyDown(KeyCode::KEYB_I))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_I))
 	{
-		;//_GlobalContainer._sceneManager->ChangeScene(Scenes::MAIN_MENU);
+		;//EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::MAIN_MENU);
 	}
 }
 
@@ -339,7 +340,7 @@ void Player::WeaponShoot()
 void Player::WeaponShoot_Pistol()
 {
 	_timerShoot = _fireratePistol; // cooldown
-	GameObject* bullet = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["Bullet"]);
+	GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Bullet"]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
@@ -353,15 +354,15 @@ void Player::WeaponShoot_Shotgun()
 	float rot = ((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate();
 	GameObject* bullet = nullptr;
 	// 3 bullets, 1 forward, 2 +- 0.2rad
-	bullet = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["Bullet"]);
+	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Bullet"]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot);
 	AddForwardForce(bullet->Get_uID(), 70000);
-	bullet = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["Bullet"]);
+	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Bullet"]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot-0.2f);
 	AddForwardForce(bullet->Get_uID(), 70000);
-	bullet = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["Bullet"]);
+	bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Bullet"]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(rot+0.2f);
 	AddForwardForce(bullet->Get_uID(), 70000);
@@ -370,7 +371,7 @@ void Player::WeaponShoot_RPG()
 {
 	--_ammoRpg;
 	_timerShoot = _firerateRPG; // cooldown
-	GameObject* bullet = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["BulletT"]);
+	GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletT"]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 	((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(

@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -54,7 +55,7 @@ Enemy::Enemy() :
 	_destNode{ nullptr },
 	_mapTileSize{ 0 }
 {
-	_attackMelee = _attackRange = _mapTileSize = _GlobalContainer._aiSystem->GetMapTileSize();
+	_attackMelee = _attackRange = _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_mapTileSize *= _mapTileSize;
 	_attackRange *= 5; // XxX tileSize
 	_attackMelee *= 2;
@@ -64,8 +65,8 @@ Enemy::Enemy() :
 
 void Enemy::Init()
 {
-	//std::unordered_map<size_t, GameObject*> temp = _GlobalContainer._gameObjectFactory->getObjectlist();
-	auto& IdentityComponents = _GlobalContainer._gameObjectFactory->GetIdentityComponents();
+	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+	auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
 	
 	for (auto& idPair : IdentityComponents)
 	{
@@ -148,7 +149,7 @@ void Enemy::AttackRange()
 	{
 		_timerAttack = _timerAttackCooldown;
 		// spawn bullet
-		GameObject* bullet = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["BulletE"]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
@@ -195,7 +196,7 @@ void Enemy::FSM()
 		}
 		else
 		{
-			std::vector<Node*> newPath = _GlobalContainer._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+			std::vector<Node*> newPath = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
 			if (!_destNode || _destNode->GetNodeId() != newPath.back()->GetNodeId())
 			{
 				_path = newPath;
@@ -229,7 +230,7 @@ void Enemy::ChancePickUps()
 
 	if (Yaya == 4) // health
 	{
-		GameObject* pickups = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["PickUps_Health"]);
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["PickUps_Health"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
@@ -238,7 +239,7 @@ void Enemy::ChancePickUps()
 	}
 	else if (Yaya == 8) // ammo
 	{
-		GameObject* pickups = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["PickUps_Ammo"]);
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["PickUps_Ammo"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
@@ -307,7 +308,7 @@ void Enemy::MoveNode(bool start)
 					0
 				);
 				_nextNode = nextNextNode;
-				//_path = _GlobalContainer._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+				//_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
 				_path.erase(_path.begin());
 			}
 			else

@@ -25,7 +25,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	std::string string2 = "Save Scene ";
 	if (ImGui::Button(string2.c_str()))
 	{
-		//_GlobalContainer._gameObjectFactory->De_SerialiseLevel();
+		//EngineSystems::GetInstance()._gameObjectFactory->De_SerialiseLevel();
 	}
 
 	ImGui::Spacing();
@@ -43,8 +43,8 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.65f);
 
 
-	const std::unordered_map<size_t, GameObject*>& objlist = _GlobalContainer._gameObjectFactory->getObjectlist();
-	//const std::unordered_map<std::string, GameObject*>& protolist = _GlobalContainer._prefabFactory->GetPrototypeList();
+	const std::unordered_map<size_t, GameObject*>& objlist = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+	//const std::unordered_map<std::string, GameObject*>& protolist = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList();
 
 	size_t objListSize = std::count_if(objlist.begin(), objlist.end(),
 		[](auto& i) {return i.first >= 1000; }); //number of total gameObjects in the list

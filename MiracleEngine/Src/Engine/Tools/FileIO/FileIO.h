@@ -1,4 +1,5 @@
 #pragma once
+#include "PrecompiledHeaders.h"
 #include "Tools/MathLib/Math.h"
 
 #include "rapidjson.h"		// J

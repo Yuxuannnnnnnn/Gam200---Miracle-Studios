@@ -5,16 +5,16 @@
 
 void ImGuizmoManager::Update()
 {
-	if (_GlobalContainer._inputSystem->KeyHold((KeyCode)MOUSE_RBUTTON))
+	if (EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON))
 	{
-		Vector3  pos = _GlobalContainer._inputSystem->GetMousePos();
+		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 
 		for (auto it : _pickList)
 		{
 			if (!it.second->GetEnable())
 				continue;
 
-			_GlobalContainer._collisionManager->UpdateColliderData(it.second);
+			_engineSystems._collisionManager->UpdateColliderData(it.second);
 
 			if (TestBoxVsPoint(*it.second, pos))
 			{
@@ -66,7 +66,7 @@ void ImGuizmoManager::Draw()
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
-		_GlobalContainer._collisionManager->UpdateColliderData(it.second);
+		_engineSystems._collisionManager->UpdateColliderData(it.second);
 
 		BoxCollider2D* object = (BoxCollider2D*)it.second;
 

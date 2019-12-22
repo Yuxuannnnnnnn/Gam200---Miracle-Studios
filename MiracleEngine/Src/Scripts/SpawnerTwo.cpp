@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 SpawnerTwo::SpawnerTwo() :
 	_init{ false },
@@ -32,7 +33,7 @@ void SpawnerTwo::Spawn()
 {
 	_timer = _timeCooldown;
 	//std::cout << "Spawned!" << std::endl;
-	GameObject* enemy = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["EnemyTwo"]);
+	GameObject* enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyTwo"]);
 	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
 }

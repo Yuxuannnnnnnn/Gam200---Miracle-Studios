@@ -1,7 +1,8 @@
 #pragma once
-#include "PrecompiledComponentHeaders.h"
-#include "GameObject.h"
+#include "GameObject/GameObject.h"
 
+
+#include "GameObject/Components/PrecompiledComponentHeader.h"
 #include "Tools/FileIO/Serialiser.h"
 #include <algorithm>
 

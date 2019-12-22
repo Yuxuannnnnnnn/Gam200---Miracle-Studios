@@ -15,7 +15,7 @@ InspectionImguiWindow::InspectionImguiWindow(bool open, ImGuiWindowFlags flags)
 
 void InspectionImguiWindow::Update()
 {
-	if (_GlobalContainer._gameObjectFactory->CheckObjOrignialPointer(_inspectObj))
+	if (_engineSystems._gameObjectFactory->CheckObjOrignialPointer(_inspectObj))
 	{
 		std::unordered_map < ComponentId, IComponent* > componentList = (_inspectObj)->GetComponentList();
 
@@ -98,7 +98,7 @@ void InspectionImguiWindow::Update()
 					OPENFILENAME ofn = { sizeof ofn };
 					ZeroMemory(&ofn, sizeof(ofn));
 					ofn.lStructSize = sizeof(ofn);
-					ofn.hwndOwner = _GlobalContainer._windowSystem->getWindow().Get_hwnd();
+					ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
 					
 					char file[1024] = "\0";
 					std::string idType = dynamic_cast<IdentityComponent*>(_inspectObj->GetComponent(ComponentId::IDENTITY_COMPONENT))->ObjectType();

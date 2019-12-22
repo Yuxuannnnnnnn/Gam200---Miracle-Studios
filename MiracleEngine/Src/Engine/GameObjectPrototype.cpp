@@ -69,7 +69,7 @@ void GameObjectPrototype::SerialPrefabObjects(Serialiser& Level)
 		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string path = Level["PrototypesFilePaths"][i].GetString();
-			GameObject* temp = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+			GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 			temp->Serialise(path);	//Serialise a gameobject with the string
 
 			std::string typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->ObjectType();
@@ -90,7 +90,7 @@ void GameObjectPrototype::SerialiseAllPrefabAssets(NamePath& list)
 	//Serialise all Prototypesu8
 	for (auto& nameFile : _prototypeFileList)
 	{
-		GameObject* temp = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+		GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 		temp->Serialise(nameFile.second);	//Serialise a gameobject with fileName
 
 		//insert into the prototype list
@@ -112,14 +112,14 @@ void GameObjectPrototype::RegisterComponent(std::string componentName)
 
 //GameObject* GameObjectPrototype::SerialPrefabObjects(TypeIdGO type)
 //{
-//	GameObject* temp = _GlobalContainer._gameObjectFactory->CreateNewGameObject(false);
+//	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
 //	temp->Set_typeId(TypeIdGO::BGM);
 //	temp->Serialise("./Resources/TextFiles/GameObjects/BGM.json");
-//	temp = _GlobalContainer._gameObjectFactory->CreateNewGameObject(false);
+//	temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(false);
 //	temp->Set_typeId(TypeIdGO::FONT);
 //	temp->Serialise("./Resources/TextFiles/GameObjects/Font.json");
 //
-//	GameObject* temp = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+//	GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 //	temp->Set_typeId(type);
 //
 //	switch (type)
@@ -317,7 +317,7 @@ void GameObjectPrototype::RegisterComponent(std::string componentName)
 //
 //GameObject* GameObjectPrototype::SerialInPrefab_Player()
 //{
-//	GameObject* object = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+//	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 //	object->Set_typeId(TypeIdGO::PLAYER);
 //
 //	rapidjson::Document d;
@@ -347,7 +347,7 @@ void GameObjectPrototype::RegisterComponent(std::string componentName)
 //
 //GameObject* GameObjectPrototype::SerialInPrefab_Bullet()
 //{
-//	GameObject* object = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+//	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 //	object->Set_typeId(TypeIdGO::BULLET);
 //
 //	rapidjson::Document d;
@@ -377,7 +377,7 @@ void GameObjectPrototype::RegisterComponent(std::string componentName)
 //
 //GameObject* GameObjectPrototype::SerialInPrefab_Enemy()
 //{
-//	GameObject* object = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+//	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 //	object->Set_typeId(TypeIdGO::ENEMY);
 //
 //	rapidjson::Document d;
@@ -403,7 +403,7 @@ void GameObjectPrototype::RegisterComponent(std::string componentName)
 //
 //GameObject* GameObjectPrototype::SerialInPrefab_Wall()
 //{
-//	GameObject* object = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+//	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 //	object->Set_typeId(TypeIdGO::WALL);
 //
 //	rapidjson::Document d;
@@ -428,7 +428,7 @@ void GameObjectPrototype::RegisterComponent(std::string componentName)
 //
 //GameObject* GameObjectPrototype::SerialInPrefab_Floor()
 //{
-//	GameObject* object = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+//	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 //	object->Set_typeId(TypeIdGO::FLOOR);
 //
 //	rapidjson::Document d;
@@ -452,7 +452,7 @@ void GameObjectPrototype::RegisterComponent(std::string componentName)
 //
 //GameObject* GameObjectPrototype::SerialInPrefab_Turret()
 //{
-//	GameObject* object = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+//	GameObject* object = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
 //	object->Set_typeId(TypeIdGO::TURRET);
 //
 //	rapidjson::Document d;

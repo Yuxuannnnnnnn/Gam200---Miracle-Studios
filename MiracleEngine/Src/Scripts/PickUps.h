@@ -1,5 +1,5 @@
 #pragma once
-#include "Interfaces/IScript.h"
+#include "GameObject/Components/Logic/IScript.h"
 
 #ifndef PICKUP_H
 #define	PICKUP_H

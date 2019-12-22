@@ -1,7 +1,7 @@
 #pragma once
 #include "IBaseImguiWindow.h"
 #include "InspectionImguiWindow.h"
-#include "GameObject.h"
+#include "GameObject/GameObject.h"
 #include <string> //std::string
 
 

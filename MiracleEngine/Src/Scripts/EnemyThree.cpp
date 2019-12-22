@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -47,15 +48,15 @@ EnemyThree::EnemyThree() :
 	_destNode{ nullptr },
 	_mapTileSize{ 0 }
 {
-	_attackRange = _mapTileSize = _GlobalContainer._aiSystem->GetMapTileSize();
+	_attackRange = _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_mapTileSize *= _mapTileSize;
 }
 
 void EnemyThree::Init()
 {
-	//std::unordered_map<size_t, GameObject*> temp = _GlobalContainer._gameObjectFactory->getObjectlist();
+	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
-	std::unordered_map<size_t, IdentityComponent*> idComList = _GlobalContainer._gameObjectFactory->GetIdentityComponents();
+	std::unordered_map<size_t, IdentityComponent*> idComList = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
 	for (auto& it : idComList)
 	{
 		if (it.second->GetParentPtr()->Get_uID() >= 1000 && it.second->ObjectType().compare("Player"))
@@ -170,7 +171,7 @@ void EnemyThree::FSM()
 		}
 		else
 		{
-			std::vector<Node*> newPath = _GlobalContainer._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+			std::vector<Node*> newPath = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
 			if (!_destNode || _destNode->GetNodeId() != newPath.back()->GetNodeId())
 			{
 				_path = newPath;
@@ -201,7 +202,7 @@ void EnemyThree::ChancePickUps()
 
 	if (Yaya == 4) // health
 	{
-		GameObject* pickups = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["PickUps_Health"]);
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["PickUps_Health"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
@@ -210,7 +211,7 @@ void EnemyThree::ChancePickUps()
 	}
 	else if (Yaya == 8) // ammo
 	{
-		GameObject* pickups = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()["PickUps_Ammo"]);
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["PickUps_Ammo"]);
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
@@ -279,7 +280,7 @@ void EnemyThree::MoveNode(bool start)
 					0
 				);
 				_nextNode = nextNextNode;
-				//_path = _GlobalContainer._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+				//_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
 				_path.erase(_path.begin());
 			}
 			else

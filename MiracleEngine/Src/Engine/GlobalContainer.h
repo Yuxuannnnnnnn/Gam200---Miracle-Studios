@@ -1,45 +1,48 @@
-#ifndef _GLOBAL_CONTAINER_H
-#define _GLOBAL_CONTAINER_H
+///////////////////////////////////////////////////////////////////////////////////////
+//
+//	EngineSystems.h
+//	
+//	Authors: yinshuyu
+//	Copyright 2019, Digipen Institute of Technology
+//
+///////////////////////////////////////////////////////////////////////////////////////
+#ifndef _ENGINE_SYSTEMS_H
+#define _ENGINE_SYSTEMS_H
 
-#include "Interfaces/ISingleton.h"
+#include "Tools/ISingleton.h"
 
-#include "Windows/Console.h"
-#include "Windows/WindowsSystem.h"
-
-#include "Editor/ImguiSystem.h"
-#include "Tools/Debug/PerformanceUsage.h"
-#include "Editor/ImGuizmoManager.h"
-
-#include "Systems/AnimationSystem.h"
-#include "Systems/AudioSystem.h"
-#include "Systems/GraphicsSystem.h"
-#include "Systems/InputSystem.h"
-#include "Systems/LogicSystem.h"
-#include "Systems/PhysicsSystem.h"
-
-
-#include "Managers/TransformManager.h"
-#include "Managers/RigidBodyManager.h"
-#include "Managers/CollisionManager.h"
-#include "Managers/CameraManager.h"
-#include "Managers/ButtonManager.h"
-
-#include "Factory.h"
+#include "GameObjectFactory.h"
+#include "SystemGraphics/GraphicsSystem.h"
+#include "SystemGraphics/DebugRenderer.h"
+#include "SystemLogic/LogicSystem.h"
+#include "SystemLogic/AiSystem.h"
+#include "SystemInput/InputSystem.h"
+#include "SystemWindows/WindowsSystem.h"
+#include "Tools/Time/FrameRateController.h"
+#include "Editor/PerformanceUsageWindow.h"
+#include "SystemPhysics/PhysicsSystem.h"
+#include "GameObjectPrototype.h"
+#include "SystemAudio/AudioSystem.h"
 #include "SceneManager.h"
 
-//tobe delete
-#include "GameObjectFactory.h"
-#include "GameObjectPrototype.h"
-#include "Tools/Time/FrameRateController.h"
-#include "HelperClasses/Logic/AiSystem.h"
 
+#include "SystemPhysics/ButtonManager.h"
+#include "SystemPhysics/CollisionManager.h"
+#include "SystemPhysics/RigidBodyManager.h"
+#include "Editor/ImGuizmoManager.h"
+
+#include "TransformManager.h"
+
+#include "Editor/ImguiSystem.h"
+#include "SystemWindows/WindowsSystem.h"
+#include "SystemWindows/Console.h"
 
 #define LEVELEDITOR	1
 
-class GlobalContainer final : public ISingleton<GlobalContainer>
+class EngineSystems final : public ISingleton<EngineSystems>
 {
 public:
-	GlobalContainer() :
+	EngineSystems() :
 		_console{ nullptr },
 		_windowSystem{ nullptr },
 
@@ -76,11 +79,11 @@ public:
 		_audioSystem = new AudioSystem();
 
 		_inputSystem = new InputSystem();
-		_logicSystem = new LogicSystem();
+		_logicSystem =  new LogicSystem();
 		_aiSystem = new AISystem();
 		_graphicsSystem = new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), _windowSystem->getWindow().GetWindowHeight());
 		_physicsSystem = new PhysicsSystem();
-
+		
 
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
 
@@ -101,7 +104,7 @@ public:
 #endif
 	}
 
-	virtual ~GlobalContainer()
+	virtual ~EngineSystems()
 	{
 		delete _console;
 		delete _windowSystem;
@@ -158,32 +161,32 @@ public:
 	RigidbodyManager* _rigidbodyManager;
 };
 
-#define _GlobalContainer GlobalContainer::GetInstance()
+#define _engineSystems EngineSystems::GetInstance()
 
-#define MyConsole (*GlobalContainer::GetInstance()._console)
-#define MyWindowsSystem (*GlobalContainer::GetInstance()._windowSystem)
-#define MyImguiSystem (*GlobalContainer::GetInstance()._imguiSystem)
-#define MyImGuizmoManager (*GlobalContainer::GetInstance()._imGuizmoManager)
+#define MyConsole (*EngineSystems::GetInstance()._console)
+#define MyWindowsSystem (*EngineSystems::GetInstance()._windowSystem)
+#define MyImguiSystem (*EngineSystems::GetInstance()._imguiSystem)
+#define MyImGuizmoManager (*EngineSystems::GetInstance()._imGuizmoManager)
 
-#define MyInputSystem (*GlobalContainer::GetInstance()._inputSystem)
-#define MyLogicSystem (*GlobalContainer::GetInstance()._logicSystem)
-#define MyGraphicsSystem (*GlobalContainer::GetInstance()._graphicsSystem)
-#define MyPhysicsSystem (*GlobalContainer::GetInstance()._physicsSystem)
-#define MyAudioSystem (*GlobalContainer::GetInstance()._audioSystem)
+#define MyInputSystem (*EngineSystems::GetInstance()._inputSystem)
+#define MyLogicSystem (*EngineSystems::GetInstance()._logicSystem)
+#define MyGraphicsSystem (*EngineSystems::GetInstance()._graphicsSystem)
+#define MyPhysicsSystem (*EngineSystems::GetInstance()._physicsSystem)
+#define MyAudioSystem (*EngineSystems::GetInstance()._audioSystem)
 
-#define MyAiSystem (*GlobalContainer::GetInstance()._aiSystem)
+#define MyAiSystem (*EngineSystems::GetInstance()._aiSystem)
 
-#define MyFrameRateController (*GlobalContainer::GetInstance()._frameRateControl)
-#define MyPerformanceUsage (*GlobalContainer::GetInstance()._performanceUsage)
+#define MyFrameRateController (*EngineSystems::GetInstance()._frameRateControl)
+#define MyPerformanceUsage (*EngineSystems::GetInstance()._performanceUsage)
 
-#define MyButtonManager (*GlobalContainer::GetInstance()._buttonManager)
-#define MyCollisionManager (*GlobalContainer::GetInstance()._collisionManager)
-#define MyRigidbodyManager (*GlobalContainer::GetInstance()._rigidbodyManager)
-#define MyTransformManager (*GlobalContainer::GetInstance()._transforManager)
+#define MyButtonManager (*EngineSystems::GetInstance()._buttonManager)
+#define MyCollisionManager (*EngineSystems::GetInstance()._collisionManager)
+#define MyRigidbodyManager (*EngineSystems::GetInstance()._rigidbodyManager)
+#define MyTransformManager (*EngineSystems::GetInstance()._transforManager)
 
-#define MyGameObjectFactory (*GlobalContainer::GetInstance()._gameObjectFactory)
-#define MyPrototypeFactory (*GlobalContainer::GetInstance()._prefabFactory)
+#define MyGameObjectFactory (*EngineSystems::GetInstance()._gameObjectFactory)
+#define MyPrototypeFactory (*EngineSystems::GetInstance()._prefabFactory)
 
-#define MySceneManager (*GlobalContainer::GetInstance()._sceneManager)
+#define MySceneManager (*EngineSystems::GetInstance()._sceneManager)
 
 #endif

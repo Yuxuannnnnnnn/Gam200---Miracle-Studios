@@ -101,7 +101,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		_GlobalContainer._sceneManager->LoadAllSceneAssets(ResourceList1);
+		EngineSystems::GetInstance()._sceneManager->LoadAllSceneAssets(ResourceList1);
 		ResourceList1.clear();
 	}
 
@@ -115,7 +115,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		_GlobalContainer._prefabFactory->SerialiseAllPrefabAssets(ResourceList1);
+		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList1);
 		ResourceList1.clear();
 	}
 
@@ -149,7 +149,7 @@ void AssetsImguiWindow::Update()
 
 	if (ImGui::CollapsingHeader("Scenes"))
 	{
-		auto& allScenes = _GlobalContainer._sceneManager->GetAllScenes();
+		auto& allScenes = _engineSystems._sceneManager->GetAllScenes();
 		ImGui::Spacing();
 
 		for (auto& scenePair : allScenes)
@@ -161,7 +161,7 @@ void AssetsImguiWindow::Update()
 			{
 				if (ImGui::IsMouseReleased(0))
 				{
-					_GlobalContainer._sceneManager->ChangeScene(scenePair.first);
+					_engineSystems._sceneManager->ChangeScene(scenePair.first);
 				}
 			}
 			ImGui::Spacing();
@@ -171,7 +171,7 @@ void AssetsImguiWindow::Update()
 
 
 	{
-		std::unordered_map <std::string, GameObject* >& PrototypeList = _GlobalContainer._prefabFactory->GetPrototypeList();
+		std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
 		size_t prototypeCount = PrototypeList.size();
 		std::string string = "Prototypes (" + std::to_string(prototypeCount) + ")";
 
@@ -182,7 +182,7 @@ void AssetsImguiWindow::Update()
 			std::string string1 = "Create New Prototype ";
 			if (ImGui::Button(string1.c_str()))
 			{
-				GameObject* newGameobject = _GlobalContainer._gameObjectFactory->CreateNewGameObject(true);
+				GameObject* newGameobject = _engineSystems._gameObjectFactory->CreateNewGameObject(true);
 				newGameobject->AddComponent(ComponentId::IDENTITY_COMPONENT);
 				InspectionImguiWindow::InspectGameObject(newGameobject);
 			}
@@ -216,7 +216,7 @@ void AssetsImguiWindow::Update()
 				std::string string1 = "Clone " + ObjPair.first;
 				if (ImGui::Button(string1.c_str()))
 				{
-					GameObject* newGameobject = _GlobalContainer._gameObjectFactory->CloneGameObject(_GlobalContainer._prefabFactory->GetPrototypeList()[ObjPair.first]);
+					GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[ObjPair.first]);
 					dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3::Vec3Zero);
 				}
 				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
@@ -250,7 +250,7 @@ void AssetsImguiWindow::Update()
 			std::string string = " - " + texturePair.first;
 
 			Texture2D* texture = ResourceManager::GetInstance().GetTexture2DResource(texturePair.first);
-			TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow *>(_GlobalContainer._imguiSystem->GetWindows()["Texture"]);
+			TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
 
 			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
 			{

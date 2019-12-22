@@ -8,11 +8,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #ifndef _IRESOURCE_INFORMATION_H
 #define _IRESOURCE_INFORMATION_H
-#include "HelperClasses/Graphic/FontRenderer.h"
-#include "HelperClasses/Animation/Animation.h"
-#include "HelperClasses/Audio/Sound.h"
-#include "HelperClasses/Graphic/Texture2D.h"
-#include "HelperClasses/Graphic/Shader.h"
+#include "SystemGraphics/FontRenderer.h"
+#include "SystemAnimation/Animation.h"
+#include "SystemAudio/Sound.h"
+#include "SystemGraphics/Texture2D.h"
+#include "SystemGraphics/Shader.h"
 
 #include "../Dep/fmod/inc/fmod.h"
 #include "../Dep/fmod/inc/fmod_errors.h"

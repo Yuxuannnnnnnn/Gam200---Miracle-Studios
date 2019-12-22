@@ -10,11 +10,11 @@
 #define _IMGUIZMO_MANAGER_H
 
 #include <unordered_map>
-#include "Components/ImGuizmoComponent.h"
+#include "GameObject/Components/ImGuizmoComponent.h"
 
-#include "Interfaces/IManager.h"
+#include "IContainer.h"
 
-class ImGuizmoManager final : public IManager
+class ImGuizmoManager final : public IContainer
 {
 public:
 	std::unordered_map< size_t, PickingCollider*> _pickList;

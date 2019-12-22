@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 
 PickUps::PickUps() : _lifeTime{ -666.f }, _pickupType{ (int)PickUp_Type::NONE }

@@ -2,17 +2,16 @@
 
 #include "PrecompiledHeaders.h"
 #include "EventHandler.h"
-#include "GlobalContainer.h"
 
 template<typename T>
 void EventHandler::SendLogicEventMessage(size_t uId, EventMessageType type, T message)
 {
-	GameObject* gameObject = _GlobalContainer._gameObjectFactory->getObjectlist()[uId];
+	GameObject* gameObject = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[uId];
 
 	if (!gameObject)
 		return;
 
-	Map_ScriptList list = _GlobalContainer._gameObjectFactory->getObjectScript(gameObject);
+	Map_ScriptList list = EngineSystems::GetInstance()._gameObjectFactory->getObjectScript(gameObject);
 
 	for (auto it : list)
 	{
