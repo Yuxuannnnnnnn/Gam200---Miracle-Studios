@@ -6,10 +6,9 @@
 #ifndef LOGICSYSTEM_H
 #define LOGICSYSTEM_H
 
-class LogicSystem final : public IContainer
+class LogicSystem final
 {
 public:
-	std::unordered_map < size_t, LogicComponent* >	_logicList;
 	std::unordered_multimap<size_t, IScript*> _scriptList;
 
 	LogicSystem() = default;
@@ -23,10 +22,6 @@ public:
 	IScript* CloneScript(LogicComponent* object, IScript* script, ScriptId scriptType);
 	void RemoveScript(LogicComponent* object, ScriptId scriptType);
 	void DeleteLevelScripts();
-
-
-	void AddObject(size_t uId, void* component = 0);
-	void RemoveObject(size_t uId);
 };
 
 #endif

@@ -25,7 +25,7 @@ static bool possible = true;
 //static FMOD_CHANNELGROUP* soundMusic;
 //static FMOD_CHANNELGROUP* soundEffects;
 
-class AudioSystem : public IContainer
+class AudioSystem
 {
 public:
 	// call this every frame
@@ -38,11 +38,6 @@ public:
 	void Play(std::string& name);
 
 	void StopAllSound();
-
-	void AddObject(size_t uId, void* component = 0);
-	void RemoveObject(size_t uId);
-
-	std::unordered_map < size_t, AudioComponent*> _soundList;
 
 	FMOD_SYSTEM* _fmodSystem;
 private:

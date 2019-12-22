@@ -10,7 +10,7 @@ glm::mat4 Camera::GetCamMatrix()
 void Camera::Update()
 {
 
-	for (auto& camComponentpair : EngineSystems::GetInstance()._gameObjectFactory->getCameraComponent())
+	for (auto& camComponentpair : MyComponentManger._CameraComponents)
 	{
 		if (camComponentpair.second->GetParentId() < 1000 || camComponentpair.second->GetParentPtr()->GetDestory())
 			continue;

@@ -3,8 +3,11 @@
 
 void LogicSystem::Update(double dt)
 {
-	for (auto it : _logicList)
+	for (auto it : MyComponentManger._logicComponents)
 	{
+		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+			continue;
+
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
@@ -288,14 +291,4 @@ void LogicSystem::DeleteLevelScripts()
 	for (auto it : _scriptList)
 		delete it.second;
 	_scriptList.clear();
-}
-
-void LogicSystem::AddObject(size_t uId, void* component)
-{
-	_logicList.insert({ uId, (LogicComponent*)component });
-}
-
-void LogicSystem::RemoveObject(size_t uId)
-{
-	_logicList.erase(uId);
 }

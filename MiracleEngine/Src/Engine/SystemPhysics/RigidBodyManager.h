@@ -14,11 +14,8 @@
 
 #include "IContainer.h"
 
-class RigidbodyManager final : public IContainer
+class RigidbodyManager final 
 {
-public:
-	std::unordered_map < size_t, RigidBody2D* >	_rigidBody2dList;
-private:
 
 public:
 	RigidbodyManager() = default;
@@ -31,9 +28,6 @@ public:
 	void ApplyVelocityToObject(double dt);
 
 	void Draw();
-
-	void AddObject(size_t uId, void* component = 0);
-	void RemoveObject(size_t uId);
 
 	static void AddForce(size_t uId, Vector3 forceDir, float force);
 	static void AddForwardForce(size_t uId, float force);

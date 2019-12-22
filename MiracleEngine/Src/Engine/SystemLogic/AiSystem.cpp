@@ -351,9 +351,9 @@ void AISystem::CreateNodeMap()
 void AISystem::CreateNodeMapFromTileComp()
 {
 	std::string** temp = nullptr; // get the string map from tilecomponent
-	if ((EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents()).begin() == EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents().end())
+	if (MyComponentManger._TileMapComponents.begin() == MyComponentManger._TileMapComponents.end())
 		return;
-	for (auto it : EngineSystems::GetInstance()._gameObjectFactory->getTileMapComponents())
+	for (auto it : MyComponentManger._TileMapComponents)
 		if (it.first >= 1000)
 		{
 			_mapHeight = it.second->GetHeight();

@@ -56,7 +56,7 @@ void EnemyThree::Init()
 {
 	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
-	std::unordered_map<size_t, IdentityComponent*> idComList = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+	std::unordered_map<size_t, IdentityComponent*> idComList = MyComponentManger._IdentityComponents;
 	for (auto& it : idComList)
 	{
 		if (it.second->GetParentPtr()->Get_uID() >= 1000 && it.second->ObjectType().compare("Player"))

@@ -12,23 +12,6 @@ class GameObjectFactory final
 	size_t _prefabId;
 
 	std::unordered_map < size_t, GameObject* >			_listObject; //Dynamic array of GameObjects
-	std::unordered_map < size_t, IdentityComponent* >	_IdentityComponents;	//Array of Components
-
-	std::unordered_map < size_t, GraphicComponent* >	_graphicComponents;	//Array of Components
-	std::unordered_map < size_t, TransformComponent*>  _transformComponents;	//
-	std::unordered_map < size_t, AnimationComponent*>	_AnimationComponents;	//
-	std::unordered_map < size_t, CameraComponent*>		_CameraComponents;		//
-	std::unordered_map < size_t, RigidBody2D* >			_rigidBody2dComponents;	//
-	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;	//
-	std::unordered_map < size_t, LogicComponent* >		_logicComponents;		//
-	std::unordered_multimap<size_t, PickingCollider*>	_pickList;
-	std::unordered_map<size_t, AudioComponent*>			_audioComponent;		//
-	std::unordered_map<size_t, FontComponent*>			_FontComponent;
-	std::unordered_map<size_t, ButtonComponent*>		_buttonComponent;
-
-	std::unordered_map<size_t, TileMapComponent*>		_TileMapComponents;
-
-
 public:
 
 
@@ -41,17 +24,7 @@ public:
 		}
 		return false;
 	}
-
-
-	const std::unordered_map < size_t, TileMapComponent*>& getTileMapComponents ()
-	{
-		return _TileMapComponents;
-	}
-
-	const std::unordered_map < size_t, IdentityComponent*>& GetIdentityComponents()
-	{
-		return _IdentityComponents;
-	}
+	std::unordered_map < size_t, GameObject*>& getObjectlist();
 
 	GameObjectFactory(const GameObjectFactory& rhs) = delete;
 	GameObjectFactory& operator= (const GameObjectFactory& rhs) = delete;
@@ -60,23 +33,6 @@ public:
 	~GameObjectFactory();
 
 	void UpdateDestoryObjects();
-
-	std::unordered_map < size_t, GameObject*> getObjectlist();
-	std::unordered_map < size_t, GraphicComponent* > getGraphicComponent();		
-	std::unordered_map < size_t, TransformComponent* > getTransformComponent();
-	std::unordered_map < size_t, RigidBody2D* > getRigidBodyComponent();	
-	std::unordered_map < size_t, Collider2D* > getCollider2dComponent();
-	std::unordered_map < size_t, LogicComponent* > getLogicComponent();
-	std::unordered_map < size_t, CameraComponent*>	 getCameraComponent()
-	{
-		return _CameraComponents;
-	}
-	std::unordered_map < size_t, FontComponent*> getFontComponent()
-	{
-		return _FontComponent;
-	}
-
-
 
 	Map_ScriptList getObjectScript(GameObject* object);
 

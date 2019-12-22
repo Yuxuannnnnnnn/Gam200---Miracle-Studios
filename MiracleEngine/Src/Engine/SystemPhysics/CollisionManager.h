@@ -16,11 +16,9 @@
 
 #include "IContainer.h"
 
-class CollisionManager final : public IContainer
+class CollisionManager final
 {
 public:
-	std::unordered_map < size_t, Collider2D* > _collider2dList;
-
 	CollisionMap _collisionMap;
 
 private:
@@ -35,9 +33,6 @@ public:
 
 	void Update(double dt);
 	void Draw();
-
-	void AddObject(size_t uId, void* component = 0);
-	void RemoveObject(size_t uId);
 
 	static void UpdateColliderData(Collider2D* collider);
 

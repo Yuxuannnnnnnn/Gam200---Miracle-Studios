@@ -14,10 +14,8 @@
 
 #include "IContainer.h"
 
-class TransformManager final : public IContainer
+class TransformManager final
 {
-private:
-	std::unordered_map< size_t, TransformComponent*> _transformList;
 
 public:
 	TransformManager() = default;
@@ -25,9 +23,6 @@ public:
 
 	TransformManager(const TransformManager& rhs) = delete;
 	TransformManager& operator= (const TransformManager& rhs) = delete;
-
-	void AddObject(size_t uId, void* component = 0);
-	void RemoveObject(size_t uId);
 
 	TransformComponent* GetTransform(size_t uId);
 

@@ -14,10 +14,8 @@
 
 #include "IContainer.h"
 
-class ButtonManager final : public IContainer
+class ButtonManager final 
 {
-public:
-	std::unordered_map< size_t, ButtonComponent*> _buttonList;
 
 public:
 	ButtonManager() = default;
@@ -28,9 +26,6 @@ public:
 
 	void Update();
 	void Draw();
-
-	void AddObject(size_t uId, void* component = 0);
-	void RemoveObject(size_t uId);
 };
 
 #endif
