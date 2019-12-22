@@ -48,37 +48,6 @@ GLuint Shader::CompileShader(GLuint type, const std::string& source) const
 	return 0;
 }
 
-GLuint CompileShader(const std::string& source, GLuint type)
-{
-	GLuint id = glCreateShader(type);
-	const char* src = source.c_str();
-	glShaderSource(id, 1, &src, nullptr);
-	glCompileShader(id);
-
-	// TODO:: error handling
-
-	return id;
-}
-
-
-GLuint CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
-{
-	GLuint program = glCreateProgram();
-	GLuint vs = CompileShader(vertexShader, GL_VERTEX_SHADER);
-	GLuint fs = CompileShader(fragmentShader, GL_FRAGMENT_SHADER);
-
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
-
-	glLinkProgram(program);
-	glValidateProgram(program);
-
-	glDeleteShader(vs);
-	glDeleteShader(fs);
-
-	return program;
-}
-
 bool Shader::load(std::string vert, std::string frag)
 {
 	int success;

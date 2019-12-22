@@ -9,9 +9,6 @@
 #include <iostream>
 #include <glm/glm.hpp>
 
-GLuint CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
-GLuint CompileShader(const std::string& source, GLuint type);
-
 class Shader
 {
 public:

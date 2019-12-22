@@ -48,7 +48,6 @@
     <ClCompile Include="Src\Engine\SystemAudio\AudioSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\Sound.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\SoundManager.cpp" />
-    <ClCompile Include="Src\Engine\SystemGraphics\AnimatedMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BasicRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BatchRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Camera.cpp" />
@@ -57,13 +56,11 @@
     <ClCompile Include="Src\Engine\SystemGraphics\DebugRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Elementbuffer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\FontRenderer.cpp" />
-    <ClCompile Include="Src\Engine\SystemGraphics\FragmentShader.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\FrameBuffer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\GraphicsSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\InstancedRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\QuadMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Renderer.cpp" />
-    <ClCompile Include="Src\Engine\SystemGraphics\RenderLayer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Shader.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Texture2D.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\TextureManager.cpp" />
@@ -72,7 +69,6 @@
     <ClCompile Include="Src\Engine\SystemGraphics\UIRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\VertexArray.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\VertexBuffer.cpp" />
-    <ClCompile Include="Src\Engine\SystemGraphics\VertexShader.cpp" />
     <ClCompile Include="Src\Engine\SystemInput\InputSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\AiSystem.cpp" />
@@ -469,7 +465,6 @@
     <ClInclude Include="Src\Engine\SystemAudio\Sound.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundEnum.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundManager.h" />
-    <ClInclude Include="Src\Engine\SystemGraphics\AnimatedMesh.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BasicRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BatchRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BufferLayout.h" />
@@ -479,13 +474,11 @@
     <ClInclude Include="Src\Engine\SystemGraphics\DebugRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Elementbuffer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\FontRenderer.h" />
-    <ClInclude Include="Src\Engine\SystemGraphics\FragmentShader.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\FrameBuffer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\GraphicsSystem.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\InstancedRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\QuadMesh.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Renderer.h" />
-    <ClInclude Include="Src\Engine\SystemGraphics\RenderLayer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\RenderObject.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Shader.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Texture2D.h" />
@@ -495,7 +488,6 @@
     <ClInclude Include="Src\Engine\SystemGraphics\UIRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\VertexArray.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\VertexBuffer.h" />
-    <ClInclude Include="Src\Engine\SystemGraphics\VertexShader.h" />
     <ClInclude Include="Src\Engine\SystemInput\InputSystem.h" />
     <ClInclude Include="Src\Engine\SystemInput\KeyCode.h" />
     <ClInclude Include="Src\Engine\SystemInput\keydef.h" />
