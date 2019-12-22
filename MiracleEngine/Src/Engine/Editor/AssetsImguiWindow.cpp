@@ -8,9 +8,11 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 	:IBaseImguiWindow("Assets",1, 20, 347, 505, open, flags)
 {
 	std::string audiosPath = "./Resources/Audio";
-	std::string texturesPath = "./Resources/Image";
-	std::string shadersPath = "./Resources/Shader";	//Can Write and Add New Shader File?
 	std::string fontsPath = "./Resources/Fonts";
+	std::string texturesPath = "./Resources/Image";
+	std::string SpriteSheetPath = "./Resources/SpriteSheets";
+
+	std::string shadersPath = "./Resources/Shader";
 
 	std::string statesPath = "./Resources/TextFiles/Scenes/Scenes";
 	std::string gameObjectsPath = "./Resources/TextFiles/GameObjects";
@@ -62,16 +64,16 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			{
 			//	size_t namesize = path.find_last_of(".vert") - 5 - path.find_last_of("\\/");
 				fileName = path.substr(path.find_last_of("\\/") + 1);
-				_vertexFiles.insert(std::pair<std::string, std::string>(fileName, path));
+			//	_vertexFiles.insert(std::pair<std::string, std::string>(fileName, path));
 			}
 			else if (path.find(".frag") != std::string::npos)
 			{
 			//	size_t namesize = path.find_last_of(".frag") - 5 - path.find_last_of("\\/");
 				fileName = path.substr(path.find_last_of("\\/") + 1);
-				_fragmentFiles.insert(std::pair<std::string, std::string>(fileName, path));
+			//	_fragmentFiles.insert(std::pair<std::string, std::string>(fileName, path));
 			}
 
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
+			//ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
 		//ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
@@ -273,34 +275,34 @@ void AssetsImguiWindow::Update()
 		ImGui::Spacing();
 
 		//ImGui::TreePop();
-		for (auto& vertexPair : _vertexFiles)
-		{
-			static bool selected;
-			std::string string = " - " + vertexPair.first;
-
-			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
-			{
-				if (ImGui::IsMouseReleased(0))
-				{
-				}
-			}
-			ImGui::Spacing();
-
-		}
-
-		for (auto& fragmentPair : _fragmentFiles)
-		{
-			static bool selected;
-			std::string string = " - " + fragmentPair.first;
-
-			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
-			{
-				if (ImGui::IsMouseReleased(0))
-				{
-				}
-			}
-			ImGui::Spacing();
-		}
+		//for (auto& vertexPair : _vertexFiles)
+		//{
+		//	static bool selected;
+		//	std::string string = " - " + vertexPair.first;
+		//
+		//	if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+		//	{
+		//		if (ImGui::IsMouseReleased(0))
+		//		{
+		//		}
+		//	}
+		//	ImGui::Spacing();
+		//
+		//}
+		//
+		//for (auto& fragmentPair : _fragmentFiles)
+		//{
+		//	static bool selected;
+		//	std::string string = " - " + fragmentPair.first;
+		//
+		//	if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+		//	{
+		//		if (ImGui::IsMouseReleased(0))
+		//		{
+		//		}
+		//	}
+		//	ImGui::Spacing();
+		//}
 
 	}
 
