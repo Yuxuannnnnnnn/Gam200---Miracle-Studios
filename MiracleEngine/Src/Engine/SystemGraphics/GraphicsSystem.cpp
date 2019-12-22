@@ -91,7 +91,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		renderobject._pMesh = &_quadMesh;
 		renderobject._pShader = _shader;
-		renderobject._pTexture = _textureManager._textureMap["floor"];
+		renderobject._pTexture = MyResourceManager.GetTexture2DResource(graphicComp->GetFileName());
 		renderobject.transform = modelTransform;
 		_renderObjects[0].push_back(renderobject);
 
