@@ -239,6 +239,7 @@
     <ClInclude Include="Src\Engine\SystemGraphics\InstancedRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\QuadMesh.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Renderer.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\RenderLayer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\RenderObject.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Shader.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Texture2D.h" />
@@ -658,6 +659,7 @@
     <ClCompile Include="Src\Engine\SystemGraphics\InstancedRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\QuadMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Renderer.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\RenderLayer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Shader.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Texture2D.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\TextureManager.cpp" />
