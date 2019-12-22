@@ -12,7 +12,7 @@ class GraphicComponent : public IComponent
 {
 private:
 
-	std::string _fileName;       // change back to filepath
+	std::string _fileName;      
 	std::string _shader;
 	RenderLayer _renderlayer;
 

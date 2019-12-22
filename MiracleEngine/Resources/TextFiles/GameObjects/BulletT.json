@@ -9,8 +9,9 @@
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
-  "G.TypeId": 0,
   "G.FileName": "Bullet_T.png",
+  "ShaderType": "",
+  "RenderLayer": 1,
 
   "RigidBodyComponent": true,
   "Mass": 1.0,
