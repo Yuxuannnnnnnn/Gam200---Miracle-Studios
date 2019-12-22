@@ -47,6 +47,8 @@ ImguiSystem::ImguiSystem(const Window& window)
 	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
 	_ImguiWindows["Assets"] = new AssetsImguiWindow();
 	_ImguiWindows["Texture"] = new TextureImguiWindow();
+	_ImguiWindows["PerformanceUsage"] = new PerformanceUsageWindow();
+	
 
 	//_ImguiWindows["PreFab"] = new PreFabImguiWindow();
 	/*
@@ -136,8 +138,8 @@ void ImguiSystem::UpdateFrame()
 			if (window->GetOpen()) //if false, window will not be created
 			{
 				ImVec2 main_viewport_pos = ImGui::GetMainViewport()->Pos;
-				ImGui::SetNextWindowPos(ImVec2(main_viewport_pos.x + window->PosX(), main_viewport_pos.y + window->PosY()), ImGuiCond_Once);
-				ImGui::SetNextWindowSize(ImVec2(window->Width(), window->Height()), ImGuiCond_Once);
+				ImGui::SetNextWindowPos(ImVec2(main_viewport_pos.x + window->PosX(), main_viewport_pos.y + window->PosY()), window->GetWindowCondition());
+				ImGui::SetNextWindowSize(ImVec2(window->Width(), window->Height()), window->GetWindowCondition());
 
 				// Start of Main window body.
 				if (!ImGui::Begin(window->GetName(), &(window->GetOpen()), window->GetFlags()))
@@ -146,7 +148,16 @@ void ImguiSystem::UpdateFrame()
 					continue;
 				}
 
+
+				if (window == _ImguiWindows["PerformanceUsage"])
+				{
+					MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
+				}
+
+
 				window->Update(); //Update the contents of each window
+
+
 
 				ImGui::End();									//End of window body
 			}

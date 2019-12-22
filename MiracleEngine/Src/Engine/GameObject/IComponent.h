@@ -84,11 +84,6 @@ public:
 	virtual void DeSerialiseComponent(DeSerialiser & prototypeDoc) = 0; //Every Component has to have a DeSerialise function
 	virtual void Inspect() = 0;	//Every Component has an Inspect function for InspectionImguiWindow
 	//virtual IComponent* CloneComponent() = 0;
-	virtual void SaveComponent()
-	{
-
-	}
-
 
 	size_t GetParentId() const;
 	void SetParentId(size_t inVal);

@@ -6,7 +6,7 @@
 
 
 IdentityComponent::IdentityComponent(GameObject* parent, size_t uId, IComponent* component)
-	: IComponent(parent, uId)/*, _typeId{ (unsigned)TypeIdGO::NONE }*/, _ObjectType{ "" }, _current_ObjectType{ "" }, _current_Name{ "" }
+	: IComponent(parent, uId)/*, _typeId{ (unsigned)TypeIdGO::NONE }*/, _ObjectType{ "" }
 {
 	//if (component)
 	//{
@@ -49,8 +49,7 @@ void IdentityComponent::SerialiseComponent(Serialiser& document)
 		_ObjectType = document["ObjectType"].GetString();
 	}
 
-	strncpy(_current_ObjectType, _ObjectType.c_str(), _ObjectType.length());
-	strncpy(_current_Name, _name.c_str(), _name.length());
+
 
 }
 
@@ -74,14 +73,20 @@ void IdentityComponent::Inspect()
 	ImGui::Spacing();
 	std::string string = std::string("Game Object Type ");
 	//strncpy(_current_ObjectType, _ObjectType.c_str(), _ObjectType.length());
-	ImGui::InputText(string.c_str(), _current_ObjectType, 100);
+
+
+	static char objType[100] = "\0";
+	strncpy(objType, _ObjectType.c_str(), _ObjectType.length());
+	ImGui::InputText(string.c_str(), objType, 100);
+	_ObjectType = objType;
 	ImGui::Spacing();
 	
-
+	static char Name[100] = "\0";
+	strncpy(Name, _name.c_str(), _name.length());
 	//strncpy(_current_Name, _name.c_str(), _name.length());
 	string = "Name of Object ";
-	ImGui::InputText(string.c_str(), _current_Name, 100);
-	
+	ImGui::InputText(string.c_str(), Name, 100);
+	_name = Name;
 	ImGui::Spacing();
 }
 
