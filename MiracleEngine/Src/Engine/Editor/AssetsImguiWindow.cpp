@@ -234,40 +234,40 @@ void AssetsImguiWindow::Update()
 		}
 	}
 
-
-	auto textureFiles = ResourceManager::GetInstance().GetTexture2DList();
-	size_t textureCount = textureFiles.size();
-	std::string string = "Textures (" + std::to_string(textureCount) + ")";
-
-	if (ImGui::CollapsingHeader(string.c_str()))
 	{
-		ImGui::Spacing();
-
 		auto textureFiles = ResourceManager::GetInstance().GetTexture2DList();
+		size_t textureCount = textureFiles.size();
+		std::string string = "Textures (" + std::to_string(textureCount) + ")";
 
-		for (auto& texturePair : textureFiles)
+		if (ImGui::CollapsingHeader(string.c_str()))
 		{
-			static bool selected;
-			std::string string = " - " + texturePair.first;
-
-			Texture2D* texture = ResourceManager::GetInstance().GetTexture2DResource(texturePair.first);
-			TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
-
-			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
-			{
-				if (ImGui::IsMouseReleased(0))
-				{
-					TextureImguiWindow::setTexture(textureWindow, texture, texturePair.first);
-				}
-			}
-
 			ImGui::Spacing();
 
+			auto textureFiles = ResourceManager::GetInstance().GetTexture2DList();
+
+			for (auto& texturePair : textureFiles)
+			{
+				static bool selected;
+				std::string string = " - " + texturePair.first;
+
+				Texture2D* texture = ResourceManager::GetInstance().GetTexture2DResource(texturePair.first);
+				TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
+
+				if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+				{
+					if (ImGui::IsMouseReleased(0))
+					{
+						TextureImguiWindow::setTexture(textureWindow, texture, texturePair.first);
+					}
+				}
+
+				ImGui::Spacing();
+
+			}
+			//ImGui::TreePop();
+
 		}
-		//ImGui::TreePop();
-
 	}
-
 
 	if (ImGui::CollapsingHeader("Shaders"))
 	{

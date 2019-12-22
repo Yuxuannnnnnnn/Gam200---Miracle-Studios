@@ -699,27 +699,15 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 //For Level Editor Only
 void GameObjectFactory::De_SerialiseLevel(std::string filename)
 {
-	std::string fileName = "./Resources/TextFiles/States/" + filename;
-	DeSerialiser level(fileName);
-
-	std::vector<std::string> Prototypes;
-	std::vector<std::string>;
-
-	for (auto& objPair : _listObject)
+	for (auto& IdObjPair : _listObject)
 	{
-		IdentityComponent* idCom = dynamic_cast <IdentityComponent*> (objPair.second->GetComponent(ComponentId::IDENTITY_COMPONENT));
-		if (idCom)
+		if (IdObjPair.first < 1000)
 		{
-			std::string objType = idCom->ObjectType();
-			if (std::find(Prototypes.begin(), Prototypes.end(), objType) == Prototypes.end())
-			{
-				Prototypes.emplace_back(objType);
-			}
+			continue;
 		}
-
+		
 
 	}
-
 
 	//Deserialise the Audio from GameObjects AudioComponent
 	//Deserialise the textures from GameObject GraphicComponent & AnimationComponents 

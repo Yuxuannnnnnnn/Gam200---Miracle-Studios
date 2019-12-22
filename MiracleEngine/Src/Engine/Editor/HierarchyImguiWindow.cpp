@@ -21,11 +21,34 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	{
 		
 	}
+
 	ImGui::SameLine();
 	std::string string2 = "Save Scene ";
 	if (ImGui::Button(string2.c_str()))
 	{
-		//EngineSystems::GetInstance()._gameObjectFactory->De_SerialiseLevel();
+		OPENFILENAME ofn = { sizeof ofn };
+		ZeroMemory(&ofn, sizeof(ofn));
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
+
+		char file[1024] = "\0";
+		ofn.lpstrFile = file;
+		ofn.nMaxFile = 1024;
+		ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER;
+
+		ofn.lpstrFilter = ".json\0.json";
+		ofn.lpstrFileTitle = NULL;
+		ofn.nMaxFileTitle = 0;
+		ofn.lpstrInitialDir = "./Resources/TextFiles/Scenes/Scenes";
+		ofn.nFilterIndex = 1;
+		ofn.lpstrTitle = TEXT("Save Scene File");
+		ofn.lpstrDefExt = "rle";
+
+		if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
+		{
+			std::cout << ofn.lpstrFile;
+			EngineSystems::GetInstance()._gameObjectFactory->De_SerialiseLevel(ofn.lpstrFile);
+		}
 	}
 
 	ImGui::Spacing();
