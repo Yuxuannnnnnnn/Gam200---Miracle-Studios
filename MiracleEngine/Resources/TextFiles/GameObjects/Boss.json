@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "enemy1",
+  "G.FileName": "EnemyAttack.png",
 
   "RigidBodyComponent": true,
   "Mass": 5.0,

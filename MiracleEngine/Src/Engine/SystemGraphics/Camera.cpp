@@ -23,13 +23,13 @@ void Camera::Update()
 
 		TransformComponent x = *transformComponent;
 
-		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(x_pos 
+		glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(x_pos
 			, y_pos, 1));
 		glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transformComponent->GetRotate(), glm::vec3(0, 0, 1));
-		 CamMatrix = translate * rotate * glm::scale(glm::mat4(1.0f),
+		CamMatrix = translate * rotate * glm::scale(glm::mat4(1.0f),
 			glm::vec3(x_scale, y_scale, 1.0f));
 	}
-	
+
 }
 
 void Camera::MoveCameraX(float x)

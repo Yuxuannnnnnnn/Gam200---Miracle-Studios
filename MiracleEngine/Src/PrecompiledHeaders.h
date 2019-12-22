@@ -101,7 +101,6 @@
 #include "SystemGraphics/RenderObject.h"
 #include "SystemGraphics/Shader.h"
 #include "SystemGraphics/Texture2D.h"
-#include "SystemGraphics/TextureManager.h"
 #include "SystemGraphics/UIManager.h"
 #include "SystemGraphics/UIMesh.h"
 #include "SystemGraphics/UIRenderer.h"

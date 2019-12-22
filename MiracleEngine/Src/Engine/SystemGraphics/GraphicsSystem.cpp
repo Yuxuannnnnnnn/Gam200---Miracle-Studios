@@ -5,7 +5,7 @@ void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
 
-	_renderer.Update(_renderObjects, _proj);
+	_renderer.Update(_renderObjects, _proj * _cameraManager.GetMainCamMatrix());
 
 	EndScene();
 }
@@ -18,7 +18,10 @@ void GraphicsSystem::BeginScene()
 
 void GraphicsSystem::EndScene()
 {
-	_renderObjects.clear();
+	for (auto& element : _renderObjects)
+	{
+		element.clear();
+	}
 }
 
 GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight)
@@ -30,7 +33,12 @@ GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight)
 
 
 	// temp set view to identity
-	_view = glm::mat4(1.0f);
+	//_view = glm::mat4(1.0f);
+
+	for (size_t i = 0; i <= 10; i++)
+	{
+		_renderObjects.push_back(std::vector<RenderObject>{});
+	}
 
 	// temp
 	std::string temp = "DefaultShader";
@@ -57,6 +65,7 @@ void GraphicsSystem::ClearSreen() const
 
 void GraphicsSystem::UpdateViewMatrix()
 {
+	_cameraManager.Update();
 }
 
 void GraphicsSystem::UpdateRenderObjectList()
@@ -81,16 +90,14 @@ void GraphicsSystem::UpdateRenderObjectList()
 		RenderObject renderobject;
 
 		renderobject._pMesh = &_quadMesh;
-		//renderobject._pMesh = &_q2;
-
-
 		renderobject._pShader = _shader;
-		renderobject._pTexture = _textureManager._textureMap["floor"];
+		renderobject._pTexture = MyResourceManager.GetTexture2DResource(graphicComp->GetFileName());
 		renderobject.transform = modelTransform;
-		renderObj.push_back(renderobject);
+		_renderObjects[0].push_back(renderobject);
 
-		_renderObjects.push_back(renderObj);
+
 	}
+
 }
 
 glm::mat4 GraphicsSystem::UpdateTransform(TransformComponent* transformComp, GraphicComponent* graphicComp)

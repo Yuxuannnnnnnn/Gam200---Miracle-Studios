@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "spawner",
+  "G.FileName": "Spawner.png",
 
   "ColliderComponent": true,
   "ColliderTypeId": 2,

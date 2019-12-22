@@ -26,7 +26,6 @@
 
 // temporary
 #include "QuadMesh.h"
-#include "TextureManager.h"
 class GraphicsSystem
 {
 
@@ -50,16 +49,25 @@ private:
 	UIRenderer _uiRenderer;         // ui renderer for ui, font etc in screen space
 private:
 	glm::mat4 _proj;                // projection matrix depth ( z-axis ) range from -30 to 30
-	glm::mat4 _view;                // camera view matrix
+	//glm::mat4 _view;                // camera view matrix
 
 	CameraManager _cameraManager;   // class manage all the camera
 private:
 	std::vector<std::vector<RenderObject>> _renderObjects;
 
-	TextureManager _textureManager;
 	QuadMesh _quadMesh;
 	QuadMesh _q2{ 0.0f, 0.0f, 0.5f, 0.5f };
 	Shader* _shader;
+
+
+
+
+
+
+
+
+
+
 public:
 	std::unordered_map < size_t, FontComponent*>       _fontCompList;
 	std::unordered_map < size_t, AnimationComponent*>  _animationCompList;

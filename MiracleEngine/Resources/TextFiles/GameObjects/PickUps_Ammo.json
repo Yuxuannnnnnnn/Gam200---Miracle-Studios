@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "rocket",
+  "G.FileName": "Rocket_icon_glow.png",
 
   "CircleColliderComponent": true,
   "ColliderTypeId": 2,

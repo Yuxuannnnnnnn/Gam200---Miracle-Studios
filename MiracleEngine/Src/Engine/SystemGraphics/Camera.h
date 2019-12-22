@@ -9,7 +9,6 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "QuadMesh.h"
-#include "TextureManager.h"
 
 class Camera
 {

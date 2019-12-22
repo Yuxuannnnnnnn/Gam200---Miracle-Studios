@@ -1,6 +1,7 @@
 #pragma once
 #include "../../IComponent.h"
 #include "GameObject/IAllocator.h"
+#include "SystemGraphics/RenderLayer.h"
 
 enum class TypeIdGraphic {
 	NONE = 0,
@@ -12,12 +13,17 @@ class GraphicComponent : public IComponent, public IBase<GraphicComponent>
 private:
 
 	std::string _fileName;       // change back to filepath
-	unsigned int _textureID;         // texture id for opengl
+	std::string _shader;
+	RenderLayer _renderlayer;
 
+	float u0, v0;
+	float u1, v1;
 
+//------ remove below ------------------------------
 	unsigned _typeIdGraphic;
 	int _shaderID;
 
+	unsigned int _textureID;         // texture id for opengl
 	std::vector<std::string> _shaderList;
 
 	int _textureState = 0; // for enemy with move and attack, this tell you which texture to run

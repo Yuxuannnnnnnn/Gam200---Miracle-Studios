@@ -63,7 +63,6 @@
     <ClCompile Include="Src\Engine\SystemGraphics\Renderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Shader.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Texture2D.cpp" />
-    <ClCompile Include="Src\Engine\SystemGraphics\TextureManager.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIManager.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIRenderer.cpp" />
@@ -114,6 +113,7 @@
     <ClCompile Include="Src\Scripts\SpawnerTwo.cpp" />
     <ClCompile Include="Src\Scripts\Turret.cpp" />
     <ClCompile Include="Src\Engine\Editor\PerformanceUsageWindow.cpp" />
+    <ClCompile Include="Src\Engine\SystemGraphics\RenderLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -482,7 +482,6 @@
     <ClInclude Include="Src\Engine\SystemGraphics\RenderObject.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Shader.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Texture2D.h" />
-    <ClInclude Include="Src\Engine\SystemGraphics\TextureManager.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIManager.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIMesh.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIRenderer.h" />
@@ -546,6 +545,7 @@
     <ClInclude Include="Src\Scripts\SpawnerTwo.h" />
     <ClInclude Include="Src\Scripts\Turret.h" />
     <ClInclude Include="Src\Engine\Editor\PerformanceUsageWindow.h" />
+    <ClInclude Include="Src\Engine\SystemGraphics\RenderLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

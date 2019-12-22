@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "bullet",
+  "G.FileName": "Bullet.png",
 
   "RigidBodyComponent": true,
   "Mass": 1.0,
