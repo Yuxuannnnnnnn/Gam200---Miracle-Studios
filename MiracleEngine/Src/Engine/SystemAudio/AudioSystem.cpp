@@ -26,11 +26,11 @@ void AudioSystem::Init()
 
 void AudioSystem::Update()
 {
-	int a = 0;
-	for (auto& e : _soundList)
-	{
-		int x = 0;
-	}
+	//int a = 0;
+	//for (auto& e : _soundList)
+	//{
+	//	int x = 0;
+	//}
 	FMOD_System_Update(_fmodSystem);
 }
 
@@ -55,14 +55,4 @@ void AudioSystem::StopAllSound()
 {
 	FMOD_ChannelGroup_Stop(_bgmGroup);
 	FMOD_ChannelGroup_Stop(_sfxGroup);
-}
-
-void AudioSystem::AddObject(size_t uId, void* component)
-{
-	_soundList.insert({ uId, (AudioComponent*)component });
-}
-
-void AudioSystem::RemoveObject(size_t uId)
-{
-	_soundList.erase(uId);
 }

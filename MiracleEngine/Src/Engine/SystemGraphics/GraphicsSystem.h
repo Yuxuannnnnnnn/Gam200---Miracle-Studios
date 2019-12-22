@@ -59,20 +59,6 @@ private:
 	QuadMesh _q2{ 0.0f, 0.0f, 0.5f, 0.5f };
 	Shader* _shader;
 
-
-
-
-
-
-
-
-
-
-public:
-	std::unordered_map < size_t, FontComponent*>       _fontCompList;
-	std::unordered_map < size_t, AnimationComponent*>  _animationCompList;
-	std::unordered_map < size_t, GraphicComponent*>    _graphicCompList;
-	std::unordered_map < size_t, TransformComponent*>  _transformCompList;
 };
 
 //#define ResizeGraphics EngineSystems::GetInstance()._graphicsSystem->CalculateProjectionMatrix

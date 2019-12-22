@@ -1,22 +1,13 @@
 #include "PrecompiledHeaders.h"
 #include "TransformManager.h"
 
-void TransformManager::AddObject(size_t uId, void* component)
-{
-	_transformList.insert({ uId, (TransformComponent*)component });
-}
-
-void TransformManager::RemoveObject(size_t uId)
-{
-	_transformList.erase(uId);
-}
 
 TransformComponent* TransformManager::GetTransform(size_t uId)
 {
-	if (_transformList.find(uId) == _transformList.end())
+	if (MyComponentManger._transformComponents.find(uId) == MyComponentManger._transformComponents.end())
 		return nullptr;
 
-	return _transformList[uId];
+	return MyComponentManger._transformComponents[uId];
 }
 
 void TransformManager::UpdateTransformMartix(TransformComponent* transform)

@@ -3,8 +3,11 @@
 
 void RigidbodyManager::UpdateVelocity(double dt)
 {
-	for (auto it : _rigidBody2dList)
+	for (auto it : MyComponentManger._rigidbody2DComponent)
 	{
+		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+			continue;
+
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
@@ -28,8 +31,11 @@ void RigidbodyManager::UpdateVelocity(double dt)
 
 void RigidbodyManager::ApplyVelocityToObject(double dt)
 {
-	for (auto it : _rigidBody2dList)
+	for (auto it : MyComponentManger._rigidbody2DComponent)
 	{
+		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+			continue;
+
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
@@ -43,8 +49,11 @@ void RigidbodyManager::ApplyVelocityToObject(double dt)
 
 void RigidbodyManager::Draw()
 {
-	for (auto it : _rigidBody2dList)
+	for (auto it : MyComponentManger._rigidbody2DComponent)
 	{
+		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+			continue;
+
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
@@ -67,25 +76,10 @@ void RigidbodyManager::Draw()
 	}
 }
 
-void RigidbodyManager::AddObject(size_t uId, void* component)
-{
-	RigidBody2D* temp = MyGameObjectFactory.getRigidBodyComponent()[uId];
-
-	if (temp == nullptr)
-		return;
-
-	_rigidBody2dList.insert({ uId, temp });
-}
-
-void RigidbodyManager::RemoveObject(size_t uId)
-{
-	_rigidBody2dList.erase(uId);
-}
-
 
 void RigidbodyManager::AddForce(size_t uId, Vector3 forceDir, float force)
 {
-	RigidBody2D* object = _engineSystems._rigidbodyManager->_rigidBody2dList[uId];
+	RigidBody2D* object = MyComponentManger._rigidbody2DComponent[uId];
 
 	if (!object)
 		return;
@@ -96,7 +90,7 @@ void RigidbodyManager::AddForce(size_t uId, Vector3 forceDir, float force)
 
 void RigidbodyManager::AddForwardForce(size_t uId, float force)
 {
-	RigidBody2D* object = _engineSystems._rigidbodyManager->_rigidBody2dList[uId];
+	RigidBody2D* object = MyComponentManger._rigidbody2DComponent[uId];
 	TransformComponent* transform = _engineSystems._transforManager->GetTransform(uId);
 
 	if (!object)

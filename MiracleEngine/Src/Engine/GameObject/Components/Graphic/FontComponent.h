@@ -10,13 +10,11 @@ private:
 	std::string _fontString;
 	std::string _fontType;
 
-// -remove below----
-	int _fontID;
+
 public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
-	
-	void SetFontID(int num);
+
 
 
 

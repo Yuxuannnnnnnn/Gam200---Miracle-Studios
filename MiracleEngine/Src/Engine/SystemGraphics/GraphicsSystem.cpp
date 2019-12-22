@@ -75,8 +75,11 @@ void GraphicsSystem::UpdateRenderObjectList()
 	// update 
 	std::vector<RenderObject> renderObj;
 
-	for (auto& graphicCompPair : _graphicCompList)
+	for (auto& graphicCompPair : MyComponentManger._graphicComponents)
 	{
+		if (graphicCompPair.second->GetParentId() < 1000 || graphicCompPair.second->GetParentPtr()->GetDestory())
+			continue;
+
 		GraphicComponent* graphicComp = graphicCompPair.second;
 		if (!graphicComp->GetEnable())
 			continue;

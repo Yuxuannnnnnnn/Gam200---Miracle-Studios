@@ -66,7 +66,7 @@ Enemy::Enemy() :
 void Enemy::Init()
 {
 	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-	auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+	auto& IdentityComponents = MyComponentManger._IdentityComponents;
 	
 	for (auto& idPair : IdentityComponents)
 	{
@@ -160,6 +160,8 @@ void Enemy::AttackRange()
 }
 void Enemy::CheckState()
 {
+
+
 	// _destinationPos - currPos
 	Vector3 tempVec3 = GetDestinationPos() - GetPosition();
 	// if (in range)

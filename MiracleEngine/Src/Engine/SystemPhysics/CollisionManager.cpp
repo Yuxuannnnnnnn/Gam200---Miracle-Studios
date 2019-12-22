@@ -11,8 +11,11 @@ void CollisionManager::Update(double dt)
 
 void CollisionManager::Draw()
 {
-	for (auto it : _collider2dList)
+	for (auto it : MyComponentManger._collider2dComponents)
 	{
+		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+			continue;
+
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
@@ -81,8 +84,11 @@ void CollisionManager::Draw()
 
 void CollisionManager::UpdateCollision(double dt)
 {
-	for (auto it : _collider2dList)
+	for (auto it : MyComponentManger._collider2dComponents)
 	{
+		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+			continue;
+
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
@@ -91,11 +97,14 @@ void CollisionManager::UpdateCollision(double dt)
 
 	std::unordered_map<size_t, Collider2D* >::iterator it;
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+	for (std::unordered_map<size_t, Collider2D* > tempList = MyComponentManger._collider2dComponents;
 		!tempList.empty();
 		tempList.erase(it))
 	{
 		it = tempList.begin();
+
+		if (it->second->GetParentId() < 1000 || it->second->GetParentPtr()->GetDestory())
+			continue;
 
 		if (!it->second->GetEnable() || !it->second->_componentEnable ||
 			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER ||
@@ -105,6 +114,9 @@ void CollisionManager::UpdateCollision(double dt)
 
 		for (auto it2 : tempList)
 		{
+			if (it2.second->GetParentId() < 1000 || it2.second->GetParentPtr()->GetDestory())
+				continue;
+
 			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first ||
 				(ColliderTag)it2.second->_tag == ColliderTag::BUILDING ||
 				(ColliderTag)it2.second->_tag == ColliderTag::EDGES)
@@ -118,26 +130,20 @@ void CollisionManager::UpdateCollision(double dt)
 	}
 }
 
-void CollisionManager::AddObject(size_t uId, void* component)
-{
-	_collider2dList.insert({ uId, (Collider2D*)component });
-}
-
-void CollisionManager::RemoveObject(size_t uId)
-{
-	_collider2dList.erase(uId);
-}
-
 
 void CollisionManager::UpdateStaticCollision(double dt)
 {
 	std::unordered_map<size_t, Collider2D* >::iterator it;
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+	for (std::unordered_map<size_t, Collider2D* > tempList = MyComponentManger._collider2dComponents;
 		!tempList.empty();
 		tempList.erase(it))
 	{
+
 		it = tempList.begin();
+
+		if (it->second->GetParentId() < 1000 || it->second->GetParentPtr()->GetDestory())
+			continue;
 
 		if (!it->second->GetEnable() || !it->second->_componentEnable ||
 			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER ||
@@ -154,18 +160,21 @@ void CollisionManager::UpdateStaticCollision(double dt)
 		// center
 		if (_collisionMap.GetTileType(tileId) == TileType::HARD_WALL)
 		{
-			Collider2D* other = _collider2dList[_collisionMap.GetTileUId(tileId)];
+			Collider2D* other = MyComponentManger._collider2dComponents[_collisionMap.GetTileUId(tileId)];
 			CollisionCheckResponse(it->second, other, dt);
 		}
 
 		CollisionCheckTile(it->second, tileId, dt);
 	}
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = _collider2dList;
+	for (std::unordered_map<size_t, Collider2D* > tempList = MyComponentManger._collider2dComponents;
 		!tempList.empty();
 		tempList.erase(it))
 	{
 		it = tempList.begin();
+
+		if (it->second->GetParentId() < 1000 || it->second->GetParentPtr()->GetDestory())
+			continue;
 
 		if (!it->second->GetEnable() || !it->second->_componentEnable ||
 			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER ||
@@ -174,6 +183,9 @@ void CollisionManager::UpdateStaticCollision(double dt)
 
 		for (auto it2 : tempList)
 		{
+			if (it2.second->GetParentId() < 1000 || it2.second->GetParentPtr()->GetDestory())
+				continue;
+
 			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first ||
 				(ColliderTag)it2.second->_tag != ColliderTag::EDGES)
 				continue;
@@ -196,7 +208,7 @@ int CollisionManager::CollisionCheckTile(Collider2D* object, unsigned centerTile
 
 		if (neighbourTileType == TileType::HARD_WALL)
 		{
-			Collider2D* other = _collider2dList[_collisionMap.GetTileUId(neighbourTileId)];
+			Collider2D* other = MyComponentManger._collider2dComponents[_collisionMap.GetTileUId(neighbourTileId)];
 			CollisionCheckResponse(object, other, dt);
 			checked++;
 		}
@@ -217,10 +229,10 @@ void CollisionManager::CollisionCheckResponse(Collider2D* collider1, Collider2D*
 	RigidBody2D* rigidbody2 = nullptr;
 
 	if (collider1->_attachedRigidboy)
-		rigidbody = _engineSystems._rigidbodyManager->_rigidBody2dList[collider1->GetParentId()];
+		rigidbody = MyComponentManger._rigidbody2DComponent[collider1->GetParentId()];
 
 	if (collider2->_attachedRigidboy)
-		rigidbody2 = _engineSystems._rigidbodyManager->_rigidBody2dList[collider2->GetParentId()];
+		rigidbody2 = MyComponentManger._rigidbody2DComponent[collider2->GetParentId()];
 
 	if (collider1->_type == (unsigned)ColliderType::BOX_COLLIDER)
 	{

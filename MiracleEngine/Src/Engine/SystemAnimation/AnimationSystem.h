@@ -17,14 +17,11 @@
  --------------------------------------------------------*/
 
 
-class AnimationSystem : public IContainer
+class AnimationSystem
 {
 public:
-	void Update(std::unordered_map < size_t, AnimationComponent*>& _animationList, double dt);
+	void Update(double dt);
 	void Exit();
-
-	void AddObject(size_t uId, void* component = 0);
-	void RemoveObject(size_t uId);
 };
 
 #endif

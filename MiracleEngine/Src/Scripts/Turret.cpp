@@ -56,7 +56,7 @@ Turret::Turret() :
 void Turret::Init()
 {
 	std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-	auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+	auto& IdentityComponents = MyComponentManger._IdentityComponents;
 
 	for (auto& idPair : IdentityComponents)
 	{
@@ -86,7 +86,7 @@ Vector3& Turret::GetDestinationPos()
 	if (!_target || _target->GetDestory()) // if not target, find player
 	{
 		//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-		auto& IdentityComponents = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+		auto& IdentityComponents = MyComponentManger._IdentityComponents;
 
 		for (auto& idPair : IdentityComponents)
 		{
@@ -113,7 +113,7 @@ void Turret::SearchTarget()
 	GameObject* tempGO = nullptr, * tempPlayer = nullptr;
 	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
-	std::unordered_map<size_t, IdentityComponent*> idComList = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+	std::unordered_map<size_t, IdentityComponent*> idComList = MyComponentManger._IdentityComponents;
 	for (auto& it : idComList)
 	{
 		if (it.second->GetParentPtr()->Get_uID() >= 1000 &&

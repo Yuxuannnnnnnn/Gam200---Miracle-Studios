@@ -1,11 +1,14 @@
 #include "PrecompiledHeaders.h"
 #include "AnimationSystem.h"
 
-void AnimationSystem::Update(std::unordered_map < size_t, AnimationComponent*>& _animationList, double dt)
+void AnimationSystem::Update(double dt)
 {
 
-	for (auto& e : _animationList)
+	for (auto& e : MyComponentManger._AnimationComponents)
 	{
+		if (e.second->GetParentId() < 1000 || e.second->GetParentPtr()->GetDestory())
+			continue;
+
 		e.second->testanim->_frameDelay -= 0.35f;
 		
 		if (e.second->testanim->_frameDelay < 0.0f)
@@ -23,16 +26,4 @@ void AnimationSystem::Update(std::unordered_map < size_t, AnimationComponent*>& 
 
 void AnimationSystem::Exit()
 {
-}
-
-
-void AnimationSystem::AddObject(size_t uId, void* component)
-{
-	(void)uId;
-	(void)component;
-}
-
-void AnimationSystem::RemoveObject(size_t uId)
-{
-	(void)uId;
 }

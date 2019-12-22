@@ -124,7 +124,7 @@ void Player::Init()
 	// find Camera
 	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
-	std::unordered_map<size_t, IdentityComponent*> IdComList = EngineSystems::GetInstance()._gameObjectFactory->GetIdentityComponents();
+	std::unordered_map<size_t, IdentityComponent*> IdComList = MyComponentManger._IdentityComponents;
 
 	for (auto& idPair : IdComList)
 	{

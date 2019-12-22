@@ -7,7 +7,7 @@ void ButtonManager::Update()
 {
 	Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 
-	for (auto it : _buttonList)
+	for (auto it : MyComponentManger._buttonComponent)
 	{
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
@@ -29,8 +29,11 @@ void ButtonManager::Update()
 
 void ButtonManager::Draw()
 {
-	for (auto it : _buttonList)
+	for (auto it : MyComponentManger._buttonComponent)
 	{
+		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+			continue;
+
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
@@ -60,14 +63,4 @@ void ButtonManager::Draw()
 			object->mOrigin._x + object->mAxis[1]._x * 40.f,
 			object->mOrigin._y + object->mAxis[1]._y * 40.f);
 	}
-}
-
-void ButtonManager::AddObject(size_t uId, void* component)
-{
-	_buttonList.insert({ uId, (ButtonComponent*)component });
-}
-
-void ButtonManager::RemoveObject(size_t uId)
-{
-	_buttonList.erase(uId);
 }
