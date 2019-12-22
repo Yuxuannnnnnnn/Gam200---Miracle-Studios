@@ -1,5 +1,9 @@
 #pragma once
 
+
+// to do : move out of SystemGraphics
+
+
 // a manager class to manage all the camera
 #include <map>
 #include <string>
@@ -10,14 +14,21 @@
 class CameraManager
 {
 public:
-	// update the camera component
-
-	void Update();
+	void Init();
+	void Update();               // update all the camera component
 	glm::mat4 GetMainCamMatrix();
+
+	bool IsEditorModeOn() const;
+	void SetEditorMode(bool isEditorOn);
 
 private:
 	std::unordered_map<std::string, Camera> _cameraList;
 	std::string _currCamera;  // current camera in use
+
+	bool isEditorRunning = false;
+
+
+
 
 	// to be removed later
 
