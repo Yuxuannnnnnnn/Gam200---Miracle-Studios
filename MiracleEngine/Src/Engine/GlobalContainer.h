@@ -33,6 +33,8 @@
 
 #include "TransformManager.h"
 
+#include "GameObject/ComponentManager.h"
+
 #include "Editor/ImguiSystem.h"
 #include "SystemWindows/WindowsSystem.h"
 #include "SystemWindows/Console.h"
@@ -45,6 +47,8 @@ public:
 	EngineSystems() :
 		_console{ nullptr },
 		_windowSystem{ nullptr },
+
+		_componentManager{ nullptr },
 
 		_inputSystem{ nullptr },
 		_logicSystem{ nullptr },
@@ -75,6 +79,7 @@ public:
 		_console = new Console(); //Create a Logging console
 		_windowSystem = new WindowsSystem(hInstance, nCmdShow); //Create Window object in it
 
+		_componentManager = new ComponentManager();
 
 		_audioSystem = new AudioSystem();
 
@@ -110,6 +115,8 @@ public:
 		delete _windowSystem;
 		delete _imguiSystem; //Shutdown ImGui System
 
+		delete _componentManager;
+
 		delete _inputSystem;
 		delete _logicSystem;
 		delete _aiSystem;
@@ -135,6 +142,8 @@ public:
 
 	Console* _console;
 	WindowsSystem* _windowSystem;
+
+	ComponentManager* _componentManager;
 
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
@@ -167,6 +176,8 @@ public:
 #define MyWindowsSystem (*EngineSystems::GetInstance()._windowSystem)
 #define MyImguiSystem (*EngineSystems::GetInstance()._imguiSystem)
 #define MyImGuizmoManager (*EngineSystems::GetInstance()._imGuizmoManager)
+
+#define MyComponentManger (*EngineSystems::GetInstance()._componentManager)
 
 #define MyInputSystem (*EngineSystems::GetInstance()._inputSystem)
 #define MyLogicSystem (*EngineSystems::GetInstance()._logicSystem)
