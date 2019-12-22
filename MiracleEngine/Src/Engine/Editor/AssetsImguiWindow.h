@@ -30,7 +30,7 @@ public:
 	{
 		return _vertexFiles;
 	}
-
+	
 	NamePath GetFragementShaderFiles()
 	{
 		return _fragmentFiles;

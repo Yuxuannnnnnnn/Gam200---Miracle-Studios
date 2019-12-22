@@ -37,7 +37,7 @@ bool JsonParseChecker(const char c)
 		AsciiLetterCheck(c) ||
 		c == '\"' || c == ',' || c == ':'|| c == '.' ||
 		c == '{' || c == '}' ||	c == '[' || c == ']' ||
-		c == '_'
+		c == '_' 
 		)
 		return true;
 	return false;

@@ -15,9 +15,6 @@
   "Font Component": true,
   "FontId": 0,
 
-  "LogicComponent": true,
-  "ScriptId": [ "BUTTON_UI" ],
-
   "ButtonComponent": true,
   "ButtonType": 1
 
