@@ -3,18 +3,21 @@
 
 void Renderer::Update(const std::vector<std::vector<RenderObject>>& _renderObjects, const glm::mat4& proj) const
 {
-	for (const auto& renderObjList : _renderObjects)
-	{
-		renderObjList[0]._pShader->Select();
-		renderObjList[0]._pTexture->Select();
-		renderObjList[0]._pMesh->Select();
+	// render object from back to front, 0 at back, 10 front
 
-		for (const auto& renderobj : renderObjList)
+	for (size_t i = 0; i < _renderObjects.size(); i++)
+	{
+		for (const auto& renderobj : _renderObjects[i])
 		{
+			renderobj._pShader->Select();
+			renderobj._pTexture->Select();
+			renderobj._pMesh->Select();
+
 			glm::mat4 mvp = proj * renderobj.transform;
-			renderObjList[0]._pShader->SetUniformMat4f("u_MVP", mvp);
+			renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
 	}
-	
+
+
 }

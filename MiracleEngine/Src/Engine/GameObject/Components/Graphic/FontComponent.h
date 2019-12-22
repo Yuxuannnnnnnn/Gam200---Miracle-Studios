@@ -6,6 +6,12 @@
 
 class FontComponent : public IComponent
 {
+private:
+	std::string _fontString;
+	std::string _fontType;
+
+// -remove below----
+	int _fontID;
 public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
@@ -26,7 +32,5 @@ public:
 		_fontString = in;
 	}
 
-private:
-	int _fontID;
-	std::string _fontString;
+
 };
