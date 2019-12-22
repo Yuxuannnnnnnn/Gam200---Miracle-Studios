@@ -15,7 +15,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 
 	std::string statesPath = "./Resources/TextFiles/Scenes/Scenes";
 	std::string gameObjectsPath = "./Resources/TextFiles/GameObjects";
-	//std::string AnimationDataPath = "./Resources/TextFiles/AnimationData";
+	std::string AnimationDataPath = "./Resources/TextFiles/AnimationData";
 
 	typedef std::map<std::string, std::string> NamePath;
 
@@ -120,20 +120,20 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		ResourceList1.clear();
 	}
 
-	//{
-	//	for (const auto& AnimationDataFile : std::filesystem::directory_iterator(AnimationDataPath))
-	//	{
-	//		std::cout << AnimationDataFile.path() << std::endl;
-	//		std::string path = AnimationDataFile.path().u8string();
-	//		size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\/");
-	//		std::string fileName = path.substr(path.find_last_of("\\/") + 1, namesize);
-	//		ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
-	//	}
-	//
-	//	ResourceManager::GetInstance().AddAnimationResourceList(ResourceList);
-	//	ResourceList.clear();
-	//
-	//}
+	{
+		for (const auto& AnimationDataFile : std::filesystem::directory_iterator(AnimationDataPath))
+		{
+			std::cout << AnimationDataFile.path() << std::endl;
+			std::string path = AnimationDataFile.path().u8string();
+			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\/");
+			std::string fileName = path.substr(path.find_last_of("\\/") + 1, namesize);
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
+		}
+	
+		ResourceManager::GetInstance().AddAnimationResourceList(ResourceList);
+		ResourceList.clear();
+	
+	}
 }
 
 void AssetsImguiWindow::Update()

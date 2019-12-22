@@ -88,8 +88,8 @@ public:
 
 	size_t Get_uID() const; // Return _uId
 
-	void Serialise(std::string file);
-	void SerialiseFromLevel(Serialiser& fileObject);
+	void Serialise(Serialiser& document);
+	//void SerialiseFromLevel(Serialiser& fileObject);
 	void DeSerialise(std::string filePath);
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList

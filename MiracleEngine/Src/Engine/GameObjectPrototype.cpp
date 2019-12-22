@@ -68,21 +68,23 @@ void GameObjectPrototype::SerialPrefabObjects(Serialiser& Level)
 	{
 		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
-			std::string path = Level["PrototypesFilePaths"][i].GetString();
+			std::string pathString = Level["PrototypesFilePaths"][i].GetString();
 			GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+			Serialiser path(pathString);
 			temp->Serialise(path);	//Serialise a gameobject with the string
 
 			std::string typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->ObjectType();
 			//insert into the prototype list
 			_listObjectPrototype.insert(std::pair <std::string, GameObject*>(typeId, temp));
 
-			_prototypeFileList.insert(std::pair<std::string, std::string>(typeId, path));
+			_prototypeFileList.insert(std::pair<std::string, std::string>(typeId, pathString));
 			//temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
 
 		}
 	}
 }
 
+//For Editor Assets
 void GameObjectPrototype::SerialiseAllPrefabAssets(NamePath& list)
 {
 	_prototypeFileList = list;
@@ -91,7 +93,9 @@ void GameObjectPrototype::SerialiseAllPrefabAssets(NamePath& list)
 	for (auto& nameFile : _prototypeFileList)
 	{
 		GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
-		temp->Serialise(nameFile.second);	//Serialise a gameobject with fileName
+		Serialiser FilePath(nameFile.second);
+
+		temp->Serialise(FilePath);	//Serialise a gameobject with fileName
 
 		//insert into the prototype list
 		_listObjectPrototype.insert(std::pair <std::string, GameObject*>(nameFile.first, temp));

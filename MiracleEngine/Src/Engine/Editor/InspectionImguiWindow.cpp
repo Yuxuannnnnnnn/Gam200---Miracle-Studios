@@ -110,15 +110,16 @@ void InspectionImguiWindow::Update()
 					ofn.lpstrFilter = ".json\0.json";
 					ofn.lpstrFileTitle = NULL;
 					ofn.nMaxFileTitle = 0;
-					ofn.lpstrInitialDir = NULL;
+					ofn.lpstrInitialDir = "./Resources/TextFiles/GameObjects";
 					ofn.nFilterIndex = 1;
 					ofn.lpstrTitle = TEXT("Save As");
 					ofn.lpstrDefExt = "rle";
-					GetSaveFileName(&ofn); 
 
-					std::cout << ofn.lpstrFile;
-
-					_inspectObj->DeSerialise(ofn.lpstrFile);	//Save Prototype into .json file but will overwrite existing file with same name
+					if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
+					{
+						std::cout << ofn.lpstrFile;
+						_inspectObj->DeSerialise(ofn.lpstrFile);	//Save Prototype into .json file but will overwrite existing file with same name
+					}
 				}
 				ImGui::SameLine();
 				ImGui::TextDisabled("(?)");

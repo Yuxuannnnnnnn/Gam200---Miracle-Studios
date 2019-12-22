@@ -41,6 +41,7 @@
 			"Position": [ 0.0, 0.0 ],
 			"Scale": [ 70.0, 70.0 ],
 			"Rotate": 0.0,
+			"TileMapComponent":  true,
 			"Width": 16,
       "Height": 15,
       "TileSize": 100,
@@ -86,12 +87,14 @@
 		}],
 
 
-	"GameObjects": [
+	"ClonableObjects": [
 		{
 			"Object": "player"
 		},
 		{
 			"Object": "Camera"
 		}
-	] 
+	],
+
+	"NonClonableObjects": []
 }

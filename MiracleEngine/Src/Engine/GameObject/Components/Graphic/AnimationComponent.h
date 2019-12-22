@@ -47,7 +47,7 @@ public:
 
 	void SetStartFrame(std::string frame);
 
-	~AnimationComponent();
+	//~AnimationComponent();
 
 
 };

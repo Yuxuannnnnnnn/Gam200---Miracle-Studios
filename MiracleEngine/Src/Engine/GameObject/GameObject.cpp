@@ -48,21 +48,21 @@ IComponent* GameObject::GetComponent(ComponentId typeId, ScriptId script) // Get
 }
 
 //For Level File
-void GameObject::SerialiseFromLevel(Serialiser& fileObject)
-{
-	for (auto& ComPair : _ComponentList)
-	{
-		ComPair.second->SerialiseComponent(fileObject);
-	}
-
-}
+//void GameObject::SerialiseFromLevel(Serialiser& fileObject)
+//{
+//	for (auto& ComPair : _ComponentList)
+//	{
+//		ComPair.second->SerialiseComponent(fileObject);
+//	}
+//
+//}
 
 //For Prototype Files
-void GameObject::Serialise(std::string file)
+void GameObject::Serialise(Serialiser& document)
 {
 	IComponent* component = nullptr;
 
-	Serialiser document(file);
+	//Serialiser document(file);
 	int i = 0;
 	//auto ComponentTypes = EngineSystems::GetInstance()._prefabFactory->GetComponentTypes();
 
@@ -71,7 +71,14 @@ void GameObject::Serialise(std::string file)
 	{
 		if (document.HasMember(ToString((ComponentId)i)))
 		{
-			component = AddComponent((ComponentId)i);
+			if(_ComponentList.find((ComponentId)i) == _ComponentList.end())
+			{
+				component = AddComponent((ComponentId)i);
+			}
+			else
+			{
+				component = _ComponentList[(ComponentId)i];
+			}
 			component->SerialiseComponent(document);
 		}
 	}

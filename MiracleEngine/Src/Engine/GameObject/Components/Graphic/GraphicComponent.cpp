@@ -30,11 +30,8 @@ unsigned int GraphicComponent::GetTextureID() const
 
 
 GraphicComponent::GraphicComponent() :
-	_typeIdGraphic{ (unsigned)TypeIdGraphic::NONE },
 	_fileName{}, 
-	_shaderID{ 0 },
-	_textureID{ 0 },
-	_renderLayer{ 0 }
+	_shader{}
 {
 }
 
@@ -72,8 +69,8 @@ std::string GraphicComponent::ComponentName() const
 
 void GraphicComponent::SerialiseComponent(Serialiser& document)
 {
-	if (document.HasMember("G.TypeId") && document["G.TypeId"].IsInt())	//Checks if the variable exists in .Json file
-		_typeIdGraphic = document["G.TypeId"].GetInt();
+	//if (document.HasMember("G.TypeId") && document["G.TypeId"].IsInt())	//Checks if the variable exists in .Json file
+	//	_typeIdGraphic = document["G.TypeId"].GetInt();
 
 	if (document.HasMember("G.FileName") && document["G.FileName"].IsString())
 		_fileName = document["G.FileName"].GetString();
@@ -83,8 +80,8 @@ void GraphicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
 
-	value.SetInt(_typeIdGraphic);
-	prototypeDoc.AddMember("G.TypeId", value);
+	//value.SetInt(_typeIdGraphic);
+	//prototypeDoc.AddMember("G.TypeId", value);
 
 
 	value.SetString(rapidjson::StringRef(_fileName.c_str()));
@@ -93,9 +90,6 @@ void GraphicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void GraphicComponent::Inspect()
 {
-	//_fileName
-	//	_shaderID
-	//	_renderLayer
 	IComponent::Inspect();
 
 	{
@@ -142,92 +136,131 @@ void GraphicComponent::Inspect()
 
 	{
 		ImGui::Spacing();
+
+		static auto& ShaderList = ResourceManager::GetInstance().GetShaderList();
+		std::vector<const char*> list(ShaderList.size() + 1);
+		list[0] = "Choose a Fragment Shader ";
+		static const char* name = list[0];
+
+
+		int i = 1;
+		static int select;
+		for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
+		{
+			const char* ptr = shaderPair->first.c_str();
+			list[i] = ptr;
+			if (!strncmp(shaderPair->first.c_str(), _shader.c_str(), 20))
+			{
+				select = i;
+			}
+			i++;
+		}
+
+		if (ImGui::BeginCombo(" ", list[select], 0)) // The second parameter is the label previewed before opening the combo.
+		{
+			for (int n = 0; n < list.size(); n++)
+			{
+				bool is_selected = (name == list[n]);
+				if (ImGui::Selectable(list[n], is_selected))
+				{
+					_shader = list[n];
+					select = n;
+				}
+
+				//if (is_selected);
+				//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+
+			}
+			ImGui::EndCombo();
+		}
 		//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
 
-		AssetsImguiWindow*  window = dynamic_cast<AssetsImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Assets"]);
-		static auto ShaderList = window->GetVertexShaderFiles();
-		static auto FragmentList = window->GetFragementShaderFiles();
-		ShaderList.insert(FragmentList.begin(), FragmentList.end());
+		//AssetsImguiWindow*  window = dynamic_cast<AssetsImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Assets"]);
+		//static auto ShaderList = window->GetVertexShaderFiles();
+		//static auto FragmentList = window->GetFragementShaderFiles();
+		//ShaderList.insert(FragmentList.begin(), FragmentList.end());
 
 
 
 
-		ImGui::Spacing();
-		int shaderCount = 1;
-		static std::vector<int> select(_current_ShaderList.size(), 0);
+		//ImGui::Spacing();
+		//int shaderCount = 1;
+		//static std::vector<int> select(_current_ShaderList.size(), 0);
 
 
-		if (ImGui::Button("Add Shader"))
-		{
-			_current_ShaderList.push_back(" ");
-			select.push_back(0);
-		}
-
-		for (auto currshader : _current_ShaderList)
-		{
-			ImGui::Spacing();
-
-			auto shader = _shaderList.begin();
-
-			std::vector<const char*> list(ShaderList.size() + 1);
-			list[0] = " Choose a shader ";
-
-			int i = 1;
-			//static int select = 0;
-			for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
-			{
-				const char* ptr = shaderPair->first.c_str();
-				list[i] = ptr;
-				if (shader != _shaderList.end())
-				{
-					if (strncmp(shaderPair->first.c_str(), shader->c_str(), 20) && currshader != nullptr)
-					{
-						select[shaderCount - 1] = i;
-					}
-				}
-				i++;
-			}
-			//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
-			currshader = list[select[shaderCount - 1]];            // Here our selection is a single pointer stored outside the object.
-
-			std::string shaderCountString = " Shader " + std::to_string(shaderCount);
-			if (ImGui::BeginCombo(shaderCountString.c_str(), currshader, 0)) // The second parameter is the label previewed before opening the combo.
-			{
-				for (int n = 0; n < list.size(); n++)
-				{
-					bool is_selected = (currshader == list[n]);
-					if (ImGui::Selectable(list[n], is_selected))
-					{
-						currshader = list[n];
-						select[shaderCount - 1] = n;
-					}
-
-					//if (is_selected);
-					//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
-
-				}
-				ImGui::EndCombo();
-			}
-			if (shader != _shaderList.end())
-			{
-				shader++;
-			}
-			shaderCount++;
-		}
+		//if (ImGui::Button("Add Shader"))
+		//{
+		//	_current_ShaderList.push_back(" ");
+		//	select.push_back(0);
+		//}
+		//
+		//for (auto currshader : _current_ShaderList)
+		//{
+		//	ImGui::Spacing();
+		//
+		//	auto shader = _shaderList.begin();
+		//
+		//	std::vector<const char*> list(ShaderList.size() + 1);
+		//	list[0] = " Choose a shader ";
+		//
+		//	int i = 1;
+		//	//static int select = 0;
+		//	for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
+		//	{
+		//		const char* ptr = shaderPair->first.c_str();
+		//		list[i] = ptr;
+		//		if (shader != _shaderList.end())
+		//		{
+		//			if (strncmp(shaderPair->first.c_str(), shader->c_str(), 20) && currshader != nullptr)
+		//			{
+		//				select[shaderCount - 1] = i;
+		//			}
+		//		}
+		//		i++;
+		//	}
+		//	//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
+		//	currshader = list[select[shaderCount - 1]];            // Here our selection is a single pointer stored outside the object.
+		//
+		//	std::string shaderCountString = " Shader " + std::to_string(shaderCount);
+		//	if (ImGui::BeginCombo(shaderCountString.c_str(), currshader, 0)) // The second parameter is the label previewed before opening the combo.
+		//	{
+		//		for (int n = 0; n < list.size(); n++)
+		//		{
+		//			bool is_selected = (currshader == list[n]);
+		//			if (ImGui::Selectable(list[n], is_selected))
+		//			{
+		//				currshader = list[n];
+		//				select[shaderCount - 1] = n;
+		//			}
+		//
+		//			//if (is_selected);
+		//			//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+		//
+		//		}
+		//		ImGui::EndCombo();
+		//	}
+		//	if (shader != _shaderList.end())
+		//	{
+		//		shader++;
+		//	}
+		//	shaderCount++;
+		//}
 
 
 
 	}
 
 
-	//ImGui::Spacing();
-	//ImGui::InputInt("Shader ID", &_shaderID);
-	ImGui::Spacing();
-	ImGui::InputInt("RendeerLayer", &_renderLayer);
-	ImGui::Spacing();
+	{
+		//ImGui::Spacing();
+		//ImGui::InputInt("Shader ID", &_shaderID);
+		ImGui::Spacing();
+		//ImGui::InputInt("RendeerLayer", &_renderLayer);
+		ImGui::Spacing();
+	}
 }
 
-unsigned& GraphicComponent::GetTypeId()
-{
-	return _typeIdGraphic;
-}
+//unsigned& GraphicComponent::GetTypeId()
+//{
+//	return _typeIdGraphic;
+//}

@@ -570,11 +570,11 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 	//Serialise Mobile GameObjects with components 
 		//Player components
 
-#ifndef LEVELEDITOR
+#ifndef LEVELEDITOR 
 //Serialise Prototypes
 	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
 
-	typedef std::unordered_map<std::string, std::string> NamePath;
+	typedef std::map<std::string, std::string> NamePath;
 	NamePath ResourceList;
 
 	//Serialise Resources
@@ -583,8 +583,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["TexturesFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["TexturesFilesPaths"][i].GetString();
-			size_t namesize = filePath.find_last_of(".png") - 4 - filePath.find_last_of("\\/");
-			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+			//size_t namesize = filePath.find_last_of(".png") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
 		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
@@ -595,8 +595,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["AnimationDataFilesPaths"][i].GetString();
-			size_t namesize = filePath.find_last_of(".json") - 5 - filePath.find_last_of("\\/");
-			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+			//size_t namesize = filePath.find_last_of(".json") - 5 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
 		ResourceManager::GetInstance().AddAnimationResourceList(ResourceList);
@@ -607,8 +607,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["AudioFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["AudioFilesPaths"][i].GetString();
-			size_t namesize = filePath.find_last_of(".ogg") - 4 - filePath.find_last_of("\\/");
-			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+			//size_t namesize = filePath.find_last_of(".ogg") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			//std::cout << "FileName" << fileName << std::endl;
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
@@ -623,14 +623,14 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 			std::string fileName = "";
 			if (filePath.find(".vert") != std::string::npos)
 			{
-				size_t namesize = filePath.find_last_of(".vert") - 5 - filePath.find_last_of("\\/");
-				fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+				//size_t namesize = filePath.find_last_of(".vert") - 5 - filePath.find_last_of("\\/");
+				fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 				ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 			}
 			else if (filePath.find(".frag") != std::string::npos)
 			{
-				size_t namesize = filePath.find_last_of(".frag") - 5 - filePath.find_last_of("\\/");
-				fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+				//size_t namesize = filePath.find_last_of(".frag") - 5 - filePath.find_last_of("\\/");
+				fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 				ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 			}
 		}
@@ -642,8 +642,8 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		for (unsigned i = 0; i < Level["FontFilesPath"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["FontFilesPath"][i].GetString();
-			size_t namesize = filePath.find_last_of(".ttf") - 4 - filePath.find_last_of("\\/");
-			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+			//size_t namesize = filePath.find_last_of(".ttf") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
 		ResourceManager::GetInstance().AddFontResourceList(ResourceList);
@@ -670,24 +670,26 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 			//file << json;							//Write std::string type into the file
 
 			GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
-			TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
-			tmCom->SerialiseComponent(tileMapInfo);
-			TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-			tfCom->SerialiseComponent(tileMapInfo);
+			//TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
+			//tmCom->SerialiseComponent(tileMapInfo);
+			//TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+			//tfCom->SerialiseComponent(tileMapInfo);
+			tileMap->Serialise(tileMapInfo);
 		}
 	}
 
 	//Create dynamic GameObjects
-	if (Level.HasMember("GameObjects"))
+	if (Level.HasMember("ClonableObjects"))
 	{
-		for (unsigned i = 0; i < Level["GameObjects"].Size(); i++)
+		for (unsigned i = 0; i < Level["ClonableObjects"].Size(); i++)
 		{
-			Serialiser datafile(Level["GameObjects"][i]);
+			Serialiser datafile(Level["ClonableObjects"][i]);
 
 			std::string name = datafile["Object"].GetString();
 			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name];
 			GameObject* tmp = CloneGameObject(tmp2);
-			tmp->SerialiseFromLevel(datafile);
+
+			tmp->Serialise(datafile);
 		}
 	}
 

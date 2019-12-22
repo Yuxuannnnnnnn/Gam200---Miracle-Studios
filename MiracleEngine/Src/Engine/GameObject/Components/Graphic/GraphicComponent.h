@@ -42,9 +42,15 @@ public:
 	void RenderLayerResolver();
 
 	int GetTextureState();
-	void SetTextureState(int state);
+	void SetTextureState(int state)
+	{
 
-	int GetRenderLayer();
+	}
+
+	int GetRenderLayer()
+	{
+		return 0;
+	}
 	void SetRenderLayer(int state);
 
 
