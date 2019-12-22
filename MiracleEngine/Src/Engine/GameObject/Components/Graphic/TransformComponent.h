@@ -9,7 +9,7 @@ private:
 	Vector3 _scale;
 	float _rotationAngle;
 
-	Vector3 _transform;
+	Matrix4x4 _model;
 
 public:
 	TransformComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
@@ -17,8 +17,7 @@ public:
 	TransformComponent() 
 		:_pos{ Vector3{ 0, 0, 1 } }, 
 		_scale{ Vector3{ 0, 0, 1 } }, 
-		_rotationAngle{ 0.0f }, 
-		_transform{ Vector3{ 0, 0, 1 } }
+		_rotationAngle{ 0.0f }
 	{
 	}
 
@@ -47,5 +46,8 @@ public:
 
 	float& GetRotate();
 	void SetRotate(const float in);
+
+	float* GetModel();
+	void SetModel(const float* in);
 };
 

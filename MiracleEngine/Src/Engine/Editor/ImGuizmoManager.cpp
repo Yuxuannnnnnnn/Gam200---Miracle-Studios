@@ -27,7 +27,7 @@ void ImGuizmoManager::Update()
 
 	if (_pickUId != 0)
 	{
-		TransformComponent* transform = MyTransformManager.GetTransform(_pickUId);
+		TransformComponent* transform = MyComponentManger._transformComponents[_pickUId];
 
 		if (!transform)
 		{

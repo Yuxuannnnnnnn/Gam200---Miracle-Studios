@@ -31,8 +31,6 @@
 #include "SystemPhysics/RigidBodyManager.h"
 #include "Editor/ImGuizmoManager.h"
 
-#include "TransformManager.h"
-
 #include "GameObject/ComponentManager.h"
 
 #include "Editor/ImguiSystem.h"
@@ -69,8 +67,7 @@ public:
 		_buttonManager{ nullptr },
 		_collisionManager{ nullptr },
 		_rigidbodyManager{ nullptr },
-		_imGuizmoManager{ nullptr },
-		_transforManager{ nullptr }
+		_imGuizmoManager{ nullptr }
 	{
 	}
 
@@ -100,7 +97,6 @@ public:
 		_buttonManager = new ButtonManager();
 		_collisionManager = new CollisionManager();
 		_rigidbodyManager = new RigidbodyManager();
-		_transforManager = new TransformManager();
 
 #ifdef LEVELEDITOR
 		_performanceUsage = new PerformanceUsage();
@@ -135,7 +131,6 @@ public:
 		delete _collisionManager;
 		delete _rigidbodyManager;
 		delete _imGuizmoManager;
-		delete _transforManager;
 
 	}
 
@@ -166,7 +161,6 @@ public:
 	ButtonManager* _buttonManager;
 	CollisionManager* _collisionManager;
 	ImGuizmoManager* _imGuizmoManager;
-	TransformManager* _transforManager;
 	RigidbodyManager* _rigidbodyManager;
 };
 
@@ -193,7 +187,6 @@ public:
 #define MyButtonManager (*EngineSystems::GetInstance()._buttonManager)
 #define MyCollisionManager (*EngineSystems::GetInstance()._collisionManager)
 #define MyRigidbodyManager (*EngineSystems::GetInstance()._rigidbodyManager)
-#define MyTransformManager (*EngineSystems::GetInstance()._transforManager)
 
 #define MyGameObjectFactory (*EngineSystems::GetInstance()._gameObjectFactory)
 #define MyPrototypeFactory (*EngineSystems::GetInstance()._prefabFactory)

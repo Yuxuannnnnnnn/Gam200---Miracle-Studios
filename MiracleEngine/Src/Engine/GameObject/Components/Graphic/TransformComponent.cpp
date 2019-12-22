@@ -133,3 +133,13 @@ void TransformComponent::SetRotate(const float in)
 {
 	_rotationAngle = in;
 }
+
+float* TransformComponent::GetModel()
+{
+	return _model.m;
+}
+
+void TransformComponent::SetModel(const float* in)
+{
+	_model = in;
+}

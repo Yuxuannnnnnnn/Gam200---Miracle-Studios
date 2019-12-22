@@ -8,7 +8,7 @@ enum class TypeIdGraphic {
 
 };
 
-class GraphicComponent : public IComponent, public IBase<GraphicComponent>
+class GraphicComponent : public IComponent
 {
 private:
 

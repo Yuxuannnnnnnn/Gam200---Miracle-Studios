@@ -23,7 +23,7 @@ glm::mat4 CameraManager::GetMainCamMatrix()
 			continue;
 
 		size_t objID = camComponentpair.first;	//Get GameObjectID
-		TransformComponent* transformComponent = MyTransformManager.GetTransform(objID); //Get transform from GameObjectID
+		TransformComponent* transformComponent = MyComponentManger._transformComponents[objID]; //Get transform from GameObjectID
 
 		if (!transformComponent)
 			continue;

@@ -47,6 +47,18 @@ namespace mathLib {
 		return *this;
 	}
 
+	Matrix4x4& Matrix4x4::operator=(const float* rhs)
+	{
+		if (m != rhs)
+		{
+			for (int i = 0; i < 16; ++i)
+				m[i] = rhs[i];
+		}
+
+		return *this;
+	}
+
+
 	float Matrix4x4::operator[](size_t index) const
 	{
 		if (index > 15)
@@ -56,6 +68,45 @@ namespace mathLib {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////
+
+	Matrix4x4 Matrix4x4::CreateTranspose(const Matrix4x4& pMtx)
+	{
+		// m00 m01 m02 m03
+		// m10 m11 m12 m13
+		// m20 m21 m22 m23
+		// m30 m31 m32 m33
+
+		// x1 x2 x3 x4   x1 y1 z1 w1
+		// y1 y2 y3 y4 = x2 y2 z2 w2
+		// z1 z2 z3 z4   x3 y3 z3 w3
+		// w1 w2 w3 w4   x4 y4 z4 w4
+
+		Matrix4x4 newMatrix = Matrix4x4{};
+
+		newMatrix.m[0] = pMtx.m[0];
+		newMatrix.m[1] = pMtx.m[4];
+		newMatrix.m[2] = pMtx.m[8];
+		newMatrix.m[3] = pMtx.m[12];
+
+		newMatrix.m[4] = pMtx.m[1];
+		newMatrix.m[5] = pMtx.m[5];
+		newMatrix.m[6] = pMtx.m[9];
+		newMatrix.m[7] = pMtx.m[13];
+
+		newMatrix.m[8] = pMtx.m[2];
+		newMatrix.m[9] = pMtx.m[6];
+		newMatrix.m[10] = pMtx.m[10];
+		newMatrix.m[11] = pMtx.m[14];
+
+		newMatrix.m[12] = pMtx.m[3];
+		newMatrix.m[13] = pMtx.m[7];
+		newMatrix.m[14] = pMtx.m[11];
+		newMatrix.m[15] = pMtx.m[15];
+
+		return newMatrix;
+
+
+	}
 
 	Matrix4x4 Matrix4x4::CreateScale(Vector3 scale)
 	{

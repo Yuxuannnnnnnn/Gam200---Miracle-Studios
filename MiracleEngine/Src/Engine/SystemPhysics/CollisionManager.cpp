@@ -153,7 +153,7 @@ void CollisionManager::UpdateStaticCollision(double dt)
 		if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, ColliderTag::BUILDING))
 			continue;
 
-		TransformComponent* transform = _engineSystems._transforManager->GetTransform(it->first);
+		TransformComponent* transform = MyComponentManger._transformComponents[it->first];
 
 		unsigned tileId = _collisionMap.GetTileOnMap(transform->GetPos());
 
@@ -222,8 +222,8 @@ int CollisionManager::CollisionCheckTile(Collider2D* object, unsigned centerTile
 
 void CollisionManager::CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt)
 {
-	TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider1->GetParentId());
-	TransformComponent* transform2 = _engineSystems._transforManager->GetTransform(collider2->GetParentId());
+	TransformComponent* transform = MyComponentManger._transformComponents[collider1->GetParentId()];
+	TransformComponent* transform2 = MyComponentManger._transformComponents[collider2->GetParentId()];
 
 	RigidBody2D* rigidbody = nullptr;
 	RigidBody2D* rigidbody2 = nullptr;
@@ -312,7 +312,7 @@ void CollisionManager::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::EDGE_COLLIDER:
 	{
 		EdgeCollider2D* object = (EdgeCollider2D*)collider;
-		TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider->GetParentId());
+		TransformComponent* transform = MyComponentManger._transformComponents[collider->GetParentId()];
 
 		float dir = transform->GetRotate();
 		object->m_origin = transform->GetPos();
@@ -336,7 +336,7 @@ void CollisionManager::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::BOX_COLLIDER:
 	{
 		BoxCollider2D* object = (BoxCollider2D*)collider;
-		TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider->GetParentId());
+		TransformComponent* transform = MyComponentManger._transformComponents[collider->GetParentId()];
 
 		object->mScale = transform->GetScale();
 		object->mOrigin = transform->GetPos();
@@ -389,7 +389,7 @@ void CollisionManager::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::CIRCLE_COLLIDER:
 	{
 		CircleCollider2D* object = (CircleCollider2D*)collider;
-		TransformComponent* transform = _engineSystems._transforManager->GetTransform(collider->GetParentId());
+		TransformComponent* transform = MyComponentManger._transformComponents[collider->GetParentId()];
 
 		object->mCenPos = transform->GetPos();
 		object->mRadius = transform->GetScale()._y * 0.5f;

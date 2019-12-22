@@ -100,7 +100,6 @@
     <ClCompile Include="Src\Engine\GameObjectFactory.cpp" />
     <ClCompile Include="Src\Engine\GameObjectPrototype.cpp" />
     <ClCompile Include="Src\Engine\SceneManager.cpp" />
-    <ClCompile Include="Src\Engine\TransformManager.cpp" />
     <ClCompile Include="Src\Scripts\Boss.cpp" />
     <ClCompile Include="Src\Scripts\Bullet.cpp" />
     <ClCompile Include="Src\Scripts\ButtonUI.cpp" />
@@ -532,7 +531,6 @@
     <ClInclude Include="Src\Engine\GlobalContainer.h" />
     <ClInclude Include="Src\Engine\IContainer.h" />
     <ClInclude Include="Src\Engine\SceneManager.h" />
-    <ClInclude Include="Src\Engine\TransformManager.h" />
     <ClInclude Include="Src\Scripts\Boss.h" />
     <ClInclude Include="Src\Scripts\Bullet.h" />
     <ClInclude Include="Src\Scripts\ButtonUI.h" />

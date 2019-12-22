@@ -9,6 +9,9 @@ void ButtonManager::Update()
 
 	for (auto it : MyComponentManger._buttonComponent)
 	{
+		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+			continue;
+
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 

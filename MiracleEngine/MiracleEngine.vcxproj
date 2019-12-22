@@ -287,7 +287,6 @@
     <ClInclude Include="Src\Engine\Tools\Resource\IResourceInfo.h" />
     <ClInclude Include="Src\Engine\Tools\Resource\ResourceManager.h" />
     <ClInclude Include="Src\Engine\Tools\Time\FrameRateController.h" />
-    <ClInclude Include="Src\Engine\TransformManager.h" />
     <ClInclude Include="Src\Scripts\Boss.h" />
     <ClInclude Include="Src\Scripts\Bullet.h" />
     <ClInclude Include="Src\Scripts\ButtonUI.h" />
@@ -694,7 +693,6 @@
     <ClCompile Include="Src\Engine\Tools\Memory\MemoryManager.cpp" />
     <ClCompile Include="Src\Engine\Tools\Resource\ResourceManager.cpp" />
     <ClCompile Include="Src\Engine\Tools\Time\FrameRateController.cpp" />
-    <ClCompile Include="Src\Engine\TransformManager.cpp" />
     <ClCompile Include="Src\Scripts\Boss.cpp" />
     <ClCompile Include="Src\Scripts\Bullet.cpp" />
     <ClCompile Include="Src\Scripts\ButtonUI.cpp" />

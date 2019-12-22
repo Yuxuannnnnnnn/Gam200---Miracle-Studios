@@ -43,7 +43,7 @@ void RigidbodyManager::ApplyVelocityToObject(double dt)
 			continue;
 
 		// newPos = newVel * dt + currPos;
-		_engineSystems._transforManager->GetTransform(it.first)->GetPos() += it.second->_velocity * (float)dt;
+		MyComponentManger._transformComponents[it.first]->GetPos() += it.second->_velocity * (float)dt;
 	}
 }
 
@@ -63,7 +63,7 @@ void RigidbodyManager::Draw()
 		Vector3 newVel = it.second->_velocity.Normalized();
 		float length = it.second->_velocity.SquaredLength();
 
-		TransformComponent* transform = _engineSystems._transforManager->GetTransform(it.first);
+		TransformComponent* transform = MyComponentManger._transformComponents[it.first];
 
 		if (length > 50.f)
 			length = 50.f;
@@ -91,7 +91,7 @@ void RigidbodyManager::AddForce(size_t uId, Vector3 forceDir, float force)
 void RigidbodyManager::AddForwardForce(size_t uId, float force)
 {
 	RigidBody2D* object = MyComponentManger._rigidbody2DComponent[uId];
-	TransformComponent* transform = _engineSystems._transforManager->GetTransform(uId);
+	TransformComponent* transform = MyComponentManger._transformComponents[uId];
 
 	if (!object)
 		return;

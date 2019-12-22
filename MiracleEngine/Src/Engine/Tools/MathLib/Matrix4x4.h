@@ -39,9 +39,12 @@ namespace mathLib
 
 		// Assignment operators
 		Matrix4x4& operator=(const Matrix4x4& rhs);
+		Matrix4x4& operator=(const float* rhs);
 		float operator[](size_t index) const;
 
 	public: // other function
+
+		static Matrix4x4 CreateTranspose(const Matrix4x4& pMtx);
 
 		static Matrix4x4 CreateScale(Vector3 scale);
 		static Matrix4x4 CreateTranslation(Vector3 translation);
