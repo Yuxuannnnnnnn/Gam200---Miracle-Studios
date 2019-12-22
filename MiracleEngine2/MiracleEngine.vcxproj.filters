@@ -118,6 +118,7 @@
     <ClCompile Include="Src\Scripts\SpawnerTwo.cpp" />
     <ClCompile Include="Src\Scripts\Turret.cpp" />
     <ClCompile Include="Src\Engine\Editor\PerformanceUsageWindow.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Graphic\UIComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -554,6 +555,7 @@
     <ClInclude Include="Src\Scripts\SpawnerTwo.h" />
     <ClInclude Include="Src\Scripts\Turret.h" />
     <ClInclude Include="Src\Engine\Editor\PerformanceUsageWindow.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Graphic\UIComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

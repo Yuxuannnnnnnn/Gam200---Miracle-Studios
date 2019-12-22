@@ -50,6 +50,7 @@
 #include "GameObject/Components/Graphic/FontComponent.h"
 #include "GameObject/Components/Graphic/GraphicComponent.h"
 #include "GameObject/Components/Graphic/TransformComponent.h"
+#include "GameObject/Components/Graphic/UIComponent.h"
 
 #include "GameObject/Components/Logic/AiComponent.h"
 #include "GameObject/Components/Logic/DataComponent.h"
