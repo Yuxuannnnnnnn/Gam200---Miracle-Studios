@@ -1,23 +1,19 @@
 #pragma once
 
 #include "SystemAnimation/Animation.h"
-#include <vector>
+#include <map>
 #include <string>
 
 class AnimationComponent: public IComponent
 {
 private:
-	
-	std::vector<int> _animations;
-	int _currentAnimation;	//Current Playing Animation
-	int _startingFrame;
+	std::unordered_map<std::string, Animation*> _animations;
 
-
-	std::vector<Animation*> _animation;
-	std::string _type;
+	std::string _currentAnim;
+	std::string _startingAnim;
 public:
 	// temporary test, wait for resource manager
-	Animation* testanim;
+	
 	void SetFilePath(const std::string path);
 	std::string& GetFilePath();
 	
