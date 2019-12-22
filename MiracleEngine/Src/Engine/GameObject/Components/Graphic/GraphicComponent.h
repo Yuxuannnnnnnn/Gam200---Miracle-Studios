@@ -19,12 +19,6 @@ private:
 	float u0, v0;
 	float u1, v1;
 
-//------ remove below ------------------------------
-
-
-private:
-	std::vector<const char*> _current_ShaderList;
-
 public:
 
 	unsigned int GetTextureID() const;               // base on asset file name, get the textureID on OpenGL for imgui
