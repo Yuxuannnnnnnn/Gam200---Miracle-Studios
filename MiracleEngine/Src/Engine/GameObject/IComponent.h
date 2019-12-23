@@ -79,11 +79,13 @@ public:
 	virtual ~IComponent() = default;	//virtual destructor to delete deerived Components
 
 //Interface functions to be implemented by Derived Classes
-	virtual std::string ComponentName() const = 0; //Ever Comoponent has a ComponentName function
+	virtual std::string ComponentName() const = 0; //Every Comoponent has a ComponentName function
 	virtual void SerialiseComponent(Serialiser & document) = 0; //Every Component has to have a serialise function
 	virtual void DeSerialiseComponent(DeSerialiser & prototypeDoc) = 0; //Every Component has to have a DeSerialise function
 	virtual void Inspect() = 0;	//Every Component has an Inspect function for InspectionImguiWindow
 	//virtual IComponent* CloneComponent() = 0;
+	virtual void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser SceneFile) = 0;
+
 
 	size_t GetParentId() const;
 	void SetParentId(size_t inVal);

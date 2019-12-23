@@ -29,8 +29,9 @@ public:
 	//Gameplay mode
 	void SerialPrefabObjects(Serialiser& Level);	
 
-	//LevelEditor mode
+//LevelEditor mode functions
 	void SerialiseAllPrefabAssets(NamePath& list);
+	void AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath);
 
 
 	void RegisterComponent(std::string componentName);

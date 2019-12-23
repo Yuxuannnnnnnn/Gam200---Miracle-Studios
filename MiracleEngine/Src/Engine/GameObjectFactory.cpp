@@ -561,9 +561,9 @@ LogicComponent* GameObjectFactory::CloneLogicComponent(GameObject* object, Logic
 }
 
 
-void GameObjectFactory::SerialiseLevel(std::string FileName)
+void GameObjectFactory::SerialiseLevel(std::string filePath)
 {
-	Serialiser Level(FileName);
+	Serialiser Level(filePath);
 
 
 	//Serialise BinaryMap - Used creating Static gameobjects on screen & collision data & AI node Map
@@ -572,10 +572,27 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 
 #ifndef LEVELEDITOR 
 //Serialise Prototypes
-	EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
+	//EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
 
 	typedef std::map<std::string, std::string> NamePath;
 	NamePath ResourceList;
+
+	typedef std::unordered_map<std::string, std::string> unNamePath;
+	unNamePath ResourceList1;
+
+	if (Level.HasMember("PrototypesFilePaths"))
+	{
+		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			std::string filePath = Level["PrototypesFilePaths"][i].GetString();
+			//size_t namesize = filePath.find_last_of(".png") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
+			ResourceList1.insert(std::pair<std::string, std::string>(fileName, filePath));
+		}
+		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList1);
+		ResourceList1.clear();
+	}
+
 
 	//Serialise Resources
 	if (Level.HasMember("TexturesFilesPaths"))
@@ -678,7 +695,7 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		}
 	}
 
-	//Create dynamic GameObjects
+	//Create dynamic clonables
 	if (Level.HasMember("ClonableObjects"))
 	{
 		for (unsigned i = 0; i < Level["ClonableObjects"].Size(); i++)
@@ -693,27 +710,98 @@ void GameObjectFactory::SerialiseLevel(std::string FileName)
 		}
 	}
 
+	//Create dynamic non-clonables
+	//if (Level.HasMember("NonClonableObjects"))
+	//{
+	//	for (unsigned i = 0; i < Level["NonClonableObjects"].Size(); i++)
+	//	{
+	//		Serialiser datafile(Level["NonClonableObjects"][i]);
+	//
+	//		tmp->Serialise(datafile);
+	//	}
+	//}
+
 }
 
 
 //For Level Editor Only
-void GameObjectFactory::De_SerialiseLevel(std::string filename)
+void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 {
-	for (auto& IdObjPair : _listObject)
+
+//1. Deserialise the Resources first
+
+	//Deserialise Prototypes Resource 
+		//- Check through the Identity Components of all Objects
+		//- The ObjectType in the IdentityComponent will be used to save a Prototype
+		//= Get the Prototype file Path from the PrototypeList 
+	//Deserialise Texture Resource
+		//- Check through all the graphic Component for the texture File Name
+		//- Check through all the animation components for the animation texture file Names
+		//- Get the File path of the textures from the Resource Manager
+	//Deserialise AnimationDataFile
+		//- Check through the AnimationComponent to get the animation file name
+		//- Get file Path of the animationDataFile from the Resource Manager
+	//Deserialise AudioFiles
+		//- Check throught the AudioComponents to get audio file name
+		//- Get the File path of the audiofile from the Resource Manager
+	//Deserialise ShaderTypes
+		//- check through the Graphic Component for the Shader Name used
+		//- Get File Path of both the vertex and fragment Shader Used
+	//Deserialise Font Used
+		//- Check throught the Font Component for the font type used
+		//- Get the File path of the Fontfile from the Resource Manager
+	
+//2. Deserialise GameObjects in Scene
+	//Clonable Game Objects
+	//Non-Clonable Game Objects
+		//- Check throught the Identity Component for the Object Type
+		//then Try to Get the Object type from the Prototypes.
+			//If Prototype list cannot find the Object, then save GameObject as NonClonableObjects array and save every single component data of the object as well
+			//else If Prototype list can find the Object, save objecttype under ClonableObjects array 
+				//Search through the Component list of the Clonable Object and compare with the prototype
+					//Check if the prototype has the component that the clonable object has. 
+						//If prototype has the component, then check if the component data is the same as the Object.
+							//If component data is same then, do not need to list the component in the scene file.
+							//else if there is a component data that is different, list the component name and the data in the component in the scene file
+						//else If prototype does not have the component, then save every single data in the specific component into the scene file
+
+
+	DeSerialiser SceneFile(filePath);
+
+	std::unordered_map <std::string, GameObject* >& NamePrototypeobj = MyPrototypeFactory.GetPrototypeList();
+
+
+	for (auto& IdObject : _listObject)
 	{
-		if (IdObjPair.first < 1000)
+		if (IdObject.first < 1000)
 		{
 			continue;
 		}
-		
 
+		GameObject* obj = IdObject.second;
+		std::unordered_map <ComponentId, IComponent* >& comList = obj->GetComponentList();
+		
+		for (auto& IdComPair : comList)
+		{
+			ComponentId comId = IdComPair.first;
+			IComponent* comPtr = IdComPair.second;
+
+			if (comId == ComponentId::IDENTITY_COMPONENT)
+			{
+				rapidjson::Value PrototypesFilePaths;
+				PrototypesFilePaths.SetArray();
+
+				IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(comPtr);
+				if (NamePrototypeobj.find(IdCom->ObjectType()) != NamePrototypeobj.end()) //Object Prototype exists
+				{
+
+				}
+
+				SceneFile.AddMember("PrototypesFilePaths", PrototypesFilePaths);
+			}
+		}
 	}
 
-	//Deserialise the Audio from GameObjects AudioComponent
-	//Deserialise the textures from GameObject GraphicComponent & AnimationComponents 
-	//Deserialise the Prototypes 
-	//Deserialise the Binary map
-	//Deserialise the components of player 
 }
 
 

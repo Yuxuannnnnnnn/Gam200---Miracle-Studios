@@ -62,29 +62,29 @@ std::unordered_map <std::string , GameObject* > & GameObjectPrototype::GetProtot
 
 
 //For GamePlay 
-void GameObjectPrototype::SerialPrefabObjects(Serialiser& Level)
-{
-	if (Level.HasMember("PrototypesFilePaths"))
-	{
-		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
-		{
-			std::string pathString = Level["PrototypesFilePaths"][i].GetString();
-			GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
-			Serialiser path(pathString);
-			temp->Serialise(path);	//Serialise a gameobject with the string
+//void GameObjectPrototype::SerialPrefabObjects(Serialiser& Level)
+//{
+//	if (Level.HasMember("PrototypesFilePaths"))
+//	{
+//		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
+//		{
+//			std::string pathString = Level["PrototypesFilePaths"][i].GetString();
+//			GameObject* temp = EngineSystems::GetInstance()._gameObjectFactory->CreateNewGameObject(true);
+//			Serialiser path(pathString);
+//			temp->Serialise(path);	//Serialise a gameobject with the string
+//
+//			std::string typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->ObjectType();
+//			//insert into the prototype list
+//			_listObjectPrototype.insert(std::pair <std::string, GameObject*>(typeId, temp));
+//
+//			_prototypeFileList.insert(std::pair<std::string, std::string>(typeId, pathString));
+//			//temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
+//
+//		}
+//	}
+//}
 
-			std::string typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->ObjectType();
-			//insert into the prototype list
-			_listObjectPrototype.insert(std::pair <std::string, GameObject*>(typeId, temp));
-
-			_prototypeFileList.insert(std::pair<std::string, std::string>(typeId, pathString));
-			//temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
-
-		}
-	}
-}
-
-//For Editor Assets
+//For Editor Assets & gameplay(factory scene loading)
 void GameObjectPrototype::SerialiseAllPrefabAssets(NamePath& list)
 {
 	_prototypeFileList = list;
@@ -102,6 +102,19 @@ void GameObjectPrototype::SerialiseAllPrefabAssets(NamePath& list)
 	}
 
 }
+
+void GameObjectPrototype::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath)
+{
+	NewPrototype->DeSerialise(filePath);	//Deserialise prototype into a .json File
+
+	//Add Prototype Resource to editor Prototype List 
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(NewPrototype->GetComponent(ComponentId::IDENTITY_COMPONENT));
+	_listObjectPrototype.insert(std::pair <std::string, GameObject*>(IdCom->ObjectType(), NewPrototype));
+	_prototypeFileList.insert(std::pair<std::string, std::string>(IdCom->ObjectType(), filePath));
+}
+
+
+
 
 
 
