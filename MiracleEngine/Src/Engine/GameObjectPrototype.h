@@ -24,6 +24,30 @@ public:
 	~GameObjectPrototype();	//Destructed when GameStateQuit
 
 	std::unordered_map<std::string, GameObject*>& GetPrototypeList();	// Get _listObjectProrotype
+	
+	GameObject* GetPrototypeObj(std::string prototypeName)
+	{
+		if (_listObjectPrototype.find(prototypeName) != _listObjectPrototype.end())
+		{
+			return _listObjectPrototype[prototypeName];
+		}
+		return nullptr;	//indicates Prototype object does not exist
+	}
+
+	const NamePath& GetPrototypeFileList()
+	{
+		return _prototypeFileList;
+	}
+
+	std::string GetPrototypeFile(std::string prototypeName)
+	{
+		if (_prototypeFileList.find(prototypeName) != _prototypeFileList.end())
+		{
+			return _prototypeFileList[prototypeName];
+		}
+
+		return std::string{}; //Empty String indicates prototypeFile does not exist 
+	}
 
 
 	//Gameplay mode

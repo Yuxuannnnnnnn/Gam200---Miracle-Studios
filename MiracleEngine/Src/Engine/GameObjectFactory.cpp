@@ -728,79 +728,102 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 {
 
-//1. Deserialise the Resources first
+	//1. Deserialise the Resources first
 
-	//Deserialise Prototypes Resource 
-		//- Check through the Identity Components of all Objects
-		//- The ObjectType in the IdentityComponent will be used to save a Prototype
-		//= Get the Prototype file Path from the PrototypeList 
-	//Deserialise Texture Resource
-		//- Check through all the graphic Component for the texture File Name
-		//- Check through all the animation components for the animation texture file Names
-		//- Get the File path of the textures from the Resource Manager
-	//Deserialise AnimationDataFile
-		//- Check through the AnimationComponent to get the animation file name
-		//- Get file Path of the animationDataFile from the Resource Manager
-	//Deserialise AudioFiles
-		//- Check throught the AudioComponents to get audio file name
-		//- Get the File path of the audiofile from the Resource Manager
-	//Deserialise ShaderTypes
-		//- check through the Graphic Component for the Shader Name used
-		//- Get File Path of both the vertex and fragment Shader Used
-	//Deserialise Font Used
-		//- Check throught the Font Component for the font type used
-		//- Get the File path of the Fontfile from the Resource Manager
-	
-//2. Deserialise GameObjects in Scene
-	//Clonable Game Objects
-	//Non-Clonable Game Objects
-		//- Check throught the Identity Component for the Object Type
-		//then Try to Get the Object type from the Prototypes.
-			//If Prototype list cannot find the Object, then save GameObject as NonClonableObjects array and save every single component data of the object as well
-			//else If Prototype list can find the Object, save objecttype under ClonableObjects array 
-				//Search through the Component list of the Clonable Object and compare with the prototype
-					//Check if the prototype has the component that the clonable object has. 
-						//If prototype has the component, then check if the component data is the same as the Object.
-							//If component data is same then, do not need to list the component in the scene file.
-							//else if there is a component data that is different, list the component name and the data in the component in the scene file
-						//else If prototype does not have the component, then save every single data in the specific component into the scene file
+		//Deserialise Prototypes Resource 
+			//- Check through the Identity Components of all Objects
+			//- The ObjectType in the IdentityComponent will be used to save a Prototype
+			//= Get the Prototype file Path from the PrototypeList 
+		//Deserialise Texture Resource
+			//- Check through all the graphic Component for the texture File Name
+			//- Check through all the animation components for the animation texture file Names
+			//- Get the File path of the textures from the Resource Manager
+		//Deserialise AnimationDataFile
+			//- Check through the AnimationComponent to get the animation file name
+			//- Get file Path of the animationDataFile from the Resource Manager
+		//Deserialise AudioFiles
+			//- Check throught the AudioComponents to get audio file name
+			//- Get the File path of the audiofile from the Resource Manager
+		//Deserialise ShaderTypes
+			//- check through the Graphic Component for the Shader Name used
+			//- Get File Path of both the vertex and fragment Shader Used
+		//Deserialise Font Used
+			//- Check throught the Font Component for the font type used
+			//- Get the File path of the Fontfile from the Resource Manager
+
+	//2. Deserialise GameObjects in Scene
+		//Clonable Game Objects
+		//Non-Clonable Game Objects
+			//- Check throught the Identity Component for the Object Type
+			//then Try to Get the Object type from the Prototypes.
+				//If Prototype list cannot find the Object, then save GameObject as NonClonableObjects array and save every single component data of the object as well
+				//else If Prototype list can find the Object, save objecttype under ClonableObjects array 
+					//Search through the Component list of the Clonable Object and compare with the prototype
+						//Check if the prototype has the component that the clonable object has. 
+							//If prototype has the component, then check if the component data is the same as the Object.
+								//If component data is same then, do not need to list the component in the scene file.
+								//else if there is a component data that is different, list the component name and the data in the component in the scene file
+							//else If prototype does not have the component, then save every single data in the specific component into the scene file
 
 
 	DeSerialiser SceneFile(filePath);
 
-	std::unordered_map <std::string, GameObject* >& NamePrototypeobj = MyPrototypeFactory.GetPrototypeList();
+	rapidjson::Value PrototypesFilePaths;
+	PrototypesFilePaths.SetArray();
 
 
-	for (auto& IdObject : _listObject)
+	std::vector<std::string> PrototypeResourcePathList;
+
+
+	for (auto& IdComPair : MyComponentManger._IdentityComponents)
 	{
-		if (IdObject.first < 1000)
+		if (IdComPair.first < 1000)
 		{
 			continue;
 		}
 
-		GameObject* obj = IdObject.second;
-		std::unordered_map <ComponentId, IComponent* >& comList = obj->GetComponentList();
-		
-		for (auto& IdComPair : comList)
+		std::string ObjType = IdComPair.second->ObjectType();
+
+		//Object exists in PrototypeAssetList - Save in ClonableObjects list
+		if (MyPrototypeFactory.GetPrototypeObj(ObjType))
 		{
-			ComponentId comId = IdComPair.first;
-			IComponent* comPtr = IdComPair.second;
-
-			if (comId == ComponentId::IDENTITY_COMPONENT)
+			// PrototypeResourceList does not have the prototype yet
+			if ((std::find(PrototypeResourcePathList.begin(), PrototypeResourcePathList.end(), ObjType) == PrototypeResourcePathList.end()))
 			{
-				rapidjson::Value PrototypesFilePaths;
-				PrototypesFilePaths.SetArray();
-
-				IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(comPtr);
-				if (NamePrototypeobj.find(IdCom->ObjectType()) != NamePrototypeobj.end()) //Object Prototype exists
-				{
-
-				}
-
-				SceneFile.AddMember("PrototypesFilePaths", PrototypesFilePaths);
+				std::string FilePath = MyPrototypeFactory.GetPrototypeFile(ObjType);
+				PrototypeResourcePathList.push_back(FilePath);
 			}
+
+			for (auto& IdObjectPair: _listObject)
+			{
+				GameObject* obj = IdObjectPair.second;
+				std::unordered_map <ComponentId, IComponent* >& comList = obj->GetComponentList();
+
+				for (auto& IdComPair : comList)
+				{
+					ComponentId comId = IdComPair.first;
+					IComponent* comPtr = IdComPair.second;
+
+					comPtr->DeSerialiseComponent();
+				}
+			}
+
+
 		}
+		else  //Object does not exist in PrototypeAssetList - Save as NonclonableObject and save every single component data and move on to another object
+		{
+			continue;
+		}
+
 	}
+
+
+	for (auto& prototypeName: PrototypeResourcePathList)
+	{
+		PrototypesFilePaths.PushBack(rapidjson::StringRef(prototypeName.c_str()), SceneFile.Allocator());
+	}
+	//After Going thru the GameObjects list, the PrototypesFilePaths list is finalised 
+	SceneFile.AddMember("PrototypesFilePaths", PrototypesFilePaths);
 
 }
 
