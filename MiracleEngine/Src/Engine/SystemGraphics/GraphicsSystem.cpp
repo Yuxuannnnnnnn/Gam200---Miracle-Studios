@@ -87,7 +87,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 		size_t objID = graphicCompPair.first;	//Get GameObjectID
 		TransformComponent* transformComp = MyComponentManger._transformComponents[objID];
 
-		glm::mat4 modelTransform = UpdateTransform(transformComp, graphicComp);
+		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
 
 
 		RenderObject renderobject;
@@ -102,14 +102,3 @@ void GraphicsSystem::UpdateRenderObjectList()
 	}
 
 }
-
-glm::mat4 GraphicsSystem::UpdateTransform(TransformComponent* transformComp, GraphicComponent* graphicComp)
-{
-	Mtx44 transformModel = transformComp->GetModel();
-	Mtx44 layeringTranslate = Mtx44::CreateTranslation(Vec3{ 0.f, 0.f, (float)graphicComp->GetRenderLayer() });
-
-	return glm::make_mat4(Mtx44::CreateTranspose(transformModel).m);
-}
-
-
-

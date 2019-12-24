@@ -43,7 +43,6 @@ private:
 	void ClearSreen() const;
 	void UpdateViewMatrix();                             // called begin of loop, fletch the view matrix of the frame from the camera
 	void UpdateRenderObjectList();                       // called begin of loop, fill up the render objects list
-	glm::mat4 UpdateTransform(TransformComponent*, GraphicComponent*);
 private:
 	Renderer _renderer;             // normal renderer
 	//DebugRenderer _debugRenderer; // render debug lines

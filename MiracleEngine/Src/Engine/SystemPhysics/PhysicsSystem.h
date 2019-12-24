@@ -22,11 +22,6 @@ public:
 
 	void Update(double dt);
 	void Draw();
-
-
-
-
-	static void UpdateTransformMartix(TransformComponent* transform);
 };
 
 #endif

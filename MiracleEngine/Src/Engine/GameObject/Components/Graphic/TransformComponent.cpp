@@ -136,6 +136,14 @@ void TransformComponent::SetRotate(const float in)
 
 float* TransformComponent::GetModel()
 {
+	// calculate model matrix = TRS
+	Mtx44 translate = Mtx44::CreateTranslation(_pos);
+	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(_scale);
+
+	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(transformComp->GetScale()._x, transformComp->GetScale()._y, 1.0f));*/
+
+
 	return _model.m;
 }
 
