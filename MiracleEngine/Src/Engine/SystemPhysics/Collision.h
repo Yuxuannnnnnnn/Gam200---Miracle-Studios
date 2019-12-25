@@ -13,6 +13,11 @@
 #include "GameObject/Components/Physic/EdgeCollider2DComponent.h"
 #include "GameObject/Components/Graphic/TransformComponent.h"
 #include "GameObject/Components/Physic/RigidBody2DComponent.h"
+#include "BoundingCircle.h"
+#include "BoundingPolygon.h"
+
+
+
 
 /*enum class COLLISION_TYPE {
 	BOX_BOX,
@@ -21,6 +26,25 @@
 	CIRCLE_EDGE,
 	BOX_EDGE
 };*/
+
+
+
+// For new collider box check
+namespace Collision {
+
+	bool DefaultColliderDataCheck(const BBox& boxA, const BBox& boxB);
+
+	bool BCircleVsBCircle(const BCircle& circleA, const BCircle& circleB);
+	bool BBoxVsBBox(const BBox& boxA, const BBox& boxB);
+	bool BBoxOverlaps(const BBox& boxA, const BBox& boxB);
+
+	//bool BPolygonVsBPolygon(const BPolygon& polygonA, const BPolygon& polygonB);
+
+};
+
+
+
+////////////////////////////////////
 
 void BOX_BOX_CollisionCR(Collider2D* colliderA,
 	TransformComponent* transformA,

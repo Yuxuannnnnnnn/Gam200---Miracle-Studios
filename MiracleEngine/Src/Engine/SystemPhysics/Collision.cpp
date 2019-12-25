@@ -10,6 +10,74 @@
 #include "Collision.h"
 #include "../Tools/EventHandler/EventHandler.h"
 
+// For new collider box check
+namespace Collision {
+
+	bool DefaultColliderDataCheck(const BBox& boxA, const BBox& boxB)
+	{
+		//first check circle collision
+		if (!BCircleVsBCircle(boxA._BC, boxB._BC))
+			return false;
+
+		//then continue the Box collision check (SAT)
+		if (!BBoxVsBBox(boxA, boxB))
+			return false;
+
+		return true;
+	}
+
+	bool BCircleVsBCircle(const BCircle& circleA, const BCircle& circleB)
+	{
+		return (circleA._center.Distance(circleB._center) <= (circleA._radius + circleB._radius));
+	}
+
+	bool BBoxVsBBox(const BBox& boxA, const BBox& boxB)
+	{
+		return BBoxOverlaps(boxA, boxB) && BBoxOverlaps(boxB, boxA);
+	}
+
+	bool BBoxOverlaps(const BBox& boxA, const BBox& boxB)
+	{
+		for (int a = 0; a < 2; ++a)
+		{
+			float det = boxA._normals[a].Dot(boxA._normals[a]);
+			float t = boxB._origin.Dot(boxA._normals[a]) / det;
+
+			// Find the extent of boxB on boxA's axis x
+			float tMin = t;
+			float tMax = t;
+
+			for (int c = 1; c < 4; ++c) {
+				t = boxB._corners[c].Dot(boxA._normals[a]) / det;
+
+				if (t < tMin) {
+					tMin = t;
+				}
+				else if (t > tMax) {
+					tMax = t;
+				}
+			}
+
+			// See if [tMin, tMax] intersects [-1, 1]
+			if (tMin > 1.f || tMax < -1.f) {
+				// There was no intersection along this dimension;
+				// the boxes cannot possibly overlap.
+				return false;
+			}
+		}
+
+		// There was no dimension along which there has no intersection.
+		// Therefore the boxes overlap.
+		return true;
+	}
+
+	
+
+	//bool BPolygonVsBPolygon(const BPolygon& polygonA, const BPolygon& polygonB);
+
+};
+
+
 void BOX_BOX_CollisionCR(Collider2D* colliderA,
 	TransformComponent* transformA,
 	RigidBody2D* rigidbodyA,

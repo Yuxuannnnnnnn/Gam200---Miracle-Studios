@@ -75,6 +75,10 @@ void GraphicsSystem::UpdateRenderObjectList()
 	// update 
 	std::vector<RenderObject> renderObj;
 
+	BBox viewBox = BBox::CreateBBoxFromData(Vec3::Vec3Zero,
+		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() * 0.75f ,MyWindowsSystem.getWindow().GetWindowHeight() * 0.75f },
+		0.f);
+
 	for (auto& graphicCompPair : MyComponentManger._graphicComponents)
 	{
 		if (graphicCompPair.second->GetParentId() < 1000 || graphicCompPair.second->GetParentPtr()->GetDestory())
@@ -86,6 +90,11 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		size_t objID = graphicCompPair.first;	//Get GameObjectID
 		TransformComponent* transformComp = MyComponentManger._transformComponents[objID];
+
+		if (!Collision::DefaultColliderDataCheck(viewBox,
+			BBox::CreateBBoxFromData(transformComp->GetPos(), transformComp->GetScale(), transformComp->GetRotate())))
+			continue;
+
 
 		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
 
