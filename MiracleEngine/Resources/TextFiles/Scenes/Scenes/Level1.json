@@ -28,7 +28,8 @@
 	],
 
 	"ShaderFilesPaths": [
-		"./Resources/Shader/basic.frag"
+		"./Resources/Shader/basic.frag",
+		"./Resources/Shader/basic.vert"
 	],
 
 	"FontFilesPath": [

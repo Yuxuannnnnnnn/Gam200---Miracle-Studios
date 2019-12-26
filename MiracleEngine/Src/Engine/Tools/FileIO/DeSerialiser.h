@@ -17,6 +17,20 @@ public:
 		_level.SetObject();	//Set the document as an OverArching Object
 	}
 
+	//Default Comstructor for non serialising
+	DeSerialiser()
+		:_level{}, _allocator{ _level.GetAllocator() }, _filename{}
+	{
+		_level.SetObject();	//Set the document as an OverArching Object
+	}
+
+
+	rapidjson::Document& GetDocument()
+	{
+		return _level;
+	}
+	
+
 	rapidjson::Value& operator[](const char* string)
 	{
 		return _level[string];
@@ -67,18 +81,21 @@ public:
 
 	~DeSerialiser() 
 	{
-		rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document	
-		rapidjson::Writer<rapidjson::StringBuffer> writer(buf);	//Writer handler - that contains the stringbuffer
-		_level.Accept(writer);									//Output as json text into stringbuffer via Writer
+		if (!_filename.empty())
+		{
+			rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document	
+			rapidjson::Writer<rapidjson::StringBuffer> writer(buf);	//Writer handler - that contains the stringbuffer
+			_level.Accept(writer);									//Output as json text into stringbuffer via Writer
 
-		std::string json(buf.GetString(), buf.GetSize());		//convert stringbuffer to std::string
+			std::string json(buf.GetString(), buf.GetSize());		//convert stringbuffer to std::string
 
 
-		std::ofstream file(_filename.c_str()); //open a file with the param name
-		file << json;							//Write std::string type into the file
+			std::ofstream file(_filename.c_str()); //open a file with the param name
+			file << json;							//Write std::string type into the file
 
-		if (!file.good())	//Check whether state of stream is good 
-			throw std::runtime_error("Can't write the JSON string to the file!");
+			if (!file.good())	//Check whether state of stream is good 
+				throw std::runtime_error("Can't write the JSON string to the file!");
+		}
 	}
 };
 

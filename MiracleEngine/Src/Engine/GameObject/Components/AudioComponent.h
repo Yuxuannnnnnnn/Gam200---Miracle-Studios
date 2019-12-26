@@ -59,7 +59,7 @@ public:
 	
 
 	//SceneFile Sent in must be Document[ClonableObjects][objectfile or i]
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser SceneFile) override
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override
 	{
 		AudioComponent* protoAudioCom = dynamic_cast<AudioComponent*>(protoCom);
 

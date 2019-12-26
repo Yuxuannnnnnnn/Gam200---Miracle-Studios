@@ -27,6 +27,12 @@ public:
 	void SetFileName(const std::string& filename);
 
 
+	const std::string& GetShaderType()
+	{
+		return _shader;
+	}
+
+
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;

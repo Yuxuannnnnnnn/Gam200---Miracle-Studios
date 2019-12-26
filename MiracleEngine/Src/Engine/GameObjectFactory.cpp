@@ -729,17 +729,15 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 {
 
 	//1. Deserialise the Resources first
-
 		//Deserialise Prototypes Resource 
 			//- Check through the Identity Components of all Objects
 			//- The ObjectType in the IdentityComponent will be used to save a Prototype
 			//= Get the Prototype file Path from the PrototypeList 
 		//Deserialise Texture Resource
 			//- Check through all the graphic Component for the texture File Name
-			//- Check through all the animation components for the animation texture file Names
 			//- Get the File path of the textures from the Resource Manager
 		//Deserialise AnimationDataFile
-			//- Check through the AnimationComponent to get the animation file name
+			//- Check through all the animation components for the animationdatafile names
 			//- Get file Path of the animationDataFile from the Resource Manager
 		//Deserialise AudioFiles
 			//- Check throught the AudioComponents to get audio file name
@@ -751,11 +749,7 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 			//- Check throught the Font Component for the font type used
 			//- Get the File path of the Fontfile from the Resource Manager
 
-	//2. Deserialise GameObjects in Scene
-		//Clonable Game Objects
-		//Non-Clonable Game Objects
-			//- Check throught the Identity Component for the Object Type
-			//then Try to Get the Object type from the Prototypes.
+	//2. Deserialise GameObjects in Scene //Clonable Game Objects & Non-Clonable Game Objects
 				//If Prototype list cannot find the Object, then save GameObject as NonClonableObjects array and save every single component data of the object as well
 				//else If Prototype list can find the Object, save objecttype under ClonableObjects array 
 					//Search through the Component list of the Clonable Object and compare with the prototype
@@ -768,12 +762,14 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 	DeSerialiser SceneFile(filePath);
 
-	rapidjson::Value PrototypesFilePaths;
-	PrototypesFilePaths.SetArray();
-
+	//Deserialise Prototypes Resource 
+	//- Check through the Identity Components of all Objects
+	//- The ObjectType in the IdentityComponent will be used to save a Prototype
+	//= Get the Prototype file Path from the PrototypeList 
 
 	std::vector<std::string> PrototypeResourcePathList;
-
+	rapidjson::Value PrototypesFilePaths;
+	PrototypesFilePaths.SetArray();
 
 	for (auto& IdComPair : MyComponentManger._IdentityComponents)
 	{
@@ -794,36 +790,234 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 				PrototypeResourcePathList.push_back(FilePath);
 			}
 
-			for (auto& IdObjectPair: _listObject)
-			{
-				GameObject* obj = IdObjectPair.second;
-				std::unordered_map <ComponentId, IComponent* >& comList = obj->GetComponentList();
-
-				for (auto& IdComPair : comList)
-				{
-					ComponentId comId = IdComPair.first;
-					IComponent* comPtr = IdComPair.second;
-
-					comPtr->DeSerialiseComponent();
-				}
-			}
-
-
 		}
-		else  //Object does not exist in PrototypeAssetList - Save as NonclonableObject and save every single component data and move on to another object
-		{
-			continue;
-		}
-
 	}
 
-
-	for (auto& prototypeName: PrototypeResourcePathList)
+	for (auto& prototypeName : PrototypeResourcePathList)
 	{
 		PrototypesFilePaths.PushBack(rapidjson::StringRef(prototypeName.c_str()), SceneFile.Allocator());
 	}
 	//After Going thru the GameObjects list, the PrototypesFilePaths list is finalised 
 	SceneFile.AddMember("PrototypesFilePaths", PrototypesFilePaths);
+
+
+
+	//Deserialise ShaderTypes
+	//- check through the Graphic Component for the Shader Name used
+	//- Get File Path of both the vertex and fragment Shader Used
+
+	//Deserialise Texture Resource
+	//- Check through all the graphic Component for the texture File Name
+	//- Get the File path of the textures from the Resource Manager
+
+	std::vector<std::string> TextureResourcePathList;
+	rapidjson::Value TextureFilePaths;
+	TextureFilePaths.SetArray();
+
+	std::vector<std::string> ShaderResourcePathList;
+	rapidjson::Value ShaderFilePaths;
+	ShaderFilePaths.SetArray();
+
+	for (auto& IdGrapPair : MyComponentManger._graphicComponents)
+	{
+		if (IdGrapPair.first < 1000)
+		{
+			continue;
+		}
+
+		std::string TextureFile = IdGrapPair.second->GetFileName();
+
+		if (MyResourceManager.GetTexture2DResource(TextureFile))
+		{
+			if ((std::find(TextureResourcePathList.begin(), TextureResourcePathList.end(), TextureFile) == TextureResourcePathList.end()))
+			{
+				std::string FilePath = MyResourceManager.GetTexture2DResourcePath(TextureFile);
+				TextureResourcePathList.push_back(FilePath);
+			}
+		}
+
+		std::string ShaderFile = IdGrapPair.second->GetShaderType();
+
+		if (MyResourceManager.GetShaderResource(ShaderFile))
+		{
+			if ((std::find(ShaderResourcePathList.begin(), ShaderResourcePathList.end(), ShaderFile) == ShaderResourcePathList.end()))
+			{
+				ResourceManager::VertFrag vertfrag= MyResourceManager.GetShaderResourcePath(TextureFile);
+				ShaderResourcePathList.push_back(vertfrag.first);
+				ShaderResourcePathList.push_back(vertfrag.second);
+			}
+		}
+	}
+
+	for (auto& TextureName : TextureResourcePathList)
+	{
+		TextureFilePaths.PushBack(rapidjson::StringRef(TextureName.c_str()), SceneFile.Allocator());
+	}
+	SceneFile.AddMember("TexturesFilesPaths", TextureFilePaths);
+
+	for (auto& ShaderName : ShaderResourcePathList)
+	{
+		ShaderFilePaths.PushBack(rapidjson::StringRef(ShaderName.c_str()), SceneFile.Allocator());
+	}
+	SceneFile.AddMember("ShaderFilesPaths", ShaderFilePaths);
+
+
+
+	//Deserialise AnimationDataFile
+	//- Check through all the animation components for the animationdatafile names
+	//- Get file Path of the animationDataFile from the Resource Manager
+
+	std::vector<std::string> AnimationResourcePathList;
+	rapidjson::Value AnimationFilePaths;
+	AnimationFilePaths.SetArray();
+
+	for (auto& IdAnimPair : MyComponentManger._AnimationComponents)
+	{
+		if (IdAnimPair.first < 1000)
+		{
+			continue;
+		}
+
+		const std::vector<std::string>& AnimFileList = IdAnimPair.second->GetAnimationDataFileList();
+
+		for (auto& animFile : AnimFileList)
+		{
+			if (MyResourceManager.GetAnimationResource(animFile))
+			{
+				if ((std::find(AnimationResourcePathList.begin(), AnimationResourcePathList.end(), animFile) == AnimationResourcePathList.end()))
+				{
+					std::string FilePath = MyResourceManager.GetAnimationResourcePath(animFile);
+					AnimationResourcePathList.push_back(FilePath);
+				}
+			}
+		}
+	}
+
+	for (auto& AnimName : AnimationResourcePathList)
+	{
+		AnimationFilePaths.PushBack(rapidjson::StringRef(AnimName.c_str()), SceneFile.Allocator());
+	}
+	SceneFile.AddMember("AnimationDataFilesPaths", AnimationFilePaths);
+
+
+
+	//Deserialise AudioFiles
+	//- Check throught the AudioComponents to get audio file name
+	//- Get the File path of the audiofile from the Resource Manager
+	std::vector<std::string> AudioResourcePathList;
+	rapidjson::Value AudioFilePaths;
+	AudioFilePaths.SetArray();
+
+	for (auto& IdAudioPair : MyComponentManger._audioComponent)
+	{
+		if (IdAudioPair.first < 1000)
+		{
+			continue;
+		}
+
+		std::string audioFile = IdAudioPair.second->GetFileName();
+
+
+		if (MyResourceManager.GetSoundResource(audioFile))
+		{
+			// PrototypeResourceList does not have the prototype yet
+			if ((std::find(AudioResourcePathList.begin(), AudioResourcePathList.end(), audioFile) == AudioResourcePathList.end()))
+			{
+				std::string FilePath = MyResourceManager.GetSoundResourcePath(audioFile);
+				AudioResourcePathList.push_back(FilePath);
+			}
+		}
+	}
+
+	for (auto& AudioName : AudioResourcePathList)
+	{
+		AudioFilePaths.PushBack(rapidjson::StringRef(AudioName.c_str()), SceneFile.Allocator());
+	}
+	SceneFile.AddMember("AudioFilesPaths", AudioFilePaths);
+
+
+
+	//Deserialise Font Used
+	//- Check throught the Font Component for the font type used
+	//- Get the File path of the Fontfile from the Resource Manager
+	std::vector<std::string> FontResourcePathList;
+	rapidjson::Value FontFilePaths;
+	FontFilePaths.SetArray();
+
+	for (auto& IdFontPair : MyComponentManger._FontComponent)
+	{
+		if (IdFontPair.first < 1000)
+		{
+			continue;
+		}
+
+		std::string fontFile = IdFontPair.second->GetFontType();
+
+		if (MyResourceManager.GetFontResource(fontFile))
+		{
+			// PrototypeResourceList does not have the prototype yet
+			if ((std::find(FontResourcePathList.begin(), FontResourcePathList.end(), fontFile) == FontResourcePathList.end()))
+			{
+				std::string FilePath = MyResourceManager.GetFontResourcePath(fontFile);
+				FontResourcePathList.push_back(FilePath);
+			}
+		}
+	}
+
+	for (auto& FontName : FontResourcePathList)
+	{
+		FontFilePaths.PushBack(rapidjson::StringRef(FontName.c_str()), SceneFile.Allocator());
+	}
+	SceneFile.AddMember("FontFilesPath", FontFilePaths);
+
+
+
+	rapidjson::Value clonableObjects;
+	clonableObjects.SetArray();
+
+	rapidjson::Value nonClonableObjects;
+	nonClonableObjects.SetArray();
+
+	for (auto& IdIdcomPair : MyComponentManger._IdentityComponents)
+	{
+		const size_t id = IdIdcomPair.first;
+		if (id < 1000)
+		{
+			continue;
+		}
+
+		std::string ObjType = IdIdcomPair.second->ObjectType();
+
+		DeSerialiser obj;
+		GameObject* proObj = nullptr;
+		//Object exists in PrototypeAssetList - Save in ClonableObjects list
+		if (proObj = MyPrototypeFactory.GetPrototypeObj(ObjType))
+		{
+			std::unordered_map <ComponentId, IComponent* >& comList = _listObject[id]->GetComponentList();
+
+			for (auto& IdComPair : comList)
+			{
+				IComponent* protoCom = proObj->GetComponent(IdComPair.first);
+				IdComPair.second->DeserialiseComponentSceneFile(protoCom, obj);
+			}
+
+			clonableObjects.PushBack(obj.GetDocument(), SceneFile.Allocator());
+
+		}
+		else  //Object does not exists in PrototypeAssetList - Save in NonClonableObjects list
+		{
+			std::unordered_map <ComponentId, IComponent* >& comList = _listObject[id]->GetComponentList();
+
+			for (auto& IdComPair : comList)
+			{
+				IComponent* protoCom = proObj->GetComponent(IdComPair.first);
+				IdComPair.second->DeSerialiseComponent(obj);
+			}
+
+			nonClonableObjects.PushBack(obj.GetDocument(), SceneFile.Allocator());
+
+		}
+	}
 
 }
 

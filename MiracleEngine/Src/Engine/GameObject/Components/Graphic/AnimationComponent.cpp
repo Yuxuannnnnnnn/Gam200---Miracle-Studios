@@ -27,25 +27,6 @@ AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponen
 	//testanim->load("./Resources/TextFiles/AnimationData/CatAnimation.json");
 }
 
-void AnimationComponent::SerialiseComponent(Serialiser& document)
-{
-	//if (document.HasMember("Type") && document["Type"].IsString())
-	//{
-	//	_type = document["Type"].GetString();
-	//}
-	if (document.HasMember("AnimationTypes"))
-	{
-		for(int i = 0; i < document["AnimationTypes"].Size(); i++)
-			_animations.push_back(document["AnimationTypes"][i].GetString());
-	}
-
-	if (document.HasMember("StartAnim"))
-	{
-		_startingAnim = document["StartAnim"].GetString();
-		_currentAnim = _startingAnim;
-	}
-}
-
 
 
 std::string AnimationComponent::ComponentName() const

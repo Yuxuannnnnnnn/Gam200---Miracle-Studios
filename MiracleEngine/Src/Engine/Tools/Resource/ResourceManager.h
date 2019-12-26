@@ -23,7 +23,9 @@ public:
 	typedef std::map<std::string, std::string> NamePathMap;
 
 	typedef std::pair<std::string, std::pair<std::string, std::string>> NamePair;
-	typedef std::unordered_map<std::string, std::pair<std::string, std::string>> NamePairMap;
+
+	typedef std::pair<std::string, std::string> VertFrag;
+	typedef std::unordered_map<std::string, VertFrag> NamePairMap;
 
 	typedef std::unordered_map<std::string, Texture2D*> Texture2DMap;
 	typedef std::unordered_map<std::string, Shader*> ShaderMap;

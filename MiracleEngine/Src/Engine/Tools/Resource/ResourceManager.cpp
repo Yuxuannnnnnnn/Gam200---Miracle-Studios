@@ -223,7 +223,7 @@ std::string ResourceManager::GetTexture2DResourcePath(std::string name)
 	return _Texture2DList[name];
 }
 
-std::pair<std::string, std::string> ResourceManager::GetShaderResourcePath(std::string name)
+ResourceManager::VertFrag ResourceManager::GetShaderResourcePath(std::string name)
 {
 	return _ShaderList[name];
 }

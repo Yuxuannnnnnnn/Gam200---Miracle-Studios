@@ -22,6 +22,10 @@ public:
 
 	std::string& GetFontString();
 
+	const std::string& GetFontType()
+	{
+		return _fontType;
+	}
 
 	virtual void Inspect() override;
 
