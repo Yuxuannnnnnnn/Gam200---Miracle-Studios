@@ -12,13 +12,23 @@ public:
 	//Constructor
 	CameraComponent(GameObject* parent = nullptr, size_t uId = 0, IComponent* component = nullptr);
 
-	void SerialiseComponent(Serialiser& document) override;
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
+	void SerialiseComponent(Serialiser& document) override
+	{
+
+	}
+
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+
+	}
+
 	std::string ComponentName() const override;
-	virtual void Inspect() override;
 
+	virtual void Inspect() override
+	{
+		IComponent::Inspect();
+	}
 
-public:
 
 
 };

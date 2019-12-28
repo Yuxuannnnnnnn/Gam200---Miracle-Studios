@@ -6,27 +6,6 @@ std::string TransformComponent::ComponentName() const
 }
 
 
-void TransformComponent::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Position") && document["Position"].IsArray())	//Checks if the variable exists in .Json file
-	{
-		if (document["Position"][0].IsFloat() && document["Position"][1].IsFloat())	//Check the array values
-			_pos = Vector3{ document["Position"][0].GetFloat(), document["Position"][1].GetFloat(), 1 };
-	}
-
-	if (document.HasMember("Scale") && document["Scale"].IsArray())
-	{
-		if (document["Scale"][0].IsFloat() && document["Scale"][1].IsFloat())	//Check the array values
-			_scale = Vector3{ document["Scale"][0].GetFloat(), document["Scale"][1].GetFloat(), 1 };
-	}
-
-	if (document.HasMember("Rotate") && document["Rotate"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_rotationAngle = (document["Rotate"].GetFloat());
-
-	}
-}
-
 //void TransformComponent::SerialiseComponentFromLevelFile(rapidjson::Value& document)
 //{
 //	if (document.HasMember("Position"))	//Checks if the variable exists in .Json file
@@ -45,23 +24,6 @@ void TransformComponent::SerialiseComponent(Serialiser& document)
 //	}
 //}
 
-void TransformComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-	rapidjson::Value value;
-
-	value.SetArray();
-	value.PushBack(rapidjson::Value(_pos.GetX()).Move(), prototypeDoc.Allocator());
-	value.PushBack(rapidjson::Value(_pos.GetY()).Move(), prototypeDoc.Allocator());
-	prototypeDoc.AddMember("Position", value);
-
-	value.SetArray();
-	value.PushBack(rapidjson::Value(_scale.GetX()).Move(), prototypeDoc.Allocator());
-	value.PushBack(rapidjson::Value(_scale.GetY()).Move(), prototypeDoc.Allocator());
-	prototypeDoc.AddMember("Scale", value);
-
-	value.SetFloat(_rotationAngle);
-	prototypeDoc.AddMember("Rotate", value);
-}
 
 
 

@@ -73,15 +73,6 @@ public:
 		rapidjson::Value animationsList;
 		animationsList.SetArray();
 
-		rapidjson::Value startingAnim;
-
-		if (protoAnimCom->_startingAnim.compare(_startingAnim))	//If audiofile of Object is diff from prototype
-		{
-			addComponentIntoSceneFile = true;
-			startingAnim.SetString(rapidjson::StringRef(_startingAnim.c_str()));
-		}
-
-		
 		for (auto& anim: _animations)
 		{
 			//Search Prototype for animation file, if dont have then add.
@@ -90,6 +81,14 @@ public:
 				addComponentIntoSceneFile = true;
 				animationsList.PushBack(rapidjson::StringRef(anim.c_str()), SceneFile.Allocator());
 			}
+		}
+
+		rapidjson::Value startingAnim;
+
+		if (protoAnimCom->_startingAnim.compare(_startingAnim))	//If audiofile of Object is diff from prototype
+		{
+			addComponentIntoSceneFile = true;
+			startingAnim.SetString(rapidjson::StringRef(_startingAnim.c_str()));
 		}
 
 

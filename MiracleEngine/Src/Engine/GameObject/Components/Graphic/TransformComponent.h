@@ -29,10 +29,51 @@ public:
 
 
 	std::string ComponentName() const override;
-	void SerialiseComponent(Serialiser& document) override;
-	void SerialiseComponentFromLevelFile(rapidjson::Value& document);
+	void SerialiseComponent(Serialiser& document) override
+	{
+		if (document.HasMember("Position") && document["Position"].IsArray())	//Checks if the variable exists in .Json file
+		{
+			if (document["Position"][0].IsFloat() && document["Position"][1].IsFloat())	//Check the array values
+				_pos = Vector3{ document["Position"][0].GetFloat(), document["Position"][1].GetFloat(), 1 };
+		}
 
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
+		if (document.HasMember("Scale") && document["Scale"].IsArray())
+		{
+			if (document["Scale"][0].IsFloat() && document["Scale"][1].IsFloat())	//Check the array values
+				_scale = Vector3{ document["Scale"][0].GetFloat(), document["Scale"][1].GetFloat(), 1 };
+		}
+
+		if (document.HasMember("Rotate") && document["Rotate"].IsFloat())	//Checks if the variable exists in .Json file
+		{
+			_rotationAngle = (document["Rotate"].GetFloat());
+		}
+	}
+
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	{
+		rapidjson::Value value;
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_pos.GetX()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_pos.GetY()).Move(), prototypeDoc.Allocator());
+		prototypeDoc.AddMember("Position", value);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), prototypeDoc.Allocator());
+		prototypeDoc.AddMember("Scale", value);
+
+		value.SetFloat(_rotationAngle);
+		prototypeDoc.AddMember("Rotate", value);
+	}
+
+
+	void SerialiseComponentFromLevelFile(rapidjson::Value& document)
+	{
+
+	}
+
+
 	virtual void Inspect() override;
 
 

@@ -67,26 +67,6 @@ std::string GraphicComponent::ComponentName() const
 }
 
 
-void GraphicComponent::SerialiseComponent(Serialiser& document)
-{
-	//if (document.HasMember("G.TypeId") && document["G.TypeId"].IsInt())	//Checks if the variable exists in .Json file
-	//	_typeIdGraphic = document["G.TypeId"].GetInt();
-
-	if (document.HasMember("G.FileName") && document["G.FileName"].IsString())
-		_fileName = document["G.FileName"].GetString();
-}
-
-void GraphicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-	rapidjson::Value value;
-
-	//value.SetInt(_typeIdGraphic);
-	//prototypeDoc.AddMember("G.TypeId", value);
-
-
-	value.SetString(rapidjson::StringRef(_fileName.c_str()));
-	prototypeDoc.AddMember("G.FileName", value);
-}
 
 void GraphicComponent::Inspect()
 {

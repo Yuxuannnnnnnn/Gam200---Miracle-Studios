@@ -4,27 +4,6 @@
 
 
 
-void FontComponent::SerialiseComponent(Serialiser& document)
-{
-
-
-
-	if (document.HasMember("FontString") && document["FontString"].IsString())	//Checks if the variable exists in .Json file
-	{
-		_fontString = (document["FontString"].GetString());
-	}
-}
-
-void FontComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-	rapidjson::Value value;
-
-
-	value.SetString(rapidjson::StringRef(_fontString.c_str()));
-	prototypeDoc.AddMember("FontString", value);
-}
-
-
 
 
 std::string FontComponent::ComponentName() const

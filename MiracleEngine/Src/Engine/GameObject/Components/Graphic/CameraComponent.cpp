@@ -12,16 +12,6 @@ CameraComponent::CameraComponent(GameObject* parent, size_t uId, IComponent* com
 	}
 }
 
-void CameraComponent::SerialiseComponent(Serialiser& document)
-{
-
-}
-
-void CameraComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-
-}
-
 
 
 std::string CameraComponent::ComponentName() const
@@ -29,9 +19,6 @@ std::string CameraComponent::ComponentName() const
 	return std::string("Camera Component");
 }
 
-void CameraComponent::Inspect()
-{
-	IComponent::Inspect();
-}
+
 
 
