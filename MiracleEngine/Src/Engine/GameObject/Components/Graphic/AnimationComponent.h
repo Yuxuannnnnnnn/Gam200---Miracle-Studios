@@ -51,6 +51,10 @@ public:
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
 		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("AnimationComponent", rapidjson::Value(true));
+
 		value.SetArray();
 		{
 			for (auto& anim : _animations)

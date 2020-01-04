@@ -53,6 +53,9 @@ public:
 	{
 		rapidjson::Value value;
 
+		value.SetBool(true);
+		prototypeDoc.AddMember("TransformComponent", rapidjson::Value(true));
+
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_pos.GetX()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_pos.GetY()).Move(), prototypeDoc.Allocator());
@@ -68,14 +71,61 @@ public:
 	}
 
 
-	void SerialiseComponentFromLevelFile(rapidjson::Value& document)
-	{
-
-	}
-
-
 	virtual void Inspect() override;
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) 
+	{
+		TransformComponent* protoTransformCom = dynamic_cast<TransformComponent*>(protoCom);
+
+		bool addComponentIntoSceneFile = false;
+		rapidjson::Value position;
+		position.SetArray();
+		rapidjson::Value scale;
+		scale.SetArray();
+		rapidjson::Value rotate;
+
+		if (protoTransformCom->_pos != _pos)
+		{
+			addComponentIntoSceneFile = true;
+			position.PushBack(rapidjson::Value(_pos._x), SceneFile.Allocator());
+			position.PushBack(rapidjson::Value(_pos._y), SceneFile.Allocator());
+			position.PushBack(rapidjson::Value(_pos._z), SceneFile.Allocator());
+		}
+
+		if (protoTransformCom->_scale != _scale)
+		{
+			addComponentIntoSceneFile = true;
+			scale.PushBack(rapidjson::Value(_pos._x), SceneFile.Allocator());
+			scale.PushBack(rapidjson::Value(_pos._y), SceneFile.Allocator());
+			scale.PushBack(rapidjson::Value(_pos._z), SceneFile.Allocator());
+		}		
+		
+		if (protoTransformCom->_rotationAngle != _rotationAngle)
+		{
+			addComponentIntoSceneFile = true;
+			rotate.SetFloat(_rotationAngle);
+		}
+		
+
+		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+		{
+			SceneFile.AddMember("TransformComponent", rapidjson::Value(true));
+
+			if (!position.IsNull())	//if rapidjson::value container is not empty
+			{
+				SceneFile.AddMember("Position", position);
+			}
+
+			if (!scale.IsNull())
+			{
+				SceneFile.AddMember("Scale", scale);
+			}
+
+			if (!rotate.IsNull())
+			{
+				SceneFile.AddMember("Rotate", rotate);
+			}
+		}
+	}
 
 
 // GetPID

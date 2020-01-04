@@ -44,6 +44,10 @@ public:
 	{
 		rapidjson::Value value;
 
+		value.SetBool(true);
+		prototypeDoc.AddMember("AudioComponent", rapidjson::Value(true));
+
+
 		value.SetInt(_typeIdAudio);
 		prototypeDoc.AddMember("A.TypeId", value);
 

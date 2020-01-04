@@ -25,59 +25,6 @@ std::string RigidBody2D::ComponentName() const
 }
 
 
-void RigidBody2D::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Mass") && document["Mass"].IsFloat())	//Checks if the variable exists in .Json file
-		_mass = document["Mass"].GetFloat();
-
-	if (document.HasMember("Friction") && document["Friction"].IsFloat())
-		_fictionVal = document["Friction"].GetFloat();
-
-	if (document.HasMember("Static") && document["Static"].IsBool())
-		_static = document["Static"].GetBool();
-
-}
-
-void RigidBody2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-	rapidjson::Value value;
-
-	value.SetFloat(_mass);
-	prototypeDoc.AddMember("Mass", value);
-
-	value.SetFloat(_fictionVal);
-	prototypeDoc.AddMember("Friction", value);
-
-	value.SetBool(_static);
-	prototypeDoc.AddMember("Static", value);
-}
-
-void RigidBody2D::Inspect()
-{
-	IComponent::Inspect();
-
-	ImGui::Spacing();
-	ImGui::Checkbox("Static", &_static);
-
-	ImGui::Spacing();
-	ImGui::InputFloat3("Velocity X, Y, Z", _velocity.m);
-
-	ImGui::Spacing();
-	ImGui::InputFloat3("Direction X, Y, Z", _direction.m);
-
-	ImGui::Spacing();
-	ImGui::InputFloat3("Applied Force X, Y, Z", _appliedForce.m);
-
-	ImGui::Spacing();
-	ImGui::InputFloat("Mass", &_mass);
-
-	ImGui::Spacing();
-	ImGui::InputFloat("Friction Value", &_fictionVal);
-
-	ImGui::Spacing();
-
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
 

@@ -19,7 +19,10 @@ public:
 
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
+		rapidjson::Value value;
 
+		value.SetBool(true);
+		prototypeDoc.AddMember("CameraComponent", rapidjson::Value(true));
 	}
 
 	std::string ComponentName() const override;
@@ -28,7 +31,13 @@ public:
 	{
 		IComponent::Inspect();
 	}
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
+
+
+
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) 
+	{ 
+	
+	}
 
 
 

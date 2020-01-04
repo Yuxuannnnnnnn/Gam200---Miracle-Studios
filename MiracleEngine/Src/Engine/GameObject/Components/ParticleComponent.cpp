@@ -5,24 +5,7 @@ std::string ParticleComponent::ComponentName() const
 {
 	return "ParticleComponent";
 }
-void ParticleComponent::SerialiseComponent(Serialiser& document)
-{
-	(void)document;
-}
 
-void ParticleComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-	(void)prototypeDoc;
-}
-void ParticleComponent::DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile)
-{
-	(void)protoCom;
-	(void)SceneFile;
-}
-void ParticleComponent::Inspect()
-{
-
-}
 
 //Constructor
 ParticleComponent::ParticleComponent() :

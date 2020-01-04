@@ -32,65 +32,6 @@ std::string IdentityComponent::ComponentName() const
 
 
 
-void IdentityComponent::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Name") && document["Name"].IsString())	//Checks if the variable exists in .Json file
-	{
-		_name = document["Name"].GetString();
-	}
-
-	//if (document.HasMember("GameObjectType") && document["GameObjectType"].IsInt())	//Checks if the variable exists in .Json file
-	//{
-	//	_typeId = document["GameObjectType"].GetInt();
-	//}	
-	
-	if (document.HasMember("ObjectType") && document["ObjectType"].IsString())	//Checks if the variable exists in .Json file
-	{
-		_ObjectType = document["ObjectType"].GetString();
-	}
-
-
-
-}
-
-void IdentityComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-	rapidjson::Value value;
-
-	value.SetString(rapidjson::StringRef(_name.c_str()));
-	prototypeDoc.AddMember("Name", value);
-
-	//value.SetInt(_typeId);
-	//prototypeDoc.AddMember("GameObjectType", value);
-
-	value.SetString(rapidjson::StringRef(_ObjectType.c_str()));
-	prototypeDoc.AddMember("ObjectType", value);
-}
-
-
-void IdentityComponent::Inspect()
-{
-	ImGui::Spacing();
-	std::string string = std::string("Game Object Type ");
-	//strncpy(_current_ObjectType, _ObjectType.c_str(), _ObjectType.length());
-
-
-	static char objType[100] = "\0";
-	strncpy(objType, _ObjectType.c_str(), _ObjectType.length());
-	ImGui::InputText(string.c_str(), objType, 100);
-	_ObjectType = objType;
-	ImGui::Spacing();
-	
-	static char Name[100] = "\0";
-	strncpy(Name, _name.c_str(), _name.length());
-	//strncpy(_current_Name, _name.c_str(), _name.length());
-	string = "Name of Object ";
-	ImGui::InputText(string.c_str(), Name, 100);
-	_name = Name;
-	ImGui::Spacing();
-}
-
-
 //unsigned IdentityComponent::GameObjectType() const
 //{
 //	return _typeId;

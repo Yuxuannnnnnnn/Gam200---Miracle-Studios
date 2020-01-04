@@ -51,6 +51,9 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		ResourceList.clear();
 	}
 
+
+
+
 	{
 		for (const auto& shaderFile : std::filesystem::directory_iterator(shadersPath))
 		{

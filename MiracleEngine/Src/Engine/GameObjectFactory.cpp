@@ -717,9 +717,9 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 		{
 			Serialiser datafile(Level["ClonableObjects"][i]);
 
-			std::string name = datafile["Object"].GetString();
+			std::string name = datafile["ObjectType"].GetString();
 			name += ".json";
-			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name];
+			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeObj(name);
 			GameObject* tmp = CloneGameObject(tmp2);
 
 			tmp->Serialise(datafile);
@@ -727,15 +727,16 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 	}
 
 	//Create dynamic non-clonables
-	//if (Level.HasMember("NonClonableObjects"))
-	//{
-	//	for (unsigned i = 0; i < Level["NonClonableObjects"].Size(); i++)
-	//	{
-	//		Serialiser datafile(Level["NonClonableObjects"][i]);
-	//
-	//		tmp->Serialise(datafile);
-	//	}
-	//}
+	if (Level.HasMember("NonClonableObjects"))
+	{
+		for (unsigned i = 0; i < Level["NonClonableObjects"].Size(); i++)
+		{
+			Serialiser datafile(Level["NonClonableObjects"][i]);
+
+			GameObject* tmp = CreateNewGameObject(false);
+			tmp->Serialise(datafile);
+		}
+	}
 
 }
 
@@ -1014,7 +1015,7 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 			for (auto& IdComPair : comList)
 			{
 				IComponent* protoCom = proObj->GetComponent(IdComPair.first);
-				//IdComPair.second->DeserialiseComponentSceneFile(protoCom, obj);
+				IdComPair.second->DeserialiseComponentSceneFile(protoCom, obj);
 			}
 
 			clonableObjects.PushBack(obj.GetDocument(), SceneFile.Allocator());
@@ -1034,6 +1035,10 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 		}
 	}
+
+
+	SceneFile.AddMember("ClonableObjects", clonableObjects);
+	SceneFile.AddMember("NonClonableObjects", nonClonableObjects);
 
 }
 

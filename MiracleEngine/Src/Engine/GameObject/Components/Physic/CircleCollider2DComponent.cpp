@@ -30,6 +30,11 @@ void CircleCollider2D::SerialiseComponent(Serialiser& document)
 
 void CircleCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
+	rapidjson::Value value;
+
+	value.SetBool(true);
+	prototypeDoc.AddMember("CircleCollider2D", rapidjson::Value(true));
+
 	Collider2D::DeSerialiseComponent(prototypeDoc);
 }
 

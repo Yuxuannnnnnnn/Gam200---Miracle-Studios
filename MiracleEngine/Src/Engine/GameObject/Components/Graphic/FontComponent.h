@@ -32,6 +32,9 @@ public:
 	{
 		rapidjson::Value value;
 
+		value.SetBool(true);
+		prototypeDoc.AddMember("FontComponent", rapidjson::Value(true));
+
 		value.SetString(rapidjson::StringRef(_fontString.c_str()));
 		prototypeDoc.AddMember("FontString", value);
 

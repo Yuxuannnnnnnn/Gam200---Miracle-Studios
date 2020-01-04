@@ -118,7 +118,7 @@ void InspectionImguiWindow::Update()
 					if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
 					{
 						std::cout << ofn.lpstrFile;
-						MyPrototypeFactory.AddPrototype(_inspectObj, ofn.lpstrFile);	//Save Prototype into .json file but will overwrite existing file with same name
+						MyPrototypeFactory.AddNewPrototypeAsset(_inspectObj, ofn.lpstrFile);	//Save Prototype into .json file but will overwrite existing file with same name
 					}
 				}
 				ImGui::SameLine();

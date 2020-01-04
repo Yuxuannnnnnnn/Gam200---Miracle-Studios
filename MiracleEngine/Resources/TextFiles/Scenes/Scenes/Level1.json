@@ -90,10 +90,12 @@
 
 	"ClonableObjects": [
 		{
-			"Object": "player"
+			"IdentityComponent": true,
+			"ObjectType": "player"
 		},
 		{
-			"Object": "Camera"
+			"IdentityComponent": true,
+			"ObjectType": "Camera"
 		}
 	],
 

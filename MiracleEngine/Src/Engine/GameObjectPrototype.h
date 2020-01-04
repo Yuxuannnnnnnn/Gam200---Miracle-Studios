@@ -55,7 +55,15 @@ public:
 
 //LevelEditor mode functions
 	void SerialiseAllPrefabAssets(NamePath& list);
-	void AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath);
+	void AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath)
+	{
+		NewPrototype->DeSerialise(filePath);	//Deserialise prototype into a .json File
+
+		//Add Prototype Resource to editor Prototype List 
+		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(NewPrototype->GetComponent(ComponentId::IDENTITY_COMPONENT));
+		_listObjectPrototype.insert(std::pair <std::string, GameObject*>(IdCom->ObjectType(), NewPrototype));
+		_prototypeFileList.insert(std::pair<std::string, std::string>(IdCom->ObjectType(), filePath));
+	}
 
 
 	void RegisterComponent(std::string componentName);

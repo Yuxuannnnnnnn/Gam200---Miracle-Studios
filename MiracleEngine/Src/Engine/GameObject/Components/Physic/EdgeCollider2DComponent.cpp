@@ -23,6 +23,11 @@ void EdgeCollider2D::SerialiseComponent(Serialiser& document)
 
 void EdgeCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
+	rapidjson::Value value;
+
+	value.SetBool(true);
+	prototypeDoc.AddMember("EdgeCollider2D", rapidjson::Value(true));
+
 	Collider2D::DeSerialiseComponent(prototypeDoc);
 }
 

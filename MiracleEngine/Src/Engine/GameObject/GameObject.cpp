@@ -68,14 +68,8 @@ void GameObject::Serialise(Serialiser& document)
 	{
 		if (document.HasMember(ToString((ComponentId)i)))
 		{
-			if(_ComponentList.find((ComponentId)i) == _ComponentList.end())
-			{
-				component = AddComponent((ComponentId)i);
-			}
-			else
-			{
-				component = _ComponentList[(ComponentId)i];
-			}
+			//AddComponent already has a checkComponent(), will return existing component if have
+			component = AddComponent((ComponentId)i);
 			component->SerialiseComponent(document);
 		}
 	}
@@ -91,8 +85,6 @@ void GameObject::DeSerialise(std::string filePath)
 	for (auto& ComponentPair : _ComponentList)
 	{
 		rapidjson::Value value;
-		value.SetBool(true);
-		prototypeDoc.AddMember(ToString((ComponentId)ComponentPair.first), value);
 		//value.Clear();
 
 		IComponent* component = ComponentPair.second;

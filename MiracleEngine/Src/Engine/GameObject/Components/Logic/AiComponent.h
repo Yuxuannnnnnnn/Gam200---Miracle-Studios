@@ -33,6 +33,9 @@ public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
+
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
+
 	
 // InUpEx
 	//AiComponent(GameObject* target, GameObject* parent, size_t uId, IComponent* component = nullptr);
