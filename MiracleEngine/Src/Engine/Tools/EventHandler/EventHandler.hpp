@@ -11,52 +11,52 @@ void EventHandler::SendLogicEventMessage(size_t uId, EventMessageType type, T me
 	if (!gameObject)
 		return;
 
-	Map_ScriptList list = EngineSystems::GetInstance()._gameObjectFactory->getObjectScript(gameObject);
+	//Map_ScriptList list = EngineSystems::GetInstance()._gameObjectFactory->getObjectScript(gameObject);
 
-	for (auto it : list)
-	{
-		switch (type)
-		{
-		case EventMessageType::ON_COLLISION_TRIGGER:
-			it.second->OnCollision2DTrigger(message);
-			break;
-		case EventMessageType::ON_COLLISION_STAY:
-			it.second->OnCollision2DStay(message);
-			break;
-		case EventMessageType::ON_COLLISION_EXIT:
-			it.second->OnCollision2DExit(message);
-			break;
-		case EventMessageType::ON_TRIGGER_ENTER:
-			it.second->OnTrigger2DEnter(message);
-			break;
-		case EventMessageType::ON_TRIGGER_STAY:
-			it.second->OnTrigger2DStay(message);
-			break;
-		case EventMessageType::ON_TRIGGER_EXIT:
-			it.second->OnTrigger2DExit(message);
-			break;
-		case EventMessageType::ON_MOUSE_CLICK_DOWN:
-			it.second->OnMouseDown();
-			break;
-		case EventMessageType::ON_MOUSE_CLICK_DRAG:
-			it.second->OnMouseDrag();
-			break;
-		case EventMessageType::ON_MOUSE_CLICK_UP:
-			it.second->OnMouseUp();
-			break;
-		case EventMessageType::ON_MOUSE_HOVER_ENTER:
-			it.second->OnMouseEnter();
-			break;
-		case EventMessageType::ON_MOUSE_HOVER_OVER:
-			it.second->OnMouseOver();
-			break;
-		case EventMessageType::ON_MOUSE_HOVER_EXIT:
-			it.second->OnMouseExit();
-			break;
-		default:
-			break;
-		}
-	}
+	//for (auto it : list)
+	//{
+	//	switch (type)
+	//	{
+	//	case EventMessageType::ON_COLLISION_TRIGGER:
+	//		it.second->OnCollision2DTrigger(message);
+	//		break;
+	//	case EventMessageType::ON_COLLISION_STAY:
+	//		it.second->OnCollision2DStay(message);
+	//		break;
+	//	case EventMessageType::ON_COLLISION_EXIT:
+	//		it.second->OnCollision2DExit(message);
+	//		break;
+	//	case EventMessageType::ON_TRIGGER_ENTER:
+	//		it.second->OnTrigger2DEnter(message);
+	//		break;
+	//	case EventMessageType::ON_TRIGGER_STAY:
+	//		it.second->OnTrigger2DStay(message);
+	//		break;
+	//	case EventMessageType::ON_TRIGGER_EXIT:
+	//		it.second->OnTrigger2DExit(message);
+	//		break;
+	//	case EventMessageType::ON_MOUSE_CLICK_DOWN:
+	//		it.second->OnMouseDown();
+	//		break;
+	//	case EventMessageType::ON_MOUSE_CLICK_DRAG:
+	//		it.second->OnMouseDrag();
+	//		break;
+	//	case EventMessageType::ON_MOUSE_CLICK_UP:
+	//		it.second->OnMouseUp();
+	//		break;
+	//	case EventMessageType::ON_MOUSE_HOVER_ENTER:
+	//		it.second->OnMouseEnter();
+	//		break;
+	//	case EventMessageType::ON_MOUSE_HOVER_OVER:
+	//		it.second->OnMouseOver();
+	//		break;
+	//	case EventMessageType::ON_MOUSE_HOVER_EXIT:
+	//		it.second->OnMouseExit();
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
 	(void)message;
 }
 

@@ -38,9 +38,6 @@ IComponent* GameObject::GetComponent(ComponentId typeId, ScriptId script) // Get
 {
 	if (CheckComponent(typeId))
 	{
-		if (typeId == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY)
-			return reinterpret_cast<LogicComponent*>(_ComponentList[typeId])->GetScript(script);
-
 		return _ComponentList[typeId];
 	}
 
@@ -115,12 +112,6 @@ bool  GameObject::CheckComponent(ComponentId componentType, ScriptId script)
 
 	if (it == _ComponentList.end() || !it->second)
 		return false;
-
-	if (componentType == ComponentId::LOGIC_COMPONENT && script != ScriptId::EMPTY &&
-		!reinterpret_cast<LogicComponent*>(it->second)->CheckScript(script))
-	{
-		return false;
-	}
 
 	return true;
 }

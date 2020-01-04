@@ -1,20 +1,23 @@
 #include "PrecompiledHeaders.h"
 #include "LogicComponent.h"
 
-LogicComponent::LogicComponent() : _componentEnable{ true }
+
+
+LogicComponent::LogicComponent()
 {};
 
 LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponent* component)
-	: IComponent(parent, uId), _componentEnable{ true }
+	: IComponent(parent, uId)
 {
 	if (component)
 	{
 		LogicComponent* logicComponent = dynamic_cast<LogicComponent*>(component);
-
-		for (auto& script : logicComponent->_scriptList)
+		if (!_ScriptIds.empty())
 		{
-			IScript* Script = new IScript(*(script.second));
-			_scriptList.insert(std::pair<unsigned, IScript*>(script.first, Script));
+			for (auto itr : logicComponent->_ScriptIds)
+				AddScript(itr);
+			// copy data to this dataComps
+				// for now just use default vals by DataComp()ctor
 		}
 	}
 }
@@ -32,10 +35,9 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 		{
 			if (document["ScriptId"][i].IsString())
 			{
-				std::string str = document["ScriptId"][i].GetString();
-				ScriptId temp = IScript::ScriptStringToInt(str);
-				IScript* newScript = AddScript((ScriptId)temp);
-				newScript->SerialiseComponent(document);
+				std::string str = (document["ScriptId"][i].GetString());
+				_ScriptIds.push_back(str);
+				AddScript(str);
 			}
 		}
 }
@@ -45,9 +47,9 @@ void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	rapidjson::Value value;
 
 	value.SetArray();
-	for (auto& scriptPair : _scriptList)
+	for (auto& scriptPair : _ScriptIds)
 	{
-		value.PushBack(rapidjson::Value(scriptPair.first).Move(), prototypeDoc.Allocator());
+		//value.PushBack(rapidjson::Value(scriptPair.first).Move(), prototypeDoc.Allocator());
 	}
 
 	prototypeDoc.AddMember("ScriptId", value);
@@ -57,61 +59,178 @@ void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void LogicComponent::Inspect()
 {
-	IComponent::Inspect();
-	for (auto& scriptPair : _scriptList)
+	std::cout << "LogicComponent::Inspect() \n";
+	std::cout << "\t Scripts :: ";
+	for (auto itr : _ScriptIds)
+		std::cout << itr << ", ";
+	std::cout << "\n";
+
+	std::cout << "\t DataComponents :: ";
+	for (auto itr : _DataList)
 	{
-		scriptPair.second->Inspect();
+		std::cout << itr.first;
+		itr.second->Inspect();
 	}
+
+	//IComponent::Inspect();
+	//for (auto& scriptPair : _ScriptIds)
+	//{
+	//	//scriptPair.second->Inspect();
+	//}
 }
 
+void LogicComponent::Init()
+{
 
+}
 void LogicComponent::Update(double dt)
 {
-	for (auto it : _scriptList)
+	if (!_ScriptIds.empty())
 	{
-		if (!it.second->_componentEnable)
-			continue;
-
-		it.second->Update(dt);
+		// call ScriptSys to run through script
+		for (auto itr : _ScriptIds)
+			_engineSystems._scriptSystem->RunScript(GetParentPtr(), itr);
 	}
+	return;
+}
+void LogicComponent::Exit()
+{
+
 }
 
-Map_ScriptList& LogicComponent::GetScriptMap()
+std::vector<std::string>& LogicComponent::GetScriptIds()
 {
-	return _scriptList;
+	return _ScriptIds;
+}
+std::unordered_map<std::string, DataComponent*>& LogicComponent::GetDataList()
+{
+	return _DataList;
 }
 
-bool LogicComponent::CheckScript(ScriptId scriptType)
+void LogicComponent::Resolver_AddDataComp(std::string& scriptName)
 {
-	Map_ScriptList::iterator it = _scriptList.find((unsigned)scriptType);
-
-	if (it == _scriptList.end() || !it->second)
-		return false;
-
-	return true;
-}
-
-IScript* LogicComponent::AddScript(ScriptId scriptType)
-{
-	if (CheckScript(scriptType))
-		return GetScript(scriptType);
-
-	IScript* newScript = EngineSystems::GetInstance()._logicSystem->AddScript(this, scriptType);
-	_scriptList.insert(std::pair<unsigned, IScript*>((unsigned)scriptType, newScript));
-
-	return newScript;
-}
-
-void LogicComponent::RemoveScript(ScriptId scriptType)
-{
-	if (!CheckScript(scriptType))
+	std::vector<std::string> tempStrVec;
+// list of all what each script needs as data component, before DataComponent.Register, will need this table or sth
+	if (scriptName.empty())
+	{
+		std::cout << "WARNING: " << scriptName << " is empty. \n";
 		return;
-
-	EngineSystems::GetInstance()._logicSystem->RemoveScript(this, scriptType);
-	_scriptList.erase((unsigned)scriptType);
+	}
+	if (scriptName == "unknown")
+	{
+		std::cout << "Script: " << scriptName << ", does not have any data component. \n";
+		return;
+	}
+	std::cout << "Script: " << scriptName << ", adding data components... \n";
+	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
+	for (auto itr : tempStrVec)
+		AddDataComp(std::string(itr));
 }
-
-IScript* LogicComponent::GetScript(ScriptId scriptType)
+DataComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataName)
 {
-	return _scriptList[(unsigned)scriptType];
+	if (dataName == "health")
+	{
+		return new DataHealth();
+	}
+	if (dataName == "health2")
+	{
+		return new DataHealth();
+	}
+	if (dataName == "ammo")
+	{
+		return new DataAmmo();
+	}
+	std::cout << "WARNING: LogicComponent::Resolver_StringToDataComponent(dataName) had no proper 'dataName' \n";
+	return new DataComponent();
 }
+
+void LogicComponent::AddScript(std::string& scriptName)
+{
+	std::cout << "LogicComponent::AddScript(" << scriptName << ") \n";
+	for (auto itr : _ScriptIds)
+		if (itr == scriptName)
+		{
+			std::cout << "WARNING: Script already exists. \n";
+			break; 
+		}
+	std::cout << "Adding script. \n";
+	Resolver_AddDataComp(scriptName);
+}
+void LogicComponent::AddDataComp(std::string& dataName)
+{
+	for (auto itr : _DataList)
+// change to seach in ParentGO.ComponentList
+		if (itr.first == dataName)
+		{
+			std::cout << "WARNING: DataComponent already exists. \n";
+			break;
+		}
+// else add component
+// need change to call GOFac to AddComponent(DataComponent);
+	DataComponent* dataComp = Resolver_StringToDataComponent(dataName);
+	_DataList[dataName] = dataComp;
+}
+void LogicComponent::RemoveScript(std::string& scriptName)
+{
+	// remove scriptName
+	// call RemoveDataComp(std::string& dataName)
+}
+void LogicComponent::RemoveDataComp(std::string& dataName)
+{
+	// check if DataComps linked with scriptName has no more dependency
+	// remove DataComps with no dependency
+}
+void LogicComponent::CloneScriptsAndDatas(LogicComponent* source)
+{
+	for (auto itr : source->_ScriptIds)
+		AddScript(itr);
+}
+//void LogicComponent::CloneDataComp(){}
+void LogicComponent::ClearScripts()
+{
+	if (_ScriptIds.empty())
+		return;
+	else
+		for (auto itr : _ScriptIds)
+			RemoveScript(itr);
+}
+void LogicComponent::ClearDataComps()
+{
+	std::cout << "this should not be accessable \n";
+}
+
+
+//bool LogicComponent::CheckScript(ScriptId scriptType)
+//{
+//	Map_ScriptIds::iterator it = _ScriptIds.find((unsigned)scriptType);
+//
+//	if (it == _ScriptIds.end() || !it->second)
+//		return false;
+//
+//	return true;
+//}
+//
+//IScript* LogicComponent::AddScript(ScriptId scriptType)
+//{
+//	if (CheckScript(scriptType))
+//		return GetScript(scriptType);
+//
+//	IScript* newScript = EngineSystems::GetInstance()._logicSystem->AddScript(this, scriptType);
+//	_ScriptIds.insert(std::pair<unsigned, IScript*>((unsigned)scriptType, newScript));
+//
+//	return new IScript();
+//}
+//
+//void LogicComponent::RemoveScript(ScriptId scriptType)
+//{
+//	if (!CheckScript(scriptType))
+//		return;
+//
+//	EngineSystems::GetInstance()._logicSystem->RemoveScript(this, scriptType);
+//	_ScriptIds.erase((unsigned)scriptType);
+//}
+//
+//IScript* LogicComponent::GetScript(ScriptId scriptType)
+//{
+//	return _ScriptIds[(unsigned)scriptType];
+//}

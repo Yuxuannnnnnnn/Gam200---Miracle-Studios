@@ -28,6 +28,7 @@ public:
 	{
 		IComponent::Inspect();
 	}
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
 
 
 

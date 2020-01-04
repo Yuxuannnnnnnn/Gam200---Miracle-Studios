@@ -2,12 +2,143 @@
 #include "LuaScriptTest.h"
 
 
-
-
 void BindTransform()
 {
-	
+	BindMathVector2();
+	BindMathVector3();
+
+	lua.new_usertype <TransformComponent>("Transform",
+		// Constructor 
+		sol::constructors <
+			TransformComponent(),
+			TransformComponent(const Vector3 &pos, const Vector3 &scale, const float&angle)
+		>(),
+		// Data Members
+		"GetPosition",	&TransformComponent::GetPos,
+		"GetPosition",	&TransformComponent::SetPos,
+		"GetScale",		&TransformComponent::GetScale,
+		"SetScale",		&TransformComponent::SetScale,
+		"GetRotate",	&TransformComponent::GetRotate,
+		"SetRotate",	&TransformComponent::SetRotate
+	);
 }
+void BindMathVector2()
+{
+	std::cout << "Binding Math::Vec2 \n";
+	lua.new_usertype<mathLib::Vector2>("Vector2",
+	// Constructor 
+		sol::constructors<
+		mathLib::Vector2(),
+		mathLib::Vector2(const float, const float),
+		mathLib::Vector2(float, float),
+		mathLib::Vector2(const Vector2&)
+		>(),
+	// Data Members
+		"x", &mathLib::Vector2::_x,
+		"y", &mathLib::Vector2::_y,
+
+	// Member Functions
+		"GetX",		&mathLib::Vector2::GetX,
+		"GetY",		&mathLib::Vector2::GetY,
+		"SetX",		&mathLib::Vector2::SetX,
+		"SetY",		&mathLib::Vector2::SetY,
+		"Get",		&mathLib::Vector2::Set,
+
+		"Sum", &mathLib::Vector2::Sum,
+		"Distance", sol::overload(
+			sol::resolve<float(const Vector2 & pt)const>(&mathLib::Vector2::Distance),
+			sol::resolve<float(float x, float y)const>(&mathLib::Vector2::Distance)
+		),
+		"Length", &mathLib::Vector2::Length,
+		"SquaredLength", &mathLib::Vector2::SquaredLength,
+		"Normalize", &mathLib::Vector2::Normalize,
+		"Normalized", &mathLib::Vector2::Normalized,
+		"Round", &mathLib::Vector2::Round,
+		"Rounded", &mathLib::Vector2::Rounded,
+		"Cross", &mathLib::Vector2::Cross,
+		"Dot", &mathLib::Vector2::Dot,
+		"AbsDot", &mathLib::Vector2::AbsDot,
+		"Abs", &mathLib::Vector2::Abs,
+		"IsFinite", &mathLib::Vector2::IsFinite,
+	// Operator Overloading
+		sol::meta_function::addition, sol::resolve<mathLib::Vector2(const mathLib::Vector2&, const mathLib::Vector2&)>(mathLib::operator+),
+		sol::meta_function::multiplication, sol::overload(
+			sol::resolve<mathLib::Vector2(const Vector2 & lhs, const float& rhs)>(mathLib::operator*),
+			sol::resolve<mathLib::Vector2(const float& lhs, const Vector2 & rhs)>(mathLib::operator*)
+		),
+		sol::meta_function::subtraction, sol::resolve<mathLib::Vector2(const mathLib::Vector2&, const mathLib::Vector2&)>(mathLib::operator-),
+		sol::meta_function::division, sol::overload(
+			sol::resolve<mathLib::Vector2(const Vector2 & lhs, const float& rhs)>(mathLib::operator/),
+			sol::resolve<mathLib::Vector2(const Vector2 & lhs, const Vector2 & rhs)>(mathLib::operator/)
+		),
+		sol::meta_function::equal_to, sol::resolve<bool(const Vector2 & lhs, const Vector2 & rhs)>(mathLib::operator==)
+	);
+}
+void BindMathVector3()
+{
+	sol::base_classes, sol::base<IComponent>();
+	std::cout << "Binding Math::Vec3 \n";
+	lua.new_usertype<mathLib::Vector3>("Vector3",
+	// Constructor 
+		sol::constructors<
+		mathLib::Vector3(),
+		mathLib::Vector3(const float, const float),
+		mathLib::Vector3(float, float, float),
+		mathLib::Vector3(const Vector3&)
+		>(),
+
+	// Data Members
+		"x", &mathLib::Vector3::_x,
+		"y", &mathLib::Vector3::_y,
+		"z", &mathLib::Vector3::_z,
+
+	// Member Functions
+		"GetX", &mathLib::Vector3::GetX,
+		"GetY", &mathLib::Vector3::GetY,
+		"GetZ", & mathLib::Vector3::SetZ,
+		"SetX", &mathLib::Vector3::SetX,
+		"SetY", &mathLib::Vector3::SetY,
+		"SetZ", & mathLib::Vector3::SetZ,
+		"Get", &mathLib::Vector3::Set,
+
+		"Sum", &mathLib::Vector3::Sum,
+		"Distance", sol::overload(
+			sol::resolve<float(const Vector3 & pt)const>(&mathLib::Vector3::Distance),
+			sol::resolve<float(float x, float y, float z)const>(&mathLib::Vector3::Distance)
+		),
+		"Length", &mathLib::Vector3::Length,
+		"SquaredLength", &mathLib::Vector3::SquaredLength,
+		"Normalize", &mathLib::Vector3::Normalize,
+		"Normalized", &mathLib::Vector3::Normalized,
+		"Round", &mathLib::Vector3::Round,
+		"Rounded", &mathLib::Vector3::Rounded,
+		"Cross", &mathLib::Vector3::Cross,
+		"Dot", &mathLib::Vector3::Dot,
+		"AbsDot", &mathLib::Vector3::AbsDot,
+		"Abs", &mathLib::Vector3::Abs,
+		"IsFinite", &mathLib::Vector3::IsFinite,
+	// Operator Overloading
+		sol::meta_function::addition, sol::overload(
+			sol::resolve<mathLib::Vector3(const mathLib::Vector3&)>(mathLib::operator+),
+			sol::resolve<mathLib::Vector3(const Vector3 & lhs, const Vector3 & rhs)>(mathLib::operator+)
+		),
+		sol::meta_function::subtraction, sol::overload(
+			sol::resolve<mathLib::Vector3(const mathLib::Vector3&)>(mathLib::operator-),
+			sol::resolve<mathLib::Vector3(const Vector3 & lhs, const Vector3 & rhs)>(mathLib::operator-)
+		),
+		sol::meta_function::multiplication, sol::overload(
+			sol::resolve<mathLib::Vector3(const Vector3 & lhs, const Vector3 & rhs)>(mathLib::operator*),
+			sol::resolve<mathLib::Vector3(const Vector3 & lhs, const float& rhs)>(mathLib::operator*),
+			sol::resolve<mathLib::Vector3(const Vector3 & lhs, const float& rhs)>(mathLib::operator*)
+		),
+		sol::meta_function::division, sol::overload(
+			sol::resolve<mathLib::Vector3(const Vector3 & lhs, const float& rhs)>(mathLib::operator/),
+			sol::resolve<mathLib::Vector3(const Vector3 & lhs, const Vector3 & rhs)>(mathLib::operator/)
+		),
+		sol::meta_function::equal_to, sol::resolve<bool(const Vector3 & lhs, const Vector3 & rhs)>(mathLib::operator==)
+	);
+}
+
 
 void ErrorCheck()
 {
@@ -34,7 +165,7 @@ int testfunc() {
 			)");
 		// using table to 'filter' functions
 		sol::table table = lua.create_named_table("Console");
-		table["WriteLine"] = [&](const std::string str) {std::cout << str << std::endl; };
+		table["WriteLine"] = [&](const std::string str) {std::cout << "Console.Writeline : " << str << std::endl; };
 		pfr = lua.safe_script(R"(
 				b = "twostrtest"
 				Console.WriteLine("def")
@@ -89,6 +220,9 @@ int testfunc() {
 		{
 			std::remove("a_lua_script.lua");
 		}
+
+		BindTransform();
+
 		std::cout << "success" << std::endl;
 
 		return 0;

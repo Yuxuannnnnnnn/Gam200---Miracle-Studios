@@ -34,16 +34,16 @@ void GameObjectFactory::UpdateDestoryObjects()
 	}
 }
 
-Map_ScriptList GameObjectFactory::getObjectScript(GameObject* object)
-{
-	LogicComponent* component = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::LOGIC_COMPONENT));
-
-	if (component)
-		return component->GetScriptMap();
-
-	Map_ScriptList temp;
-	return temp;
-}
+//Map_ScriptList GameObjectFactory::getObjectScript(GameObject* object)
+//{
+//	LogicComponent* component = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::LOGIC_COMPONENT));
+//
+//	if (component)
+//		return component->GetScriptMap();
+//
+//	Map_ScriptList temp;
+//	return temp;
+//}
 
 
 GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
@@ -86,6 +86,8 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 		return nullptr;
 
 	bool prefab = object->Get_uID() < 1000 ? true : false;
+
+	std::cout << "GameObjectFactory::AddComponent(" << (unsigned)type << ") \n";
 
 	switch (type)
 	{
@@ -263,25 +265,27 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 	}
 	case ComponentId::LOGIC_COMPONENT:
 	{
-		LogicComponent* component;
+		LogicComponent* newComponent = new LogicComponent();
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		MyComponentManger._logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), newComponent));
 
-		if (object->CheckComponent(ComponentId::LOGIC_COMPONENT))
-		{
-			component = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::LOGIC_COMPONENT));
-		}
-		else
-		{
-			component = new LogicComponent();
-			component->SetParentId(object->Get_uID());
-			component->SetParentPtr(object);
-			MyComponentManger._logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), component));
+		//if (object->CheckComponent(ComponentId::LOGIC_COMPONENT))
+		//{
+		//	newComponent = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::LOGIC_COMPONENT));
+		//}
+		//else
+		//{
+		//	newComponent = new LogicComponent();
+		//	newComponent->SetParentId(object->Get_uID());
+		//	newComponent->SetParentPtr(object);
+		//	MyComponentManger._logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), newComponent));
+		//}
 
-		}
+		//if (script != ScriptId::EMPTY)
+		//	component->AddScript(script);
 
-		if (script != ScriptId::EMPTY)
-			component->AddScript(script);
-
-		return component;
+		return newComponent;
 	}
 	case ComponentId::TILEMAP_COMPONENT:
 	{
@@ -303,6 +307,8 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 {
 	if (!component)
 		return nullptr;
+
+	std::cout << "DEBUG: GameObjectFactory::CloneComponent(" << (unsigned)type << ") \n";
 
 	switch (type)
 	{
@@ -454,11 +460,11 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 	return nullptr;
 }
 
-void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, ScriptId script)
+void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId type, ScriptId script)
 {
 	if (!object)
 		return;
-	switch (tpye)
+	switch (type)
 	{
 	case ComponentId::TRANSFORM_COMPONENT:
 	{
@@ -510,19 +516,19 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId tpye, Sc
 	}
 	case ComponentId::LOGIC_COMPONENT:
 	{
-		if (script == ScriptId::EMPTY)
-		{
-			for (auto it : MyComponentManger._logicComponents[object->Get_uID()]->GetScriptMap())
-			{
-				EngineSystems::GetInstance()._logicSystem->RemoveScript(MyComponentManger._logicComponents[object->Get_uID()], (ScriptId)it.first);
-			}
+		//if (script == ScriptId::EMPTY)
+		//{
+		//	for (auto it : MyComponentManger._logicComponents[object->Get_uID()]->GetScriptMap())
+		//	{
+		//		EngineSystems::GetInstance()._logicSystem->RemoveScript(MyComponentManger._logicComponents[object->Get_uID()], (ScriptId)it.first);
+		//	}
 
-			delete MyComponentManger._logicComponents[object->Get_uID()];
-			MyComponentManger._logicComponents.erase(object->Get_uID());
-			break;
-		}
+		//	delete MyComponentManger._logicComponents[object->Get_uID()];
+		//	MyComponentManger._logicComponents.erase(object->Get_uID());
+		//	break;
+		//}
 
-		EngineSystems::GetInstance()._logicSystem->RemoveScript(MyComponentManger._logicComponents[object->Get_uID()], script);
+		//EngineSystems::GetInstance()._logicSystem->RemoveScript(MyComponentManger._logicComponents[object->Get_uID()], script);
 		break;
 	}
 	default:
@@ -536,26 +542,34 @@ GameObject* GameObjectFactory::CloneGameObject(GameObject* object)	//Create a ga
 	GameObject* newObject = CreateNewGameObject();
 	//newObject->Set_typeId((TypeIdGO)object->Get_typeId());
 	//Map_ComponentList& objectMap = newObject->GetComponentList();
-
+	std::cout << "DEBUG: GameObjectFactory::CloneGameObject() START \n";
 	for (auto it : object->GetComponentList())
 	{
 		newObject->GetComponentList().insert(std::pair<ComponentId, IComponent*>(it.first, CloneComponent(newObject, it.second, (ComponentId)it.first)));
 	}
-
+	std::cout << "DEBUG: GameObjectFactory::CloneGameObject() END \n";
 	return newObject;
 }
 
 LogicComponent* GameObjectFactory::CloneLogicComponent(GameObject* object, LogicComponent* component)
 {
+//	AudioComponent* newComponent = new AudioComponent(*reinterpret_cast<AudioComponent*>(component));
+//	newComponent->SetParentId(object->Get_uID());
+//	newComponent->SetParentPtr(object);
+//	MyComponentManger._audioComponent.insert(std::pair< size_t, AudioComponent* >(object->Get_uID(), newComponent));
+//	return newComponent;
+
 	LogicComponent* newComponent = new LogicComponent();
 	newComponent->SetParentId(object->Get_uID());
 	newComponent->SetParentPtr(object);
 	MyComponentManger._logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), newComponent));
 
-	Map_ScriptList& scriptMap = newComponent->GetScriptMap();
+	newComponent->CloneScriptsAndDatas(component);
 
-	for (auto it : component->GetScriptMap())
-		scriptMap.insert(std::pair<unsigned, IScript*>(it.first, EngineSystems::GetInstance()._logicSystem->CloneScript(newComponent, it.second, (ScriptId)it.first))); ;
+	//Map_ScriptList& scriptMap = newComponent->GetScriptMap();
+
+	//for (auto it : component->GetScriptMap())
+	//	scriptMap.insert(std::pair<unsigned, IScript*>(it.first, EngineSystems::GetInstance()._logicSystem->CloneScript(newComponent, it.second, (ScriptId)it.first))); ;
 
 	return newComponent;
 }
@@ -669,31 +683,32 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 #endif
 
 	//Create and Serialise TileMaps
-	if (Level.HasMember("AllTileMaps"))
-	{
-		for (rapidjson::SizeType i = 0; i < Level["AllTileMaps"].Size(); i++)
-		{
-			Serialiser tileMapInfo(Level["AllTileMaps"][i]);
+	//if (Level.HasMember("AllTileMaps"))
+	//{
+	//	for (rapidjson::SizeType i = 0; i < Level["AllTileMaps"].Size(); i++)
+	//	{
+	//		Serialiser tileMapInfo(Level["AllTileMaps"][i]);
 
-			//rapidjson::Document tileMapDoc;
-			//tileMapDoc.SetObject();
-			//tileMapDoc.CopyFrom(Level["AllTileMaps"][i], tileMapDoc.GetAllocator());
+	//		//rapidjson::Document tileMapDoc;
+	//		//tileMapDoc.SetObject();
+	//		//tileMapDoc.CopyFrom(Level["AllTileMaps"][i], tileMapDoc.GetAllocator());
 
-			//rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document	
-			//rapidjson::Writer<rapidjson::StringBuffer> writer(buf);	//Writer handler - that contains the stringbuffer
-			//tileMapDoc.Accept(writer);									//Output as json text into stringbuffer via Writer
-			//std::string json(buf.GetString(), buf.GetSize());		//convert stringbuffer to std::string
-			//std::ofstream file("./Resources/TextFiles/States/test.json"); //open a file with the param name
-			//file << json;							//Write std::string type into the file
+	//		//rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document	
+	//		//rapidjson::Writer<rapidjson::StringBuffer> writer(buf);	//Writer handler - that contains the stringbuffer
+	//		//tileMapDoc.Accept(writer);									//Output as json text into stringbuffer via Writer
+	//		//std::string json(buf.GetString(), buf.GetSize());		//convert stringbuffer to std::string
+	//		//std::ofstream file("./Resources/TextFiles/States/test.json"); //open a file with the param name
+	//		//file << json;							//Write std::string type into the file
 
-			GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
-			//TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
-			//tmCom->SerialiseComponent(tileMapInfo);
-			//TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-			//tfCom->SerialiseComponent(tileMapInfo);
-			tileMap->Serialise(tileMapInfo);
-		}
-	}
+	//		GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
+	//		
+	//		//TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
+	//		//tmCom->SerialiseComponent(tileMapInfo);
+	//		//TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//		//tfCom->SerialiseComponent(tileMapInfo);
+	//		tileMap->Serialise(tileMapInfo);
+	//	}
+	//}
 
 	//Create dynamic clonables
 	if (Level.HasMember("ClonableObjects"))
@@ -703,6 +718,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 			Serialiser datafile(Level["ClonableObjects"][i]);
 
 			std::string name = datafile["Object"].GetString();
+			name += ".json";
 			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[name];
 			GameObject* tmp = CloneGameObject(tmp2);
 
@@ -998,7 +1014,7 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 			for (auto& IdComPair : comList)
 			{
 				IComponent* protoCom = proObj->GetComponent(IdComPair.first);
-				IdComPair.second->DeserialiseComponentSceneFile(protoCom, obj);
+				//IdComPair.second->DeserialiseComponentSceneFile(protoCom, obj);
 			}
 
 			clonableObjects.PushBack(obj.GetDocument(), SceneFile.Allocator());
@@ -1066,7 +1082,7 @@ void GameObjectFactory::DeleteLevel()
 		delete it.second;
 	MyComponentManger._logicComponents.clear();
 
-	EngineSystems::GetInstance()._logicSystem->DeleteLevelScripts();
+	//EngineSystems::GetInstance()._logicSystem->DeleteLevelScripts();
 
 	for (auto it : MyComponentManger._imGuizmoComponent)
 		delete it.second;

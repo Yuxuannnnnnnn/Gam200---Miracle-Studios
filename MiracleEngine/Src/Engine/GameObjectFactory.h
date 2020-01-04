@@ -34,15 +34,15 @@ public:
 
 	void UpdateDestoryObjects();
 
-	Map_ScriptList getObjectScript(GameObject* object);
+	//Map_ScriptList getObjectScript(GameObject* object);
 
 	GameObject* CreateNewGameObject(bool prefab = false);
 	GameObject* CloneGameObject(GameObject* object);
 	void DestoryGameObject(GameObject* object);
 
-	IComponent* AddComponent(GameObject* object, ComponentId tpye, ScriptId script = ScriptId::EMPTY);
-	IComponent* CloneComponent(GameObject* object, IComponent* component, ComponentId tpye);
-	void RemoveComponent(GameObject* object, ComponentId tpye, ScriptId script = ScriptId::EMPTY);
+	IComponent* AddComponent(GameObject* object, ComponentId type, ScriptId script = ScriptId::EMPTY);
+	IComponent* CloneComponent(GameObject* object, IComponent* component, ComponentId type);
+	void RemoveComponent(GameObject* object, ComponentId type, ScriptId script = ScriptId::EMPTY);
 
 	LogicComponent* CloneLogicComponent(GameObject* object, LogicComponent* component);
 

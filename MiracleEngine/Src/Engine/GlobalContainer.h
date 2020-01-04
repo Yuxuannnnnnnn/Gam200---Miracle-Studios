@@ -16,6 +16,7 @@
 #include "SystemGraphics/DebugRenderer.h"
 #include "SystemLogic/LogicSystem.h"
 #include "SystemLogic/AiSystem.h"
+#include "SystemLogic/ScriptSystem/ScriptSystem.h"
 #include "SystemInput/InputSystem.h"
 #include "SystemWindows/WindowsSystem.h"
 #include "Tools/Time/FrameRateController.h"
@@ -50,6 +51,7 @@ public:
 
 		_inputSystem{ nullptr },
 		_logicSystem{ nullptr },
+		_scriptSystem{ nullptr },
 		_aiSystem{ nullptr },
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
@@ -81,6 +83,7 @@ public:
 
 		_inputSystem = new InputSystem();
 		_logicSystem =  new LogicSystem();
+		_scriptSystem = new ScriptSystem();
 		_aiSystem = new AISystem();
 		_graphicsSystem = new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), _windowSystem->getWindow().GetWindowHeight());
 		_physicsSystem = new PhysicsSystem();
@@ -113,6 +116,7 @@ public:
 
 		delete _inputSystem;
 		delete _logicSystem;
+		delete _scriptSystem;
 		delete _aiSystem;
 		delete _graphicsSystem;
 		delete _audioSystem;
@@ -139,6 +143,7 @@ public:
 
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
+	ScriptSystem* _scriptSystem;
 	AISystem* _aiSystem;
 	GraphicsSystem* _graphicsSystem;
 	PhysicsSystem* _physicsSystem;

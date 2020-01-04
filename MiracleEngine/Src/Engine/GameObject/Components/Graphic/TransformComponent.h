@@ -75,6 +75,7 @@ public:
 
 
 	virtual void Inspect() override;
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
 
 
 // GetPID

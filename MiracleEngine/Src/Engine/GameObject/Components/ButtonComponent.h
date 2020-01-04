@@ -21,6 +21,7 @@ public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void Inspect();
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only

@@ -7,7 +7,7 @@ void Engine::Init()
 {
 	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
 	_engineSystems._inputSystem->Init();
-
+	_engineSystems._scriptSystem->Init();
 //-------------------------------------------------------------
 }
 

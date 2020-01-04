@@ -101,9 +101,10 @@
 #include "SystemInput/InputSystem.h"
 #include "SystemInput/KeyCode.h"
 
-#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
 #include "SystemLogic/AiSystem.h"
 #include "SystemLogic/LogicSystem.h"
+#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
+#include "SystemLogic/ScriptSystem/ScriptSystem.h"
 
 #include "SystemPhysics/ButtonManager.h"
 #include "SystemPhysics/Collision.h"
