@@ -107,7 +107,7 @@ std::unordered_map<std::string, DataComponent*>& LogicComponent::GetDataList()
 	return _DataList;
 }
 
-void LogicComponent::Resolver_AddDataComp(std::string& scriptName)
+void LogicComponent::AddScriptDataCompResolver(std::string& scriptName)
 {
 	std::vector<std::string> tempStrVec;
 // list of all what each script needs as data component, before DataComponent.Register, will need this table or sth
@@ -123,6 +123,11 @@ void LogicComponent::Resolver_AddDataComp(std::string& scriptName)
 	}
 	std::cout << "Script: " << scriptName << ", adding data components... \n";
 	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
+	if (tempStrVec.empty())
+	{
+		std::cout << "WARNING: " << scriptName << " not a script in _TableScriptData. \n";
+		return;
+	}
 	for (auto itr : tempStrVec)
 		AddDataComp(std::string(itr));
 }
@@ -154,7 +159,7 @@ void LogicComponent::AddScript(std::string& scriptName)
 			break; 
 		}
 	std::cout << "Adding script. \n";
-	Resolver_AddDataComp(scriptName);
+	AddScriptDataCompResolver(scriptName);
 }
 void LogicComponent::AddDataComp(std::string& dataName)
 {
@@ -170,10 +175,43 @@ void LogicComponent::AddDataComp(std::string& dataName)
 	DataComponent* dataComp = Resolver_StringToDataComponent(dataName);
 	_DataList[dataName] = dataComp;
 }
+void LogicComponent::RemoveScriptDataCompResolver(std::string& scriptName)
+{
+	std::vector<std::string> tempStrVec;
+	// list of all what each script needs as data component, before DataComponent.Register, will need this table or sth
+	if (scriptName.empty())
+	{
+		std::cout << "WARNING: " << scriptName << " is empty. \n";
+		return;
+	}
+	if (scriptName == "unknown")
+	{
+		std::cout << "Script: " << scriptName << ", does not have any data component. \n";
+		return;
+	}
+	std::cout << "Script: " << scriptName << ", adding data components... \n";
+	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
+	if (tempStrVec.empty())
+	{
+		std::cout << "WARNING: " << scriptName << " not a script in _TableScriptData. \n";
+		return;
+	}
+	for (auto itr : tempStrVec)
+		RemoveDataComp(std::string(itr));
+}
 void LogicComponent::RemoveScript(std::string& scriptName)
 {
 	// remove scriptName
+	std::vector<std::string>::iterator iterator = _ScriptIds.begin();
+	for (auto itr : _ScriptIds)
+	{
+		++iterator;
+		if (itr == scriptName)
+			break;
+	}
+	_ScriptIds.erase(iterator);
 	// call RemoveDataComp(std::string& dataName)
+
 }
 void LogicComponent::RemoveDataComp(std::string& dataName)
 {

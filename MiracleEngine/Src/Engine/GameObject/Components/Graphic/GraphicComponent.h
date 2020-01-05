@@ -127,8 +127,8 @@ public:
 	//Constructor
 	GraphicComponent();
 	virtual ~GraphicComponent();
-	GraphicComponent(const GraphicComponent& rhs);
-	GraphicComponent& operator=(const GraphicComponent& rhs);
+	GraphicComponent(const GraphicComponent& rhs) = default;
+	GraphicComponent& operator=(const GraphicComponent& rhs) = default;
 
 
 	void RenderLayerResolver();

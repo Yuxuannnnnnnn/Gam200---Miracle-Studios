@@ -69,7 +69,6 @@
     <ClCompile Include="Src\Engine\SystemGraphics\VertexArray.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\VertexBuffer.cpp" />
     <ClCompile Include="Src\Engine\SystemInput\InputSystem.cpp" />
-    <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\AiSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\LogicSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\ButtonManager.cpp" />
@@ -492,7 +491,6 @@
     <ClInclude Include="Src\Engine\SystemInput\InputSystem.h" />
     <ClInclude Include="Src\Engine\SystemInput\KeyCode.h" />
     <ClInclude Include="Src\Engine\SystemInput\keydef.h" />
-    <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.h" />
     <ClInclude Include="Src\Engine\SystemLogic\AiSystem.h" />
     <ClInclude Include="Src\Engine\SystemLogic\LogicSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\ButtonManager.h" />

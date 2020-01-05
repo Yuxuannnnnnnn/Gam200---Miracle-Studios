@@ -22,7 +22,12 @@ public:
 
 	void RunScript(GameObject* src, std::string& scriptName);
 
+	void BindTransform();
+	void BindMathVector2();
+	void BindMathVector3();
 
+	void ErrorCheck();
+	int testfunc();
 
 
 
@@ -51,7 +56,7 @@ public:
 	friend class Editor;
 	friend class Factory;
 
-	static sol::state lua;	// The Lua State
+	//static sol::state lua;	// The Lua State
 	sol::table math_table;
 	sol::table console_table;
 private:

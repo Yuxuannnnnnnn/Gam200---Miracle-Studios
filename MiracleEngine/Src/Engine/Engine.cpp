@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
 
 // BRANDON::testing sol & lua
-#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
+#include "SystemLogic/ScriptSystem/ScriptSystem.h"
 
 void Engine::Init()
 {
@@ -17,7 +17,7 @@ void Engine::Update()
 	bool test = true; // BRANDON::testing sol & lua
 	if (test)
 	{
-		testfunc();
+		_engineSystems._scriptSystem->testfunc();
 	}
 
 	MySceneManager.ChangeScene("Level1");

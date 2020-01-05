@@ -34,12 +34,15 @@ public:
 	std::vector<std::string>& GetScriptIds();
 	std::unordered_map<std::string, DataComponent*>& GetDataList();
 
-	void Resolver_AddDataComp(std::string& scriptName); // need add some 'table' like structure to see which SCRIPT needs which DATACOMP
+	void AddScriptDataCompResolver(std::string& scriptName); // need add some 'table' like structure to see which SCRIPT needs which DATACOMP
 	DataComponent* Resolver_StringToDataComponent(std::string& dataName);
 	void AddScript(std::string& scriptName);
 	void AddDataComp(std::string& dataName);		//should only be used from within AddScript()
+	
+	void RemoveScriptDataCompResolver(std::string& scriptName);
 	void RemoveScript(std::string& scriptName);
 	void RemoveDataComp(std::string& dataName);	//should only be used from within RemoveScript()
+	
 	void CloneScriptsAndDatas(LogicComponent* source);		//AddScript() & copy data info in comps
 	//void CloneDataComp();
 	void ClearScripts();

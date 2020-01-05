@@ -103,7 +103,6 @@
 
 #include "SystemLogic/AiSystem.h"
 #include "SystemLogic/LogicSystem.h"
-#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
 #include "SystemLogic/ScriptSystem/ScriptSystem.h"
 
 #include "SystemPhysics/ButtonManager.h"

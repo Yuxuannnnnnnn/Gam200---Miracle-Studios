@@ -40,17 +40,17 @@ GraphicComponent::~GraphicComponent()
 	//delete[]_fileName;
 }
 
-GraphicComponent::GraphicComponent(const GraphicComponent& rhs)
-{
-
-
-}
-
-GraphicComponent& GraphicComponent::operator= (const GraphicComponent& rhs)
-{
-
-	return *this;
-}
+//GraphicComponent::GraphicComponent(const GraphicComponent& rhs)
+//{
+//
+//
+//}
+//
+//GraphicComponent& GraphicComponent::operator= (const GraphicComponent& rhs)
+//{
+//
+//	return *this;
+//}
 
 void GraphicComponent::RenderLayerResolver()
 {
