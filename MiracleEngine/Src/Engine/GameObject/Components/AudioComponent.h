@@ -11,14 +11,16 @@ enum class TypeIdAudio {
 class AudioComponent : public IComponent
 {
 private:
-	unsigned _typeIdAudio;
+
+	unsigned _typeIdAudio; //fmod id
 
 	std::string _fileName;
 	bool _isBGM;
-	unsigned _fileTrackLength;
-	size_t _lifetimeTotal;
-	size_t _lifetimeCurrent;
-	bool _loop;
+
+	//unsigned _fileTrackLength;
+	//size_t _lifetimeTotal;
+	//size_t _lifetimeCurrent;
+	//bool _loop;
 
 public:
 	AudioComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
@@ -29,8 +31,8 @@ public:
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override 
 	{
-		if (document.HasMember("A.TypeId") && document["A.TypeId"].IsInt())
-			_typeIdAudio = document["A.TypeId"].GetUint();
+		//if (document.HasMember("A.TypeId") && document["A.TypeId"].IsInt())
+		//	_typeIdAudio = document["A.TypeId"].GetUint();
 
 		if (document.HasMember("A.FileName") && document["A.FileName"].IsString())
 			_fileName = std::string(document["A.FileName"].GetString());
@@ -48,8 +50,8 @@ public:
 		prototypeDoc.AddMember("AudioComponent", rapidjson::Value(true));
 
 
-		value.SetInt(_typeIdAudio);
-		prototypeDoc.AddMember("A.TypeId", value);
+		//value.SetInt(_typeIdAudio);
+		//prototypeDoc.AddMember("A.TypeId", value);
 
 		value.SetString(rapidjson::StringRef(_fileName.c_str()));
 		prototypeDoc.AddMember("A.FileName", value);
@@ -58,12 +60,30 @@ public:
 		prototypeDoc.AddMember("IsBGM", value);
 	}
 
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("AudioComponent", rapidjson::Value(true), allocator);
+
+
+		//value.SetInt(_typeIdAudio);
+		//prototypeDoc.AddMember("A.TypeId", value);
+
+		value.SetString(rapidjson::StringRef(_fileName.c_str()));
+		prototypeDoc.AddMember("A.FileName", value, allocator);
+
+		value.SetBool(_isBGM);
+		prototypeDoc.AddMember("IsBGM", value, allocator);
+	}
+
 
 	void Inspect() override;
 	
 
 	//SceneFile Sent in must be Document[ClonableObjects][objectfile or i]
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		AudioComponent* protoAudioCom = dynamic_cast<AudioComponent*>(protoCom);
 
@@ -89,16 +109,16 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			SceneFile.AddMember("AudioComponent", rapidjson::Value(true));
+			value.AddMember("AudioComponent", rapidjson::Value(true), allocator);
 
 			if (!audioFileName.IsNull())	//if rapidjson::value container is not empty
 			{
-				SceneFile.AddMember("A.TypeId", audioFileName);
+				value.AddMember("A.TypeId", audioFileName, allocator);
 			}
 
 			if (!isBGM.IsNull())
 			{
-				SceneFile.AddMember("IsBGM", audioFileName);
+				value.AddMember("IsBGM", audioFileName, allocator);
 			}
 		}
 	}

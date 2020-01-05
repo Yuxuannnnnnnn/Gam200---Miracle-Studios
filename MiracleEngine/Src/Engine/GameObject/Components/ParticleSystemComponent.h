@@ -42,7 +42,46 @@ public:
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
-	virtual void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override;
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+
+		ParticleComponent* protoParticleCom = dynamic_cast<ParticleComponent*>(protoCom);
+
+		bool addComponentIntoSceneFile = false;
+		rapidjson::Value fileName;
+		rapidjson::Value shader;
+
+		if (protoParticleCom->_fileName.compare(_fileName))	//If audiofile of Object is diff from prototype
+		{
+			addComponentIntoSceneFile = true;
+			fileName.SetString(rapidjson::StringRef(_fileName.c_str()));
+		}
+
+
+		if (protoParticleCom->_shader.compare(_shader))	//If audiofile of Object is diff from prototype
+		{
+			addComponentIntoSceneFile = true;
+			shader.SetString(rapidjson::StringRef(_shader.c_str()));
+		}
+
+
+		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+		{
+			value.AddMember("ParticleComponent", rapidjson::Value(true));
+
+			if (!fileName.IsNull())
+			{
+				value.AddMember("ParticleFileName", fileName, allocator);
+			}
+
+			if (!shader.IsNull())
+			{
+				value.AddMember("ParticleShaderName", shader, allocator);
+			}
+		}
+	}
+
+
 	virtual void Inspect() override;
 
 	//Constructor

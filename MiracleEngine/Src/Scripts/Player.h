@@ -35,9 +35,9 @@ private:
 // Logic Data - Progression
 	double _timerProg, _timerProgCooldown;
 public:
-	void SerialiseComponent(Serialiser& document) override;
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
-	void Inspect() override;
+	void SerialiseComponent(Serialiser& document) ;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;
+	void Inspect() ;
 
 	Player();
 

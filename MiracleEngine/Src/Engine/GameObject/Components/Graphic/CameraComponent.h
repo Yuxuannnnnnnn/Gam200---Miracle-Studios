@@ -25,6 +25,12 @@ public:
 		prototypeDoc.AddMember("CameraComponent", rapidjson::Value(true));
 	}
 
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		//value.AddMember("CameraComponent", rapidjson::Value(true), allocator);
+	}
+
+
 	std::string ComponentName() const override;
 
 	virtual void Inspect() override

@@ -53,7 +53,25 @@ public:
 		//prototypeDoc.AddMember("GameObjectType", value);
 	}
 
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("IdentityComponent", rapidjson::Value(true), allocator);
+
+		value.SetString(rapidjson::StringRef(_ObjectType.c_str()));
+		prototypeDoc.AddMember("ObjectType", value, allocator);
+
+		value.SetString(rapidjson::StringRef(_name.c_str()));
+		prototypeDoc.AddMember("Name", value, allocator);
+
+		//value.SetInt(_typeId);
+		//prototypeDoc.AddMember("GameObjectType", value);
+	}
+
+
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) 
 	{
 
 		IdentityComponent* protoIdentityCom = dynamic_cast<IdentityComponent*>(protoCom);
@@ -63,24 +81,22 @@ public:
 		rapidjson::Value ObjectType;
 		ObjectType.SetString(rapidjson::StringRef(_ObjectType.c_str()));
 
-		rapidjson::Value name;
 
+		rapidjson::Value Name("IdentityComponent", allocator);
+		value.AddMember(Name, rapidjson::Value(true), allocator);
+		Name.SetString("ObjectType", allocator);
+		value.AddMember(Name, ObjectType, allocator);
+
+
+
+		rapidjson::Value name;
 		if (protoIdentityCom->_name.compare(_name))	//If audiofile of Object is diff from prototype
 		{
 			addComponentIntoSceneFile = true;
 			name.SetString(rapidjson::StringRef(_name.c_str()));
-		}
 
-
-		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
-		{
-			SceneFile.AddMember("IdentityComponent", rapidjson::Value(true));
-			SceneFile.AddMember("ObjectType", ObjectType);
-
-			if (!name.IsNull())
-			{
-				SceneFile.AddMember("Name", name);
-			}
+			Name.SetString("Name", allocator);
+			value.AddMember(Name, name, allocator);
 		}
 	}
 

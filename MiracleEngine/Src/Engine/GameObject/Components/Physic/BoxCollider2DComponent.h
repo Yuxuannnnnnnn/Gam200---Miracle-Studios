@@ -68,9 +68,18 @@ public:
 		Collider2D::DeSerialiseComponent(prototypeDoc);
 	}
 
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("BoxCollider2D", rapidjson::Value(true), allocator);
+
+		Collider2D::DeSerialiseComponent(prototypeDoc, allocator);
+	}
 
 	void Inspect() override;
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) 
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		Collider2D* protoIColliderCom = dynamic_cast<Collider2D*>(protoCom);
 
@@ -100,21 +109,21 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			SceneFile.AddMember("BoxCollider2D", rapidjson::Value(true));
+			value.AddMember("BoxCollider2D", rapidjson::Value(true), allocator);
 
 			if (!type.IsNull())
 			{
-				SceneFile.AddMember("ColliderTypeId", type);
+				value.AddMember("ColliderTypeId", type, allocator);
 			}
 
 			if (!tag.IsNull())
 			{
-				SceneFile.AddMember("ColliderTag", tag);
+				value.AddMember("ColliderTag", tag, allocator);
 			}
 
 			if (!trigger.IsNull())
 			{
-				SceneFile.AddMember("ColliderTrigger", trigger);
+				value.AddMember("ColliderTrigger", trigger, allocator);
 			}
 		}
 	}

@@ -41,6 +41,9 @@ void AiComponent::SerialiseComponent(Serialiser& document)
 {
 }
 
+void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{}
+
 void AiComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 }

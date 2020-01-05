@@ -69,6 +69,9 @@ public:
 		prototypeDoc.AddMember("ColliderTrigger", value);
 	}
 
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator);
+
+
 	void Inspect() override;
 
 ///////////////////////////////////////////////////////////////////////////////

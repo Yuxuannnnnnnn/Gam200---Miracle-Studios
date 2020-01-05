@@ -599,8 +599,8 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["PrototypesFilePaths"][i].GetString();
-			//size_t namesize = filePath.find_last_of(".png") - 4 - filePath.find_last_of("\\/");
-			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
+			size_t namesize = filePath.find_last_of(".json") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
 		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList1);
@@ -728,7 +728,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 			Serialiser datafile(Level["ClonableObjects"][i]);
 
 			std::string name = datafile["ObjectType"].GetString();
-			name += ".json";
+			//name += ".json";
 			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeObj(name);
 			GameObject* tmp = CloneGameObject(tmp2);
 
@@ -806,7 +806,7 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 		}
 
 		std::string ObjType = IdComPair.second->ObjectType();
-
+		//ObjType += ".json";
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
 		if (MyPrototypeFactory.GetPrototypeObj(ObjType))
 		{
@@ -822,7 +822,9 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 	for (auto& prototypeName : PrototypeResourcePathList)
 	{
-		PrototypesFilePaths.PushBack(rapidjson::StringRef(prototypeName.c_str()), SceneFile.Allocator());
+		rapidjson::Value strVal;
+		strVal.SetString(prototypeName.c_str(), prototypeName.length(), SceneFile.Allocator());
+		PrototypesFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	//After Going thru the GameObjects list, the PrototypesFilePaths list is finalised 
 	SceneFile.AddMember("PrototypesFilePaths", PrototypesFilePaths);
@@ -878,13 +880,17 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 	for (auto& TextureName : TextureResourcePathList)
 	{
-		TextureFilePaths.PushBack(rapidjson::StringRef(TextureName.c_str()), SceneFile.Allocator());
+		rapidjson::Value strVal;
+		strVal.SetString(TextureName.c_str(), TextureName.length(), SceneFile.Allocator());
+		TextureFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("TexturesFilesPaths", TextureFilePaths);
 
 	for (auto& ShaderName : ShaderResourcePathList)
 	{
-		ShaderFilePaths.PushBack(rapidjson::StringRef(ShaderName.c_str()), SceneFile.Allocator());
+		rapidjson::Value strVal;
+		strVal.SetString(ShaderName.c_str(), ShaderName.length(), SceneFile.Allocator());
+		ShaderFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("ShaderFilesPaths", ShaderFilePaths);
 
@@ -922,7 +928,9 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 	for (auto& AnimName : AnimationResourcePathList)
 	{
-		AnimationFilePaths.PushBack(rapidjson::StringRef(AnimName.c_str()), SceneFile.Allocator());
+		rapidjson::Value strVal;
+		strVal.SetString(AnimName.c_str(), AnimName.length(), SceneFile.Allocator());
+		AnimationFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("AnimationDataFilesPaths", AnimationFilePaths);
 
@@ -958,7 +966,9 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 	for (auto& AudioName : AudioResourcePathList)
 	{
-		AudioFilePaths.PushBack(rapidjson::StringRef(AudioName.c_str()), SceneFile.Allocator());
+		rapidjson::Value strVal;
+		strVal.SetString(AudioName.c_str(), AudioName.length(), SceneFile.Allocator());
+		AudioFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("AudioFilesPaths", AudioFilePaths);
 
@@ -993,7 +1003,9 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 	for (auto& FontName : FontResourcePathList)
 	{
-		FontFilePaths.PushBack(rapidjson::StringRef(FontName.c_str()), SceneFile.Allocator());
+		rapidjson::Value strVal;
+		strVal.SetString(FontName.c_str(), FontName.length(), SceneFile.Allocator());
+		FontFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("FontFilesPath", FontFilePaths);
 
@@ -1015,7 +1027,8 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 		std::string ObjType = IdIdcomPair.second->ObjectType();
 
-		DeSerialiser obj;
+		rapidjson::Value obj;
+		obj.SetObject();
 		GameObject* proObj = nullptr;
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
 		if (proObj = MyPrototypeFactory.GetPrototypeObj(ObjType))
@@ -1025,10 +1038,9 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 			for (auto& IdComPair : comList)
 			{
 				IComponent* protoCom = proObj->GetComponent(IdComPair.first);
-				IdComPair.second->DeserialiseComponentSceneFile(protoCom, obj);
+				IdComPair.second->DeserialiseComponentSceneFile(protoCom, obj, SceneFile.GetAllocator());
 			}
-
-			clonableObjects.PushBack(obj.GetDocument(), SceneFile.Allocator());
+			clonableObjects.PushBack(obj, SceneFile.Allocator());
 
 		}
 		else  //Object does not exists in PrototypeAssetList - Save in NonClonableObjects list
@@ -1037,11 +1049,11 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 			for (auto& IdComPair : comList)
 			{
-				IComponent* protoCom = proObj->GetComponent(IdComPair.first);
-				IdComPair.second->DeSerialiseComponent(obj);
+				//IComponent* protoCom = proObj->GetComponent(IdComPair.first);
+				IdComPair.second->DeSerialiseComponent(obj, SceneFile.GetAllocator());
 			}
 
-			nonClonableObjects.PushBack(obj.GetDocument(), SceneFile.Allocator());
+			nonClonableObjects.PushBack(obj, SceneFile.Allocator());
 
 		}
 	}

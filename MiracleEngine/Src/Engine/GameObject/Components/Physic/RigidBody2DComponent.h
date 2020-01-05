@@ -72,7 +72,24 @@ public:
 		prototypeDoc.AddMember("Static", value);
 	}
 
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) 
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("RigidBodyComponent", rapidjson::Value(true), allocator);
+
+		value.SetFloat(_mass);
+		prototypeDoc.AddMember("Mass", value, allocator);
+
+		value.SetFloat(_fictionVal);
+		prototypeDoc.AddMember("Friction", value, allocator);
+
+		value.SetBool(_static);
+		prototypeDoc.AddMember("Static", value, allocator);
+	}
+
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		RigidBody2D* protoIColliderCom = dynamic_cast<RigidBody2D*>(protoCom);
 
@@ -102,21 +119,21 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			SceneFile.AddMember("RigidBodyComponent", rapidjson::Value(true));
+			value.AddMember("RigidBodyComponent", rapidjson::Value(true), allocator);
 
 			if (!mass.IsNull())
 			{
-				SceneFile.AddMember("Mass", mass);
+				value.AddMember("Mass", mass, allocator);
 			}
 
 			if (!fictionVal.IsNull())
 			{
-				SceneFile.AddMember("Friction", fictionVal);
+				value.AddMember("Friction", fictionVal, allocator);
 			}
 
 			if (!stat.IsNull())
 			{
-				SceneFile.AddMember("Static", stat);
+				value.AddMember("Static", stat, allocator);
 			}
 		}
 	}

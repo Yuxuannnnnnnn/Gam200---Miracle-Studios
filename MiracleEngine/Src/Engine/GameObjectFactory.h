@@ -11,7 +11,7 @@ class GameObjectFactory final
 	size_t _uId;		// start from StartID, 0 to StartID are prefabs	//Unique ID for the next newly created object
 	size_t _prefabId;
 
-	std::unordered_map < size_t, GameObject* >			_listObject; //Dynamic array of GameObjects
+	std::unordered_map < size_t, GameObject* >	_listObject; //Dynamic array of GameObjects
 public:
 
 

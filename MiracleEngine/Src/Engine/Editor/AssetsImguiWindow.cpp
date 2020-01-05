@@ -99,8 +99,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << stateFile.path() << std::endl;
 			std::string path = stateFile.path().u8string();
-			//size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\");
-			std::string fileName = path.substr(path.find_last_of("\\") + 1);
+			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
@@ -113,8 +113,8 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << gameObjectFile.path() << std::endl;
 			std::string path = gameObjectFile.path().u8string();
-			//size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\");
-			std::string fileName = path.substr(path.find_last_of("\\") + 1);
+			size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\");
+			std::string fileName = path.substr(path.find_last_of("\\") + 1, namesize);
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
@@ -220,7 +220,8 @@ void AssetsImguiWindow::Update()
 				if (ImGui::Button(string1.c_str()))
 				{
 					GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[ObjPair.first]);
-					dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(Vector3::Vec3Zero);
+					if(TransformComponent * tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT)))
+						tmp->SetPos(Vector3::Vec3Zero);
 				}
 				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
@@ -276,34 +277,23 @@ void AssetsImguiWindow::Update()
 		ImGui::Spacing();
 
 		//ImGui::TreePop();
-		//for (auto& vertexPair : _vertexFiles)
-		//{
-		//	static bool selected;
-		//	std::string string = " - " + vertexPair.first;
-		//
-		//	if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
-		//	{
-		//		if (ImGui::IsMouseReleased(0))
-		//		{
-		//		}
-		//	}
-		//	ImGui::Spacing();
-		//
-		//}
-		//
-		//for (auto& fragmentPair : _fragmentFiles)
-		//{
-		//	static bool selected;
-		//	std::string string = " - " + fragmentPair.first;
-		//
-		//	if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
-		//	{
-		//		if (ImGui::IsMouseReleased(0))
-		//		{
-		//		}
-		//	}
-		//	ImGui::Spacing();
-		//}
+
+		auto& ShaderList = MyResourceManager.GetShaderList();
+		for (auto& Shader : ShaderList)
+		{
+			static bool selected;
+			std::string string = " - " + Shader.first;
+		
+			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+				}
+			}
+			ImGui::Spacing();
+		
+		}
+	
 
 	}
 

@@ -6,11 +6,11 @@
 
 AudioComponent::AudioComponent() :
 	_typeIdAudio{ (unsigned)TypeIdAudio::NONE },
-	_fileName{ std::string() },
-	_fileTrackLength{ 0 },
-	_lifetimeCurrent{ 0 },
-	_loop{ false },
-	_lifetimeTotal{ 0 }
+	_fileName{ std::string() }
+	//_fileTrackLength{ 0 },
+	//_lifetimeCurrent{ 0 },
+	//_loop{ false },
+	//_lifetimeTotal{ 0 }
 {
 }
 
@@ -19,20 +19,20 @@ AudioComponent::AudioComponent() :
 AudioComponent::AudioComponent(GameObject* parent, size_t uId, IComponent* component)
 	: IComponent(parent, uId),
 	_typeIdAudio{ (unsigned)TypeIdAudio::NONE },
-	_fileName{ std::string() },
-	_fileTrackLength{ 0 },
-	_lifetimeCurrent{ 0 },
-	_loop{ false },
-	_lifetimeTotal{ 0 }
+	_fileName{ std::string() }
+	//_fileTrackLength{ 0 },
+	//_lifetimeCurrent{ 0 },
+	//_loop{ false },
+	//_lifetimeTotal{ 0 }
 {
 	if (component)//Cloning Component
 	{
 		AudioComponent* audioComponent = dynamic_cast<AudioComponent*>(component);
 		_typeIdAudio = audioComponent->_typeIdAudio;
 		_fileName = audioComponent->_fileName;
-		_fileTrackLength = audioComponent->_fileTrackLength;
-		_lifetimeCurrent = audioComponent->_lifetimeCurrent;
-		_loop = audioComponent->_loop;
+		//_fileTrackLength = audioComponent->_fileTrackLength;
+		//_lifetimeCurrent = audioComponent->_lifetimeCurrent;
+		//_loop = audioComponent->_loop;
 	}
 }
 

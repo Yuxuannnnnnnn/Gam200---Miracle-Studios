@@ -27,7 +27,7 @@ public:
 	void SerialiseComponent(Serialiser& document);
 
 
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) 
 	{
 		rapidjson::Value value;
 
@@ -36,7 +36,7 @@ public:
 		value.Clear();
 	}
 
-	void Inspect() override
+	void Inspect() 
 	{
 
 	}

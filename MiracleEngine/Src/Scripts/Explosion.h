@@ -12,12 +12,12 @@ public:
 	Explosion();
 	void SerialiseComponent(Serialiser& document);
 
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) 
 	{
 
 	}
 
-	void Inspect() override
+	void Inspect() 
 	{
 
 	}

@@ -39,7 +39,19 @@ public:
 		prototypeDoc.AddMember("ButtonType", value);
 	}
 
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile)
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("ButtonComponent", rapidjson::Value(true), allocator);
+
+
+		value.SetInt(_buttonType);
+		prototypeDoc.AddMember("ButtonType", value, allocator);
+	}
+
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 
 		ButtonComponent* protoButtonCom = dynamic_cast<ButtonComponent*>(protoCom);
@@ -56,11 +68,11 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			SceneFile.AddMember("ButtonComponent", rapidjson::Value(true));
+			value.AddMember("ButtonComponent", rapidjson::Value(true), allocator);
 
 			if (!buttonType.IsNull())
 			{
-				SceneFile.AddMember("ButtonType", buttonType);
+				value.AddMember("ButtonType", buttonType, allocator);
 			}
 		}
 	}

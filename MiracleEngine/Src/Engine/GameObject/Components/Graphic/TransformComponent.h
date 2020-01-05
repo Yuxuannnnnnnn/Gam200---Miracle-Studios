@@ -70,9 +70,29 @@ public:
 		prototypeDoc.AddMember("Rotate", value);
 	}
 
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("TransformComponent", rapidjson::Value(true), allocator);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_pos.GetX()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_pos.GetY()).Move(), allocator);
+		prototypeDoc.AddMember("Position", value, allocator);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), allocator);
+		prototypeDoc.AddMember("Scale", value, allocator);
+
+		value.SetFloat(_rotationAngle);
+		prototypeDoc.AddMember("Rotate", value, allocator);
+	}
 
 	virtual void Inspect() override;
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) 
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		TransformComponent* protoTransformCom = dynamic_cast<TransformComponent*>(protoCom);
 
@@ -86,17 +106,17 @@ public:
 		if (protoTransformCom->_pos != _pos)
 		{
 			addComponentIntoSceneFile = true;
-			position.PushBack(rapidjson::Value(_pos._x), SceneFile.Allocator());
-			position.PushBack(rapidjson::Value(_pos._y), SceneFile.Allocator());
-			position.PushBack(rapidjson::Value(_pos._z), SceneFile.Allocator());
+			position.PushBack(rapidjson::Value(_pos._x), allocator);
+			position.PushBack(rapidjson::Value(_pos._y), allocator);
+			position.PushBack(rapidjson::Value(_pos._z), allocator);
 		}
 
 		if (protoTransformCom->_scale != _scale)
 		{
 			addComponentIntoSceneFile = true;
-			scale.PushBack(rapidjson::Value(_pos._x), SceneFile.Allocator());
-			scale.PushBack(rapidjson::Value(_pos._y), SceneFile.Allocator());
-			scale.PushBack(rapidjson::Value(_pos._z), SceneFile.Allocator());
+			scale.PushBack(rapidjson::Value(_pos._x), allocator);
+			scale.PushBack(rapidjson::Value(_pos._y), allocator);
+			scale.PushBack(rapidjson::Value(_pos._z), allocator);
 		}		
 		
 		if (protoTransformCom->_rotationAngle != _rotationAngle)
@@ -108,21 +128,21 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			SceneFile.AddMember("TransformComponent", rapidjson::Value(true));
+			value.AddMember("TransformComponent", rapidjson::Value(true), allocator);
 
 			if (!position.IsNull())	//if rapidjson::value container is not empty
 			{
-				SceneFile.AddMember("Position", position);
+				value.AddMember("Position", position, allocator);
 			}
 
 			if (!scale.IsNull())
 			{
-				SceneFile.AddMember("Scale", scale);
+				value.AddMember("Scale", scale, allocator);
 			}
 
 			if (!rotate.IsNull())
 			{
-				SceneFile.AddMember("Rotate", rotate);
+				value.AddMember("Rotate", rotate, allocator);
 			}
 		}
 	}

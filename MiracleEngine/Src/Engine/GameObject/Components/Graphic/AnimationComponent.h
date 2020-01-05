@@ -69,7 +69,28 @@ public:
 	}
 
 
-	virtual void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override
+
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator) 
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("AnimationComponent", rapidjson::Value(true), allocator);
+
+		value.SetArray();
+		{
+			for (auto& anim : _animations)
+			{
+				value.PushBack(rapidjson::StringRef(anim.c_str()), allocator);
+			}
+			prototypeDoc.AddMember("AnimationTypes", value, allocator);
+		}
+
+		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+		prototypeDoc.AddMember("StartAnim", value, allocator);
+	}
+
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		AnimationComponent* protoAnimCom = dynamic_cast<AnimationComponent*>(protoCom);
 
@@ -83,7 +104,9 @@ public:
 			if (std::find(protoAnimCom->_animations.begin(), protoAnimCom->_animations.end(), anim) == protoAnimCom->_animations.end())
 			{
 				addComponentIntoSceneFile = true;
-				animationsList.PushBack(rapidjson::StringRef(anim.c_str()), SceneFile.Allocator());
+				rapidjson::Value strVal;
+				strVal.SetString(anim.c_str(), anim.length(), allocator);
+				animationsList.PushBack(strVal, allocator);
 			}
 		}
 
@@ -92,22 +115,22 @@ public:
 		if (protoAnimCom->_startingAnim.compare(_startingAnim))	//If audiofile of Object is diff from prototype
 		{
 			addComponentIntoSceneFile = true;
-			startingAnim.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+			startingAnim.SetString(_startingAnim.c_str(), _startingAnim.length(), allocator);
 		}
 
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			SceneFile.AddMember("AnimationComponent", rapidjson::Value(true));
+			value.AddMember("AnimationComponent", rapidjson::Value(true), allocator);
 
 			if (!animationsList.IsNull())	//if rapidjson::value container is not empty
 			{
-				SceneFile.AddMember("AnimationTypes", animationsList);
+				value.AddMember("AnimationTypes", animationsList, allocator);
 			}
 
 			if (!startingAnim.IsNull())
 			{
-				SceneFile.AddMember("StartAnim", startingAnim);
+				value.AddMember("StartAnim", startingAnim, allocator);
 			}
 		}
 	}

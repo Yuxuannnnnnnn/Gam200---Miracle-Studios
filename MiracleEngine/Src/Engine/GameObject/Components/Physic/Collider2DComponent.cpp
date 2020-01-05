@@ -21,3 +21,18 @@ std::string Collider2D::ComponentName() const
 void Collider2D::Inspect()
 {
 }
+
+
+void Collider2D::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	rapidjson::Value value;
+
+	value.SetInt(_type);
+	prototypeDoc.AddMember("ColliderTypeId", value, allocator);
+
+	value.SetInt(_tag);
+	prototypeDoc.AddMember("ColliderTag", value, allocator);
+
+	value.SetBool(_trigger);
+	prototypeDoc.AddMember("ColliderTrigger", value, allocator);
+}

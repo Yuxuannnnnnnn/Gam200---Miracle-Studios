@@ -42,9 +42,22 @@ public:
 		prototypeDoc.AddMember("FontType", value);
 	}
 
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("FontComponent", rapidjson::Value(true), allocator);
+
+		value.SetString(rapidjson::StringRef(_fontString.c_str()));
+		prototypeDoc.AddMember("FontString", value, allocator);
+
+		value.SetString(rapidjson::StringRef(_fontString.c_str()));
+		prototypeDoc.AddMember("FontType", value, allocator);
+	}
 
 
-	virtual void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		FontComponent* protoFontCom = dynamic_cast<FontComponent*>(protoCom);
 
@@ -67,16 +80,16 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			SceneFile.AddMember("FontComponent", rapidjson::Value(true));
+			value.AddMember("FontComponent", rapidjson::Value(true), allocator);
 
 			if (!fontType.IsNull())	//if rapidjson::value container is not empty
 			{
-				SceneFile.AddMember("FontId", fontType);
+				value.AddMember("FontId", fontType, allocator);
 			}
 
 			if (!fontString.IsNull())
 			{
-				SceneFile.AddMember("FontString", fontString);
+				value.AddMember("FontString", fontString, allocator);
 			}
 		}
 

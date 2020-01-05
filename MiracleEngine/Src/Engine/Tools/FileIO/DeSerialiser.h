@@ -29,6 +29,11 @@ public:
 	{
 		return _level;
 	}
+
+	rapidjson::MemoryPoolAllocator<>& GetAllocator()
+	{
+		return _allocator;
+	}
 	
 
 	rapidjson::Value& operator[](const char* string)

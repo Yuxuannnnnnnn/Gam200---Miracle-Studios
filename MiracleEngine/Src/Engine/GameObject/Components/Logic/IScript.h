@@ -35,7 +35,7 @@ enum class ScriptId {
 	BUTTON_UI,	
 };
 
-class IScript : public IComponent, public IColliderHandler, public IMouseHandler, public IForce
+class IScript : public IColliderHandler, public IMouseHandler, public IForce, public IComponent
 {
 private:
 	unsigned _ScriptType;
@@ -47,14 +47,14 @@ public:
 
 	IScript(const IScript& copy) = default;
 
-	std::string ComponentName() const override
+	std::string ComponentName() const 
 	{
 		return "IScript Component";
 	}
 
 	void SerialiseComponent(Serialiser& document) 	{}
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override	{}
-	void Inspect() override	{}
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) 	{}
+	void Inspect() 	{}
 
 	ScriptId static ScriptStringToInt(std::string& in) ;
 

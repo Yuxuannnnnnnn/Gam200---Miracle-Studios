@@ -23,9 +23,9 @@ private:
 
 public:
 
-	void SerialiseComponent(Serialiser& document) override;
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
-	void Inspect() override;
+	void SerialiseComponent(Serialiser& document) ;
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;
+	void Inspect() ;
 
 	Boss();
 

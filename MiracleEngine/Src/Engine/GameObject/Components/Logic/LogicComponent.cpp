@@ -46,6 +46,9 @@ void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
 
+	value.SetBool(true);
+	prototypeDoc.AddMember("LogicComponent", rapidjson::Value(true));
+
 	value.SetArray();
 	for (auto& scriptPair : _ScriptIds)
 	{
@@ -53,6 +56,22 @@ void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	}
 
 	prototypeDoc.AddMember("ScriptId", value);
+}
+
+void LogicComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	rapidjson::Value value;
+
+	value.SetBool(true);
+	prototypeDoc.AddMember("LogicComponent", rapidjson::Value(true), allocator);
+
+	value.SetArray();
+	for (auto& scriptPair : _ScriptIds)
+	{
+		//value.PushBack(rapidjson::Value(scriptPair.first).Move(), prototypeDoc.Allocator());
+	}
+
+	prototypeDoc.AddMember("ScriptId", value, allocator);
 }
 
 

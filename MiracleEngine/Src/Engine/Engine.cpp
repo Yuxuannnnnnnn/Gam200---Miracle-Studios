@@ -5,9 +5,14 @@
 
 void Engine::Init()
 {
+#ifndef LEVELEDITOR
+
 	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
+#endif
 	_engineSystems._inputSystem->Init();
 	_engineSystems._scriptSystem->Init();
+
+
 //-------------------------------------------------------------
 }
 

@@ -70,8 +70,26 @@ public:
 		prototypeDoc.AddMember("G.RenderLayer", value);
 	}
 
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
 
-	virtual void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override
+		value.SetBool(true);
+		prototypeDoc.AddMember("GraphicComponent", rapidjson::Value(true), allocator);
+		//value.SetInt(_typeIdGraphic);
+		//prototypeDoc.AddMember("G.TypeId", value);
+
+		value.SetString(rapidjson::StringRef(_fileName.c_str()));
+		prototypeDoc.AddMember("G.FileName", value, allocator);
+
+		value.SetString(rapidjson::StringRef(_shader.c_str()));
+		prototypeDoc.AddMember("G.Shader", value, allocator);
+
+		value.SetInt(_renderlayer.GetLayer());
+		prototypeDoc.AddMember("G.RenderLayer", value, allocator);
+	}
+
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		GraphicComponent* protoGraphicCom = dynamic_cast<GraphicComponent*>(protoCom);
 
@@ -101,21 +119,21 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			SceneFile.AddMember("GraphicComponent", rapidjson::Value(true));
+			value.AddMember("GraphicComponent", rapidjson::Value(true), allocator);
 
 			if (!fileName.IsNull())	//if rapidjson::value container is not empty
 			{
-				SceneFile.AddMember("G.FileName", fileName);
+				value.AddMember("G.FileName", fileName, allocator);
 			}
 
 			if (!shader.IsNull())
 			{
-				SceneFile.AddMember("G.Shader", shader);
+				value.AddMember("G.Shader", shader, allocator);
 			}
 
 			if (!renderlayer.IsNull())
 			{
-				SceneFile.AddMember("G.RenderLayer", renderlayer);
+				value.AddMember("G.RenderLayer", renderlayer, allocator);
 			}
 		}
 
