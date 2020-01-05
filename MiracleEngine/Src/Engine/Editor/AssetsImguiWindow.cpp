@@ -51,35 +51,34 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		ResourceList.clear();
 	}
 
+	typedef std::pair<std::string, std::string> VertFrag;
+	std::unordered_map<std::string, VertFrag> ShaderResource;
 
-
-
+	VertFrag vertFrag;
 	{
 		for (const auto& shaderFile : std::filesystem::directory_iterator(shadersPath))
 		{
 			std::cout << shaderFile.path() << std::endl;
 			std::string path = shaderFile.path().u8string();
 		
-			std::string fileName = "";
+			std::string ShaderName = "";
 
 			if (path.find(".vert") != std::string::npos)
 			{
-			//	size_t namesize = path.find_last_of(".vert") - 5 - path.find_last_of("\\/");
-				fileName = path.substr(path.find_last_of("\\/") + 1);
-			//	_vertexFiles.insert(std::pair<std::string, std::string>(fileName, path));
+				size_t namesize = path.find_last_of(".vert") - 5 - path.find_last_of("\\/");
+				ShaderName = path.substr(path.find_last_of("\\/") + 1, namesize);
+				vertFrag.first = path;
+				ShaderResource.insert(std::pair<std::string, VertFrag>(ShaderName, vertFrag));
 			}
 			else if (path.find(".frag") != std::string::npos)
 			{
-			//	size_t namesize = path.find_last_of(".frag") - 5 - path.find_last_of("\\/");
-				fileName = path.substr(path.find_last_of("\\/") + 1);
-			//	_fragmentFiles.insert(std::pair<std::string, std::string>(fileName, path));
+				//size_t namesize = path.find_last_of(".frag") - 5 - path.find_last_of("\\/");
+				vertFrag.second = path;
 			}
-
-			//ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		//ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
-		ResourceList.clear();
+		ResourceManager::GetInstance().AddShaderResourceList(ShaderResource);
+		ShaderResource.clear();
 	}
 
 	{

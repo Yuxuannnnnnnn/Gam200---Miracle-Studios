@@ -646,6 +646,12 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 		ResourceManager::GetInstance().AddAudioResourceList(ResourceList);
 		ResourceList.clear();
 	}
+
+	typedef std::pair<std::string, std::string> VertFrag;
+	std::unordered_map<std::string, VertFrag> ShaderResource;
+
+	VertFrag vertFrag;
+
 	if (Level.HasMember("ShaderFilesPaths"))
 	{
 		for (unsigned i = 0; i < Level["ShaderFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
@@ -654,20 +660,24 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 			std::string fileName = "";
 			if (filePath.find(".vert") != std::string::npos)
 			{
-				//size_t namesize = filePath.find_last_of(".vert") - 5 - filePath.find_last_of("\\/");
-				fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
-				ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+				size_t namesize = filePath.find_last_of(".vert") - 5 - filePath.find_last_of("\\/");
+				fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+				vertFrag.first = filePath;
+				ShaderResource.insert(std::pair<std::string, VertFrag>(fileName, vertFrag));
 			}
 			else if (filePath.find(".frag") != std::string::npos)
 			{
 				//size_t namesize = filePath.find_last_of(".frag") - 5 - filePath.find_last_of("\\/");
-				fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
-				ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+				//fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
+				vertFrag.second = filePath;
 			}
 		}
-		//ResourceManager::GetInstance().AddShaderResourceList(ResourceList);
-		ResourceList.clear();
+		ResourceManager::GetInstance().AddShaderResourceList(ShaderResource);
+		ShaderResource.clear();
 	}
+
+
+
 	if (Level.HasMember("FontFilesPath"))
 	{
 		for (unsigned i = 0; i < Level["FontFilesPath"].Size(); i++)	//Loop through the Serialisation Array
@@ -860,8 +870,8 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 			if ((std::find(ShaderResourcePathList.begin(), ShaderResourcePathList.end(), ShaderFile) == ShaderResourcePathList.end()))
 			{
 				ResourceManager::VertFrag vertfrag= MyResourceManager.GetShaderResourcePath(TextureFile);
-				ShaderResourcePathList.push_back(vertfrag.first);
 				ShaderResourcePathList.push_back(vertfrag.second);
+				ShaderResourcePathList.push_back(vertfrag.first);
 			}
 		}
 	}
