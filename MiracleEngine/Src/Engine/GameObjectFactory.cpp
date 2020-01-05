@@ -308,7 +308,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 	if (!component)
 		return nullptr;
 
-	std::cout << "DEBUG: GameObjectFactory::CloneComponent(" << (unsigned)type << ") \n";
+	std::cout << "DEBUG:\t GameObjectFactory::CloneComponent(" << (unsigned)type << ") \n";
 
 	switch (type)
 	{
@@ -542,12 +542,12 @@ GameObject* GameObjectFactory::CloneGameObject(GameObject* object)	//Create a ga
 	GameObject* newObject = CreateNewGameObject();
 	//newObject->Set_typeId((TypeIdGO)object->Get_typeId());
 	//Map_ComponentList& objectMap = newObject->GetComponentList();
-	std::cout << "DEBUG: GameObjectFactory::CloneGameObject() START \n";
+	std::cout << "DEBUG:\t GameObjectFactory::CloneGameObject() START \n";
 	for (auto it : object->GetComponentList())
 	{
 		newObject->GetComponentList().insert(std::pair<ComponentId, IComponent*>(it.first, CloneComponent(newObject, it.second, (ComponentId)it.first)));
 	}
-	std::cout << "DEBUG: GameObjectFactory::CloneGameObject() END \n";
+	std::cout << "DEBUG:\t GameObjectFactory::CloneGameObject() END \n";
 	return newObject;
 }
 

@@ -102,36 +102,13 @@ std::vector<std::string>& LogicComponent::GetScriptIds()
 {
 	return _ScriptIds;
 }
-std::unordered_map<std::string, DataComponent*>& LogicComponent::GetDataList()
+std::unordered_map<std::string, IComponent*>& LogicComponent::GetDataList()
 {
 	return _DataList;
 }
 
-void LogicComponent::AddScriptDataCompResolver(std::string& scriptName)
-{
-	std::vector<std::string> tempStrVec;
-// list of all what each script needs as data component, before DataComponent.Register, will need this table or sth
-	if (scriptName.empty())
-	{
-		std::cout << "WARNING: " << scriptName << " is empty. \n";
-		return;
-	}
-	if (scriptName == "unknown")
-	{
-		std::cout << "Script: " << scriptName << ", does not have any data component. \n";
-		return;
-	}
-	std::cout << "Script: " << scriptName << ", adding data components... \n";
-	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
-	if (tempStrVec.empty())
-	{
-		std::cout << "WARNING: " << scriptName << " not a script in _TableScriptData. \n";
-		return;
-	}
-	for (auto itr : tempStrVec)
-		AddDataComp(std::string(itr));
-}
-DataComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataName)
+
+IComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataName)
 {
 	if (dataName == "health")
 	{
@@ -145,20 +122,42 @@ DataComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataN
 	{
 		return new DataAmmo();
 	}
-	std::cout << "WARNING: LogicComponent::Resolver_StringToDataComponent(dataName) had no proper 'dataName' \n";
-	return new DataComponent();
+	std::cout << "WARNING: LogicComponent::Resolver_StringToDataComponent(dataName) had no proper 'dataName', function returning NULLPTR. \n";
+	return nullptr;
 }
-
+void LogicComponent::AddScriptDataCompResolver(std::string& scriptName)
+{
+	std::vector<std::string> tempStrVec;
+	// list of all what each script needs as data component, before DataComponent.Register, will need this table or sth
+	if (scriptName.empty())
+	{
+		std::cout << "WARNING: " << scriptName << " is empty. \n";
+		return;
+	}
+	if (scriptName == "unknown")
+	{
+		std::cout << "WARNING: Script: " << scriptName << ", does not have any data component. \n";
+		return;
+	}
+	std::cout << "DEBUG:\t Script: " << scriptName << ", adding data components... \n";
+	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
+	if (tempStrVec.empty())
+	{
+		std::cout << "WARNING: " << scriptName << " not a script in _TableScriptData. \n";
+		return;
+	}
+	for (auto itr : tempStrVec)
+		AddDataComp(std::string(itr));
+}
 void LogicComponent::AddScript(std::string& scriptName)
 {
-	std::cout << "LogicComponent::AddScript(" << scriptName << ") \n";
+	std::cout << "DEBUG:\t LogicComponent::AddScript(" << scriptName << ") \n";
 	for (auto itr : _ScriptIds)
 		if (itr == scriptName)
 		{
 			std::cout << "WARNING: Script already exists. \n";
 			break; 
 		}
-	std::cout << "Adding script. \n";
 	AddScriptDataCompResolver(scriptName);
 }
 void LogicComponent::AddDataComp(std::string& dataName)
@@ -172,9 +171,10 @@ void LogicComponent::AddDataComp(std::string& dataName)
 		}
 // else add component
 // need change to call GOFac to AddComponent(DataComponent);
-	DataComponent* dataComp = Resolver_StringToDataComponent(dataName);
+	IComponent* dataComp = Resolver_StringToDataComponent(dataName);
 	_DataList[dataName] = dataComp;
 }
+
 void LogicComponent::RemoveScriptDataCompResolver(std::string& scriptName)
 {
 	std::vector<std::string> tempStrVec;
@@ -186,10 +186,10 @@ void LogicComponent::RemoveScriptDataCompResolver(std::string& scriptName)
 	}
 	if (scriptName == "unknown")
 	{
-		std::cout << "Script: " << scriptName << ", does not have any data component. \n";
+		std::cout << "WARNING: Script: " << scriptName << ", does not have any data component. \n";
 		return;
 	}
-	std::cout << "Script: " << scriptName << ", adding data components... \n";
+	std::cout << "DEBUG:\t Script: " << scriptName << ", removing data components... \n";
 	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
 	if (tempStrVec.empty())
 	{
@@ -210,31 +210,44 @@ void LogicComponent::RemoveScript(std::string& scriptName)
 			break;
 	}
 	_ScriptIds.erase(iterator);
-	// call RemoveDataComp(std::string& dataName)
-
+	RemoveScriptDataCompResolver(scriptName);
 }
 void LogicComponent::RemoveDataComp(std::string& dataName)
 {
 	// check if DataComps linked with scriptName has no more dependency
-	// remove DataComps with no dependency
+	for (auto itr : _ScriptIds)
+	{
+		// go through itr's DataComps
+		for (auto itr : EngineSystems::GetInstance()._scriptSystem->_TableScriptData[itr])
+			if (itr == dataName)
+			{
+				std::cout << "WARNING: DataComponent\"" << dataName << "\" still has dependancy! Cannot remove! \n";
+				return;
+			}
+	}
+	// else remove datacomp, supposed to use Factory's RemoveComponent()
+	delete _DataList[dataName];
+	_DataList.erase(_DataList.find(dataName));
 }
+
 void LogicComponent::CloneScriptsAndDatas(LogicComponent* source)
 {
 	for (auto itr : source->_ScriptIds)
 		AddScript(itr);
 }
-//void LogicComponent::CloneDataComp(){}
 void LogicComponent::ClearScripts()
 {
 	if (_ScriptIds.empty())
 		return;
 	else
-		for (auto itr : _ScriptIds)
-			RemoveScript(itr);
+		ClearDataComps();
+	_ScriptIds.clear();
 }
 void LogicComponent::ClearDataComps()
 {
-	std::cout << "this should not be accessable \n";
+	for (auto itr : _DataList)
+		delete itr.second;
+	_DataList.clear();
 }
 
 

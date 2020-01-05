@@ -34,7 +34,7 @@ public:
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
 
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override { return; }
 
 	
 // InUpEx

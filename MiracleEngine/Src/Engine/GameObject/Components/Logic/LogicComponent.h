@@ -7,13 +7,11 @@
 #define LOGICCOMPONENT_H
 
 //class IScript; //forward declare, for the ScriptStringToInt()
-class DataComponent;
-
 
 class LogicComponent : public IComponent
 {
 	std::vector<std::string> _ScriptIds;
-	std::unordered_map<std::string, DataComponent*> _DataList; //THIS NEEDS TO CHANGE, CAUSE THIS INFO IS IN ParentGO_ComponentList
+	std::unordered_map<std::string, IComponent*> _DataList; //THIS NEEDS TO CHANGE, CAUSE THIS INFO IS IN ParentGO_ComponentList
 public:
 	LogicComponent();
 	LogicComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
@@ -25,17 +23,17 @@ public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void Inspect() override;
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override { return; }
 
 	void Init();
 	void Update(double dt);
 	void Exit();
 
 	std::vector<std::string>& GetScriptIds();
-	std::unordered_map<std::string, DataComponent*>& GetDataList();
-
+	std::unordered_map<std::string, IComponent*>& GetDataList();
+	
+	IComponent* Resolver_StringToDataComponent(std::string& dataName);
 	void AddScriptDataCompResolver(std::string& scriptName); // need add some 'table' like structure to see which SCRIPT needs which DATACOMP
-	DataComponent* Resolver_StringToDataComponent(std::string& dataName);
 	void AddScript(std::string& scriptName);
 	void AddDataComp(std::string& dataName);		//should only be used from within AddScript()
 	
@@ -44,7 +42,6 @@ public:
 	void RemoveDataComp(std::string& dataName);	//should only be used from within RemoveScript()
 	
 	void CloneScriptsAndDatas(LogicComponent* source);		//AddScript() & copy data info in comps
-	//void CloneDataComp();
 	void ClearScripts();
 	void ClearDataComps();
 };
