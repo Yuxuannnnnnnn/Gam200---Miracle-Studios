@@ -3,8 +3,6 @@
 
 void ScriptSystem::Create_TableScriptData()
 {
-	std::unordered_map<std::string, std::vector<std::string>> _TableScriptData;
-
 	_TableScriptData["health"] = std::vector<std::string>{ "health" };
 	_TableScriptData["ammo"] = std::vector<std::string>{ "ammo" };
 	_TableScriptData["shield"] = std::vector<std::string>{ "capacity", "recharge" };
@@ -17,18 +15,25 @@ void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
 
 void ScriptSystem::Init() {
 	Create_TableScriptData();
+	BindAll();
 }
 //void ScriptSystem::Update(float dt) {}
 void ScriptSystem::Exit() {
 
 }
 
+void ScriptSystem::BindAll()
+{
+	BindTransform();
+	BindMathVector2();
+	BindMathVector3();
+	BindMouseAndKeyboard();
+	BindMiscFunctions();
+}
 
 void ScriptSystem::BindTransform()
 {
-	BindMathVector2();
-	BindMathVector3();
-
+	std::cout << "DEBUG:\t Binding TransformComponent \n";
 	lua.new_usertype <TransformComponent>("Transform",
 		// Constructor 
 		sol::constructors <
@@ -37,7 +42,7 @@ void ScriptSystem::BindTransform()
 		>(),
 		// Data Members
 		"GetPosition", &TransformComponent::GetPos,
-		"GetPosition", &TransformComponent::SetPos,
+		"SetPosition", &TransformComponent::SetPos,
 		"GetScale", &TransformComponent::GetScale,
 		"SetScale", &TransformComponent::SetScale,
 		"GetRotate", &TransformComponent::GetRotate,
@@ -46,7 +51,7 @@ void ScriptSystem::BindTransform()
 }
 void ScriptSystem::BindMathVector2()
 {
-	std::cout << "Binding Math::Vec2 \n";
+	std::cout << "DEBUG:\t Binding Math::Vec2 \n";
 	lua.new_usertype<mathLib::Vector2>("Vector2",
 		// Constructor 
 		sol::constructors<
@@ -99,7 +104,7 @@ void ScriptSystem::BindMathVector2()
 void ScriptSystem::BindMathVector3()
 {
 	sol::base_classes, sol::base<IComponent>();
-	std::cout << "Binding Math::Vec3 \n";
+	std::cout << "DEBUG:\t Binding Math::Vec3 \n";
 	lua.new_usertype<mathLib::Vector3>("Vector3",
 		// Constructor 
 		sol::constructors<
@@ -160,14 +165,91 @@ void ScriptSystem::BindMathVector3()
 		sol::meta_function::equal_to, sol::resolve<bool(const Vector3 & lhs, const Vector3 & rhs)>(mathLib::operator==)
 		);
 }
-
-
-void ScriptSystem::ErrorCheck()
+void ScriptSystem::BindMouseAndKeyboard()
 {
+	std::cout << "DEBUG:\t Binding Mouse & Keyboard (KeyUpDownHold) \n";
+	Table_Input = lua.create_named_table("Input");
+	Table_Input["GetKeyDown"] = [&](const char* str) {
+		std::cout << "Input.GetKeyDown : " << str << " ";
+		bool temp = EngineSystems::GetInstance()._inputSystem->KeyDown(
+			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str) );
+		if (temp == true)
+		{
+			std::cout << "true.\n";
+			return true;
+		}
+		else
+		{
+			std::cout << "false.\n";
+			return false;
+		}
+	};
+	Table_Input["GetKeyHold"] = [&](const char* str) {
+		std::cout << "Input.GetKeyHold : " << str << " ";
+		bool temp = EngineSystems::GetInstance()._inputSystem->KeyHold(
+			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str));
+		if (temp == true)
+		{
+			std::cout << "true.\n";
+			return true;
+		}
+		else
+		{
+			std::cout << "false.\n";
+			return false;
+		}
+	};
+	Table_Input["GetKeyUp"] = [&](const char* str) {
+		std::cout << "Input.GetKeyUp : " << str << " ";
+		bool temp = EngineSystems::GetInstance()._inputSystem->KeyRelease(
+			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str));
+		if (temp == true)
+		{
+			std::cout << "true.\n";
+			return true;
+		}
+		else
+		{
+			std::cout << "false.\n";
+			return false;
+		}
+	};
+}
+void ScriptSystem::BindMiscFunctions()
+{
+	std::cout << "DEBUG:\t Binding Misc Functions (Console) \n";
+	Table_Console = lua.create_named_table("Console");
+	Table_Console["WriteLine"] = [&](const std::string str) {std::cout << "Console.Writeline : " << str << std::endl; };
+	//Table_Console["WriteLine"] = [&](const bool b) {std::cout << b << std::endl; };
+	//need do sol::overload for "WriteLine"
+}
 
+
+void ScriptSystem::TestFunctionNew()
+{
+	std::cout << "========================" << std::endl;
+	std::cout << "== running lua code 2 ==" << std::endl;
+
+	pfr = lua.safe_script(R"(
+b = "10"
+Console.WriteLine("1")
+Console.WriteLine("2")
+temp = Input.GetKeyDown("MOUSE_LBUTTON")
+Console.WriteLine("3")
+			)");
+	if (!pfr.valid())
+	{
+		sol::error err = pfr;
+		std::cout << err.what() << std::endl;
+	}
+		
+
+	std::cout << "========================" << std::endl;
+	std::cout << "========================" << std::endl;
 }
 
 int ScriptSystem::testfunc() {
+	std::cout << "========================" << std::endl;
 	std::cout << "=== running lua code ===" << std::endl;
 
 	//sol::state lua;
@@ -185,8 +267,8 @@ int ScriptSystem::testfunc() {
 				printa(a)
 			)");
 	// using table to 'filter' functions
-	sol::table table = lua.create_named_table("Console");
-	table["WriteLine"] = [&](const std::string str) {std::cout << "Console.Writeline : " << str << std::endl; };
+//	sol::table table = lua.create_named_table("Console");
+//	table["WriteLine"] = [&](const std::string str) {std::cout << "Console.Writeline : " << str << std::endl; };
 	pfr = lua.safe_script(R"(
 				b = "twostrtest"
 				Console.WriteLine("def")
@@ -245,6 +327,8 @@ int ScriptSystem::testfunc() {
 	BindTransform();
 
 	std::cout << "success" << std::endl;
+	std::cout << "========================" << std::endl;
+	std::cout << "========================" << std::endl;
 
 	return 0;
 }

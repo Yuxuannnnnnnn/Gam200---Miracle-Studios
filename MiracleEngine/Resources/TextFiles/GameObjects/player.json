@@ -26,7 +26,7 @@
   "ColliderTrigger": false,
 
   "LogicComponent": true,
-  "ScriptId": [ "PLAYER" ],
+  "ScriptId": [ "PLAYER", "ammo", "health" ],
   "WeaponActive": 2,
   "AmmoRpg": 5,
   "AmmoTurret": 5,

@@ -1,11 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "vertexbuffer.h"
 
-VertexBuffer::VertexBuffer() 
-	:_id{0}
-{
-
-}
 VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 {
 
@@ -15,9 +10,17 @@ VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 	
 }
 
+
+
 VertexBuffer::~VertexBuffer()
 {
 	glDeleteBuffers(1, &_id);
+}
+
+void VertexBuffer::FillDynamicBuffer(const void* data, unsigned int size)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, _id);
+	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 }
 
 void VertexBuffer::Select() const

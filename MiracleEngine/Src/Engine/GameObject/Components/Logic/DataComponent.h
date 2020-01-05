@@ -5,37 +5,30 @@
 
 #include "GameObject/Components/Logic/LogicComponent.h"
 
-class DataComponent : public IComponent
+class DataHealth : public IComponent
 {
 	LogicComponent* parentLogic;
 public:
-	DataComponent();
-	virtual ~DataComponent();
-
+	DataHealth();
+	virtual ~DataHealth();
 	virtual std::string ComponentName() const override;
 	virtual void SerialiseComponent(Serialiser& document) override;
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { return; }
-
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override { return; }
 };
 
-class DataHealth : public DataComponent
+class DataAmmo : public IComponent
 {
+	LogicComponent* parentLogic;
 public:
+	DataAmmo();
+	virtual ~DataAmmo();
 	virtual std::string ComponentName() const override;
 	virtual void SerialiseComponent(Serialiser& document) override;
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
-};
-
-class DataAmmo : public DataComponent
-{
-public:
-	virtual std::string ComponentName() const override;
-	virtual void SerialiseComponent(Serialiser& document) override;
-	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
-	virtual void Inspect() override;
+	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override { return; }
 };
 
 //class DataAttack : public DataComponent

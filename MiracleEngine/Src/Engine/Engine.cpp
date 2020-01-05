@@ -23,6 +23,7 @@ void Engine::Update()
 	if (test)
 	{
 		_engineSystems._scriptSystem->testfunc();
+		_engineSystems._scriptSystem->TestFunctionNew();
 	}
 
 	MySceneManager.ChangeScene("Level1");

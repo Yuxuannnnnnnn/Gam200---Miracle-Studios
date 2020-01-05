@@ -16,17 +16,25 @@ class LuaScriptComponent;
 class ScriptSystem// : public ISystem
 {
 public:
+	sol::table Table_Input; // Mouse & Keyboard
+	sol::table Table_Console; // Console I/O, no Input yet
+	sol::table Table_Math;
+
+
 	std::unordered_map<std::string, std::string> _ScriptsAll;
 	std::unordered_map<std::string, std::vector<std::string>> _TableScriptData;
 	void Create_TableScriptData();
 
 	void RunScript(GameObject* src, std::string& scriptName);
 
+	void BindAll();
 	void BindTransform();
 	void BindMathVector2();
 	void BindMathVector3();
+	void BindMouseAndKeyboard();
+	void BindMiscFunctions();
 
-	void ErrorCheck();
+	void TestFunctionNew();
 	int testfunc();
 
 
