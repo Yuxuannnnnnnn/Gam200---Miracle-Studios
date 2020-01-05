@@ -53,6 +53,7 @@ public:
 		_logicSystem{ nullptr },
 		_scriptSystem{ nullptr },
 		_aiSystem{ nullptr },
+		
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
 		_audioSystem{ nullptr },

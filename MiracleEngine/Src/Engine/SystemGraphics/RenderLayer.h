@@ -1,26 +1,15 @@
 #pragma once
 class RenderLayer
 {
+public:
+	RenderLayer();
+	RenderLayer(int layer);
+	int GetLayer() const;
+	void SetLayer(int layer);
+
+	
 private:
+	// integer representing the z-ordering when render, 0-10, 10 is most infront to be rendered, 0 most behind.
 	int _layer;
 
-public:
-	RenderLayer(int layer)
-		:_layer{ layer }
-	{
-
-	}
-
-
-	RenderLayer()
-		:_layer{0}
-	{
-
-	}
-
-
-	int GetLayer()
-	{
-		return _layer;
-	}
 };

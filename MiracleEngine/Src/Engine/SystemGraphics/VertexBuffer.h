@@ -9,8 +9,10 @@ class VertexBuffer
 {
 public:
 	VertexBuffer(const void* data, unsigned int size);
-	VertexBuffer();
 	~VertexBuffer();
+
+	// fill up uv data for dynamic buffer for different frames
+	void FillDynamicBuffer(const void* data, unsigned int size);
 
 	void Select() const;
 	void UnSelect() const;
