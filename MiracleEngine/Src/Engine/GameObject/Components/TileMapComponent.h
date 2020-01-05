@@ -87,7 +87,7 @@ public:
 		ImGui::InputInt("tilesize ", &_tilesize);
 	}
 
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override { return; }
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override { return; }
 
 	TileMapComponent* CloneComponent()
 	{

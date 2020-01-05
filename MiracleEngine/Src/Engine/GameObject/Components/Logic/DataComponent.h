@@ -15,7 +15,7 @@ public:
 	virtual void SerialiseComponent(Serialiser& document) override;
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override { return; }
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 };
 
 class DataAmmo : public IComponent
@@ -28,7 +28,7 @@ public:
 	virtual void SerialiseComponent(Serialiser& document) override;
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) override { return; }
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 };
 
 //class DataAttack : public DataComponent
