@@ -48,6 +48,7 @@ ImguiSystem::ImguiSystem(const Window& window)
 	_ImguiWindows["Assets"] = new AssetsImguiWindow();
 	_ImguiWindows["Texture"] = new TextureImguiWindow();
 	_ImguiWindows["PerformanceUsage"] = new PerformanceUsageWindow();
+	_ImguiWindows["SpriteSheetCutter"] = new SpriteSheetCutterImguiWindow();
 	
 
 	//_ImguiWindows["PreFab"] = new PreFabImguiWindow();

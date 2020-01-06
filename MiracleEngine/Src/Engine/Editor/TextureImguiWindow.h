@@ -1,10 +1,14 @@
 #pragma once
+#include "SpriteSheetCutterImguiWindow.h"
+#include "Tools/Resource/ResourceManager.h"
+#include "GlobalContainer.h"
 
 
 
 class TextureImguiWindow: public IBaseImguiWindow
 {
 	static Texture2D* _currTexture;
+	static std::string _textureName;
 
 public:
 
@@ -14,28 +18,7 @@ public:
 	{
 	}
 
-	void Update() override
-	{
-		float width = _currTexture->GetWidth();
-		float height = _currTexture->GetHeight();
-
-		 float scaleW = width/900.0f;
-		 float scaleH = height/800.0f;
-
-		 float scale;
-		 
-		if (scaleW > scaleH)
-		{
-			scale = scaleW;
-		}
-		else
-		{
-			scale = scaleH;
-		}
-
-	    ImGui::Image((void*)(intptr_t)(_currTexture)->GetTextureID(), ImVec2(width/scale, height/scale),
-		ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
-	}
+	void Update() override;
 
 	static void setTexture(TextureImguiWindow* window, Texture2D* texture, std::string name)
 	{
@@ -43,6 +26,7 @@ public:
 		window->SetWindowTrue();
 		window->SetName(name.c_str());
 		_currTexture = texture;
+		_textureName = name;
 	}
 };
 
