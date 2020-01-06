@@ -9,7 +9,7 @@ class IBaseImguiWindow
 {
 private:
 	bool _open;
-	char _name[40]; //name up to 40 char
+	char _name[500]; //name up to 40 char
 	ImGuiWindowFlags _flags;
 
 	int _xPos;

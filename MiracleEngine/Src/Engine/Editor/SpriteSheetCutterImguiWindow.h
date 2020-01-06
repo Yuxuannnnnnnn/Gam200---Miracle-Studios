@@ -13,53 +13,30 @@ public:
 
 	SpriteSheetCutterImguiWindow(bool open = false,	//Set the settings for the imgui window
 		ImGuiWindowFlags flags = ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar)
-		:IBaseImguiWindow("SpriteSheet Cutter  ", 250, 60, 300, 300, open, flags, ImGuiCond_Once)
+		:IBaseImguiWindow("SpriteSheet Cutter  ", 250, 60, 300, 300, open, flags, ImGuiCond_Once), 
+		_frames{ 0 }, _columns{ 0 }, _rows{0}
 	{
 	}
 
 
-	void Update() override
-	{
-		//No. of frames
-		//Columns
-		//Rows
-		//Generate SpriteSheet
-		ImGui::Spacing();
-		ImGui::InputInt("No. of Frames ", &_frames);
-		ImGui::Spacing();
-		ImGui::InputInt("Columns ", &_columns);
-		ImGui::Spacing();
-		ImGui::InputInt("Rows ", &_rows);
+	void Update() override;
 
-		ImGui::Spacing();
-		ImGui::Spacing();
-		ImGui::Spacing();
-		ImGui::Spacing();
-
-		if (ImGui::Button("Generate SpriteSheet Data File   "))
-		{
-			GenerateSpriteSheetData();
-		}
-	}
 
 	static void OpenSpriteSheetCutterWindow(SpriteSheetCutterImguiWindow* window, Texture2D* texture, std::string name)
 	{
+		_textureName = name;
 		name += " SpriteSheet Cutter";
 		window->SetWindowTrue();
 		window->SetName(name.c_str());
 		_currTexture = texture;
-		_textureName = name;
 	}
 
 
-	void GenerateSpriteSheetData()
+	void GenerateSpriteSheetData(std::string filename)
 	{
 		//size_t namesize = _textureName.find_last_of(".png") - 4 - path.find_last_of("\\/");
-		size_t position = _textureName.find_last_of(".png");
-		std::string fileName = _textureName.substr(position);
-		fileName += "SpriteSheetData";
-		fileName +=".json";
-		DeSerialiser SpriteSheetData(fileName);
+
+		DeSerialiser SpriteSheetData(filename);
 
 		rapidjson::Value value;
 		value.SetString(rapidjson::StringRef(_textureName.c_str()));
@@ -67,19 +44,28 @@ public:
 		value.SetInt(_frames);
 		SpriteSheetData.AddMember("NoofFrames", value);
 
-	//Get Texture Height and Width Resolution
-		float Height = _currTexture->GetHeight();
-		float Width = _currTexture->GetWidth();
+		//Get Texture Height and Width Resolution
+		//float Height = _currTexture->GetHeight();
+		//float Width = _currTexture->GetWidth();
 
 	//Interval height and width
-		float ColumnInterval = Width / (float)(_columns);
-		float RowInterval = Height / (float)(_rows);
+		float ColumnInterval = 1.0f / (float)(_columns);
+		float RowInterval = 1.0f / (float)(_rows);
 
 	//Calculate U0, V0 and U1, V1 for each frame
 		for (int i = 0; i < _frames; i++)
 		{
-			int row = i / _columns; //row is from 0			
-			int column = i % _columns;//column is from 0		
+			int row;
+			int column;
+			if (_columns)
+			{
+				row = i / _columns; //row is from 0	
+				column = i % _columns;//column is from 0		
+			}
+			else
+			{
+				break;
+			}
 
 			float u0, v0, u1, v1;
 

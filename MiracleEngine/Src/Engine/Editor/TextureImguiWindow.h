@@ -22,11 +22,11 @@ public:
 
 	static void setTexture(TextureImguiWindow* window, Texture2D* texture, std::string name)
 	{
+		_textureName = name;
 		name += " Texture";
 		window->SetWindowTrue();
 		window->SetName(name.c_str());
 		_currTexture = texture;
-		_textureName = name;
 	}
 };
 

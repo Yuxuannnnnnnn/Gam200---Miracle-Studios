@@ -2,6 +2,7 @@
 #include "TextureImguiWindow.h"
 
 Texture2D* TextureImguiWindow::_currTexture = nullptr;
+std::string TextureImguiWindow::_textureName = "";
 
 
 void TextureImguiWindow::Update()
@@ -15,7 +16,8 @@ void TextureImguiWindow::Update()
 			{
 				SpriteSheetCutterImguiWindow* SpriteSheetCutterWindow = dynamic_cast<SpriteSheetCutterImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["SpriteSheetCutter"]);
 				SpriteSheetCutterImguiWindow::OpenSpriteSheetCutterWindow(SpriteSheetCutterWindow, _currTexture, _textureName);
-			}
+			}           
+			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
 	}
