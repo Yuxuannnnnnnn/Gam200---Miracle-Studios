@@ -11,7 +11,7 @@
 
 #include "Physic/BoxCollider2DComponent.h"
 
-class PickingCollider : public BoxCollider2D
+class PickingCollider : public BoxCollider2DComponent
 {
 public:
 	bool _picked;
@@ -23,6 +23,8 @@ public:
 	//No replication of class object
 	PickingCollider(const PickingCollider& rhs) = delete;
 	PickingCollider& operator= (const PickingCollider& rhs) = delete;
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 #endif

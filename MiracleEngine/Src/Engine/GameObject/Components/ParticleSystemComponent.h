@@ -45,40 +45,40 @@ public:
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 
-		ParticleComponent* protoParticleCom = dynamic_cast<ParticleComponent*>(protoCom);
+		//ParticleComponent* protoParticleCom = dynamic_cast<ParticleComponent*>(protoCom);
 
-		bool addComponentIntoSceneFile = false;
-		rapidjson::Value fileName;
-		rapidjson::Value shader;
+		//bool addComponentIntoSceneFile = false;
+		//rapidjson::Value fileName;
+		//rapidjson::Value shader;
 
-		if (protoParticleCom->_fileName.compare(_fileName))	//If audiofile of Object is diff from prototype
-		{
-			addComponentIntoSceneFile = true;
-			fileName.SetString(rapidjson::StringRef(_fileName.c_str()));
-		}
-
-
-		if (protoParticleCom->_shader.compare(_shader))	//If audiofile of Object is diff from prototype
-		{
-			addComponentIntoSceneFile = true;
-			shader.SetString(rapidjson::StringRef(_shader.c_str()));
-		}
+		//if (protoParticleCom->_fileName.compare(_fileName))	//If audiofile of Object is diff from prototype
+		//{
+		//	addComponentIntoSceneFile = true;
+		//	fileName.SetString(rapidjson::StringRef(_fileName.c_str()));
+		//}
 
 
-		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
-		{
-			value.AddMember("ParticleComponent", rapidjson::Value(true));
+		//if (protoParticleCom->_shader.compare(_shader))	//If audiofile of Object is diff from prototype
+		//{
+		//	addComponentIntoSceneFile = true;
+		//	shader.SetString(rapidjson::StringRef(_shader.c_str()));
+		//}
 
-			if (!fileName.IsNull())
-			{
-				value.AddMember("ParticleFileName", fileName, allocator);
-			}
 
-			if (!shader.IsNull())
-			{
-				value.AddMember("ParticleShaderName", shader, allocator);
-			}
-		}
+		//if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+		//{
+		//	value.AddMember("ParticleComponent", rapidjson::Value(true));
+
+		//	if (!fileName.IsNull())
+		//	{
+		//		value.AddMember("ParticleFileName", fileName, allocator);
+		//	}
+
+		//	if (!shader.IsNull())
+		//	{
+		//		value.AddMember("ParticleShaderName", shader, allocator);
+		//	}
+		//}
 	}
 
 
@@ -89,4 +89,6 @@ public:
 	virtual ~ParticleSystemComponent();
 	ParticleSystemComponent(const ParticleSystemComponent& rhs);
 	ParticleSystemComponent& operator=(const ParticleSystemComponent& rhs);
+
+	IComponent* CloneComponent() { return nullptr; }
 };

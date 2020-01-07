@@ -13,20 +13,20 @@ DebugRenderer::DebugRenderer()
 {
 	std::string temp = "DefaultDebugShader";
 
-	_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+	_shader =MyResourceSystem.GetShaderResource(temp);
 
-	if (!_shader && ResourceManager::GetInstance().AddNewShaderResource({ temp,{ "Resources/Shader/debug.vert", "Resources/Shader/debug.frag" } }))
+	if (!_shader &&MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/debug.vert", "Resources/Shader/debug.frag" } }))
 	{
-		_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+		_shader =MyResourceSystem.GetShaderResource(temp);
 	}
 
 	temp = "DefaultBatchShader";
 
-	_batchshader = ResourceManager::GetInstance().GetShaderResource(temp);
+	_batchshader =MyResourceSystem.GetShaderResource(temp);
 
-	if (!_batchshader && ResourceManager::GetInstance().AddNewShaderResource({ temp,{ "Resources/Shader/batchdebug.vert", "Resources/Shader/batchdebug.frag" } }))
+	if (!_batchshader &&MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/batchdebug.vert", "Resources/Shader/batchdebug.frag" } }))
 	{
-		_batchshader = ResourceManager::GetInstance().GetShaderResource(temp);
+		_batchshader =MyResourceSystem.GetShaderResource(temp);
 	}
 
 	_proj = glm::ortho(-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2,

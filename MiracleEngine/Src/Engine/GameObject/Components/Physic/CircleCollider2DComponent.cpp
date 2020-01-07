@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	CircleCollider2D.cpp
+//	CircleCollider2DComponent.cpp
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -10,30 +10,30 @@
 #include "CircleCollider2DComponent.h"
 //#include "GraphicsSystem/DebugRenderer.h"
 
-CircleCollider2D::CircleCollider2D() :
+CircleCollider2DComponent::CircleCollider2DComponent() :
 	mCenPos{},
 	mRadius{ 0.f }
 {
 	_type = (unsigned)ColliderType::CIRCLE_COLLIDER;
 }
 
-std::string CircleCollider2D::ComponentName() const
+std::string CircleCollider2DComponent::ComponentName() const
 {
-	return std::string("CircleCollider2D Component");
+	return std::string("CircleCollider2DComponent Component");
 }
 
-void CircleCollider2D::SerialiseComponent(Serialiser& document)
+void CircleCollider2DComponent::SerialiseComponent(Serialiser& document)
 {
 	Collider2D::SerialiseComponent(document);
 
 }
 
-void CircleCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+void CircleCollider2DComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
 
 	value.SetBool(true);
-	prototypeDoc.AddMember("CircleCollider2D", rapidjson::Value(true));
+	prototypeDoc.AddMember("CircleCollider2DComponent", rapidjson::Value(true));
 
 	Collider2D::DeSerialiseComponent(prototypeDoc);
 }
@@ -42,7 +42,7 @@ void CircleCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 
 
-void CircleCollider2D::Inspect()
+void CircleCollider2DComponent::Inspect()
 {
 	IComponent::Inspect();
 }

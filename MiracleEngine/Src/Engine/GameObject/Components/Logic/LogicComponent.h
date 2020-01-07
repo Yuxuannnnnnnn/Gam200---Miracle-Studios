@@ -46,6 +46,8 @@ public:
 	void CloneScriptsAndDatas(LogicComponent* source);		//AddScript() & copy data info in comps
 	void ClearScripts();
 	void ClearDataComps();
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 //public:

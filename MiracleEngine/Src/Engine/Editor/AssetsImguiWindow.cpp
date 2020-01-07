@@ -33,7 +33,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			std::string fileName = path.substr(path.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
-		ResourceManager::GetInstance().AddAudioResourceList(ResourceList);
+		MyResourceSystem.AddAudioResourceList(ResourceList);
 		ResourceList.clear();
 	}
 
@@ -47,7 +47,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
+		MyResourceSystem.AddTexture2DResourceList(ResourceList);
 		ResourceList.clear();
 	}
 
@@ -77,7 +77,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			}
 		}
 
-		ResourceManager::GetInstance().AddShaderResourceList(ShaderResource);
+		MyResourceSystem.AddShaderResourceList(ShaderResource);
 		ShaderResource.clear();
 	}
 
@@ -90,7 +90,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			std::string fileName = path.substr(path.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
-		ResourceManager::GetInstance().AddFontResourceList(ResourceList);
+		MyResourceSystem.AddFontResourceList(ResourceList);
 		ResourceList.clear();
 	}
 
@@ -118,7 +118,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList1);
+		MyFactory.SerialiseAllPrefabAssets(ResourceList1);
 		ResourceList1.clear();
 	}
 
@@ -132,7 +132,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 	
-		ResourceManager::GetInstance().AddAnimationResourceList(ResourceList);
+		MyResourceSystem.AddAnimationResourceList(ResourceList);
 		ResourceList.clear();
 	
 	}
@@ -174,7 +174,7 @@ void AssetsImguiWindow::Update()
 
 
 	{
-		std::unordered_map <std::string, GameObject* >& PrototypeList = _engineSystems._prefabFactory->GetPrototypeList();
+		std::unordered_map <std::string, GameObject* >& PrototypeList = MyResourceSystem.GetPrototypeMap();
 		size_t prototypeCount = PrototypeList.size();
 		std::string string = "Prototypes (" + std::to_string(prototypeCount) + ")";
 
@@ -186,7 +186,7 @@ void AssetsImguiWindow::Update()
 			if (ImGui::Button(string1.c_str()))
 			{
 				GameObject* newGameobject = _engineSystems._gameObjectFactory->CreateNewGameObject(true);
-				newGameobject->AddComponent(ComponentId::IDENTITY_COMPONENT);
+				newGameobject->AddComponent(ComponentId::CT_Identity);
 				InspectionImguiWindow::InspectGameObject(newGameobject);
 			}
 			ImGui::Spacing();
@@ -219,8 +219,8 @@ void AssetsImguiWindow::Update()
 				std::string string1 = "Clone " + ObjPair.first;
 				if (ImGui::Button(string1.c_str()))
 				{
-					GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()[ObjPair.first]);
-					if(TransformComponent * tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::TRANSFORM_COMPONENT)))
+					GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()[ObjPair.first]);
+					if(TransformComponent * tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
 						tmp->SetPos(Vector3::Vec3Zero);
 				}
 				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
@@ -238,7 +238,7 @@ void AssetsImguiWindow::Update()
 	}
 
 	{
-		auto textureFiles = ResourceManager::GetInstance().GetTexture2DList();
+		auto textureFiles = MyResourceSystem.GetTexture2DList();
 		size_t textureCount = textureFiles.size();
 		std::string string = "Textures (" + std::to_string(textureCount) + ")";
 
@@ -246,14 +246,14 @@ void AssetsImguiWindow::Update()
 		{
 			ImGui::Spacing();
 
-			auto textureFiles = ResourceManager::GetInstance().GetTexture2DList();
+			auto textureFiles = MyResourceSystem.GetTexture2DList();
 
 			for (auto& texturePair : textureFiles)
 			{
 				static bool selected;
 				std::string string = " - " + texturePair.first;
 
-				Texture2D* texture = ResourceManager::GetInstance().GetTexture2DResource(texturePair.first);
+				Texture2D* texture = MyResourceSystem.GetTexture2DResource(texturePair.first);
 				TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
 
 				if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
@@ -301,7 +301,7 @@ void AssetsImguiWindow::Update()
 	{
 		ImGui::Spacing();
 
-		auto fontFiles = ResourceManager::GetInstance().GetFontList();
+		auto fontFiles = MyResourceSystem.GetFontList();
 
 		for (auto& fontPair : fontFiles)
 		{
@@ -324,7 +324,7 @@ void AssetsImguiWindow::Update()
 	{
 		ImGui::Spacing();
 
-		auto audioFiles = ResourceManager::GetInstance().GetSoundList();
+		auto audioFiles = MyResourceSystem.GetSoundList();
 
 		for (auto& audioPair : audioFiles)
 		{
@@ -348,7 +348,7 @@ void AssetsImguiWindow::Update()
 	{
 		ImGui::Spacing();
 
-		auto animationData = ResourceManager::GetInstance().GetAnimationlist();
+		auto animationData = MyResourceSystem.GetAnimationList();
 
 		for (auto& animationPair : animationData)
 		{

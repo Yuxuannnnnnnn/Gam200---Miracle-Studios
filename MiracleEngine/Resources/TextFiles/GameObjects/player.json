@@ -25,18 +25,6 @@
   "ColliderTag": 1,
   "ColliderTrigger": false,
 
-  "LogicComponent": true,
-  "ScriptId": [ "PLAYER", "ammo", "health" ],
-  "WeaponActive": 2,
-  "AmmoRpg": 5,
-  "AmmoTurret": 5,
-  "AmmoWall": 5,
-  "FireratePistol": 0.1,
-  "FirerateShotgun": 0.5,
-  "FirerateRpg": 1.0,
-  "FirerateTurret": 5.0,
-  "FirerateWall": 4.0,
-
   "AudioComponent": true,
   "A.TypeId": 0,
   "A.FileName": "audio_player.ogg"

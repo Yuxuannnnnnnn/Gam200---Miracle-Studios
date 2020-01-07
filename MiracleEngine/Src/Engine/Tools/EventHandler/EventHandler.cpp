@@ -78,7 +78,7 @@ void EventHandler::AddMouseHoverEvent(size_t id)
 
 void EventHandler::AddDeletionEvent(size_t id, ComponentId cId)
 {
-	if(cId == ComponentId::COUNTCOMPONENT)
+	if(cId == ComponentId::CT_Count)
 		_DeleteObjectQueue.insert(id);
 
 	_DeleteComponentQueue.insert({ id, cId });
@@ -349,7 +349,7 @@ void EventHandler::BroadcastObjectDeletionEvents()
 {
 	for (auto it = _DeleteObjectQueue.begin(); it != _DeleteObjectQueue.end(); ++it)
 	{
-		SendSystemEventMessage(*it, EventMessageType::OBJECT_DELETION, ComponentId::COUNTCOMPONENT, nullptr);
+		SendSystemEventMessage(*it, EventMessageType::OBJECT_DELETION, ComponentId::CT_Count, nullptr);
 
 		RemoveCollider2DEvent(_Collide2DQuePre, *it);
 		RemoveCollider2DEvent(_Collide2DQueCurr, *it);
@@ -371,16 +371,16 @@ void EventHandler::BroadcastComponentDeletionEvents()
 	{
 		SendSystemEventMessage(it->first, EventMessageType::COMPONENT_DELETION, it->second, nullptr);
 
-		if (it->second == ComponentId::BUTTON_COMPONENT)
+		if (it->second == ComponentId::CT_Button)
 		{
 			_MouseClickQuePre.erase(it->first);
 			_MouseClickQueCurr.erase(it->first);
 			_MouseHoverQuePre.erase(it->first);
 			_MouseHoverQueCurr.erase(it->first);
 		}
-		else if (it->second == ComponentId::BOXCOLLIDER_COMPONENT || 
-			it->second == ComponentId::CIRCLECOLLIDER_COMPONENT || 
-			it->second == ComponentId::EDGECOLLIDER_COMPONENT)
+		else if (it->second == ComponentId::CT_BoxCollider2D || 
+			it->second == ComponentId::CT_CircleCollider2D || 
+			it->second == ComponentId::CT_EdgeCollider2D)
 		{
 			RemoveCollider2DEvent(_Collide2DQuePre, it->first);
 			RemoveCollider2DEvent(_Collide2DQueCurr, it->first);

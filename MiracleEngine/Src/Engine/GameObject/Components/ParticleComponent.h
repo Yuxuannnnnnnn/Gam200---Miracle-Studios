@@ -46,6 +46,9 @@ public:
 
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+
+	}
 
 
 	virtual void Inspect() override
@@ -58,5 +61,7 @@ public:
 	virtual ~ParticleComponent();
 	ParticleComponent(const ParticleComponent& rhs);
 	ParticleComponent& operator=(const ParticleComponent& rhs);
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 

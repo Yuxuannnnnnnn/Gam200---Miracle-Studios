@@ -64,7 +64,7 @@ void GameObject::Serialise(Serialiser& document)
 	//auto ComponentTypes = EngineSystems::GetInstance()._prefabFactory->GetComponentTypes();
 
 
-	for (int i = 0; i < (int)ComponentId::COUNTCOMPONENT; i++)
+	for (int i = 0; i < (int)ComponentId::CT_Count; i++)
 	{
 		if (document.HasMember(ToString((ComponentId)i)))
 		{
@@ -173,4 +173,21 @@ void GameObject::SetEnable(bool enable)
 
 	for (auto it : _ComponentList)
 		it.second->SetEnable(enable);
+}
+
+GameObject* GameObject::Clone()
+{
+	GameObject* newGameObject = new GameObject();
+
+	for (auto it : _ComponentList)
+	{
+		newGameObject->_ComponentList[it.first] = it.second->CloneComponent();
+	}
+
+	return newGameObject;
+}
+
+void GameObject::Set_uID(size_t uid)
+{
+	_uId = uid;
 }

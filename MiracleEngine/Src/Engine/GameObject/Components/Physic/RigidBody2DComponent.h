@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	RigidBody2D.h
+//	RigidBody2DComponent.h
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -17,7 +17,7 @@ enum class RIGIDBODY_TYPE {
 	RB_DYNAMIC = false
 };
 
-class RigidBody2D : public IComponent
+class RigidBody2DComponent : public IComponent
 {
 public:
 	Vector3 _velocity;
@@ -34,11 +34,11 @@ public:
 	bool _componentEnable;
 
 public:
-	RigidBody2D();
-	RigidBody2D(const RigidBody2D& rhs) = default;
-	virtual ~RigidBody2D() = default;
+	RigidBody2DComponent();
+	RigidBody2DComponent(const RigidBody2DComponent& rhs) = default;
+	virtual ~RigidBody2DComponent() = default;
 
-	RigidBody2D& operator= (const RigidBody2D& rhs) = delete;
+	RigidBody2DComponent& operator= (const RigidBody2DComponent& rhs) = delete;
 
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override
@@ -91,7 +91,7 @@ public:
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
-		RigidBody2D* protoIColliderCom = dynamic_cast<RigidBody2D*>(protoCom);
+		RigidBody2DComponent* protoIColliderCom = dynamic_cast<RigidBody2DComponent*>(protoCom);
 
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value  mass;
@@ -175,7 +175,7 @@ public:
 	void SetMass(float mass);
 	void SetType(bool type);
 
-
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 #endif

@@ -5,6 +5,21 @@
 
 void Engine::Init()
 {
+	RegisterComponent(Identity);
+	RegisterComponent(Transform);
+	RegisterComponent(Graphic);
+	RegisterComponent(Animation);
+	RegisterComponent(Camera);
+	RegisterComponent(Font);
+	RegisterComponent(RigidBody2D);
+	RegisterComponent(CircleCollider2D);
+	RegisterComponent(BoxCollider2D);
+	RegisterComponent(EdgeCollider2D);
+	RegisterComponent(Logic);
+	RegisterComponent(Audio);
+	RegisterComponent(Button);
+	RegisterComponent(TileMap);
+
 #ifndef LEVELEDITOR
 
 	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
@@ -62,7 +77,7 @@ void Engine::Update()
 		MyFrameRateController.StartTimeCounter();
 		if (!MyImguiSystem._editorMode)
 		{
-			MyButtonManager.Update();
+			//MyButtonManager.Update();
 			MyEventHandler.BroadcastInputEvents();
 			MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
 		}
@@ -125,7 +140,7 @@ void Engine::Update()
 #else
 		MyInputSystem.Update(MyWindowsSystem.getWindow());
 
-		MyButtonManager.Update();
+		//MyButtonManager.Update();
 		MyEventHandler.BroadcastInputEvents();
 	
 		if (fixedDt)

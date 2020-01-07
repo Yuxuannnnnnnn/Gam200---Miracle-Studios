@@ -69,7 +69,7 @@ void AudioComponent::Inspect()
 {
 	IComponent::Inspect();
 
-	static auto AudioList = ResourceManager::GetInstance().GetSoundList();
+	static auto AudioList = MyResourceSystem.GetSoundList();
 
 
 	std::vector<const char*> list( AudioList.size() + 1);

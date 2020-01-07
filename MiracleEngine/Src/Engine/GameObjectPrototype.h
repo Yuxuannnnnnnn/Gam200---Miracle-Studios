@@ -51,7 +51,7 @@ public:
 
 
 	//Gameplay mode
-	void SerialPrefabObjects(Serialiser& Level);	
+	//void SerialPrefabObjects(Serialiser& Level);	
 
 //LevelEditor mode functions
 	void SerialiseAllPrefabAssets(NamePath& list);
@@ -60,13 +60,13 @@ public:
 		NewPrototype->DeSerialise(filePath);	//Deserialise prototype into a .json File
 
 		//Add Prototype Resource to editor Prototype List 
-		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(NewPrototype->GetComponent(ComponentId::IDENTITY_COMPONENT));
+		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(NewPrototype->GetComponent(ComponentId::CT_Identity));
 		_listObjectPrototype.insert(std::pair <std::string, GameObject*>(IdCom->ObjectType(), NewPrototype));
 		_prototypeFileList.insert(std::pair<std::string, std::string>(IdCom->ObjectType(), filePath));
 	}
 
 
-	void RegisterComponent(std::string componentName);
+	//void RegisterComponent(std::string componentName);
 	
 	std::deque<std::string> GetComponentTypes()
 	{

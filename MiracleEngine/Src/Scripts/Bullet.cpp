@@ -86,21 +86,21 @@ void Bullet::Update(double dt)
 
 void Bullet::BulletCollisionPlayer(Collider2D* other)
 {
-	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string Id = IdCom->ObjectType();
 
 	if (Id.compare("Enemy") == 0 ||
 		Id.compare("EnemyTwo") == 0)
 	{
 		DestoryThis();
-		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMY));
+		Enemy* enemy = reinterpret_cast<Enemy*>(other->GetParentPtr()->GetComponent(ComponentId::CT_Logic, ScriptId::ENEMY));
 		enemy->DecrementHealth();
 		enemy->SetStunned();
 	}
 	if (Id.compare("EnemyThree") == 0)
 	{
 		DestoryThis();
-		EnemyThree* enemy = reinterpret_cast<EnemyThree*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::ENEMYTHREE));
+		EnemyThree* enemy = reinterpret_cast<EnemyThree*>(other->GetParentPtr()->GetComponent(ComponentId::CT_Logic, ScriptId::ENEMYTHREE));
 		enemy->DecrementHealth();
 	}
 
@@ -113,19 +113,19 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 }
 void Bullet::BulletCollisionTurret(Collider2D* other)
 {
-	GameObject* explosion = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Explosion"]);
-	((TransformComponent*)explosion->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+	GameObject* explosion = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["Explosion"]);
+	((TransformComponent*)explosion->GetComponent(ComponentId::CT_Transform))->SetPos(
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 	DestoryThis();
 }
 void Bullet::BulletCollisionEnemy(Collider2D* other)
 {
-	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 
 	if (IdCom->ObjectType().compare("Player") == 0)
 	{
 		DestoryThis();
-		Player* player = reinterpret_cast<Player*>(other->GetParentPtr()->GetComponent(ComponentId::LOGIC_COMPONENT, ScriptId::PLAYER));
+		Player* player = reinterpret_cast<Player*>(other->GetParentPtr()->GetComponent(ComponentId::CT_Logic, ScriptId::PLAYER));
 		int hp = player->GetHealth();
 		hp -= 2;
 		player->SetHealth(hp);

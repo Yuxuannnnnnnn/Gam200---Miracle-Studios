@@ -97,12 +97,12 @@ Vector3& Turret::GetDestinationPos()
 			}
 		}
 	}
-	return ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 }
 
 Vector3& Turret::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
 }
 
 void Turret::SearchTarget()
@@ -122,7 +122,7 @@ void Turret::SearchTarget()
 				it.second->ObjectType().compare("EnemyThree"))
 			) && !it.second->GetParentPtr()->GetDestory())
 		{
-			IdentityComponent* idCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::IDENTITY_COMPONENT));
+			IdentityComponent* idCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::CT_Identity));
 			if (_target->GetDestory())
 			{
 				_target = it.second->GetParentPtr();
@@ -136,13 +136,13 @@ void Turret::SearchTarget()
 			tempGO = it.second->GetParentPtr();
 			// if _target closer than tempGO,
 			Vector3 distTarget(
-				(((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._x - GetPosition()._x),
-				(((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._y - GetPosition()._y),
+				(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos()._x - GetPosition()._x),
+				(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos()._y - GetPosition()._y),
 				0
 			);
 			Vector3 distTemp(
-				(((TransformComponent*)tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._x - GetPosition()._x),
-				(((TransformComponent*)tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos()._y - GetPosition()._y),
+				(((TransformComponent*)tempGO->GetComponent(ComponentId::CT_Transform))->GetPos()._x - GetPosition()._x),
+				(((TransformComponent*)tempGO->GetComponent(ComponentId::CT_Transform))->GetPos()._y - GetPosition()._y),
 				0
 			);
 			if( distTarget.Length() > distTemp.Length())
@@ -162,12 +162,12 @@ void Turret::ShootTarget()
 		_timerAttack = _timeAttackCooldown;
 		//std::cout << "Fired!" << std::endl;
 		// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletT"]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletT"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 50000);
 	}
 }
@@ -180,14 +180,14 @@ void Turret::RotateToTarget()
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = targetVec._x * compareVec._x + targetVec._y * compareVec._y;
 	float det = targetVec._x * compareVec._y - targetVec._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
 }
 
 void Turret::FSM()
 {
 	SearchTarget();
 	// if no enemy
-	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::IDENTITY_COMPONENT));
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::CT_Identity));
 	std::string id = IdCom->ObjectType();
 	if (id.compare("Player"))
 		_state = (unsigned)AiState::IDLE;

@@ -48,37 +48,37 @@ namespace Collision {
 
 void BOX_BOX_CollisionCR(Collider2D* colliderA,
 	TransformComponent* transformA,
-	RigidBody2D* rigidbodyA,
+	RigidBody2DComponent* rigidbodyA,
 	Collider2D* colliderB,
 	TransformComponent* transformB,
-	RigidBody2D* rigidbodyB,
+	RigidBody2DComponent* rigidbodyB,
 	double dt);
 
 void CIRCLE_CIRCLE_CollisionCR(Collider2D* colliderA,
 	TransformComponent* transformA,
-	RigidBody2D* rigidbodyA,
+	RigidBody2DComponent* rigidbodyA,
 	Collider2D* colliderB,
 	TransformComponent* transformB,
-	RigidBody2D* rigidbodyB,
+	RigidBody2DComponent* rigidbodyB,
 	double dt);
 
 void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
 	TransformComponent* transformA,
-	RigidBody2D* rigidbodyA,
+	RigidBody2DComponent* rigidbodyA,
 	Collider2D* colliderB,
 	TransformComponent* transformB,
-	RigidBody2D* rigidbodyB,
+	RigidBody2DComponent* rigidbodyB,
 	double dt);
 
 void CIRCLE_EDGE_CollisionCR(Collider2D* colliderA,
 	TransformComponent* transformA,
-	RigidBody2D* rigidbodyA,
+	RigidBody2DComponent* rigidbodyA,
 	Collider2D* colliderB,
 	double dt);
 
 void BOX_EDGE_CollisionCR(Collider2D* colliderA,
 	TransformComponent* transformA,
-	RigidBody2D* rigidbodyA,
+	RigidBody2DComponent* rigidbodyA,
 	Collider2D* colliderB,
 	double dt);
 
@@ -86,41 +86,41 @@ void BOX_EDGE_CollisionCR(Collider2D* colliderA,
 ///////////////////////////////////////////////////////////////////////////////
 	//Dynamic Collision Check
 
-int BoxBox_Intersection(const BoxCollider2D& boxA,
+int BoxBox_Intersection(const BoxCollider2DComponent& boxA,
 	const Vector3& velA,														
-	const BoxCollider2D& boxB,												
+	const BoxCollider2DComponent& boxB,												
 	const Vector3& velB,														
 	Vector3& interPtA,														
 	Vector3& interPtB,														
 	float& interTime);														
 
-int BoxEdge_Intersection(const BoxCollider2D& circle,			
+int BoxEdge_Intersection(const BoxCollider2DComponent& circle,			
 	const Vector3& ptEnd,													
-	const EdgeCollider2D& lineSeg,											
+	const EdgeCollider2DComponent& lineSeg,											
 	Vector3& interPt,														
 	Vector3& normalAtCollision,												
 	float& interTime,														
 	bool& checkLineEdges);
 
 int BoxLine_Intersection(bool withinBothLines,
-	const BoxCollider2D& circle,
+	const BoxCollider2DComponent& circle,
 	const Vector3& ptEnd,
-	const EdgeCollider2D& lineSeg,
+	const EdgeCollider2DComponent& lineSeg,
 	Vector3& interPt,	
 	Vector3& normalAtCollision,	
 	float& interTime);
 
-int CircleCircle_Intersection(const CircleCollider2D& circleA,
+int CircleCircle_Intersection(const CircleCollider2DComponent& circleA,
 	const Vector3& velA,
-	const CircleCollider2D& circleB,
+	const CircleCollider2DComponent& circleB,
 	const Vector3& velB,
 	Vector3& interPtA,
 	Vector3& interPtB,
 	float& interTime);
 
-int CircleEdge_Intersection(const CircleCollider2D& circle,
+int CircleEdge_Intersection(const CircleCollider2DComponent& circle,
 	const Vector3& ptEnd,
-	const EdgeCollider2D& lineSeg,
+	const EdgeCollider2DComponent& lineSeg,
 	Vector3& interPt,
 	Vector3& normalAtCollision,
 	float& interTime,
@@ -128,19 +128,19 @@ int CircleEdge_Intersection(const CircleCollider2D& circle,
 
 
 int CircleLine_Intersection(bool withinBothLines,
-	const CircleCollider2D& circle,
+	const CircleCollider2DComponent& circle,
 	const Vector3& ptEnd,
-	const EdgeCollider2D& lineSeg,
+	const EdgeCollider2DComponent& lineSeg,
 	Vector3& interPt,
 	Vector3& normalAtCollision,
 	float& interTime);
 
 //int RayBox_Intersection(const Ray& ray,
-//	const BoxCollider2D& circle,
+//	const BoxCollider2DComponent& circle,
 //	float& interTime);
 
 /*int RayCircle_Intersection(const Ray& ray,
-	const CircleCollider2D& circle,
+	const CircleCollider2DComponent& circle,
 	float& interTime);		*/
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -196,9 +196,9 @@ void CircleCircle_Response(Vector3& normal,
 	Vector3& reflectedVectorB,
 	Vector3& ptEndB);		
 
-int CircleBox_Intersection(const CircleCollider2D& boxA,
+int CircleBox_Intersection(const CircleCollider2DComponent& boxA,
 	const Vector3& velA,
-	const BoxCollider2D& circleB,
+	const BoxCollider2DComponent& circleB,
 	const Vector3& velB,
 	Vector3& interPtA,
 	Vector3& interPtB,
@@ -221,25 +221,25 @@ void CircleBox_Response(Vector3& normal,
 ///////////////////////////////////////////////////////////////////////////////
 	//Static Collision Check
 
-bool TestAABBVsPoint(const BoxCollider2D& aabb, const Vector3& pt);
-bool TestAABBVsAABB(const BoxCollider2D& aabb1, const BoxCollider2D& aabb2);
-bool TestOBBVsPoint(const BoxCollider2D& obb, const Vector3& pt);
-bool TestOBBVsOBB(const BoxCollider2D& obb1, const BoxCollider2D& obb2);
-bool TestOverlaps(const BoxCollider2D& obb1, const BoxCollider2D& obb2);
+bool TestAABBVsPoint(const BoxCollider2DComponent& aabb, const Vector3& pt);
+bool TestAABBVsAABB(const BoxCollider2DComponent& aabb1, const BoxCollider2DComponent& aabb2);
+bool TestOBBVsPoint(const BoxCollider2DComponent& obb, const Vector3& pt);
+bool TestOBBVsOBB(const BoxCollider2DComponent& obb1, const BoxCollider2DComponent& obb2);
+bool TestOverlaps(const BoxCollider2DComponent& obb1, const BoxCollider2DComponent& obb2);
 
-bool TestBoxVsPoint(const BoxCollider2D& box, const Vector3& pt);
-bool TestBoxVsBox(const BoxCollider2D& box1, const BoxCollider2D& box2);
-int TestOutCode(const BoxCollider2D& box, const Vector3& pt);
+bool TestBoxVsPoint(const BoxCollider2DComponent& box, const Vector3& pt);
+bool TestBoxVsBox(const BoxCollider2DComponent& box1, const BoxCollider2DComponent& box2);
+int TestOutCode(const BoxCollider2DComponent& box, const Vector3& pt);
 
-bool TestCircleVsPoint(const CircleCollider2D& circle, const Vector3& pt);
-bool TestCircleVsCircle(const CircleCollider2D& circle1, const CircleCollider2D& circle2);
+bool TestCircleVsPoint(const CircleCollider2DComponent& circle, const Vector3& pt);
+bool TestCircleVsCircle(const CircleCollider2DComponent& circle1, const CircleCollider2DComponent& circle2);
 
-bool TestCircleVsBox(const CircleCollider2D& circle, const BoxCollider2D& box);
-bool TestCircleVsAABB(const CircleCollider2D& circle, const BoxCollider2D& aabb);
-bool TestCircleVsOBB(const CircleCollider2D& circle, const BoxCollider2D& oobb);
+bool TestCircleVsBox(const CircleCollider2DComponent& circle, const BoxCollider2DComponent& box);
+bool TestCircleVsAABB(const CircleCollider2DComponent& circle, const BoxCollider2DComponent& aabb);
+bool TestCircleVsOBB(const CircleCollider2DComponent& circle, const BoxCollider2DComponent& oobb);
 
-bool TestCircleVsEdge(const CircleCollider2D& circle, const EdgeCollider2D& edge);
-bool TestBoxVsEdge(const BoxCollider2D& box, const EdgeCollider2D& edge);
-bool TestAABBVsEdge(const BoxCollider2D& obb, const EdgeCollider2D& edge);
-bool TestOBBVsEdge(const BoxCollider2D& aabb, const EdgeCollider2D& edge);
+bool TestCircleVsEdge(const CircleCollider2DComponent& circle, const EdgeCollider2DComponent& edge);
+bool TestBoxVsEdge(const BoxCollider2DComponent& box, const EdgeCollider2DComponent& edge);
+bool TestAABBVsEdge(const BoxCollider2DComponent& obb, const EdgeCollider2DComponent& edge);
+bool TestOBBVsEdge(const BoxCollider2DComponent& aabb, const EdgeCollider2DComponent& edge);
 #endif

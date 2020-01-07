@@ -22,13 +22,6 @@
   "ColliderTag": 3,
   "ColliderTrigger": false,
 
-  "LogicComponent": true,
-  "ScriptId": [ "ENEMY" ],
-  "Health": 1,
-  "EnemyType": 1,
-  "AttackRange": 5,
-  "StunDuration": 5.0,
-
   "AudioComponent": true,
   "A.TypeId": 0,
   "A.FileName": "audio_enemy.ogg"

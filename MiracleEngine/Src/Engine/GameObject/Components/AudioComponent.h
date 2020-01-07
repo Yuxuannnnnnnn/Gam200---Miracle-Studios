@@ -131,5 +131,6 @@ public:
 
 	std::string& GetFileName();
 
+	IComponent* CloneComponent() { return nullptr; }
 };
 

@@ -145,6 +145,8 @@ public:
 	{
 		_ObjectType = ObjectType;
 	}
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 

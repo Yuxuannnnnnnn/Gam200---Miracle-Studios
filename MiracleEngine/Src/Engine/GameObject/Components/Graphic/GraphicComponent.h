@@ -165,5 +165,7 @@ public:
 
 
 	unsigned& GetTypeId();
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 

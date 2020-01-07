@@ -149,6 +149,6 @@ public:
 
 	//~AnimationComponent();
 
-
+	IComponent* CloneComponent() { return nullptr; }
 };
 

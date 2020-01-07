@@ -46,6 +46,6 @@ public:
 	}
 
 
-
+	IComponent* CloneComponent() { return nullptr; }
 };
 

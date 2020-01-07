@@ -154,7 +154,7 @@ void AISystem::CreateNodeMap()
 	int originY = -(int)((_mapTileSize * _mapHeight) / 2);
 	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
 	
-	_engineSystems._collisionManager->_collisionMap.AddNewMap(
+	MyPhysicsSystem._collisionMap.AddNewMap(
 		MAP_HEIGHT, MAP_WIDTH, Vec2{ MAP_SIZE, MAP_SIZE }, tempVecOrigin);
 
 	for (int y = 0; y < (int)_mapHeight; ++y)
@@ -179,42 +179,42 @@ void AISystem::CreateNodeMap()
 			// create WALL object from factory
 			if (solid) 
 			{	// create wall only if solid
-				tempGo = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Wall"]);
+				tempGo = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["Wall"]);
 				//tempGo->Set_typeId(TypeIdGO::WALL);
-				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+				((TransformComponent*)tempGo->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 				
-				_engineSystems._collisionManager->_collisionMap.AddNewTile(y, x, MapTile{ TileType::HARD_WALL, tempGo->Get_uID() });
+				MyPhysicsSystem._collisionMap.AddNewTile(y, x, MapTile{ TileType::HARD_WALL, tempGo->Get_uID() });
 				//std::cout << id;
 			}
 			else if (spawner)
 			{	// create spawner if tileMapInput[][] == 2
 				GameObject* spawner = nullptr;
-				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Spawner"]);
-				((TransformComponent*)spawner->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["Spawner"]);
+				((TransformComponent*)spawner->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 				
 				//std::cout << "*";
 			}
 			else if (spawner2)
 			{	// create spawner if tileMapInput[][] == 3
 				GameObject* spawner = nullptr;
-				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["SpawnerTwo"]);
-				((TransformComponent*)spawner->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["SpawnerTwo"]);
+				((TransformComponent*)spawner->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 				
 				//std::cout << "*";
 			}
 			else if (spawner3)
 			{	// create spawner if tileMapInput[][] == 4
 				GameObject* spawner = nullptr;
-				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["SpawnerThree"]);
-				((TransformComponent*)spawner->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+				spawner = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["SpawnerThree"]);
+				((TransformComponent*)spawner->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 
 				//std::cout << "*";
 			}
 			else
 			{	// create wall only if solid
-				tempGo = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Floor"]);
+				tempGo = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["Floor"]);
 				//tempGo->Set_typeId(TypeIdGO::FLOOR);
-				((TransformComponent*)tempGo->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+				((TransformComponent*)tempGo->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 				
 				//std::cout << "*";
 			}
@@ -308,8 +308,8 @@ void AISystem::CreateNodeMap()
 
 
 	GameObject * obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
-	TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+		CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+	TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
 	Vector3 position(0, (MAP_HEIGHT - 1)* MAP_SIZE / 2, 1);
 	com->SetPos(position);
 	Vector3 scale(MAP_WIDTH* MAP_SIZE,0,0);
@@ -318,8 +318,8 @@ void AISystem::CreateNodeMap()
 
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
-	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+		CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
 	Vector3 position1(0, -((MAP_HEIGHT + 1) * MAP_SIZE/2), 1);
 	com->SetPos(position1);
 	Vector3 scale1(MAP_WIDTH* MAP_SIZE, 0, 0);
@@ -327,8 +327,8 @@ void AISystem::CreateNodeMap()
 	com->SetRotate(0.f);
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
-	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+		CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
 	Vector3 position2(-((MAP_WIDTH + 1) * MAP_SIZE/2), 0, 1);
 	com->SetPos(position2);
 	Vector3 scale2(0, MAP_HEIGHT* MAP_SIZE, 0);
@@ -336,8 +336,8 @@ void AISystem::CreateNodeMap()
 	com->SetRotate(-((const float)(PI/2)));
 
 	 obj = EngineSystems::GetInstance()._gameObjectFactory->
-		CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
-	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+		CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+	 com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
 	Vector3 position3((MAP_WIDTH - 1)* MAP_SIZE / 2, 0, 1);
 	com->SetPos(position3);
 	Vector3 scale3(0, MAP_HEIGHT* MAP_SIZE, 0);
@@ -395,8 +395,8 @@ void AISystem::CreateNodeMapFromTileComp()
 			_tileNodeMap.insert(std::pair<size_t, Node*>(id, tempNode));
 			//*((temp + (y*width)) + x) = id++; // idk if the ptr arithmatic is correct // ((ptr + (jumpToRow)) + rowOffset)
 
-			GameObject* tempGO = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["Floor"]);
-			((TransformComponent*)tempGO->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(tempVec);
+			GameObject* tempGO = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["Floor"]);
+			((TransformComponent*)tempGO->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 
 		}
 	}
@@ -461,8 +461,8 @@ void AISystem::CreateNodeMapFromTileComp()
 
 
 	//GameObject* obj = EngineSystems::GetInstance()._gameObjectFactory->
-	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
-	//TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+	//TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
 	//Vector3 position(0, (MAP_HEIGHT - 1) * MAP_SIZE / 2, 1);
 	//com->SetPos(position);
 	//Vector3 scale(MAP_WIDTH * MAP_SIZE, 0, 0);
@@ -471,8 +471,8 @@ void AISystem::CreateNodeMapFromTileComp()
 
 
 	//obj = EngineSystems::GetInstance()._gameObjectFactory->
-	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
 	//Vector3 position1(0, -((MAP_HEIGHT + 1) * MAP_SIZE / 2), 1);
 	//com->SetPos(position1);
 	//Vector3 scale1(MAP_WIDTH * MAP_SIZE, 0, 0);
@@ -480,8 +480,8 @@ void AISystem::CreateNodeMapFromTileComp()
 	//com->SetRotate(0.f);
 
 	//obj = EngineSystems::GetInstance()._gameObjectFactory->
-	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
 	//Vector3 position2(-((MAP_WIDTH + 1) * MAP_SIZE / 2), 0, 1);
 	//com->SetPos(position2);
 	//Vector3 scale2(0, MAP_HEIGHT * MAP_SIZE, 0);
@@ -489,8 +489,8 @@ void AISystem::CreateNodeMapFromTileComp()
 	//com->SetRotate(-((const float)(PI / 2)));
 
 	//obj = EngineSystems::GetInstance()._gameObjectFactory->
-	//	CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["MapEdge"]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
 	//Vector3 position3((MAP_WIDTH - 1) * MAP_SIZE / 2, 0, 1);
 	//com->SetPos(position3);
 	//Vector3 scale3(0, MAP_HEIGHT * MAP_SIZE, 0);

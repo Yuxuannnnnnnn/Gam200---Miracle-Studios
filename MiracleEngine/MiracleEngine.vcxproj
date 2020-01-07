@@ -190,6 +190,7 @@
     <ClInclude Include="Src\Engine\Factory.h" />
     <ClInclude Include="Src\Engine\GameObjectFactory.h" />
     <ClInclude Include="Src\Engine\GameObjectPrototype.h" />
+    <ClInclude Include="Src\Engine\GameObject\ComponentCreator.h" />
     <ClInclude Include="Src\Engine\GameObject\ComponentManager.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\AudioComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ButtonComponent.h" />
@@ -205,6 +206,8 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\LogicComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\PrecompiledScriptType.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\ParticleComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\ParticleSystemComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\CircleCollider2DComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\EdgeCollider2DComponent.h" />
@@ -212,6 +215,7 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\RigidBody2DComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\PrecompiledComponentHeader.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\TileMapComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\ComponentTypeId.h" />
     <ClInclude Include="Src\Engine\GameObject\GameObject.h" />
     <ClInclude Include="Src\Engine\GameObject\IAllocator.h" />
     <ClInclude Include="Src\Engine\GameObject\IAllocator.hpp" />
@@ -257,14 +261,11 @@
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingCircle.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingPolygon.h" />
-    <ClInclude Include="Src\Engine\SystemPhysics\ButtonManager.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\Collision.h" />
-    <ClInclude Include="Src\Engine\SystemPhysics\CollisionManager.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\CollisionMap.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\CollisionTable.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\IForce.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\PhysicsSystem.h" />
-    <ClInclude Include="Src\Engine\SystemPhysics\RigidBodyManager.h" />
     <ClInclude Include="Src\Engine\SystemWindows\Console.h" />
     <ClInclude Include="Src\Engine\SystemWindows\ScreenSize.h" />
     <ClInclude Include="Src\Engine\SystemWindows\Window.h" />
@@ -289,6 +290,7 @@
     <ClInclude Include="Src\Engine\Tools\Memory\ObjectAllocator.hpp" />
     <ClInclude Include="Src\Engine\Tools\Resource\IResourceInfo.h" />
     <ClInclude Include="Src\Engine\Tools\Resource\ResourceManager.h" />
+    <ClInclude Include="Src\Engine\Tools\Resource\ResourceSystem.h" />
     <ClInclude Include="Src\Engine\Tools\Time\FrameRateController.h" />
     <ClInclude Include="Src\Scripts\Boss.h" />
     <ClInclude Include="Src\Scripts\Bullet.h" />
@@ -633,6 +635,8 @@
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\LogicComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\ParticleComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\ParticleSystemComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\CircleCollider2DComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\Collider2DComponent.cpp" />
@@ -675,14 +679,11 @@
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingCircle.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingPolygon.cpp" />
-    <ClCompile Include="Src\Engine\SystemPhysics\ButtonManager.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\Collision.cpp" />
-    <ClCompile Include="Src\Engine\SystemPhysics\CollisionManager.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionMap.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionTable.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\IForce.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem.cpp" />
-    <ClCompile Include="Src\Engine\SystemPhysics\RigidBodyManager.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\Console.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\ScreenSize.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\Window.cpp" />
@@ -697,7 +698,9 @@
     <ClCompile Include="Src\Engine\Tools\MathLib\Vector2.cpp" />
     <ClCompile Include="Src\Engine\Tools\MathLib\Vector3.cpp" />
     <ClCompile Include="Src\Engine\Tools\Memory\MemoryManager.cpp" />
+    <ClCompile Include="Src\Engine\Tools\Resource\IResourceInfo.cpp" />
     <ClCompile Include="Src\Engine\Tools\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Src\Engine\Tools\Resource\ResourceSystem.cpp" />
     <ClCompile Include="Src\Engine\Tools\Time\FrameRateController.cpp" />
     <ClCompile Include="Src\Scripts\Boss.cpp" />
     <ClCompile Include="Src\Scripts\Bullet.cpp" />

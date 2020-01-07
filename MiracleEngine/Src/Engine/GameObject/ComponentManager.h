@@ -21,6 +21,8 @@
 #include "GameObject/Components/ImGuizmoComponent.h"
 #include "GameObject/Components/TileMapComponent.h"
 
+#include "GameObject/ComponentCreator.h"
+
 class ComponentManager final
 {
 public:
@@ -41,5 +43,25 @@ public:
 	std::unordered_map < size_t, LogicComponent* >		_logicComponents;
 
 	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;
-	std::unordered_map < size_t, RigidBody2D* >			_rigidbody2DComponent;
+	std::unordered_map < size_t, RigidBody2DComponent* >			_rigidbody2DComponent;
+
+	std::unordered_map< ComponentId, std::unordered_map<size_t, IComponent*>* > _componentContainers;
+
+	void AddNewComponentContainer(ComponentId tpyeId)
+	{
+		_componentContainers[tpyeId] = new std::unordered_map<size_t, IComponent*>;
+	}
+
+	std::unordered_map<size_t, IComponent*>* GetComponentContainer(ComponentId tpyeId)
+	{
+		std::unordered_map< ComponentId, std::unordered_map<size_t, IComponent*>* >::iterator it =
+			_componentContainers.find(tpyeId);
+
+		if (it == _componentContainers.end())
+			return nullptr;
+
+		return it->second;
+	}
 };
+
+#define GetComponentMap(type) GetComponentContainer( type##_COMPONENT )

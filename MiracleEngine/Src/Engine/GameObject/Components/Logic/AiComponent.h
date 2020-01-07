@@ -61,6 +61,8 @@ public:
 	void Move(Vector3 nextNodePos);
 // FSM
 	void FSM();
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 #endif

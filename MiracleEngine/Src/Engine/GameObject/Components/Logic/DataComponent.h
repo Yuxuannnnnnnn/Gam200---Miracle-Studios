@@ -16,6 +16,8 @@ public:
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 class DataAmmo : public IComponent
@@ -29,6 +31,8 @@ public:
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 //class DataAttack : public DataComponent

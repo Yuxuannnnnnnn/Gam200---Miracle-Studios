@@ -13,8 +13,8 @@ Sound* SoundManager::GetSound(std::string& name)
 
 void SoundManager::AddSound(std::string& name, std::string& path, SoundType type)
 {
-	if (ResourceManager::GetInstance().AddNewAudioResource({ name,path }))
+	if (MyResourceSystem.AddNewAudioResource({ name,path }))
 	{
-		_soundMap[name] = ResourceManager::GetInstance().GetSoundResource(name);
+		_soundMap[name] = MyResourceSystem.GetSoundResource(name);
 	}
 }

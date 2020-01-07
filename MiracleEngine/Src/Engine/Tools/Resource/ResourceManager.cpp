@@ -8,124 +8,127 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 #include "PrecompiledHeaders.h"
 #include "ResourceManager.h"
+#include "ResourceSystem.h"
 
 #include "../stb_image/stb_image.h"
 #include <string>
 
+ResourceManager::ResourceManager(bool editer) :
+	_editerMode{ editer }
+{
+
+}
+
 ResourceManager::~ResourceManager()
 {
-	ClearCurrentResources();
+	ClearAllResources();
 }
-
-void ResourceManager::ClearCurrentResources()
-{
-	for (auto it : _Texture2DMap)
-	{
-		//unload
-		it.second->unload();
-
-		_Texture2DAllocater.Free(it.second);
-	}
-
-	for (auto it : _ShaderMap)
-	{
-		//unload
-		it.second->unload();
-
-		_ShaderAllocater.Free(it.second);
-	}
-
-	for (auto it : _FontMap)
-	{
-		//unload
-		it.second->unload();
-
-		_FontAllocater.Free(it.second);
-	}
-
-	for (auto it : _AudioMap)
-	{
-		//unload
-		it.second->unload();
-
-		_AudioAllocater.Free(it.second);
-	}
-
-	for (auto it : _AnimationMap)
-	{
-		//unload
-		it.second->unload();
-
-		_AnimationAllocater.Free(it.second);
-	}
-
-	_Texture2DMap.clear();
-	_ShaderMap.clear();
-	_FontMap.clear();
-	_AudioMap.clear();
-	_AnimationMap.clear();
-
-	_Texture2DList.clear();
-	_ShaderList.clear();
-	_FontList.clear();
-	_AudioList.clear();
-	_AnimationList.clear();
-}
-
 void ResourceManager::AddTexture2DResourceList(NamePathMap list)
 {
-	for (auto& it : list)
-		AddNewTexture2DResource(it);
+	if (_editerMode)
+	{
+		for (auto it : list)
+			AddNewTexture2DResource(NamePath{ it.first, it.second });
+	}
+	else
+	{
+		MyResourceSystem.AddTexture2DResourceList(list);
+	}
+
 }
 
 void ResourceManager::AddShaderResourceList(NamePairMap list)
 {
-	for (auto it : list)
-		AddNewShaderResource(it);
+	if (_editerMode)
+	{
+		for (auto it : list)
+			AddNewShaderResource(NamePair{ it.first, it.second });
+	}
+	else
+	{
+		MyResourceSystem.AddShaderResourceList(list);
+	}
 }
 
 void ResourceManager::AddFontResourceList(NamePathMap list)
 {
-	for (auto it : list)
-		AddNewFontResource(it);
+	if (_editerMode)
+	{
+		for (auto it : list)
+			AddNewFontResource(NamePath{ it.first, it.second });
+	}
+	else
+	{
+		MyResourceSystem.AddFontResourceList(list);
+	}
 }
 
 void ResourceManager::AddAudioResourceList(NamePathMap list)
 {
-	for (auto it : list)
-		AddNewAudioResource(it);
+	if (_editerMode)
+	{
+		for (auto it : list)
+			AddNewAudioResource(NamePath{ it.first, it.second });
+	}
+	else
+	{
+		MyResourceSystem.AddAudioResourceList(list);
+	}
 }
 
 void ResourceManager::AddAnimationResourceList(NamePathMap list)
 {
-	for (auto it : list)
-		AddNewAnimationResource(it);
+	if (_editerMode)
+	{
+		for (auto it : list)
+			AddNewAnimationResource(NamePath{ it.first, it.second });
+	}
+	else
+	{
+		MyResourceSystem.AddAnimationResourceList(list);
+	}
+}
+
+void ResourceManager::AddPrototypeResourceList(NamePathMap_unordered list)
+{
+	if (_editerMode)
+	{
+		for (auto it : list)
+			AddNewPrototypeResource(NamePath{ it.first, it.second });
+	}
+	else
+	{
+		MyResourceSystem.AddPrototypeResourceList(list);
+	}
 }
 
 bool ResourceManager::AddNewTexture2DResource(NamePath list)
 {
-	Texture2D* newTexture2D = (Texture2D*)_Texture2DAllocater.Allocate();
-
-	// load
-	if (newTexture2D->load(list.second))
+	if (MyResourceSystem.GetTexture2DResource(list.first) || MyResourceSystem.AddNewTexture2DResource(list)) // check resource created before?
 	{
-		_Texture2DMap.insert(std::pair<std::string, Texture2D*>(list.first, newTexture2D));
-		_Texture2DList.insert(list);
+		if (_editerMode)
+		{
+			_mainContainer._Texture2DMap.insert(std::pair<std::string, Texture2D*>(list.first, MyResourceSystem.GetTexture2DResource(list.first)));
+			_mainContainer._Texture2DList.insert(list);
+		}
+
 		return true;
 	}
+
 
 	return false;
 }
 
 bool ResourceManager::AddNewShaderResource(NamePair list)
 {
-	Shader* newShader = (Shader*)_ShaderAllocater.Allocate();
-
-	// load
-	if (newShader->load(list.second.first, list.second.second))
+	if (MyResourceSystem.GetShaderResource(list.first) || MyResourceSystem.AddNewShaderResource(list)) // check resource created before?
 	{
-		_ShaderMap.insert(std::pair<std::string, Shader*>(list.first, newShader));
-		_ShaderList.insert(list);
+		if (_editerMode)
+		{
+			_mainContainer._ShaderMap.insert(std::pair<std::string, Shader*>(list.first, MyResourceSystem.GetShaderResource(list.first)));
+			_mainContainer._ShaderList.insert(list);
+		}
+
 		return true;
 	}
 
@@ -134,13 +137,18 @@ bool ResourceManager::AddNewShaderResource(NamePair list)
 
 bool ResourceManager::AddNewFontResource(NamePath list)
 {
-	FontRenderer* newFont = (FontRenderer*)_FontAllocater.Allocate();
-
-	// load
-	if (newFont->load(list.second))
+	if (MyResourceSystem.GetFontResource(list.first) || MyResourceSystem.AddNewFontResource(list)) // check resource created before?
 	{
-		_FontMap.insert(std::pair<std::string, FontRenderer*>(list.first, newFont));
-		_FontList.insert(list);
+		if (_editerMode)
+		{
+			FontRenderer* font = MyResourceSystem.GetFontResource(list.first);
+
+			_mainContainer._FontMap.insert(std::pair<std::string, FontRenderer*>(list.first, font));
+			_mainContainer._FontList.insert(list);
+
+			GetFontCharacterMap().insert({ font->GetCharacterMapId(), MyResourceSystem.GetFontCharacterMap()[font->GetCharacterMapId()] });
+		}
+
 		return true;
 	}
 
@@ -149,13 +157,14 @@ bool ResourceManager::AddNewFontResource(NamePath list)
 
 bool ResourceManager::AddNewAudioResource(NamePath list)
 {
-	Sound* newSound = (Sound*)_AudioAllocater.Allocate();
-
-	// load
-	if (newSound->load(list.second, 0))
+	if (MyResourceSystem.GetSoundResource(list.first) || MyResourceSystem.AddNewAudioResource(list)) // check resource created before?
 	{
-		_AudioMap.insert(std::pair<std::string, Sound*>(list.first, newSound));
-		_AudioList.insert(list);
+		if (_editerMode)
+		{
+			_mainContainer._AudioMap.insert(std::pair<std::string, Sound*>(list.first, MyResourceSystem.GetSoundResource(list.first)));
+			_mainContainer._AudioList.insert(list);
+		}
+
 		return true;
 	}
 
@@ -164,106 +173,143 @@ bool ResourceManager::AddNewAudioResource(NamePath list)
 
 bool ResourceManager::AddNewAnimationResource(NamePath list)
 {
-	Animation* newAnimation = (Animation*)_AnimationAllocater.Allocate();
-
-	// load
-	if (newAnimation->load(list.second))
+	if (MyResourceSystem.GetAnimationResource(list.first) || MyResourceSystem.AddNewAnimationResource(list)) // check resource created before?
 	{
-		_AnimationMap.insert(std::pair<std::string, Animation*>(list.first, newAnimation));
-		_AnimationList.insert(list);
+		if (_editerMode)
+		{
+			_mainContainer._AnimationMap.insert(std::pair<std::string, Animation*>(list.first, MyResourceSystem.GetAnimationResource(list.first)));
+			_mainContainer._AnimationList.insert(list);
+		}
+
+		return true;
+	}
+
+
+	return false;
+}
+
+bool ResourceManager::AddNewPrototypeResource(NamePath list)
+{
+	if (MyResourceSystem.GetPrototypeResource(list.first) || MyResourceSystem.AddNewPrototypeResource(list)) // check resource created before?
+	{
+		if (_editerMode)
+		{
+			_mainContainer._PrototypeMap.insert(std::pair<std::string, GameObject*>(list.first, MyResourceSystem.GetPrototypeResource(list.first)));
+			_mainContainer._PrototypeList.insert(list);
+		}
+
 		return true;
 	}
 
 	return false;
 }
 
-
 Texture2D* ResourceManager::GetTexture2DResource(std::string name)
 {
-	if (_Texture2DMap.find(name) != _Texture2DMap.end())
-		return _Texture2DMap[name];
+	if (_editerMode)
+	{
+		if (_mainContainer._Texture2DMap.find(name) != _mainContainer._Texture2DMap.end())
+			return _mainContainer._Texture2DMap[name];
 
-	return nullptr;
+		return nullptr;
+	}
+
+	return MyResourceSystem.GetTexture2DResource(name);
 }
 
 Shader* ResourceManager::GetShaderResource(std::string name)
 {
-	if (_ShaderMap.find(name) != _ShaderMap.end())
-		return _ShaderMap[name];
+	if (_editerMode)
+	{
+		if (_mainContainer._ShaderMap.find(name) != _mainContainer._ShaderMap.end())
+			return _mainContainer._ShaderMap[name];
 
-	return nullptr;
+		return nullptr;
+	}
+
+	return MyResourceSystem.GetShaderResource(name);
 }
 
 FontRenderer* ResourceManager::GetFontResource(std::string name)
 {
-	if (_FontMap.find(name) != _FontMap.end())
-		return _FontMap[name];
+	if (_editerMode)
+	{
+		if (_mainContainer._FontMap.find(name) != _mainContainer._FontMap.end())
+			return _mainContainer._FontMap[name];
 
-	return nullptr;
+		return nullptr;
+	}
+
+	return MyResourceSystem.GetFontResource(name);
 }
 
 Sound* ResourceManager::GetSoundResource(std::string name)
 {
-	if (_AudioMap.find(name) != _AudioMap.end())
-		return _AudioMap[name];
+	if (_editerMode)
+	{
+		if (_mainContainer._AudioMap.find(name) != _mainContainer._AudioMap.end())
+			return _mainContainer._AudioMap[name];
 
-	return nullptr;
+		return nullptr;
+	}
+
+	return MyResourceSystem.GetSoundResource(name);
 }
 
 Animation* ResourceManager::GetAnimationResource(std::string name)
 {
-	if (_AnimationMap.find(name) != _AnimationMap.end())
-		return _AnimationMap[name];
+	if (_editerMode)
+	{
+		if (_mainContainer._AnimationMap.find(name) != _mainContainer._AnimationMap.end())
+			return _mainContainer._AnimationMap[name];
 
-	return nullptr;
+		return nullptr;
+	}
+
+	return MyResourceSystem.GetAnimationResource(name);
 }
 
-std::string ResourceManager::GetTexture2DResourcePath(std::string name)
+GameObject* ResourceManager::GetPrototypeResource(std::string name)
 {
-	return _Texture2DList[name];
+	if (_editerMode)
+	{
+		if (_mainContainer._PrototypeMap.find(name) != _mainContainer._PrototypeMap.end())
+			return _mainContainer._PrototypeMap[name];
+
+		return nullptr;
+	}
+
+	return MyResourceSystem.GetPrototypeResource(name);
 }
 
-ResourceManager::VertFrag ResourceManager::GetShaderResourcePath(std::string name)
+FontCharacterMap& ResourceManager::GetFontCharacterMap()
 {
-	return _ShaderList[name];
+	if (_editerMode)
+		return _mainContainer._fontCharacterMaps;
+
+	return MyResourceSystem.GetFontCharacterMap();
 }
 
-std::string ResourceManager::GetFontResourcePath(std::string name)
+void ResourceManager::ClearAllResources()
 {
-	return _FontList[name];
-}
+	_mainContainer._Texture2DMap.clear();
+	_mainContainer._ShaderMap.clear();
+	_mainContainer._FontMap.clear();
+	_mainContainer._AudioMap.clear();
+	_mainContainer._AnimationMap.clear();
+	_mainContainer._PrototypeMap.clear();
 
-std::string ResourceManager::GetSoundResourcePath(std::string name)
-{
-	return _AudioList[name];
-}
+	_mainContainer._Texture2DList.clear();
+	_mainContainer._ShaderList.clear();
+	_mainContainer._FontList.clear();
+	_mainContainer._AudioList.clear();
+	_mainContainer._AnimationList.clear();
+	_mainContainer._PrototypeList.clear();
 
-std::string ResourceManager::GetAnimationResourcePath(std::string name)
-{
-	return _AnimationList[name];
-}
+	_mainContainer._fontCharacterMaps.clear();
 
-ResourceManager::NamePathMap ResourceManager::GetTexture2DList()
-{
-	return _Texture2DList;
-}
-
-ResourceManager::NamePairMap ResourceManager::GetShaderList()
-{
-	return _ShaderList;
-}
-
-ResourceManager::NamePathMap ResourceManager::GetFontList()
-{
-	return _FontList;
-}
-
-ResourceManager::NamePathMap ResourceManager::GetSoundList()
-{
-	return _AudioList;
-}
-
-ResourceManager::NamePathMap ResourceManager::GetAnimationlist()
-{
-	return _AnimationList;
+	if (!_editerMode)
+	{
+		MyResourceSystem.ClearAllResources();
+	}
 }

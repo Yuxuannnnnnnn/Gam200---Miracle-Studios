@@ -105,14 +105,11 @@
 #include "SystemLogic/LogicSystem.h"
 #include "SystemLogic/ScriptSystem/ScriptSystem.h"
 
-#include "SystemPhysics/ButtonManager.h"
 #include "SystemPhysics/Collision.h"
-#include "SystemPhysics/CollisionManager.h"
 #include "SystemPhysics/CollisionMap.h"
 #include "SystemPhysics/CollisionTable.h"
 #include "SystemPhysics/IForce.h"
 #include "SystemPhysics/PhysicsSystem.h"
-#include "SystemPhysics/RigidBodyManager.h"
 
 #include "SystemWindows/Console.h"
 #include "SystemWindows/ScreenSize.h"
@@ -138,6 +135,7 @@
 #include "Tools/Resource/IResourceInfo.h"
 #include "Tools/Resource/ResourceManager.h"
 #include "Tools/Time/FrameRateController.h"
+#include "Tools/Resource/ResourceSystem.h"
 
 
 //TODO Delete this

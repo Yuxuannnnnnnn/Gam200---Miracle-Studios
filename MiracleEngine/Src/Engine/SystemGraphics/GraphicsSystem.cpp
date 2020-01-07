@@ -43,11 +43,11 @@ GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight)
 	// temp
 	std::string temp = "DefaultShader";
 
-	_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+	_shader =MyResourceSystem.GetShaderResource(temp);
 
-	if (!_shader && ResourceManager::GetInstance().AddNewShaderResource({ temp,{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" } }))
+	if (!_shader &&MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" } }))
 	{
-		_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+		_shader =MyResourceSystem.GetShaderResource(temp);
 	}
 }
 

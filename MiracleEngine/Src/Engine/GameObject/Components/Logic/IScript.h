@@ -70,6 +70,8 @@ public:
 	{
 		return (ScriptId)_ScriptType;
 	}
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 

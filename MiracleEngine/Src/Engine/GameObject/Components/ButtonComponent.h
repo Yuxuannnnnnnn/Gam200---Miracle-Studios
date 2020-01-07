@@ -4,7 +4,7 @@
 #ifndef BUTTONCOMPONENT_H
 #define BUTTONCOMPONENT_H
 
-class ButtonComponent : public BoxCollider2D
+class ButtonComponent : public BoxCollider2DComponent
 {
 public:
 	bool _pressed;
@@ -87,7 +87,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
-
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 #endif

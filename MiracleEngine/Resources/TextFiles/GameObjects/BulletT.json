@@ -21,11 +21,5 @@
   "CircleColliderComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 2,
-  "ColliderTrigger": false,
-
-  "LogicComponent": true,
-  "ScriptId": [ "BULLET" ],
-  "Lifetime": 3.0,
-  "BulletType": "BulletTurret",
-  "BulletSpeed": 5.0
+  "ColliderTrigger": false
 }

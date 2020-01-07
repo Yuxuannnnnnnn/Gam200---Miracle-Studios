@@ -54,7 +54,7 @@ GraphicComponent::~GraphicComponent()
 
 void GraphicComponent::RenderLayerResolver()
 {
-	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (GetSibilingComponent(ComponentId::IDENTITY_COMPONENT));
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (GetSibilingComponent(ComponentId::CT_Identity));
 	std::string type = IdCom->ObjectType();
 
 	
@@ -77,7 +77,7 @@ void GraphicComponent::Inspect()
 		//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
 
 
-		static auto graphicList = ResourceManager::GetInstance().GetTexture2DList();
+		static auto graphicList = MyResourceSystem.GetTexture2DList();
 		std::vector<const char*> list(graphicList.size());
 		//list[0] = "Texture Files ";
 
@@ -117,7 +117,7 @@ void GraphicComponent::Inspect()
 	{
 		ImGui::Spacing();
 
-		static auto& ShaderList = ResourceManager::GetInstance().GetShaderList();
+		static auto& ShaderList = MyResourceSystem.GetShaderList();
 		std::vector<const char*> list(ShaderList.size() + 1);
 		list[0] = "Choose a Fragment Shader ";
 		static const char* name = list[0];

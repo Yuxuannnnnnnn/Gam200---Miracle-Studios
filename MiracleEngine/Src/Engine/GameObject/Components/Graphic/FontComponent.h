@@ -112,5 +112,5 @@ public:
 		_fontString = in;
 	}
 
-
+	IComponent* CloneComponent() { return nullptr; }
 };

@@ -92,7 +92,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 		size_t uID = gameObject->Get_uID();				//Get Unique Number of each GameObject
 
-		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (gameObject->GetComponent(ComponentId::IDENTITY_COMPONENT));
+		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (gameObject->GetComponent(ComponentId::CT_Identity));
 
 		std::string ObjectTypeID = IdCom->GetName(); //Get Object Type of each GameObject
 		std::string string = std::to_string(i) + " " + ObjectTypeID; // "Object Type + Object unique number" string

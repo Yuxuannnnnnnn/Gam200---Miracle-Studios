@@ -14,7 +14,7 @@ void ImGuizmoManager::Update()
 			if (!it.second->GetEnable())
 				continue;
 
-			_engineSystems._collisionManager->UpdateColliderData(it.second);
+			MyPhysicsSystem.UpdateColliderData(it.second);
 
 			if (TestBoxVsPoint(*it.second, pos))
 			{
@@ -66,9 +66,9 @@ void ImGuizmoManager::Draw()
 		if (!it.second->GetEnable() || !it.second->_componentEnable)
 			continue;
 
-		_engineSystems._collisionManager->UpdateColliderData(it.second);
+		MyPhysicsSystem.UpdateColliderData(it.second);
 
-		BoxCollider2D* object = (BoxCollider2D*)it.second;
+		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
 
 		DrawDebugLine(
 			object->mCorner[0]._x, object->mCorner[0]._y,

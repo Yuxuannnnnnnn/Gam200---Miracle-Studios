@@ -1,5 +1,5 @@
 //
-//	BoxCollider2D.cpp
+//	BoxCollider2DComponent.cpp
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -8,7 +8,7 @@
 #include "PrecompiledHeaders.h"
 #include "BoxCollider2DComponent.h"
 
-BoxCollider2D::BoxCollider2D() :
+BoxCollider2DComponent::BoxCollider2DComponent() :
 	mMinPos{},
 	mMaxPos{},
 	mOrigin{},
@@ -20,14 +20,14 @@ BoxCollider2D::BoxCollider2D() :
 	_type = (unsigned)ColliderType::BOX_COLLIDER;
 }
 
-std::string BoxCollider2D::ComponentName() const
+std::string BoxCollider2DComponent::ComponentName() const
 {
-	return std::string("BoxCollider2D Component");
+	return std::string("BoxCollider2DComponent Component");
 }
 
 
 
-void BoxCollider2D::Inspect()
+void BoxCollider2DComponent::Inspect()
 {
 	IComponent::Inspect();
 }

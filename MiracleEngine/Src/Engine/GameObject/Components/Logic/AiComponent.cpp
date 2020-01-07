@@ -75,12 +75,12 @@ void AiComponent::Exit()
 
 Vector3& AiComponent::GetDestinationPos()
 {
-	return ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 }
 
 Vector3& AiComponent::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
 }
 
 std::vector<Node*>& AiComponent::GetPath()

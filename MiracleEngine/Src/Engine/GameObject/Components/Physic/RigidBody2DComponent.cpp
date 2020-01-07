@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	RigidBody2D.cpp
+//	RigidBody2DComponent.cpp
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -9,7 +9,7 @@
 #include "PrecompiledHeaders.h"
 #include "RigidBody2DComponent.h"
 
-RigidBody2D::RigidBody2D() :
+RigidBody2DComponent::RigidBody2DComponent() :
 	_velocity{},
 	_appliedForce{},
 	_direction{ 0.f,1.f,0.f },
@@ -19,7 +19,7 @@ RigidBody2D::RigidBody2D() :
 	_componentEnable{ true }
 {}
 
-std::string RigidBody2D::ComponentName() const
+std::string RigidBody2DComponent::ComponentName() const
 {
 	return std::string("RigidBody Component");
 }
@@ -28,22 +28,22 @@ std::string RigidBody2D::ComponentName() const
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
 
-void RigidBody2D::SetVelocity(Vector3 velocity)
+void RigidBody2DComponent::SetVelocity(Vector3 velocity)
 {
 	_velocity = velocity;
 }
 
-void RigidBody2D::SetFiction(float value)
+void RigidBody2DComponent::SetFiction(float value)
 {
 	_fictionVal = value;
 }
 
-void RigidBody2D::SetMass(float mass)
+void RigidBody2DComponent::SetMass(float mass)
 {
 	_mass = mass;
 }
 
-void RigidBody2D::SetType(bool type)
+void RigidBody2DComponent::SetType(bool type)
 {
 	_static = type;
 }

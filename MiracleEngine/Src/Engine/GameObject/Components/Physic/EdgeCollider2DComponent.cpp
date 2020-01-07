@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include"EdgeCollider2DComponent.h"
 
-EdgeCollider2D::EdgeCollider2D() :
+EdgeCollider2DComponent::EdgeCollider2DComponent() :
 	m_origin{},
 	m_pt0{},
 	m_pt1{},
@@ -10,30 +10,30 @@ EdgeCollider2D::EdgeCollider2D() :
 	_type = (unsigned)ColliderType::EDGE_COLLIDER;
 }
 
-std::string EdgeCollider2D::ComponentName() const
+std::string EdgeCollider2DComponent::ComponentName() const
 {
-	return std::string("EdgeCollider2D Component");
+	return std::string("EdgeCollider2DComponent Component");
 }
 
-void EdgeCollider2D::SerialiseComponent(Serialiser& document)
+void EdgeCollider2DComponent::SerialiseComponent(Serialiser& document)
 {
 	Collider2D::SerialiseComponent(document);
 
 }
 
-void EdgeCollider2D::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+void EdgeCollider2DComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
 
 	value.SetBool(true);
-	prototypeDoc.AddMember("EdgeCollider2D", rapidjson::Value(true));
+	prototypeDoc.AddMember("EdgeCollider2DComponent", rapidjson::Value(true));
 
 	Collider2D::DeSerialiseComponent(prototypeDoc);
 }
 
 
 
-void EdgeCollider2D::Inspect()
+void EdgeCollider2DComponent::Inspect()
 {
 	IComponent::Inspect();
 }

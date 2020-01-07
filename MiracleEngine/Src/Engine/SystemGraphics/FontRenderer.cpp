@@ -26,7 +26,7 @@ void FontRenderer::RenderText(Shader& shader, std::string text, GLfloat x, GLflo
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(_vao);
 
-	std::unordered_map<GLchar, Character> map = ResourceManager::GetInstance()._fontCharacterMaps[_characterMapId];
+	std::unordered_map<GLchar, Character> map = MyResourceManager.GetFontCharacterMap()[_characterMapId];
 
 
 	// Iterate through all characters
@@ -70,11 +70,11 @@ bool FontRenderer::load(std::string path)
 {
 	std::string temp = "DefaultFont";
 
-	_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+	_shader = MyResourceSystem.GetShaderResource(temp);
 
-	if (!_shader && ResourceManager::GetInstance().AddNewShaderResource({ temp,{ "Resources/Shader/font.vert", "Resources/Shader/font.frag" } }))
+	if (!_shader && MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/font.vert", "Resources/Shader/font.frag" } }))
 	{
-		_shader = ResourceManager::GetInstance().GetShaderResource(temp);
+		_shader = MyResourceSystem.GetShaderResource(temp);
 	}
 
 	_sampler = 0;
@@ -147,7 +147,7 @@ bool FontRenderer::load(std::string path)
 		map.insert(std::pair<GLchar, Character>(c, character));
 	}
 
-	ResourceManager::GetInstance()._fontCharacterMaps.insert({ _characterMapId , map });
+	MyResourceSystem.GetFontCharacterMap().insert({ _characterMapId , map });
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	// Destroy FreeType once we're finished
@@ -169,12 +169,12 @@ bool FontRenderer::load(std::string path)
 
 void FontRenderer::unload()
 {
-	std::unordered_map<GLchar, Character> map = ResourceManager::GetInstance()._fontCharacterMaps[_characterMapId];
+	std::unordered_map<GLchar, Character> map = MyResourceSystem.GetFontCharacterMap()[_characterMapId];
 	
 	for (GLubyte c = 0; c < 128; c++)
 	{
 		glDeleteTextures(1, &map[c].TextureID);
 	}
 
-	ResourceManager::GetInstance()._fontCharacterMaps.erase(_characterMapId);
+	MyResourceSystem.GetFontCharacterMap().erase(_characterMapId);
 }

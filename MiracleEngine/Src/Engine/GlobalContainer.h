@@ -22,14 +22,15 @@
 #include "Tools/Time/FrameRateController.h"
 #include "Editor/PerformanceUsageWindow.h"
 #include "SystemPhysics/PhysicsSystem.h"
-#include "GameObjectPrototype.h"
+//#include "GameObjectPrototype.h"
 #include "SystemAudio/AudioSystem.h"
 #include "SceneManager.h"
+#include "Tools/Resource/ResourceManager.h"
+#include "Factory.h"
 
-
-#include "SystemPhysics/ButtonManager.h"
-#include "SystemPhysics/CollisionManager.h"
-#include "SystemPhysics/RigidBodyManager.h"
+//#include "SystemPhysics/ButtonManager.h"
+//#include "SystemPhysics/CollisionManager.h"
+//#include "SystemPhysics/RigidBodyManager.h"
 #include "Editor/ImGuizmoManager.h"
 
 #include "GameObject/ComponentManager.h"
@@ -61,15 +62,18 @@ public:
 		_frameRateControl{ nullptr },
 
 		_gameObjectFactory{ nullptr },
-		_prefabFactory{ nullptr },
+		//_prefabFactory{ nullptr },
+
+		_factory{nullptr},
 
 		_sceneManager{ nullptr },
 		_imguiSystem{ nullptr },
 
-		_buttonManager{ nullptr },
-		_collisionManager{ nullptr },
-		_rigidbodyManager{ nullptr },
-		_imGuizmoManager{ nullptr }
+		//_buttonManager{ nullptr },
+		//_collisionManager{ nullptr },
+		//_rigidbodyManager{ nullptr },
+		_imGuizmoManager{ nullptr },
+		_resourceManager{ nullptr }
 	{
 	}
 
@@ -93,17 +97,22 @@ public:
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
 
 		_gameObjectFactory = new GameObjectFactory();
-		_prefabFactory = new GameObjectPrototype();
+		//_prefabFactory = new GameObjectPrototype();
+
+		_factory = new Factory;
 
 		_sceneManager = new SceneManager();
 
-		_buttonManager = new ButtonManager();
-		_collisionManager = new CollisionManager();
-		_rigidbodyManager = new RigidbodyManager();
+		//_buttonManager = new ButtonManager();
+		//_collisionManager = new CollisionManager();
+		//_rigidbodyManager = new RigidbodyManager();
 
 #ifdef LEVELEDITOR
 		_imGuizmoManager = new ImGuizmoManager();
 		_imguiSystem = new ImguiSystem(_windowSystem->getWindow());
+		_resourceManager = new ResourceManager(false);
+#else
+		_resourceManager = new ResourceManager();
 #endif
 	}
 
@@ -126,14 +135,18 @@ public:
 		delete _frameRateControl;
 
 		delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
+
+		delete _factory;
+
 		delete _sceneManager;
 
 
-		delete _buttonManager;
-		delete _collisionManager;
-		delete _rigidbodyManager;
+		//delete _buttonManager;
+		//delete _collisionManager;
+		//delete _rigidbodyManager;
 		delete _imGuizmoManager;
 
+		delete _resourceManager;
 	}
 
 
@@ -154,16 +167,20 @@ public:
 	FrameRateController* _frameRateControl;
 
 	GameObjectFactory* _gameObjectFactory;
-	GameObjectPrototype* _prefabFactory;
+	//GameObjectPrototype* _prefabFactory;
+
+	Factory* _factory;
 
 	SceneManager* _sceneManager;
 
 	ImguiSystem* _imguiSystem;
 
-	ButtonManager* _buttonManager;
-	CollisionManager* _collisionManager;
+	//ButtonManager* _buttonManager;
+	//CollisionManager* _collisionManager;
 	ImGuizmoManager* _imGuizmoManager;
-	RigidbodyManager* _rigidbodyManager;
+	//RigidbodyManager* _rigidbodyManager;
+
+	ResourceManager* _resourceManager;
 };
 
 #define _engineSystems EngineSystems::GetInstance()
@@ -185,13 +202,17 @@ public:
 
 #define MyFrameRateController (*EngineSystems::GetInstance()._frameRateControl)
 
-#define MyButtonManager (*EngineSystems::GetInstance()._buttonManager)
-#define MyCollisionManager (*EngineSystems::GetInstance()._collisionManager)
-#define MyRigidbodyManager (*EngineSystems::GetInstance()._rigidbodyManager)
+//#define MyButtonManager (*EngineSystems::GetInstance()._buttonManager)
+//#define MyCollisionManager (*EngineSystems::GetInstance()._collisionManager)
+//#define MyRigidbodyManager (*EngineSystems::GetInstance()._rigidbodyManager)
 
 #define MyGameObjectFactory (*EngineSystems::GetInstance()._gameObjectFactory)
-#define MyPrototypeFactory (*EngineSystems::GetInstance()._prefabFactory)
+//#define MyPrototypeFactory (*EngineSystems::GetInstance()._prefabFactory)
+
+#define MyFactory (*EngineSystems::GetInstance()._factory)
 
 #define MySceneManager (*EngineSystems::GetInstance()._sceneManager)
+
+#define MyResourceManager (*EngineSystems::GetInstance()._resourceManager)
 
 #endif

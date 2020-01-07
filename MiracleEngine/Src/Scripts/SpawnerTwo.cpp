@@ -33,7 +33,7 @@ void SpawnerTwo::Spawn()
 {
 	_timer = _timeCooldown;
 	//std::cout << "Spawned!" << std::endl;
-	GameObject* enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["EnemyTwo"]);
-	((TransformComponent*)enemy->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
+	GameObject* enemy = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["EnemyTwo"]);
+	((TransformComponent*)enemy->GetComponent(ComponentId::CT_Transform))->SetPos(
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 }

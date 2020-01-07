@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	CircleCollider2D.h
+//	CircleCollider2DComponent.h
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -11,18 +11,18 @@
 
 #include "ICollider2D.h"
 
-class CircleCollider2D : public Collider2D
+class CircleCollider2DComponent : public Collider2D
 {
 public:
 	Vector3	mCenPos;
 	float	mRadius;
 
 public:
-	CircleCollider2D();
-	CircleCollider2D(const CircleCollider2D& rhs) = default;
-	virtual ~CircleCollider2D() = default;
+	CircleCollider2DComponent();
+	CircleCollider2DComponent(const CircleCollider2DComponent& rhs) = default;
+	virtual ~CircleCollider2DComponent() = default;
 
-	CircleCollider2D& operator=(const CircleCollider2D & rhs) = delete;
+	CircleCollider2DComponent& operator=(const CircleCollider2DComponent & rhs) = delete;
 
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
@@ -32,7 +32,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("CircleCollider2D", rapidjson::Value(true), allocator);
+		prototypeDoc.AddMember("CircleCollider2DComponent", rapidjson::Value(true), allocator);
 
 		Collider2D::DeSerialiseComponent(prototypeDoc, allocator);
 	}
@@ -89,7 +89,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
-
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 #endif

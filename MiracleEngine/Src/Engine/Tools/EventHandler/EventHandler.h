@@ -83,7 +83,7 @@ public:
 	void AddTriggered2DEvent(Collider2D* first, Collider2D* second);
 	void AddMouseClickEvent(size_t id);
 	void AddMouseHoverEvent(size_t id);
-	void AddDeletionEvent(size_t id, ComponentId cId = ComponentId::COUNTCOMPONENT);
+	void AddDeletionEvent(size_t id, ComponentId cId = ComponentId::CT_Count);
 	void AddCreationEvent(size_t id, ComponentId cId, IComponent* ptr);
 
 	void ClearAllEvents();

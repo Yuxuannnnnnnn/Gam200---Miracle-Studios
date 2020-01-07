@@ -161,5 +161,7 @@ public:
 
 	float* GetModel();
 	void SetModel(const float* in);
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 

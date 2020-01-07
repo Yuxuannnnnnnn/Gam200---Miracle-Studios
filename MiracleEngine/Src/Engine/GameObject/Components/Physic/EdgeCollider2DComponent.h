@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	EdgeCollider2D.h
+//	EdgeCollider2DComponent.h
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -11,7 +11,7 @@
 
 #include "ICollider2D.h"
 
-class EdgeCollider2D : public Collider2D
+class EdgeCollider2DComponent : public Collider2D
 {
 public:
 	Vector3 m_origin;
@@ -20,11 +20,11 @@ public:
 	Vector3	m_normal;
 
 public:
-	EdgeCollider2D();
-	EdgeCollider2D(const EdgeCollider2D& rhs) = default;
-	virtual ~EdgeCollider2D() = default;
+	EdgeCollider2DComponent();
+	EdgeCollider2DComponent(const EdgeCollider2DComponent& rhs) = default;
+	virtual ~EdgeCollider2DComponent() = default;
 
-	EdgeCollider2D& operator= (const EdgeCollider2D& rhs) = delete;
+	EdgeCollider2DComponent& operator= (const EdgeCollider2DComponent& rhs) = delete;
 
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;
@@ -34,7 +34,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("EdgeCollider2D", rapidjson::Value(true), allocator);
+		prototypeDoc.AddMember("EdgeCollider2DComponent", rapidjson::Value(true), allocator);
 
 		Collider2D::DeSerialiseComponent(prototypeDoc, allocator);
 	}
@@ -90,7 +90,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
-
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 //struct Ray

@@ -13,95 +13,101 @@
 #include "SystemAudio/Sound.h"
 #include "SystemGraphics/Texture2D.h"
 #include "SystemGraphics/Shader.h"
+#include "GameObject/GameObject.h"
 
 #include "../Dep/fmod/inc/fmod.h"
 #include "../Dep/fmod/inc/fmod_errors.h"
 #include "../Dep/fmod/inc/fmod.hpp"
-/*
 
-Font_Resource* ResourceManager::NewFontResource(std::string file)
+
+typedef std::pair<std::string, std::string> NamePath;
+typedef std::map<std::string, std::string> NamePathMap;
+typedef std::unordered_map<std::string, std::string> NamePathMap_unordered;
+
+typedef std::pair<std::string, std::string> VertFrag;
+
+typedef std::pair<std::string, std::pair<std::string, std::string>> NamePair;
+typedef std::unordered_map<std::string, std::pair<std::string, std::string>> NamePairMap;
+
+typedef std::unordered_map<std::string, Texture2D*> Texture2DMap;
+typedef std::unordered_map<std::string, Shader*> ShaderMap;
+typedef std::unordered_map<std::string, FontRenderer*> FontMap;
+typedef std::unordered_map<std::string, Sound*> AudioMap;
+typedef std::unordered_map<std::string, Animation*> AnimationMap;
+typedef std::unordered_map<std::string, GameObject*> PrototypeMap;
+
+typedef std::unordered_map<size_t, std::unordered_map<GLchar, Character>> FontCharacterMap;
+
+struct ResourceContainer 
 {
-	Font_Resource* newResource = reinterpret_cast<Font_Resource*>(_FontAllocater.Allocate());
+	Texture2DMap _Texture2DMap;
+	ShaderMap _ShaderMap;
+	FontMap _FontMap;
+	AudioMap _AudioMap;
+	AnimationMap _AnimationMap;
+	PrototypeMap _PrototypeMap;
 
-	std::map<GLchar, Character> temp;
+	NamePathMap _Texture2DList;
+	NamePairMap _ShaderList;
+	NamePathMap _FontList;
+	NamePathMap _AudioList;
+	NamePathMap _AnimationList;
+	NamePathMap _PrototypeList;
 
-	if (FT_Init_FreeType(&newResource->_ft) != 0) {
-		std::cout << "Couldn't initialize FreeType library\n";
-
-	}
-
-	if (FT_New_Face(newResource->_ft, file.c_str(), 0, &newResource->_face) != 0) {
-		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
-
-	}
+	FontCharacterMap _fontCharacterMaps;
+};
 
 
-	// Set size to load glyphs as
-	FT_Set_Pixel_Sizes(newResource->_face, 0, 48);
-
-	// Disable byte-alignment restriction
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	// Load first 128 characters of ASCII set
-	for (GLubyte c = 0; c < 128; c++)
-	{
-		// Load character glyph
-		if (FT_Load_Char(newResource->_face, c, FT_LOAD_RENDER))
-		{
-			std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
-			continue;
-		}
-		// Generate texture
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RED,
-			newResource->_face->glyph->bitmap.width,
-			newResource->_face->glyph->bitmap.rows,
-			0,
-			GL_RED,
-			GL_UNSIGNED_BYTE,
-			newResource->_face->glyph->bitmap.buffer
-		);
-		// Set texture options
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// Now store character for later use
-		Character character = {
-			texture,
-			glm::ivec2(newResource->_face->glyph->bitmap.width, newResource->_face->glyph->bitmap.rows),
-			glm::ivec2(newResource->_face->glyph->bitmap_left, newResource->_face->glyph->bitmap_top),
-			(GLuint)newResource->_face->glyph->advance.x
-		};
-		temp.insert(std::pair<GLchar, Character>(c, character));
-	}
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	_characterList.push_back(temp);
-	newResource->_uId = newResource->_idCount++;
-
-	_FontMap.insert(std::pair<std::string, Font_Resource*>(file, newResource));
-
-	return newResource;
-}
-
-Audio_Resource* ResourceManager::NewAudioResource(std::string file, FMOD_SYSTEM* system, FMOD_MODE mode)
+class IResourceStructure
 {
-	Audio_Resource* newResource = reinterpret_cast<Audio_Resource*>(_AudioAllocater.Allocate());
+public:
+	ResourceContainer _mainContainer;
 
-	FMOD_System_CreateSound(system, file.c_str(), mode, NULL, &newResource->_sound);
-	newResource->_mode = mode;
+	virtual ~IResourceStructure() {}
+	
+	virtual void AddTexture2DResourceList(NamePathMap list) = 0;
+	virtual void AddShaderResourceList(NamePairMap list) = 0;
+	virtual void AddFontResourceList(NamePathMap list) = 0;
+	virtual void AddAudioResourceList(NamePathMap list) = 0;
+	virtual void AddAnimationResourceList(NamePathMap list) = 0;
+	virtual void AddPrototypeResourceList(NamePathMap_unordered list) = 0;
 
-	_AudioMap.insert(std::pair<std::string, Audio_Resource*>(file, newResource));
+	virtual bool AddNewTexture2DResource(NamePath list) = 0;
+	virtual bool AddNewShaderResource(NamePair list) = 0;
+	virtual bool AddNewFontResource(NamePath list) = 0;
+	virtual bool AddNewAudioResource(NamePath list) = 0;
+	virtual bool AddNewAnimationResource(NamePath list) = 0;
+	virtual bool AddNewPrototypeResource(NamePath list) = 0;
 
-	return newResource;
-}
-*/
+	virtual Texture2D* GetTexture2DResource(std::string name);
+	virtual Shader* GetShaderResource(std::string name);
+	virtual FontRenderer* GetFontResource(std::string name);
+	virtual Sound* GetSoundResource(std::string name);
+	virtual Animation* GetAnimationResource(std::string name);
+	virtual GameObject* GetPrototypeResource(std::string name);
 
+	std::string							GetTexture2DResourcePath(std::string name);
+	std::pair<std::string, std::string> GetShaderResourcePath(std::string name);
+	std::string							GetFontResourcePath(std::string name);
+	std::string							GetSoundResourcePath(std::string name);
+	std::string							GetAnimationResourcePath(std::string name);
+	std::string							GetPrototypeResourcePath(std::string name);
+
+	NamePathMap& GetTexture2DList();
+	NamePairMap& GetShaderList();
+	NamePathMap& GetFontList();
+	NamePathMap& GetSoundList();
+	NamePathMap& GetAnimationList();
+	NamePathMap& GetPrototypeList();
+
+	Texture2DMap& GetTexture2DMap();
+	ShaderMap& GetShaderMap();
+	FontMap& GetFontMap();
+	AudioMap& GetSoundMap();
+	AnimationMap& GetAnimationMap();
+	PrototypeMap& GetPrototypeMap();
+
+	virtual FontCharacterMap& GetFontCharacterMap();
+};
 
 #endif

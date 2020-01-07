@@ -15,11 +15,5 @@
   "ColliderComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 5,
-  "ColliderTrigger": true,
-
-  "LogicComponent": true,
-  "ScriptId": [ "SPAWNER" ],
-  "Health": 20,
-  "SpawnType": 1,
-  "SpawnRate": 10.0
+  "ColliderTrigger": true
 }

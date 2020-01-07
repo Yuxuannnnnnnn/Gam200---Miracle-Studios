@@ -22,12 +22,6 @@
   "ColliderTag": 8,
   "ColliderTrigger": false,
 
-  "LogicComponent": true,
-  "ScriptId": [ "BULLET" ],
-  "Lifetime": 3.0,
-  "BulletType": "BulletEnemy",
-  "BulletSpeed": 5.0,
-
   "AnimationComponent": true,
   "AnimationTypes": [],
   "StartAnim":  ""

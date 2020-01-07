@@ -36,7 +36,7 @@ void GameObjectFactory::UpdateDestoryObjects()
 
 //Map_ScriptList GameObjectFactory::getObjectScript(GameObject* object)
 //{
-//	LogicComponent* component = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::LOGIC_COMPONENT));
+//	LogicComponent* component = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::CT_Logic));
 //
 //	if (component)
 //		return component->GetScriptMap();
@@ -54,7 +54,7 @@ GameObject* GameObjectFactory::CreateNewGameObject(bool prefab)
 	{
 		newObject = new GameObject(_prefabId++);
 		//By Default should add a Identity component when new ProtoType is created
-		IComponent* component = newObject->AddComponent(ComponentId::IDENTITY_COMPONENT);
+		IComponent* component = newObject->AddComponent(ComponentId::CT_Identity);
 		component->SetParentId(newObject->Get_uID());
 		component->SetParentPtr(newObject);
 	}
@@ -91,7 +91,7 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 	switch (type)
 	{
-	case ComponentId::IDENTITY_COMPONENT:
+	case ComponentId::CT_Identity:
 	{
 		IdentityComponent* newComponent = new IdentityComponent();
 		newComponent->SetParentId(object->Get_uID());
@@ -100,7 +100,7 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 		return newComponent;
 	}
-	case ComponentId::TRANSFORM_COMPONENT:
+	case ComponentId::CT_Transform:
 	{
 		TransformComponent* newComponent = new TransformComponent();
 		newComponent->SetParentId(object->Get_uID());
@@ -109,10 +109,10 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 		return newComponent;
 	}
-	case ComponentId::GRAPHICS_COMPONENT:
+	case ComponentId::CT_Graphic:
 	{
-		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+		if (!object->CheckComponent(ComponentId::CT_Transform))
+			object->AddComponent(ComponentId::CT_Transform);
 
 		GraphicComponent* newComponent = new GraphicComponent(); // 
 		newComponent->SetParentId(object->Get_uID());
@@ -134,10 +134,10 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 		return newComponent;
 	}
-	case ComponentId::ANIMATION_COMPONENT:
+	case ComponentId::CT_Animation:
 	{
-		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+		if (!object->CheckComponent(ComponentId::CT_Transform))
+			object->AddComponent(ComponentId::CT_Transform);
 
 		AnimationComponent* newComponent = new AnimationComponent();
 		newComponent->SetParentId(object->Get_uID());
@@ -145,10 +145,10 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 		MyComponentManger._AnimationComponents.insert(std::pair< size_t, AnimationComponent* >(object->Get_uID(), newComponent));
 		return newComponent;
 	}
-	case ComponentId::CAMERA_COMPONENT:
+	case ComponentId::CT_Camera:
 	{
-		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+		if (!object->CheckComponent(ComponentId::CT_Transform))
+			object->AddComponent(ComponentId::CT_Transform);
 
 		CameraComponent* newComponent = new CameraComponent();
 		newComponent->SetParentId(object->Get_uID());
@@ -157,10 +157,10 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 		return newComponent;
 	}
-	case ComponentId::FONT_COMPONENT:
+	case ComponentId::CT_Font:
 	{
-		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+		if (!object->CheckComponent(ComponentId::CT_Transform))
+			object->AddComponent(ComponentId::CT_Transform);
 
 		FontComponent* newComponent = new FontComponent();
 		newComponent->SetParentId(object->Get_uID());
@@ -169,7 +169,7 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 		return newComponent;
 	}
-	case ComponentId::BUTTON_COMPONENT:
+	case ComponentId::CT_Button:
 	{
 		ButtonComponent* newComponent = new ButtonComponent();
 		newComponent->SetParentId(object->Get_uID());
@@ -178,83 +178,83 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 		return newComponent;
 	}
-	case ComponentId::RIGIDBODY_COMPONENT:
+	case ComponentId::CT_RigidBody2D:
 	{
 		//TransformComponent* transform;
 
-		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+		if (!object->CheckComponent(ComponentId::CT_Transform))
+			object->AddComponent(ComponentId::CT_Transform);
 
-		RigidBody2D* newComponent = new RigidBody2D(); // 
+		RigidBody2DComponent* newComponent = new RigidBody2DComponent(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		MyComponentManger._rigidbody2DComponent.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
+		MyComponentManger._rigidbody2DComponent.insert(std::pair< size_t, RigidBody2DComponent* >(object->Get_uID(), newComponent));
 
 		Collider2D* collider = nullptr;
 
-		if (object->CheckComponent(ComponentId::BOXCOLLIDER_COMPONENT))
-			collider = reinterpret_cast<Collider2D*>(object->GetComponent(ComponentId::BOXCOLLIDER_COMPONENT));
-		else if (object->CheckComponent(ComponentId::CIRCLECOLLIDER_COMPONENT))
-			collider = reinterpret_cast<Collider2D*>(object->GetComponent(ComponentId::CIRCLECOLLIDER_COMPONENT));
+		if (object->CheckComponent(ComponentId::CT_BoxCollider2D))
+			collider = reinterpret_cast<Collider2D*>(object->GetComponent(ComponentId::CT_BoxCollider2D));
+		else if (object->CheckComponent(ComponentId::CT_CircleCollider2D))
+			collider = reinterpret_cast<Collider2D*>(object->GetComponent(ComponentId::CT_CircleCollider2D));
 
 		if (collider)
 			collider->_attachedRigidboy = true;
 
 		return newComponent;
 	}
-	case ComponentId::CIRCLECOLLIDER_COMPONENT:
+	case ComponentId::CT_CircleCollider2D:
 	{
 		//TransformComponent* transform;
 
-		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+		if (!object->CheckComponent(ComponentId::CT_Transform))
+			object->AddComponent(ComponentId::CT_Transform);
 
-		CircleCollider2D* newComponent = new CircleCollider2D(); // 
+		CircleCollider2DComponent* newComponent = new CircleCollider2DComponent(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		MyComponentManger._collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
-		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		if (object->CheckComponent(ComponentId::CT_RigidBody2D))
 			newComponent->_attachedRigidboy = true;
 
 
 		return newComponent;
 	}
-	case ComponentId::BOXCOLLIDER_COMPONENT:
+	case ComponentId::CT_BoxCollider2D:
 	{
 		//TransformComponent* transform;
 
-		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+		if (!object->CheckComponent(ComponentId::CT_Transform))
+			object->AddComponent(ComponentId::CT_Transform);
 
-		BoxCollider2D* newComponent = new BoxCollider2D(); // 
+		BoxCollider2DComponent* newComponent = new BoxCollider2DComponent(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		MyComponentManger._collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
-		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		if (object->CheckComponent(ComponentId::CT_RigidBody2D))
 			newComponent->_attachedRigidboy = true;
 
 		return newComponent;
 	}
-	case ComponentId::EDGECOLLIDER_COMPONENT:
+	case ComponentId::CT_EdgeCollider2D:
 	{
 		//TransformComponent* transform;
 
-		if (!object->CheckComponent(ComponentId::TRANSFORM_COMPONENT))
-			object->AddComponent(ComponentId::TRANSFORM_COMPONENT);
+		if (!object->CheckComponent(ComponentId::CT_Transform))
+			object->AddComponent(ComponentId::CT_Transform);
 
-		EdgeCollider2D* newComponent = new EdgeCollider2D(); // 
+		EdgeCollider2DComponent* newComponent = new EdgeCollider2DComponent(); // 
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		MyComponentManger._collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
-		if (object->CheckComponent(ComponentId::RIGIDBODY_COMPONENT))
+		if (object->CheckComponent(ComponentId::CT_RigidBody2D))
 			newComponent->_attachedRigidboy = true;
 
 		return newComponent;
 	}
-	case ComponentId::AUDIO_COMPONENT:
+	case ComponentId::CT_Audio:
 	{
 		AudioComponent* newComponent = new AudioComponent(); // 
 		newComponent->SetParentId(object->Get_uID());
@@ -263,16 +263,16 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 		return newComponent;
 	}
-	case ComponentId::LOGIC_COMPONENT:
+	case ComponentId::CT_Logic:
 	{
 		LogicComponent* newComponent = new LogicComponent();
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		MyComponentManger._logicComponents.insert(std::pair< size_t, LogicComponent* >(object->Get_uID(), newComponent));
 
-		//if (object->CheckComponent(ComponentId::LOGIC_COMPONENT))
+		//if (object->CheckComponent(ComponentId::CT_Logic))
 		//{
-		//	newComponent = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::LOGIC_COMPONENT));
+		//	newComponent = reinterpret_cast<LogicComponent*>(object->GetComponent(ComponentId::CT_Logic));
 		//}
 		//else
 		//{
@@ -287,7 +287,7 @@ IComponent* GameObjectFactory::AddComponent(GameObject* object, ComponentId type
 
 		return newComponent;
 	}
-	case ComponentId::TILEMAP_COMPONENT:
+	case ComponentId::CT_TileMap:
 	{
 		TileMapComponent* newComponent = new TileMapComponent();
 		newComponent->SetParentId(object->Get_uID());
@@ -312,7 +312,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 	switch (type)
 	{
-	case ComponentId::IDENTITY_COMPONENT:
+	case ComponentId::CT_Identity:
 	{
 		IdentityComponent* newComponent = new IdentityComponent(*reinterpret_cast<IdentityComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -321,7 +321,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 		return newComponent;
 	}
-	case ComponentId::TRANSFORM_COMPONENT:
+	case ComponentId::CT_Transform:
 	{
 		TransformComponent* newComponent = new TransformComponent(*reinterpret_cast<TransformComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -330,7 +330,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 		return newComponent;
 	}
-	case ComponentId::GRAPHICS_COMPONENT:
+	case ComponentId::CT_Graphic:
 	{
 		GraphicComponent* newComponent = new GraphicComponent(*reinterpret_cast<GraphicComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -350,7 +350,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 		return newComponent;
 	}
-	case ComponentId::ANIMATION_COMPONENT:
+	case ComponentId::CT_Animation:
 	{
 		AnimationComponent* newComponent = new AnimationComponent(*reinterpret_cast<AnimationComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -359,7 +359,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 		return newComponent;
 	}
-	case ComponentId::CAMERA_COMPONENT:
+	case ComponentId::CT_Camera:
 	{
 		CameraComponent* newComponent = new CameraComponent(*reinterpret_cast<CameraComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -368,7 +368,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 		return newComponent;
 	}
-	case ComponentId::FONT_COMPONENT:
+	case ComponentId::CT_Font:
 	{
 		FontComponent* newComponent = new FontComponent(*reinterpret_cast<FontComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -377,7 +377,7 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 		return newComponent;
 	}
-	case ComponentId::BUTTON_COMPONENT:
+	case ComponentId::CT_Button:
 	{
 		ButtonComponent* newComponent = new ButtonComponent(*reinterpret_cast<ButtonComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -386,51 +386,51 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 		return newComponent;
 	}
-	case ComponentId::RIGIDBODY_COMPONENT:
+	case ComponentId::CT_RigidBody2D:
 	{
-		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::CT_Transform));
 
-		RigidBody2D* newComponent = new RigidBody2D(*reinterpret_cast<RigidBody2D*>(component));
+		RigidBody2DComponent* newComponent = new RigidBody2DComponent(*reinterpret_cast<RigidBody2DComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
-		MyComponentManger._rigidbody2DComponent.insert(std::pair< size_t, RigidBody2D* >(object->Get_uID(), newComponent));
+		MyComponentManger._rigidbody2DComponent.insert(std::pair< size_t, RigidBody2DComponent* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
-	case ComponentId::CIRCLECOLLIDER_COMPONENT:
+	case ComponentId::CT_CircleCollider2D:
 	{
-		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::CT_Transform));
 
-		CircleCollider2D* newComponent = new CircleCollider2D(*reinterpret_cast<CircleCollider2D*>(component));
-		newComponent->SetParentId(object->Get_uID());
-		newComponent->SetParentPtr(object);
-		MyComponentManger._collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
-
-		return newComponent;
-	}
-	case ComponentId::BOXCOLLIDER_COMPONENT:
-	{
-		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
-
-		BoxCollider2D* newComponent = new BoxCollider2D(*reinterpret_cast<BoxCollider2D*>(component));
+		CircleCollider2DComponent* newComponent = new CircleCollider2DComponent(*reinterpret_cast<CircleCollider2DComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		MyComponentManger._collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
-	case ComponentId::EDGECOLLIDER_COMPONENT:
+	case ComponentId::CT_BoxCollider2D:
 	{
-		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::CT_Transform));
 
-		EdgeCollider2D* newComponent = new EdgeCollider2D(*reinterpret_cast<EdgeCollider2D*>(component));
+		BoxCollider2DComponent* newComponent = new BoxCollider2DComponent(*reinterpret_cast<BoxCollider2DComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
 		newComponent->SetParentPtr(object);
 		MyComponentManger._collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
 
 		return newComponent;
 	}
-	case ComponentId::AUDIO_COMPONENT:
+	case ComponentId::CT_EdgeCollider2D:
+	{
+		TransformComponent* transform = reinterpret_cast<TransformComponent*>(object->GetComponent(ComponentId::CT_Transform));
+
+		EdgeCollider2DComponent* newComponent = new EdgeCollider2DComponent(*reinterpret_cast<EdgeCollider2DComponent*>(component));
+		newComponent->SetParentId(object->Get_uID());
+		newComponent->SetParentPtr(object);
+		MyComponentManger._collider2dComponents.insert(std::pair< size_t, Collider2D* >(object->Get_uID(), newComponent));
+
+		return newComponent;
+	}
+	case ComponentId::CT_Audio:
 	{
 		AudioComponent* newComponent = new AudioComponent(*reinterpret_cast<AudioComponent*>(component));
 		newComponent->SetParentId(object->Get_uID());
@@ -439,12 +439,12 @@ IComponent* GameObjectFactory::CloneComponent(GameObject* object, IComponent* co
 
 		return newComponent;
 	}
-	case ComponentId::LOGIC_COMPONENT:
+	case ComponentId::CT_Logic:
 	{
 		return CloneLogicComponent(object, reinterpret_cast<LogicComponent*>(component));
 	}
 
-	case ComponentId::TILEMAP_COMPONENT:
+	case ComponentId::CT_TileMap:
 	{
 		TileMapComponent* newComponent = dynamic_cast<TileMapComponent*>(component)->CloneComponent();
 		newComponent->SetParentId(object->Get_uID());
@@ -466,13 +466,13 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId type, Sc
 		return;
 	switch (type)
 	{
-	case ComponentId::TRANSFORM_COMPONENT:
+	case ComponentId::CT_Transform:
 	{
 		delete MyComponentManger._transformComponents[object->Get_uID()];
 		MyComponentManger._transformComponents.erase(object->Get_uID());
 		break;
 	}
-	case ComponentId::GRAPHICS_COMPONENT:
+	case ComponentId::CT_Graphic:
 	{
 		delete MyComponentManger._graphicComponents[object->Get_uID()];
 		MyComponentManger._graphicComponents.erase(object->Get_uID());
@@ -484,37 +484,37 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId type, Sc
 #endif
 		break;
 	}
-	case ComponentId::RIGIDBODY_COMPONENT:
+	case ComponentId::CT_RigidBody2D:
 	{
 		delete MyComponentManger._rigidbody2DComponent[object->Get_uID()];
 		MyComponentManger._rigidbody2DComponent.erase(object->Get_uID());
 		break;
 	}
-	case ComponentId::CIRCLECOLLIDER_COMPONENT:
+	case ComponentId::CT_CircleCollider2D:
 	{
 		delete MyComponentManger._collider2dComponents[object->Get_uID()];
 		MyComponentManger._collider2dComponents.erase(object->Get_uID());
 		break;
 	}
-	case ComponentId::BOXCOLLIDER_COMPONENT:
+	case ComponentId::CT_BoxCollider2D:
 	{
 		delete MyComponentManger._collider2dComponents[object->Get_uID()];
 		MyComponentManger._collider2dComponents.erase(object->Get_uID());
 		break;
 	}
-	case ComponentId::EDGECOLLIDER_COMPONENT:
+	case ComponentId::CT_EdgeCollider2D:
 	{
 		delete MyComponentManger._collider2dComponents[object->Get_uID()];
 		MyComponentManger._collider2dComponents.erase(object->Get_uID());
 		break;
 	}
-	case ComponentId::AUDIO_COMPONENT:
+	case ComponentId::CT_Audio:
 	{
 		delete MyComponentManger._audioComponent[object->Get_uID()];
 		MyComponentManger._audioComponent.erase(object->Get_uID());
 		break;
 	}
-	case ComponentId::LOGIC_COMPONENT:
+	case ComponentId::CT_Logic:
 	{
 		//if (script == ScriptId::EMPTY)
 		//{
@@ -539,6 +539,7 @@ void GameObjectFactory::RemoveComponent(GameObject* object, ComponentId type, Sc
 
 GameObject* GameObjectFactory::CloneGameObject(GameObject* object)	//Create a gameObject type along with its Components
 {
+
 	GameObject* newObject = CreateNewGameObject();
 	//newObject->Set_typeId((TypeIdGO)object->Get_typeId());
 	//Map_ComponentList& objectMap = newObject->GetComponentList();
@@ -603,7 +604,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList1);
+		MyFactory.SerialiseAllPrefabAssets(ResourceList1);
 		ResourceList1.clear();
 	}
 
@@ -618,7 +619,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
+		MyResourceSystem.AddTexture2DResourceList(ResourceList);
 		ResourceList.clear();
 	}
 	if (Level.HasMember("AnimationDataFilesPaths"))
@@ -630,7 +631,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		ResourceManager::GetInstance().AddAnimationResourceList(ResourceList);
+		MyResourceSystem.AddAnimationResourceList(ResourceList);
 		ResourceList.clear();
 	}
 	if (Level.HasMember("AudioFilesPaths"))
@@ -643,7 +644,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 			//std::cout << "FileName" << fileName << std::endl;
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		ResourceManager::GetInstance().AddAudioResourceList(ResourceList);
+		MyResourceSystem.AddAudioResourceList(ResourceList);
 		ResourceList.clear();
 	}
 
@@ -672,7 +673,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 				vertFrag.second = filePath;
 			}
 		}
-		ResourceManager::GetInstance().AddShaderResourceList(ShaderResource);
+		MyResourceSystem.AddShaderResourceList(ShaderResource);
 		ShaderResource.clear();
 	}
 
@@ -687,7 +688,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		ResourceManager::GetInstance().AddFontResourceList(ResourceList);
+		MyResourceSystem.AddFontResourceList(ResourceList);
 		ResourceList.clear();
 	}
 #endif
@@ -714,7 +715,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 	//		
 	//		//TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
 	//		//tmCom->SerialiseComponent(tileMapInfo);
-	//		//TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//		//TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::CT_Transform));
 	//		//tfCom->SerialiseComponent(tileMapInfo);
 	//		tileMap->Serialise(tileMapInfo);
 	//	}
@@ -729,7 +730,7 @@ void GameObjectFactory::SerialiseLevel(std::string filePath)
 
 			std::string name = datafile["ObjectType"].GetString();
 			//name += ".json";
-			GameObject* tmp2 = EngineSystems::GetInstance()._prefabFactory->GetPrototypeObj(name);
+			GameObject* tmp2 = MyResourceSystem.GetPrototypeResource(name);
 			GameObject* tmp = CloneGameObject(tmp2);
 
 			tmp->Serialise(datafile);
@@ -808,12 +809,12 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 		std::string ObjType = IdComPair.second->ObjectType();
 		//ObjType += ".json";
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
-		if (MyPrototypeFactory.GetPrototypeObj(ObjType))
+		if (MyResourceSystem.GetPrototypeResource(ObjType))
 		{
 			// PrototypeResourceList does not have the prototype yet
 			if ((std::find(PrototypeResourcePathList.begin(), PrototypeResourcePathList.end(), ObjType) == PrototypeResourcePathList.end()))
 			{
-				std::string FilePath = MyPrototypeFactory.GetPrototypeFile(ObjType);
+				std::string FilePath = MyResourceSystem.GetPrototypeList()[ObjType];
 				PrototypeResourcePathList.push_back(FilePath);
 			}
 
@@ -871,7 +872,7 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 		{
 			if ((std::find(ShaderResourcePathList.begin(), ShaderResourcePathList.end(), ShaderFile) == ShaderResourcePathList.end()))
 			{
-				ResourceManager::VertFrag vertfrag= MyResourceManager.GetShaderResourcePath(TextureFile);
+				VertFrag vertfrag = MyResourceManager.GetShaderResourcePath(TextureFile);
 				ShaderResourcePathList.push_back(vertfrag.second);
 				ShaderResourcePathList.push_back(vertfrag.first);
 			}
@@ -1031,7 +1032,7 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 		obj.SetObject();
 		GameObject* proObj = nullptr;
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
-		if (proObj = MyPrototypeFactory.GetPrototypeObj(ObjType))
+		if (proObj = MyResourceSystem.GetPrototypeResource(ObjType))
 		{
 			std::unordered_map <ComponentId, IComponent* >& comList = _listObject[id]->GetComponentList();
 
@@ -1067,7 +1068,7 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 
 void GameObjectFactory::DeleteLevel()
 {
-	EngineSystems::GetInstance()._prefabFactory->GetPrototypeList().clear();
+	MyResourceManager.ClearAllResources();
 
 #ifdef LEVELEDITOR
 	EngineSystems::GetInstance()._imGuizmoManager->_pickList.clear();
@@ -1181,7 +1182,7 @@ std::unordered_map < size_t, GameObject*>& GameObjectFactory::getObjectlist()
 //		else
 //			ASSERT("Serialise-File Attempted to create UNKNOWN GO" && false);
 //	// TransformComponent from 'temp'
-//		tempComp = tempGO->GetComponentList()[(unsigned)ComponentId::TRANSFORM_COMPONENT];
+//		tempComp = tempGO->GetComponentList()[(unsigned)ComponentId::CT_Transform];
 //
 //	// get Position
 //		ASSERT(_file.getline(strNum1, 10, ','));

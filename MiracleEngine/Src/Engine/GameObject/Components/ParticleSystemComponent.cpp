@@ -13,11 +13,7 @@ void ParticleSystemComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	(void)prototypeDoc;
 }
-void ParticleSystemComponent::DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile)
-{
-	(void)protoCom;
-	(void)SceneFile;
-}
+
 void ParticleSystemComponent::Inspect()
 {
 
@@ -89,4 +85,6 @@ ParticleSystemComponent& ParticleSystemComponent::operator=(const ParticleSystem
 	_particleForce= rhs._particleForce ;
 	_particleAccel= rhs._particleAccel ;
 	_particleLifetime = rhs._particleLifetime;
+
+	return *this;
 }

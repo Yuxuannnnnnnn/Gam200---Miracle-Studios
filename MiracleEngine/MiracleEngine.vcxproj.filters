@@ -71,14 +71,11 @@
     <ClCompile Include="Src\Engine\SystemInput\InputSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\AiSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\LogicSystem.cpp" />
-    <ClCompile Include="Src\Engine\SystemPhysics\ButtonManager.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\Collision.cpp" />
-    <ClCompile Include="Src\Engine\SystemPhysics\CollisionManager.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionMap.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionTable.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\IForce.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem.cpp" />
-    <ClCompile Include="Src\Engine\SystemPhysics\RigidBodyManager.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\Console.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\ScreenSize.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\Window.cpp" />
@@ -115,6 +112,11 @@
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingCircle.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingPolygon.cpp" />
+    <ClCompile Include="Src\Engine\Editor\SpriteSheetCutterImguiWindow.cpp" />
+    <ClCompile Include="Src\Engine\Tools\Resource\IResourceInfo.cpp" />
+    <ClCompile Include="Src\Engine\Tools\Resource\ResourceSystem.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\ParticleComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\ParticleSystemComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -493,14 +495,11 @@
     <ClInclude Include="Src\Engine\SystemInput\keydef.h" />
     <ClInclude Include="Src\Engine\SystemLogic\AiSystem.h" />
     <ClInclude Include="Src\Engine\SystemLogic\LogicSystem.h" />
-    <ClInclude Include="Src\Engine\SystemPhysics\ButtonManager.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\Collision.h" />
-    <ClInclude Include="Src\Engine\SystemPhysics\CollisionManager.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\CollisionMap.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\CollisionTable.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\IForce.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\PhysicsSystem.h" />
-    <ClInclude Include="Src\Engine\SystemPhysics\RigidBodyManager.h" />
     <ClInclude Include="Src\Engine\SystemWindows\Console.h" />
     <ClInclude Include="Src\Engine\SystemWindows\ScreenSize.h" />
     <ClInclude Include="Src\Engine\SystemWindows\Window.h" />
@@ -548,6 +547,12 @@
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingPolygon.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingCircle.h" />
+    <ClInclude Include="Src\Engine\Editor\SpriteSheetCutterImguiWindow.h" />
+    <ClInclude Include="Src\Engine\Tools\Resource\ResourceSystem.h" />
+    <ClInclude Include="Src\Engine\GameObject\ComponentCreator.h" />
+    <ClInclude Include="Src\Engine\GameObject\ComponentTypeId.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\ParticleComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\ParticleSystemComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

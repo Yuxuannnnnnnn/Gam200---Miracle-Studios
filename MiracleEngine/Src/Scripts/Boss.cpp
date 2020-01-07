@@ -77,11 +77,11 @@ void Boss::Update(double dt)
 
 Vector3& Boss::GetDestinationPos()
 {
-	return ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 }
 Vector3& Boss::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
 }
 
 void Boss::Shoot()
@@ -91,12 +91,12 @@ void Boss::Shoot()
 	{
 		_timerAttack = _timerAttackCooldown;
 		// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 70000);
 	}
 }
@@ -105,34 +105,34 @@ void Boss::Attack()
 {
 	if (_health > _healthRage) // rotate and shoot
 	{
-		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() += 0.1f;
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() += 0.1f;
 	// shoot front and back of body
 		if (_timerAttack <= 0)
 		{
 			_timerAttack = _timerAttackCooldown;
-			GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+			GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 			AddForwardForce(bullet->Get_uID(), 70000);
-			bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() + (const float)PI/2);
+			bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() + (const float)PI/2);
 			AddForwardForce(bullet->Get_uID(), 70000);
-			bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() + (const float)PI);
+			bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() + (const float)PI);
 			AddForwardForce(bullet->Get_uID(), 70000);
-			bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() - (const float)PI / 2);
+			bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() - (const float)PI / 2);
 			AddForwardForce(bullet->Get_uID(), 70000);
 		}
 	}
@@ -146,18 +146,18 @@ void Boss::Attack()
 		Vector3 compareVec = { 0, 1, 0 };
 		float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 		float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
-		((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
 
 		if (_timerAttack <= 0)
 		{
 			_timerAttack = _timerAttackRageCooldown;
 			// spawn bullet
-			GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
+			GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
 			// set bullet position & rotation as same as 'parent' obj
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-			((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 			AddForwardForce(bullet->Get_uID(), 70000);
 		}
 	}
@@ -170,21 +170,21 @@ void Boss::ChancePickUps()
 
 	if (Yaya == 4) // health
 	{
-		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["PickUps_Health"]);
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Health"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	}
 	else if (Yaya == 8) // ammo
 	{
-		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["PickUps_Ammo"]);
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	}
 
 }

@@ -43,11 +43,11 @@ void InspectionImguiWindow::Update()
 
 			ImGui::Separator();
 			ImGui::Spacing();
-			const char* items[(int)(ComponentId::COUNTCOMPONENT) + 1];
+			const char* items[(int)(ComponentId::CT_Count) + 1];
 
 			items[0] = "Add Component";
 
-			for (int i = 1; i < (int)ComponentId::COUNTCOMPONENT + 1; i++)
+			for (int i = 1; i < (int)ComponentId::CT_Count + 1; i++)
 			{
 				items[i]= ToString((ComponentId)(i - 1));
 			}
@@ -56,7 +56,7 @@ void InspectionImguiWindow::Update()
 			static const char* item_current = items[0];            // Here our selection is a single pointer stored outside the object.
 			if (ImGui::BeginCombo(" ", item_current, ImGuiComboFlags_NoArrowButton)) // The second parameter is the label previewed before opening the combo.
 			{
-				for (int n = 0; n < (int)(ComponentId::COUNTCOMPONENT) + 1; n++)
+				for (int n = 0; n < (int)(ComponentId::CT_Count) + 1; n++)
 				{
 					bool is_selected = (item_current == items[n]);
 					if (ImGui::Selectable(items[n], is_selected))
@@ -101,7 +101,7 @@ void InspectionImguiWindow::Update()
 					ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
 					
 					char file[1024] = "\0";
-					std::string idType = dynamic_cast<IdentityComponent*>(_inspectObj->GetComponent(ComponentId::IDENTITY_COMPONENT))->ObjectType();
+					std::string idType = dynamic_cast<IdentityComponent*>(_inspectObj->GetComponent(ComponentId::CT_Identity))->ObjectType();
 					strncpy(file, idType.c_str(), idType.size());
 					ofn.lpstrFile = file;
 					ofn.nMaxFile = 1024;
@@ -118,7 +118,7 @@ void InspectionImguiWindow::Update()
 					if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
 					{
 						std::cout << ofn.lpstrFile;
-						MyPrototypeFactory.AddNewPrototypeAsset(_inspectObj, ofn.lpstrFile);	//Save Prototype into .json file but will overwrite existing file with same name
+						MyFactory.AddNewPrototypeAsset(_inspectObj, ofn.lpstrFile);	//Save Prototype into .json file but will overwrite existing file with same name
 					}
 				}
 				ImGui::SameLine();

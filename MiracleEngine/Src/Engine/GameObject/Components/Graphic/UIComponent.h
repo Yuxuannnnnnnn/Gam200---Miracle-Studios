@@ -70,5 +70,7 @@ public:
 	virtual ~UIComponent();
 	UIComponent(const UIComponent& rhs);
 	UIComponent& operator=(const UIComponent& rhs);
+
+	IComponent* CloneComponent() { return nullptr; }
 };
 

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 //
-//	BoxCollider2D.h
+//	BoxCollider2DComponent.h
 //	
 //	Authors: yinshuyu
 //	Copyright 2019, Digipen Institute of Technology
@@ -29,7 +29,7 @@ enum class OutCode_Type {
 	BOTTOM_RIGHT = 0110
 };
 
-class BoxCollider2D : public Collider2D // renderer
+class BoxCollider2DComponent : public Collider2D // renderer
 {
 public:
 	// AABB
@@ -45,11 +45,11 @@ public:
 	float mAngle;
 
 public:
-	BoxCollider2D();
-	BoxCollider2D(const BoxCollider2D& rhs) = default;
-	virtual ~BoxCollider2D() = default;
+	BoxCollider2DComponent();
+	BoxCollider2DComponent(const BoxCollider2DComponent& rhs) = default;
+	virtual ~BoxCollider2DComponent() = default;
 	
-	BoxCollider2D& operator=(const BoxCollider2D& rhs) = delete;
+	BoxCollider2DComponent& operator=(const BoxCollider2DComponent& rhs) = delete;
 	
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override
@@ -63,7 +63,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("BoxCollider2D", rapidjson::Value(true));
+		prototypeDoc.AddMember("BoxCollider2DComponent", rapidjson::Value(true));
 
 		Collider2D::DeSerialiseComponent(prototypeDoc);
 	}
@@ -73,7 +73,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("BoxCollider2D", rapidjson::Value(true), allocator);
+		prototypeDoc.AddMember("BoxCollider2DComponent", rapidjson::Value(true), allocator);
 
 		Collider2D::DeSerialiseComponent(prototypeDoc, allocator);
 	}
@@ -109,7 +109,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("BoxCollider2D", rapidjson::Value(true), allocator);
+			value.AddMember("BoxCollider2DComponent", rapidjson::Value(true), allocator);
 
 			if (!type.IsNull())
 			{
@@ -131,7 +131,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
-
+	IComponent* CloneComponent() { return nullptr; }
 };
 
 #endif

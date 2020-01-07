@@ -122,7 +122,7 @@ void Enemy::AttackMelee()
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
 
 	AddForwardForce(GetParentId(), 6000);
 
@@ -142,19 +142,19 @@ void Enemy::AttackRange()
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
 
 	// shoot player
 	if (_timerAttack <= 0)
 	{
 		_timerAttack = _timerAttackCooldown;
 		// spawn bullet
-		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["BulletE"]);
+		GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)bullet->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 70000);
 	}
 }
@@ -169,13 +169,13 @@ void Enemy::CheckState()
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
-		((GraphicComponent*)this->GetSibilingComponent(ComponentId::GRAPHICS_COMPONENT))->SetTextureState(0);
+		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(0);
 	}
 	else
 	{
 		_state = (unsigned)AiState::MOVING;
 		// set Anim state to EyeWhite
-		((GraphicComponent*)this->GetSibilingComponent(ComponentId::GRAPHICS_COMPONENT))->SetTextureState(1);
+		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(1);
 	}
 }
 void Enemy::FSM()
@@ -232,31 +232,31 @@ void Enemy::ChancePickUps()
 
 	if (Yaya == 4) // health
 	{
-		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["PickUps_Health"]);
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Health"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	}
 	else if (Yaya == 8) // ammo
 	{
-		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["PickUps_Ammo"]);
+		GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos());
-		((TransformComponent*)pickups->GetComponent(ComponentId::TRANSFORM_COMPONENT))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	}
 }
 
 Vector3& Enemy::GetDestinationPos()
 {
-	return ((TransformComponent*)_target->GetComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 }
 Vector3& Enemy::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
 }
 std::vector<Node*>& Enemy::GetPath()
 {
@@ -275,7 +275,7 @@ void Enemy::Move()
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
 
 	AddForwardForce(GetParentId(), 6000);
 }
@@ -322,14 +322,14 @@ void Enemy::MoveNode(bool start)
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetRotate() = -atan2(det, dot);
+	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
 
 	// move towards node
 	moveVec.Normalize();
 
 	moveVec *= (spd);
 	//std::cout << moveVec._x << " " << moveVec._y << std::endl;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::TRANSFORM_COMPONENT)))->GetPos() += moveVec;
+	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() += moveVec;
 }
 
 int Enemy::GetHealth()
