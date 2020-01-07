@@ -38,7 +38,8 @@ void Engine::Update()
 	if (test)
 	{
 		_engineSystems._scriptSystem->testfunc();
-		_engineSystems._scriptSystem->TestFunctionNew();
+		_engineSystems._scriptSystem->Test_BasicFuncitonality();
+		_engineSystems._scriptSystem->Test_DataCompEditing();
 	}
 
 	MySceneManager.ChangeScene("Level1");

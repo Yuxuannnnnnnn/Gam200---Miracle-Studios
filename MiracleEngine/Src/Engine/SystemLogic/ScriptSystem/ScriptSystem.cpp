@@ -170,47 +170,47 @@ void ScriptSystem::BindMouseAndKeyboard()
 	std::cout << "DEBUG:\t Binding Mouse & Keyboard (KeyUpDownHold) \n";
 	Table_Input = lua.create_named_table("Input");
 	Table_Input["GetKeyDown"] = [&](const char* str) {
-		std::cout << "Input.GetKeyDown : " << str << " ";
+		std::cout << "Input.GetKeyDown(" << str << ") ";
 		bool temp = EngineSystems::GetInstance()._inputSystem->KeyDown(
 			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str) );
-		if (temp == true)
+		if (temp)
 		{
-			std::cout << "true.\n";
+			std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			std::cout << "false.\n";
+			std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
 	Table_Input["GetKeyHold"] = [&](const char* str) {
-		std::cout << "Input.GetKeyHold : " << str << " ";
+		std::cout << "Input.GetKeyHold(" << str << ") ";
 		bool temp = EngineSystems::GetInstance()._inputSystem->KeyHold(
 			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str));
-		if (temp == true)
+		if (temp)
 		{
-			std::cout << "true.\n";
+			std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			std::cout << "false.\n";
+			std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
 	Table_Input["GetKeyUp"] = [&](const char* str) {
-		std::cout << "Input.GetKeyUp : " << str << " ";
+		std::cout << "Input.GetKeyUp(" << str << ") ";
 		bool temp = EngineSystems::GetInstance()._inputSystem->KeyRelease(
 			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str));
-		if (temp == true)
+		if (temp)
 		{
-			std::cout << "true.\n";
+			std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			std::cout << "false.\n";
+			std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
@@ -219,32 +219,76 @@ void ScriptSystem::BindMiscFunctions()
 {
 	std::cout << "DEBUG:\t Binding Misc Functions (Console) \n";
 	Table_Console = lua.create_named_table("Console");
-	Table_Console["WriteLine"] = [&](const std::string str) {std::cout << "Console.Writeline : " << str << std::endl; };
-	//Table_Console["WriteLine"] = [&](const bool b) {std::cout << b << std::endl; };
-	//need do sol::overload for "WriteLine"
+	
+	Table_Console.set_function("WriteLine", [&](std::string str) {std::cout << str << std::endl; });
+	Table_Console.set_function("WriteLine", [&](int i) {std::cout << i << std::endl; });
+	Table_Console.set_function("WriteLine", [&](float f) {std::cout << f << std::endl; });
+
+	Table_Console["WriteStr"] = [&](std::string str) {std::cout << str << std::endl; };
+	Table_Console["WriteInt"] = [&](int i) {std::cout << i << std::endl; };
+	Table_Console["WriteBool"] = [&](bool b) { if (b) std::cout << "TRUE.\n"; else std::cout << "FALSE.\n"; };
 }
 
+void ScriptSystem::Test_DataCompEditing()
+{
+	std::cout << "========================" << std::endl;
+	std::cout << "== running lua code 3 ==" << std::endl;
+	// accessing variables from within lua scripts		lua.script_file("variables.lua");				
+	auto err = lua.safe_script(R"(
+			config = {
+				fullscreen = false,
+				resolution = { x = 1024, y = 768 }
+			})");
+	//err.what();
+	// the type "sol::state" behaves exactly like a table
+	bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
+	sol::table config = lua["config"];
+	// can also get it using the "get" member function
+	// auto replaces the unqualified type name
+	auto resolution = config.get<sol::table>("resolution");
+	// table and state can have multiple things pulled out of it too
+	std::tuple<int, int> xyresolutiontuple = resolution.get<int, int>("x", "y");
+	c_assert(std::get<0>(xyresolutiontuple) == 1024);
+	c_assert(std::get<1>(xyresolutiontuple) == 768);
 
-void ScriptSystem::TestFunctionNew()
+	std::cout << "========================" << std::endl;
+	std::cout << "++++++++++++++++++++++++" << std::endl;
+}
+
+void ScriptSystem::Test_BasicFuncitonality()
 {
 	std::cout << "========================" << std::endl;
 	std::cout << "== running lua code 2 ==" << std::endl;
-
+	Vector3 test;
 	pfr = lua.safe_script(R"(
 b = "10"
-Console.WriteLine("1")
-Console.WriteLine("2")
+Console.WriteStr("1")
+Console.WriteStr("2")
 temp = Input.GetKeyDown("MOUSE_LBUTTON")
-Console.WriteLine("3")
+Console.WriteBool(temp)
+Console.WriteStr("3")
+Console.WriteStr(b)
+
+test = Vector3.new(4,2,3)
+x = test:GetX()
+Console.WriteInt(x)
+Console.WriteInt(69)
+
+test2 = Transform.new(Vector3.new(7,5,3), Vector3.new(8,6,5), 0.4)
+y = test2:GetPosition():GetX()
+Console.WriteInt(y)
+z = test2:GetScale():GetY()
+Console.WriteInt(z)
+a = test2:GetRotate()
+Console.WriteLine(a)
 			)");
 	if (!pfr.valid())
 	{
 		sol::error err = pfr;
 		std::cout << err.what() << std::endl;
-	}
-		
+	}	
 
-	std::cout << "========================" << std::endl;
+	std::cout << "++++++++++++++++++++++++" << std::endl;
 	std::cout << "========================" << std::endl;
 }
 
@@ -271,8 +315,8 @@ int ScriptSystem::testfunc() {
 //	table["WriteLine"] = [&](const std::string str) {std::cout << "Console.Writeline : " << str << std::endl; };
 	pfr = lua.safe_script(R"(
 				b = "twostrtest"
-				Console.WriteLine("def")
-				Console.WriteLine(b)
+				Console.WriteStr("def")
+				Console.WriteStr(b)
 			)");
 	// accessing variables from within lua scripts		lua.script_file("variables.lua");				
 	auto err = lua.safe_script(R"(
@@ -327,7 +371,7 @@ int ScriptSystem::testfunc() {
 	BindTransform();
 
 	std::cout << "success" << std::endl;
-	std::cout << "========================" << std::endl;
+	std::cout << "++++++++++++++++++++++++" << std::endl;
 	std::cout << "========================" << std::endl;
 
 	return 0;

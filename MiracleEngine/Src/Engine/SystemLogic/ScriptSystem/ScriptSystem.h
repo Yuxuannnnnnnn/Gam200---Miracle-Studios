@@ -15,6 +15,17 @@ class LuaScriptComponent;
 
 class ScriptSystem// : public ISystem
 {
+	/*
+	Console.WriteStr("string")
+	Console.WriteInt(int i)
+	Console.WriteBool(bool b)
+	Input.GetKeyDown("KEYB_S")
+	Input.GetKeyUp("")
+	Input.GetKeyHold("")
+
+	Vector2()
+	Vector3(4,2,0)
+	*/
 public:
 	sol::table Table_Input; // Mouse & Keyboard
 	sol::table Table_Console; // Console I/O, no Input yet
@@ -34,7 +45,8 @@ public:
 	void BindMouseAndKeyboard();
 	void BindMiscFunctions();
 
-	void TestFunctionNew();
+	void Test_DataCompEditing();
+	void Test_BasicFuncitonality();
 	int testfunc();
 
 
