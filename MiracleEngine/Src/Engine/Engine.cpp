@@ -131,6 +131,7 @@ void Engine::Update()
 
 		// Graphics
 		MyFrameRateController.StartTimeCounter();
+		MyAnimationSystem.Update(dt);
 		MyGraphicsSystem.Update(dt);
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
 
@@ -172,6 +173,7 @@ void Engine::Update()
 		MyAudioSystem.Update();
 			
 		// Graphics
+		MyAnimationSystem.Update(dt);
 		MyGraphicsSystem.Update(dt);
 #endif
 

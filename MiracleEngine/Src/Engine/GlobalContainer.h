@@ -27,6 +27,7 @@
 #include "SceneManager.h"
 #include "Tools/Resource/ResourceManager.h"
 #include "Factory.h"
+#include "SystemAnimation/AnimationSystem.h"
 
 //#include "SystemPhysics/ButtonManager.h"
 //#include "SystemPhysics/CollisionManager.h"
@@ -54,7 +55,8 @@ public:
 		_logicSystem{ nullptr },
 		_scriptSystem{ nullptr },
 		_aiSystem{ nullptr },
-		
+
+		_animationSystem{ nullptr },
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
 		_audioSystem{ nullptr },
@@ -90,6 +92,7 @@ public:
 		_logicSystem =  new LogicSystem();
 		_scriptSystem = new ScriptSystem();
 		_aiSystem = new AISystem();
+		_animationSystem = new AnimationSystem();
 		_graphicsSystem = new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), _windowSystem->getWindow().GetWindowHeight());
 		_physicsSystem = new PhysicsSystem();
 		
@@ -128,6 +131,7 @@ public:
 		delete _logicSystem;
 		delete _scriptSystem;
 		delete _aiSystem;
+		delete _animationSystem;
 		delete _graphicsSystem;
 		delete _audioSystem;
 		delete _physicsSystem;
@@ -155,6 +159,7 @@ public:
 
 	ComponentManager* _componentManager;
 
+	AnimationSystem* _animationSystem;
 	InputSystem* _inputSystem;
 	LogicSystem* _logicSystem;
 	ScriptSystem* _scriptSystem;
@@ -197,6 +202,7 @@ public:
 #define MyGraphicsSystem (*EngineSystems::GetInstance()._graphicsSystem)
 #define MyPhysicsSystem (*EngineSystems::GetInstance()._physicsSystem)
 #define MyAudioSystem (*EngineSystems::GetInstance()._audioSystem)
+#define MyAnimationSystem (*EngineSystems::GetInstance()._animationSystem)
 
 #define MyAiSystem (*EngineSystems::GetInstance()._aiSystem)
 
