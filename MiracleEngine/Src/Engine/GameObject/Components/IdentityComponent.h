@@ -107,13 +107,13 @@ public:
 		//strncpy(_current_ObjectType, _ObjectType.c_str(), _ObjectType.length());
 
 
-		static char objType[100] = "\0";
+		char objType[100] = "\0";
 		strncpy(objType, _ObjectType.c_str(), _ObjectType.length());
 		ImGui::InputText(string.c_str(), objType, 100);
 		_ObjectType = objType;
 		ImGui::Spacing();
 
-		static char Name[100] = "\0";
+		char Name[100] = "\0";
 		strncpy(Name, _name.c_str(), _name.length());
 		//strncpy(_current_Name, _name.c_str(), _name.length());
 		string = "Name of Object ";
@@ -123,7 +123,10 @@ public:
 	}
 
 
-
+	const std::string& GetName() const
+	{
+		return _name;
+	}
 
 
 

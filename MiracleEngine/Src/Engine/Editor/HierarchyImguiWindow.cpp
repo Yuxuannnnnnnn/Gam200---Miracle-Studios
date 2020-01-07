@@ -81,6 +81,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 	ImGui::Separator();
 	ImGui::Spacing();
 
+	int i = 0;
 
 	for (auto& gameObjectPair : objlist)
 	{
@@ -93,8 +94,8 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (gameObject->GetComponent(ComponentId::IDENTITY_COMPONENT));
 
-		std::string ObjectTypeID = IdCom->ObjectType(); //Get Object Type of each GameObject
-		std::string string = ObjectTypeID + std::string(" ") + std::to_string(uID); // "Object Type + Object unique number" string
+		std::string ObjectTypeID = IdCom->GetName(); //Get Object Type of each GameObject
+		std::string string = std::to_string(i) + " " + ObjectTypeID; // "Object Type + Object unique number" string
 
 		static bool selected;
 		if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
@@ -107,6 +108,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 				//ImGuiID id = ImGui::GetID(string.c_str());
 				//ImGui::GetStateStorage()->SetInt(id, 0);
 			}
+		i++;
 	}
 }
 
