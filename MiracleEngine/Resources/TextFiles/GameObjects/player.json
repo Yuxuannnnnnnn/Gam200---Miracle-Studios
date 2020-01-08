@@ -13,7 +13,8 @@
   "G.FileName": "Player.png",
 
   "AnimationComponent": true,
-  "Type": "idle",
+  "AnimationTypes": [ "CatAnimation.json" ],
+  "StartAnim": "CatAnimation.json",
 
   "RigidBodyComponent": true,
   "Mass": 10.0,
