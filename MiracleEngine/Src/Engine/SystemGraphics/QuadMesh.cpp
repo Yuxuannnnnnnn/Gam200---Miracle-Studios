@@ -6,6 +6,11 @@ void QuadMesh::Select()
 	_ebo->Select();
 }
 
+VertexBuffer* QuadMesh::GetBuffer() const
+{
+	return _vbo;
+}
+
 QuadMesh::QuadMesh()
 {
 	GLfloat _positions[] =

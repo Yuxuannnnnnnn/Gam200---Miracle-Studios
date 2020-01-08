@@ -5,7 +5,7 @@ void Renderer::Update(const std::vector<std::vector<RenderObject>>& _renderObjec
 {
 	// render object from back to front, 0 at back, 10 front
 
-	for (size_t i = 0; i < _renderObjects.size(); i++)
+	/*for (size_t i = 0; i < _renderObjects.size(); i++)
 	{
 		for (const auto& renderobj : _renderObjects[i])
 		{
@@ -17,7 +17,7 @@ void Renderer::Update(const std::vector<std::vector<RenderObject>>& _renderObjec
 			renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
-	}
+	}*/
 
 
 }

@@ -53,7 +53,9 @@ private:
 
 	CameraManager _cameraManager;   // class manage all the camera
 private:
-	std::vector<std::vector<RenderObject>> _renderObjects;
+	//std::vector<std::vector<RenderObject>> _renderObjects;
+
+	std::vector<RenderObject> _renderObjects;
 
 	QuadMesh _quadMesh;
 	QuadMesh _q2{ 0.0f, 0.0f, 0.5f, 0.5f };

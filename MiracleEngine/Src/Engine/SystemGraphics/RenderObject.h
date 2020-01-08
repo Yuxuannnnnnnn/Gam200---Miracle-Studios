@@ -7,10 +7,20 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+struct UV
+{
+	float u0 = 0.0f;
+	float v0 = 0.0f;
+	float u1 = 1.0f;
+	float v1 = 1.0f;
+};
+
 struct RenderObject
 {
 	Texture2D* _pTexture;
 	Shader*    _pShader;
 	QuadMesh*  _pMesh;
-	glm::mat4  transform;
+	glm::mat4  _transform;
+	UV  _uv;
+
 };
