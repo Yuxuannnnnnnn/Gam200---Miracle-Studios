@@ -78,19 +78,23 @@ void GraphicComponent::Inspect()
 
 
 		static auto graphicList = MyResourceSystem.GetTexture2DList();
-		std::vector<const char*> list(graphicList.size());
-		//list[0] = "Texture Files ";
+		std::vector<const char*> list(graphicList.size() + 1);
+		list[0] = "Choose a Texture ";
 
-		int i = 0;
-		int select;
+		int i = 1;
+		int select = 0;
 		for (auto graphicPair = graphicList.begin(); graphicPair != graphicList.end(); graphicPair++)
 		{
 			const char* ptr = graphicPair->first.c_str();
+			
+
 			list[i] = ptr;
-			if (!strncmp(graphicPair->first.c_str(), _fileName.c_str(), 20))
+			if (!strncmp(ptr, _fileName.c_str(), 20))
 			{
 				select = i;
 			}
+
+
 			i++;
 		}
 		//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
@@ -119,20 +123,23 @@ void GraphicComponent::Inspect()
 		ImGui::Spacing();
 
 		static auto& ShaderList = MyResourceSystem.GetShaderList();
-		std::vector<const char*> list(ShaderList.size() + 1);
-		list[0] = "Choose a Fragment Shader ";
+		std::vector<const char*> list;
+		list.push_back("Choose a Shader ");
 		static const char* name = list[0];
 
 
 		int i = 1;
-		static int select;
+		static int select = 0;
 		for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
 		{
 			const char* ptr = shaderPair->first.c_str();
-			list[i] = ptr;
-			if (!strncmp(shaderPair->first.c_str(), _shader.c_str(), 20))
+			if (shaderPair->first.find("System") == std::string::npos)
 			{
-				select = i;
+				list.push_back(ptr);
+				if (!strncmp(shaderPair->first.c_str(), _shader.c_str(), 20))
+				{
+					select = i;
+				}
 			}
 			i++;
 		}

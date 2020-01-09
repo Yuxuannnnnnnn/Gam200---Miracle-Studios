@@ -1,11 +1,11 @@
 #pragma once
 #include "GameObject/GameObject.h"
+#include "Tools/Resource/ResourceSystem.h"
 
 
 #include "GameObject/Components/PrecompiledComponentHeader.h"
 #include "Tools/FileIO/Serialiser.h"
 #include <algorithm>
-#include "Tools/Resource/ResourceSystem.h"
 
 class GameObjectFactory final
 {	
@@ -20,7 +20,7 @@ public:
 	{
 		for (auto& pair : _listObject)
 		{
-			if (pair.second == obj)
+			if(pair.second == obj)
 				return true;
 		}
 
