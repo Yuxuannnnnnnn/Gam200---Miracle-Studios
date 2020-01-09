@@ -3,7 +3,10 @@
 
 
 
-Animation::Animation()
+Animation::Animation() :
+	_currentFrame{ 0 },
+	_frameDelay{ 1.0f }
+
 {
 	/*frame.push_back(new Frame(1.0f / 12, 0.0f, 2.0f / 12, 1.0f));
 	frame.push_back(new Frame(2.0f / 12, 0.0f, 3.0f / 12, 1.0f));
@@ -55,6 +58,10 @@ bool Animation::load(std::string path)
 		(*frame).push_back(ptr);
 	}
 
+	_currentFrame = 0;
+	_frameDelay = 1.0f;
+
+
 	return true;
 }
 
@@ -68,4 +75,9 @@ void Animation::unload()
 	(*frame).clear();
 
 	delete frame;
+}
+
+Frame* Animation::GetCurrFrame(int currentFrame)
+{
+	return (*frame)[currentFrame];
 }

@@ -22,13 +22,17 @@ public:
 	void Select();
 
 	// current frame to play
-	int _currentFrame = 0;
+	int _currentFrame;
 	
 	// delay between frames
-	float _frameDelay = 1.0f;
+	float _frameDelay;
 
 	bool load(std::string path);
 	void unload();
+
+	Frame* GetCurrFrame(int);
+
+	inline int GetFrameSize() const { return frame->size(); }
 
 private:
 

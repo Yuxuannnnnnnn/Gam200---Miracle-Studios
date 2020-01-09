@@ -11,7 +11,12 @@ private:
 
 	std::string _currentAnim;
 	std::string _startingAnim;
+
+	Animation* _currAnimation;
+
 public:
+	int _currFrame;
+	float _timeDelay;
 	std::string& GetCurrAnim();
 	
 	// temporary test, wait for resource manager

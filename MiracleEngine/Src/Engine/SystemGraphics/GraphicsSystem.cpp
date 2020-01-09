@@ -114,6 +114,8 @@ void GraphicsSystem::UpdateRenderObjectList()
 		GraphicComponent* graphicComp = graphicCompPair.second;
 		if (!graphicComp->GetEnable())
 			continue;
+		
+		RenderObject renderobject;
 
 		// check for if obj have animation
 
@@ -122,9 +124,14 @@ void GraphicsSystem::UpdateRenderObjectList()
 			AnimationComponent* anim = (AnimationComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Animation);
 
 			// get animation from resource manager
-			auto x1 = MyResourceManager.GetAnimationResource(anim->GetCurrAnim());
-			int x = 10;
-			int y = 10;
+			Animation* currAnim = MyResourceManager.GetAnimationResource(anim->GetCurrAnim());
+			
+
+
+			renderobject._uv.u0 = currAnim->GetCurrFrame(anim->_currFrame)->_u0;
+			renderobject._uv.v0 = currAnim->GetCurrFrame(anim->_currFrame)->_v0;
+			renderobject._uv.u1 = currAnim->GetCurrFrame(anim->_currFrame)->_u1;
+			renderobject._uv.v1 = currAnim->GetCurrFrame(anim->_currFrame)->_v1;
 
 			//anim->testanim->Select();
 			////_testAnimation.Select();
@@ -144,7 +151,6 @@ void GraphicsSystem::UpdateRenderObjectList()
 		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
 
 
-		RenderObject renderobject;
 
 
 

@@ -5,6 +5,7 @@
 #include "GameObject/Components/PrecompiledComponentHeader.h"
 #include "Tools/FileIO/Serialiser.h"
 #include <algorithm>
+#include "Tools/Resource/ResourceSystem.h"
 
 class GameObjectFactory final
 {	
@@ -19,9 +20,19 @@ public:
 	{
 		for (auto& pair : _listObject)
 		{
-			if(pair.second == obj)
+			if (pair.second == obj)
 				return true;
 		}
+
+
+		std::unordered_map<std::string, GameObject*>& PrototypeMap = MyResourceSystem.GetPrototypeMap();
+
+		for (auto& pair : PrototypeMap)
+		{
+			if (pair.second == obj)
+				return true;
+		}
+
 		return false;
 	}
 	std::unordered_map < size_t, GameObject*>& getObjectlist();

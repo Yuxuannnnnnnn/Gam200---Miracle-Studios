@@ -19,7 +19,7 @@ std::string& AnimationComponent::GetCurrAnim()
 }
 
 AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponent* component)
-	: IComponent(parent, uId), _currentAnim{"/0"}, _startingAnim{ "/0" }
+	: IComponent(parent, uId), _currentAnim{ "/0" }, _startingAnim{ "/0" }, _currAnimation{ nullptr }, _currFrame{ 0 }, _timeDelay{ 0.5f }
 {
 	if (component)
 	{
