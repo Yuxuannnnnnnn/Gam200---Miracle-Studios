@@ -12,6 +12,8 @@ private:
 	std::string _currentAnim;
 	std::string _startingAnim;
 public:
+	std::string& GetCurrAnim();
+	
 	// temporary test, wait for resource manager
 
 	const std::vector<std::string>& GetAnimationDataFileList() const

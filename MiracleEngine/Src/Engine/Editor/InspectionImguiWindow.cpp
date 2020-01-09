@@ -9,7 +9,7 @@ int InspectionImguiWindow::_componentSelected = 0;
 
 
 InspectionImguiWindow::InspectionImguiWindow(bool open, ImGuiWindowFlags flags)
-	:IBaseImguiWindow("Inspection", 1240, 15, 680, 580, open, flags)
+	:IBaseImguiWindow("Inspection", 1240, 15, 680, 580, open, flags, ImGuiCond_Once)
 {
 }
 

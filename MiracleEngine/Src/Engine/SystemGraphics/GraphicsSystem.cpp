@@ -115,6 +115,24 @@ void GraphicsSystem::UpdateRenderObjectList()
 		if (!graphicComp->GetEnable())
 			continue;
 
+		// check for if obj have animation
+
+		if (graphicComp->GetSibilingComponent(ComponentId::CT_Animation))
+		{
+			AnimationComponent* anim = (AnimationComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Animation);
+
+			// get animation from resource manager
+			auto x1 = MyResourceManager.GetAnimationResource(anim->GetCurrAnim());
+			int x = 10;
+			int y = 10;
+
+			//anim->testanim->Select();
+			////_testAnimation.Select();
+			//_textureManager._textureMap[anim->GetFilePath()]->Select();
+
+		}
+
+
 		size_t objID = graphicCompPair.first;	//Get GameObjectID
 		TransformComponent* transformComp = MyComponentManger._transformComponents[objID];
 

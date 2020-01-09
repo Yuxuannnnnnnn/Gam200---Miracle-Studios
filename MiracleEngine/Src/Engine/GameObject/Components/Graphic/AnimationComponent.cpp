@@ -13,6 +13,11 @@
 //}
 
 
+std::string& AnimationComponent::GetCurrAnim()
+{
+	return _currentAnim;
+}
+
 AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponent* component)
 	: IComponent(parent, uId), _currentAnim{"/0"}, _startingAnim{ "/0" }
 {

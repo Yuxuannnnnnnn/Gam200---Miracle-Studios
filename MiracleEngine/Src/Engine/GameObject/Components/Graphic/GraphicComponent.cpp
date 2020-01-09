@@ -87,7 +87,7 @@ void GraphicComponent::Inspect()
 		{
 			const char* ptr = graphicPair->first.c_str();
 			list[i] = ptr;
-			if (strncmp(graphicPair->first.c_str(), _fileName.c_str(), 20))
+			if (!strncmp(graphicPair->first.c_str(), _fileName.c_str(), 20))
 			{
 				select = i;
 			}
@@ -104,6 +104,7 @@ void GraphicComponent::Inspect()
 				if (ImGui::Selectable(list[n], is_selected))
 				{
 					item_current = list[n];
+					_fileName = list[n];
 				}
 
 				//if (is_selected);
