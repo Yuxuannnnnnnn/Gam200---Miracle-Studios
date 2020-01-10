@@ -28,7 +28,7 @@ void GraphicsSystem::Update(double dt)
 
 		renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
 
-		glm::mat4 mvp = _proj * _cameraManager.GetMainCamMatrix() * renderobj._transform;
+		glm::mat4 mvp = _proj /* _cameraManager.GetMainCamMatrix() */ * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
@@ -93,14 +93,13 @@ void GraphicsSystem::ClearSreen() const
 
 void GraphicsSystem::UpdateViewMatrix()
 {
-	_cameraManager.Update();
+	//_cameraManager.Update();
 }
 
 void GraphicsSystem::UpdateRenderObjectList()
 {
 
 	// update 
-	std::vector<RenderObject> renderObj;
 
 	BBox viewBox = BBox::CreateBBoxFromData(Vec3::Vec3Zero,
 		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() * 0.75f ,MyWindowsSystem.getWindow().GetWindowHeight() * 0.75f },
@@ -158,6 +157,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 		renderobject._pShader = _shader;
 		renderobject._pTexture = MyResourceManager.GetTexture2DResource(graphicComp->GetFileName());
 		renderobject._transform = modelTransform;
+		renderobject._zvalue = transformComp->GetPos().GetZ();
 		_renderObjects.push_back(renderobject);
 
 

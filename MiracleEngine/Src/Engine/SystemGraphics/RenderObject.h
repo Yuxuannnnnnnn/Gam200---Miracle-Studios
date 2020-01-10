@@ -22,5 +22,6 @@ struct RenderObject
 	QuadMesh*  _pMesh;
 	glm::mat4  _transform;
 	UV  _uv;
+	float _zvalue;
 
 };

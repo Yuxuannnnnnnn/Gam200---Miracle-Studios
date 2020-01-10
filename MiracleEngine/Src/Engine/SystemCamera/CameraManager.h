@@ -5,11 +5,11 @@
 
 
 // a manager class to manage all the camera
-#include <map>
-#include <string>
-#include "Camera.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+//#include <map>
+//#include <string>
+//#include "Camera.h"
+//#include "glm/glm.hpp"
+//#include "glm/gtc/matrix_transform.hpp"
 
 class CameraManager
 {

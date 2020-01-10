@@ -1,6 +1,6 @@
 #include "VertexArray.h"
 #include "PrecompiledHeaders.h"
-#include <glew.h>
+
 
 VertexArray::VertexArray()
 {

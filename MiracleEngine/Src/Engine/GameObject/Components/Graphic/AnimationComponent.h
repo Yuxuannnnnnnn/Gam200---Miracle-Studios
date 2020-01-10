@@ -4,9 +4,21 @@
 #include <map>
 #include <string>
 
+/* 
+	animationcomponent: we want have each seperate time delay for each individual animation, e.g. run, walk, idle
+
+	each seperate spritesheet have its own time delay and max number of frames
+
+	each update loop, animation system will call UpdateTimeDelay, pass in dt.
+*/
+
+
 class AnimationComponent: public IComponent
 {
+	// let designer choose timedelay for individual anim
+
 private:
+	// let me know if got problem if vector change to map, i, e animation doesnt run.
 	std::vector<std::string> _animations;
 
 	std::string _currentAnim;
@@ -15,8 +27,25 @@ private:
 	Animation* _currAnimation;
 
 public:
-	int _currFrame;
+	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
+	// called when switching animation from idle to run, etc
+	void GetTimeDelayFromCurrentAnim()
+	{
+		// TODO:: get timedelay and max frame from current anim serialized file
+		// _timeDelay = ...
+		_currentTimeDelay = _timeDelay;
+		_currFrame = _maxFrame;
+	}
+
+	void UpdateTimeDelay(float dt);
 	float _timeDelay;
+	float _currentTimeDelay;
+	
+	int _currFrame;
+	int _maxFrame;
+
+
+	// get current playing animation
 	std::string& GetCurrAnim();
 	
 	// temporary test, wait for resource manager

@@ -5,12 +5,10 @@
 
 #include "VertexBuffer.h"
 #include "BufferLayout.h"
-
+#include <glew.h>
 
 class VertexArray
 {
-private:
-	unsigned int _id;
 public:
 	VertexArray();
 	~VertexArray();
@@ -19,6 +17,8 @@ public:
 
 	void Select() const;
 	void UnSelect() const;
+private:
+	GLuint _id;
 };
 
 #endif
