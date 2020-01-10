@@ -17,9 +17,22 @@ class AnimationComponent: public IComponent
 {
 	// let designer choose timedelay for individual anim
 
+	// _timeDelay = the time delay for specific anim, can be diff for run and walk
+
+	// _currentTimeDelay decrease every loop 
+
+	// maxFrame = max number of frame for specific anim, can be diff for run and walk
+
+
 private:
 	// let me know if got problem if vector change to map, i, e animation doesnt run.
 	std::vector<std::string> _animations;
+
+	float _timeDelay;
+	float _currentTimeDelay;
+
+	int _currFrame;
+	int _maxFrame;
 
 	std::string _currentAnim;
 	std::string _startingAnim;
@@ -29,7 +42,7 @@ private:
 public:
 	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
 	// called when switching animation from idle to run, etc
-	void GetTimeDelayFromCurrentAnim()
+	void GetTimeDelayFromCurrentAnim(/* take in args if needed */)
 	{
 		// TODO:: get timedelay and max frame from current anim serialized file
 		// _timeDelay = ...
@@ -38,16 +51,12 @@ public:
 	}
 
 	void UpdateTimeDelay(float dt);
-	float _timeDelay;
-	float _currentTimeDelay;
 	
-	int _currFrame;
-	int _maxFrame;
 
 
 	// get current playing animation
 	std::string& GetCurrAnim();
-	
+	inline int GetCurrFrame() { return _currFrame; }
 	// temporary test, wait for resource manager
 
 	const std::vector<std::string>& GetAnimationDataFileList() const

@@ -127,10 +127,10 @@ void GraphicsSystem::UpdateRenderObjectList()
 			
 
 
-			renderobject._uv.u0 = currAnim->GetCurrFrame(anim->_currFrame)->_u0;
-			renderobject._uv.v0 = currAnim->GetCurrFrame(anim->_currFrame)->_v0;
-			renderobject._uv.u1 = currAnim->GetCurrFrame(anim->_currFrame)->_u1;
-			renderobject._uv.v1 = currAnim->GetCurrFrame(anim->_currFrame)->_v1;
+			renderobject._uv.u0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u0;
+			renderobject._uv.v0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_v0;
+			renderobject._uv.u1 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u1;
+			renderobject._uv.v1 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_v1;
 
 			//anim->testanim->Select();
 			////_testAnimation.Select();
