@@ -7,15 +7,9 @@ void AnimationSystem::Update(double dt)
 	for (auto& animCompPair : MyComponentManger._AnimationComponents)
 	{
 		AnimationComponent* GC = animCompPair.second;
-		GC->_timeDelay = GC->_timeDelay - dt;
-		if (GC->_timeDelay < 0.0f)
-		{
-			GC->_timeDelay = 0.5f;
-			GC->_currFrame = GC->_currFrame + 1;
 
-			if (GC->_currFrame > 6)
-				GC->_currFrame = 0;
-		}
+		GC->UpdateTimeDelay(dt);
+		
 	}
 	
 	//for (auto& e : MyComponentManger._AnimationComponents)

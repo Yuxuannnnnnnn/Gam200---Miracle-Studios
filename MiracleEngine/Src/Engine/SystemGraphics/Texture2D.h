@@ -15,7 +15,7 @@ private:
 	unsigned int _id;
 	int _width;   // width and height of texture
 	int _height;
-	int _bpp;  // bit per pixel
+	int _bpp;     // bit per pixel
 public:
 	unsigned int GetTextureID() const;
 

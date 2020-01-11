@@ -6,12 +6,38 @@
 #include "Tools/Resource/ResourceSystem.h"
 
 
+/* 
+	animationcomponent: we want have each seperate time delay for each individual animation, e.g. run, walk, idle
+
+	each seperate spritesheet have its own time delay and max number of frames
+
+	each update loop, animation system will call UpdateTimeDelay, pass in dt.
+*/
+
+
 class AnimationComponent: public IComponent
 {
+	// let designer choose timedelay for individual anim
+
+	// _timeDelay = the time delay for specific anim, can be diff for run and walk
+
+	// _currentTimeDelay decrease every loop 
+
+	// maxFrame = max number of frame for specific anim, can be diff for run and walk
+
+
 private:
 
 	typedef float timeDelay;
 	std::map<std::string, timeDelay> _animations;	//Each animation has its own timedelay
+	// let me know if got problem if vector change to map, i, e animation doesnt run.
+	std::vector<std::string> _animations;
+
+	float _timeDelay;
+	float _currentTimeDelay;
+
+	int _currFrame;
+	int _maxFrame;
 
 	std::string _currentAnim;
 	std::string _startingAnim;
@@ -19,9 +45,27 @@ private:
 	//Animation* _currAnimation;	//only for optimisation
 
 public:
-	int _currFrame;
 	//float _timeDelay;	//remove
 
+	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
+	// called when switching animation from idle to run, etc
+	void GetTimeDelayFromCurrentAnim(/* take in args if needed */)
+	{
+		// TODO:: get timedelay and max frame from current anim serialized file
+		// _timeDelay = ...
+		_currentTimeDelay = _timeDelay;
+		_currFrame = _maxFrame;
+	}
+
+	void UpdateTimeDelay(float dt);
+
+
+
+	// get current playing animation
+	std::string& GetCurrAnim();
+	inline int GetCurrFrame() { return _currFrame; }
+
+	// temporary test, wait for resource manager
 
 	std::string& GetCurrAnim();
 
@@ -43,71 +87,71 @@ public:
 
 		//Inspect list of animations - Add animations - remove animations - each animation with own time Delay
 
-		ImGui::Spacing();
-
-		static auto ShaderList = MyResourceSystem.GetShaderMap();
-
-		int shaderCount = 1;
-		static std::vector<int> select(_current_ShaderList.size(), 0);
-
-
-		if (ImGui::Button("Add Shader"))
-		{
-			_current_ShaderList.push_back(" ");
-			select.push_back(0);
-		}
-		
-		for (auto currshader : _current_ShaderList)
-		{
-			ImGui::Spacing();
-		
-			auto shader = _shaderList.begin();
-		
-			std::vector<const char*> list(ShaderList.size() + 1);
-			list[0] = " Choose a shader ";
-		
-			int i = 1;
-			//static int select = 0;
-			for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
-			{
-				const char* ptr = shaderPair->first.c_str();
-				list[i] = ptr;
-				if (shader != _shaderList.end())
-				{
-					if (strncmp(shaderPair->first.c_str(), shader->c_str(), 20) && currshader != nullptr)
-					{
-						select[shaderCount - 1] = i;
-					}
-				}
-				i++;
-			}
-			//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
-			currshader = list[select[shaderCount - 1]];            // Here our selection is a single pointer stored outside the object.
-		
-			std::string shaderCountString = " Shader " + std::to_string(shaderCount);
-			if (ImGui::BeginCombo(shaderCountString.c_str(), currshader, 0)) // The second parameter is the label previewed before opening the combo.
-			{
-				for (int n = 0; n < list.size(); n++)
-				{
-					bool is_selected = (currshader == list[n]);
-					if (ImGui::Selectable(list[n], is_selected))
-					{
-						currshader = list[n];
-						select[shaderCount - 1] = n;
-					}
-		
-					//if (is_selected);
-					//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
-		
-				}
-				ImGui::EndCombo();
-			}
-			if (shader != _shaderList.end())
-			{
-				shader++;
-			}
-			shaderCount++;
-		}
+		//ImGui::Spacing();
+		//
+		//static auto ShaderList = MyResourceSystem.GetShaderMap();
+		//
+		//int shaderCount = 1;
+		//static std::vector<int> select(_current_ShaderList.size(), 0);
+		//
+		//
+		//if (ImGui::Button("Add Shader"))
+		//{
+		//	_current_ShaderList.push_back(" ");
+		//	select.push_back(0);
+		//}
+		//
+		//for (auto currshader : _current_ShaderList)
+		//{
+		//	ImGui::Spacing();
+		//
+		//	auto shader = _shaderList.begin();
+		//
+		//	std::vector<const char*> list(ShaderList.size() + 1);
+		//	list[0] = " Choose a shader ";
+		//
+		//	int i = 1;
+		//	//static int select = 0;
+		//	for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
+		//	{
+		//		const char* ptr = shaderPair->first.c_str();
+		//		list[i] = ptr;
+		//		if (shader != _shaderList.end())
+		//		{
+		//			if (strncmp(shaderPair->first.c_str(), shader->c_str(), 20) && currshader != nullptr)
+		//			{
+		//				select[shaderCount - 1] = i;
+		//			}
+		//		}
+		//		i++;
+		//	}
+		//	//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
+		//	currshader = list[select[shaderCount - 1]];            // Here our selection is a single pointer stored outside the object.
+		//
+		//	std::string shaderCountString = " Shader " + std::to_string(shaderCount);
+		//	if (ImGui::BeginCombo(shaderCountString.c_str(), currshader, 0)) // The second parameter is the label previewed before opening the combo.
+		//	{
+		//		for (int n = 0; n < list.size(); n++)
+		//		{
+		//			bool is_selected = (currshader == list[n]);
+		//			if (ImGui::Selectable(list[n], is_selected))
+		//			{
+		//				currshader = list[n];
+		//				select[shaderCount - 1] = n;
+		//			}
+		//
+		//			//if (is_selected);
+		//			//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+		//
+		//		}
+		//		ImGui::EndCombo();
+		//	}
+		//	if (shader != _shaderList.end())
+		//	{
+		//		shader++;
+		//	}
+		//	shaderCount++;
+		//}
 
 
 		//Inspect starting animation - from the list of animations
@@ -117,7 +161,7 @@ public:
 
 	}
 
-	// temporary test, wait for resource manager
+
 
 	const std::map<std::string, timeDelay>& GetAnimationDataFileList() const
 	{

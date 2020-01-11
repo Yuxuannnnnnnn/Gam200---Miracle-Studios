@@ -1,7 +1,6 @@
 #pragma once
 #include "../../IComponent.h"
 #include "GameObject/IAllocator.h"
-#include "SystemGraphics/RenderLayer.h"
 
 enum class TypeIdGraphic {
 	NONE = 0,
@@ -15,6 +14,7 @@ private:
 	std::string _fileName;      
 	std::string _shader;
 	//RenderLayer _renderlayer; Not Used anymore because Z value is computed in Transformcomponent
+
 
 	float u0, v0;
 	float u1, v1;
@@ -46,8 +46,7 @@ public:
 		if (document.HasMember("G.Shader") && document["G.Shader"].IsString())
 			_shader = document["G.Shader"].GetString();
 
-		if (document.HasMember("G.RenderLayer") && document["G.RenderLayer"].IsInt())
-			_renderlayer = document["G.RenderLayer"].GetInt();
+
 	}
 
 
@@ -66,8 +65,6 @@ public:
 		value.SetString(rapidjson::StringRef(_shader.c_str()));
 		prototypeDoc.AddMember("G.Shader", value);
 
-		value.SetInt(_renderlayer.GetLayer());
-		prototypeDoc.AddMember("G.RenderLayer", value);
 	}
 
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -85,8 +82,6 @@ public:
 		value.SetString(rapidjson::StringRef(_shader.c_str()));
 		prototypeDoc.AddMember("G.Shader", value, allocator);
 
-		value.SetInt(_renderlayer.GetLayer());
-		prototypeDoc.AddMember("G.RenderLayer", value, allocator);
 	}
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -110,11 +105,6 @@ public:
 			shader.SetString(rapidjson::StringRef(_shader.c_str()));
 		}		
 		
-		if (protoGraphicCom->_renderlayer.GetLayer() == _renderlayer.GetLayer())
-		{
-			addComponentIntoSceneFile = true;
-			renderlayer.SetInt(_renderlayer.GetLayer());
-		}
 
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype

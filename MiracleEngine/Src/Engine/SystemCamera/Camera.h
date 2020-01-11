@@ -1,14 +1,14 @@
 #pragma once
 
-#include <glew.h>
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "Elementbuffer.h"
-#include "VertexBuffer.h"
-#include <string>
-#include "VertexArray.h"
-#include "Shader.h"
-#include "QuadMesh.h"
+//#include <glew.h>
+//#include "glm/glm.hpp"
+//#include "glm/gtc/matrix_transform.hpp"
+//#include "Elementbuffer.h"
+//#include "VertexBuffer.h"
+//#include <string>
+//#include "VertexArray.h"
+//#include "Shader.h"
+//#include "QuadMesh.h"
 
 class Camera
 {
