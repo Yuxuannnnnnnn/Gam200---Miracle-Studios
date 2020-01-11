@@ -8,6 +8,8 @@
 #include "IResourceInfo.h"
 #include "Tools/Memory/ObjectAllocator.h"
 
+
+//For Editor, Assets
 class ResourceSystem final : public IResourceStructure, public ISingleton<ResourceSystem>
 {
 private:

@@ -5,7 +5,7 @@
 class TransformComponent: public IComponent
 {
 private:
-	Vector3 _pos;
+	Vector3 _pos;	//Z value will be the renderlayer value, min 0, max 10 
 	Vector3 _scale;
 	float _rotationAngle;
 
@@ -91,7 +91,25 @@ public:
 		prototypeDoc.AddMember("Rotate", value, allocator);
 	}
 
-	virtual void Inspect() override;
+	virtual void Inspect() override
+	{
+		ImGui::Spacing();
+		ImGui::InputFloat2("Input Pos X, Y", _pos.m);
+		ImGui::Spacing();
+		ImGui::SliderFloat2("Slider Pos X, Y", _pos.m, -1000, 1000);
+
+		ImGui::Spacing();
+		ImGui::InputFloat3("Input Scale X, Y, Z", _scale.m);
+		ImGui::Spacing();
+		ImGui::SliderFloat2("Slider Scale X, Y, Z", _scale.m, 0, 100);
+
+		ImGui::Spacing();
+		ImGui::InputFloat("Input Rotation Angle", &_rotationAngle);
+		ImGui::Spacing();
+		ImGui::SliderFloat("Slider Rotation Angle", &_rotationAngle, 0, 360);
+		ImGui::Spacing();
+
+	}
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		TransformComponent* protoTransformCom = dynamic_cast<TransformComponent*>(protoCom);

@@ -147,13 +147,13 @@ public:
 		ImGui::Checkbox("Static", &_static);
 
 		ImGui::Spacing();
-		ImGui::InputFloat3("Velocity X, Y, Z", _velocity.m);
+		ImGui::InputFloat2("Velocity X, Y, Z", _velocity.m);
 
 		ImGui::Spacing();
-		ImGui::InputFloat3("Direction X, Y, Z", _direction.m);
+		ImGui::InputFloat2("Direction X, Y, Z", _direction.m);
 
 		ImGui::Spacing();
-		ImGui::InputFloat3("Applied Force X, Y, Z", _appliedForce.m);
+		ImGui::InputFloat2("Applied Force X, Y, Z", _appliedForce.m);
 
 		ImGui::Spacing();
 		ImGui::InputFloat("Mass", &_mass);

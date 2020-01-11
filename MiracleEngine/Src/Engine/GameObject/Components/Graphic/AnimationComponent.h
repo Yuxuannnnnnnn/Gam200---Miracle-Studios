@@ -3,25 +3,123 @@
 #include "SystemAnimation/Animation.h"
 #include <map>
 #include <string>
+#include "Tools/Resource/ResourceSystem.h"
+
 
 class AnimationComponent: public IComponent
 {
 private:
-	std::vector<std::string> _animations;
+
+	typedef float timeDelay;
+	std::map<std::string, timeDelay> _animations;	//Each animation has its own timedelay
 
 	std::string _currentAnim;
 	std::string _startingAnim;
 
-	Animation* _currAnimation;
+	//Animation* _currAnimation;	//only for optimisation
 
 public:
 	int _currFrame;
-	float _timeDelay;
+	//float _timeDelay;	//remove
+
+
 	std::string& GetCurrAnim();
+
+
+	timeDelay GetTimeDelay(std::string animationType)
+	{
+		if (_animations.find(animationType) != _animations.end())
+		{
+			return _animations[animationType];
+		}
+
+		throw std::exception{"Does not have AnimationType"};
+	}
 	
+
+	virtual void Inspect() override
+	{
+		IComponent::Inspect();
+
+		//Inspect list of animations - Add animations - remove animations - each animation with own time Delay
+
+		ImGui::Spacing();
+
+		static auto ShaderList = MyResourceSystem.GetShaderMap();
+
+		int shaderCount = 1;
+		static std::vector<int> select(_current_ShaderList.size(), 0);
+
+
+		if (ImGui::Button("Add Shader"))
+		{
+			_current_ShaderList.push_back(" ");
+			select.push_back(0);
+		}
+		
+		for (auto currshader : _current_ShaderList)
+		{
+			ImGui::Spacing();
+		
+			auto shader = _shaderList.begin();
+		
+			std::vector<const char*> list(ShaderList.size() + 1);
+			list[0] = " Choose a shader ";
+		
+			int i = 1;
+			//static int select = 0;
+			for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
+			{
+				const char* ptr = shaderPair->first.c_str();
+				list[i] = ptr;
+				if (shader != _shaderList.end())
+				{
+					if (strncmp(shaderPair->first.c_str(), shader->c_str(), 20) && currshader != nullptr)
+					{
+						select[shaderCount - 1] = i;
+					}
+				}
+				i++;
+			}
+			//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
+			currshader = list[select[shaderCount - 1]];            // Here our selection is a single pointer stored outside the object.
+		
+			std::string shaderCountString = " Shader " + std::to_string(shaderCount);
+			if (ImGui::BeginCombo(shaderCountString.c_str(), currshader, 0)) // The second parameter is the label previewed before opening the combo.
+			{
+				for (int n = 0; n < list.size(); n++)
+				{
+					bool is_selected = (currshader == list[n]);
+					if (ImGui::Selectable(list[n], is_selected))
+					{
+						currshader = list[n];
+						select[shaderCount - 1] = n;
+					}
+		
+					//if (is_selected);
+					//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+		
+				}
+				ImGui::EndCombo();
+			}
+			if (shader != _shaderList.end())
+			{
+				shader++;
+			}
+			shaderCount++;
+		}
+
+
+		//Inspect starting animation - from the list of animations
+
+
+
+
+	}
+
 	// temporary test, wait for resource manager
 
-	const std::vector<std::string>& GetAnimationDataFileList() const
+	const std::map<std::string, timeDelay>& GetAnimationDataFileList() const
 	{
 		return _animations;
 	}
@@ -42,7 +140,9 @@ public:
 			{
 				//if (std::find(_animations.begin(), _animations.end(), document["AnimationTypes"][i].GetString()) == _animations.end())
 				//{
-					_animations.push_back(document["AnimationTypes"][i].GetString());
+				Serialiser datafile(document["AnimationTypes"][i]);
+
+				_animations.insert(std::pair<std::string, timeDelay>(datafile["AnimationType"].GetString(), datafile["TimeDelay"].GetFloat()));
 				//}
 			}
 		}
@@ -52,6 +152,8 @@ public:
 			_startingAnim = document["StartAnim"].GetString();
 			_currentAnim = _startingAnim;
 		}
+
+		//_currAnimation = MyResourceManager.GetAnimationResource(_startingAnim);
 	}
 
 
@@ -64,9 +166,14 @@ public:
 
 		value.SetArray();
 		{
+			rapidjson::Value object;
 			for (auto& anim : _animations)
 			{
-				value.PushBack(rapidjson::StringRef(anim.c_str()), prototypeDoc.Allocator());
+				object.SetObject();
+				object.AddMember("AnimationType", rapidjson::StringRef(anim.first.c_str()), prototypeDoc.Allocator());
+				object.AddMember("TimeDelay", rapidjson::Value(anim.second), prototypeDoc.Allocator());
+
+				value.PushBack(object, prototypeDoc.Allocator());
 			}
 			prototypeDoc.AddMember("AnimationTypes", value);
 		}
@@ -86,9 +193,14 @@ public:
 
 		value.SetArray();
 		{
+			rapidjson::Value object;
 			for (auto& anim : _animations)
 			{
-				value.PushBack(rapidjson::StringRef(anim.c_str()), allocator);
+				object.SetObject();
+				object.AddMember("AnimationType", rapidjson::StringRef(anim.first.c_str()), allocator);
+				object.AddMember("TimeDelay", rapidjson::Value(anim.second), allocator);
+
+				value.PushBack(object, allocator);
 			}
 			prototypeDoc.AddMember("AnimationTypes", value, allocator);
 		}
@@ -107,12 +219,12 @@ public:
 
 		for (auto& anim: _animations)
 		{
-			//Search Prototype for animation file, if dont have then add.
-			if (std::find(protoAnimCom->_animations.begin(), protoAnimCom->_animations.end(), anim) == protoAnimCom->_animations.end())
+			//Search Prototype for animation file, if dont have then add. OR if time delay is different then add the pair
+			if (protoAnimCom->_animations.find(anim.first) == protoAnimCom->_animations.end() || protoAnimCom->_animations[anim.first] != anim.second)
 			{
 				addComponentIntoSceneFile = true;
 				rapidjson::Value strVal;
-				strVal.SetString(anim.c_str(), anim.length(), allocator);
+				strVal.SetString(anim.first.c_str(), anim.first.length(), allocator);
 				animationsList.PushBack(strVal, allocator);
 			}
 		}
@@ -145,7 +257,6 @@ public:
 
 
 	std::string ComponentName() const override;
-	virtual void Inspect() override;
 
 
 	void AddAnimation(std::string animation);

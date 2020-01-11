@@ -27,25 +27,7 @@ std::string TransformComponent::ComponentName() const
 
 
 
-void TransformComponent::Inspect()
-{	
-	ImGui::Spacing();
-	ImGui::InputFloat3("Input Pos X, Y, Z", _pos.m);
-	ImGui::Spacing();
-	ImGui::SliderFloat3("Slider Pos X, Y, Z", _pos.m, -700, 700);
-	
-	ImGui::Spacing();
-	ImGui::InputFloat3("Input Scale X, Y, Z", _scale.m);
-	ImGui::Spacing();
-	ImGui::SliderFloat3("Slider Scale X, Y, Z", _scale.m, 0, 100);
-	
-	ImGui::Spacing();
-	ImGui::InputFloat("Input Rotation Angle", &_rotationAngle);
-	ImGui::Spacing();
-	ImGui::SliderFloat("Slider Rotation Angle", &_rotationAngle, 0, 360);
-	ImGui::Spacing();
 
-}
 
 
 

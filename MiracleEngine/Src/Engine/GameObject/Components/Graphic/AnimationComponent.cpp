@@ -39,10 +39,7 @@ std::string AnimationComponent::ComponentName() const
 	return std::string("Animation Component");
 }
 
-void AnimationComponent::Inspect()
-{
-	IComponent::Inspect();
-}
+
 
 void AnimationComponent::AddAnimation(std::string animation)
 {

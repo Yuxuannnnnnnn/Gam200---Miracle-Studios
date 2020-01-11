@@ -13,7 +13,7 @@
   "G.FileName": "Player.png",
 
   "AnimationComponent": true,
-  "AnimationTypes": [ "CatAnimation.json" ],
+  "AnimationTypes": [ { "AnimationType": "CatAnimation.json", "TimeDelay": 0.0} ],
   "StartAnim": "CatAnimation.json",
 
   "RigidBodyComponent": true,

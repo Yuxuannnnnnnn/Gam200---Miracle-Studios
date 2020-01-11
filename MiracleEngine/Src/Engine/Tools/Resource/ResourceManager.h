@@ -16,6 +16,9 @@
 #include "IResourceInfo.h"
 #include "Tools/Memory/ObjectAllocator.h"
 
+
+
+//For GamePlay Resource
 class ResourceManager final : public IResourceStructure
 {
 	bool _editerMode;
