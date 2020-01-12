@@ -54,9 +54,9 @@ std::string AnimationComponent::ComponentName() const
 
 
 
-void AnimationComponent::AddAnimation(std::string animation)
+void AnimationComponent::AddAnimation(std::string animation, timeDelay delay)
 {
-	_animations.push_back(animation);
+	_animations.insert(std::pair < std::string, timeDelay > (animation, delay));
 }
 
 void AnimationComponent::SetCurrentAnim(std::string curr)

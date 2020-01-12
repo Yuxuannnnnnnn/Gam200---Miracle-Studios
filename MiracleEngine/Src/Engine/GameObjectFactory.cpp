@@ -912,15 +912,15 @@ void GameObjectFactory::De_SerialiseLevel(std::string filePath)
 			continue;
 		}
 
-		const std::vector<std::string>& AnimFileList = IdAnimPair.second->GetAnimationDataFileList();
+		const std::map<std::string, float>& AnimFileList = IdAnimPair.second->GetAnimationDataFileList();
 
 		for (auto& animFile : AnimFileList)
 		{
-			if (MyResourceManager.GetAnimationResource(animFile))
+			if (MyResourceManager.GetAnimationResource(animFile.first))
 			{
-				if ((std::find(AnimationResourcePathList.begin(), AnimationResourcePathList.end(), animFile) == AnimationResourcePathList.end()))
+				if ((std::find(AnimationResourcePathList.begin(), AnimationResourcePathList.end(), animFile.first) == AnimationResourcePathList.end()))
 				{
-					std::string FilePath = MyResourceManager.GetAnimationResourcePath(animFile);
+					std::string FilePath = MyResourceManager.GetAnimationResourcePath(animFile.first);
 					AnimationResourcePathList.push_back(FilePath);
 				}
 			}

@@ -31,7 +31,7 @@ private:
 	typedef float timeDelay;
 	std::map<std::string, timeDelay> _animations;	//Each animation has its own timedelay
 	// let me know if got problem if vector change to map, i, e animation doesnt run.
-	std::vector<std::string> _animations;
+	//std::vector<std::string> _animations;
 
 	float _timeDelay;
 	float _currentTimeDelay;
@@ -42,7 +42,7 @@ private:
 	std::string _currentAnim;
 	std::string _startingAnim;
 
-	//Animation* _currAnimation;	//only for optimisation
+	Animation* _currAnimation;	//only for optimisation
 
 public:
 	//float _timeDelay;	//remove
@@ -64,10 +64,6 @@ public:
 	// get current playing animation
 	std::string& GetCurrAnim();
 	inline int GetCurrFrame() { return _currFrame; }
-
-	// temporary test, wait for resource manager
-
-	std::string& GetCurrAnim();
 
 
 	timeDelay GetTimeDelay(std::string animationType)
@@ -303,7 +299,7 @@ public:
 	std::string ComponentName() const override;
 
 
-	void AddAnimation(std::string animation);
+	void AddAnimation(std::string animation, timeDelay delay);
 
 	void SetCurrentAnim(std::string curr);
 
