@@ -22,7 +22,7 @@ BoxCollider2DComponent::BoxCollider2DComponent() :
 
 std::string BoxCollider2DComponent::ComponentName() const
 {
-	return std::string("BoxCollider2DComponent Component");
+	return std::string("BoxCollider2D Component");
 }
 
 

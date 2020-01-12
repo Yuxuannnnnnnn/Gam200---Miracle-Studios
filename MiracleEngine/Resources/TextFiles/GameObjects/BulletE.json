@@ -20,9 +20,5 @@
   "CircleColliderComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 8,
-  "ColliderTrigger": false,
-
-  "AnimationComponent": true,
-  "AnimationTypes": [],
-  "StartAnim":  ""
+  "ColliderTrigger": false
 }

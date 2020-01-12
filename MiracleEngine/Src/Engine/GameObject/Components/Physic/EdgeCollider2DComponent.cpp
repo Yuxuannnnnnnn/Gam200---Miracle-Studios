@@ -12,7 +12,7 @@ EdgeCollider2DComponent::EdgeCollider2DComponent() :
 
 std::string EdgeCollider2DComponent::ComponentName() const
 {
-	return std::string("EdgeCollider2DComponent Component");
+	return std::string("EdgeCollider2D Component");
 }
 
 void EdgeCollider2DComponent::SerialiseComponent(Serialiser& document)

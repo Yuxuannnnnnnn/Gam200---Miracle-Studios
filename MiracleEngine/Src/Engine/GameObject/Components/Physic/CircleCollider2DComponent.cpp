@@ -19,7 +19,7 @@ CircleCollider2DComponent::CircleCollider2DComponent() :
 
 std::string CircleCollider2DComponent::ComponentName() const
 {
-	return std::string("CircleCollider2DComponent Component");
+	return std::string("CircleCollider2D Component");
 }
 
 void CircleCollider2DComponent::SerialiseComponent(Serialiser& document)
