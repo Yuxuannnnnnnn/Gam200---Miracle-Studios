@@ -6,6 +6,8 @@
 #include "Tools/Resource/ResourceSystem.h"
 
 
+
+
 /* 
 	animationcomponent: we want have each seperate time delay for each individual animation, e.g. run, walk, idle
 
@@ -13,6 +15,10 @@
 
 	each update loop, animation system will call UpdateTimeDelay, pass in dt.
 */
+
+
+
+
 
 
 class AnimationComponent: public IComponent
@@ -28,54 +34,98 @@ class AnimationComponent: public IComponent
 
 private:
 
+
+
+//For editor Variables
 	typedef float timeDelay;
 	std::map<std::string, timeDelay> _animations;	//Each animation has its own timedelay
+	std::string _startingAnim;
+
 	// let me know if got problem if vector change to map, i, e animation doesnt run.
 	//std::vector<std::string> _animations;
 
-	float _timeDelay;
-	float _currentTimeDelay;
-
+//For Smart component Variables
+	float _timeDelay;	//Factor to change from one frame to another frame
+	float _currentTimeDelay; //Use to countdown the timeDelay of the specific frame
 	int _currFrame;
-	int _maxFrame;
+	int _maxFrame;	//cap of the current animation
 
-	std::string _currentAnim;
-	std::string _startingAnim;
+	std::string _currentAnim; //Logic Animation script will only touch and change this variable
 
-	Animation* _currAnimation;	//only for optimisation
+	//Animation* _currAnimation;	//only for optimisation
 
 public:
 	//float _timeDelay;	//remove
 
-	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
-	// called when switching animation from idle to run, etc
-	void GetTimeDelayFromCurrentAnim(/* take in args if needed */)
+
+	//Updates currentTimeDelay, as delay reaches 0, change to another frame
+	//When reaches max frame, frame start from 0 again.
+	void UpdateTimeDelay(float dt)
 	{
-		// TODO:: get timedelay and max frame from current anim serialized file
-		// _timeDelay = ...
-		_currentTimeDelay = _timeDelay;
-		_currFrame = _maxFrame;
+		_currentTimeDelay -= dt;
+		if (_currentTimeDelay < 0.0f)
+		{
+			_currentTimeDelay = _timeDelay;
+			_currFrame = _currFrame + 1;
+
+			if (_currFrame > _maxFrame)
+				_currFrame = 0;
+		}
 	}
-
-	void UpdateTimeDelay(float dt);
-
 
 
 	// get current playing animation
-	std::string& GetCurrAnim();
+	std::string& GetCurrAnim()
+	{
+		return _currentAnim;
+	}
+
 	inline int GetCurrFrame() { return _currFrame; }
 
 
-	timeDelay GetTimeDelay(std::string animationType)
+	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
+// called when switching animation from idle to run, etc
+	//void GetTimeDelayFromCurrentAnim(/* take in args if needed */)
+	//{
+	//	// TODO:: get timedelay and max frame from current anim serialized file
+	//	// _timeDelay = ...
+	//	_currentTimeDelay = _timeDelay;
+	//	_currFrame = _maxFrame;
+	//}
+
+	
+//Only for Logic Animation script--------------------------------------
+	void SetCurrentAnim(const std::string& AniamtionType);
+//---------------------------------------------------------------------
+
+
+private:
+	void SetStartFrame()
 	{
-		if (_animations.find(animationType) != _animations.end())
+		_currFrame = 0;
+	}
+
+	void SetMaxFrame(int maxFrame)
+	{
+		_maxFrame = maxFrame;
+	}
+
+	void ResetCurrTimeDelay()
+	{
+		_currentTimeDelay = 0;
+	}
+
+	timeDelay SetTimeDelay(std::string AnimationType)
+	{
+		if (_animations.find(AnimationType) != _animations.end())
 		{
-			return _animations[animationType];
+			_timeDelay = _animations[AnimationType];
 		}
 
-		throw std::exception{"Does not have AnimationType"};
+		throw std::exception{ "Does not have AnimationType" };
 	}
-	
+
+public:
 
 	virtual void Inspect() override
 	{
@@ -223,7 +273,6 @@ public:
 	}
 
 
-
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator) 
 	{
 		rapidjson::Value value;
@@ -299,11 +348,13 @@ public:
 	std::string ComponentName() const override;
 
 
-	void AddAnimation(std::string animation, timeDelay delay);
+//Editor or Serialisation
+	void AddAnimation(std::string animation, timeDelay delay)
+	{
+		_animations.insert(std::pair < std::string, timeDelay >(animation, delay));
+	}
 
-	void SetCurrentAnim(std::string curr);
 
-	void SetStartFrame(std::string frame);
 
 	//~AnimationComponent();
 
