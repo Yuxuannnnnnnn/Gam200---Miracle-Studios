@@ -100,6 +100,7 @@
 #include "SystemLogic/AiSystem.h"
 #include "SystemLogic/LogicSystem.h"
 #include "SystemLogic/ScriptSystem/ScriptSystem.h"
+//#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
 
 #include "SystemPhysics/Collision.h"
 #include "SystemPhysics/CollisionMap.h"

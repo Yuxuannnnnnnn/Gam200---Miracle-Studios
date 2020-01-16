@@ -3,13 +3,65 @@
 
 void ScriptSystem::Create_TableScriptData()
 {
+	_TableScriptData["move"] = std::vector<std::string>{ "move" };
+	lua["Table_Data_Move"] = lua.create_table();
+
 	_TableScriptData["health"] = std::vector<std::string>{ "health" };
+	lua["Table_Data_Health"] = lua.create_table();
+	
 	_TableScriptData["ammo"] = std::vector<std::string>{ "ammo" };
+	lua["Table_Data_Ammo"] = lua.create_table();
+
 	_TableScriptData["shield"] = std::vector<std::string>{ "capacity", "recharge" };
+	lua["Table_Data_Shield"] = lua.create_table();
+
+}
+
+void ScriptSystem::Create_Scripts()
+{
+	_ScriptsAll["ScriptMove"] = new Script_Move{};
 }
 
 void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
 {
+//		// based on scriptName, use _TableScriptData to get the DataComponent's stuff that needs to bind
+//		// once values are binded, run script
+//			// script itself will save the things based on the table
+//
+//		BindDataCompValues_Runtime(lua, src, scriptName);
+//			//lua["Table_Data"] = lua.create_table();
+//			//lua["Table_Data"]["HEALTH"];
+//
+//		const auto& my_script = R"(
+//	Console.WriteStr("SubScript 1\n")
+//	local a = ...
+//	a = 0.4
+//	Table_Data.HEALTH = a
+//	Console.WriteStr("SubScript 1 : ")
+//	Console.WriteNum(a)
+//		)";
+//		sol::load_result fx = lua.load(my_script);
+//		if (!fx.valid()) {
+//			sol::error err = fx;
+//			std::cerr << "failde to load string-based script in the program" << err.what() << std::endl;
+//		}
+//		fx();
+
+	// bind the script
+	sol::load_result fx = _ScriptsAll[scriptName]->Load(lua);
+	// bind the data
+	std::vector<std::string> dataList = _TableScriptData[scriptName];
+	for (auto itr : dataList)
+	{
+		// get the DataComponent
+		IComponent* dataComp = ((LogicComponent*)src->GetComponent(ComponentId::CT_Logic))->GetDataList()[itr];
+		// load right table to temp, use
+		std::string tableName = "Table_";
+		tableName += dataComp->ComponentName(); // Table_DataAmmo || Table_DataHealth || etc
+		sol::table temp = lua[tableName];
+		reinterpret_cast<DataComponent*>(dataComp)->BindLuaValues(lua, tableName);
+	}
+	fx(); // run the script
 
 }
 
@@ -122,7 +174,7 @@ void ScriptSystem::BindMathVector3()
 		// Member Functions
 		"GetX", &mathLib::Vector3::GetX,
 		"GetY", &mathLib::Vector3::GetY,
-		"GetZ", &mathLib::Vector3::SetZ,
+		"GetZ", &mathLib::Vector3::GetZ,
 		"SetX", &mathLib::Vector3::SetX,
 		"SetY", &mathLib::Vector3::SetY,
 		"SetZ", &mathLib::Vector3::SetZ,
@@ -219,29 +271,57 @@ void ScriptSystem::BindMiscFunctions()
 {
 	std::cout << "DEBUG:\t Binding Misc Functions (Console) \n";
 	Table_Console = lua.create_named_table("Console");
-	
-	Table_Console.set_function("WriteLine", [&](std::string str) {std::cout << str << std::endl; });
-	Table_Console.set_function("WriteLine", [&](int i) {std::cout << i << std::endl; });
-	Table_Console.set_function("WriteLine", [&](float f) {std::cout << f << std::endl; });
 
-	Table_Console["WriteStr"] = [&](std::string str) {std::cout << str << std::endl; };
-	Table_Console["WriteInt"] = [&](int i) {std::cout << i << std::endl; };
+	Table_Console.set_function("WriteLine", [&](std::string in) {std::cout << in << std::endl; });
+	Table_Console.set_function("WriteLine", [&](char* in) {std::cout << in << std::endl; });
+	Table_Console.set_function("WriteLine", [&](int in) {std::cout << in << std::endl; });
+	Table_Console.set_function("WriteLine", [&](double in) {std::cout << in << std::endl; });
+	//Table_Console.set_function("WriteLine", sol::overload(
+	//	sol::resolve<void(int)>(&ScriptSystem::Print),
+	//	sol::resolve<void(std::string)>(&ScriptSystem::Print),
+	//	sol::resolve<void(float)>(&ScriptSystem::Print)
+	//));
+	//Table_Console.set_function("WriteLine", [&](bool in) { if (in) std::cout << "TRUE.\n"; else std::cout << "FALSE.\n"; }); // seems to be causing override problem cause it overrides INT ??
+
+				// lua has a ToString which will ToString a variable
+				// in lua have a global variable, then everytime keep ToString in when need to output, then just have a single Table_Console[WriteLine] = {cout << string}
+
+	Table_Console["WriteStr"] = [&](std::string in) {std::cout << in << std::endl; };
+	Table_Console["WriteNum"] = [&](double in) {std::cout << in << std::endl; };
 	Table_Console["WriteBool"] = [&](bool b) { if (b) std::cout << "TRUE.\n"; else std::cout << "FALSE.\n"; };
 }
+void ScriptSystem::BindDataCompValues_Inital()
+{
+
+
+	// do 
+	// var = location of HEALTH from DataComponent
+	//lua["Table_Data"] = lua.create_table_with("HEALTH", var);
+}
+
 
 void ScriptSystem::Test_DataCompEditing()
 {
 	std::cout << "========================" << std::endl;
 	std::cout << "== running lua code 3 ==" << std::endl;
 	// accessing variables from within lua scripts		lua.script_file("variables.lua");				
-	auto err = lua.safe_script(R"(
-			config = {
-				fullscreen = false,
-				resolution = { x = 1024, y = 768 }
-			})");
+	pfr = lua.safe_script(R"(
+config = {
+	fullscreen = false,
+	resolution = { x = 1024, y = 768 }
+}
+testVar = 30
+
+			)");
+	if (!pfr.valid())
+	{
+		sol::error err = pfr;
+		std::cout << err.what() << std::endl;
+	}
 	//err.what();
 	// the type "sol::state" behaves exactly like a table
 	bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
+
 	sol::table config = lua["config"];
 	// can also get it using the "get" member function
 	// auto replaces the unqualified type name
@@ -251,6 +331,32 @@ void ScriptSystem::Test_DataCompEditing()
 	c_assert(std::get<0>(xyresolutiontuple) == 1024);
 	c_assert(std::get<1>(xyresolutiontuple) == 768);
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	double var = 0.5;
+	std::cout << "var val 1 : " << var << "\n";
+	lua["Table_Data"] = lua.create_table();
+	lua["Table_Data"]["HEALTH"] = var;
+
+	//lua["test_table"] = lua.create_table_with("HEALTH", &var);
+	const auto& my_script = R"(
+Console.WriteStr("SubScript 1\n")
+local a = ...
+a = 0.4
+Table_Data.HEALTH = a
+Console.WriteStr("SubScript 1 : ")
+Console.WriteNum(a)
+	)";
+	std::cout << "var val 2 : " << var << "\n";
+	sol::load_result fx = lua.load(my_script);
+	if (!fx.valid()) {
+		sol::error err = fx;
+		std::cerr << "failde to load string-based script in the program" << err.what() << std::endl;
+	}
+	fx(var); // run script while throwing in values
+	double temp = lua["Table_Data"]["HEALTH"];
+	std::cout << temp;
+	std::cout << "var val 3 : " << temp << "\n";
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	std::cout << "========================" << std::endl;
 	std::cout << "++++++++++++++++++++++++" << std::endl;
 }
@@ -271,16 +377,21 @@ Console.WriteStr(b)
 
 test = Vector3.new(4,2,3)
 x = test:GetX()
-Console.WriteInt(x)
-Console.WriteInt(69)
+Console.WriteNum(x)
+Console.WriteNum(69)
 
 test2 = Transform.new(Vector3.new(7,5,3), Vector3.new(8,6,5), 0.4)
 y = test2:GetPosition():GetX()
-Console.WriteInt(y)
+Console.WriteLine(y)
 z = test2:GetScale():GetY()
-Console.WriteInt(z)
+Console.WriteLine(z)
 a = test2:GetRotate()
 Console.WriteLine(a)
+z = test2:GetScale():GetX()
+Console.WriteLine(z)
+y = test2:GetPosition():GetZ()
+Console.WriteLine(y)
+Console.WriteStr("does work")
 			)");
 	if (!pfr.valid())
 	{

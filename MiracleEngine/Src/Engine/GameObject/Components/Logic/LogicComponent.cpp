@@ -104,6 +104,7 @@ void LogicComponent::Init()
 }
 void LogicComponent::Update(double dt)
 {
+	std::cout << "DEBUG:\t LogicComponent::Update()\n";
 	if (!_ScriptIds.empty())
 	{
 		// call ScriptSys to run through script
@@ -129,6 +130,10 @@ std::unordered_map<std::string, IComponent*>& LogicComponent::GetDataList()
 
 IComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataName)
 {
+	if (dataName == "move")
+	{
+		return new DataMove();
+	}
 	if (dataName == "health")
 	{
 		return new DataHealth();
@@ -136,10 +141,6 @@ IComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataName
 	if (dataName == "health2")
 	{
 		return new DataHealth();
-	}
-	if (dataName == "ammo")
-	{
-		return new DataAmmo();
 	}
 	std::cout << "WARNING: LogicComponent::Resolver_StringToDataComponent(dataName) had no proper 'dataName', function returning NULLPTR. \n";
 	return nullptr;
