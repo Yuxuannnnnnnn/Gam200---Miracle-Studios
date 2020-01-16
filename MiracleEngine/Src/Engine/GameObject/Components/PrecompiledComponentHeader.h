@@ -23,5 +23,7 @@
 #include "GameObject/Components/AudioComponent.h"
 #include "GameObject/Components/ButtonComponent.h"
 #include "GameObject/Components/IdentityComponent.h"
-#include "GameObject/Components/PrecompiledComponentHeader.h"
 #include "GameObject/Components/TileMapComponent.h"
+
+#include "GameObject/Components/ParticleComponent.h"
+#include "GameObject/Components/ParticleSystemComponent.h"
