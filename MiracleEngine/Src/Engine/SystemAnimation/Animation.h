@@ -27,7 +27,7 @@ public:
 	// delay between frames
 	//float _frameDelay;
 
-	bool load(std::string& path);
+	bool load(const std::string& path);
 	void unload();
 
 	Frame* GetCurrFrame(int);

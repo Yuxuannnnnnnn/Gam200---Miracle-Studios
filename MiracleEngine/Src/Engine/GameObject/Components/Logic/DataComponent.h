@@ -51,7 +51,7 @@ public:
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-	DataMove* CloneComponent() { return new DataMove(*this); }
+	DataMoveComponent* CloneComponent() { return new DataMoveComponent(*this); }
 
 	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
 		TransformComponent* temp = (TransformComponent*)parentLogic->GetSibilingComponent(ComponentId::CT_Transform);

@@ -22,7 +22,7 @@ Animation::Animation()
 //	(*frame)[_currentFrame]->Select();
 //}
 
-bool Animation::load(std::string& path)	//Serialise
+bool Animation::load(const std::string& path)	//Serialise
 {
 	frame = new std::vector<Frame*>();
 

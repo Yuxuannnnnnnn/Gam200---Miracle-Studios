@@ -130,9 +130,11 @@ std::unordered_map<std::string, IComponent*>& LogicComponent::GetDataList()
 
 IComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataName)
 {
+	GameObject* parent = this->GetParentPtr();
+
 	if (dataName == "move")
 	{
-		return new DataMove();
+		return nullptr;//parent->AddComponent(ComponentId::CT)
 	}
 	if (dataName == "health")
 	{
