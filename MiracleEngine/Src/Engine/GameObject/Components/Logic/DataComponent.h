@@ -49,7 +49,7 @@ public:
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-	DataMove* CloneComponent() { return nullptr; }
+	DataMove* CloneComponent() { return new DataMove(*this); }
 
 	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
 		TransformComponent* temp = (TransformComponent*)parentLogic->GetSibilingComponent(ComponentId::CT_Transform);
@@ -95,7 +95,7 @@ public:
 	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
 		lua[tableName]["DATA"] = _Capacity;
 	}
-	DataAmmo* CloneComponent() { return new DataAmmo(*this); }
+	DataShieldComponent* CloneComponent() { return new DataShieldComponent(*this); }
 };
 
 //class DataAmmo : public DataComponent

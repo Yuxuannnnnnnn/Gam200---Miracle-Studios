@@ -251,6 +251,7 @@
     <ClInclude Include="Src\Engine\SystemInput\keydef.h" />
     <ClInclude Include="Src\Engine\SystemLogic\AiSystem.h" />
     <ClInclude Include="Src\Engine\SystemLogic\LogicSystem.h" />
+    <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.h" />
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingCircle.h" />
@@ -654,6 +655,7 @@
     <ClCompile Include="Src\Engine\SystemInput\InputSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\AiSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\LogicSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingBox.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingCircle.cpp" />
