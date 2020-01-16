@@ -4,9 +4,9 @@
 void AnimationSystem::Update(double dt)
 {
 	
-	for (auto& animCompPair : MyComponentManger._AnimationComponents)
+	for (auto& animCompPair : GetComponentMap(Animation))
 	{
-		AnimationComponent* GC = animCompPair.second;
+		AnimationComponent* GC = (AnimationComponent*)animCompPair.second;
 
 		GC->UpdateTimeDelay(dt);
 		

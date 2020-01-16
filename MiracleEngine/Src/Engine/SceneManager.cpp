@@ -62,7 +62,7 @@ SceneManager::SceneManager() :
 void SceneManager::InitScene()
 {
 	_currentScene = "MainMenu";
-	EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_currentScene);
+	MyFactory.SerialiseLevel(_currentScene);
 }
 
 void SceneManager::ChangeScene(std::string scene)
@@ -85,8 +85,8 @@ void SceneManager::ChangeScene(std::string scene)
 		_currentScene = scene;
 	}
 
-	EngineSystems::GetInstance()._gameObjectFactory->DeleteLevelNotPrefab();
-	EngineSystems::GetInstance()._gameObjectFactory->SerialiseLevel(_scenes[_currentScene]);
+	MyFactory.DeleteLevelNotPrefab();
+	MyFactory.SerialiseLevel(_scenes[_currentScene]);
 
 #else	//for GamePlay mode
 

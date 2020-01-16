@@ -32,7 +32,6 @@
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\LogicComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\CircleCollider2DComponent.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\Physic\Collider2DComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\EdgeCollider2DComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\RigidBody2DComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\AudioComponent.cpp" />
@@ -90,20 +89,7 @@
     <ClCompile Include="Src\Engine\Tools\Resource\ResourceManager.cpp" />
     <ClCompile Include="Src\Engine\Tools\Time\FrameRateController.cpp" />
     <ClCompile Include="Src\Engine\Factory.cpp" />
-    <ClCompile Include="Src\Engine\GameObjectFactory.cpp" />
-    <ClCompile Include="Src\Engine\GameObjectPrototype.cpp" />
     <ClCompile Include="Src\Engine\SceneManager.cpp" />
-    <ClCompile Include="Src\Scripts\Boss.cpp" />
-    <ClCompile Include="Src\Scripts\Bullet.cpp" />
-    <ClCompile Include="Src\Scripts\ButtonUI.cpp" />
-    <ClCompile Include="Src\Scripts\Enemy.cpp" />
-    <ClCompile Include="Src\Scripts\EnemyThree.cpp" />
-    <ClCompile Include="Src\Scripts\Explosion.cpp" />
-    <ClCompile Include="Src\Scripts\PickUps.cpp" />
-    <ClCompile Include="Src\Scripts\Player.cpp" />
-    <ClCompile Include="Src\Scripts\Spawner.cpp" />
-    <ClCompile Include="Src\Scripts\SpawnerTwo.cpp" />
-    <ClCompile Include="Src\Scripts\Turret.cpp" />
     <ClCompile Include="Src\Engine\Editor\PerformanceUsageWindow.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingCircle.cpp" />
@@ -113,6 +99,8 @@
     <ClCompile Include="Src\Engine\Tools\Resource\ResourceSystem.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\ParticleComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\ParticleSystemComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Graphic\UIComponent.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Physic\Collider2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -440,7 +428,6 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\LogicComponent.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\Logic\PrecompiledScriptType.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\CircleCollider2DComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\EdgeCollider2DComponent.h" />
@@ -449,7 +436,6 @@
     <ClInclude Include="Src\Engine\GameObject\Components\AudioComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ButtonComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\IdentityComponent.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\ImGuizmoComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\PrecompiledComponentHeader.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\TileMapComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\ComponentManager.h" />
@@ -519,22 +505,8 @@
     <ClInclude Include="Src\Engine\Tools\Time\FrameRateController.h" />
     <ClInclude Include="Src\Engine\Tools\ISingleton.h" />
     <ClInclude Include="Src\Engine\Factory.h" />
-    <ClInclude Include="Src\Engine\GameObjectFactory.h" />
-    <ClInclude Include="Src\Engine\GameObjectPrototype.h" />
     <ClInclude Include="Src\Engine\GlobalContainer.h" />
-    <ClInclude Include="Src\Engine\IContainer.h" />
     <ClInclude Include="Src\Engine\SceneManager.h" />
-    <ClInclude Include="Src\Scripts\Boss.h" />
-    <ClInclude Include="Src\Scripts\Bullet.h" />
-    <ClInclude Include="Src\Scripts\ButtonUI.h" />
-    <ClInclude Include="Src\Scripts\Enemy.h" />
-    <ClInclude Include="Src\Scripts\EnemyThree.h" />
-    <ClInclude Include="Src\Scripts\Explosion.h" />
-    <ClInclude Include="Src\Scripts\PickUps.h" />
-    <ClInclude Include="Src\Scripts\Player.h" />
-    <ClInclude Include="Src\Scripts\Spawner.h" />
-    <ClInclude Include="Src\Scripts\SpawnerTwo.h" />
-    <ClInclude Include="Src\Scripts\Turret.h" />
     <ClInclude Include="Src\Engine\Editor\PerformanceUsageWindow.h" />
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingPolygon.h" />
@@ -545,6 +517,8 @@
     <ClInclude Include="Src\Engine\GameObject\ComponentTypeId.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleSystemComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Graphic\UIComponent.h" />
+    <ClInclude Include="Src\Engine\ISystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

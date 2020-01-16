@@ -6,7 +6,6 @@
 #include "TextureImguiWindow.h"
 #include "PerformanceUsageWindow.h"
 
-
 class ImguiSystem
 {
 private:
@@ -36,8 +35,7 @@ public:
 
 	~ImguiSystem();	//Shutdown ImGui System
 
-
-
+	void Init();
 };
 
 #define MyPerformanceUsage (*(dynamic_cast<PerformanceUsageWindow *>(MyImguiSystem.GetWindow("PerformanceUsage"))))

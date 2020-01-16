@@ -1,7 +1,5 @@
 #pragma once
-#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 #include "GameObject/Components/Logic/LogicComponent.h"
-#include "IContainer.h"
 
 #ifndef LOGICSYSTEM_H
 #define LOGICSYSTEM_H

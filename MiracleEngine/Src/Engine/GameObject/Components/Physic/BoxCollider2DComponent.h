@@ -131,7 +131,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
-	IComponent* CloneComponent() { return nullptr; }
+	BoxCollider2DComponent* CloneComponent() { return new BoxCollider2DComponent(*this); }
 };
 
 #endif

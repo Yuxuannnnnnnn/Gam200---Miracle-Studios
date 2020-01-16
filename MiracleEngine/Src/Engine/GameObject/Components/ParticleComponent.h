@@ -62,6 +62,6 @@ public:
 	ParticleComponent(const ParticleComponent& rhs);
 	ParticleComponent& operator=(const ParticleComponent& rhs);
 
-	IComponent* CloneComponent() { return nullptr; }
+	ParticleComponent* CloneComponent() { return new ParticleComponent(*this); }
 };
 

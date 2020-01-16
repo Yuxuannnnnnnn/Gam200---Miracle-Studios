@@ -1,17 +1,8 @@
-///////////////////////////////////////////////////////////////////////////////////////
-//
-//	EngineSystems.h
-//	
-//	Authors: yinshuyu
-//	Copyright 2019, Digipen Institute of Technology
-//
-///////////////////////////////////////////////////////////////////////////////////////
 #ifndef _ENGINE_SYSTEMS_H
 #define _ENGINE_SYSTEMS_H
 
 #include "Tools/ISingleton.h"
 
-#include "GameObjectFactory.h"
 #include "SystemGraphics/GraphicsSystem.h"
 #include "SystemGraphics/DebugRenderer.h"
 #include "SystemLogic/LogicSystem.h"
@@ -63,10 +54,10 @@ public:
 
 		_frameRateControl{ nullptr },
 
-		_gameObjectFactory{ nullptr },
+		//_gameObjectFactory{ nullptr },
 		//_prefabFactory{ nullptr },
 
-		_factory{nullptr},
+		_factory{ nullptr },
 
 		_sceneManager{ nullptr },
 		_imguiSystem{ nullptr },
@@ -89,17 +80,17 @@ public:
 		_audioSystem = new AudioSystem();
 
 		_inputSystem = new InputSystem();
-		_logicSystem =  new LogicSystem();
+		_logicSystem = new LogicSystem();
 		_scriptSystem = new ScriptSystem();
 		_aiSystem = new AISystem();
 		_animationSystem = new AnimationSystem();
 		_graphicsSystem = new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), _windowSystem->getWindow().GetWindowHeight());
 		_physicsSystem = new PhysicsSystem();
-		
+
 
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
 
-		_gameObjectFactory = new GameObjectFactory();
+		//_gameObjectFactory = new GameObjectFactory();
 		//_prefabFactory = new GameObjectPrototype();
 
 		_factory = new Factory;
@@ -138,7 +129,7 @@ public:
 
 		delete _frameRateControl;
 
-		delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
+		//delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 
 		delete _factory;
 
@@ -171,7 +162,7 @@ public:
 
 	FrameRateController* _frameRateControl;
 
-	GameObjectFactory* _gameObjectFactory;
+	//GameObjectFactory* _gameObjectFactory;
 	//GameObjectPrototype* _prefabFactory;
 
 	Factory* _factory;
@@ -212,7 +203,7 @@ public:
 //#define MyCollisionManager (*EngineSystems::GetInstance()._collisionManager)
 //#define MyRigidbodyManager (*EngineSystems::GetInstance()._rigidbodyManager)
 
-#define MyGameObjectFactory (*EngineSystems::GetInstance()._gameObjectFactory)
+//#define MyGameObjectFactory (*EngineSystems::GetInstance()._gameObjectFactory)
 //#define MyPrototypeFactory (*EngineSystems::GetInstance()._prefabFactory)
 
 #define MyFactory (*EngineSystems::GetInstance()._factory)

@@ -24,6 +24,34 @@ enum class ComponentId {
 	CT_Count
 };
 
+inline const char* ToRegisterID(ComponentId type)
+{
+	switch (type)
+	{
+	case ComponentId::CT_Identity:		return "Identity";
+
+	case ComponentId::CT_Transform:		return "Transform";
+	case ComponentId::CT_Graphic: 		return "Graphic";
+	case ComponentId::CT_Animation:		return "Animation";
+	case ComponentId::CT_Camera: 		return "Camera";
+	case ComponentId::CT_Font: 			return "Font";
+
+	case ComponentId::CT_RigidBody2D:		return "RigidBody2D";
+	case ComponentId::CT_CircleCollider2D: return "CircleCollider2D";
+	case ComponentId::CT_BoxCollider2D:	return "BoxCollider2D";
+	case ComponentId::CT_EdgeCollider2D:	return "EdgeCollider2D";
+
+	case ComponentId::CT_Logic:			return "Logic";
+
+	case ComponentId::CT_Audio:			return "Audio";
+
+	case ComponentId::CT_Button:			return "Button";
+	case ComponentId::CT_TileMap:		return "TileMap";
+
+	default:      return "None";
+	}
+}
+
 inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui
 {
 	switch (type)

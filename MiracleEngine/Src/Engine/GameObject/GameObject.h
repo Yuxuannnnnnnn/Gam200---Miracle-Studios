@@ -46,18 +46,15 @@ public:
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
 
-	bool CheckComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
-	IComponent* GetComponent(ComponentId typeId, ScriptId script = ScriptId::EMPTY); // GetChildComponent
+	IComponent* GetComponent(ComponentId typeId);
+	IComponent* AddComponent(ComponentId componentType);
+	void RemoveComponent(ComponentId componentType);
 
-	IComponent* AddComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
-	void RemoveComponent(ComponentId componentType, ScriptId script = ScriptId::EMPTY);
 	void DestoryGameObject();
 
 
 	///////////////////////////////////////////////
-
-	GameObject* Clone();
-	void Set_uID(size_t uid);
+	GameObject* Clone(size_t uid = 0);
 	//////////////////////////////////////////////
 
 	bool GetAlive();

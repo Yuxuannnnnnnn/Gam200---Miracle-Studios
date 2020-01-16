@@ -62,7 +62,7 @@ public:
 // FSM
 	void FSM();
 
-	IComponent* CloneComponent() { return nullptr; }
+	AiComponent* CloneComponent() { return new AiComponent(*this); }
 };
 
 #endif

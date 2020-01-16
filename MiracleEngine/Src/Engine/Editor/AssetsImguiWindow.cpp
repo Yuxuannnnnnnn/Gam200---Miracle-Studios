@@ -185,7 +185,7 @@ void AssetsImguiWindow::Update()
 			std::string string1 = "Create New Prototype ";
 			if (ImGui::Button(string1.c_str()))
 			{
-				GameObject* newGameobject = _engineSystems._gameObjectFactory->CreateNewGameObject(true);
+				GameObject* newGameobject = MyFactory.CreateEmptyGameObject();//new GameObject();
 				newGameobject->AddComponent(ComponentId::CT_Identity);
 				InspectionImguiWindow::InspectGameObject(newGameobject);
 			}
@@ -219,7 +219,7 @@ void AssetsImguiWindow::Update()
 				std::string string1 = "Clone " + ObjPair.first;
 				if (ImGui::Button(string1.c_str()))
 				{
-					GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()[ObjPair.first]);
+					GameObject* newGameobject = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()[ObjPair.first]);
 					if(TransformComponent * tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
 						tmp->SetPos(Vector3::Vec3Zero);
 				}

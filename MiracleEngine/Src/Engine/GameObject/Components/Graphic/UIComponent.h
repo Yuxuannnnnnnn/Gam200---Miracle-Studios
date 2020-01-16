@@ -1,9 +1,8 @@
 #pragma once
 #include "../../IComponent.h"
-#include "GameObject/IAllocator.h"
 
 
-class UIComponent : public IComponent, public IBase<UIComponent>
+class UIComponent : public IComponent
 {
 private:
 
@@ -58,7 +57,10 @@ public:
 	}
 
 
-	virtual void Inspect() override;
+	virtual void Inspect() override
+	{
+		IComponent::Inspect();
+	}
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { 
 	
@@ -71,6 +73,6 @@ public:
 	UIComponent(const UIComponent& rhs);
 	UIComponent& operator=(const UIComponent& rhs);
 
-	IComponent* CloneComponent() { return nullptr; }
+	UIComponent* CloneComponent() { return new UIComponent(*this); }
 };
 

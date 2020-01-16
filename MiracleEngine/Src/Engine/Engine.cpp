@@ -20,6 +20,7 @@ void Engine::Init()
 	RegisterComponent(Button);
 	RegisterComponent(TileMap);
 
+	MyImguiSystem.Init();
 #ifndef LEVELEDITOR
 
 	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
@@ -179,12 +180,12 @@ void Engine::Update()
 #endif
 
 		MyEventHandler.BroadcastObjectEvents();
-		MyGameObjectFactory.UpdateDestoryObjects();
+		MyFactory.Update(dt);
 		::SwapBuffers(MyWindowsSystem.getWindow().get_m_windowDC()); 		// swap double buffer at the end
 //-------------------------------------------------------------------------------------------------------------
 	}
 
-	_engineSystems._gameObjectFactory->DeleteLevel();
+	MyFactory.DeleteLevel();
 }
 
 int Engine::Exit()

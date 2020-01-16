@@ -146,7 +146,7 @@ public:
 		_ObjectType = ObjectType;
 	}
 
-	IComponent* CloneComponent() { return nullptr; }
+	IdentityComponent* CloneComponent() { return new IdentityComponent(*this); }
 };
 
 

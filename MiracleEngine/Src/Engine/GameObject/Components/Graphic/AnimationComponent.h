@@ -307,6 +307,6 @@ public:
 
 	//~AnimationComponent();
 
-	IComponent* CloneComponent() { return nullptr; }
+	AnimationComponent* CloneComponent() { return new AnimationComponent(*this); }
 };
 
