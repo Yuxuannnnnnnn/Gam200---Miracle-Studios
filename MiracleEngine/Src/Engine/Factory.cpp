@@ -630,3 +630,92 @@ void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePat
 	MyResourceSystem.GetPrototypeMap().insert(std::pair <std::string, GameObject*>(IdCom->ObjectType(), NewPrototype));
 	MyResourceSystem.GetPrototypeList().insert(std::pair<std::string, std::string>(IdCom->ObjectType(), filePath));
 }
+
+
+///////////////////////////////////////////////////////////////////////////
+
+void Factory::ChangeScene(const std::string& scene)
+{
+
+#ifdef LEVELEDITOR //for Level editor Mode
+
+	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
+	{
+		_currentScene = scene;
+		return;
+	}
+
+	if (scene.compare("Restart") == 0 || scene.compare("restart") == 0)
+	{
+		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
+	}
+
+	if (MyResourceSystem.GetSceneList().find(scene) != MyResourceSystem.GetSceneList().end())
+	{
+		_currentScene = scene;
+
+		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
+	}
+	else
+	{
+		throw(0);
+	}
+
+#else	//for GamePlay mode
+
+	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
+	{
+		_currentScene = scene;
+		return;
+	}
+
+	if (!(scene.compare("Restart") == 0 || scene.compare("restart") == 0))
+	{
+		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
+	}
+
+	if (MyResourceManager.GetSceneList().find(scene) != MyResourceManager.GetSceneList().end())
+	{
+		_currentScene = scene;
+
+		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
+	}
+	else
+	{
+		throw(0);
+	}
+
+#endif
+	//if (scene.compare("Level1") == 0)
+	//	EngineSystems::GetInstance()._aiSystem->CreateNodeMapFromTileComp();
+}
+
+//For GamePlay 
+void Factory::SerialiseScenes(Serialiser GameSceneFile)
+{
+	if (GameSceneFile.HasMember("GameScenes"))
+	{
+		for (unsigned i = 0; i < GameSceneFile["GameScenes"].Size(); i++)
+		{
+			std::string filePath = GameSceneFile["GameScenes"][i].GetString();
+			size_t namesize = filePath.find_last_of(".json") - 5 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+			MyResourceManager.AddNewScene(std::pair<std::string, std::string>(fileName, filePath));
+		}
+	}
+}
+
+//For Level Editor
+void Factory::LoadAllSceneAssets(std::unordered_map<std::string, std::string>& GameSceneFile)
+{
+	MyResourceSystem.AddSceneList(GameSceneFile);
+}
+
+const std::string& Factory::GetCurrentScene()
+{
+	return _currentScene;
+}
