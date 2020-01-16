@@ -15,7 +15,7 @@
 #include "SystemPhysics/PhysicsSystem.h"
 //#include "GameObjectPrototype.h"
 #include "SystemAudio/AudioSystem.h"
-#include "SceneManager.h"
+//#include "SceneManager.h"
 #include "Tools/Resource/ResourceManager.h"
 #include "Factory.h"
 #include "SystemAnimation/AnimationSystem.h"
@@ -59,7 +59,7 @@ public:
 
 		_factory{ nullptr },
 
-		_sceneManager{ nullptr },
+		//_sceneManager{ nullptr },
 		_imguiSystem{ nullptr },
 
 		//_buttonManager{ nullptr },
@@ -95,7 +95,7 @@ public:
 
 		_factory = new Factory;
 
-		_sceneManager = new SceneManager();
+		//_sceneManager = new SceneManager();
 
 		//_buttonManager = new ButtonManager();
 		//_collisionManager = new CollisionManager();
@@ -133,7 +133,7 @@ public:
 
 		delete _factory;
 
-		delete _sceneManager;
+		//delete _sceneManager;
 
 
 		//delete _buttonManager;
@@ -167,7 +167,7 @@ public:
 
 	Factory* _factory;
 
-	SceneManager* _sceneManager;
+	//SceneManager* _sceneManager;
 
 	ImguiSystem* _imguiSystem;
 
@@ -208,7 +208,7 @@ public:
 
 #define MyFactory (*EngineSystems::GetInstance()._factory)
 
-#define MySceneManager (*EngineSystems::GetInstance()._sceneManager)
+//#define MySceneManager (*EngineSystems::GetInstance()._sceneManager)
 
 #define MyResourceManager (*EngineSystems::GetInstance()._resourceManager)
 

@@ -3,10 +3,9 @@
 
 
 
-Animation::Animation() :
-	_currentFrame{ 0 },
-	_frameDelay{ 1.0f }
-
+Animation::Animation()
+	//_currentFrame{ 0 },
+	//_frameDelay{ 1.0f }
 {
 	/*frame.push_back(new Frame(1.0f / 12, 0.0f, 2.0f / 12, 1.0f));
 	frame.push_back(new Frame(2.0f / 12, 0.0f, 3.0f / 12, 1.0f));
@@ -18,18 +17,18 @@ Animation::Animation() :
 	frame.push_back(new Frame(8.0f / 12, 0.0f, 9.0f / 12, 1.0f));*/
 }
 
-void Animation::Select()
-{
-	(*frame)[_currentFrame]->Select();
-}
+//void Animation::Select()
+//{
+//	(*frame)[_currentFrame]->Select();
+//}
 
-bool Animation::load(std::string path)
+bool Animation::load(std::string& path)	//Serialise
 {
 	frame = new std::vector<Frame*>();
 
 	Serialiser file(path);
 
-	size_t NumOfFrames = file["NoofFrames"].GetInt();
+	NumOfFrames = file["NoofFrames"].GetInt();
 
 
 	/*frame->push_back(new Frame(1.0f / 12, 0.0f, 2.0f / 12, 1.0f));
@@ -58,8 +57,8 @@ bool Animation::load(std::string path)
 		(*frame).push_back(ptr);
 	}
 
-	_currentFrame = 0;
-	_frameDelay = 1.0f;
+	//_currentFrame = 0;
+	//_frameDelay = 1.0f;
 
 
 	return true;

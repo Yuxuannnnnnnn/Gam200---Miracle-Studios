@@ -73,6 +73,18 @@ public:
 		return _componentMap;
 	}
 
+	///////////////////////////////////////////////////////////////////////////
+
+	void ChangeScene(const std::string& scene);
+
+	//For GamePlay 
+	void SerialiseScenes(Serialiser GameSceneFile);
+
+	//For Level Editor
+	void LoadAllSceneAssets(std::unordered_map<std::string, std::string>& GameSceneFile);
+
+	const std::string& GetCurrentScene();
+
 private:
 	///Used to incrementally generate unique id's.
 	unsigned _lastGameObjectId;
@@ -87,6 +99,8 @@ private:
 
 	///Objects to be deleted
 	std::unordered_set<GameObject*> _objectsToBeDeleted;
+
+	std::string _currentScene;
 };
 
 #define AddEmptyComponent(type) MyFactory->CreateEmptyComponent( #type );

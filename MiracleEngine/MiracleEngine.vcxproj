@@ -219,7 +219,6 @@
     <ClInclude Include="Src\Engine\GameObject\IComponent.h" />
     <ClInclude Include="Src\Engine\GlobalContainer.h" />
     <ClInclude Include="Src\Engine\ISystem.h" />
-    <ClInclude Include="Src\Engine\SceneManager.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\Animation.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\AnimationSystem.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\Frame.h" />
@@ -251,6 +250,7 @@
     <ClInclude Include="Src\Engine\SystemInput\keydef.h" />
     <ClInclude Include="Src\Engine\SystemLogic\AiSystem.h" />
     <ClInclude Include="Src\Engine\SystemLogic\LogicSystem.h" />
+    <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.h" />
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingCircle.h" />
@@ -627,7 +627,6 @@
     <ClCompile Include="Src\Engine\GameObject\Components\TileMapComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\GameObject.cpp" />
     <ClCompile Include="Src\Engine\GameObject\IComponent.cpp" />
-    <ClCompile Include="Src\Engine\SceneManager.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\Animation.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\AnimationSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\Frame.cpp" />
@@ -654,6 +653,7 @@
     <ClCompile Include="Src\Engine\SystemInput\InputSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\AiSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\LogicSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingBox.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingCircle.cpp" />

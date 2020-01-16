@@ -133,8 +133,4 @@
 #include "Tools/Resource/ResourceSystem.h"
 
 
-//TODO Delete this
-#include "SceneManager.h"
-//
-
 #endif

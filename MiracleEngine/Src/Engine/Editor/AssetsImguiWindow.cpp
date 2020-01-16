@@ -104,7 +104,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		EngineSystems::GetInstance()._sceneManager->LoadAllSceneAssets(ResourceList1);
+		MyFactory.LoadAllSceneAssets(ResourceList1);
 		ResourceList1.clear();
 	}
 
@@ -152,7 +152,7 @@ void AssetsImguiWindow::Update()
 
 	if (ImGui::CollapsingHeader("Scenes"))
 	{
-		auto& allScenes = _engineSystems._sceneManager->GetAllScenes();
+		auto& allScenes = MyResourceSystem.GetSceneList();
 		ImGui::Spacing();
 
 		for (auto& scenePair : allScenes)
@@ -164,7 +164,7 @@ void AssetsImguiWindow::Update()
 			{
 				if (ImGui::IsMouseReleased(0))
 				{
-					_engineSystems._sceneManager->ChangeScene(scenePair.first);
+					MyFactory.ChangeScene(scenePair.first);
 				}
 			}
 			ImGui::Spacing();
