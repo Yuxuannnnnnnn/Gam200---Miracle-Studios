@@ -6,7 +6,7 @@
 template<typename T>
 void EventHandler::SendLogicEventMessage(size_t uId, EventMessageType type, T message)
 {
-	GameObject* gameObject = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist()[uId];
+	GameObject* gameObject = MyFactory.getObjectlist()[uId];
 
 	if (!gameObject)
 		return;
@@ -84,7 +84,7 @@ void EventHandler::SendSystemEventMessage(size_t uId, EventMessageType type, Com
 	}
 	else if (type == EventMessageType::OBJECT_DELETION)
 	{
-	MyGameObjectFactory.getObjectlist()[uId]->DestoryGameObject();
+	//MyGameObjectFactory.getObjectlist()[uId]->DestoryGameObject();
 	}
 
 	(void)message;

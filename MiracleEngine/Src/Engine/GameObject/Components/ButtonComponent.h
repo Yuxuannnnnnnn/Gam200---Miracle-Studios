@@ -87,7 +87,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
-	IComponent* CloneComponent() { return nullptr; }
+	ButtonComponent* CloneComponent() { return new ButtonComponent(*this); }
 };
 
 #endif

@@ -105,15 +105,13 @@ void GraphicsSystem::UpdateRenderObjectList()
 		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() * 0.75f ,MyWindowsSystem.getWindow().GetWindowHeight() * 0.75f },
 		0.f);
 
-	for (auto& graphicCompPair : MyComponentManger._graphicComponents)
+	for (auto& graphicCompPair : GetComponentMap(Graphic))
 	{
-		if (graphicCompPair.second->GetParentId() < 1000 || graphicCompPair.second->GetParentPtr()->GetDestory())
+		if (graphicCompPair.second->GetParentPtr()->GetDestory() || !graphicCompPair.second->GetEnable())
 			continue;
 
-		GraphicComponent* graphicComp = graphicCompPair.second;
-		if (!graphicComp->GetEnable())
-			continue;
-		
+		GraphicComponent* graphicComp = (GraphicComponent*)graphicCompPair.second;
+
 		RenderObject renderobject;
 
 		// check for if obj have animation
@@ -140,7 +138,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 
 		size_t objID = graphicCompPair.first;	//Get GameObjectID
-		TransformComponent* transformComp = MyComponentManger._transformComponents[objID];
+		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[objID];
 
 		if (!Collision::DefaultColliderDataCheck(viewBox,
 			BBox::CreateBBoxFromData(transformComp->GetPos(), transformComp->GetScale(), transformComp->GetRotate())))

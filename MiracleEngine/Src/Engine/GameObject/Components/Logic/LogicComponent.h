@@ -47,7 +47,7 @@ public:
 	void ClearScripts();
 	void ClearDataComps();
 
-	IComponent* CloneComponent() { return nullptr; }
+	LogicComponent* CloneComponent() { return new LogicComponent(*this); }
 };
 
 //public:

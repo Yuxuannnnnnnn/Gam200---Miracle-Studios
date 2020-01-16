@@ -90,5 +90,5 @@ public:
 	ParticleSystemComponent(const ParticleSystemComponent& rhs);
 	ParticleSystemComponent& operator=(const ParticleSystemComponent& rhs);
 
-	IComponent* CloneComponent() { return nullptr; }
+	ParticleSystemComponent* CloneComponent() { return new ParticleSystemComponent(*this); }
 };

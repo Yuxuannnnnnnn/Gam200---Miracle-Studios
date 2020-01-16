@@ -74,11 +74,10 @@ public:
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-	DataHealth* CloneComponent() { return nullptr; }
-
 	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
 		 lua[tableName]["HEALTH"] = &_Health;
 	}
+	DataHealth* CloneComponent() { return new DataHealth(*this); }
 };
 
 class DataShieldComponent : public DataComponent
@@ -93,11 +92,10 @@ public:
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-	DataShieldComponent* CloneComponent() { return nullptr; }
-
 	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
 		lua[tableName]["DATA"] = _Capacity;
 	}
+	DataAmmo* CloneComponent() { return new DataAmmo(*this); }
 };
 
 //class DataAmmo : public DataComponent

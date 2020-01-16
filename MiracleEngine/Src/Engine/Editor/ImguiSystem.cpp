@@ -2,9 +2,6 @@
 #include "ImguiSystem.h"
 
 
-
-
-
 ImguiSystem::ImguiSystem(const Window& window)
 	:_window{ window }, clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 0.0f) }, _editorMode{ false }
 {
@@ -41,14 +38,7 @@ ImguiSystem::ImguiSystem(const Window& window)
 	IM_ASSERT(ImGui::GetCurrentContext() != NULL && "Missing dear imgui context. Refer to examples app!"); // Exceptionally add an extra assert here for people confused with initial dear imgui setup
 
 
-	//New All ImguiWindows
 	
-	_ImguiWindows["Hierarchy"] = new HierarchyImguiWindow();
-	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
-	_ImguiWindows["Assets"] = new AssetsImguiWindow();
-	_ImguiWindows["Texture"] = new TextureImguiWindow();
-	_ImguiWindows["PerformanceUsage"] = new PerformanceUsageWindow();
-	_ImguiWindows["SpriteSheetCutter"] = new SpriteSheetCutterImguiWindow();
 	
 
 	//_ImguiWindows["PreFab"] = new PreFabImguiWindow();
@@ -206,4 +196,17 @@ ImguiSystem::~ImguiSystem()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+}
+
+
+void ImguiSystem::Init()
+{
+	//New All ImguiWindows
+
+	_ImguiWindows["Hierarchy"] = new HierarchyImguiWindow();
+	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
+	_ImguiWindows["Assets"] = new AssetsImguiWindow();
+	_ImguiWindows["Texture"] = new TextureImguiWindow();
+	_ImguiWindows["PerformanceUsage"] = new PerformanceUsageWindow();
+	_ImguiWindows["SpriteSheetCutter"] = new SpriteSheetCutterImguiWindow();
 }

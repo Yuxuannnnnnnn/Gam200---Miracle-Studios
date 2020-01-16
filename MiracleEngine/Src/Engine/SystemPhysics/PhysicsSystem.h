@@ -8,6 +8,7 @@
 
 class PhysicsSystem final
 {
+	std::vector<Collider2D*> _allEnableColliders; // frame based
 public:
 	PhysicsSystem() = default;
 	~PhysicsSystem() {}
@@ -44,9 +45,6 @@ public:
 
 	void ButtonUpdate();
 	void ButtonDraw();
-	//
-
-	static void UpdateTransformMartix(TransformComponent* transform);
 };
 
 #endif

@@ -47,7 +47,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 		if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
 		{
 			std::cout << ofn.lpstrFile;
-			EngineSystems::GetInstance()._gameObjectFactory->De_SerialiseLevel(ofn.lpstrFile);
+			MyFactory.De_SerialiseLevel(ofn.lpstrFile);
 		}
 	}
 
@@ -66,11 +66,10 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.65f);
 
 
-	const std::unordered_map<size_t, GameObject*>& objlist = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
+	const std::unordered_map<size_t, GameObject*>& objlist = MyFactory.getObjectlist();
 	//const std::unordered_map<std::string, GameObject*>& protolist = EngineSystems::GetInstance()._prefabFactory->GetPrototypeList();
 
-	size_t objListSize = std::count_if(objlist.begin(), objlist.end(),
-		[](auto& i) {return i.first >= 1000; }); //number of total gameObjects in the list
+	size_t objListSize = objlist.size(); //number of total gameObjects in the list
 
 	std::string totalGameObjects("Total Number of GameObjects in Scene is: ");
 	totalGameObjects += std::to_string(objListSize);  //"Total Number of GameObjects in this level is: objListSize" string
@@ -85,9 +84,6 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 	for (auto& gameObjectPair : objlist)
 	{
-		if (gameObjectPair.first < 1000)	//Do not print the prototypes
-			continue;
-
 		GameObject* gameObject = gameObjectPair.second; //Get GameObject* from std::pair
 
 		size_t uID = gameObject->Get_uID();				//Get Unique Number of each GameObject

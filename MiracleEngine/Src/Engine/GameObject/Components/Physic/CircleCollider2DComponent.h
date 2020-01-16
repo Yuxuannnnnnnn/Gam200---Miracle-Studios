@@ -89,7 +89,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
-	IComponent* CloneComponent() { return nullptr; }
+	CircleCollider2DComponent* CloneComponent() { return new CircleCollider2DComponent(*this); }
 };
 
 #endif
