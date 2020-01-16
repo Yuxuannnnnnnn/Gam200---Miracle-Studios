@@ -19,5 +19,6 @@ typedef struct BoundingPolygon
 	~BoundingPolygon();
 
 	static BoundingPolygon CreateBBoxFromData(const Vec3& position, const Vec3& scale, const float& rotationAngle);
+	static BoundingPolygon CreateBPolygonFromData(const std::vector<Vec3>& corners, const Vec3& center,  const float& rotationAngle);
 
 } BBox, BPolygon;

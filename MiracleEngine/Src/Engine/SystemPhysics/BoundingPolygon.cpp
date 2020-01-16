@@ -82,3 +82,42 @@ BoundingPolygon BoundingPolygon::CreateBBoxFromData(const Vec3& position, const 
 
 	return box;
 }
+
+BoundingPolygon BoundingPolygon::CreateBPolygonFromData(const std::vector<Vec3>& corners, const Vec3& center, const float& rotationAngle)
+{
+	BPolygon polygon;
+	polygon._cornerNum = corners.size();
+	polygon._corners = new Vector3[polygon._cornerNum];
+	polygon._normals = new Vector3[polygon._cornerNum];
+	
+	polygon._rotationAngle = rotationAngle;
+
+
+	if (rotationAngle)
+	{
+		// rotation of polygon
+	}
+	else
+	{
+		for (int i = 0; i < polygon._cornerNum; ++i)
+		{
+			polygon._corners[i] = corners[i];
+
+			if (i + 1 == polygon._cornerNum)
+			{
+				Vec3 temp = polygon._corners[0] - polygon._corners[i];
+				polygon._normals[i] = Vec3{ -temp._y, temp._x, 0 };
+			}
+			else
+			{
+				Vec3 temp = polygon._corners[i+1] - polygon._corners[i];
+				polygon._normals[i] = Vec3{ -temp._y, temp._x, 0 };
+			}
+		}
+	}
+
+
+	// create box;
+
+	return polygon;
+}

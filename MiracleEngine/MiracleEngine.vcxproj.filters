@@ -100,7 +100,8 @@
     <ClCompile Include="Src\Engine\GameObject\Components\ParticleComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\ParticleSystemComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\UIComponent.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\Physic\Collider2D.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Physic\ICollider2D.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -519,6 +520,7 @@
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleSystemComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\UIComponent.h" />
     <ClInclude Include="Src\Engine\ISystem.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
