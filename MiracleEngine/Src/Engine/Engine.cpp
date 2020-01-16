@@ -43,9 +43,9 @@ void Engine::Update()
 		_engineSystems._scriptSystem->Test_DataCompEditing();
 	}
 
-	MySceneManager.ChangeScene("Level1");
+	MyFactory.ChangeScene("Level1");
 
-	while (MySceneManager.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
+	while (MyFactory.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{
 
 		double dt = MyFrameRateController.UpdateFrameTime();

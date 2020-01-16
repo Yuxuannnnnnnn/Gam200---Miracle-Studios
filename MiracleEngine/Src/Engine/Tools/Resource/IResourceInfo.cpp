@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "IResourceInfo.h"
 
-Texture2D* IResourceStructure::GetTexture2DResource(std::string name)
+Texture2D* IResourceStructure::GetTexture2DResource(const std::string& name)
 {
 	if (_mainContainer._Texture2DMap.find(name) != _mainContainer._Texture2DMap.end())
 		return _mainContainer._Texture2DMap[name];
@@ -9,7 +9,7 @@ Texture2D* IResourceStructure::GetTexture2DResource(std::string name)
 	return nullptr;
 }
 
-Shader* IResourceStructure::GetShaderResource(std::string name)
+Shader* IResourceStructure::GetShaderResource(const std::string& name)
 {
 	if (_mainContainer._ShaderMap.find(name) != _mainContainer._ShaderMap.end())
 		return _mainContainer._ShaderMap[name];
@@ -17,7 +17,7 @@ Shader* IResourceStructure::GetShaderResource(std::string name)
 	return nullptr;
 }
 
-FontRenderer* IResourceStructure::GetFontResource(std::string name)
+FontRenderer* IResourceStructure::GetFontResource(const std::string& name)
 {
 	if (_mainContainer._FontMap.find(name) != _mainContainer._FontMap.end())
 		return _mainContainer._FontMap[name];
@@ -25,7 +25,7 @@ FontRenderer* IResourceStructure::GetFontResource(std::string name)
 	return nullptr;
 }
 
-Sound* IResourceStructure::GetSoundResource(std::string name)
+Sound* IResourceStructure::GetSoundResource(const std::string& name)
 {
 	if (_mainContainer._AudioMap.find(name) != _mainContainer._AudioMap.end())
 		return _mainContainer._AudioMap[name];
@@ -33,7 +33,7 @@ Sound* IResourceStructure::GetSoundResource(std::string name)
 	return nullptr;
 }
 
-Animation* IResourceStructure::GetAnimationResource(std::string name)
+Animation* IResourceStructure::GetAnimationResource(const std::string& name)
 {
 	if (_mainContainer._AnimationMap.find(name) != _mainContainer._AnimationMap.end())
 		return _mainContainer._AnimationMap[name];
@@ -41,7 +41,7 @@ Animation* IResourceStructure::GetAnimationResource(std::string name)
 	return nullptr;
 }
 
-GameObject* IResourceStructure::GetPrototypeResource(std::string name)
+GameObject* IResourceStructure::GetPrototypeResource(const std::string& name)
 {
 	if (_mainContainer._PrototypeMap.find(name) != _mainContainer._PrototypeMap.end())
 		return _mainContainer._PrototypeMap[name];
@@ -49,34 +49,39 @@ GameObject* IResourceStructure::GetPrototypeResource(std::string name)
 	return nullptr;
 }
 
-std::string IResourceStructure::GetTexture2DResourcePath(std::string name)
+std::string& IResourceStructure::GetTexture2DResourcePath(const std::string& name)
 {
 	return _mainContainer._Texture2DList[name];
 }
 
-std::pair<std::string, std::string> IResourceStructure::GetShaderResourcePath(std::string name)
+std::pair<std::string, std::string>& IResourceStructure::GetShaderResourcePath(const std::string& name)
 {
 	return _mainContainer._ShaderList[name];
 }
 
-std::string IResourceStructure::GetFontResourcePath(std::string name)
+std::string& IResourceStructure::GetFontResourcePath(const std::string& name)
 {
 	return _mainContainer._FontList[name];
 }
 
-std::string IResourceStructure::GetSoundResourcePath(std::string name)
+std::string& IResourceStructure::GetSoundResourcePath(const std::string& name)
 {
 	return _mainContainer._AudioList[name];
 }
 
-std::string IResourceStructure::GetAnimationResourcePath(std::string name)
+std::string& IResourceStructure::GetAnimationResourcePath(const std::string& name)
 {
 	return _mainContainer._AnimationList[name];
 }
 
-std::string	IResourceStructure::GetPrototypeResourcePath(std::string name)
+std::string& IResourceStructure::GetPrototypeResourcePath(const std::string& name)
 {
 	return _mainContainer._PrototypeList[name];
+}
+
+std::string& IResourceStructure::GeScenePath(const std::string& name)
+{
+	return _mainContainer._SceneList[name];
 }
 
 NamePathMap& IResourceStructure::GetTexture2DList()
@@ -107,6 +112,11 @@ NamePathMap& IResourceStructure::GetAnimationList()
 NamePathMap& IResourceStructure::GetPrototypeList()
 {
 	return _mainContainer._PrototypeList;
+}
+
+NamePathMap_unordered& IResourceStructure::GetSceneList()
+{
+	return _mainContainer._SceneList;
 }
 
 Texture2DMap& IResourceStructure::GetTexture2DMap()

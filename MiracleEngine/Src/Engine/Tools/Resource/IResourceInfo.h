@@ -54,6 +54,9 @@ struct ResourceContainer
 	NamePathMap _AnimationList;
 	NamePathMap _PrototypeList;
 
+	NamePathMap_unordered _SceneList;
+
+
 	FontCharacterMap _fontCharacterMaps;
 };
 
@@ -65,33 +68,37 @@ public:
 
 	virtual ~IResourceStructure() {}
 	
-	virtual void AddTexture2DResourceList(NamePathMap list) = 0;
-	virtual void AddShaderResourceList(NamePairMap list) = 0;
-	virtual void AddFontResourceList(NamePathMap list) = 0;
-	virtual void AddAudioResourceList(NamePathMap list) = 0;
-	virtual void AddAnimationResourceList(NamePathMap list) = 0;
-	virtual void AddPrototypeResourceList(NamePathMap_unordered list) = 0;
+	virtual void AddTexture2DResourceList(const NamePathMap& list) = 0;
+	virtual void AddShaderResourceList(const NamePairMap& list) = 0;
+	virtual void AddFontResourceList(const NamePathMap& list) = 0;
+	virtual void AddAudioResourceList(const NamePathMap& list) = 0;
+	virtual void AddAnimationResourceList(const NamePathMap& list) = 0;
+	virtual void AddPrototypeResourceList(const NamePathMap_unordered& list) = 0;
+	virtual void AddSceneList(const NamePathMap_unordered& list) = 0;
 
-	virtual bool AddNewTexture2DResource(NamePath list) = 0;
-	virtual bool AddNewShaderResource(NamePair list) = 0;
-	virtual bool AddNewFontResource(NamePath list) = 0;
-	virtual bool AddNewAudioResource(NamePath list) = 0;
-	virtual bool AddNewAnimationResource(NamePath list) = 0;
-	virtual bool AddNewPrototypeResource(NamePath list) = 0;
+	virtual bool AddNewTexture2DResource(const NamePath& list) = 0;
+	virtual bool AddNewShaderResource(const NamePair& list) = 0;
+	virtual bool AddNewFontResource(const NamePath& list) = 0;
+	virtual bool AddNewAudioResource(const NamePath& list) = 0;
+	virtual bool AddNewAnimationResource(const NamePath& list) = 0;
+	virtual bool AddNewPrototypeResource(const NamePath& list) = 0;
+	virtual bool AddNewScene(const NamePath& list) = 0;
 
-	virtual Texture2D* GetTexture2DResource(std::string name);
-	virtual Shader* GetShaderResource(std::string name);
-	virtual FontRenderer* GetFontResource(std::string name);
-	virtual Sound* GetSoundResource(std::string name);
-	virtual Animation* GetAnimationResource(std::string name);
-	virtual GameObject* GetPrototypeResource(std::string name);
 
-	std::string							GetTexture2DResourcePath(std::string name);
-	std::pair<std::string, std::string> GetShaderResourcePath(std::string name);
-	std::string							GetFontResourcePath(std::string name);
-	std::string							GetSoundResourcePath(std::string name);
-	std::string							GetAnimationResourcePath(std::string name);
-	std::string							GetPrototypeResourcePath(std::string name);
+	virtual Texture2D* GetTexture2DResource(const std::string& name);
+	virtual Shader* GetShaderResource(const std::string& name);
+	virtual FontRenderer* GetFontResource(const std::string& name);
+	virtual Sound* GetSoundResource(const std::string& name);
+	virtual Animation* GetAnimationResource(const std::string& name);
+	virtual GameObject* GetPrototypeResource(const std::string& name);
+
+	std::string&						 GetTexture2DResourcePath(const std::string& name);
+	std::pair<std::string, std::string>& GetShaderResourcePath(const std::string& name);
+	std::string&						 GetFontResourcePath(const std::string& name);
+	std::string&						 GetSoundResourcePath(const std::string& name);
+	std::string&						 GetAnimationResourcePath(const std::string& name);
+	std::string&						 GetPrototypeResourcePath(const std::string& name);
+	std::string&						 GeScenePath(const std::string& name);
 
 	NamePathMap& GetTexture2DList();
 	NamePairMap& GetShaderList();
@@ -99,6 +106,7 @@ public:
 	NamePathMap& GetSoundList();
 	NamePathMap& GetAnimationList();
 	NamePathMap& GetPrototypeList();
+	NamePathMap_unordered& GetSceneList();
 
 	Texture2DMap& GetTexture2DMap();
 	ShaderMap& GetShaderMap();

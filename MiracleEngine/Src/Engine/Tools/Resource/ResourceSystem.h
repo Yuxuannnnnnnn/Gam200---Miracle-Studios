@@ -26,19 +26,21 @@ public:
 	ResourceSystem(const ResourceSystem& rhs) = delete;
 	ResourceSystem& operator= (const ResourceSystem& rhs) = delete;
 
-	void AddTexture2DResourceList(NamePathMap list);
-	void AddShaderResourceList(NamePairMap list);
-	void AddFontResourceList(NamePathMap list);
-	void AddAudioResourceList(NamePathMap list);
-	void AddAnimationResourceList(NamePathMap list);
-	void AddPrototypeResourceList(NamePathMap_unordered list);
+	void AddTexture2DResourceList(const NamePathMap& list);
+	void AddShaderResourceList(const NamePairMap& list);
+	void AddFontResourceList(const NamePathMap& list);
+	void AddAudioResourceList(const NamePathMap& list);
+	void AddAnimationResourceList(const NamePathMap& list);
+	void AddPrototypeResourceList(const NamePathMap_unordered& list);
+	void AddSceneList(const NamePathMap_unordered& list);
 
-	bool AddNewTexture2DResource(NamePath list);
-	bool AddNewShaderResource(NamePair list);
-	bool AddNewFontResource(NamePath list);
-	bool AddNewAudioResource(NamePath list);
-	bool AddNewAnimationResource(NamePath list);
-	bool AddNewPrototypeResource(NamePath list);
+	bool AddNewTexture2DResource(const NamePath& list);
+	bool AddNewShaderResource(const NamePair& list);
+	bool AddNewFontResource(const NamePath& list);
+	bool AddNewAudioResource(const NamePath& list);
+	bool AddNewAnimationResource(const NamePath& list);
+	bool AddNewPrototypeResource(const NamePath& list);
+	bool AddNewScene(const NamePath& list);
 
 	void ClearAllResources();
 };

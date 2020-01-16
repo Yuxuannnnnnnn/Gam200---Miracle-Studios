@@ -185,7 +185,7 @@ void InputSystem::InterruptCheck()
 {
 	if (KeyDown(KEYB_ESCAPE))
 	{
-		MySceneManager.ChangeScene("Quit");
+		MyFactory.ChangeScene("Quit");
 	}
 
 	//bool temp2 = false;
