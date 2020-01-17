@@ -11,4 +11,6 @@ public:
 	ParticleSystem& operator= (const ParticleSystem& rhs) = delete;
 
 	void Update(double dt);
+
+	void Draw();
 };

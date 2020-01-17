@@ -4,7 +4,7 @@
 
 class ParticleComponent : public IComponent
 {
-private:
+public:
 	//for graphic
 	std::string _fileName;
 	std::string _shader;
@@ -59,8 +59,8 @@ public:
 	//Constructor
 	ParticleComponent();
 	virtual ~ParticleComponent();
-	ParticleComponent(const ParticleComponent& rhs);
-	ParticleComponent& operator=(const ParticleComponent& rhs);
+	ParticleComponent(const ParticleComponent& rhs) = default;
+	ParticleComponent& operator=(const ParticleComponent& rhs) = default;
 
 	ParticleComponent* CloneComponent() { return new ParticleComponent(*this); }
 };

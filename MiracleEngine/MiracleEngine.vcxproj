@@ -252,6 +252,7 @@
     <ClInclude Include="Src\Engine\SystemLogic\LogicSystem.h" />
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.h" />
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.h" />
+    <ClInclude Include="Src\Engine\SystemParticle\ParticleSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingCircle.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingPolygon.h" />
@@ -655,6 +656,7 @@
     <ClCompile Include="Src\Engine\SystemLogic\LogicSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\ScriptSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemParticle\ParticleSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingBox.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingCircle.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingPolygon.cpp" />

@@ -23,8 +23,11 @@ enum class ComponentId {
 
 	CT_DataMove,
 
-	CT_Count,
+	CT_Particle,
+	CT_ParticleSystem,
 
+	CT_Count,
+	
 	CT_ERROR
 };
 
@@ -53,6 +56,9 @@ inline const char* ToRegisterID(ComponentId type)
 	case ComponentId::CT_TileMap:		return "TileMap";
 
 	case ComponentId::CT_DataMove:		return "DataMove";
+
+	case ComponentId::CT_Particle:			return "Particle";
+	case ComponentId::CT_ParticleSystem:		return "ParticleSystem";
 
 	default:      return "None";
 	}
@@ -83,6 +89,9 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 	case ComponentId::CT_TileMap:		return "TileMapComponent";
 
 	case ComponentId::CT_DataMove:	return "DataMoveComponent";
+	
+	case ComponentId::CT_Particle:			return "ParticleComponent";
+	case ComponentId::CT_ParticleSystem:		return "ParticleSystemComponent";
 
 	default:      return "[Unknown TypeIdComponent]";
 	}

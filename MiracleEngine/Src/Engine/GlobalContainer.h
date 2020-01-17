@@ -19,6 +19,7 @@
 #include "Tools/Resource/ResourceManager.h"
 #include "Factory.h"
 #include "SystemAnimation/AnimationSystem.h"
+#include "SystemParticle/ParticleSystem.h"
 
 //#include "SystemPhysics/ButtonManager.h"
 //#include "SystemPhysics/CollisionManager.h"
@@ -58,6 +59,7 @@ public:
 		//_prefabFactory{ nullptr },
 
 		_factory{ nullptr },
+		_particleSystem{ nullptr },
 
 		//_sceneManager{ nullptr },
 		_imguiSystem{ nullptr },
@@ -94,7 +96,7 @@ public:
 		//_prefabFactory = new GameObjectPrototype();
 
 		_factory = new Factory;
-
+		_particleSystem = new ParticleSystem;
 		//_sceneManager = new SceneManager();
 
 		//_buttonManager = new ButtonManager();
@@ -132,6 +134,7 @@ public:
 		//delete _gameObjectFactory; 	//delete all objects in the gameObjectFactory
 
 		delete _factory;
+		delete _particleSystem;
 
 		//delete _sceneManager;
 
@@ -157,6 +160,7 @@ public:
 	AISystem* _aiSystem;
 	GraphicsSystem* _graphicsSystem;
 	PhysicsSystem* _physicsSystem;
+	ParticleSystem* _particleSystem;
 
 	AudioSystem* _audioSystem;
 
@@ -207,6 +211,7 @@ public:
 //#define MyPrototypeFactory (*EngineSystems::GetInstance()._prefabFactory)
 
 #define MyFactory (*EngineSystems::GetInstance()._factory)
+#define MyParticleSystem (*EngineSystems::GetInstance()._particleSystem)
 
 //#define MySceneManager (*EngineSystems::GetInstance()._sceneManager)
 

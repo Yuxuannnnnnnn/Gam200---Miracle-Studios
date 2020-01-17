@@ -20,6 +20,8 @@ void Engine::Init()
 	RegisterComponent(Button);
 	RegisterComponent(TileMap);
 	RegisterComponent(DataMove);
+	RegisterComponent(Particle);
+	RegisterComponent(ParticleSystem);
 
 	MyImguiSystem.Init();
 #ifndef LEVELEDITOR
@@ -101,6 +103,7 @@ void Engine::Update()
 					MyFrameRateController.StartTimeCounter();
 					MyLogicSystem.Update(fixedDt);
 					MyAiSystem.Update(fixedDt);
+					MyParticleSystem.Update(fixedDt);
 					MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
 
 					//physics
@@ -117,6 +120,7 @@ void Engine::Update()
 				MyFrameRateController.StartTimeCounter();
 				MyLogicSystem.Update(dt);
 				MyAiSystem.Update(dt);
+				MyParticleSystem.Update(dt);
 				MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
 
 				//physics
@@ -135,6 +139,7 @@ void Engine::Update()
 		// Graphics
 		MyFrameRateController.StartTimeCounter();
 		MyAnimationSystem.Update(dt);
+		MyParticleSystem.Draw();
 		MyGraphicsSystem.Update(dt);
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
 
@@ -154,6 +159,7 @@ void Engine::Update()
 				// Logic
 				MyLogicSystem.Update(fixedDt);
 				MyAiSystem.Update(fixedDt);
+				MyParticleSystem.Update(fixedDt);
 
 				//physics
 				MyPhysicsSystem.Update(fixedDt);
@@ -166,6 +172,7 @@ void Engine::Update()
 		{
 			MyLogicSystem.Update(dt);
 			MyAiSystem.Update(dt);
+			MyParticleSystem.Update(dt);
 
 			//physics
 			MyPhysicsSystem.Update(dt);
@@ -177,6 +184,7 @@ void Engine::Update()
 			
 		// Graphics
 		MyAnimationSystem.Update(dt);
+		MyParticleSystem.Draw();
 		MyGraphicsSystem.Update(dt);
 #endif
 
