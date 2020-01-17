@@ -11,7 +11,7 @@
 class LogicComponent : public IComponent
 {
 	std::vector<std::string> _ScriptIds;
-	std::unordered_map<std::string, IComponent*> _DataList; //THIS NEEDS TO CHANGE, CAUSE THIS INFO IS IN ParentGO_ComponentList
+	//std::unordered_map<std::string, IComponent*> _DataList; //THIS NEEDS TO CHANGE, CAUSE THIS INFO IS IN ParentGO_ComponentList
 public:
 	LogicComponent();
 	LogicComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
@@ -32,7 +32,6 @@ public:
 	void Exit();
 
 	std::vector<std::string>& GetScriptIds();
-	std::unordered_map<std::string, IComponent*>& GetDataList();
 	
 	IComponent* Resolver_StringToDataComponent(std::string& dataName);
 	void AddScriptDataCompResolver(std::string& scriptName); // need add some 'table' like structure to see which SCRIPT needs which DATACOMP
@@ -45,9 +44,9 @@ public:
 	
 	void CloneScriptsAndDatas(LogicComponent* source);		//AddScript() & copy data info in comps
 	void ClearScripts();
-	void ClearDataComps();
 
-	LogicComponent* CloneComponent() { return new LogicComponent(*this); }
+	LogicComponent* CloneComponent() { return nullptr;  };
+	LogicComponent* CloneComponent(GameObject* parent);
 };
 
 //public:

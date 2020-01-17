@@ -7,7 +7,7 @@ class LuaScriptBase {
 public:
 	LuaScriptBase() = default;
 	virtual ~LuaScriptBase();
-	virtual sol::load_result Load(sol::state& lua) = 0;
+	virtual void Load(sol::state& lua) = 0;
 	virtual void Update(double dt) = 0;
 };
 
@@ -16,6 +16,6 @@ public:
 	Script_Move() = default;
 	~Script_Move() = default;
 
-	virtual sol::load_result Load(sol::state& lua) override;
+	virtual void Load(sol::state& lua) override;
 	virtual void Update(double dt) override;
 };

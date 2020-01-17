@@ -181,9 +181,15 @@ GameObject* GameObject::Clone(size_t uid)
 
 	for (auto& it : _ComponentList)
 	{
-		IComponent* temp = it.second->CloneComponent();
-		temp->SetParentId(uid);
-		temp->SetParentPtr(newGameObject);
+		IComponent* temp = nullptr;
+		if (it.first == ComponentId::CT_Logic)
+			temp = ((LogicComponent*)it.second)->CloneComponent(newGameObject);
+		else
+		{
+			temp = it.second->CloneComponent();
+			temp->SetParentId(uid);
+			temp->SetParentPtr(newGameObject);
+		}
 
 		newGameObject->_ComponentList[it.first] = temp;
 

@@ -5,8 +5,9 @@ void LogicSystem::Init() {
 	//ScriptSystem.Init();
 }
 void LogicSystem::Update(double dt) {
-	for (auto itr : _ListLogicComponents) {
-		itr.second->Update(dt);
+
+	for (auto itr : GetComponentMap(Logic)) {
+		((LogicComponent*)itr.second)->Update(dt);
 	}
 }
 

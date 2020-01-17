@@ -7,12 +7,12 @@ void DataComponent::SerialiseComponent(Serialiser& document) {}
 void DataComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc) {}
 void DataComponent::Inspect() {}
 
-DataMove::DataMove() { std::cout << "DEBUG:\t Ctor: DataMove. \n"; }
-DataMove::~DataMove() {}
-std::string DataMove::ComponentName() const { return std::string("Data_Health"); }
-void DataMove::SerialiseComponent(Serialiser& document) {}
-void DataMove::DeSerialiseComponent(DeSerialiser& prototypeDoc) {}
-void DataMove::Inspect() {}
+DataMoveComponent::DataMoveComponent() { std::cout << "DEBUG:\t Ctor: DataMove. \n"; }
+DataMoveComponent::~DataMoveComponent() {}
+std::string DataMoveComponent::ComponentName() const { return std::string("DataMove"); }
+void DataMoveComponent::SerialiseComponent(Serialiser& document) {}
+void DataMoveComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc) {}
+void DataMoveComponent::Inspect() {}
 
 DataHealth::DataHealth() { std::cout << "DEBUG:\t Ctor: DataHealth. \n"; }
 DataHealth::~DataHealth() {}

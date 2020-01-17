@@ -19,6 +19,7 @@ void Engine::Init()
 	RegisterComponent(Audio);
 	RegisterComponent(Button);
 	RegisterComponent(TileMap);
+	RegisterComponent(DataMove);
 
 	MyImguiSystem.Init();
 #ifndef LEVELEDITOR

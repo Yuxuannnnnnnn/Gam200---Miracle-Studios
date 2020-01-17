@@ -3,18 +3,8 @@
 
 void ScriptSystem::Create_TableScriptData()
 {
-	_TableScriptData["move"] = std::vector<std::string>{ "move" };
-	lua["Table_Data_Move"] = lua.create_table();
-
-	_TableScriptData["health"] = std::vector<std::string>{ "health" };
-	lua["Table_Data_Health"] = lua.create_table();
-	
-	_TableScriptData["ammo"] = std::vector<std::string>{ "ammo" };
-	lua["Table_Data_Ammo"] = lua.create_table();
-
-	_TableScriptData["shield"] = std::vector<std::string>{ "capacity", "recharge" };
-	lua["Table_Data_Shield"] = lua.create_table();
-
+	_TableScriptData["ScriptMove"] = std::vector<std::string>{ ToString(ComponentId::CT_DataMove) };
+	lua["Table_ScriptMove"] = lua.create_table();
 }
 
 void ScriptSystem::Create_Scripts()
@@ -24,7 +14,41 @@ void ScriptSystem::Create_Scripts()
 
 void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
 {
-//		// based on scriptName, use _TableScriptData to get the DataComponent's stuff that needs to bind
+	// bind the data
+	std::vector<std::string> dataList = _TableScriptData[scriptName];
+	IComponent* dataComp = nullptr;
+	for (auto itr : dataList)
+	{
+		dataComp = nullptr;
+		// get the DataComponent
+		dataComp = (LogicComponent*)src->GetComponent(ToComponentID(itr));
+		if (!dataComp)
+			std::cout
+				<< "WARNING: ScriptSystem::RunScript("
+				<< ((IdentityComponent*)(src->GetComponent(ComponentId::CT_Identity)))->ObjectType() << ", "
+				<< scriptName << ") has nullptr for 'dataComp'\n";
+		// load right table to temp, use
+		std::string tableName = "Table_";
+		tableName += scriptName; // eg. Table_ScriptMove
+		reinterpret_cast<DataComponent*>(dataComp)->BindLuaValues(lua, tableName);
+	}
+	// bind the script & run (from inside Load())
+	_ScriptsAll[scriptName]->Load(lua);
+	
+	// save the data
+	for (auto itr : dataList)
+	{
+		dataComp = nullptr;
+		// get the DataComponent
+		dataComp = (LogicComponent*)src->GetComponent(ToComponentID(itr));
+		// load right table to temp, use
+		std::string tableName = "Table_";
+		tableName += scriptName; // Table_DataAmmo || Table_DataHealth || etc
+		sol::table temp = lua[tableName];
+		reinterpret_cast<DataComponent*>(dataComp)->SaveLuaValues(lua, tableName);
+	}
+
+	//		// based on scriptName, use _TableScriptData to get the DataComponent's stuff that needs to bind
 //		// once values are binded, run script
 //			// script itself will save the things based on the table
 //
@@ -46,27 +70,11 @@ void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
 //			std::cerr << "failde to load string-based script in the program" << err.what() << std::endl;
 //		}
 //		fx();
-
-	// bind the script
-	sol::load_result fx = _ScriptsAll[scriptName]->Load(lua);
-	// bind the data
-	std::vector<std::string> dataList = _TableScriptData[scriptName];
-	for (auto itr : dataList)
-	{
-		// get the DataComponent
-		IComponent* dataComp = ((LogicComponent*)src->GetComponent(ComponentId::CT_Logic))->GetDataList()[itr];
-		// load right table to temp, use
-		std::string tableName = "Table_";
-		tableName += dataComp->ComponentName(); // Table_DataAmmo || Table_DataHealth || etc
-		sol::table temp = lua[tableName];
-		reinterpret_cast<DataComponent*>(dataComp)->BindLuaValues(lua, tableName);
-	}
-	fx(); // run the script
-
 }
 
 void ScriptSystem::Init() {
 	Create_TableScriptData();
+	Create_Scripts();
 	BindAll();
 }
 //void ScriptSystem::Update(float dt) {}
@@ -223,8 +231,8 @@ void ScriptSystem::BindMouseAndKeyboard()
 	Table_Input = lua.create_named_table("Input");
 	Table_Input["GetKeyDown"] = [&](const char* str) {
 		std::cout << "Input.GetKeyDown(" << str << ") ";
-		bool temp = EngineSystems::GetInstance()._inputSystem->KeyDown(
-			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str) );
+		bool temp = _engineSystems._inputSystem->KeyDown(
+			_engineSystems._inputSystem->StringToKeycode(str) );
 		if (temp)
 		{
 			std::cout << "Ret::TRUE.\n";
@@ -238,8 +246,8 @@ void ScriptSystem::BindMouseAndKeyboard()
 	};
 	Table_Input["GetKeyHold"] = [&](const char* str) {
 		std::cout << "Input.GetKeyHold(" << str << ") ";
-		bool temp = EngineSystems::GetInstance()._inputSystem->KeyHold(
-			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str));
+		bool temp = _engineSystems._inputSystem->KeyHold(
+			_engineSystems._inputSystem->StringToKeycode(str));
 		if (temp)
 		{
 			std::cout << "Ret::TRUE.\n";
@@ -253,8 +261,8 @@ void ScriptSystem::BindMouseAndKeyboard()
 	};
 	Table_Input["GetKeyUp"] = [&](const char* str) {
 		std::cout << "Input.GetKeyUp(" << str << ") ";
-		bool temp = EngineSystems::GetInstance()._inputSystem->KeyRelease(
-			EngineSystems::GetInstance()._inputSystem->StringToKeycode(str));
+		bool temp = _engineSystems._inputSystem->KeyRelease(
+			_engineSystems._inputSystem->StringToKeycode(str));
 		if (temp)
 		{
 			std::cout << "Ret::TRUE.\n";
@@ -271,11 +279,20 @@ void ScriptSystem::BindMiscFunctions()
 {
 	std::cout << "DEBUG:\t Binding Misc Functions (Console) \n";
 	Table_Console = lua.create_named_table("Console");
+	Table_Console["WriteStr"] = [&](std::string in) {std::cout << in << std::endl; };
+	Table_Console["WriteNum"] = [&](double in) {std::cout << in << std::endl; };
+	Table_Console["WriteBool"] = [&](bool b) { if (b) std::cout << "TRUE.\n"; else std::cout << "FALSE.\n"; };
+	
+	std::cout << "DEBUG:\t Binding Misc Functions (Anim) \n";
+	Table_Anim = lua.create_named_table("Anim");
+	Table_Anim.set_function("Change", [&](std::string in) {
+		//AnimationComponent::SetCurrentAnim(in);
+	});
 
-	Table_Console.set_function("WriteLine", [&](std::string in) {std::cout << in << std::endl; });
-	Table_Console.set_function("WriteLine", [&](char* in) {std::cout << in << std::endl; });
-	Table_Console.set_function("WriteLine", [&](int in) {std::cout << in << std::endl; });
-	Table_Console.set_function("WriteLine", [&](double in) {std::cout << in << std::endl; });
+		//Table_Console.set_function("WriteLine", [&](std::string in) {std::cout << in << std::endl; });
+		//Table_Console.set_function("WriteLine", [&](char* in) {std::cout << in << std::endl; });
+		//Table_Console.set_function("WriteLine", [&](int in) {std::cout << in << std::endl; });
+		//Table_Console.set_function("WriteLine", [&](double in) {std::cout << in << std::endl; });
 	//Table_Console.set_function("WriteLine", sol::overload(
 	//	sol::resolve<void(int)>(&ScriptSystem::Print),
 	//	sol::resolve<void(std::string)>(&ScriptSystem::Print),
@@ -286,9 +303,6 @@ void ScriptSystem::BindMiscFunctions()
 				// lua has a ToString which will ToString a variable
 				// in lua have a global variable, then everytime keep ToString in when need to output, then just have a single Table_Console[WriteLine] = {cout << string}
 
-	Table_Console["WriteStr"] = [&](std::string in) {std::cout << in << std::endl; };
-	Table_Console["WriteNum"] = [&](double in) {std::cout << in << std::endl; };
-	Table_Console["WriteBool"] = [&](bool b) { if (b) std::cout << "TRUE.\n"; else std::cout << "FALSE.\n"; };
 }
 void ScriptSystem::BindDataCompValues_Inital()
 {
@@ -382,15 +396,15 @@ Console.WriteNum(69)
 
 test2 = Transform.new(Vector3.new(7,5,3), Vector3.new(8,6,5), 0.4)
 y = test2:GetPosition():GetX()
-Console.WriteLine(y)
+Console.WriteNum(y)
 z = test2:GetScale():GetY()
-Console.WriteLine(z)
+Console.WriteNum(z)
 a = test2:GetRotate()
-Console.WriteLine(a)
+Console.WriteNum(a)
 z = test2:GetScale():GetX()
-Console.WriteLine(z)
+Console.WriteNum(z)
 y = test2:GetPosition():GetZ()
-Console.WriteLine(y)
+Console.WriteNum(y)
 Console.WriteStr("does work")
 			)");
 	if (!pfr.valid())

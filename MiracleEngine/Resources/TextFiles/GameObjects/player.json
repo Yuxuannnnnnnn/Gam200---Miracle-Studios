@@ -31,5 +31,5 @@
   "A.FileName": "audio_player.ogg",
 
   "LogicComponent": true,
-  "ScriptId": ["move"]
+  "ScriptId": [ "ScriptMove" ]
 }

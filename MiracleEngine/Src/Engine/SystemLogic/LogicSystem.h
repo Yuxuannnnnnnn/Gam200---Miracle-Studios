@@ -7,7 +7,7 @@
 class LogicSystem final
 {
 public:
-	std::unordered_map<size_t, LogicComponent*> _ListLogicComponents;
+	//std::unordered_map<size_t, LogicComponent*> _ListLogicComponents;
 
 	LogicSystem() = default;
 	~LogicSystem() = default;

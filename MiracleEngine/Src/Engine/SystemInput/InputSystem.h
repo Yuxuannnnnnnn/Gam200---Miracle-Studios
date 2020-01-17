@@ -8,7 +8,7 @@
 #include "SystemWindows/WindowsSystem.h"
 class InputSystem
 {
-	std::map<const char*, KeyCode> Map_KeyCode;
+	std::map<std::string, KeyCode> Map_KeyCode;
 public:
 	KeyCode StringToKeycode(const char* str);
 

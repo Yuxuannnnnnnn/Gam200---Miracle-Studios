@@ -36,7 +36,7 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 			if (document["ScriptId"][i].IsString())
 			{
 				std::string str = (document["ScriptId"][i].GetString());
-				_ScriptIds.push_back(str);
+				//_ScriptIds.push_back(str);
 				AddScript(str);
 			}
 		}
@@ -85,10 +85,12 @@ void LogicComponent::Inspect()
 	std::cout << "\n";
 
 	std::cout << "\t DataComponents :: ";
-	for (auto itr : _DataList)
+	for (auto itr : _ScriptIds)
 	{
-		std::cout << itr.first;
-		itr.second->Inspect();
+		for (auto itr2 : EngineSystems::GetInstance()._scriptSystem->_TableScriptData[itr])
+		{
+			GetParentPtr()->GetComponent(ToComponentID(itr2))->Inspect();
+		}
 	}
 
 	//IComponent::Inspect();
@@ -104,7 +106,6 @@ void LogicComponent::Init()
 }
 void LogicComponent::Update(double dt)
 {
-	std::cout << "DEBUG:\t LogicComponent::Update()\n";
 	if (!_ScriptIds.empty())
 	{
 		// call ScriptSys to run through script
@@ -122,28 +123,28 @@ std::vector<std::string>& LogicComponent::GetScriptIds()
 {
 	return _ScriptIds;
 }
-std::unordered_map<std::string, IComponent*>& LogicComponent::GetDataList()
-{
-	return _DataList;
-}
 
 
 IComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataName)
 {
-	if (dataName == "move")
+	GameObject* parent = this->GetParentPtr();
+	DataComponent* temp = nullptr;
+
+	if (dataName == "DataMoveComponent")
 	{
-		return new DataMove();
+		temp = (DataComponent*)parent->AddComponent(ComponentId::CT_DataMove);
+		temp->parentLogic = this;	
 	}
-	if (dataName == "health")
-	{
-		return new DataHealth();
-	}
-	if (dataName == "health2")
-	{
-		return new DataHealth();
-	}
-	std::cout << "WARNING: LogicComponent::Resolver_StringToDataComponent(dataName) had no proper 'dataName', function returning NULLPTR. \n";
-	return nullptr;
+	//if (dataName == "health")
+	//{
+	//	return new DataHealth();
+	//}
+	//if (dataName == "health2")
+	//{
+	//	return new DataHealth();
+	//}
+	//std::cout << "WARNING: LogicComponent::Resolver_StringToDataComponent(dataName) had no proper 'dataName', function returning NULLPTR. \n";
+	return temp;
 }
 void LogicComponent::AddScriptDataCompResolver(std::string& scriptName)
 {
@@ -167,7 +168,7 @@ void LogicComponent::AddScriptDataCompResolver(std::string& scriptName)
 		return;
 	}
 	for (auto itr : tempStrVec)
-		AddDataComp(std::string(itr));
+		AddDataComp(itr);
 }
 void LogicComponent::AddScript(std::string& scriptName)
 {
@@ -178,21 +179,21 @@ void LogicComponent::AddScript(std::string& scriptName)
 			std::cout << "WARNING: Script already exists. \n";
 			break; 
 		}
+	_ScriptIds.push_back(scriptName);
 	AddScriptDataCompResolver(scriptName);
 }
 void LogicComponent::AddDataComp(std::string& dataName)
 {
-	for (auto itr : _DataList)
+	for (auto itr : GetParentPtr()->GetComponentList())
 // change to seach in ParentGO.ComponentList
-		if (itr.first == dataName)
+		if (itr.first == ToComponentID(dataName))
 		{
 			std::cout << "WARNING: DataComponent already exists. \n";
 			break;
 		}
 // else add component
 // need change to call GOFac to AddComponent(DataComponent);
-	IComponent* dataComp = Resolver_StringToDataComponent(dataName);
-	_DataList[dataName] = dataComp;
+	IComponent* dataComp = Resolver_StringToDataComponent(dataName); 
 }
 
 void LogicComponent::RemoveScriptDataCompResolver(std::string& scriptName)
@@ -246,8 +247,9 @@ void LogicComponent::RemoveDataComp(std::string& dataName)
 			}
 	}
 	// else remove datacomp, supposed to use Factory's RemoveComponent()
-	delete _DataList[dataName];
-	_DataList.erase(_DataList.find(dataName));
+	GetParentPtr()->RemoveComponent(ToComponentID(dataName));
+	//	delete _DataList[dataName];
+	//	_DataList.erase(_DataList.find(dataName));
 }
 
 void LogicComponent::CloneScriptsAndDatas(LogicComponent* source)
@@ -259,17 +261,20 @@ void LogicComponent::ClearScripts()
 {
 	if (_ScriptIds.empty())
 		return;
-	else
-		ClearDataComps();
 	_ScriptIds.clear();
 }
-void LogicComponent::ClearDataComps()
-{
-	for (auto itr : _DataList)
-		delete itr.second;
-	_DataList.clear();
-}
 
+LogicComponent* LogicComponent::CloneComponent(GameObject* parent)
+{
+	LogicComponent* temp = new LogicComponent();
+	temp->SetParentPtr(parent);
+	temp->SetParentId(parent->Get_uID());
+
+	//temp->_ScriptIds = _ScriptIds;
+	for (auto itr : _ScriptIds)
+		temp->AddScript(itr);
+	return temp;
+}
 
 //bool LogicComponent::CheckScript(ScriptId scriptType)
 //{

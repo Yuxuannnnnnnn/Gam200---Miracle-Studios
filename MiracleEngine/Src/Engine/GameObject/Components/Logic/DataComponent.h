@@ -51,21 +51,22 @@ public:
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-	DataMove* CloneComponent() { return new DataMove(*this); }
+	DataMoveComponent* CloneComponent() { return new DataMoveComponent(*this); }
 
 	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
 		TransformComponent* temp = (TransformComponent*)parentLogic->GetSibilingComponent(ComponentId::CT_Transform);
 		_position = temp->GetPos();
 		_scale = temp->GetScale();
 		_rotation = temp->GetRotate();
-		lua[tableName]["POSITION"] = &_position;
-		lua[tableName]["SCALE"] = &_scale;
-		lua[tableName]["ROTATION"] = &_rotation;
+		lua[tableName]["POSITION"] = _position;
+		lua[tableName]["SCALE"] = _scale;
+		lua[tableName]["ROTATION"] = _rotation;
 	}
 	virtual void SaveLuaValues(sol::state& lua, std::string& tableName) override {
 		TransformComponent* temp = (TransformComponent*)parentLogic->GetSibilingComponent(ComponentId::CT_Transform);
 		temp->SetPos(lua[tableName]["POSITION"]);
 		temp->SetScale(lua[tableName]["SCALE"]);
+		auto temp2 = lua[tableName]["ROTATION"];
 		temp->SetRotate(lua[tableName]["ROTATION"]);
 	}
 };

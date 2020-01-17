@@ -4,14 +4,13 @@
 LuaScriptBase::~LuaScriptBase()
 {}
 
-sol::load_result Script_Move::Load(sol::state& lua) {
+void Script_Move::Load(sol::state& lua) {
 	const auto& my_script = R"(
 Console.WriteStr("SubScript 1\n")
-local a = ...
-a = 0.4
-Table_Data.HEALTH = a
-Console.WriteStr("SubScript 1 : ")
-Console.WriteNum(a)
+a = Table_ScriptMove.POSITION
+a:SetX( a:GetX() + 0.05)
+Table_ScriptMove.POSITION = a
+Input.GetKeyHold("MOUSE_LBUTTON")
 	)";
 	//ScriptSystem::BindDataCompValues_Runtime();
 	sol::load_result fx = lua.load(my_script);
@@ -19,7 +18,7 @@ Console.WriteNum(a)
 		sol::error err = fx;
 		std::cerr << "faild to load string-based script in the program" << err.what() << std::endl;
 	}
-	return fx;
+	fx();
 }
 void Script_Move::Update(double dt) {
 }
