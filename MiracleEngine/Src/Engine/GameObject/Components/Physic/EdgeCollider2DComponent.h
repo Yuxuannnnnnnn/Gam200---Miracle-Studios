@@ -90,7 +90,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 	// Function Setting and Getting only
-	IComponent* CloneComponent() { return nullptr; }
+	EdgeCollider2DComponent* CloneComponent() { return new EdgeCollider2DComponent(*this); }
 };
 
 //struct Ray

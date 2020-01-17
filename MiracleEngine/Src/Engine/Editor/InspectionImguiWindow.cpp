@@ -15,7 +15,7 @@ InspectionImguiWindow::InspectionImguiWindow(bool open, ImGuiWindowFlags flags)
 
 void InspectionImguiWindow::Update()
 {
-	if (_engineSystems._gameObjectFactory->CheckObjOrignialPointer(_inspectObj))
+	if (MyFactory.CheckObjOrignialPointer(_inspectObj))
 	{
 		std::unordered_map < ComponentId, IComponent* > componentList = (_inspectObj)->GetComponentList();
 

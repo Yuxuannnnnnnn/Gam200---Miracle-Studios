@@ -22,23 +22,25 @@ public:
 	void Select();
 
 	// current frame to play
-	int _currentFrame;
+	//int _currentFrame;
 	
 	// delay between frames
-	float _frameDelay;
+	//float _frameDelay;
 
-	bool load(std::string path);
+	bool load(const std::string& path);
 	void unload();
 
 	Frame* GetCurrFrame(int);
 
-	inline int GetFrameSize() const { return frame->size(); }
+	inline int GetMaxFrame() const { return NumOfFrames - 1; }
 
 private:
 
 	// vector of sprite frame make up a sequence of images, each frame is 1 image
 	std::vector<Frame*>* frame;
 	
+	int NumOfFrames;
+
 	// ID to select which spritesheet
 	int _textureID;
 };

@@ -13,7 +13,6 @@
 #include "GameObject/Components/Logic/DataComponent.h"
 #include "GameObject/Components/Logic/IScript.h"
 #include "GameObject/Components/Logic/LogicComponent.h"
-#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 
 #include "GameObject/Components/Physic/BoxCollider2DComponent.h"
 #include "GameObject/Components/Physic/CircleCollider2DComponent.h"
@@ -24,6 +23,7 @@
 #include "GameObject/Components/AudioComponent.h"
 #include "GameObject/Components/ButtonComponent.h"
 #include "GameObject/Components/IdentityComponent.h"
-#include "GameObject/Components/ImGuizmoComponent.h"
-#include "GameObject/Components/PrecompiledComponentHeader.h"
 #include "GameObject/Components/TileMapComponent.h"
+
+#include "GameObject/Components/ParticleComponent.h"
+#include "GameObject/Components/ParticleSystemComponent.h"

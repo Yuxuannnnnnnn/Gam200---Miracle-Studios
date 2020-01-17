@@ -9,14 +9,19 @@ void ImGuizmoManager::Update()
 	{
 		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 
-		for (auto it : _pickList)
+		for (auto& it : GetComponentMap(Graphic))
 		{
 			if (!it.second->GetEnable())
 				continue;
 
-			MyPhysicsSystem.UpdateColliderData(it.second);
+			TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.second->GetParentId()];
 
-			if (TestBoxVsPoint(*it.second, pos))
+			if (!transform)
+				continue;
+
+			BBox pickingBox = BBox::CreateBBoxFromData(transform->GetPos(), transform->GetScale(), transform->GetRotate());
+
+			if (Collision::BBoxVsPoint(pickingBox, pos))
 			{
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
 				_pickUId = it.first;
@@ -27,7 +32,7 @@ void ImGuizmoManager::Update()
 
 	if (_pickUId != 0)
 	{
-		TransformComponent* transform = MyComponentManger._transformComponents[_pickUId];
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[_pickUId];
 
 		if (!transform)
 		{
@@ -35,73 +40,29 @@ void ImGuizmoManager::Update()
 			return;
 		}
 
-		//ImGuizmo::SetOrthographic(true);
+		//ImGuizmo::SetOrthographic(false);
 		ImGuizmo::BeginFrame();
 		ImGui::SetNextWindowPos(ImVec2(300, 0));
-		ImGui::SetNextWindowSize(ImVec2(300, 60));
+		ImGui::SetNextWindowSize(ImVec2(300, 400));
 		ImGui::Begin("Editor");
 
 		const float* cameraView = nullptr;
 		float* cameraProjection = nullptr;
 		float* objectMatrix = nullptr;
 		//MyGraphicsSystem.GetZmoInfo(_pickUId, cameraView, cameraProjection, objectMatrix);
+
+
 		EditTransform(cameraView, cameraProjection, objectMatrix);
 
 		float m[3] = { 0,0,0 };
 
-
-		ImGuizmo::DecomposeMatrixToComponents(objectMatrix, transform->GetPos().m, m, transform->GetScale().m);
+		//ImGuizmo::DecomposeMatrixToComponents(objectMatrix, transform->GetPos().m, m, transform->GetScale().m);
 
 
 		//ImGuizmo::RecomposeMatrixFromComponents(transform->GetPos().m, m, transform->GetScale().m, objectMatrix);
 
 		ImGui::End();
 	}
-}
-
-void ImGuizmoManager::Draw()
-{
-	for (auto it : _pickList)
-	{
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
-			continue;
-
-		MyPhysicsSystem.UpdateColliderData(it.second);
-
-		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
-
-		DrawDebugLine(
-			object->mCorner[0]._x, object->mCorner[0]._y,
-			object->mCorner[1]._x, object->mCorner[1]._y);
-		DrawDebugLine(
-			object->mCorner[1]._x, object->mCorner[1]._y,
-			object->mCorner[2]._x, object->mCorner[2]._y);
-		DrawDebugLine(
-			object->mCorner[2]._x, object->mCorner[2]._y,
-			object->mCorner[3]._x, object->mCorner[3]._y);
-		DrawDebugLine(
-			object->mCorner[3]._x, object->mCorner[3]._y,
-			object->mCorner[0]._x, object->mCorner[0]._y);
-
-		DebugRenderer::GetInstance().DrawLine(
-			object->mOrigin._x, object->mOrigin._y,
-			object->mOrigin._x + object->mAxis[0]._x * 40.f,
-			object->mOrigin._y + object->mAxis[0]._y * 40.f);
-		DebugRenderer::GetInstance().DrawLine(
-			object->mOrigin._x, object->mOrigin._y,
-			object->mOrigin._x + object->mAxis[1]._x * 40.f,
-			object->mOrigin._y + object->mAxis[1]._y * 40.f);
-	}
-}
-
-void ImGuizmoManager::AddObject(size_t uId, void* component)
-{
-	_pickList.insert({ uId, (PickingCollider*)component });
-}
-
-void ImGuizmoManager::RemoveObject(size_t uId)
-{
-	_pickList.erase(uId);
 }
 
 void ImGuizmoManager::SetPickObjectUId(size_t uId)
@@ -134,12 +95,12 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 	ImGui::SameLine();
 	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
 		mCurrentGizmoOperation = ImGuizmo::SCALE;
-	/*float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 	ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
 	ImGui::InputFloat3("Tr", matrixTranslation, 3);
 	ImGui::InputFloat3("Rt", matrixRotation, 3);
 	ImGui::InputFloat3("Sc", matrixScale, 3);
-	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);*/
+	//ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
 
 	//if (mCurrentGizmoOperation != ImGuizmo::SCALE)
 	//{
@@ -180,7 +141,7 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
 	//ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
 
-	ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, NULL, NULL,  NULL);
+	ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, NULL, NULL, NULL);
 
 }
 

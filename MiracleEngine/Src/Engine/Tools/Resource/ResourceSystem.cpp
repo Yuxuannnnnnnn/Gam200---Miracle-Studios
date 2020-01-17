@@ -10,44 +10,49 @@ ResourceSystem::~ResourceSystem()
 	ClearAllResources();
 }
 
-void ResourceSystem::AddTexture2DResourceList(NamePathMap list)
+void ResourceSystem::AddTexture2DResourceList(const NamePathMap& list)
 {
-	for (auto it : list)
+	for (auto& it : list)
 		AddNewTexture2DResource(NamePath{ it.first, it.second });
 }
 
-void ResourceSystem::AddShaderResourceList(NamePairMap list)
+void ResourceSystem::AddShaderResourceList(const NamePairMap& list)
 {
-	for (auto it : list)
+	for (auto& it : list)
 		AddNewShaderResource(NamePair{ it.first, it.second });
 }
 
-void ResourceSystem::AddFontResourceList(NamePathMap list)
+void ResourceSystem::AddFontResourceList(const NamePathMap& list)
 {
-	for (auto it : list)
+	for (auto& it : list)
 		AddNewFontResource(NamePath{ it.first, it.second });
 }
 
-void ResourceSystem::AddAudioResourceList(NamePathMap list)
+void ResourceSystem::AddAudioResourceList(const NamePathMap& list)
 {
-	for (auto it : list)
+	for (auto& it : list)
 		AddNewAudioResource(NamePath{ it.first, it.second });
 }
 
-void ResourceSystem::AddAnimationResourceList(NamePathMap list)
+void ResourceSystem::AddAnimationResourceList(const NamePathMap& list)
 {
-	for (auto it : list)
+	for (auto& it : list)
 		AddNewAnimationResource(NamePath{ it.first, it.second });
 }
 
-void ResourceSystem::AddPrototypeResourceList(NamePathMap_unordered list)
+void ResourceSystem::AddPrototypeResourceList(const NamePathMap_unordered& list)
 {
-	for (auto it : list)
+	for (auto& it : list)
 		AddNewPrototypeResource(NamePath{ it.first, it.second });
 }
 
+void ResourceSystem::AddSceneList(const NamePathMap_unordered& list)
+{
+	for (auto& it : list)
+		AddNewScene(NamePath{ it.first, it.second });
+}
 
-bool ResourceSystem::AddNewTexture2DResource(NamePath list)
+bool ResourceSystem::AddNewTexture2DResource(const NamePath& list)
 {
 	Texture2D* newTexture2D = (Texture2D*)_Texture2DAllocater.Allocate();
 
@@ -62,7 +67,7 @@ bool ResourceSystem::AddNewTexture2DResource(NamePath list)
 	return false;
 }
 
-bool ResourceSystem::AddNewShaderResource(NamePair list)
+bool ResourceSystem::AddNewShaderResource(const NamePair& list)
 {
 	Shader* newShader = (Shader*)_ShaderAllocater.Allocate();
 
@@ -77,7 +82,7 @@ bool ResourceSystem::AddNewShaderResource(NamePair list)
 	return false;
 }
 
-bool ResourceSystem::AddNewFontResource(NamePath list)
+bool ResourceSystem::AddNewFontResource(const NamePath& list)
 {
 	FontRenderer* newFont = (FontRenderer*)_FontAllocater.Allocate();
 
@@ -92,7 +97,7 @@ bool ResourceSystem::AddNewFontResource(NamePath list)
 	return false;
 }
 
-bool ResourceSystem::AddNewAudioResource(NamePath list)
+bool ResourceSystem::AddNewAudioResource(const NamePath& list)
 {
 	Sound* newSound = (Sound*)_AudioAllocater.Allocate();
 
@@ -107,7 +112,7 @@ bool ResourceSystem::AddNewAudioResource(NamePath list)
 	return false;
 }
 
-bool ResourceSystem::AddNewAnimationResource(NamePath list)
+bool ResourceSystem::AddNewAnimationResource(const NamePath& list)
 {
 	Animation* newAnimation = (Animation*)_AnimationAllocater.Allocate();
 
@@ -122,7 +127,7 @@ bool ResourceSystem::AddNewAnimationResource(NamePath list)
 	return false;
 }
 
-bool ResourceSystem::AddNewPrototypeResource(NamePath list)
+bool ResourceSystem::AddNewPrototypeResource(const NamePath& list)
 {
 	GameObject* temp = new GameObject();
 	Serialiser FilePath(list.second);
@@ -135,6 +140,18 @@ bool ResourceSystem::AddNewPrototypeResource(NamePath list)
 
 	return true;
 }
+
+bool ResourceSystem::AddNewScene(const NamePath& list)
+{
+	if (_mainContainer._SceneList.find(list.first) != _mainContainer._SceneList.end())
+		return false;
+
+
+	_mainContainer._SceneList.insert(list);
+
+	return true;
+}
+
 
 void ResourceSystem::ClearAllResources()
 {
@@ -197,6 +214,7 @@ void ResourceSystem::ClearAllResources()
 	_mainContainer._AudioList.clear();
 	_mainContainer._AnimationList.clear();
 	_mainContainer._PrototypeList.clear();
+	_mainContainer._SceneList.clear();
 
 	_mainContainer._fontCharacterMaps.clear();
 }

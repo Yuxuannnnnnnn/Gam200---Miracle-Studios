@@ -104,7 +104,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		EngineSystems::GetInstance()._sceneManager->LoadAllSceneAssets(ResourceList1);
+		MyFactory.LoadAllSceneAssets(ResourceList1);
 		ResourceList1.clear();
 	}
 
@@ -152,7 +152,7 @@ void AssetsImguiWindow::Update()
 
 	if (ImGui::CollapsingHeader("Scenes"))
 	{
-		auto& allScenes = _engineSystems._sceneManager->GetAllScenes();
+		auto& allScenes = MyResourceSystem.GetSceneList();
 		ImGui::Spacing();
 
 		for (auto& scenePair : allScenes)
@@ -164,7 +164,7 @@ void AssetsImguiWindow::Update()
 			{
 				if (ImGui::IsMouseReleased(0))
 				{
-					_engineSystems._sceneManager->ChangeScene(scenePair.first);
+					MyFactory.ChangeScene(scenePair.first);
 				}
 			}
 			ImGui::Spacing();
@@ -185,7 +185,7 @@ void AssetsImguiWindow::Update()
 			std::string string1 = "Create New Prototype ";
 			if (ImGui::Button(string1.c_str()))
 			{
-				GameObject* newGameobject = _engineSystems._gameObjectFactory->CreateNewGameObject(true);
+				GameObject* newGameobject = MyFactory.CreateEmptyGameObject();//new GameObject();
 				newGameobject->AddComponent(ComponentId::CT_Identity);
 				InspectionImguiWindow::InspectGameObject(newGameobject);
 			}
@@ -219,7 +219,7 @@ void AssetsImguiWindow::Update()
 				std::string string1 = "Clone " + ObjPair.first;
 				if (ImGui::Button(string1.c_str()))
 				{
-					GameObject* newGameobject = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()[ObjPair.first]);
+					GameObject* newGameobject = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()[ObjPair.first]);
 					if(TransformComponent * tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
 						tmp->SetPos(Vector3::Vec3Zero);
 				}

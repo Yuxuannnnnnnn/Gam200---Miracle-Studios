@@ -5,3 +5,8 @@ void ParticleSystem::Update(double dt)
 {
 	(void)dt;
 }
+
+void ParticleSystem::Draw()
+{
+
+}

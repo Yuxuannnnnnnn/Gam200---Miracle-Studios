@@ -5,9 +5,6 @@
 
 #include <map>
 #include "GameObject/Components/Graphic/AnimationComponent.h"
-
-#include "IContainer.h"
-
 /* ------------------------------------------------------
 
 	loop through each animationcompoent, for each animation

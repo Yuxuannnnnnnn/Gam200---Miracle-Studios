@@ -95,3 +95,45 @@ void TransformComponent::SetModel(const float* in)
 {
 	_model = in;
 }
+
+
+void TransformComponent::Inspect()
+{
+	ImGui::Spacing();
+	ImGui::InputFloat2("Input Pos X, Y", _pos.m);
+	ImGui::Spacing();
+	ImGui::SliderFloat2("Slider Pos X, Y", _pos.m, -1000, 1000);
+
+
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	int renderLayer = _pos.m[2];
+	ImGui::InputInt("RenderLayer", &renderLayer);
+	if (renderLayer <= 10 && renderLayer >= 0)
+		_pos.m[2] = renderLayer;
+	else if (renderLayer > 10)
+		_pos.m[2] = 10;
+	else if (renderLayer < 0)
+		_pos.m[2] = 0;
+
+
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputFloat3("Input Scale X, Y, Z", _scale.m);
+	ImGui::Spacing();
+	ImGui::SliderFloat3("Slider Scale X, Y, Z", _scale.m, 0, 100);
+
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputFloat("Input Rotation Angle", &_rotationAngle);
+	ImGui::Spacing();
+	ImGui::SliderFloat("Slider Rotation Angle", &_rotationAngle, 0, 360);
+	ImGui::Spacing();
+
+}

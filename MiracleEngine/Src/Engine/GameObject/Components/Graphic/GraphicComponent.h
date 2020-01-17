@@ -1,6 +1,7 @@
 #pragma once
 #include "../../IComponent.h"
 #include "GameObject/IAllocator.h"
+#include "Tools/Resource/ResourceSystem.h"
 
 enum class TypeIdGraphic {
 	NONE = 0,
@@ -332,6 +333,6 @@ public:
 
 	unsigned& GetTypeId();
 
-	IComponent* CloneComponent() { return nullptr; }
+	GraphicComponent* CloneComponent() { return new GraphicComponent(*this); }
 };
 

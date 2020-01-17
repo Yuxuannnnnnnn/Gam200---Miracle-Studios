@@ -1,7 +1,5 @@
 #pragma once
-#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 #include "GameObject/Components/Logic/LogicComponent.h"
-#include "IContainer.h"
 
 #ifndef LOGICSYSTEM_H
 #define LOGICSYSTEM_H
@@ -9,7 +7,7 @@
 class LogicSystem final
 {
 public:
-	std::unordered_map<size_t, LogicComponent*> _ListLogicComponents;
+	//std::unordered_map<size_t, LogicComponent*> _ListLogicComponents;
 
 	LogicSystem() = default;
 	~LogicSystem() = default;

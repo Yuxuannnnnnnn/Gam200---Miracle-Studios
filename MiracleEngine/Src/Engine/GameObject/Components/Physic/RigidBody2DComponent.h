@@ -175,7 +175,7 @@ public:
 	void SetMass(float mass);
 	void SetType(bool type);
 
-	IComponent* CloneComponent() { return nullptr; }
+	RigidBody2DComponent* CloneComponent() { return new RigidBody2DComponent(*this); }
 };
 
 #endif

@@ -21,8 +21,48 @@ enum class ComponentId {
 
 	CT_TileMap,
 
-	CT_Count
+	CT_DataMove,
+
+	CT_Particle,
+	CT_ParticleSystem,
+
+	CT_Count,
+	
+	CT_ERROR
 };
+
+inline const char* ToRegisterID(ComponentId type)
+{
+	switch (type)
+	{
+	case ComponentId::CT_Identity:		return "Identity";
+
+	case ComponentId::CT_Transform:		return "Transform";
+	case ComponentId::CT_Graphic: 		return "Graphic";
+	case ComponentId::CT_Animation:		return "Animation";
+	case ComponentId::CT_Camera: 		return "Camera";
+	case ComponentId::CT_Font: 			return "Font";
+
+	case ComponentId::CT_RigidBody2D:		return "RigidBody2D";
+	case ComponentId::CT_CircleCollider2D: return "CircleCollider2D";
+	case ComponentId::CT_BoxCollider2D:	return "BoxCollider2D";
+	case ComponentId::CT_EdgeCollider2D:	return "EdgeCollider2D";
+
+	case ComponentId::CT_Logic:			return "Logic";
+
+	case ComponentId::CT_Audio:			return "Audio";
+
+	case ComponentId::CT_Button:			return "Button";
+	case ComponentId::CT_TileMap:		return "TileMap";
+
+	case ComponentId::CT_DataMove:		return "DataMove";
+
+	case ComponentId::CT_Particle:			return "Particle";
+	case ComponentId::CT_ParticleSystem:		return "ParticleSystem";
+
+	default:      return "None";
+	}
+}
 
 inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui
 {
@@ -48,6 +88,20 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 	case ComponentId::CT_Button:			return "ButtonComponent";
 	case ComponentId::CT_TileMap:		return "TileMapComponent";
 
+	case ComponentId::CT_DataMove:	return "DataMoveComponent";
+	
+	case ComponentId::CT_Particle:			return "ParticleComponent";
+	case ComponentId::CT_ParticleSystem:		return "ParticleSystemComponent";
+
 	default:      return "[Unknown TypeIdComponent]";
 	}
+}
+
+inline ComponentId ToComponentID(const std::string& type)
+{
+	if ("DataMove")
+		return ComponentId::CT_DataMove;
+	if ("DataMoveComponent")
+		return ComponentId::CT_DataMove;
+	return ComponentId::CT_ERROR;
 }

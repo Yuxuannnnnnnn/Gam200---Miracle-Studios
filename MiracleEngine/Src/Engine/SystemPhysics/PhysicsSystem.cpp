@@ -5,20 +5,6 @@ void PhysicsSystem::Update(double dt)
 {
 	UpdateVelocity(dt);
 	ApplyVelocityToObject(dt);
-
-
-	for (auto it : MyComponentManger._transformComponents)
-	{
-		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
-			continue;
-
-		if (!it.second->GetEnable())
-			continue;
-
-
-		UpdateTransformMartix(it.second);
-	}
-
 }
 
 
@@ -31,85 +17,67 @@ void PhysicsSystem::Draw()
 	CollisionDraw();
 }
 
-
-void PhysicsSystem::UpdateTransformMartix(TransformComponent* transform)
-{
-	// calculate model matrix = TRS
-
-	Mtx44 translate = Mtx44::CreateTranslation(transform->GetPos());
-	Mtx44 rotation = Mtx44::CreateRotationZ(-transform->GetRotate());
-	Mtx44 model = translate * rotation * Mtx44::CreateScale(transform->GetScale());
-
-	transform->SetModel(model.m);
-
-	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
-		glm::vec3(transformComp->GetScale()._x, transformComp->GetScale()._y, 1.0f));*/
-}
-
 /////////////////////////////////////////////////////////////////////////////
 void PhysicsSystem::UpdateVelocity(double dt)
 {
-	for (auto it : MyComponentManger._rigidbody2DComponent)
+	for (auto& it : GetComponentMap(RigidBody2D))
 	{
-		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
 			continue;
 
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
-			continue;
+		RigidBody2DComponent* obj = (RigidBody2DComponent*)it.second;
 
-		if (it.second->_static)
+		if (!obj->_componentEnable || obj->_static)
 			continue;
 
 		Vector3 newVel{ 0.f, 0.f , 0.f };
 
 		// newVel = a * dt + currVel;;
-		newVel = it.second->_appliedForce / it.second->_mass;
-		newVel = it.second->_velocity + newVel * (float)dt;
+		newVel = obj->_appliedForce / obj->_mass;
+		newVel = obj->_velocity + newVel * (float)dt;
 
 		// newVel = newVel * firction;
-		newVel = newVel * (1.f - it.second->_fictionVal);
+		newVel = newVel * (1.f - obj->_fictionVal);
 
-		it.second->_velocity = newVel;
+		obj->_velocity = newVel;
 
-		it.second->_appliedForce = Vector3{ 0.f,0.f,0.f };
+		obj->_appliedForce = Vector3{ 0.f,0.f,0.f };
 	}
 }
 
 void PhysicsSystem::ApplyVelocityToObject(double dt)
 {
-	for (auto it : MyComponentManger._rigidbody2DComponent)
+	for (auto& it : GetComponentMap(RigidBody2D))
 	{
-		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
 			continue;
 
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
-			continue;
+		RigidBody2DComponent* obj = (RigidBody2DComponent*)it.second;
 
-		if (it.second->_static)
+		if (!obj->_componentEnable || obj->_static)
 			continue;
 
 		// newPos = newVel * dt + currPos;
-		MyComponentManger._transformComponents[it.first]->GetPos() += it.second->_velocity * (float)dt;
+		((TransformComponent*)GetComponentMap(Transform)[it.first])->GetPos() += obj->_velocity * (float)dt;
 	}
 }
 
 void PhysicsSystem::RigidbodyDraw()
 {
-	for (auto it : MyComponentManger._rigidbody2DComponent)
+	for (auto& it : GetComponentMap(RigidBody2D))
 	{
-		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
 			continue;
 
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
+		RigidBody2DComponent* obj = (RigidBody2DComponent*)it.second;
+
+		if (!obj->_componentEnable || obj->_static)
 			continue;
 
-		if (it.second->_static)
-			continue;
+		Vector3 newVel = obj->_velocity.Normalized();
+		float length = obj->_velocity.SquaredLength();
 
-		Vector3 newVel = it.second->_velocity.Normalized();
-		float length = it.second->_velocity.SquaredLength();
-
-		TransformComponent* transform = MyComponentManger._transformComponents[it.first];
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.first];
 
 		if (length > 50.f)
 			length = 50.f;
@@ -125,7 +93,7 @@ void PhysicsSystem::RigidbodyDraw()
 
 void PhysicsSystem::AddForce(size_t uId, Vector3 forceDir, float force)
 {
-	RigidBody2DComponent* object = MyComponentManger._rigidbody2DComponent[uId];
+	RigidBody2DComponent* object = (RigidBody2DComponent*)GetComponentMap(RigidBody2D)[uId];
 
 	if (!object)
 		return;
@@ -136,8 +104,8 @@ void PhysicsSystem::AddForce(size_t uId, Vector3 forceDir, float force)
 
 void PhysicsSystem::AddForwardForce(size_t uId, float force)
 {
-	RigidBody2DComponent* object = MyComponentManger._rigidbody2DComponent[uId];
-	TransformComponent* transform = MyComponentManger._transformComponents[uId];
+	RigidBody2DComponent* object = (RigidBody2DComponent*)GetComponentMap(RigidBody2D)[uId];
+	TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[uId];
 
 	if (!object)
 		return;
@@ -160,121 +128,155 @@ void PhysicsSystem::CollisionUpdate(double dt)
 
 void PhysicsSystem::CollisionDraw()
 {
-	for (auto it : MyComponentManger._collider2dComponents)
+	for (auto& it : GetComponentMap(EdgeCollider2D))
 	{
-		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
 			continue;
 
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
+		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)it.second;
+
+		if (!object->_componentEnable)
 			continue;
 
-		UpdateColliderData(it.second);
+		UpdateColliderData(object);
 
-		switch (it.second->_type)
-		{
-		case (unsigned)ColliderType::EDGE_COLLIDER:
-		{
-			EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)it.second;
+		DebugRenderer::GetInstance().DrawLine(
+			object->m_pt0._x,
+			object->m_pt0._y,
+			object->m_pt1._x,
+			object->m_pt1._y);
 
-			DebugRenderer::GetInstance().DrawLine(
-				object->m_pt0._x,
-				object->m_pt0._y,
-				object->m_pt1._x,
-				object->m_pt1._y);
+		DebugRenderer::GetInstance().DrawLine(
+			object->m_origin._x,
+			object->m_origin._y,
+			object->m_origin._x + object->m_normal._x * 10.f,
+			object->m_origin._y + object->m_normal._y * 10.f);
+	}
 
-			DebugRenderer::GetInstance().DrawLine(
-				object->m_origin._x,
-				object->m_origin._y,
-				object->m_origin._x + object->m_normal._x * 10.f,
-				object->m_origin._y + object->m_normal._y * 10.f);
-			break;
-		}
-		case (unsigned)ColliderType::BOX_COLLIDER:
-		{
-			BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
+	for (auto& it : GetComponentMap(BoxCollider2D))
+	{
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+			continue;
 
-			DrawDebugLine(
-				object->mCorner[0]._x, object->mCorner[0]._y,
-				object->mCorner[1]._x, object->mCorner[1]._y);
-			DrawDebugLine(
-				object->mCorner[1]._x, object->mCorner[1]._y,
-				object->mCorner[2]._x, object->mCorner[2]._y);
-			DrawDebugLine(
-				object->mCorner[2]._x, object->mCorner[2]._y,
-				object->mCorner[3]._x, object->mCorner[3]._y);
-			DrawDebugLine(
-				object->mCorner[3]._x, object->mCorner[3]._y,
-				object->mCorner[0]._x, object->mCorner[0]._y);
+		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
 
-			DebugRenderer::GetInstance().DrawLine(
-				object->mOrigin._x, object->mOrigin._y,
-				object->mOrigin._x + object->mAxis[0]._x * 40.f,
-				object->mOrigin._y + object->mAxis[0]._y * 40.f);
-			DebugRenderer::GetInstance().DrawLine(
-				object->mOrigin._x, object->mOrigin._y,
-				object->mOrigin._x + object->mAxis[1]._x * 40.f,
-				object->mOrigin._y + object->mAxis[1]._y * 40.f);
-			break;
-		}
-		case (unsigned)ColliderType::CIRCLE_COLLIDER:
-		{
-			CircleCollider2DComponent* object = (CircleCollider2DComponent*)it.second;
+		if (!object->_componentEnable)
+			continue;
 
-			DebugRenderer::GetInstance().DrawCircle(
-				object->mCenPos._x, object->mCenPos._y,
-				object->mRadius);
-			break;
-		}
-		default:
-			break;
-		}
+		UpdateColliderData(object);
+
+		DrawDebugLine(
+			object->mCorner[0]._x, object->mCorner[0]._y,
+			object->mCorner[1]._x, object->mCorner[1]._y);
+		DrawDebugLine(
+			object->mCorner[1]._x, object->mCorner[1]._y,
+			object->mCorner[2]._x, object->mCorner[2]._y);
+		DrawDebugLine(
+			object->mCorner[2]._x, object->mCorner[2]._y,
+			object->mCorner[3]._x, object->mCorner[3]._y);
+		DrawDebugLine(
+			object->mCorner[3]._x, object->mCorner[3]._y,
+			object->mCorner[0]._x, object->mCorner[0]._y);
+
+		DebugRenderer::GetInstance().DrawLine(
+			object->mOrigin._x, object->mOrigin._y,
+			object->mOrigin._x + object->mAxis[0]._x * 40.f,
+			object->mOrigin._y + object->mAxis[0]._y * 40.f);
+		DebugRenderer::GetInstance().DrawLine(
+			object->mOrigin._x, object->mOrigin._y,
+			object->mOrigin._x + object->mAxis[1]._x * 40.f,
+			object->mOrigin._y + object->mAxis[1]._y * 40.f);
+	}
+
+	for (auto& it : GetComponentMap(CircleCollider2D))
+	{
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+			continue;
+
+		CircleCollider2DComponent* object = (CircleCollider2DComponent*)it.second;
+
+		if (!object->_componentEnable)
+			continue;
+
+		UpdateColliderData(object);
+
+		DebugRenderer::GetInstance().DrawCircle(
+			object->mCenPos._x, object->mCenPos._y,
+			object->mRadius);
 	}
 }
 
 void PhysicsSystem::UpdateCollision(double dt)
 {
-	for (auto it : MyComponentManger._collider2dComponents)
+	_allEnableColliders.clear();
+
+	for (auto& it : GetComponentMap(EdgeCollider2D))
 	{
-		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
 			continue;
 
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
+		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)it.second;
+
+		if (!object->_componentEnable)
 			continue;
 
-		UpdateColliderData(it.second);
+		UpdateColliderData(object);
+
+		_allEnableColliders.push_back(object);
 	}
 
-	std::unordered_map<size_t, Collider2D* >::iterator it;
+	for (auto& it : GetComponentMap(BoxCollider2D))
+	{
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+			continue;
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = MyComponentManger._collider2dComponents;
-		!tempList.empty();
-		tempList.erase(it))
+		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
+
+		if (!object->_componentEnable)
+			continue;
+
+		UpdateColliderData(object);
+
+		_allEnableColliders.push_back(object);
+	}
+
+	for (auto& it : GetComponentMap(CircleCollider2D))
+	{
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+			continue;
+
+		CircleCollider2DComponent* object = (CircleCollider2DComponent*)it.second;
+
+		if (!object->_componentEnable)
+			continue;
+
+		UpdateColliderData(object);
+
+		_allEnableColliders.push_back(object);
+	}
+
+	std::vector<Collider2D*>::iterator it;
+
+	for (std::vector<Collider2D*> tempList = _allEnableColliders; !tempList.empty(); tempList.erase(it))
 	{
 		it = tempList.begin();
 
-		if (it->second->GetParentId() < 1000 || it->second->GetParentPtr()->GetDestory())
+		if ((*it)->_type == (unsigned)ColliderType::NONE_COLLIDER ||
+			(ColliderTag)(*it)->_tag == ColliderTag::BUILDING ||
+			(ColliderTag)(*it)->_tag == ColliderTag::EDGES)
 			continue;
 
-		if (!it->second->GetEnable() || !it->second->_componentEnable ||
-			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER ||
-			(ColliderTag)it->second->_tag == ColliderTag::BUILDING ||
-			(ColliderTag)it->second->_tag == ColliderTag::EDGES)
-			continue;
-
-		for (auto it2 : tempList)
+		for (auto& it2 : tempList)
 		{
-			if (it2.second->GetParentId() < 1000 || it2.second->GetParentPtr()->GetDestory())
+			if (it2->GetEnable() || !it2->_componentEnable || (*it) == it2 ||
+				(ColliderTag)it2->_tag == ColliderTag::BUILDING ||
+				(ColliderTag)it2->_tag == ColliderTag::EDGES)
 				continue;
 
-			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first ||
-				(ColliderTag)it2.second->_tag == ColliderTag::BUILDING ||
-				(ColliderTag)it2.second->_tag == ColliderTag::EDGES)
+			if (!_collisionTable.CheckCollisionTable((ColliderTag)(*it)->_tag, (ColliderTag)it2->_tag))
 				continue;
 
-			if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, (ColliderTag)it2.second->_tag))
-				continue;
-
-			CollisionCheckResponse(it->second, it2.second, dt);
+			CollisionCheckResponse(*it, it2, dt);
 		}
 	}
 }
@@ -282,69 +284,57 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 void PhysicsSystem::UpdateStaticCollision(double dt)
 {
-	std::unordered_map<size_t, Collider2D* >::iterator it;
+	std::vector<Collider2D*>::iterator it;
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = MyComponentManger._collider2dComponents;
-		!tempList.empty();
-		tempList.erase(it))
+	for (std::vector<Collider2D*> tempList = tempList; !tempList.empty(); tempList.erase(it))
 	{
-
 		it = tempList.begin();
 
-		if (it->second->GetParentId() < 1000 || it->second->GetParentPtr()->GetDestory())
+		if ((*it)->_type == (unsigned)ColliderType::NONE_COLLIDER ||
+			(ColliderTag)(*it)->_tag == ColliderTag::BUILDING ||
+			(ColliderTag)(*it)->_tag == ColliderTag::EDGES)
 			continue;
 
-		if (!it->second->GetEnable() || !it->second->_componentEnable ||
-			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER ||
-			(ColliderTag)it->second->_tag == ColliderTag::BUILDING)
+		if (!_collisionTable.CheckCollisionTable((ColliderTag)(*it)->_tag, ColliderTag::BUILDING))
 			continue;
 
-		if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, ColliderTag::BUILDING))
-			continue;
-
-		TransformComponent* transform = MyComponentManger._transformComponents[it->first];
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[(*it)->GetParentId()];
 
 		unsigned tileId = _collisionMap.GetTileOnMap(transform->GetPos());
 
 		// center
 		if (_collisionMap.GetTileType(tileId) == TileType::HARD_WALL)
 		{
-			Collider2D* other = MyComponentManger._collider2dComponents[_collisionMap.GetTileUId(tileId)];
-			CollisionCheckResponse(it->second, other, dt);
+			Collider2D* other = (BoxCollider2DComponent*)GetComponentMap(BoxCollider2D)[_collisionMap.GetTileUId(tileId)];
+			CollisionCheckResponse(*it, other, dt);
 		}
 
-		CollisionCheckTile(it->second, tileId, dt);
+		CollisionCheckTile(*it, tileId, dt);
 	}
 
-	for (std::unordered_map<size_t, Collider2D* > tempList = MyComponentManger._collider2dComponents;
-		!tempList.empty();
-		tempList.erase(it))
+	for (std::vector<Collider2D*> tempList = tempList; !tempList.empty(); tempList.erase(it))
 	{
 		it = tempList.begin();
 
-		if (it->second->GetParentId() < 1000 || it->second->GetParentPtr()->GetDestory())
+		if ((*it)->_type == (unsigned)ColliderType::NONE_COLLIDER ||
+			(ColliderTag)(*it)->_tag == ColliderTag::BUILDING ||
+			(ColliderTag)(*it)->_tag == ColliderTag::EDGES)
 			continue;
 
-		if (!it->second->GetEnable() || !it->second->_componentEnable ||
-			it->second->_type == (unsigned)ColliderType::NONE_COLLIDER ||
-			(ColliderTag)it->second->_tag == ColliderTag::BUILDING)
-			continue;
-
-		for (auto it2 : tempList)
+		for (auto& it2 : tempList)
 		{
-			if (it2.second->GetParentId() < 1000 || it2.second->GetParentPtr()->GetDestory())
+			if (*it == it2 ||
+				(ColliderTag)it2->_tag == ColliderTag::BUILDING ||
+				(ColliderTag)it2->_tag == ColliderTag::EDGES)
 				continue;
 
-			if (!it2.second->GetEnable() || !it2.second->_componentEnable || it->first == it2.first ||
-				(ColliderTag)it2.second->_tag != ColliderTag::EDGES)
+			if (!_collisionTable.CheckCollisionTable((ColliderTag)(*it)->_tag, ColliderTag::EDGES))
 				continue;
 
-			if (!_collisionTable.CheckCollisionTable((ColliderTag)it->second->_tag, ColliderTag::EDGES))
-				continue;
-
-			CollisionCheckResponse(it->second, it2.second, dt);
+			CollisionCheckResponse(*it, it2, dt);
 		}
 	}
+
 }
 
 int PhysicsSystem::CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir, unsigned checked)
@@ -357,7 +347,7 @@ int PhysicsSystem::CollisionCheckTile(Collider2D* object, unsigned centerTileId,
 
 		if (neighbourTileType == TileType::HARD_WALL)
 		{
-			Collider2D* other = MyComponentManger._collider2dComponents[_collisionMap.GetTileUId(neighbourTileId)];
+			Collider2D* other = (BoxCollider2DComponent*)GetComponentMap(BoxCollider2D)[_collisionMap.GetTileUId(neighbourTileId)];
 			CollisionCheckResponse(object, other, dt);
 			checked++;
 		}
@@ -371,17 +361,17 @@ int PhysicsSystem::CollisionCheckTile(Collider2D* object, unsigned centerTileId,
 
 void PhysicsSystem::CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt)
 {
-	TransformComponent* transform = MyComponentManger._transformComponents[collider1->GetParentId()];
-	TransformComponent* transform2 = MyComponentManger._transformComponents[collider2->GetParentId()];
+	TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider1->GetParentId()];
+	TransformComponent* transform2 = (TransformComponent*)GetComponentMap(Transform)[collider2->GetParentId()];
 
 	RigidBody2DComponent* rigidbody = nullptr;
 	RigidBody2DComponent* rigidbody2 = nullptr;
 
 	if (collider1->_attachedRigidboy)
-		rigidbody = MyComponentManger._rigidbody2DComponent[collider1->GetParentId()];
+		rigidbody = (RigidBody2DComponent*)GetComponentMap(RigidBody2D)[collider1->GetParentId()];
 
 	if (collider2->_attachedRigidboy)
-		rigidbody2 = MyComponentManger._rigidbody2DComponent[collider2->GetParentId()];
+		rigidbody2 = (RigidBody2DComponent*)GetComponentMap(RigidBody2D)[collider2->GetParentId()];
 
 	if (collider1->_type == (unsigned)ColliderType::BOX_COLLIDER)
 	{
@@ -461,7 +451,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::EDGE_COLLIDER:
 	{
 		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)collider;
-		TransformComponent* transform = MyComponentManger._transformComponents[collider->GetParentId()];
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
 
 		float dir = transform->GetRotate();
 		object->m_origin = transform->GetPos();
@@ -485,7 +475,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::BOX_COLLIDER:
 	{
 		BoxCollider2DComponent* object = (BoxCollider2DComponent*)collider;
-		TransformComponent* transform = MyComponentManger._transformComponents[collider->GetParentId()];
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
 
 		object->mScale = transform->GetScale();
 		object->mOrigin = transform->GetPos();
@@ -538,7 +528,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	case (unsigned)ColliderType::CIRCLE_COLLIDER:
 	{
 		CircleCollider2DComponent* object = (CircleCollider2DComponent*)collider;
-		TransformComponent* transform = MyComponentManger._transformComponents[collider->GetParentId()];
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
 
 		object->mCenPos = transform->GetPos();
 		object->mRadius = transform->GetScale()._y * 0.5f;
@@ -553,20 +543,22 @@ void PhysicsSystem::ButtonUpdate()
 {
 	Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
 
-	for (auto it : MyComponentManger._buttonComponent)
+	for (auto& it : GetComponentMap(Button))
 	{
-		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
 			continue;
 
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
+		ButtonComponent* object = (ButtonComponent*)it.second;
+
+		if (!object->_componentEnable)
 			continue;
 
-		_engineSystems._physicsSystem->UpdateColliderData(it.second);
+		_engineSystems._physicsSystem->UpdateColliderData(object);
 
-		if (TestBoxVsPoint(*it.second, pos))
+		if (TestBoxVsPoint(*object, pos))
 		{
 			if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_LBUTTON) ||
-				(EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_LBUTTON) && it.second->_pressed))
+				(EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_LBUTTON) && object->_pressed))
 			{
 				EventHandler::GetInstance().AddMouseClickEvent(it.first);
 			}
@@ -578,17 +570,17 @@ void PhysicsSystem::ButtonUpdate()
 
 void PhysicsSystem::ButtonDraw()
 {
-	for (auto it : MyComponentManger._buttonComponent)
+	for (auto it : GetComponentMap(Button))
 	{
-		if (it.second->GetParentId() < 1000 || it.second->GetParentPtr()->GetDestory())
+		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
 			continue;
 
-		if (!it.second->GetEnable() || !it.second->_componentEnable)
+		ButtonComponent* object = (ButtonComponent*)it.second;
+
+		if (!object->_componentEnable)
 			continue;
 
-		_engineSystems._physicsSystem->UpdateColliderData(it.second);
-
-		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
+		_engineSystems._physicsSystem->UpdateColliderData(object);
 
 		DrawDebugLine(
 			object->mCorner[0]._x, object->mCorner[0]._y,

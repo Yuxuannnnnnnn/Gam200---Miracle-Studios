@@ -6,7 +6,7 @@
 
 class ParticleSystemComponent : public IComponent
 {
-private:
+public:
 	size_t _startAmount;	// amount of particle to be create at the start of the system;
 	size_t _limitAmount;	// amount of particle to be alive by this system
 	size_t _releaseAmount;	// amount of particle can be by this system
@@ -87,8 +87,8 @@ public:
 	//Constructor
 	ParticleSystemComponent();
 	virtual ~ParticleSystemComponent();
-	ParticleSystemComponent(const ParticleSystemComponent& rhs);
-	ParticleSystemComponent& operator=(const ParticleSystemComponent& rhs);
+	ParticleSystemComponent(const ParticleSystemComponent& rhs) = default;
+	ParticleSystemComponent& operator=(const ParticleSystemComponent& rhs) = default;
 
-	IComponent* CloneComponent() { return nullptr; }
+	ParticleSystemComponent* CloneComponent() { return new ParticleSystemComponent(*this); }
 };

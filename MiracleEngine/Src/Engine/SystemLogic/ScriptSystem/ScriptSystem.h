@@ -8,6 +8,10 @@
 #include <string>
 #include "Tools/MathLib/Vector2.h"
 #include "Tools/MathLib/Vector3.h"
+// Scripts
+#include "LuaScriptTest.h"
+
+
 
 static sol::state lua; // replace with the one in ScriptSYS
 static sol::protected_function_result pfr;
@@ -17,8 +21,9 @@ class ScriptSystem// : public ISystem
 {
 	/*
 	Console.WriteStr("string")
-	Console.WriteInt(int i)
+	Console.WriteNum(double i) // downcasting seems to throw errors, so using double
 	Console.WriteBool(bool b)
+
 	Input.GetKeyDown("KEYB_S")
 	Input.GetKeyUp("")
 	Input.GetKeyHold("")
@@ -29,12 +34,15 @@ class ScriptSystem// : public ISystem
 public:
 	sol::table Table_Input; // Mouse & Keyboard
 	sol::table Table_Console; // Console I/O, no Input yet
+	sol::table Table_Anim; // Animation
 	sol::table Table_Math;
 
-
-	std::unordered_map<std::string, std::string> _ScriptsAll;
+	// scriptName, Script*
+	std::unordered_map<std::string, LuaScriptBase*> _ScriptsAll;
+	// scriptName, vec::dataCompName
 	std::unordered_map<std::string, std::vector<std::string>> _TableScriptData;
 	void Create_TableScriptData();
+	void Create_Scripts();
 
 	void RunScript(GameObject* src, std::string& scriptName);
 
@@ -44,13 +52,17 @@ public:
 	void BindMathVector3();
 	void BindMouseAndKeyboard();
 	void BindMiscFunctions();
+	void BindDataCompValues_Inital(); // this will init a sol::table Data_Table where all DataComp values are stored
+	//void BindDataCompValues_Runtime(sol::state& lua, GameObject* src, std::string& scriptName); // this will be called as first linei n RunScript()
 
 	void Test_DataCompEditing();
 	void Test_BasicFuncitonality();
 	int testfunc();
 
-
-
+	void Print(std::string str) { std::cout << str; }
+	void Print(int i) { std::cout << i; }
+	void Print(double i) { std::cout << i; }
+	void Print(float i) { std::cout << i; }
 
 	//--------------------------------------------------
 	ScriptSystem()

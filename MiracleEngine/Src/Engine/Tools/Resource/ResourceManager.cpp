@@ -23,11 +23,11 @@ ResourceManager::~ResourceManager()
 {
 	ClearAllResources();
 }
-void ResourceManager::AddTexture2DResourceList(NamePathMap list)
+void ResourceManager::AddTexture2DResourceList(const NamePathMap& list)
 {
 	if (_editerMode)
 	{
-		for (auto it : list)
+		for (auto& it : list)
 			AddNewTexture2DResource(NamePath{ it.first, it.second });
 	}
 	else
@@ -37,11 +37,11 @@ void ResourceManager::AddTexture2DResourceList(NamePathMap list)
 
 }
 
-void ResourceManager::AddShaderResourceList(NamePairMap list)
+void ResourceManager::AddShaderResourceList(const NamePairMap& list)
 {
 	if (_editerMode)
 	{
-		for (auto it : list)
+		for (auto& it : list)
 			AddNewShaderResource(NamePair{ it.first, it.second });
 	}
 	else
@@ -50,11 +50,11 @@ void ResourceManager::AddShaderResourceList(NamePairMap list)
 	}
 }
 
-void ResourceManager::AddFontResourceList(NamePathMap list)
+void ResourceManager::AddFontResourceList(const NamePathMap& list)
 {
 	if (_editerMode)
 	{
-		for (auto it : list)
+		for (auto& it : list)
 			AddNewFontResource(NamePath{ it.first, it.second });
 	}
 	else
@@ -63,11 +63,11 @@ void ResourceManager::AddFontResourceList(NamePathMap list)
 	}
 }
 
-void ResourceManager::AddAudioResourceList(NamePathMap list)
+void ResourceManager::AddAudioResourceList(const NamePathMap& list)
 {
 	if (_editerMode)
 	{
-		for (auto it : list)
+		for (auto& it : list)
 			AddNewAudioResource(NamePath{ it.first, it.second });
 	}
 	else
@@ -76,11 +76,11 @@ void ResourceManager::AddAudioResourceList(NamePathMap list)
 	}
 }
 
-void ResourceManager::AddAnimationResourceList(NamePathMap list)
+void ResourceManager::AddAnimationResourceList(const NamePathMap& list)
 {
 	if (_editerMode)
 	{
-		for (auto it : list)
+		for (auto& it : list)
 			AddNewAnimationResource(NamePath{ it.first, it.second });
 	}
 	else
@@ -89,11 +89,11 @@ void ResourceManager::AddAnimationResourceList(NamePathMap list)
 	}
 }
 
-void ResourceManager::AddPrototypeResourceList(NamePathMap_unordered list)
+void ResourceManager::AddPrototypeResourceList(const NamePathMap_unordered& list)
 {
 	if (_editerMode)
 	{
-		for (auto it : list)
+		for (auto& it : list)
 			AddNewPrototypeResource(NamePath{ it.first, it.second });
 	}
 	else
@@ -102,7 +102,20 @@ void ResourceManager::AddPrototypeResourceList(NamePathMap_unordered list)
 	}
 }
 
-bool ResourceManager::AddNewTexture2DResource(NamePath list)
+void ResourceManager::AddSceneList(const NamePathMap_unordered& list)
+{
+	if (_editerMode)
+	{
+		for (auto& it : list)
+			AddNewScene(NamePath{ it.first, it.second });
+	}
+	else
+	{
+		MyResourceSystem.AddPrototypeResourceList(list);
+	}
+}
+
+bool ResourceManager::AddNewTexture2DResource(const NamePath& list)
 {
 	if (MyResourceSystem.GetTexture2DResource(list.first) || MyResourceSystem.AddNewTexture2DResource(list)) // check resource created before?
 	{
@@ -119,7 +132,7 @@ bool ResourceManager::AddNewTexture2DResource(NamePath list)
 	return false;
 }
 
-bool ResourceManager::AddNewShaderResource(NamePair list)
+bool ResourceManager::AddNewShaderResource(const NamePair& list)
 {
 	if (MyResourceSystem.GetShaderResource(list.first) || MyResourceSystem.AddNewShaderResource(list)) // check resource created before?
 	{
@@ -135,7 +148,7 @@ bool ResourceManager::AddNewShaderResource(NamePair list)
 	return false;
 }
 
-bool ResourceManager::AddNewFontResource(NamePath list)
+bool ResourceManager::AddNewFontResource(const NamePath& list)
 {
 	if (MyResourceSystem.GetFontResource(list.first) || MyResourceSystem.AddNewFontResource(list)) // check resource created before?
 	{
@@ -155,7 +168,7 @@ bool ResourceManager::AddNewFontResource(NamePath list)
 	return false;
 }
 
-bool ResourceManager::AddNewAudioResource(NamePath list)
+bool ResourceManager::AddNewAudioResource(const NamePath& list)
 {
 	if (MyResourceSystem.GetSoundResource(list.first) || MyResourceSystem.AddNewAudioResource(list)) // check resource created before?
 	{
@@ -171,7 +184,7 @@ bool ResourceManager::AddNewAudioResource(NamePath list)
 	return false;
 }
 
-bool ResourceManager::AddNewAnimationResource(NamePath list)
+bool ResourceManager::AddNewAnimationResource(const NamePath& list)
 {
 	if (MyResourceSystem.GetAnimationResource(list.first) || MyResourceSystem.AddNewAnimationResource(list)) // check resource created before?
 	{
@@ -188,7 +201,7 @@ bool ResourceManager::AddNewAnimationResource(NamePath list)
 	return false;
 }
 
-bool ResourceManager::AddNewPrototypeResource(NamePath list)
+bool ResourceManager::AddNewPrototypeResource(const NamePath& list)
 {
 	if (MyResourceSystem.GetPrototypeResource(list.first) || MyResourceSystem.AddNewPrototypeResource(list)) // check resource created before?
 	{
@@ -204,7 +217,20 @@ bool ResourceManager::AddNewPrototypeResource(NamePath list)
 	return false;
 }
 
-Texture2D* ResourceManager::GetTexture2DResource(std::string name)
+bool ResourceManager::AddNewScene(const NamePath& list)
+{
+	if (MyResourceSystem.AddNewScene(list)) // check resource created before?
+	{
+		if (_editerMode)
+			_mainContainer._SceneList.insert(list);
+
+		return true;
+	}
+
+	return false;
+}
+
+Texture2D* ResourceManager::GetTexture2DResource(const std::string& name)
 {
 	if (_editerMode)
 	{
@@ -217,7 +243,7 @@ Texture2D* ResourceManager::GetTexture2DResource(std::string name)
 	return MyResourceSystem.GetTexture2DResource(name);
 }
 
-Shader* ResourceManager::GetShaderResource(std::string name)
+Shader* ResourceManager::GetShaderResource(const std::string& name)
 {
 	if (_editerMode)
 	{
@@ -230,7 +256,7 @@ Shader* ResourceManager::GetShaderResource(std::string name)
 	return MyResourceSystem.GetShaderResource(name);
 }
 
-FontRenderer* ResourceManager::GetFontResource(std::string name)
+FontRenderer* ResourceManager::GetFontResource(const std::string& name)
 {
 	if (_editerMode)
 	{
@@ -243,7 +269,7 @@ FontRenderer* ResourceManager::GetFontResource(std::string name)
 	return MyResourceSystem.GetFontResource(name);
 }
 
-Sound* ResourceManager::GetSoundResource(std::string name)
+Sound* ResourceManager::GetSoundResource(const std::string& name)
 {
 	if (_editerMode)
 	{
@@ -256,7 +282,7 @@ Sound* ResourceManager::GetSoundResource(std::string name)
 	return MyResourceSystem.GetSoundResource(name);
 }
 
-Animation* ResourceManager::GetAnimationResource(std::string name)
+Animation* ResourceManager::GetAnimationResource(const std::string& name)
 {
 	if (_editerMode)
 	{
@@ -269,7 +295,7 @@ Animation* ResourceManager::GetAnimationResource(std::string name)
 	return MyResourceSystem.GetAnimationResource(name);
 }
 
-GameObject* ResourceManager::GetPrototypeResource(std::string name)
+GameObject* ResourceManager::GetPrototypeResource(const std::string& name)
 {
 	if (_editerMode)
 	{

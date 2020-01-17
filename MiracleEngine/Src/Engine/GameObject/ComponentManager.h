@@ -18,34 +18,30 @@
 #include "GameObject/Components/AudioComponent.h"
 #include "GameObject/Components/ButtonComponent.h"
 #include "GameObject/Components/IdentityComponent.h"
-#include "GameObject/Components/ImGuizmoComponent.h"
 #include "GameObject/Components/TileMapComponent.h"
 
 #include "GameObject/ComponentCreator.h"
 
 class ComponentManager final
 {
-public:
-	std::unordered_map < size_t, IdentityComponent* >	_IdentityComponents;	//Array of Components
-
-	std::unordered_map <size_t, AudioComponent*>		_audioComponent;
-	std::unordered_map <size_t, ButtonComponent*>		_buttonComponent;
-	std::unordered_map <size_t, PickingCollider*>		_imGuizmoComponent;
-	std::unordered_map <size_t, TileMapComponent*>		_TileMapComponents;
-
-	std::unordered_map < size_t, AnimationComponent*>	_AnimationComponents;
-	std::unordered_map < size_t, CameraComponent*>		_CameraComponents;
-	std::unordered_map <size_t, FontComponent*>			_FontComponent;
-	std::unordered_map < size_t, GraphicComponent* >	_graphicComponents;
-	std::unordered_map < size_t, TransformComponent*>	_transformComponents;
-	std::unordered_map < size_t, UIComponent*>			_uiComponents;
-	
-	std::unordered_map < size_t, LogicComponent* >		_logicComponents;
-
-	std::unordered_map < size_t, Collider2D* >			_collider2dComponents;
-	std::unordered_map < size_t, RigidBody2DComponent* >			_rigidbody2DComponent;
-
 	std::unordered_map< ComponentId, std::unordered_map<size_t, IComponent*>* > _componentContainers;
+
+public:
+	ComponentManager() {}
+	~ComponentManager()
+	{
+		for (auto& it : _componentContainers)
+		{
+			for (auto& it2 : *(it.second))
+			{
+				delete it2.second;
+			}
+
+			delete it.second;
+		}
+
+		_componentContainers.clear();
+	}
 
 	void AddNewComponentContainer(ComponentId tpyeId)
 	{
@@ -62,6 +58,19 @@ public:
 
 		return it->second;
 	}
+
+	void ClearAllComponents()
+	{
+		for (auto& it : _componentContainers)
+		{
+			for (auto& it2 : *(it.second))
+			{
+				delete it2.second;
+			}
+
+			it.second->clear();
+		}
+	}
 };
 
-#define GetComponentMap(type) GetComponentContainer( type##_COMPONENT )
+#define GetComponentMap(type) (*EngineSystems::GetInstance()._componentManager->GetComponentContainer(ComponentId::CT_##type))

@@ -22,8 +22,9 @@ GameObject* Factory::BuildAndSerialize(const std::string& filename)
 
 GameObject* Factory::CloneGameObject(GameObject* gameobject)
 {
-	GameObject* clonedObject = gameobject->Clone();
-	clonedObject->Set_uID(++_lastGameObjectId);
+	GameObject* clonedObject = gameobject->Clone(++_lastGameObjectId);
+	_gameObjectIdMap.insert({ clonedObject->Get_uID(),clonedObject });
+
 	return clonedObject;
 }
 
@@ -66,6 +67,9 @@ void Factory::DestroyAll()
 GameObject* Factory::CreateEmptyGameObject()
 {
 	GameObject* gameObject = new GameObject(++_lastGameObjectId);
+
+	_gameObjectIdMap.insert({ gameObject->Get_uID(),gameObject });
+
 	return gameObject;
 }
 
@@ -78,7 +82,6 @@ IComponent* Factory::CreateEmptyComponent(const std::string& name)
 
 	return nullptr;
 }
-
 
 void Factory::AddComponentCreator(const std::string& name, ComponentCreator* creator)
 {
@@ -112,10 +115,10 @@ void Factory::SerialiseLevel(std::string FileName)
 
 
 	//Serialise BinaryMap - Used creating Static gameobjects on screen & collision data & AI node Map
-	//Serialise Mobile GameObjects with components 
+	//Serialise Mobile GameObjects with components
 		//Player components
 
-#ifndef LEVELEDITOR 
+#ifndef LEVELEDITOR
 //Serialise Prototypes
 	//EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
 
@@ -134,7 +137,7 @@ void Factory::SerialiseLevel(std::string FileName)
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		EngineSystems::GetInstance()._prefabFactory->SerialiseAllPrefabAssets(ResourceList1);
+		MyFactory.SerialiseAllPrefabAssets(ResourceList1);
 		ResourceList1.clear();
 	}
 
@@ -149,7 +152,7 @@ void Factory::SerialiseLevel(std::string FileName)
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		ResourceManager::GetInstance().AddTexture2DResourceList(ResourceList);
+		MyResourceSystem.AddTexture2DResourceList(ResourceList);
 		ResourceList.clear();
 	}
 	if (Level.HasMember("AnimationDataFilesPaths"))
@@ -161,7 +164,7 @@ void Factory::SerialiseLevel(std::string FileName)
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		ResourceManager::GetInstance().AddAnimationResourceList(ResourceList);
+		MyResourceSystem.AddAnimationResourceList(ResourceList);
 		ResourceList.clear();
 	}
 	if (Level.HasMember("AudioFilesPaths"))
@@ -174,7 +177,7 @@ void Factory::SerialiseLevel(std::string FileName)
 			//std::cout << "FileName" << fileName << std::endl;
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		ResourceManager::GetInstance().AddAudioResourceList(ResourceList);
+		MyResourceSystem.AddAudioResourceList(ResourceList);
 		ResourceList.clear();
 	}
 
@@ -195,7 +198,7 @@ void Factory::SerialiseLevel(std::string FileName)
 				fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
 				vertFrag.first = filePath;
 				ShaderResource.insert(std::pair<std::string, VertFrag>(fileName, vertFrag));
-}
+			}
 			else if (filePath.find(".frag") != std::string::npos)
 			{
 				//size_t namesize = filePath.find_last_of(".frag") - 5 - filePath.find_last_of("\\/");
@@ -203,7 +206,7 @@ void Factory::SerialiseLevel(std::string FileName)
 				vertFrag.second = filePath;
 			}
 		}
-		ResourceManager::GetInstance().AddShaderResourceList(ShaderResource);
+		MyResourceSystem.AddShaderResourceList(ShaderResource);
 		ShaderResource.clear();
 	}
 
@@ -218,7 +221,7 @@ void Factory::SerialiseLevel(std::string FileName)
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		ResourceManager::GetInstance().AddFontResourceList(ResourceList);
+		MyResourceSystem.AddFontResourceList(ResourceList);
 		ResourceList.clear();
 	}
 #endif
@@ -234,7 +237,7 @@ void Factory::SerialiseLevel(std::string FileName)
 	//		//tileMapDoc.SetObject();
 	//		//tileMapDoc.CopyFrom(Level["AllTileMaps"][i], tileMapDoc.GetAllocator());
 
-	//		//rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document	
+	//		//rapidjson::StringBuffer buf;							//buffer -  to output from the Json Document
 	//		//rapidjson::Writer<rapidjson::StringBuffer> writer(buf);	//Writer handler - that contains the stringbuffer
 	//		//tileMapDoc.Accept(writer);									//Output as json text into stringbuffer via Writer
 	//		//std::string json(buf.GetString(), buf.GetSize());		//convert stringbuffer to std::string
@@ -242,10 +245,10 @@ void Factory::SerialiseLevel(std::string FileName)
 	//		//file << json;							//Write std::string type into the file
 
 	//		GameObject* tileMap = CloneGameObject(EngineSystems::GetInstance()._prefabFactory->GetPrototypeList()["TileMap"]);
-	//		
+	//
 	//		//TileMapComponent* tmCom = dynamic_cast<TileMapComponent*>(tileMap->GetComponent(ComponentId::TILEMAP_COMPONENT));
 	//		//tmCom->SerialiseComponent(tileMapInfo);
-	//		//TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::TRANSFORM_COMPONENT));
+	//		//TransformComponent* tfCom = dynamic_cast<TransformComponent*>(tileMap->GetComponent(ComponentId::CT_Transform));
 	//		//tfCom->SerialiseComponent(tileMapInfo);
 	//		tileMap->Serialise(tileMapInfo);
 	//	}
@@ -260,7 +263,7 @@ void Factory::SerialiseLevel(std::string FileName)
 
 			std::string name = datafile["ObjectType"].GetString();
 			//name += ".json";
-			GameObject* tmp2 = MyResourceManager.GetPrototypeResource(name);
+			GameObject* tmp2 = MyResourceSystem.GetPrototypeResource(name);
 			GameObject* tmp = CloneGameObject(tmp2);
 
 			tmp->Serialise(datafile);
@@ -278,19 +281,17 @@ void Factory::SerialiseLevel(std::string FileName)
 			tmp->Serialise(datafile);
 		}
 	}
-
 }
 
 
 //For Level Editor Only
 void Factory::De_SerialiseLevel(std::string filename)
 {
-
 	//1. Deserialise the Resources first
-		//Deserialise Prototypes Resource 
+		//Deserialise Prototypes Resource
 			//- Check through the Identity Components of all Objects
 			//- The ObjectType in the IdentityComponent will be used to save a Prototype
-			//= Get the Prototype file Path from the PrototypeList 
+			//= Get the Prototype file Path from the PrototypeList
 		//Deserialise Texture Resource
 			//- Check through all the graphic Component for the texture File Name
 			//- Get the File path of the textures from the Resource Manager
@@ -309,9 +310,9 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 	//2. Deserialise GameObjects in Scene //Clonable Game Objects & Non-Clonable Game Objects
 				//If Prototype list cannot find the Object, then save GameObject as NonClonableObjects array and save every single component data of the object as well
-				//else If Prototype list can find the Object, save objecttype under ClonableObjects array 
+				//else If Prototype list can find the Object, save objecttype under ClonableObjects array
 					//Search through the Component list of the Clonable Object and compare with the prototype
-						//Check if the prototype has the component that the clonable object has. 
+						//Check if the prototype has the component that the clonable object has.
 							//If prototype has the component, then check if the component data is the same as the Object.
 								//If component data is same then, do not need to list the component in the scene file.
 								//else if there is a component data that is different, list the component name and the data in the component in the scene file
@@ -320,23 +321,18 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 	DeSerialiser SceneFile(filename);
 
-	//Deserialise Prototypes Resource 
+	//Deserialise Prototypes Resource
 	//- Check through the Identity Components of all Objects
 	//- The ObjectType in the IdentityComponent will be used to save a Prototype
-	//= Get the Prototype file Path from the PrototypeList 
+	//= Get the Prototype file Path from the PrototypeList
 
 	std::vector<std::string> PrototypeResourcePathList;
 	rapidjson::Value PrototypesFilePaths;
 	PrototypesFilePaths.SetArray();
 
-	for (auto& IdComPair : MyComponentManger._IdentityComponents)
+	for (auto& IdComPair : GetComponentMap(Identity))
 	{
-		if (IdComPair.first < 1000)
-		{
-			continue;
-		}
-
-		std::string ObjType = IdComPair.second->ObjectType();
+		std::string ObjType = ((IdentityComponent*)IdComPair.second)->ObjectType();
 		//ObjType += ".json";
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
 		if (MyResourceSystem.GetPrototypeResource(ObjType))
@@ -357,7 +353,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 		strVal.SetString(prototypeName.c_str(), prototypeName.length(), SceneFile.Allocator());
 		PrototypesFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
-	//After Going thru the GameObjects list, the PrototypesFilePaths list is finalised 
+	//After Going thru the GameObjects list, the PrototypesFilePaths list is finalised
 	SceneFile.AddMember("PrototypesFilePaths", PrototypesFilePaths);
 
 
@@ -378,14 +374,10 @@ void Factory::De_SerialiseLevel(std::string filename)
 	rapidjson::Value ShaderFilePaths;
 	ShaderFilePaths.SetArray();
 
-	for (auto& IdGrapPair : MyComponentManger._graphicComponents)
+	for (auto& IdGrapPair : GetComponentMap(Graphic))
 	{
-		if (IdGrapPair.first < 1000)
-		{
-			continue;
-		}
 
-		std::string TextureFile = IdGrapPair.second->GetFileName();
+		std::string TextureFile = ((GraphicComponent*)IdGrapPair.second)->GetFileName();
 
 		if (MyResourceManager.GetTexture2DResource(TextureFile))
 		{
@@ -396,7 +388,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 			}
 		}
 
-		std::string ShaderFile = IdGrapPair.second->GetShaderType();
+		std::string ShaderFile = ((GraphicComponent*)IdGrapPair.second)->GetShaderType();
 
 		if (MyResourceManager.GetShaderResource(ShaderFile))
 		{
@@ -435,14 +427,9 @@ void Factory::De_SerialiseLevel(std::string filename)
 	rapidjson::Value AnimationFilePaths;
 	AnimationFilePaths.SetArray();
 
-	for (auto& IdAnimPair : MyComponentManger._AnimationComponents)
+	for (auto& IdAnimPair : GetComponentMap(Animation))
 	{
-		if (IdAnimPair.first < 1000)
-		{
-			continue;
-		}
-
-		const std::map<std::string, float>& AnimFileList = IdAnimPair.second->GetAnimationDataFileList();
+		const std::map<std::string, float>& AnimFileList = ((AnimationComponent*)IdAnimPair.second)->GetAnimationDataFileList();
 
 		for (auto& animFile : AnimFileList)
 		{
@@ -474,14 +461,9 @@ void Factory::De_SerialiseLevel(std::string filename)
 	rapidjson::Value AudioFilePaths;
 	AudioFilePaths.SetArray();
 
-	for (auto& IdAudioPair : MyComponentManger._audioComponent)
+	for (auto& IdAudioPair : GetComponentMap(Audio))
 	{
-		if (IdAudioPair.first < 1000)
-		{
-			continue;
-		}
-
-		std::string audioFile = IdAudioPair.second->GetFileName();
+		std::string audioFile = ((AudioComponent*)IdAudioPair.second)->GetFileName();
 
 
 		if (MyResourceManager.GetSoundResource(audioFile))
@@ -512,14 +494,9 @@ void Factory::De_SerialiseLevel(std::string filename)
 	rapidjson::Value FontFilePaths;
 	FontFilePaths.SetArray();
 
-	for (auto& IdFontPair : MyComponentManger._FontComponent)
+	for (auto& IdFontPair : GetComponentMap(Font))
 	{
-		if (IdFontPair.first < 1000)
-		{
-			continue;
-		}
-
-		std::string fontFile = IdFontPair.second->GetFontType();
+		std::string fontFile = ((FontComponent*)IdFontPair.second)->GetFontType();
 
 		if (MyResourceManager.GetFontResource(fontFile))
 		{
@@ -548,15 +525,10 @@ void Factory::De_SerialiseLevel(std::string filename)
 	rapidjson::Value nonClonableObjects;
 	nonClonableObjects.SetArray();
 
-	for (auto& IdIdcomPair : MyComponentManger._IdentityComponents)
+	for (auto& IdIdcomPair : GetComponentMap(Identity))
 	{
 		const size_t id = IdIdcomPair.first;
-		if (id < 1000)
-		{
-			continue;
-		}
-
-		std::string ObjType = IdIdcomPair.second->ObjectType();
+		std::string ObjType = ((IdentityComponent*)IdIdcomPair.second)->ObjectType();
 
 		rapidjson::Value obj;
 		obj.SetObject();
@@ -598,70 +570,16 @@ void Factory::DeleteLevel()
 {
 	MyResourceManager.ClearAllResources();
 
-#ifdef LEVELEDITOR
-	EngineSystems::GetInstance()._imGuizmoManager->_pickList.clear();
-#endif
-
-	for (auto it : _gameObjectIdMap)
-		delete it.second;
-	_gameObjectIdMap.clear();
-
-	for (auto it : MyComponentManger._IdentityComponents)
-		delete it.second;
-	MyComponentManger._IdentityComponents.clear();
-
-	for (auto it : MyComponentManger._graphicComponents)
-		delete it.second;
-	MyComponentManger._graphicComponents.clear();
-
-	for (auto it : MyComponentManger._transformComponents)
-		delete it.second;
-	MyComponentManger._transformComponents.clear();
-
-	for (auto it : MyComponentManger._AnimationComponents)
-		delete it.second;
-	MyComponentManger._AnimationComponents.clear();
-
-	for (auto it : MyComponentManger._CameraComponents)
-		delete it.second;
-	MyComponentManger._CameraComponents.clear();
-
-	for (auto it : MyComponentManger._rigidbody2DComponent)
-		delete it.second;
-	MyComponentManger._rigidbody2DComponent.clear();
-
-	for (auto it : MyComponentManger._collider2dComponents)
-		delete it.second;
-	MyComponentManger._collider2dComponents.clear();
-
-	for (auto it : MyComponentManger._logicComponents)
-		delete it.second;
-	MyComponentManger._logicComponents.clear();
-
-	//EngineSystems::GetInstance()._logicSystem->DeleteLevelScripts();
-
-	for (auto it : MyComponentManger._imGuizmoComponent)
-		delete it.second;
-	MyComponentManger._imGuizmoComponent.clear();
-
-	for (auto it : MyComponentManger._audioComponent)
-		delete it.second;
-	MyComponentManger._audioComponent.clear();
-
-	for (auto it : MyComponentManger._FontComponent)
-		delete it.second;
-	MyComponentManger._FontComponent.clear();
-
-	for (auto it : MyComponentManger._buttonComponent)
-		delete it.second;
-	MyComponentManger._buttonComponent.clear();
+	DeleteLevelNotPrefab();
 }
 
 void Factory::DeleteLevelNotPrefab()
 {
 	for (auto it : _gameObjectIdMap)
-		if (it.first >= 1000)
-			it.second->SetDestory();
+		delete it.second;
+	_gameObjectIdMap.clear();
+
+	MyComponentManger.ClearAllComponents();
 }
 
 //For GamePlay 
@@ -711,4 +629,93 @@ void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePat
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(NewPrototype->GetComponent(ComponentId::CT_Identity));
 	MyResourceSystem.GetPrototypeMap().insert(std::pair <std::string, GameObject*>(IdCom->ObjectType(), NewPrototype));
 	MyResourceSystem.GetPrototypeList().insert(std::pair<std::string, std::string>(IdCom->ObjectType(), filePath));
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+
+void Factory::ChangeScene(const std::string& scene)
+{
+
+#ifdef LEVELEDITOR //for Level editor Mode
+
+	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
+	{
+		_currentScene = scene;
+		return;
+	}
+
+	if (scene.compare("Restart") == 0 || scene.compare("restart") == 0)
+	{
+		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
+	}
+
+	if (MyResourceSystem.GetSceneList().find(scene) != MyResourceSystem.GetSceneList().end())
+	{
+		_currentScene = scene;
+
+		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
+	}
+	else
+	{
+		throw(0);
+	}
+
+#else	//for GamePlay mode
+
+	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
+	{
+		_currentScene = scene;
+		return;
+	}
+
+	if (!(scene.compare("Restart") == 0 || scene.compare("restart") == 0))
+	{
+		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
+	}
+
+	if (MyResourceManager.GetSceneList().find(scene) != MyResourceManager.GetSceneList().end())
+	{
+		_currentScene = scene;
+
+		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
+	}
+	else
+	{
+		throw(0);
+	}
+
+#endif
+	//if (scene.compare("Level1") == 0)
+	//	EngineSystems::GetInstance()._aiSystem->CreateNodeMapFromTileComp();
+}
+
+//For GamePlay 
+void Factory::SerialiseScenes(Serialiser GameSceneFile)
+{
+	if (GameSceneFile.HasMember("GameScenes"))
+	{
+		for (unsigned i = 0; i < GameSceneFile["GameScenes"].Size(); i++)
+		{
+			std::string filePath = GameSceneFile["GameScenes"][i].GetString();
+			size_t namesize = filePath.find_last_of(".json") - 5 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
+			MyResourceManager.AddNewScene(std::pair<std::string, std::string>(fileName, filePath));
+		}
+	}
+}
+
+//For Level Editor
+void Factory::LoadAllSceneAssets(std::unordered_map<std::string, std::string>& GameSceneFile)
+{
+	MyResourceSystem.AddSceneList(GameSceneFile);
+}
+
+const std::string& Factory::GetCurrentScene()
+{
+	return _currentScene;
 }
