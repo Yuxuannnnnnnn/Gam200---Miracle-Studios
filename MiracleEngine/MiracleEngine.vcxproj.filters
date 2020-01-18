@@ -103,6 +103,7 @@
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingBox.cpp" />
     <ClCompile Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.cpp" />
     <ClCompile Include="Src\Engine\SystemParticle\ParticleSystem.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -523,6 +524,8 @@
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.h" />
     <ClInclude Include="Src\Engine\SystemParticle\ParticleSystem.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript2.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptCreator.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

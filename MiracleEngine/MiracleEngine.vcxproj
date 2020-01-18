@@ -202,7 +202,9 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\AiComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript2.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\LogicComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptCreator.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleSystemComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.h" />
@@ -617,6 +619,7 @@
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\AiComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript2.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\LogicComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\ParticleComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\ParticleSystemComponent.cpp" />

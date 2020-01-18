@@ -129,88 +129,88 @@ public:
 
 	virtual void Inspect() override
 	{
-		IComponent::Inspect();
+		//IComponent::Inspect();
 
-		//Inspect list of animations - Add animations - remove animations - each animation with own time Delay
+		////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
 
-		ImGui::Spacing();
-		
-		static auto& AnimationList = MyResourceSystem.GetAnimationMap();
-		
-		int animationCount = 1;
-		static std::vector<int> select(AnimationList.size(), 0);
-		
+		//ImGui::Spacing();
+		//
+		//static auto& AnimationList = MyResourceSystem.GetAnimationMap();
+		//
+		//int animationCount = 1;
+		//static std::vector<int> select(AnimationList.size(), 0);
+		//
 
-		if (ImGui::Button("Add Animation"))
-		{
-			_animations.insert(std::pair<std::string, timeDelay>(" ", 0.0f));
-			select.push_back(0);
-		}
-
-
-
-		
-		for (auto currshader : _current_ShaderList)
-		{
-			ImGui::Spacing();
-		
-			auto shader = _shaderList.begin();
-		
-			std::vector<const char*> list(ShaderList.size() + 1);
-			list[0] = " Choose a shader ";
-		
-			int i = 1;
-			//static int select = 0;
-			for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
-			{
-				const char* ptr = shaderPair->first.c_str();
-				list[i] = ptr;
-				if (shader != _shaderList.end())
-				{
-					if (strncmp(shaderPair->first.c_str(), shader->c_str(), 20) && currshader != nullptr)
-					{
-						select[shaderCount - 1] = i;
-					}
-				}
-				i++;
-			}
-			//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
-			currshader = list[select[shaderCount - 1]];            // Here our selection is a single pointer stored outside the object.
-		
-			std::string shaderCountString = " Shader " + std::to_string(shaderCount);
-			if (ImGui::BeginCombo(shaderCountString.c_str(), currshader, 0)) // The second parameter is the label previewed before opening the combo.
-			{
-				for (int n = 0; n < list.size(); n++)
-				{
-					bool is_selected = (currshader == list[n]);
-					if (ImGui::Selectable(list[n], is_selected))
-					{
-						currshader = list[n];
-						select[shaderCount - 1] = n;
-					}
-		
-					//if (is_selected);
-					//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
-		
-				}
-				ImGui::EndCombo();
-			}
-			if (shader != _shaderList.end())
-			{
-				shader++;
-			}
-			shaderCount++;
-		}
-
-
-		//Inspect starting animation - from the list of animations
+		//if (ImGui::Button("Add Animation"))
+		//{
+		//	_animations.insert(std::pair<std::string, timeDelay>(" ", 0.0f));
+		//	select.push_back(0);
+		//}
 
 
 
+		//
+		//for (auto currshader : _current_ShaderList)
+		//{
+		//	ImGui::Spacing();
+		//
+		//	auto shader = _shaderList.begin();
+		//
+		//	std::vector<const char*> list(ShaderList.size() + 1);
+		//	list[0] = " Choose a shader ";
+		//
+		//	int i = 1;
+		//	//static int select = 0;
+		//	for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
+		//	{
+		//		const char* ptr = shaderPair->first.c_str();
+		//		list[i] = ptr;
+		//		if (shader != _shaderList.end())
+		//		{
+		//			if (strncmp(shaderPair->first.c_str(), shader->c_str(), 20) && currshader != nullptr)
+		//			{
+		//				select[shaderCount - 1] = i;
+		//			}
+		//		}
+		//		i++;
+		//	}
+		//	//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
+		//	currshader = list[select[shaderCount - 1]];            // Here our selection is a single pointer stored outside the object.
+		//
+		//	std::string shaderCountString = " Shader " + std::to_string(shaderCount);
+		//	if (ImGui::BeginCombo(shaderCountString.c_str(), currshader, 0)) // The second parameter is the label previewed before opening the combo.
+		//	{
+		//		for (int n = 0; n < list.size(); n++)
+		//		{
+		//			bool is_selected = (currshader == list[n]);
+		//			if (ImGui::Selectable(list[n], is_selected))
+		//			{
+		//				currshader = list[n];
+		//				select[shaderCount - 1] = n;
+		//			}
+		//
+		//			//if (is_selected);
+		//			//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+		//
+		//		}
+		//		ImGui::EndCombo();
+		//	}
+		//	if (shader != _shaderList.end())
+		//	{
+		//		shader++;
+		//	}
+		//	shaderCount++;
+		//}
 
-		//ImGui::SetCursorPos(ImVec2((MyWindowsSystem.getWindow().GetWindowWidth() - (width / scale)) * 0.5f, (MyWindowsSystem.getWindow().GetWindowHeight() - (height / scale)) * 0.5f));
-		ImGui::Image((void*)(intptr_t)(_currTexture)->GetTextureID(), ImVec2(width / scale, height / scale),
-			ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
+
+		////Inspect starting animation - from the list of animations
+
+
+
+
+		////ImGui::SetCursorPos(ImVec2((MyWindowsSystem.getWindow().GetWindowWidth() - (width / scale)) * 0.5f, (MyWindowsSystem.getWindow().GetWindowHeight() - (height / scale)) * 0.5f));
+		//ImGui::Image((void*)(intptr_t)(_currTexture)->GetTextureID(), ImVec2(width / scale, height / scale),
+		//	ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
 
 
 	}

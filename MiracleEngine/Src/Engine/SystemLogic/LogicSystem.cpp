@@ -11,6 +11,42 @@ void LogicSystem::Update(double dt) {
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////
+// c++ scripting
+
+void LogicSystem::AddScriptCreator(std::string scriptName, ScriptCreator* scriptCreator)
+{
+	_scriptTypeMap[scriptName] = scriptCreator;
+}
+
+IScript2* LogicSystem::CloneScript2(size_t uId)
+{
+	IScript2* newScript = _scriptList[uId]->Clone();
+	newScript->_uId = ++_scriptUId;
+
+	return newScript;
+}
+
+IScript2* LogicSystem::CreateNewScript(const std::string& scriptName)
+{
+	IScript2* newScript = _scriptTypeMap[scriptName]->Create();
+	newScript->_uId = ++_scriptUId;
+	newScript->_type = _scriptTypeMap[scriptName]->_type;
+
+	return newScript;
+}
+
+std::unordered_map<size_t, IScript2*>& LogicSystem::GetScriptList()
+{
+	return _scriptList;
+}
+
+
+
+
+
+
+
 //void LogicSystem::Update(double dt)
 //{
 //	for (auto it : MyComponentManger._logicComponents)

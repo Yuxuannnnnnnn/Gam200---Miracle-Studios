@@ -2,6 +2,7 @@
 #include "PrecompiledHeaders.h"
 #include "../../IComponent.h"
 #include "IScript.h"
+#include "IScript2.h"
 
 #ifndef LOGICCOMPONENT_H
 #define LOGICCOMPONENT_H
@@ -46,7 +47,18 @@ public:
 	void ClearScripts();
 
 	LogicComponent* CloneComponent() { return nullptr;  };
+	
+
+/////////////////////////////////////////////////////////////////////////////
+// c++ scripting
+
 	LogicComponent* CloneComponent(GameObject* parent);
+
+private:
+	std::unordered_map<ScriptType, size_t> _scriptContianer;
+
+public:
+	IScript2* AddScript2(const std::string& scriptName);
 };
 
 //public:

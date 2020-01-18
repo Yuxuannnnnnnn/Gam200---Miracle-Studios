@@ -264,6 +264,9 @@ void LogicComponent::ClearScripts()
 	_ScriptIds.clear();
 }
 
+/////////////////////////////////////////////////////////////////////////////
+// c++ scripting
+
 LogicComponent* LogicComponent::CloneComponent(GameObject* parent)
 {
 	LogicComponent* temp = new LogicComponent();
@@ -271,10 +274,31 @@ LogicComponent* LogicComponent::CloneComponent(GameObject* parent)
 	temp->SetParentId(parent->Get_uID());
 
 	//temp->_ScriptIds = _ScriptIds;
-	for (auto itr : _ScriptIds)
+	for (auto& itr : _ScriptIds)
 		temp->AddScript(itr);
+
+	// c++ scripting
+	for (auto& itr : _scriptContianer)
+	{
+		IScript2* newScript = MyLogicSystem.CloneScript2(itr.second);
+		newScript->SetParentPtr(parent);
+
+		temp->_scriptContianer[itr.first] = newScript->_uId;
+	}
+
 	return temp;
 }
+
+IScript2* LogicComponent::AddScript2(const std::string& scriptName)
+{
+	IScript2* script = MyLogicSystem.CreateNewScript(scriptName);
+	script->SetParentPtr(this->GetParentPtr());
+
+	_scriptContianer[script->_type] = script->_uId;
+
+	return script;
+}
+
 
 //bool LogicComponent::CheckScript(ScriptId scriptType)
 //{
