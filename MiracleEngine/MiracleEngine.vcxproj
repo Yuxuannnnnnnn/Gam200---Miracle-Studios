@@ -587,6 +587,7 @@
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
+    <ClInclude Include="Src\Script\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp">
@@ -741,6 +742,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\Script\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />

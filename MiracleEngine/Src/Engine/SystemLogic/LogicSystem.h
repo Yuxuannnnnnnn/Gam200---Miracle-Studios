@@ -12,7 +12,7 @@ public:
 	//std::unordered_map<size_t, LogicComponent*> _ListLogicComponents;
 
 	LogicSystem() : _scriptUId(0) {}
-	~LogicSystem() = default;
+	~LogicSystem();
 	LogicSystem(const LogicSystem& rhs) = delete;
 	LogicSystem& operator=(const LogicSystem& rhs) = delete;
 

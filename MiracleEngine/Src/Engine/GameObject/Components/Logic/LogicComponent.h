@@ -59,6 +59,9 @@ private:
 
 public:
 	IScript2* AddScript2(const std::string& scriptName);
+	size_t GetScript2Id(ScriptType type);
+
+	std::unordered_map<ScriptType, size_t>& GetScriptContianer();
 };
 
 //public:

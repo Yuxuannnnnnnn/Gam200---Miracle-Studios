@@ -23,12 +23,15 @@ void Engine::Init()
 	RegisterComponent(Particle);
 	RegisterComponent(ParticleSystem);
 
+	MyLogicSystem.Init();
+
+
 	MyImguiSystem.Init();
 #ifndef LEVELEDITOR
 
 	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
 #endif
-	_engineSystems._inputSystem->Init();
+	MyInputSystem.Init();
 	_engineSystems._scriptSystem->Init();
 
 

@@ -99,9 +99,9 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 
 inline ComponentId ToComponentID(const std::string& type)
 {
-	if ("DataMove")
+	if (type.compare("DataMove") == 0)
 		return ComponentId::CT_DataMove;
-	if ("DataMoveComponent")
+	if (type.compare("DataMoveComponent") == 0)
 		return ComponentId::CT_DataMove;
 	return ComponentId::CT_ERROR;
 }

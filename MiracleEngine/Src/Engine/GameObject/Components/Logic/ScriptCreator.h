@@ -24,11 +24,11 @@ public:
 	{
 	}
 
-	virtual IComponent* Create()
+	virtual IScript2* Create()
 	{
 		return new type();
 	}
 };
 
 //Register component macro
-#define RegisterScript(script)  MyLogicSystem.AddScriptCreator( #script, new ScriptCreatorType<script##Script>( ScriptType::SCRIPT_##script ) );
+#define RegisterScript(script)  MyLogicSystem.AddScriptCreator( #script, new ScriptCreatorType<script>( ScriptType::SCRIPT_##script ) );

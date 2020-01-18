@@ -9,9 +9,10 @@ Factory::Factory() :
 Factory::~Factory()
 {
 	//Delete all component creators
-	ComponentMapType::iterator it = _componentMap.begin();
-	for (; it != _componentMap.end(); ++it)
-		delete it->second;
+	for (auto& itr : _componentMap)
+		delete itr.second;
+
+	_componentMap.clear();
 }
 
 GameObject* Factory::BuildAndSerialize(const std::string& filename)

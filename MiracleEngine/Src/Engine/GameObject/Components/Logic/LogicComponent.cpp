@@ -40,6 +40,19 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 				AddScript(str);
 			}
 		}
+
+	if (document.HasMember("Script2Id") && document["Script2Id"].IsArray() &&
+		document.HasMember("Script2Data") && document["Script2Data"].IsArray())	//Checks if the variable exists in .Json file
+		for (unsigned i = 0; i < document["Script2Id"].Size(); i++)
+		{
+			if (document["Script2Id"][i].IsString())
+			{
+				IScript2* script = AddScript2(document["Script2Id"][i].GetString());
+
+				Serialiser datafile(document["Script2Data"][i]);
+				script->SerialiseComponent(datafile);
+			}
+		}
 }
 
 void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -282,6 +295,7 @@ LogicComponent* LogicComponent::CloneComponent(GameObject* parent)
 	{
 		IScript2* newScript = MyLogicSystem.CloneScript2(itr.second);
 		newScript->SetParentPtr(parent);
+		newScript->SetParentId(parent->Get_uID());
 
 		temp->_scriptContianer[itr.first] = newScript->_uId;
 	}
@@ -293,12 +307,25 @@ IScript2* LogicComponent::AddScript2(const std::string& scriptName)
 {
 	IScript2* script = MyLogicSystem.CreateNewScript(scriptName);
 	script->SetParentPtr(this->GetParentPtr());
+	script->SetParentId(this->GetParentId());
 
 	_scriptContianer[script->_type] = script->_uId;
 
 	return script;
 }
 
+size_t LogicComponent::GetScript2Id(ScriptType type)
+{
+	if (_scriptContianer.find(type) != _scriptContianer.end())
+		return _scriptContianer[type];
+
+	return 0;
+}
+
+std::unordered_map<ScriptType, size_t>& LogicComponent::GetScriptContianer()
+{
+	return _scriptContianer;
+}
 
 //bool LogicComponent::CheckScript(ScriptId scriptType)
 //{

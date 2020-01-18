@@ -3,6 +3,7 @@
 #include "Tools/EventHandler/IColliderHandler.h"
 #include "Tools/EventHandler/IMouseHandler.h"
 #include "SystemPhysics/IForce.h"
+#include "GameObject/IComponent.h"
 
 #include "Imgui/imgui.h"
 #include "Tools/FileIO/DeSerialiser.h"
@@ -23,10 +24,18 @@ inline const char* ToScriptName(ScriptType type)
 	}
 }
 
+inline ScriptType ToScriptId (std::string& name)
+{
+	if (name.compare("Player") == 0)
+		return ScriptType::SCRIPT_Player;
+	return ScriptType::SCRIPT_COUNT;
+}
+
 class IScript2 : public IColliderHandler, public IMouseHandler, public IForce
 {
 private:
 	GameObject* _parent;
+	size_t _parentUId;
 public:
 	size_t _uId;
 	ScriptType _type;
@@ -41,24 +50,22 @@ public:
 		return "IScript Component";
 	}
 
-	void SerialiseComponent(Serialiser& document) {}
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) {}
-	void Inspect() {}
+	virtual void SerialiseComponent(Serialiser& document) = 0;
+	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) = 0;
+	virtual void Inspect() = 0;
 
 	virtual IScript2* Clone() = 0;
 
 	virtual void Update(double dt) = 0;
 
-	void SetParentPtr(GameObject* parent)
-	{
-		_parent = parent;
-	}
+	void SetParentPtr(GameObject* parent);
+	GameObject* GetParentPtr() const;
 
-	GameObject* GetParentPtr() const
-	{
-		return _parent;
-	}
+	void SetParentId(size_t uid);
+	size_t GetParentId() const;
 
-
+	IComponent* GetSibilingComponent(ComponentId id);
+	IScript2* GetSibilingScript(ScriptType type);
 
 };
+
