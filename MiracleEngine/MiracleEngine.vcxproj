@@ -919,6 +919,7 @@
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />
+    <None Include="Resources\TextFiles\GameObjects\UiTest.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Resources\TextFiles\Scenes\GameScenes\GameScenes.json" />
     <None Include="Resources\TextFiles\Scenes\Scenes\Level1.json" />
