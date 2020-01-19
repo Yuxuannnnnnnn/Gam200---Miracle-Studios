@@ -65,26 +65,16 @@ namespace Collision {
 
 	bool BBoxVsPoint(const BBox& box, const Vector3& point)
 	{
+		Vector3 vec = point - box._origin;
+
 		for (int a = 0; a < 2; ++a)
 		{
 			float det = box._normals[a].Dot(box._normals[a]);
-			float t = point.Dot(box._normals[a]) / det;
+			float t = vec.Dot(box._normals[a]) / det;
 
-			// Find the extent of boxB on boxA's axis x
-			float tMin = t;
-			float tMax = t;
-
-			t = point.Dot(box._normals[a]) / det;
-
-			if (t < tMin) {
-				tMin = t;
-			}
-			else if (t > tMax) {
-				tMax = t;
-			}
 
 			// See if [tMin, tMax] intersects [-1, 1]
-			if (tMin > 1.f || tMax < -1.f) {
+			if (t > 1.f || t < -1.f) {
 				// There was no intersection along this dimension;
 				// the boxes cannot possibly overlap.
 				return false;

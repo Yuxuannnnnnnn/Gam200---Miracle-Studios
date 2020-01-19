@@ -141,6 +141,8 @@ bool ResourceSystem::AddNewPrototypeResource(const NamePath& list)
 	return true;
 }
 
+
+//Only For Level editor Use
 bool ResourceSystem::AddNewScene(const NamePath& list)
 {
 	if (_mainContainer._SceneList.find(list.first) != _mainContainer._SceneList.end())

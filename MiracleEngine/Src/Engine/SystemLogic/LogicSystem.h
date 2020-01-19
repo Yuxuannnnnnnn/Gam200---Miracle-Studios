@@ -10,6 +10,7 @@ class LogicSystem final
 {
 public:
 	//std::unordered_map<size_t, LogicComponent*> _ListLogicComponents;
+	bool bUseOldScripting = false;
 
 	LogicSystem() : _scriptUId(0) {}
 	~LogicSystem();
@@ -34,6 +35,7 @@ private:
 	std::unordered_map<size_t, IScript2*> _scriptList;
 	std::unordered_map<std::string, ScriptCreator*> _scriptTypeMap;
 
+	bool enableScript2;
 public:
 	void AddScriptCreator(std::string scriptName, ScriptCreator* scriptCreator);
 
@@ -41,6 +43,8 @@ public:
 
 	IScript2* CreateNewScript(const std::string& scriptName);
 	std::unordered_map<size_t, IScript2*>& GetScriptList();
+
+	std::unordered_map<std::string, ScriptCreator*>& GetScriptTypeMap();
 };
 
 #endif

@@ -98,13 +98,12 @@ public:
 
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value position;
-		position.SetArray();
 		rapidjson::Value scale;
-		scale.SetArray();
 		rapidjson::Value rotate;
 
 		if (protoTransformCom->_pos != _pos)
 		{
+			position.SetArray();
 			addComponentIntoSceneFile = true;
 			position.PushBack(rapidjson::Value(_pos._x), allocator);
 			position.PushBack(rapidjson::Value(_pos._y), allocator);
@@ -113,10 +112,11 @@ public:
 
 		if (protoTransformCom->_scale != _scale)
 		{
+			scale.SetArray();
 			addComponentIntoSceneFile = true;
-			scale.PushBack(rapidjson::Value(_pos._x), allocator);
-			scale.PushBack(rapidjson::Value(_pos._y), allocator);
-			scale.PushBack(rapidjson::Value(_pos._z), allocator);
+			scale.PushBack(rapidjson::Value(_scale._x), allocator);
+			scale.PushBack(rapidjson::Value(_scale._y), allocator);
+			scale.PushBack(rapidjson::Value(_scale._z), allocator);
 		}		
 		
 		if (protoTransformCom->_rotationAngle != _rotationAngle)

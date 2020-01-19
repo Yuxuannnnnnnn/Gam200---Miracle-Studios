@@ -10,7 +10,7 @@
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
-  "G.FileName": "Player.png",
+  "G.FileName": "catjump.png",
 
   "AnimationComponent": true,
   "AnimationTypes": [
@@ -36,9 +36,12 @@
   "A.FileName": "audio_player.ogg",
 
   "LogicComponent": true,
+
   "ScriptId": [ "ScriptMove" ],
+  "PlayerData": [ { "Health": 10 } ],
+
   "Script2Id": [ "Player" ],
-  "Script2Data" : [
+  "Script2Data": [
     {
       "Health": 10,
       "WeaponActive": 1,

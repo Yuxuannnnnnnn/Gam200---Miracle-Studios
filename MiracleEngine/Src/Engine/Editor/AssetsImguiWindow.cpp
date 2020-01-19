@@ -278,7 +278,7 @@ void AssetsImguiWindow::Update()
 
 		//ImGui::TreePop();
 
-		auto& ShaderList = MyResourceManager.GetShaderList();
+		auto& ShaderList = MyResourceSystem.GetShaderList();
 		for (auto& Shader : ShaderList)
 		{
 			static bool selected;

@@ -17,6 +17,8 @@ LogicSystem::~LogicSystem()
 }
 
 void LogicSystem::Init() {
+	enableScript2 = bUseOldScripting;
+
 	RegisterScript(Player);
 
 	//ScriptSystem.Init();
@@ -27,12 +29,15 @@ void LogicSystem::Update(double dt) {
 
 		LogicComponent* obj = (LogicComponent*)itr.second;
 
-		obj->Update(dt);
-
-		for (auto& itr : obj->GetScriptContianer())
+		if (enableScript2)
 		{
-			_scriptList[itr.second]->Update(dt);
+			for (auto& itr : obj->GetScriptContianer())
+			{
+				_scriptList[itr.second]->Update(dt);
+			}
 		}
+		else
+			obj->Update(dt);
 	}
 }
 
@@ -70,7 +75,10 @@ std::unordered_map<size_t, IScript2*>& LogicSystem::GetScriptList()
 	return _scriptList;
 }
 
-
+std::unordered_map<std::string, ScriptCreator*>& LogicSystem::GetScriptTypeMap()
+{
+	return _scriptTypeMap;
+}
 
 
 

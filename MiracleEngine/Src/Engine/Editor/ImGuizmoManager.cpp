@@ -28,6 +28,26 @@ void ImGuizmoManager::Update()
 				return;
 			}
 		}
+
+		for (auto& it : GetComponentMap(UI))
+		{
+			if (!it.second->GetEnable())
+				continue;
+
+			TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.second->GetParentId()];
+
+			if (!transform)
+				continue;
+
+			BBox pickingBox = BBox::CreateBBoxFromData(transform->GetPos(), transform->GetScale(), transform->GetRotate());
+
+			if (Collision::BBoxVsPoint(pickingBox, pos))
+			{
+				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
+				_pickUId = it.first;
+				return;
+			}
+		}
 	}
 
 	if (_pickUId != 0)
@@ -40,24 +60,59 @@ void ImGuizmoManager::Update()
 			return;
 		}
 
+		float cameraView[16] =
+		{ 1.f, 0.f, 0.f, 0.f,
+		  0.f, 1.f, 0.f, 0.f,
+		  0.f, 0.f, 1.f, 0.f,
+		  0.f, 0.f, 0.f, 1.f };
+
+		float cameraProjection[16];
+
+		float viewWidth = 8.f; // for orthographic
+		float camYAngle = 90.f / 180.f * 3.14159f;
+		float camXAngle = 0;
+		float camDistance = 8.f;
+
+		float viewHeight = viewWidth * _windowHeight / _windowWidth;
+		OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, -viewWidth, viewWidth, cameraProjection);
+
+		ImGuizmo::SetOrthographic(true);
+
+		float eye[] = { cosf(camYAngle) * cosf(camXAngle) * camDistance, sinf(camXAngle) * camDistance, sinf(camYAngle) * cosf(camXAngle) * camDistance };
+		float at[] = { 0.f, 0.f, 0.f };
+		float up[] = { 0.f, 1.f, 0.f };
+		LookAt(eye, at, up, cameraView);
+		ImGuizmo::BeginFrame();
+
+
 		//ImGuizmo::SetOrthographic(false);
 		ImGuizmo::BeginFrame();
 		ImGui::SetNextWindowPos(ImVec2(300, 0));
 		ImGui::SetNextWindowSize(ImVec2(300, 400));
 		ImGui::Begin("Editor");
 
-		const float* cameraView = nullptr;
-		float* cameraProjection = nullptr;
-		float* objectMatrix = nullptr;
-		//MyGraphicsSystem.GetZmoInfo(_pickUId, cameraView, cameraProjection, objectMatrix);
+		float* objectMatrix = Mtx44::CreateTranspose(transform->GetModel()).m;
 
+		float matrix[16] =
+		{ 1.f, 0.f, 0.f, 0.f,
+		  0.f, 1.f, 0.f, 0.f,
+		  0.f, 0.f, 1.f, 0.f,
+		  0.f, 0.f, 0.f, 1.f };
 
-		EditTransform(cameraView, cameraProjection, objectMatrix);
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+		ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
+		matrixTranslation[0] = matrixTranslation[0] / (_windowWidth / 2 /  viewWidth);
+		matrixTranslation[1] = matrixTranslation[1] / (_windowHeight / 2 / viewHeight);
+		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
 
-		float m[3] = { 0,0,0 };
+		EditTransform(cameraView, cameraProjection, matrix);
 
-		//ImGuizmo::DecomposeMatrixToComponents(objectMatrix, transform->GetPos().m, m, transform->GetScale().m);
+		ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
+		matrixTranslation[0] = matrixTranslation[0] * (_windowWidth / 2 / viewWidth);
+		matrixTranslation[1] = matrixTranslation[1] * (_windowHeight / 2 / viewHeight);
 
+		transform->SetPos(Vec3{ matrixTranslation[0],matrixTranslation[1],matrixTranslation[2] });
+		transform->SetScale(Vec3{ matrixScale[0],matrixScale[1],matrixScale[2] });
 
 		//ImGuizmo::RecomposeMatrixFromComponents(transform->GetPos().m, m, transform->GetScale().m, objectMatrix);
 
@@ -68,6 +123,12 @@ void ImGuizmoManager::Update()
 void ImGuizmoManager::SetPickObjectUId(size_t uId)
 {
 	_pickUId = uId;
+}
+
+void ImGuizmoManager::SetWindowSize(float width, float height)
+{
+	_windowWidth = width;
+	_windowHeight = height;
 }
 
 void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjection, float* matrix)
@@ -100,7 +161,7 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 	ImGui::InputFloat3("Tr", matrixTranslation, 3);
 	ImGui::InputFloat3("Rt", matrixRotation, 3);
 	ImGui::InputFloat3("Sc", matrixScale, 3);
-	//ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
+
 
 	//if (mCurrentGizmoOperation != ImGuizmo::SCALE)
 	//{
@@ -142,7 +203,6 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 	//ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
 
 	ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, NULL, NULL, NULL);
-
 }
 
 

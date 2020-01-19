@@ -11,10 +11,12 @@
 // Scripts
 #include "LuaScriptTest.h"
 
+#define DEBUG_LUA 0
 
-
-static sol::state lua; // replace with the one in ScriptSYS
+static sol::state lua;
 static sol::protected_function_result pfr;
+static sol::environment mEnvironment;
+
 class LuaScriptComponent;
 
 class ScriptSystem// : public ISystem
@@ -37,13 +39,10 @@ public:
 	sol::table Table_Anim; // Animation
 	sol::table Table_Math;
 
-	// scriptName, Script*
 	std::unordered_map<std::string, LuaScriptBase*> _ScriptsAll;
-	// scriptName, vec::dataCompName
-	std::unordered_map<std::string, std::vector<std::string>> _TableScriptData;
-	void Create_TableScriptData();
 	void Create_Scripts();
 
+	void RunScriptOld(GameObject* src, std::string& scriptName);
 	void RunScript(GameObject* src, std::string& scriptName);
 
 	void BindAll();
@@ -52,17 +51,10 @@ public:
 	void BindMathVector3();
 	void BindMouseAndKeyboard();
 	void BindMiscFunctions();
-	void BindDataCompValues_Inital(); // this will init a sol::table Data_Table where all DataComp values are stored
-	//void BindDataCompValues_Runtime(sol::state& lua, GameObject* src, std::string& scriptName); // this will be called as first linei n RunScript()
 
 	void Test_DataCompEditing();
 	void Test_BasicFuncitonality();
 	int testfunc();
-
-	void Print(std::string str) { std::cout << str; }
-	void Print(int i) { std::cout << i; }
-	void Print(double i) { std::cout << i; }
-	void Print(float i) { std::cout << i; }
 
 	//--------------------------------------------------
 	ScriptSystem()

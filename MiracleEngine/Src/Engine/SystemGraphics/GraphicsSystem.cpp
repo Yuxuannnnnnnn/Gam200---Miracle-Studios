@@ -5,9 +5,8 @@ void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
 
-	//_renderer.Update(_renderObjects, _proj * _cameraManager.GetMainCamMatrix());
-	//for (size_t i = 0; i < _renderObjects.size(); i++)
-	//{
+	// Render gameobject in world space
+
 	for (const auto& renderobj : _renderObjects)
 	{
 		renderobj._pShader->Select();
@@ -21,24 +20,28 @@ void GraphicsSystem::Update(double dt)
 		GLfloat _positions[] =
 		{
 			-0.5f, -0.5f, 0.0f, u0, v0, // 0     // bottom left
-			 0.5f, -0.5f, 0.0f, u1, v0,// 1     // bottom right
-			 0.5f,  0.5f, 0.0f, u1, v1,// 2     // top right
-			-0.5f,  0.5f, 0.0f, u0, v1 // 3     // top left
+			 0.5f, -0.5f, 0.0f, u1, v0, // 1     // bottom right
+			 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
+			-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
 		};
 
 		renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
 
-		glm::mat4 mvp = _proj /* _cameraManager.GetMainCamMatrix() */ * renderobj._transform;
+		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
-	//}
+
+	// render UI in screen space
+	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
 	EndScene();
 }
 
 void GraphicsSystem::BeginScene()
 {
+	_cameraSystem.Update();
+	_view = _cameraSystem.GetCamMatrix();
 	UpdateRenderObjectList();
 	ClearSreen();
 }
@@ -46,27 +49,12 @@ void GraphicsSystem::BeginScene()
 void GraphicsSystem::EndScene()
 {
 	_renderObjects.clear();
-	/*for (auto& element : _renderObjects)
-	{
-		element.clear();
-	}*/
 }
 
-GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight)
-	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
-			-(float)windowHeight / 2, (float)windowHeight / 2, -30.0f, 30.0f) }
+GraphicsSystem::GraphicsSystem()
 {
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-
-
-	// temp set view to identity
-	//_view = glm::mat4(1.0f);
-
-	/*for (size_t i = 0; i <= 10; i++)
-	{
-		_renderObjects.push_back(std::vector<RenderObject>{});
-	}*/
 
 	// temp
 	std::string temp = "DefaultShader";
@@ -83,6 +71,11 @@ GraphicsSystem::~GraphicsSystem()
 {
 }
 
+void GraphicsSystem::ResizeGraphics(float width, float height)
+{
+	_proj = glm::ortho(-width / 2.f, width / 2.f, -height / 2.f, height / 2.f, -30.0f, 30.0f);
+	glViewport(0, 0, width, height);
+}
 
 
 void GraphicsSystem::ClearSreen() const
@@ -91,10 +84,6 @@ void GraphicsSystem::ClearSreen() const
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void GraphicsSystem::UpdateViewMatrix()
-{
-	//_cameraManager.Update();
-}
 
 void GraphicsSystem::UpdateRenderObjectList()
 {
@@ -102,7 +91,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 	// update 
 
 	BBox viewBox = BBox::CreateBBoxFromData(Vec3::Vec3Zero,
-		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() * 0.75f ,MyWindowsSystem.getWindow().GetWindowHeight() * 0.75f },
+		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() * 0.5f ,MyWindowsSystem.getWindow().GetWindowHeight() * 0.5f },
 		0.f);
 
 	for (auto& graphicCompPair : GetComponentMap(Graphic))
@@ -146,9 +135,6 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 
 		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
-
-
-
 
 
 		renderobject._pMesh = &_quadMesh;

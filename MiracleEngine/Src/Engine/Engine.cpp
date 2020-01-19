@@ -19,21 +19,28 @@ void Engine::Init()
 	RegisterComponent(Audio);
 	RegisterComponent(Button);
 	RegisterComponent(TileMap);
-	RegisterComponent(DataMove);
+
+	RegisterComponent(DataMove);		// DataComponents
+	RegisterComponent(DataTransform);
+	RegisterComponent(DataPlayer);
+	RegisterComponent(DataHealth);
+	_engineSystems._scriptSystem->Create_Scripts(); // fill up _ScriptsAll
+
 	RegisterComponent(Particle);
 	RegisterComponent(ParticleSystem);
-
+	RegisterComponent(UI);
+	
+	MyLogicSystem.bUseOldScripting = true; // set TRUE to use C++ scripting
 	MyLogicSystem.Init();
-
 
 	MyImguiSystem.Init();
 #ifndef LEVELEDITOR
-
 	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
 #endif
 	MyInputSystem.Init();
 	_engineSystems._scriptSystem->Init();
 
+	MyEventHandler.ChangedWindowSize();
 
 //-------------------------------------------------------------
 }
@@ -41,18 +48,12 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	bool test = true; // BRANDON::testing sol & lua
-	if (test)
-	{
-		_engineSystems._scriptSystem->testfunc();
-		_engineSystems._scriptSystem->Test_BasicFuncitonality();
-		_engineSystems._scriptSystem->Test_DataCompEditing();
-	}
-
 	MyFactory.ChangeScene("Level1");
 
 	while (MyFactory.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{
+
+		MyEventHandler.BroadcastWindowEvents();
 
 		double dt = MyFrameRateController.UpdateFrameTime();
 		double fixedDt = MyFrameRateController.GetLockedDt();

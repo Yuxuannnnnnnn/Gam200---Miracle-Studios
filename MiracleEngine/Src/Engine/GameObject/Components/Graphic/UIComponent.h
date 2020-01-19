@@ -19,7 +19,7 @@ public:
 	void SerialiseComponent(Serialiser& document) override
 	{
 		if (document.HasMember("UI.FileName") && document["UI.FileName"].IsString())
-			_fileName = document["*UI.FileName"].GetString();
+			_fileName = document["UI.FileName"].GetString();
 	}
 
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
