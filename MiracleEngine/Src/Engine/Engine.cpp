@@ -30,7 +30,7 @@ void Engine::Init()
 
 	RegisterComponent(UI);
 
-	MyLogicSystem.Init();
+	MyLogicSystem.Init(false);
 
 	MyImguiSystem.Init();
 #ifndef LEVELEDITOR
