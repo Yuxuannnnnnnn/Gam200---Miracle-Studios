@@ -98,6 +98,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 			if (ImGui::IsMouseReleased(0))
 			{
 				InspectionImguiWindow::InspectGameObject(gameObject);
+				MyImGuizmoManager.SetPickObjectUId(uID);
 				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 				//ImGui::TreePop();
