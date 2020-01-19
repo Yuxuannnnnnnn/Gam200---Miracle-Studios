@@ -129,7 +129,7 @@ public:
 
 	virtual void Inspect() override
 	{
-		//IComponent::Inspect();
+		IComponent::Inspect();
 
 		////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
 

@@ -102,6 +102,15 @@ bool Factory::CheckObjOrignialPointer(GameObject* obj)
 		if (pair.second == obj)
 			return true;
 	}
+
+
+	auto& prototypeList = MyResourceSystem.GetPrototypeMap();
+	for (auto& pair : prototypeList)
+	{
+		if (pair.second == obj)
+			return true;
+	}
+	
 	return false;
 }
 
