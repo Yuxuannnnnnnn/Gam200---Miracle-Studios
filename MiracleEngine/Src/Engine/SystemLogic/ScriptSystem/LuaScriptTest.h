@@ -19,3 +19,12 @@ public:
 	virtual void Load(sol::state& lua) override;
 	virtual void Update(double dt) override;
 };
+
+class Script_Player : public LuaScriptBase {
+public:
+	Script_Player() = default;
+	~Script_Player() = default;
+
+	virtual void Load(sol::state& lua) override;
+	virtual void Update(double dt) override;
+};

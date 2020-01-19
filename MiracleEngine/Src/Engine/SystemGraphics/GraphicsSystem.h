@@ -3,9 +3,9 @@
 #ifndef GRAPHICSYSTEM_H
 #define GRAPHICSYSTEM_H
 
-#include "UIRenderer.h"      // ui renderer for ui, font etc in screen space
-#include "DebugRenderer.h"   // render debug lines
-//#include "CameraManager.h"   // class contain one (or more) cameras
+#include "UIRenderer.h"                                  // ui renderer for ui, font etc in screen space
+#include "DebugRenderer.h"                               // render debug lines
+//#include "CameraManager.h"                             // class contain one (or more) cameras
 
 // components
 // include UI component
@@ -22,10 +22,10 @@
 
 // renderobjects
 #include "RenderObject.h"
+#include "QuadMesh.h"
+
 #include <vector>
 
-// temporary
-#include "QuadMesh.h"
 class GraphicsSystem
 {
 
@@ -38,19 +38,19 @@ public:
 private:
 	void BeginScene();
 	void EndScene();
-private:
+
 	void ClearSreen() const;
 	void UpdateViewMatrix();                             // called begin of loop, fletch the view matrix of the frame from the camera
 	void UpdateRenderObjectList();                       // called begin of loop, fill up the render objects list
-private:
-	//DebugRenderer _debugRenderer; // render debug lines
-	UIRenderer _uiRenderer;         // ui renderer for ui, font etc in screen space
-private:
-	glm::mat4 _proj;                // projection matrix depth ( z-axis ) range from -30 to 30
-	//glm::mat4 _view;                // camera view matrix
 
-	//CameraManager _cameraManager;   // class manage all the camera
-private:
+	//DebugRenderer _debugRenderer;                      // render debug lines
+	UIRenderer _uiRenderer;                              // ui renderer for ui, font etc in screen space
+
+	glm::mat4 _proj;                                     // projection matrix depth ( z-axis ) range from -30 to 30
+	//glm::mat4 _view;                                   // camera view matrix
+
+	//CameraManager _cameraManager;                      // class manage all the camera
+
 
 	std::vector<RenderObject> _renderObjects;
 

@@ -16,7 +16,9 @@ LogicSystem::~LogicSystem()
 	_scriptList.clear();
 }
 
-void LogicSystem::Init() {
+void LogicSystem::Init(bool lua) {
+	enableScript2 = !lua;
+
 	RegisterScript(Player);
 
 	//ScriptSystem.Init();
@@ -27,12 +29,15 @@ void LogicSystem::Update(double dt) {
 
 		LogicComponent* obj = (LogicComponent*)itr.second;
 
-		obj->Update(dt);
-
-		for (auto& itr : obj->GetScriptContianer())
+		if (enableScript2)
 		{
-			_scriptList[itr.second]->Update(dt);
+			for (auto& itr : obj->GetScriptContianer())
+			{
+				_scriptList[itr.second]->Update(dt);
+			}
 		}
+		else
+			obj->Update(dt);
 	}
 }
 

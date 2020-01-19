@@ -5,9 +5,8 @@ void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
 
-	//_renderer.Update(_renderObjects, _proj * _cameraManager.GetMainCamMatrix());
-	//for (size_t i = 0; i < _renderObjects.size(); i++)
-	//{
+	// Render gameobject in world space
+
 	for (const auto& renderobj : _renderObjects)
 	{
 		renderobj._pShader->Select();
@@ -32,7 +31,9 @@ void GraphicsSystem::Update(double dt)
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
-	//}
+
+	// render UI in screen space
+	_uiRenderer.Update(GetComponentMap(UI));
 
 	EndScene();
 }
@@ -146,9 +147,6 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 
 		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
-
-
-
 
 
 		renderobject._pMesh = &_quadMesh;

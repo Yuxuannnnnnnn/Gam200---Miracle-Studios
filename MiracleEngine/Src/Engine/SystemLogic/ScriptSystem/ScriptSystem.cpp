@@ -3,17 +3,28 @@
 
 void ScriptSystem::Create_TableScriptData()
 {
-	_TableScriptData["ScriptMove"] = std::vector<std::string>{ ToString(ComponentId::CT_DataMove) };
+	_TableScriptData["ScriptMove"] = std::vector<std::string>{ 
+		ToString(ComponentId::CT_DataMove)
+	};
 	lua["Table_ScriptMove"] = lua.create_table();
-}
+
+	_TableScriptData["ScriptPlayer"] = std::vector<std::string>{
+		ToString(ComponentId::CT_DataTransform),
+		ToString(ComponentId::CT_DataPlayer)
+	};
+	lua["Table_ScriptPlayer"] = lua.create_table();
+} 
 
 void ScriptSystem::Create_Scripts()
 {
 	_ScriptsAll["ScriptMove"] = new Script_Move{};
+	_ScriptsAll["ScriptPlayer"] = new Script_Player{};
 }
 
 void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
 {
+	mEnvironment = sol::environment{ lua, sol::create, lua.globals() };
+
 	// bind the data
 	std::vector<std::string> dataList = _TableScriptData[scriptName];
 	IComponent* dataComp = nullptr;
@@ -227,50 +238,57 @@ void ScriptSystem::BindMathVector3()
 }
 void ScriptSystem::BindMouseAndKeyboard()
 {
-	std::cout << "DEBUG:\t Binding Mouse & Keyboard (KeyUpDownHold) \n";
+	if (DEBUG_LUA)
+		std::cout << "DEBUG:\t Binding Mouse & Keyboard (KeyUpDownHold) \n";
 	Table_Input = lua.create_named_table("Input");
 	Table_Input["GetKeyDown"] = [&](const char* str) {
-		std::cout << "Input.GetKeyDown(" << str << ") ";
-		bool temp = _engineSystems._inputSystem->KeyDown(
-			_engineSystems._inputSystem->StringToKeycode(str) );
+		if (DEBUG_LUA)
+			std::cout << "Input.GetKeyDown(" << str << ") ";
+		bool temp = _engineSystems._inputSystem->KeyDown(_engineSystems._inputSystem->StringToKeycode(str) );
 		if (temp)
 		{
-			std::cout << "Ret::TRUE.\n";
+			if (DEBUG_LUA)
+				std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			std::cout << "Ret::FALSE.\n";
+			if (DEBUG_LUA)
+				std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
 	Table_Input["GetKeyHold"] = [&](const char* str) {
-		std::cout << "Input.GetKeyHold(" << str << ") ";
-		bool temp = _engineSystems._inputSystem->KeyHold(
-			_engineSystems._inputSystem->StringToKeycode(str));
+		if (DEBUG_LUA)
+			std::cout << "Input.GetKeyHold(" << str << ") ";
+		bool temp = _engineSystems._inputSystem->KeyHold(_engineSystems._inputSystem->StringToKeycode(str));
 		if (temp)
 		{
-			std::cout << "Ret::TRUE.\n";
+			if (DEBUG_LUA)
+				std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			std::cout << "Ret::FALSE.\n";
+			if (DEBUG_LUA)
+				std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
 	Table_Input["GetKeyUp"] = [&](const char* str) {
-		std::cout << "Input.GetKeyUp(" << str << ") ";
-		bool temp = _engineSystems._inputSystem->KeyRelease(
-			_engineSystems._inputSystem->StringToKeycode(str));
+		if (DEBUG_LUA)
+			std::cout << "Input.GetKeyUp(" << str << ") ";
+		bool temp = _engineSystems._inputSystem->KeyRelease(_engineSystems._inputSystem->StringToKeycode(str));
 		if (temp)
 		{
-			std::cout << "Ret::TRUE.\n";
+			if (DEBUG_LUA)
+				std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			std::cout << "Ret::FALSE.\n";
+			if (DEBUG_LUA)
+				std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
@@ -304,15 +322,6 @@ void ScriptSystem::BindMiscFunctions()
 				// in lua have a global variable, then everytime keep ToString in when need to output, then just have a single Table_Console[WriteLine] = {cout << string}
 
 }
-void ScriptSystem::BindDataCompValues_Inital()
-{
-
-
-	// do 
-	// var = location of HEALTH from DataComponent
-	//lua["Table_Data"] = lua.create_table_with("HEALTH", var);
-}
-
 
 void ScriptSystem::Test_DataCompEditing()
 {
@@ -374,7 +383,6 @@ Console.WriteNum(a)
 	std::cout << "========================" << std::endl;
 	std::cout << "++++++++++++++++++++++++" << std::endl;
 }
-
 void ScriptSystem::Test_BasicFuncitonality()
 {
 	std::cout << "========================" << std::endl;
@@ -416,7 +424,6 @@ Console.WriteStr("does work")
 	std::cout << "++++++++++++++++++++++++" << std::endl;
 	std::cout << "========================" << std::endl;
 }
-
 int ScriptSystem::testfunc() {
 	std::cout << "========================" << std::endl;
 	std::cout << "=== running lua code ===" << std::endl;

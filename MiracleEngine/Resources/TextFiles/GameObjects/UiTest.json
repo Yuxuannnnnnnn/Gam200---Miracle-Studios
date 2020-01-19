@@ -1,0 +1,14 @@
+{
+  "IdentityComponent": true,
+  "Name": "none",
+  "ObjectType": "UiTest",
+
+  "TransformComponent": true,
+  "Position": [ 100.0, 100.0 ],
+  "Scale": [ 50.0, 50.0 ],
+  "Rotate": 0.0,
+
+  "UIComponent": true,
+  "UI.FileName": "Player.png"
+
+}
