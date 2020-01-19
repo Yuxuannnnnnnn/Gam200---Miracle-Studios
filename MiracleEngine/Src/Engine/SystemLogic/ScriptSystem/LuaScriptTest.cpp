@@ -4,7 +4,7 @@
 Script_Move::Script_Move()
 {
 	_Name = "ScriptMove";
-	_DataDep = { "Transform" };
+	_DataDep = { ToString(ComponentId::CT_DataMove) };
 }
 void Script_Move::Bind(sol::state& lua, GameObject* src)
 {
@@ -30,7 +30,7 @@ void Script_Move::Bind(sol::state& lua, GameObject* src)
 	lua["Table_ScriptMove"]["ROTATION"] = temp->GetRotate();
 	DataPlayerComponent* temp1 = (DataPlayerComponent*)src->GetComponent(ComponentId::CT_DataPlayer);
 	lua["Table_ScriptMove"]["SPEED"] = &temp1->_MovementSpeed;
-	if (0)
+	if (DEBUG_LUA)
 	{
 		if (!lua["Table_ScriptMove"]["POSITION"].valid())
 			std::cout << "WARNING :" << "POSITION" << "DataNotBinded\n";
@@ -44,7 +44,11 @@ void Script_Move::Bind(sol::state& lua, GameObject* src)
 }
 void Script_Move::Save(sol::state& lua, GameObject* src)
 {
-	if (0)
+	TransformComponent* temp = (TransformComponent*)src->GetComponent(ComponentId::CT_Transform);
+	temp->SetPos(lua["Table_ScriptMove"]["POSITION"]);
+	temp->SetScale(lua["Table_ScriptMove"]["SCALE"]);
+	temp->SetRotate(lua["Table_ScriptMove"]["ROTATION"]);
+	if (DEBUG_LUA)
 	{
 		if (!lua["Table_ScriptMove"]["POSITION"].valid())
 			std::cout << "WARNING :" << "POSITION" << "DataNotBinded\n";
@@ -55,12 +59,6 @@ void Script_Move::Save(sol::state& lua, GameObject* src)
 		if (!lua["Table_ScriptMove"]["SPEED"].valid())
 			std::cout << "WARNING :" << "SPEED" << "DataNotBinded\n";
 	}
-	TransformComponent* temp = (TransformComponent*)src->GetComponent(ComponentId::CT_Transform);
-	temp->SetPos(lua["Table_ScriptMove"]["POSITION"]);
-	temp->SetScale(lua["Table_ScriptMove"]["SCALE"]);
-	temp->SetRotate(lua["Table_ScriptMove"]["ROTATION"]);
-	DataPlayerComponent* temp1 = (DataPlayerComponent*)src->GetComponent(ComponentId::CT_DataPlayer);
-	//temp1->_MovementSpeed = lua["Table_ScriptMove"]["SPEED"];
 }
 void Script_Move::Load(sol::state& lua) {
 	const auto& my_script = R"(

@@ -39,6 +39,8 @@ void Engine::Init()
 	MyInputSystem.Init();
 	_engineSystems._scriptSystem->Init();
 
+	MyEventHandler.ChangedWindowSize();
+
 //-------------------------------------------------------------
 }
 
@@ -49,6 +51,8 @@ void Engine::Update()
 
 	while (MyFactory.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{
+
+		MyEventHandler.BroadcastWindowEvents();
 
 		double dt = MyFrameRateController.UpdateFrameTime();
 		double fixedDt = MyFrameRateController.GetLockedDt();

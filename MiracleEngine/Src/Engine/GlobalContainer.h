@@ -86,7 +86,7 @@ public:
 		_scriptSystem = new ScriptSystem();
 		_aiSystem = new AISystem();
 		_animationSystem = new AnimationSystem();
-		_graphicsSystem = new GraphicsSystem(_windowSystem->getWindow().GetWindowWidth(), _windowSystem->getWindow().GetWindowHeight());
+		_graphicsSystem = new GraphicsSystem();
 		_physicsSystem = new PhysicsSystem();
 
 
