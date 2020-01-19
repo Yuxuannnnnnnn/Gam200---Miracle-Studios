@@ -86,7 +86,6 @@
 #include "SystemGraphics/QuadMesh.h"
 #include "SystemGraphics/Shader.h"
 #include "SystemGraphics/Texture2D.h"
-//#include "SystemGraphics/UIManager.h"
 #include "SystemGraphics/UIMesh.h"
 #include "SystemGraphics/UIRenderer.h"
 #include "SystemGraphics/VertexArray.h"

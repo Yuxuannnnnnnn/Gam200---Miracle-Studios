@@ -1,6 +1,6 @@
 #include "PrecompiledHeaders.h"
 
-DataComponent::DataComponent() { std::cout << "DEBUG:\t Ctor: DataComponent. \n"; }
+DataComponent::DataComponent() {}
 DataComponent::~DataComponent() {}
 std::string DataComponent::ComponentName() const { return std::string("Data_Health"); }
 void DataComponent::SerialiseComponent(Serialiser& document) {}
@@ -18,7 +18,7 @@ void DataComponent::SaveLuaValues(sol::state& lua, std::string& tableName)
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------
 
-DataMoveComponent::DataMoveComponent() { std::cout << "DEBUG:\t Ctor: DataMove. \n"; }
+DataMoveComponent::DataMoveComponent() { if (DEBUG_LUA) std::cout << "DEBUG:\t Ctor: DataMove. \n"; }
 DataMoveComponent::~DataMoveComponent() {}
 std::string DataMoveComponent::ComponentName() const { return std::string("DataMove"); }
 void DataMoveComponent::SerialiseComponent(Serialiser& document) {}
@@ -38,9 +38,9 @@ void DataMoveComponent::BindLuaValues(sol::state& lua, std::string& tableName) {
 	_position = temp->GetPos();
 	_scale = temp->GetScale();
 	_rotation = temp->GetRotate();
-	lua[tableName]["POSITION"] = _position;
-	lua[tableName]["SCALE"] = _scale;
-	lua[tableName]["ROTATION"] = _rotation;
+	lua[tableName]["POSITION"] = temp->GetPos();
+	lua[tableName]["SCALE"] = temp->GetScale();
+	lua[tableName]["ROTATION"] = temp->GetRotate();
 	DataPlayerComponent* temp1 = (DataPlayerComponent*)parentLogic->GetSibilingComponent(ComponentId::CT_DataPlayer);
 	lua[tableName]["SPEED"] = temp1->_MovementSpeed;
 }
@@ -54,7 +54,7 @@ void DataMoveComponent::SaveLuaValues(sol::state& lua, std::string& tableName) {
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------
 
-DataTransformComponent::DataTransformComponent() { std::cout << "DEBUG:\t Ctor: DataTransform. \n"; }
+DataTransformComponent::DataTransformComponent() { if (DEBUG_LUA) std::cout << "DEBUG:\t Ctor: DataTransform. \n"; }
 DataTransformComponent::~DataTransformComponent() {}
 std::string DataTransformComponent::ComponentName() const { return std::string("DataTransform"); }
 void DataTransformComponent::SerialiseComponent(Serialiser& document) {}
@@ -86,7 +86,7 @@ void DataTransformComponent::SaveLuaValues(sol::state& lua, std::string& tableNa
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------
 
-DataPlayerComponent::DataPlayerComponent() { std::cout << "DEBUG:\t Ctor: DataPlayer. \n"; }
+DataPlayerComponent::DataPlayerComponent() { if (DEBUG_LUA) std::cout << "DEBUG:\t Ctor: DataPlayer. \n"; }
 DataPlayerComponent::~DataPlayerComponent() {}
 std::string DataPlayerComponent::ComponentName() const { return std::string("DataPlayer"); }
 void DataPlayerComponent::SerialiseComponent(Serialiser& document) {}
@@ -128,7 +128,7 @@ void DataPlayerComponent::SaveLuaValues(sol::state& lua, std::string& tableName)
 // -------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------
 
-DataHealthComponent::DataHealthComponent() { std::cout << "DEBUG:\t Ctor: DataHealth. \n"; }
+DataHealthComponent::DataHealthComponent() { if (DEBUG_LUA) std::cout << "DEBUG:\t Ctor: DataHealth. \n"; }
 DataHealthComponent::~DataHealthComponent() {}
 std::string DataHealthComponent::ComponentName() const { return std::string("DataHealth"); }
 void DataHealthComponent::SerialiseComponent(Serialiser& document) {}

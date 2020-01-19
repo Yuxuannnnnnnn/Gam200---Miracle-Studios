@@ -114,18 +114,26 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 
 inline ComponentId ToComponentID(const std::string& type)
 {
+	if (type.compare("Transform") == 0)
+		return ComponentId::CT_Transform;
+	if (type.compare("TransformComponent") == 0)
+		return ComponentId::CT_Transform;
+
 	if (type.compare("DataMove") == 0)
 		return ComponentId::CT_DataMove;
 	if (type.compare("DataMoveComponent") == 0)
 		return ComponentId::CT_DataMove;
+
 	if (type.compare("DataTransform") == 0)
 		return ComponentId::CT_DataTransform;
 	if (type.compare("DataTransformComponent") == 0)
 		return ComponentId::CT_DataTransform;
+
 	if (type.compare("DataPlayer") == 0)
 		return ComponentId::CT_DataPlayer;
 	if (type.compare("DataPlayerComponent") == 0)
 		return ComponentId::CT_DataPlayer;
+
 	if (type.compare("DataHealth") == 0)
 		return ComponentId::CT_DataHealth;
 	if (type.compare("DataHealthComponent") == 0)

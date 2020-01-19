@@ -295,6 +295,7 @@ void Factory::SerialiseLevel(std::string FileName)
 
 
 //For Level Editor Only
+//!!!!!Should return bool to let Level editor know if the scene is successfully saved
 void Factory::De_SerialiseLevel(std::string filename)
 {
 	//1. Deserialise the Resources first
@@ -347,12 +348,17 @@ void Factory::De_SerialiseLevel(std::string filename)
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
 		if (MyResourceSystem.GetPrototypeResource(ObjType))
 		{
-			// PrototypeResourceList does not have the prototype yet
-			if ((std::find(PrototypeResourcePathList.begin(), PrototypeResourcePathList.end(), ObjType) == PrototypeResourcePathList.end()))
+			// PrototypeResourceList does not have the prototype yet 
+			for(auto& string: PrototypeResourcePathList)
 			{
-				std::string FilePath = MyResourceSystem.GetPrototypeList()[ObjType];
-				PrototypeResourcePathList.push_back(FilePath);
+				if (!string.compare(ObjType))
+				{
+					break;
+				}
 			}
+
+			std::string FilePath = MyResourceSystem.GetPrototypeList()[ObjType];
+			PrototypeResourcePathList.push_back(FilePath);
 
 		}
 	}
@@ -574,6 +580,15 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 	SceneFile.AddMember("ClonableObjects", clonableObjects);
 	SceneFile.AddMember("NonClonableObjects", nonClonableObjects);
+
+
+	size_t namesize = filename.find_last_of(".json") - 5 - filename.find_last_of("\\");
+	std::string file = filename.substr(filename.find_last_of("\\/") + 1, namesize);
+
+
+	//Returns false if scene already exists
+	MyResourceSystem.AddNewScene(std::pair < std::string, std::string>(file, filename));
+
 }
 
 void Factory::DeleteLevel()
