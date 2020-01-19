@@ -925,6 +925,7 @@
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Resources\TextFiles\Scenes\GameScenes\GameScenes.json" />
     <None Include="Resources\TextFiles\Scenes\Scenes\Level1.json" />
+    <None Include="Resources\TextFiles\Scenes\Scenes\level2.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>

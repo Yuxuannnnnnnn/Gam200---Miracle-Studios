@@ -110,6 +110,11 @@ void ImguiSystem::UpdateFrame()
 			{
 				std::string windowName = windowPair.first;
 
+				if (!windowName.compare("Texture"))
+				{
+					continue;
+				}
+
 				if (ImGui::MenuItem(windowName.c_str()))
 				{	
 					windowPair.second->SetWindowTrue();

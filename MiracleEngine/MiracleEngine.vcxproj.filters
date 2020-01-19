@@ -711,6 +711,7 @@
     <None Include="freetype.dll" />
     <None Include="imgui.ini" />
     <None Include="lua51.dll" />
+    <None Include="Resources\TextFiles\Scenes\Scenes\level2.json" />
     <None Include="Resources\TextFiles\GameObjects\UiTest.json" />
   </ItemGroup>
   <ItemGroup>
