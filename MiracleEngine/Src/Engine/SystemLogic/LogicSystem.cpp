@@ -1,15 +1,83 @@
 #include "PrecompiledHeaders.h"
 #include "LogicSystem.h"
 
+#include "Script/Player.h"
+
+LogicSystem::~LogicSystem()
+{
+	for (auto& itr : _scriptTypeMap)
+		delete itr.second;
+
+	_scriptTypeMap.clear();
+
+	for (auto& itr : _scriptList)
+		delete itr.second;
+
+	_scriptList.clear();
+}
+
 void LogicSystem::Init() {
+	RegisterScript(Player);
+
 	//ScriptSystem.Init();
 }
 void LogicSystem::Update(double dt) {
 
-	for (auto itr : GetComponentMap(Logic)) {
-		((LogicComponent*)itr.second)->Update(dt);
+	for (auto& itr : GetComponentMap(Logic)) {
+
+		LogicComponent* obj = (LogicComponent*)itr.second;
+
+		obj->Update(dt);
+
+		for (auto& itr : obj->GetScriptContianer())
+		{
+			_scriptList[itr.second]->Update(dt);
+		}
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////
+// c++ scripting
+
+void LogicSystem::AddScriptCreator(std::string scriptName, ScriptCreator* scriptCreator)
+{
+	_scriptTypeMap[scriptName] = scriptCreator;
+}
+
+IScript2* LogicSystem::CloneScript2(size_t uId)
+{
+	IScript2* newScript = _scriptList[uId]->Clone();
+	newScript->_uId = ++_scriptUId;
+
+	_scriptList[newScript->_uId] = newScript;
+
+	return newScript;
+}
+
+IScript2* LogicSystem::CreateNewScript(const std::string& scriptName)
+{
+	IScript2* newScript = _scriptTypeMap[scriptName]->Create();
+	newScript->_uId = ++_scriptUId;
+	newScript->_type = _scriptTypeMap[scriptName]->_type;
+
+	_scriptList[newScript->_uId] = newScript;
+
+	return newScript;
+}
+
+std::unordered_map<size_t, IScript2*>& LogicSystem::GetScriptList()
+{
+	return _scriptList;
+}
+
+std::unordered_map<std::string, ScriptCreator*>& LogicSystem::GetScriptTypeMap()
+{
+	return _scriptTypeMap;
+}
+
+
+
+
 
 //void LogicSystem::Update(double dt)
 //{

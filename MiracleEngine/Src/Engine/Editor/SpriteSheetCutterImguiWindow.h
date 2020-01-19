@@ -1,4 +1,5 @@
 #pragma once
+#include "Tools/Resource/ResourceSystem.h"
 
 
 
@@ -90,6 +91,13 @@ public:
 			std::string frameNumber = std::to_string(i);
 			SpriteSheetData.AddMember(frameNumber, Array);
 		}
+
+		SpriteSheetData.~DeSerialiser();
+
+
+		std::string file = filename.substr(filename.find_last_of("\\/") + 1);
+
+		MyResourceSystem.AddNewAnimationResource(std::pair<std::string, std::string>(file, filename));
 	}
 };
 

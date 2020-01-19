@@ -202,7 +202,9 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\AiComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript2.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\LogicComponent.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptCreator.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleSystemComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.h" />
@@ -585,6 +587,7 @@
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
+    <ClInclude Include="Src\Script\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp">
@@ -617,6 +620,7 @@
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\AiComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript2.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\LogicComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\ParticleComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\ParticleSystemComponent.cpp" />
@@ -738,6 +742,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\Script\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />

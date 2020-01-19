@@ -131,21 +131,24 @@ public:
 	{
 		IComponent::Inspect();
 
-		//Inspect list of animations - Add animations - remove animations - each animation with own time Delay
+		////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
 
 		//ImGui::Spacing();
 		//
-		//static auto ShaderList = MyResourceSystem.GetShaderMap();
+		//static auto& AnimationList = MyResourceSystem.GetAnimationMap();
 		//
-		//int shaderCount = 1;
-		//static std::vector<int> select(_current_ShaderList.size(), 0);
+		//int animationCount = 1;
+		//static std::vector<int> select(AnimationList.size(), 0);
 		//
-		//
-		//if (ImGui::Button("Add Shader"))
+
+		//if (ImGui::Button("Add Animation"))
 		//{
-		//	_current_ShaderList.push_back(" ");
+		//	_animations.insert(std::pair<std::string, timeDelay>(" ", 0.0f));
 		//	select.push_back(0);
 		//}
+
+
+
 		//
 		//for (auto currshader : _current_ShaderList)
 		//{
@@ -200,9 +203,14 @@ public:
 		//}
 
 
-		//Inspect starting animation - from the list of animations
+		////Inspect starting animation - from the list of animations
 
 
+
+
+		////ImGui::SetCursorPos(ImVec2((MyWindowsSystem.getWindow().GetWindowWidth() - (width / scale)) * 0.5f, (MyWindowsSystem.getWindow().GetWindowHeight() - (height / scale)) * 0.5f));
+		//ImGui::Image((void*)(intptr_t)(_currTexture)->GetTextureID(), ImVec2(width / scale, height / scale),
+		//	ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
 
 
 	}

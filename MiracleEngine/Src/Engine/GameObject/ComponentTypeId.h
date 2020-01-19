@@ -29,6 +29,8 @@ enum class ComponentId {
 	CT_Particle,
 	CT_ParticleSystem,
 
+	CT_UI,
+
 	CT_Count,
 	
 	CT_ERROR
@@ -66,7 +68,9 @@ inline const char* ToRegisterID(ComponentId type)
 	case ComponentId::CT_Particle:			return "Particle";
 	case ComponentId::CT_ParticleSystem:	return "ParticleSystem";
 
-	default: return "None";
+	case ComponentId::CT_UI:		return "UI";
+
+	default:      return "None";
 	}
 }
 
@@ -102,7 +106,9 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 	case ComponentId::CT_Particle:			return "ParticleComponent";
 	case ComponentId::CT_ParticleSystem:	return "ParticleSystemComponent";
 
-	default: return "[Unknown TypeIdComponent]";
+	case ComponentId::CT_UI:		return "UIComponent";
+
+	default:      return "[Unknown TypeIdComponent]";
 	}
 }
 

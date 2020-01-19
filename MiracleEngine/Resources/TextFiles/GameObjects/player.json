@@ -13,7 +13,12 @@
   "G.FileName": "Player.png",
 
   "AnimationComponent": true,
-  "AnimationTypes": [ { "AnimationType": "CatAnimation.json", "TimeDelay": 0.0} ],
+  "AnimationTypes": [
+    {
+      "AnimationType": "CatAnimation.json",
+      "TimeDelay": 0.0
+    }
+  ],
   "StartAnim": "CatAnimation.json",
 
   "RigidBodyComponent": true,
@@ -31,6 +36,24 @@
   "A.FileName": "audio_player.ogg",
 
   "LogicComponent": true,
+
   "ScriptId": [ "ScriptMove", "ScriptPlayer" ],
-  "PlayerData": [ { "Health": 10 } ]
+  "PlayerData": [ { "Health": 10 } ],
+  
+  "ScriptId": [ "ScriptMove" ],
+  "Script2Id": [ "Player" ],
+  "Script2Data" : [
+    {
+      "Health": 10,
+      "WeaponActive": 1,
+      "AmmoRpg": 0,
+      "AmmoTurret": 10,
+      "AmmoWall": 10,
+      "FireratePistol": 1.0,
+      "FirerateShotgun": 1.0,
+      "FirerateRpg": 1.0,
+      "FirerateTurret": 1.0,
+      "FirerateWall": 1.0
+    }
+  ]
 }
