@@ -16,7 +16,7 @@ public:
 	LogicSystem(const LogicSystem& rhs) = delete;
 	LogicSystem& operator=(const LogicSystem& rhs) = delete;
 
-	void Init();
+	void Init(bool lua = true);
 	void Update(double dt);
 
 	//void Update(double dt);
@@ -34,6 +34,7 @@ private:
 	std::unordered_map<size_t, IScript2*> _scriptList;
 	std::unordered_map<std::string, ScriptCreator*> _scriptTypeMap;
 
+	bool enableScript2;
 public:
 	void AddScriptCreator(std::string scriptName, ScriptCreator* scriptCreator);
 

@@ -21,23 +21,13 @@ public:
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override { return; }
 
-	IComponent* CloneComponent()
-		{ std::cout << "WARNING: DataComponent::CloneComponent() being called! \n"; return nullptr; }
-
-	virtual void BindLuaValues(sol::state& lua, std::string& tableName)
-		{ std::cout << "WARNING: DataComponent::BindLuaValues() being called! \n"; }
-	virtual void SaveLuaValues(sol::state& lua, std::string& tableName)
-		{ std::cout << "WARNING: DataComponent::SaveLuaValues() being called! \n"; }
+	IComponent* CloneComponent();
+	virtual void CloneComponent(DataComponent* src);
+	virtual void BindLuaValues(sol::state& lua, std::string& tableName);
+	virtual void SaveLuaValues(sol::state& lua, std::string& tableName);
 };
-
-//		changed class DataHealth : public IComponent
-//		to class DataHealth : public DataComponent
-//		same as below
-//		use the comment below on the "ShyYu RegisterComponentThing" on Desktop to set up the RegisterComponent
-//			do this after shyyu push
-		// BRANDON ADD THIS SHIT
-
-
+// -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------
 class DataMoveComponent : public DataComponent
 {
 	Vector3 _position, _scale;
@@ -51,94 +41,73 @@ public:
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-	DataMoveComponent* CloneComponent() { return new DataMoveComponent(*this); }
-
-	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
-		TransformComponent* temp = (TransformComponent*)parentLogic->GetSibilingComponent(ComponentId::CT_Transform);
-		_position = temp->GetPos();
-		_scale = temp->GetScale();
-		_rotation = temp->GetRotate();
-		lua[tableName]["POSITION"] = _position;
-		lua[tableName]["SCALE"] = _scale;
-		lua[tableName]["ROTATION"] = _rotation;
-	}
-	virtual void SaveLuaValues(sol::state& lua, std::string& tableName) override {
-		TransformComponent* temp = (TransformComponent*)parentLogic->GetSibilingComponent(ComponentId::CT_Transform);
-		temp->SetPos(lua[tableName]["POSITION"]);
-		temp->SetScale(lua[tableName]["SCALE"]);
-		auto temp2 = lua[tableName]["ROTATION"];
-		temp->SetRotate(lua[tableName]["ROTATION"]);
-	}
+	DataMoveComponent* CloneComponent() override;
+	virtual void CloneComponent(DataComponent* src) override;
+	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override;
+	virtual void SaveLuaValues(sol::state& lua, std::string& tableName) override;
 };
-
-class DataHealth : public DataComponent
+// -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------
+class DataTransformComponent : public DataComponent
 {
-	int _Health;
+	Vector3 _ObjPos, _ObjScale;
+	float _ObjRot;
+	//Vector3 _SpritePos, _SpriteScale;
+	//float _SpriteRot;
 public:
-	DataHealth();
-	virtual ~DataHealth();
+	DataTransformComponent();
+	virtual ~DataTransformComponent();
 	virtual std::string ComponentName() const override;
 	virtual void SerialiseComponent(Serialiser& document) override;
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
-		 lua[tableName]["HEALTH"] = &_Health;
-	}
-	DataHealth* CloneComponent() { return new DataHealth(*this); }
+	DataTransformComponent* CloneComponent() override;
+	virtual void CloneComponent(DataComponent* src) override;
+	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override;
+	virtual void SaveLuaValues(sol::state& lua, std::string& tableName) override;
 };
-
-class DataShieldComponent : public DataComponent
+// -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------
+class DataPlayerComponent : public DataComponent
 {
-	double _Capacity;
 public:
-	DataShieldComponent();
-	virtual ~DataShieldComponent();
+	float _Health, _HealthMax;
+	float _Shield, _ShieldMax, _ShieldRechargeSpeed;
+	float _MovementSpeed = 1, _MovementSpeedMax;
+public:
+	DataPlayerComponent();
+	virtual ~DataPlayerComponent();
 	virtual std::string ComponentName() const override;
 	virtual void SerialiseComponent(Serialiser& document) override;
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override {
-		lua[tableName]["DATA"] = _Capacity;
-	}
-	DataShieldComponent* CloneComponent() { return new DataShieldComponent(*this); }
+	DataPlayerComponent* CloneComponent() override;
+	virtual void CloneComponent(DataComponent* src) override;
+	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override;
+	virtual void SaveLuaValues(sol::state& lua, std::string& tableName) override;
 };
+// -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------
+class DataHealthComponent : public DataComponent
+{
+	float _Health, _HealthMax;
+public:
+	DataHealthComponent();
+	virtual ~DataHealthComponent();
+	virtual std::string ComponentName() const override;
+	virtual void SerialiseComponent(Serialiser& document) override;
+	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
+	virtual void Inspect() override;
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
 
-//class DataAmmo : public DataComponent
-//{
-//	LogicComponent* parentLogic;
-//
-//public:
-//	DataAmmo();
-//	virtual ~DataAmmo();
-//	virtual std::string ComponentName() const override;
-//	virtual void SerialiseComponent(Serialiser& document) override;
-//	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
-//	virtual void Inspect() override;
-//	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)		override { return; }
-//
-//	DataAmmo* CloneComponent() { return nullptr; }
-//
-//	virtual void BindLuaValues(sol::state& lua) {
-//		lua["DATA"] = srcDataList["data"];
-//	}
-//	void Update(double dt)
-//	{
-//	}
-//};
-
-//class DataAttack : public DataComponent
-//{
-//
-//};
-//
-//class DataPathfinding : public DataComponent
-//{
-//
-//};
-
+	DataHealthComponent* CloneComponent() override;
+	virtual void CloneComponent(DataComponent* src) override;
+	virtual void BindLuaValues(sol::state& lua, std::string& tableName) override;
+	virtual void SaveLuaValues(sol::state& lua, std::string& tableName) override;
+};
 
 #endif
