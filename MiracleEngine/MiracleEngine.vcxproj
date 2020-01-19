@@ -205,6 +205,7 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript2.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\LogicComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptCreator.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptTypeId.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\ParticleSystemComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.h" />

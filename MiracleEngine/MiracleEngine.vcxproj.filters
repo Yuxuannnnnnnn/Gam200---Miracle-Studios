@@ -528,6 +528,7 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript2.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptCreator.h" />
     <ClInclude Include="Src\Script\Player.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptTypeId.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
