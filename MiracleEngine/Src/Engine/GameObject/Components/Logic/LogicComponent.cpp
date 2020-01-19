@@ -36,7 +36,6 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 			if (document["ScriptId"][i].IsString())
 			{
 				std::string str = (document["ScriptId"][i].GetString());
-				//_ScriptIds.push_back(str);
 				AddScript(str);
 			}
 		}
@@ -135,21 +134,29 @@ IComponent* LogicComponent::Resolver_StringToDataComponent(std::string& dataName
 		temp = (DataComponent*)parent->AddComponent(ComponentId::CT_DataMove);
 		temp->parentLogic = this;	
 	}
-	//if (dataName == "health")
-	//{
-	//	return new DataHealth();
-	//}
-	//if (dataName == "health2")
-	//{
-	//	return new DataHealth();
-	//}
-	//std::cout << "WARNING: LogicComponent::Resolver_StringToDataComponent(dataName) had no proper 'dataName', function returning NULLPTR. \n";
+	if (dataName == "DataTransformComponent")
+	{
+		temp = (DataComponent*)parent->AddComponent(ComponentId::CT_DataTransform);
+		temp->parentLogic = this;
+	}
+	if (dataName == "DataPlayerComponent")
+	{
+		temp = (DataComponent*)parent->AddComponent(ComponentId::CT_DataPlayer);
+		temp->parentLogic = this;
+	}
+	if (dataName == "DataHealthComponent")
+	{
+		temp = (DataComponent*)parent->AddComponent(ComponentId::CT_DataHealth);
+		temp->parentLogic = this;
+	}
 	return temp;
 }
 void LogicComponent::AddScriptDataCompResolver(std::string& scriptName)
 {
-	std::vector<std::string> tempStrVec;
-	// list of all what each script needs as data component, before DataComponent.Register, will need this table or sth
+
+}
+void LogicComponent::AddScript(std::string& scriptName)
+{
 	if (scriptName.empty())
 	{
 		std::cout << "WARNING: " << scriptName << " is empty. \n";
@@ -160,6 +167,17 @@ void LogicComponent::AddScriptDataCompResolver(std::string& scriptName)
 		std::cout << "WARNING: Script: " << scriptName << ", does not have any data component. \n";
 		return;
 	}
+	
+	std::cout << "DEBUG:\t LogicComponent::AddScript(" << scriptName << ") \n";
+	for (auto itr : _ScriptIds)
+		if (itr == scriptName)
+		{
+			std::cout << "WARNING: Script already exists. \n";
+			break; 
+		}
+	_ScriptIds.push_back(scriptName);
+
+	std::vector<std::string> tempStrVec;
 	std::cout << "DEBUG:\t Script: " << scriptName << ", adding data components... \n";
 	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
 	if (tempStrVec.empty())
@@ -169,18 +187,6 @@ void LogicComponent::AddScriptDataCompResolver(std::string& scriptName)
 	}
 	for (auto itr : tempStrVec)
 		AddDataComp(itr);
-}
-void LogicComponent::AddScript(std::string& scriptName)
-{
-	std::cout << "DEBUG:\t LogicComponent::AddScript(" << scriptName << ") \n";
-	for (auto itr : _ScriptIds)
-		if (itr == scriptName)
-		{
-			std::cout << "WARNING: Script already exists. \n";
-			break; 
-		}
-	_ScriptIds.push_back(scriptName);
-	AddScriptDataCompResolver(scriptName);
 }
 void LogicComponent::AddDataComp(std::string& dataName)
 {
@@ -252,10 +258,38 @@ void LogicComponent::RemoveDataComp(std::string& dataName)
 	//	_DataList.erase(_DataList.find(dataName));
 }
 
-void LogicComponent::CloneScriptsAndDatas(LogicComponent* source)
+void LogicComponent::CloneScripts(LogicComponent* source)
 {
-	for (auto itr : source->_ScriptIds)
-		AddScript(itr);
+	_ScriptIds = source->_ScriptIds;
+	for (auto nameScript : _ScriptIds)
+	{
+		if (nameScript.empty())
+		{
+			std::cout << "WARNING: " << nameScript << " is empty. \n";
+			return;
+		}
+		if (nameScript == "unknown")
+		{
+			std::cout << "WARNING: Script: " << nameScript << ", does not have any data component. \n";
+			return;
+		}
+
+		std::cout << "DEBUG:\t LogicComponent::CloneScript(" << nameScript << ") \n";
+		for (auto nameComponent : _engineSystems.GetInstance()._scriptSystem->_TableScriptData[nameScript])
+		{
+			// check if dataComp alr exist
+			for (auto nameExistingComponent : GetParentPtr()->GetComponentList())
+				if (nameExistingComponent.first == ToComponentID(nameComponent))
+				{
+					std::cout << "WARNING: DataComponent already exists. \n";
+					break;
+				}
+			// else add dataComp base
+			IComponent* dataComp = Resolver_StringToDataComponent(nameComponent);
+			// copy info
+			dataComp->CloneComponent();
+		}			
+	}
 }
 void LogicComponent::ClearScripts()
 {
@@ -269,7 +303,7 @@ LogicComponent* LogicComponent::CloneComponent(GameObject* parent)
 	LogicComponent* temp = new LogicComponent();
 	temp->SetParentPtr(parent);
 	temp->SetParentId(parent->Get_uID());
-
+	//temp->CloneScripts((LogicComponent*)parent->GetComponent(ComponentId::CT_Logic));
 	//temp->_ScriptIds = _ScriptIds;
 	for (auto itr : _ScriptIds)
 		temp->AddScript(itr);

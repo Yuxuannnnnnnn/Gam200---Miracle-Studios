@@ -11,10 +11,12 @@
 // Scripts
 #include "LuaScriptTest.h"
 
+#define DEBUG_LUA 0
 
-
-static sol::state lua; // replace with the one in ScriptSYS
+static sol::state lua;
 static sol::protected_function_result pfr;
+static sol::environment mEnvironment;
+
 class LuaScriptComponent;
 
 class ScriptSystem// : public ISystem
@@ -32,6 +34,8 @@ class ScriptSystem// : public ISystem
 	Vector3(4,2,0)
 	*/
 public:
+	bool _debug = true;
+
 	sol::table Table_Input; // Mouse & Keyboard
 	sol::table Table_Console; // Console I/O, no Input yet
 	sol::table Table_Anim; // Animation
@@ -52,17 +56,10 @@ public:
 	void BindMathVector3();
 	void BindMouseAndKeyboard();
 	void BindMiscFunctions();
-	void BindDataCompValues_Inital(); // this will init a sol::table Data_Table where all DataComp values are stored
-	//void BindDataCompValues_Runtime(sol::state& lua, GameObject* src, std::string& scriptName); // this will be called as first linei n RunScript()
 
 	void Test_DataCompEditing();
 	void Test_BasicFuncitonality();
 	int testfunc();
-
-	void Print(std::string str) { std::cout << str; }
-	void Print(int i) { std::cout << i; }
-	void Print(double i) { std::cout << i; }
-	void Print(float i) { std::cout << i; }
 
 	//--------------------------------------------------
 	ScriptSystem()
