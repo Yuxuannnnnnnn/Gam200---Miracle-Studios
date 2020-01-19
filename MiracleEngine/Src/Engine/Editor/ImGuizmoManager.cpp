@@ -40,21 +40,39 @@ void ImGuizmoManager::Update()
 			return;
 		}
 
+		float cameraView[16] =
+		{ 1.f, 0.f, 0.f, 0.f,
+		  0.f, 1.f, 0.f, 0.f,
+		  0.f, 0.f, 1.f, 0.f,
+		  0.f, 0.f, 0.f, 1.f };
+
+		float cameraProjection[16];
+
+		float viewWidth = 8.f; // for orthographic
+		float camYAngle = 90.f / 180.f * 3.14159f;
+		float camXAngle = 0;
+		float camDistance = 8.f;
+
+		float viewHeight = viewWidth * 1024 / 1280;
+		OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, -viewWidth, viewWidth, cameraProjection);
+
+		ImGuizmo::SetOrthographic(true);
+
+		float eye[] = { cosf(camYAngle) * cosf(camXAngle) * camDistance, sinf(camXAngle) * camDistance, sinf(camYAngle) * cosf(camXAngle) * camDistance };
+		float at[] = { 0.f, 0.f, 0.f };
+		float up[] = { 0.f, 1.f, 0.f };
+		LookAt(eye, at, up, cameraView);
+		ImGuizmo::BeginFrame();
+
+
 		//ImGuizmo::SetOrthographic(false);
 		ImGuizmo::BeginFrame();
 		ImGui::SetNextWindowPos(ImVec2(300, 0));
 		ImGui::SetNextWindowSize(ImVec2(300, 400));
 		ImGui::Begin("Editor");
 
-		const float* cameraView = nullptr;
-		float* cameraProjection = nullptr;
-		float* objectMatrix = nullptr;
-		//MyGraphicsSystem.GetZmoInfo(_pickUId, cameraView, cameraProjection, objectMatrix);
 
-
-		EditTransform(cameraView, cameraProjection, objectMatrix);
-
-		float m[3] = { 0,0,0 };
+		EditTransform(cameraView, cameraProjection, transform->GetModel());
 
 		//ImGuizmo::DecomposeMatrixToComponents(objectMatrix, transform->GetPos().m, m, transform->GetScale().m);
 
