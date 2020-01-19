@@ -5,13 +5,18 @@ class ImGuizmoManager final
 {
 private:
 	size_t _pickUId;
+
+	float _windowWidth;
+	float _windowHeight;
+
 public:
-	ImGuizmoManager() :_pickUId{ 0 } {}
+	ImGuizmoManager() :_pickUId{ 0 }, _windowWidth{ 1280 }, _windowHeight{ 1024 }{}
 	~ImGuizmoManager() {}
 
 	void Update();
-
 	void SetPickObjectUId(size_t uId);
+
+	void SetWindowSize(float width, float height);
 
 private:
 	void EditTransform(const float* cameraView, float* cameraProjection, float* matrix);

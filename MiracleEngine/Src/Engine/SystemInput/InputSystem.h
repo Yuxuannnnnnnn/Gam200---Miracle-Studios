@@ -8,6 +8,9 @@
 #include "SystemWindows/WindowsSystem.h"
 class InputSystem
 {
+	float _windowWidth;
+	float _windowHeight;
+
 	std::map<std::string, KeyCode> Map_KeyCode;
 public:
 	KeyCode StringToKeycode(const char* str);
@@ -21,6 +24,8 @@ public:
 	void Exit();
 
 	Vector3 GetMousePos() const;
+
+	void SetWindowSize(float width, float height);
 private:
 
 	void InterruptCheck();

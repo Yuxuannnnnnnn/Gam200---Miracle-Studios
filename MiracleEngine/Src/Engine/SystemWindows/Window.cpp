@@ -280,8 +280,8 @@ void Window::SetFullscreenWindowMode()
 	_windowWidth = GetSystemMetrics(SM_CXSCREEN);
 	_windowHeight = GetSystemMetrics(SM_CYSCREEN);
 	_fullScreen = true;
-	/*if(_engineSystems._graphicsSystem)
-		ResizeGraphics(_windowWidth, _windowHeight);*/
+
+	MyEventHandler.ChangedWindowSize();
 
 	WINDOWPLACEMENT wp;
 	wp.showCmd = 0; // Just to clear showCmd before reading.
@@ -299,7 +299,8 @@ void Window::SetNonFullScreenWindowMode()
 	_windowWidth = _initWindowWidth;
 	_windowHeight = _initWindowHeight;
 	_fullScreen = false;
-	//ResizeGraphics(_windowWidth, _windowHeight);
+
+	MyEventHandler.ChangedWindowSize();
 
 	WINDOWPLACEMENT wp;
 	wp.showCmd = 0; // Just to clear showCmd before reading.
@@ -323,19 +324,18 @@ void Window::CheckFullScreenToggle()
 			_windowWidth = GetSystemMetrics(SM_CXSCREEN);
 			_windowHeight = GetSystemMetrics(SM_CYSCREEN);
 			_fullScreen = true;
-			//ResizeGraphics(_windowWidth, _windowHeight);
+
+			MyEventHandler.ChangedWindowSize();
 		}
-		else if (wp.showCmd == SW_MINIMIZE)
+		else if (/*wp.showCmd == SW_MINIMIZE ||*/ wp.showCmd == SW_SHOWNORMAL)
 		{
 			_windowWidth = _initWindowWidth;
 			_windowHeight = _initWindowHeight;
 			_fullScreen = false;
-			//ResizeGraphics(_windowWidth, _windowHeight);
-			
+
+			MyEventHandler.ChangedWindowSize();
 		}
 	}
-
-
 }
 
 

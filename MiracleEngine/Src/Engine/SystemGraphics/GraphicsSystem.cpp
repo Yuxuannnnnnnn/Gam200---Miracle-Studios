@@ -52,9 +52,7 @@ void GraphicsSystem::EndScene()
 	}*/
 }
 
-GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight)
-	: _proj{ glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
-			-(float)windowHeight / 2, (float)windowHeight / 2, -30.0f, 30.0f) }
+GraphicsSystem::GraphicsSystem()
 {
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
@@ -83,6 +81,11 @@ GraphicsSystem::~GraphicsSystem()
 {
 }
 
+void GraphicsSystem::ResizeGraphics(float width, float height)
+{
+	_proj = glm::ortho(-width / 2.f, width / 2.f, -height / 2.f, height / 2.f, -30.0f, 30.0f);
+	glViewport(0, 0, width, height);
+}
 
 
 void GraphicsSystem::ClearSreen() const

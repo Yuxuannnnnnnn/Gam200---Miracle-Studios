@@ -33,8 +33,11 @@ public:
 	// GraphicsSystem(int& windowWidth, int& windowHeight); possible solution to resize : take the reference of window height and width
 
 	void Update(double dt);                              // Update function called every loop
-	GraphicsSystem(int windowWidth, int windowHeight);   // constructor
+	GraphicsSystem();   // constructor
 	~GraphicsSystem();                                   // destructor
+
+	void ResizeGraphics(float width, float height);
+
 private:
 	void BeginScene();
 	void EndScene();
