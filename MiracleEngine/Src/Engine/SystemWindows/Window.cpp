@@ -275,7 +275,7 @@ void Window::SetFullscreenWindowMode()
 	DWORD dwRemove = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 	DWORD dwNewStyle = dwStyle & ~dwRemove;
 	::SetWindowLong(mainHWND, GWL_STYLE, dwNewStyle);
-	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 0L);
+	SetWindowPos(mainHWND, HWND_NOTOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), 0L);
 
 	_windowWidth = GetSystemMetrics(SM_CXSCREEN);
 	_windowHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -292,9 +292,14 @@ void Window::SetFullscreenWindowMode()
 void Window::SetNonFullScreenWindowMode()
 {
 	DWORD dwStyle = ::GetWindowLong(mainHWND, GWL_STYLE);
-	dwStyle |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+	dwStyle |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW;
+	dwStyle &= ~WS_SIZEBOX;
+
+	RECT rect = { 0, 0, (LONG)(_initWindowWidth - 1), (LONG)(_initWindowHeight - 1) };
+	AdjustWindowRectEx(&rect, dwStyle, FALSE, WS_EX_APPWINDOW);
+
 	::SetWindowLong(mainHWND, GWL_STYLE, dwStyle);
-	SetWindowPos(mainHWND, HWND_TOPMOST, 0, 0, _initWindowWidth, _initWindowHeight, 0L);
+	SetWindowPos(mainHWND, HWND_NOTOPMOST, 0, 0, rect.right - rect.left, rect.bottom - rect.top, 0L);
 
 	_windowWidth = _initWindowWidth;
 	_windowHeight = _initWindowHeight;
@@ -321,8 +326,10 @@ void Window::CheckFullScreenToggle()
 		_windowState = wp.showCmd;
 		if (wp.showCmd == SW_MAXIMIZE)
 		{
-			_windowWidth = GetSystemMetrics(SM_CXSCREEN);
-			_windowHeight = GetSystemMetrics(SM_CYSCREEN);
+			RECT rect;
+			GetWindowRect(mainHWND, &rect);
+			_windowWidth = rect.right + rect.left;
+			_windowHeight = rect.bottom + rect.top - 20;
 			_fullScreen = true;
 
 			MyEventHandler.ChangedWindowSize();

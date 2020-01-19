@@ -39,11 +39,7 @@ public:
 	sol::table Table_Anim; // Animation
 	sol::table Table_Math;
 
-	// scriptName, Script*
 	std::unordered_map<std::string, LuaScriptBase*> _ScriptsAll;
-	// scriptName, vec::dataCompName
-	std::unordered_map<std::string, std::vector<std::string>> _TableScriptData;
-	void Create_TableScriptData();
 	void Create_Scripts();
 
 	void RunScriptOld(GameObject* src, std::string& scriptName);

@@ -46,13 +46,14 @@ public:
 	void CloneScripts(LogicComponent* source);		//AddScript() & copy data info in comps
 	void ClearScripts();
 
-	LogicComponent* CloneComponent() { return nullptr;  };
-	
+	LogicComponent* CloneComponent();
+
+	LogicComponent* CloneComponent(GameObject* parent);
 
 /////////////////////////////////////////////////////////////////////////////
 // c++ scripting
 
-	LogicComponent* CloneComponent(GameObject* parent);
+
 
 private:
 	std::unordered_map<ScriptType, size_t> _scriptContianer;
