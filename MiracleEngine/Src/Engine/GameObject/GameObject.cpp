@@ -158,6 +158,7 @@ void GameObject::SetDestory()
 {
 	_destory = true;
 	SetEnable(false);
+	MyFactory.Destroy(this);
 	//MyEventHandler.AddDeletionEvent(_uId);
 }
 
