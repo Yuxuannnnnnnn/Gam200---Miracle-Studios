@@ -37,10 +37,9 @@
 
   "LogicComponent": true,
 
-  "ScriptId": [ "ScriptMove", "ScriptPlayer" ],
+  "ScriptId": [ "ScriptMove" ],
   "PlayerData": [ { "Health": 10 } ],
   
-  "ScriptId": [ "ScriptMove" ],
   "Script2Id": [ "Player" ],
   "Script2Data" : [
     {

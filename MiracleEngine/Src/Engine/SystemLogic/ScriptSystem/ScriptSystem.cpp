@@ -21,7 +21,7 @@ void ScriptSystem::Create_Scripts()
 	_ScriptsAll["ScriptPlayer"] = new Script_Player{};
 }
 
-void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
+void ScriptSystem::RunScriptOld(GameObject* src, std::string& scriptName)
 {
 	mEnvironment = sol::environment{ lua, sol::create, lua.globals() };
 
@@ -81,6 +81,12 @@ void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
 //			std::cerr << "failde to load string-based script in the program" << err.what() << std::endl;
 //		}
 //		fx();
+}
+void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
+{
+	_ScriptsAll[scriptName]->Bind(lua, src);
+	_ScriptsAll[scriptName]->Load(lua);
+	_ScriptsAll[scriptName]->Save(lua, src);
 }
 
 void ScriptSystem::Init() {

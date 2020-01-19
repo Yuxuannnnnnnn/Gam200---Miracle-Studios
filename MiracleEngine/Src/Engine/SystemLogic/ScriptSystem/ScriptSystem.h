@@ -11,7 +11,7 @@
 // Scripts
 #include "LuaScriptTest.h"
 
-#define DEBUG_LUA 0
+#define DEBUG_LUA 1
 
 static sol::state lua;
 static sol::protected_function_result pfr;
@@ -34,8 +34,6 @@ class ScriptSystem// : public ISystem
 	Vector3(4,2,0)
 	*/
 public:
-	bool _debug = true;
-
 	sol::table Table_Input; // Mouse & Keyboard
 	sol::table Table_Console; // Console I/O, no Input yet
 	sol::table Table_Anim; // Animation
@@ -48,6 +46,7 @@ public:
 	void Create_TableScriptData();
 	void Create_Scripts();
 
+	void RunScriptOld(GameObject* src, std::string& scriptName);
 	void RunScript(GameObject* src, std::string& scriptName);
 
 	void BindAll();
