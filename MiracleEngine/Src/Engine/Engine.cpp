@@ -19,22 +19,25 @@ void Engine::Init()
 	RegisterComponent(Audio);
 	RegisterComponent(Button);
 	RegisterComponent(TileMap);
-	RegisterComponent(DataMove);
+
+	RegisterComponent(DataMove);		// DataComponents
+	RegisterComponent(DataTransform);
+	RegisterComponent(DataPlayer);
+	RegisterComponent(DataHealth);
+
 	RegisterComponent(Particle);
 	RegisterComponent(ParticleSystem);
+
 	RegisterComponent(UI);
 
-	MyLogicSystem.Init();
-
+	MyLogicSystem.Init(false);
 
 	MyImguiSystem.Init();
 #ifndef LEVELEDITOR
-
 	MySceneManager.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
 #endif
 	MyInputSystem.Init();
 	_engineSystems._scriptSystem->Init();
-
 
 //-------------------------------------------------------------
 }
@@ -42,14 +45,6 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	bool test = true; // BRANDON::testing sol & lua
-	if (test)
-	{
-		_engineSystems._scriptSystem->testfunc();
-		_engineSystems._scriptSystem->Test_BasicFuncitonality();
-		_engineSystems._scriptSystem->Test_DataCompEditing();
-	}
-
 	MyFactory.ChangeScene("Level1");
 
 	while (MyFactory.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
