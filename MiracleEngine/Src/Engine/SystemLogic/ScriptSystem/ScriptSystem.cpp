@@ -1,86 +1,57 @@
 #include "PrecompiledHeaders.h"
 #include "ScriptSystem.h"
 
-void ScriptSystem::Create_TableScriptData()
-{
-	_TableScriptData["ScriptMove"] = std::vector<std::string>{ 
-		ToString(ComponentId::CT_DataMove)
-	};
-	lua["Table_ScriptMove"] = lua.create_table();
-
-	_TableScriptData["ScriptPlayer"] = std::vector<std::string>{
-		ToString(ComponentId::CT_DataTransform),
-		ToString(ComponentId::CT_DataPlayer)
-	};
-	lua["Table_ScriptPlayer"] = lua.create_table();
-} 
-
 void ScriptSystem::Create_Scripts()
 {
-	_ScriptsAll["ScriptMove"] = new Script_Move{};
-	_ScriptsAll["ScriptPlayer"] = new Script_Player{};
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Creating Scripts\n";
+	LuaScriptBase* temp = nullptr;
+
+	temp = new Script_Move();
+	_ScriptsAll[temp->_Name] = temp;
+	lua[temp->_Name] = lua.create_table();
+
+	temp = new Script_Player();
+	_ScriptsAll[temp->_Name] = temp;
+	lua[temp->_Name] = lua.create_table();
 }
 
 void ScriptSystem::RunScriptOld(GameObject* src, std::string& scriptName)
 {
-	mEnvironment = sol::environment{ lua, sol::create, lua.globals() };
-
-	// bind the data
-	std::vector<std::string> dataList = _TableScriptData[scriptName];
-	IComponent* dataComp = nullptr;
-	for (auto itr : dataList)
-	{
-		dataComp = nullptr;
-		// get the DataComponent
-		dataComp = (LogicComponent*)src->GetComponent(ToComponentID(itr));
-		if (!dataComp)
-			std::cout
-				<< "WARNING: ScriptSystem::RunScript("
-				<< ((IdentityComponent*)(src->GetComponent(ComponentId::CT_Identity)))->ObjectType() << ", "
-				<< scriptName << ") has nullptr for 'dataComp'\n";
-		// load right table to temp, use
-		std::string tableName = "Table_";
-		tableName += scriptName; // eg. Table_ScriptMove
-		reinterpret_cast<DataComponent*>(dataComp)->BindLuaValues(lua, tableName);
-	}
-	// bind the script & run (from inside Load())
-	_ScriptsAll[scriptName]->Load(lua);
-	
-	// save the data
-	for (auto itr : dataList)
-	{
-		dataComp = nullptr;
-		// get the DataComponent
-		dataComp = (LogicComponent*)src->GetComponent(ToComponentID(itr));
-		// load right table to temp, use
-		std::string tableName = "Table_";
-		tableName += scriptName; // Table_DataAmmo || Table_DataHealth || etc
-		sol::table temp = lua[tableName];
-		reinterpret_cast<DataComponent*>(dataComp)->SaveLuaValues(lua, tableName);
-	}
-
-	//		// based on scriptName, use _TableScriptData to get the DataComponent's stuff that needs to bind
-//		// once values are binded, run script
-//			// script itself will save the things based on the table
+//	mEnvironment = sol::environment{ lua, sol::create, lua.globals() };
 //
-//		BindDataCompValues_Runtime(lua, src, scriptName);
-//			//lua["Table_Data"] = lua.create_table();
-//			//lua["Table_Data"]["HEALTH"];
-//
-//		const auto& my_script = R"(
-//	Console.WriteStr("SubScript 1\n")
-//	local a = ...
-//	a = 0.4
-//	Table_Data.HEALTH = a
-//	Console.WriteStr("SubScript 1 : ")
-//	Console.WriteNum(a)
-//		)";
-//		sol::load_result fx = lua.load(my_script);
-//		if (!fx.valid()) {
-//			sol::error err = fx;
-//			std::cerr << "failde to load string-based script in the program" << err.what() << std::endl;
-//		}
-//		fx();
+//	// bind the data
+//	std::vector<std::string> dataList = _TableScriptData[scriptName];
+//	IComponent* dataComp = nullptr;
+//	for (auto itr : dataList)
+//	{
+//		dataComp = nullptr;
+//		// get the DataComponent
+//		dataComp = (LogicComponent*)src->GetComponent(ToComponentID(itr));
+//		if (!dataComp)
+//			std::cout
+//				<< "WARNING: ScriptSystem::RunScript("
+//				<< ((IdentityComponent*)(src->GetComponent(ComponentId::CT_Identity)))->ObjectType() << ", "
+//				<< scriptName << ") has nullptr for 'dataComp'\n";
+//		// load right table to temp, use
+//		std::string tableName = "Table_";
+//		tableName += scriptName; // eg. Table_ScriptMove
+//		reinterpret_cast<DataComponent*>(dataComp)->BindLuaValues(lua, tableName);
+//	}
+//	// bind the script & run (from inside Load())
+//	_ScriptsAll[scriptName]->Load(lua);
+//	
+//	// save the data
+//	for (auto itr : dataList)
+//	{
+//		dataComp = nullptr;
+//		// get the DataComponent
+//		dataComp = (LogicComponent*)src->GetComponent(ToComponentID(itr));
+//		// load right table to temp, use
+//		std::string tableName = "Table_";
+//		tableName += scriptName; // Table_DataAmmo || Table_DataHealth || etc
+//		sol::table temp = lua[tableName];
+//		reinterpret_cast<DataComponent*>(dataComp)->SaveLuaValues(lua, tableName);
+//	}
 }
 void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
 {
@@ -90,7 +61,6 @@ void ScriptSystem::RunScript(GameObject* src, std::string& scriptName)
 }
 
 void ScriptSystem::Init() {
-	Create_TableScriptData();
 	Create_Scripts();
 	BindAll();
 }

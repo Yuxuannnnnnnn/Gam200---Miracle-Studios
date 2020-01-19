@@ -24,13 +24,14 @@ void Engine::Init()
 	RegisterComponent(DataTransform);
 	RegisterComponent(DataPlayer);
 	RegisterComponent(DataHealth);
+	_engineSystems._scriptSystem->Create_Scripts(); // fill up _ScriptsAll
 
 	RegisterComponent(Particle);
 	RegisterComponent(ParticleSystem);
-
 	RegisterComponent(UI);
-
-	MyLogicSystem.Init(false);
+	
+	MyLogicSystem.bUseOldScripting = true; // set TRUE to use C++ scripting
+	MyLogicSystem.Init();
 
 	MyImguiSystem.Init();
 #ifndef LEVELEDITOR
