@@ -71,10 +71,13 @@ private:
 
 	IdQueue _DeleteObjectQueue;
 
+	bool _changedSize;
+
 public:
 	EventHandler() {}
 	virtual ~EventHandler();
 
+	void BroadcastWindowEvents();
 	void BroadcastCollisionEvents();
 	void BroadcastInputEvents();
 	void BroadcastObjectEvents();
@@ -88,6 +91,8 @@ public:
 
 	void ClearAllEvents();
 
+	void ChangedWindowSize();
+
 private:
 	void BroadcastCollided2DEvents();
 	void BroadcastTriggered2DEvents();
@@ -97,6 +102,8 @@ private:
 
 	void BroadcastComponentDeletionEvents();
 	void BroadcastComponentCreationEvents();
+
+	void BroadcastNewWindowSize(float width, float height);
 
 	void RemoveCollider2DEvent(Collider2DQueue& queue, size_t first, size_t second = 0);
 

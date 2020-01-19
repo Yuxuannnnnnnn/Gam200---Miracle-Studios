@@ -172,13 +172,19 @@ void InputSystem::Update(Window& window)
 
 Vector3 InputSystem::GetMousePos() const
 {
-	return Vector3{ (float)(_p.x - (EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth()) / 2.0f),
-	  (float)(EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2.0f) - _p.y, 1.0f };
+	return Vector3{ (float)_p.x - _windowWidth / 2.0f,
+	  _windowHeight / 2.0f - (float)_p.y, 1.0f };
 }
 
 void InputSystem::Exit()
 {
 
+}
+
+void InputSystem::SetWindowSize(float width, float height)
+{
+	_windowWidth = width;
+	_windowHeight = height;
 }
 
 void InputSystem::InterruptCheck()

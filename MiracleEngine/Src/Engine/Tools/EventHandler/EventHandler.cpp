@@ -14,6 +14,12 @@ EventHandler::~EventHandler()
 	ClearAllEvents();
 }
 
+void EventHandler::BroadcastWindowEvents()
+{
+	if (_changedSize)
+		BroadcastNewWindowSize(MyWindowsSystem.getWindow().GetWindowWidth(), MyWindowsSystem.getWindow().GetWindowHeight());
+}
+
 void EventHandler::BroadcastCollisionEvents()
 {
 	BroadcastCollided2DEvents();
@@ -451,4 +457,18 @@ void EventHandler::ClearAllEvents()
 
 	_NewComponentQueue.clear();
 	_DeleteComponentQueue.clear();
+}
+
+void EventHandler::ChangedWindowSize()
+{
+	_changedSize = true;
+}
+
+void EventHandler::BroadcastNewWindowSize(float width, float height)
+{
+	MyImGuizmoManager.SetWindowSize(width, height);
+	MyInputSystem.SetWindowSize(width, height);
+	MyGraphicsSystem.ResizeGraphics(width, height);
+
+	_changedSize = false;
 }

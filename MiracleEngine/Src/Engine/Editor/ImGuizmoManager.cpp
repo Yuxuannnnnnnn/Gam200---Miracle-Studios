@@ -53,7 +53,7 @@ void ImGuizmoManager::Update()
 		float camXAngle = 0;
 		float camDistance = 8.f;
 
-		float viewHeight = viewWidth * 1024 / 1280;
+		float viewHeight = viewWidth * _windowHeight / _windowWidth;
 		OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, -viewWidth, viewWidth, cameraProjection);
 
 		ImGuizmo::SetOrthographic(true);
@@ -81,15 +81,15 @@ void ImGuizmoManager::Update()
 
 		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 		ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
-		matrixTranslation[0] = matrixTranslation[0] / (1280 / 2 /  viewWidth);
-		matrixTranslation[1] = matrixTranslation[1] / (1024 / 2 / viewHeight);
+		matrixTranslation[0] = matrixTranslation[0] / (_windowWidth / 2 /  viewWidth);
+		matrixTranslation[1] = matrixTranslation[1] / (_windowHeight / 2 / viewHeight);
 		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
 
 		EditTransform(cameraView, cameraProjection, matrix);
 
 		ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
-		matrixTranslation[0] = matrixTranslation[0] * (1280 / 2 / viewWidth);
-		matrixTranslation[1] = matrixTranslation[1] * (1024 / 2 / viewHeight);
+		matrixTranslation[0] = matrixTranslation[0] * (_windowWidth / 2 / viewWidth);
+		matrixTranslation[1] = matrixTranslation[1] * (_windowHeight / 2 / viewHeight);
 
 		transform->SetPos(Vec3{ matrixTranslation[0],matrixTranslation[1],matrixTranslation[2] });
 		transform->SetScale(Vec3{ matrixScale[0],matrixScale[1],matrixScale[2] });
@@ -103,6 +103,12 @@ void ImGuizmoManager::Update()
 void ImGuizmoManager::SetPickObjectUId(size_t uId)
 {
 	_pickUId = uId;
+}
+
+void ImGuizmoManager::SetWindowSize(float width, float height)
+{
+	_windowWidth = width;
+	_windowHeight = height;
 }
 
 void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjection, float* matrix)
