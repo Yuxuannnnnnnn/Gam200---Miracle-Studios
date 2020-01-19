@@ -11,7 +11,7 @@
 // Scripts
 #include "LuaScriptTest.h"
 
-#define DEBUG_LUA 1
+#define DEBUG_LUA 0
 
 static sol::state lua;
 static sol::protected_function_result pfr;
