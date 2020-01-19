@@ -22,6 +22,7 @@ void Engine::Init()
 	RegisterComponent(DataMove);
 	RegisterComponent(Particle);
 	RegisterComponent(ParticleSystem);
+	RegisterComponent(UI);
 
 	MyLogicSystem.Init();
 

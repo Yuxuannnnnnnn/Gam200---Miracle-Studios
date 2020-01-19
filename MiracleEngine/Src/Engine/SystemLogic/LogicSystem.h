@@ -41,6 +41,8 @@ public:
 
 	IScript2* CreateNewScript(const std::string& scriptName);
 	std::unordered_map<size_t, IScript2*>& GetScriptList();
+
+	std::unordered_map<std::string, ScriptCreator*>& GetScriptTypeMap();
 };
 
 #endif

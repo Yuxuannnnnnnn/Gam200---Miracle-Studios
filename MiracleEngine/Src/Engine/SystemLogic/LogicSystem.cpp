@@ -70,7 +70,10 @@ std::unordered_map<size_t, IScript2*>& LogicSystem::GetScriptList()
 	return _scriptList;
 }
 
-
+std::unordered_map<std::string, ScriptCreator*>& LogicSystem::GetScriptTypeMap()
+{
+	return _scriptTypeMap;
+}
 
 
 
