@@ -28,7 +28,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	{
 		OPENFILENAME ofn = { sizeof ofn };
 		ZeroMemory(&ofn, sizeof(ofn));
-		ofn.lStructSize = sizeof(ofn);
+		ofn.lStructSize = sizeof(ofn); 
 		ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
 
 		char file[1024] = "\0";
