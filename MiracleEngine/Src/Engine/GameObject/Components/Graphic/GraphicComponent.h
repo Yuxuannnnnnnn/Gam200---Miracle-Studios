@@ -140,7 +140,7 @@ public:
 			//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
 
 
-			auto graphicList = MyResourceSystem.GetTexture2DList();
+			static auto& graphicList = MyResourceSystem.GetTexture2DList();
 			std::vector<const char*> list(graphicList.size() + 1);
 			list[0] = "Choose a Texture ";
 
@@ -185,7 +185,7 @@ public:
 		{
 			ImGui::Spacing();
 
-			 auto& ShaderList = MyResourceSystem.GetShaderList();
+			static auto& ShaderList = MyResourceSystem.GetShaderList();
 			std::vector<const char*> list;
 			list.push_back("Choose a Shader ");
 			static const char* name = list[0];
