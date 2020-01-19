@@ -20,26 +20,28 @@ void GraphicsSystem::Update(double dt)
 		GLfloat _positions[] =
 		{
 			-0.5f, -0.5f, 0.0f, u0, v0, // 0     // bottom left
-			 0.5f, -0.5f, 0.0f, u1, v0,// 1     // bottom right
-			 0.5f,  0.5f, 0.0f, u1, v1,// 2     // top right
-			-0.5f,  0.5f, 0.0f, u0, v1 // 3     // top left
+			 0.5f, -0.5f, 0.0f, u1, v0, // 1     // bottom right
+			 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
+			-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
 		};
 
 		renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
 
-		glm::mat4 mvp = _proj /* _cameraManager.GetMainCamMatrix() */ * renderobj._transform;
+		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
 	// render UI in screen space
-	_uiRenderer.Update(GetComponentMap(UI));
+	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
 	EndScene();
 }
 
 void GraphicsSystem::BeginScene()
 {
+	_cameraSystem.Update();
+	_view = _cameraSystem.GetCamMatrix();
 	UpdateRenderObjectList();
 	ClearSreen();
 }
@@ -47,10 +49,6 @@ void GraphicsSystem::BeginScene()
 void GraphicsSystem::EndScene()
 {
 	_renderObjects.clear();
-	/*for (auto& element : _renderObjects)
-	{
-		element.clear();
-	}*/
 }
 
 GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight)
@@ -59,15 +57,6 @@ GraphicsSystem::GraphicsSystem(int windowWidth, int windowHeight)
 {
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-
-
-	// temp set view to identity
-	//_view = glm::mat4(1.0f);
-
-	/*for (size_t i = 0; i <= 10; i++)
-	{
-		_renderObjects.push_back(std::vector<RenderObject>{});
-	}*/
 
 	// temp
 	std::string temp = "DefaultShader";
@@ -92,10 +81,6 @@ void GraphicsSystem::ClearSreen() const
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void GraphicsSystem::UpdateViewMatrix()
-{
-	//_cameraManager.Update();
-}
 
 void GraphicsSystem::UpdateRenderObjectList()
 {

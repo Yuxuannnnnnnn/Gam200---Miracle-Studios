@@ -38,9 +38,9 @@ void DataMoveComponent::BindLuaValues(sol::state& lua, std::string& tableName) {
 	_position = temp->GetPos();
 	_scale = temp->GetScale();
 	_rotation = temp->GetRotate();
-	lua[tableName]["POSITION"] = _position;
-	lua[tableName]["SCALE"] = _scale;
-	lua[tableName]["ROTATION"] = _rotation;
+	lua[tableName]["POSITION"] = temp->GetPos();
+	lua[tableName]["SCALE"] = temp->GetScale();
+	lua[tableName]["ROTATION"] = temp->GetRotate();
 	DataPlayerComponent* temp1 = (DataPlayerComponent*)parentLogic->GetSibilingComponent(ComponentId::CT_DataPlayer);
 	lua[tableName]["SPEED"] = temp1->_MovementSpeed;
 }
