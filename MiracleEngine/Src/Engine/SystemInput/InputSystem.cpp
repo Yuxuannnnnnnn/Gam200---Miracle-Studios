@@ -172,12 +172,8 @@ void InputSystem::Update(Window& window)
 
 Vector3 InputSystem::GetMousePos() const
 {
-	Vector3 pos{ (float)_p.x - _windowWidth / 2.0f,
+	return Vector3{ (float)_p.x - _windowWidth / 2.0f,
 	  _windowHeight / 2.0f - (float)_p.y, 1.0f };
-
-	std::cout << pos._x << " : " << pos._y << std::endl;
-
-	return pos;
 }
 
 void InputSystem::Exit()
