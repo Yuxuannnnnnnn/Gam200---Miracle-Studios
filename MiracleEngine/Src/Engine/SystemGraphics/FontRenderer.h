@@ -32,12 +32,10 @@ public:
 	bool load(std::string path);
 	void unload();
 
-	////////////////////////////////////////////////////////////////////
 
-	size_t GetCharacterMapId() const
-	{
-		return _characterMapId;
-	}
+
+	size_t GetCharacterMapId() const;
+	
 
 private:
 	void RenderText(Shader& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color);

@@ -19,7 +19,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	std::string string1 = "New Scene ";
 	if (ImGui::Button(string1.c_str()))
 	{
-		
+		MyFactory.DeleteLevelNotPrefab();
 	}
 
 	ImGui::SameLine();

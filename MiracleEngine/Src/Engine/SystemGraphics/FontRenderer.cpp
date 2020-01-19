@@ -170,11 +170,18 @@ bool FontRenderer::load(std::string path)
 void FontRenderer::unload()
 {
 	std::unordered_map<GLchar, Character> map = MyResourceSystem.GetFontCharacterMap()[_characterMapId];
-	
+
 	for (GLubyte c = 0; c < 128; c++)
 	{
 		glDeleteTextures(1, &map[c].TextureID);
 	}
 
 	MyResourceSystem.GetFontCharacterMap().erase(_characterMapId);
+}
+
+size_t FontRenderer::GetCharacterMapId() const
+{
+
+	return _characterMapId;
+
 }

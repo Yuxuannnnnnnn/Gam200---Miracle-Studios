@@ -71,11 +71,28 @@ void ImGuizmoManager::Update()
 		ImGui::SetNextWindowSize(ImVec2(300, 400));
 		ImGui::Begin("Editor");
 
+		float* objectMatrix = Mtx44::CreateTranspose(transform->GetModel()).m;
 
-		EditTransform(cameraView, cameraProjection, transform->GetModel());
+		float matrix[16] =
+		{ 1.f, 0.f, 0.f, 0.f,
+		  0.f, 1.f, 0.f, 0.f,
+		  0.f, 0.f, 1.f, 0.f,
+		  0.f, 0.f, 0.f, 1.f };
 
-		//ImGuizmo::DecomposeMatrixToComponents(objectMatrix, transform->GetPos().m, m, transform->GetScale().m);
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+		ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
+		matrixTranslation[0] = matrixTranslation[0] / (1280 / 2 /  viewWidth);
+		matrixTranslation[1] = matrixTranslation[1] / (1024 / 2 / viewHeight);
+		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
 
+		EditTransform(cameraView, cameraProjection, matrix);
+
+		ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
+		matrixTranslation[0] = matrixTranslation[0] * (1280 / 2 / viewWidth);
+		matrixTranslation[1] = matrixTranslation[1] * (1024 / 2 / viewHeight);
+
+		transform->SetPos(Vec3{ matrixTranslation[0],matrixTranslation[1],matrixTranslation[2] });
+		transform->SetScale(Vec3{ matrixScale[0],matrixScale[1],matrixScale[2] });
 
 		//ImGuizmo::RecomposeMatrixFromComponents(transform->GetPos().m, m, transform->GetScale().m, objectMatrix);
 
@@ -118,7 +135,7 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 	ImGui::InputFloat3("Tr", matrixTranslation, 3);
 	ImGui::InputFloat3("Rt", matrixRotation, 3);
 	ImGui::InputFloat3("Sc", matrixScale, 3);
-	//ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
+
 
 	//if (mCurrentGizmoOperation != ImGuizmo::SCALE)
 	//{
@@ -160,7 +177,6 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 	//ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
 
 	ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, NULL, NULL, NULL);
-
 }
 
 

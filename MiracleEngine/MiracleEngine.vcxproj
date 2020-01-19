@@ -228,6 +228,7 @@
     <ClInclude Include="Src\Engine\SystemAudio\Sound.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundEnum.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundManager.h" />
+    <ClInclude Include="Src\Engine\SystemCamera\CameraSystem.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BasicRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BatchRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BufferLayout.h" />
@@ -242,7 +243,6 @@
     <ClInclude Include="Src\Engine\SystemGraphics\RenderObject.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Shader.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Texture2D.h" />
-    <ClInclude Include="Src\Engine\SystemGraphics\UIManager.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIMesh.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\VertexArray.h" />
@@ -638,6 +638,7 @@
     <ClCompile Include="Src\Engine\SystemAudio\AudioSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\Sound.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\SoundManager.cpp" />
+    <ClCompile Include="Src\Engine\SystemCamera\CameraSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BasicRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BatchRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\DebugBatchRenderer.cpp" />
@@ -650,7 +651,6 @@
     <ClCompile Include="Src\Engine\SystemGraphics\QuadMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Shader.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Texture2D.cpp" />
-    <ClCompile Include="Src\Engine\SystemGraphics\UIManager.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\VertexArray.cpp" />
@@ -921,9 +921,11 @@
     <None Include="Resources\TextFiles\GameObjects\SpawnerTwo.json" />
     <None Include="Resources\TextFiles\GameObjects\TileMap.json" />
     <None Include="Resources\TextFiles\GameObjects\Turret.json" />
+    <None Include="Resources\TextFiles\GameObjects\UiTest.json" />
     <None Include="Resources\TextFiles\GameObjects\Wall.json" />
     <None Include="Resources\TextFiles\Scenes\GameScenes\GameScenes.json" />
     <None Include="Resources\TextFiles\Scenes\Scenes\Level1.json" />
+    <None Include="Resources\TextFiles\Scenes\Scenes\level2.json" />
     <None Include="Src\GraphicsSystem\Shader\basic.frag" />
     <None Include="Src\GraphicsSystem\Shader\basic.vert" />
   </ItemGroup>

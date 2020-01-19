@@ -59,7 +59,6 @@
     <ClCompile Include="Src\Engine\SystemGraphics\QuadMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Shader.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Texture2D.cpp" />
-    <ClCompile Include="Src\Engine\SystemGraphics\UIManager.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\VertexArray.cpp" />
@@ -105,6 +104,7 @@
     <ClCompile Include="Src\Engine\SystemParticle\ParticleSystem.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript2.cpp" />
     <ClCompile Include="Src\Script\Player.cpp" />
+    <ClCompile Include="Src\Engine\SystemCamera\CameraSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -468,7 +468,6 @@
     <ClInclude Include="Src\Engine\SystemGraphics\RenderObject.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Shader.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Texture2D.h" />
-    <ClInclude Include="Src\Engine\SystemGraphics\UIManager.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIMesh.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\VertexArray.h" />
@@ -528,6 +527,7 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript2.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptCreator.h" />
     <ClInclude Include="Src\Script\Player.h" />
+    <ClInclude Include="Src\Engine\SystemCamera\CameraSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -711,6 +711,8 @@
     <None Include="freetype.dll" />
     <None Include="imgui.ini" />
     <None Include="lua51.dll" />
+    <None Include="Resources\TextFiles\Scenes\Scenes\level2.json" />
+    <None Include="Resources\TextFiles\GameObjects\UiTest.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />
