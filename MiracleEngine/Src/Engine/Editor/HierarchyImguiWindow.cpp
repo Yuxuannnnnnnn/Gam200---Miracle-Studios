@@ -104,6 +104,20 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 				//ImGuiID id = ImGui::GetID(string.c_str());
 				//ImGui::GetStateStorage()->SetInt(id, 0);
 			}
+
+		ImGui::SameLine();
+		std::string deleteString = "Delete## " + string;
+		if (ImGui::Button(deleteString.c_str()))
+		{
+			gameObject->SetDestory();
+			//InspectionImguiWindow::InspectGameObject(gameObject);
+			//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+			//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+			//ImGui::TreePop();
+			//ImGuiID id = ImGui::GetID(string.c_str());
+			//ImGui::GetStateStorage()->SetInt(id, 0);
+		}
+
 		i++;
 	}
 }
