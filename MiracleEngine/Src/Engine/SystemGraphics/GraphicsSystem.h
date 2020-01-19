@@ -5,10 +5,8 @@
 
 #include "UIRenderer.h"                                  // ui renderer for ui, font etc in screen space
 #include "DebugRenderer.h"                               // render debug lines
-//#include "CameraManager.h"                             // class contain one (or more) cameras
+#include "../SystemCamera/CameraSystem.h"                             // class contain one (or more) cameras
 
-// components
-// include UI component
 
 #include "GameObject/Components/Graphic/TransformComponent.h"
 #include "GameObject/Components/Graphic/GraphicComponent.h"
@@ -40,17 +38,16 @@ private:
 	void EndScene();
 
 	void ClearSreen() const;
-	void UpdateViewMatrix();                             // called begin of loop, fletch the view matrix of the frame from the camera
 	void UpdateRenderObjectList();                       // called begin of loop, fill up the render objects list
 
 	//DebugRenderer _debugRenderer;                      // render debug lines
 	UIRenderer _uiRenderer;                              // ui renderer for ui, font etc in screen space
 
 	glm::mat4 _proj;                                     // projection matrix depth ( z-axis ) range from -30 to 30
-	//glm::mat4 _view;                                   // camera view matrix
+	glm::mat4 _view;                                   // camera view matrix
 
-	//CameraManager _cameraManager;                      // class manage all the camera
-
+	CameraSystem _cameraSystem;                        // class manage all the camera
+	 
 
 	std::vector<RenderObject> _renderObjects;
 
