@@ -59,7 +59,6 @@
     <ClCompile Include="Src\Engine\SystemGraphics\QuadMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Shader.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\Texture2D.cpp" />
-    <ClCompile Include="Src\Engine\SystemGraphics\UIManager.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIMesh.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\UIRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\VertexArray.cpp" />
@@ -468,7 +467,6 @@
     <ClInclude Include="Src\Engine\SystemGraphics\RenderObject.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Shader.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\Texture2D.h" />
-    <ClInclude Include="Src\Engine\SystemGraphics\UIManager.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIMesh.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\UIRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\VertexArray.h" />
