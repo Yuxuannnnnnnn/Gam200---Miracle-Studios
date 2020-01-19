@@ -16,8 +16,8 @@ LogicSystem::~LogicSystem()
 	_scriptList.clear();
 }
 
-void LogicSystem::Init(bool lua) {
-	enableScript2 = !lua;
+void LogicSystem::Init() {
+	enableScript2 = bUseOldScripting;
 
 	RegisterScript(Player);
 
