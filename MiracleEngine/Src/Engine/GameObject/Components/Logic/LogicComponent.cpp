@@ -172,30 +172,29 @@ void LogicComponent::AddScript(std::string& scriptName)
 {
 	if (scriptName.empty())
 	{
-		std::cout << "WARNING: " << scriptName << " is empty. \n";
+		if (DEBUG_LUA) std::cout << "WARNING: " << scriptName << " is empty. \n";
 		return;
 	}
 	if (scriptName == "unknown")
 	{
-		std::cout << "WARNING: Script: " << scriptName << ", does not have any data component. \n";
+		if (DEBUG_LUA) std::cout << "WARNING: Script: " << scriptName << ", does not have any data component. \n";
 		return;
 	}
-	
-	std::cout << "DEBUG:\t LogicComponent::AddScript(" << scriptName << ") \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t LogicComponent::AddScript(" << scriptName << ") \n";
 	for (auto itr : _ScriptIds)
 		if (itr == scriptName)
 		{
-			std::cout << "WARNING: Script already exists. \n";
+			if (DEBUG_LUA) std::cout << "WARNING: Script already exists. \n";
 			break; 
 		}
 	_ScriptIds.push_back(scriptName);
 
 	std::vector<std::string> tempStrVec;
-	std::cout << "DEBUG:\t Script: " << scriptName << ", adding data components... \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Script: " << scriptName << ", adding data components... \n";
 	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
 	if (tempStrVec.empty())
 	{
-		std::cout << "WARNING: " << scriptName << " not a script in _TableScriptData. \n";
+		if (DEBUG_LUA) std::cout << "WARNING: " << scriptName << " not a script in _TableScriptData. \n";
 		return;
 	}
 	for (auto itr : tempStrVec)
@@ -207,7 +206,7 @@ void LogicComponent::AddDataComp(std::string& dataName)
 // change to seach in ParentGO.ComponentList
 		if (itr.first == ToComponentID(dataName))
 		{
-			std::cout << "WARNING: DataComponent already exists. \n";
+			if (DEBUG_LUA) std::cout << "WARNING: DataComponent already exists. \n";
 			break;
 		}
 // else add component
@@ -221,19 +220,19 @@ void LogicComponent::RemoveScriptDataCompResolver(std::string& scriptName)
 	// list of all what each script needs as data component, before DataComponent.Register, will need this table or sth
 	if (scriptName.empty())
 	{
-		std::cout << "WARNING: " << scriptName << " is empty. \n";
+		if (DEBUG_LUA) std::cout << "WARNING: " << scriptName << " is empty. \n";
 		return;
 	}
 	if (scriptName == "unknown")
 	{
-		std::cout << "WARNING: Script: " << scriptName << ", does not have any data component. \n";
+		if (DEBUG_LUA) std::cout << "WARNING: Script: " << scriptName << ", does not have any data component. \n";
 		return;
 	}
-	std::cout << "DEBUG:\t Script: " << scriptName << ", removing data components... \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Script: " << scriptName << ", removing data components... \n";
 	tempStrVec = EngineSystems::GetInstance()._scriptSystem->_TableScriptData[scriptName];
 	if (tempStrVec.empty())
 	{
-		std::cout << "WARNING: " << scriptName << " not a script in _TableScriptData. \n";
+		if (DEBUG_LUA) std::cout << "WARNING: " << scriptName << " not a script in _TableScriptData. \n";
 		return;
 	}
 	for (auto itr : tempStrVec)
@@ -261,7 +260,7 @@ void LogicComponent::RemoveDataComp(std::string& dataName)
 		for (auto itr : EngineSystems::GetInstance()._scriptSystem->_TableScriptData[itr])
 			if (itr == dataName)
 			{
-				std::cout << "WARNING: DataComponent\"" << dataName << "\" still has dependancy! Cannot remove! \n";
+				if (DEBUG_LUA) std::cout << "WARNING: DataComponent\"" << dataName << "\" still has dependancy! Cannot remove! \n";
 				return;
 			}
 	}
@@ -278,23 +277,26 @@ void LogicComponent::CloneScripts(LogicComponent* source)
 	{
 		if (nameScript.empty())
 		{
-			std::cout << "WARNING: " << nameScript << " is empty. \n";
+			if (DEBUG_LUA)
+				std::cout << "WARNING: " << nameScript << " is empty. \n";
 			return;
 		}
 		if (nameScript == "unknown")
 		{
-			std::cout << "WARNING: Script: " << nameScript << ", does not have any data component. \n";
+			if (DEBUG_LUA)
+				std::cout << "WARNING: Script: " << nameScript << ", does not have any data component. \n";
 			return;
 		}
-
-		std::cout << "DEBUG:\t LogicComponent::CloneScript(" << nameScript << ") \n";
+		if (DEBUG_LUA)
+			std::cout << "DEBUG:\t LogicComponent::CloneScript(" << nameScript << ") \n";
 		for (auto nameComponent : _engineSystems.GetInstance()._scriptSystem->_TableScriptData[nameScript])
 		{
 			// check if dataComp alr exist
 			for (auto nameExistingComponent : GetParentPtr()->GetComponentList())
 				if (nameExistingComponent.first == ToComponentID(nameComponent))
 				{
-					std::cout << "WARNING: DataComponent already exists. \n";
+					if (DEBUG_LUA)
+						std::cout << "WARNING: DataComponent already exists. \n";
 					break;
 				}
 			// else add dataComp base

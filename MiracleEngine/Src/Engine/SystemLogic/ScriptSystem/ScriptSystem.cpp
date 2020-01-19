@@ -110,7 +110,7 @@ void ScriptSystem::BindAll()
 
 void ScriptSystem::BindTransform()
 {
-	std::cout << "DEBUG:\t Binding TransformComponent \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Binding TransformComponent \n";
 	lua.new_usertype <TransformComponent>("Transform",
 		// Constructor 
 		sol::constructors <
@@ -128,7 +128,7 @@ void ScriptSystem::BindTransform()
 }
 void ScriptSystem::BindMathVector2()
 {
-	std::cout << "DEBUG:\t Binding Math::Vec2 \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Binding Math::Vec2 \n";
 	lua.new_usertype<mathLib::Vector2>("Vector2",
 		// Constructor 
 		sol::constructors<
@@ -181,7 +181,7 @@ void ScriptSystem::BindMathVector2()
 void ScriptSystem::BindMathVector3()
 {
 	sol::base_classes, sol::base<IComponent>();
-	std::cout << "DEBUG:\t Binding Math::Vec3 \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Binding Math::Vec3 \n";
 	lua.new_usertype<mathLib::Vector3>("Vector3",
 		// Constructor 
 		sol::constructors<
@@ -244,70 +244,60 @@ void ScriptSystem::BindMathVector3()
 }
 void ScriptSystem::BindMouseAndKeyboard()
 {
-	if (DEBUG_LUA)
-		std::cout << "DEBUG:\t Binding Mouse & Keyboard (KeyUpDownHold) \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Binding Mouse & Keyboard (KeyUpDownHold) \n";
 	Table_Input = lua.create_named_table("Input");
 	Table_Input["GetKeyDown"] = [&](const char* str) {
-		if (DEBUG_LUA)
-			std::cout << "Input.GetKeyDown(" << str << ") ";
+		if (DEBUG_LUA) std::cout << "Input.GetKeyDown(" << str << ") ";
 		bool temp = _engineSystems._inputSystem->KeyDown(_engineSystems._inputSystem->StringToKeycode(str) );
 		if (temp)
 		{
-			if (DEBUG_LUA)
-				std::cout << "Ret::TRUE.\n";
+			if (DEBUG_LUA) std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			if (DEBUG_LUA)
-				std::cout << "Ret::FALSE.\n";
+			if (DEBUG_LUA) std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
 	Table_Input["GetKeyHold"] = [&](const char* str) {
-		if (DEBUG_LUA)
-			std::cout << "Input.GetKeyHold(" << str << ") ";
+		if (DEBUG_LUA) std::cout << "Input.GetKeyHold(" << str << ") ";
 		bool temp = _engineSystems._inputSystem->KeyHold(_engineSystems._inputSystem->StringToKeycode(str));
 		if (temp)
 		{
-			if (DEBUG_LUA)
-				std::cout << "Ret::TRUE.\n";
+			if (DEBUG_LUA) std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			if (DEBUG_LUA)
-				std::cout << "Ret::FALSE.\n";
+			if (DEBUG_LUA) std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
 	Table_Input["GetKeyUp"] = [&](const char* str) {
-		if (DEBUG_LUA)
-			std::cout << "Input.GetKeyUp(" << str << ") ";
+		if (DEBUG_LUA) std::cout << "Input.GetKeyUp(" << str << ") ";
 		bool temp = _engineSystems._inputSystem->KeyRelease(_engineSystems._inputSystem->StringToKeycode(str));
 		if (temp)
 		{
-			if (DEBUG_LUA)
-				std::cout << "Ret::TRUE.\n";
+			if (DEBUG_LUA) std::cout << "Ret::TRUE.\n";
 			return true;
 		}
 		else
 		{
-			if (DEBUG_LUA)
-				std::cout << "Ret::FALSE.\n";
+			if (DEBUG_LUA) std::cout << "Ret::FALSE.\n";
 			return false;
 		}
 	};
 }
 void ScriptSystem::BindMiscFunctions()
 {
-	std::cout << "DEBUG:\t Binding Misc Functions (Console) \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Binding Misc Functions (Console) \n";
 	Table_Console = lua.create_named_table("Console");
 	Table_Console["WriteStr"] = [&](std::string in) {std::cout << in << std::endl; };
 	Table_Console["WriteNum"] = [&](double in) {std::cout << in << std::endl; };
 	Table_Console["WriteBool"] = [&](bool b) { if (b) std::cout << "TRUE.\n"; else std::cout << "FALSE.\n"; };
 	
-	std::cout << "DEBUG:\t Binding Misc Functions (Anim) \n";
+	if (DEBUG_LUA) std::cout << "DEBUG:\t Binding Misc Functions (Anim) \n";
 	Table_Anim = lua.create_named_table("Anim");
 	Table_Anim.set_function("Change", [&](std::string in) {
 		//AnimationComponent::SetCurrentAnim(in);
