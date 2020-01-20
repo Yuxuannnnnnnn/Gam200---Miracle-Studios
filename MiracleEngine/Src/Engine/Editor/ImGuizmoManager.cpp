@@ -28,6 +28,26 @@ void ImGuizmoManager::Update()
 				return;
 			}
 		}
+
+		for (auto& it : GetComponentMap(UI))
+		{
+			if (!it.second->GetEnable())
+				continue;
+
+			TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.second->GetParentId()];
+
+			if (!transform)
+				continue;
+
+			BBox pickingBox = BBox::CreateBBoxFromData(transform->GetPos(), transform->GetScale(), transform->GetRotate());
+
+			if (Collision::BBoxVsPoint(pickingBox, pos))
+			{
+				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
+				_pickUId = it.first;
+				return;
+			}
+		}
 	}
 
 	if (_pickUId != 0)

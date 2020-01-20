@@ -28,7 +28,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	{
 		OPENFILENAME ofn = { sizeof ofn };
 		ZeroMemory(&ofn, sizeof(ofn));
-		ofn.lStructSize = sizeof(ofn);
+		ofn.lStructSize = sizeof(ofn); 
 		ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
 
 		char file[1024] = "\0";
@@ -98,6 +98,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 			if (ImGui::IsMouseReleased(0))
 			{
 				InspectionImguiWindow::InspectGameObject(gameObject);
+				MyImGuizmoManager.SetPickObjectUId(uID);
 				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 				//ImGui::TreePop();

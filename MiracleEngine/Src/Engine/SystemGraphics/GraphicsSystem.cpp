@@ -91,7 +91,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 	// update 
 
 	BBox viewBox = BBox::CreateBBoxFromData(Vec3::Vec3Zero,
-		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() * 0.75f ,MyWindowsSystem.getWindow().GetWindowHeight() * 0.75f },
+		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() * 0.5f ,MyWindowsSystem.getWindow().GetWindowHeight() * 0.5f },
 		0.f);
 
 	for (auto& graphicCompPair : GetComponentMap(Graphic))
