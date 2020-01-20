@@ -43,12 +43,12 @@ public:
 	void RemoveScript(std::string& scriptName);
 	void RemoveDataComp(std::string& dataName);	//should only be used from within RemoveScript()
 	
-	void CloneScripts(LogicComponent* source);		//AddScript() & copy data info in comps
+	void CloneScripts(LogicComponent* parent, GameObject* src);		//AddScript() & copy data info in comps
 	void ClearScripts();
 
 	LogicComponent* CloneComponent();
 
-	LogicComponent* CloneComponent(GameObject* parent);
+	LogicComponent* CloneComponent(GameObject* parent, GameObject* src);
 
 /////////////////////////////////////////////////////////////////////////////
 // c++ scripting

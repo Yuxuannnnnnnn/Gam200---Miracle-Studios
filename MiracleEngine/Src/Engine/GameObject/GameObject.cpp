@@ -184,7 +184,7 @@ GameObject* GameObject::Clone(size_t uid)
 	{
 		IComponent* temp = nullptr;
 		if (it.first == ComponentId::CT_Logic)
-			temp = ((LogicComponent*)it.second)->CloneComponent(newGameObject);
+			temp = ((LogicComponent*)it.second)->CloneComponent(newGameObject, this);
 		else
 		{
 			temp = it.second->CloneComponent();

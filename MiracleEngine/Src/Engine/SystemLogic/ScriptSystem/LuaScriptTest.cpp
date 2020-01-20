@@ -25,38 +25,38 @@ void Script_Move::Bind(sol::state& lua, GameObject* src)
 	}
 	// bind related values
 	TransformComponent* temp = (TransformComponent*)src->GetComponent(ComponentId::CT_Transform);
-	lua["ScriptMove"]["POSITION"] = temp->GetPos();
-	lua["ScriptMove"]["SCALE"] = temp->GetScale();
-	lua["ScriptMove"]["ROTATION"] = temp->GetRotate();
+	lua[_Name]["POSITION"] = temp->GetPos();
+	lua[_Name]["SCALE"] = temp->GetScale();
+	lua[_Name]["ROTATION"] = temp->GetRotate();
 	DataPlayerComponent* temp1 = (DataPlayerComponent*)src->GetComponent(ComponentId::CT_DataPlayer);
-	lua["ScriptMove"]["SPEED"] = &temp1->_MovementSpeed;
+	lua[_Name]["SPEED"] = &temp1->_MovementSpeed;
 	if (DEBUG_LUA)
 	{
-		if (!lua["ScriptMove"]["POSITION"].valid())
+		if (!lua[_Name]["POSITION"].valid())
 			std::cout << "WARNING :" << "POSITION" << "DataNotBinded\n";
-		if (!lua["ScriptMove"]["SCALE"].valid())
+		if (!lua[_Name]["SCALE"].valid())
 			std::cout << "WARNING :" << "SCALE" << "DataNotBinded\n";
-		if (!lua["ScriptMove"]["ROTATION"].valid())
+		if (!lua[_Name]["ROTATION"].valid())
 			std::cout << "WARNING :" << "ROTATION" << "DataNotBinded\n";
-		if (!lua["ScriptMove"]["SPEED"].valid())
+		if (!lua[_Name]["SPEED"].valid())
 			std::cout << "WARNING :" << "SPEED" << "DataNotBinded\n";
 	}
 }
 void Script_Move::Save(sol::state& lua, GameObject* src)
 {
 	TransformComponent* temp = (TransformComponent*)src->GetComponent(ComponentId::CT_Transform);
-	temp->SetPos(lua["ScriptMove"]["POSITION"]);
-	temp->SetScale(lua["ScriptMove"]["SCALE"]);
-	temp->SetRotate(lua["ScriptMove"]["ROTATION"]);
+	temp->SetPos(lua[_Name]["POSITION"]);
+	temp->SetScale(lua[_Name]["SCALE"]);
+	temp->SetRotate(lua[_Name]["ROTATION"]);
 	if (DEBUG_LUA)
 	{
-		if (!lua["ScriptMove"]["POSITION"].valid())
+		if (!lua[_Name]["POSITION"].valid())
 			std::cout << "WARNING :" << "POSITION" << "DataNotBinded\n";
-		if (!lua["ScriptMove"]["SCALE"].valid())
+		if (!lua[_Name]["SCALE"].valid())
 			std::cout << "WARNING :" << "SCALE" << "DataNotBinded\n";
-		if (!lua["ScriptMove"]["ROTATION"].valid())
+		if (!lua[_Name]["ROTATION"].valid())
 			std::cout << "WARNING :" << "ROTATION" << "DataNotBinded\n";
-		if (!lua["ScriptMove"]["SPEED"].valid())
+		if (!lua[_Name]["SPEED"].valid())
 			std::cout << "WARNING :" << "SPEED" << "DataNotBinded\n";
 	}
 }
@@ -95,15 +95,52 @@ Script_Player::Script_Player()
 		ToString(ComponentId::CT_DataPlayer)
 	};
 }
-void Script_Player::Bind(sol::state& lua, GameObject* src) {}
-void Script_Player::Save(sol::state& lua, GameObject* src) {}
+void Script_Player::Bind(sol::state& lua, GameObject* src)
+{
+	// check if src != nullptr
+	if (!src) {
+		if (DEBUG_LUA)
+			std::cout << "WARNING: " << _Name << "has no GO* src.\n";
+		return;
+	}
+	// check if all DataDependencies are there
+	for (auto itr : _DataDep) {
+		if (!src->GetComponent(ToComponentID(itr)))
+		{
+			if (DEBUG_LUA)
+				std::cout << "WARNING: " << _Name << "has no GO* src.\n";
+			return;
+		}
+	}
+	// bind related values
+	TransformComponent* temp = (TransformComponent*)src->GetComponent(ComponentId::CT_Transform);
+	lua[_Name]["POSITION"] = temp->GetPos();
+	lua[_Name]["SCALE"] = temp->GetScale();
+	lua[_Name]["ROTATION"] = temp->GetRotate();
+	DataPlayerComponent* temp1 = (DataPlayerComponent*)src->GetComponent(ComponentId::CT_DataPlayer);
+	lua[_Name]["SPEED"] = &temp1->_MovementSpeed;
+	if (DEBUG_LUA)
+	{
+		if (!lua[_Name]["POSITION"].valid())
+			std::cout << "WARNING :" << "POSITION" << "DataNotBinded\n";
+		if (!lua[_Name]["SCALE"].valid())
+			std::cout << "WARNING :" << "SCALE" << "DataNotBinded\n";
+		if (!lua[_Name]["ROTATION"].valid())
+			std::cout << "WARNING :" << "ROTATION" << "DataNotBinded\n";
+		if (!lua[_Name]["SPEED"].valid())
+			std::cout << "WARNING :" << "SPEED" << "DataNotBinded\n";
+	}
+}
+void Script_Player::Save(sol::state& lua, GameObject* src)
+{
 
+}
 void Script_Player::Load(sol::state& lua) {
 	const auto& my_script = R"(
-pos = Table_ScriptPlayer.POSITION
-rot = Table_ScriptPlayer.ROTATE
-health = Table_ScriptPlayer.HEALTH
-healthmax = Table_ScriptPlayer.HEALTHMAX
+pos = ScriptPlayer.POSITION
+rot = ScriptPlayer.ROTATE
+health = ScriptPlayer.HEALTH
+healthmax = ScriptPlayer.HEALTHMAX
 
 if Input.GetKeyHold("KEYB_W") then
 pos:SetY( a:GetY() + 0.5) end
@@ -115,9 +152,9 @@ if Input.GetKeyHold("KEYB_D") then
 pos:SetX( a:GetX() + 0.5) end
 
 if Input.GetKeyDown("MOUSE_LBUTTON") then
-Table_ScriptPlayer.HEALTH = Table_ScriptPlayer.HEALTH - 0.7
+ScriptPlayer.HEALTH = ScriptPlayer.HEALTH - 0.7
 Console.WriteStr("Current Health is : ")
-Console.WriteNum(Table_ScriptPlayer.HEALTH)
+Console.WriteNum(ScriptPlayer.HEALTH)
 end
 
 Table_ScriptMove.POSITION = a

@@ -277,9 +277,9 @@ LogicComponent* LogicComponent::CloneComponent()
 //	return temp;
 }
 
-void LogicComponent::CloneScripts(LogicComponent* source)
+void LogicComponent::CloneScripts(LogicComponent* parent, GameObject* src)
 {
-	_ScriptIds = source->_ScriptIds;
+	_ScriptIds = ((LogicComponent*)src->GetComponent(ComponentId::CT_Logic))->_ScriptIds;
 	for (auto nameScript : _ScriptIds)
 	{
 		if (nameScript.empty())
@@ -302,11 +302,9 @@ void LogicComponent::CloneScripts(LogicComponent* source)
 					if (DEBUG_LUA) std::cout << "WARNING: DataComponent already exists. \n";
 					break;
 				}
-			// else add dataComp base
-			IComponent* dataComp = Resolver_StringToDataComponent(nameComponent);
-			// copy info
-			dataComp->CloneComponent();
-		}			
+			// clone from src
+			src->GetComponent(ToComponentID(nameComponent))->CloneComponent();
+		}
 	}
 }
 void LogicComponent::ClearScripts()
@@ -319,15 +317,15 @@ void LogicComponent::ClearScripts()
 /////////////////////////////////////////////////////////////////////////////
 // c++ scripting
 
-LogicComponent* LogicComponent::CloneComponent(GameObject* parent)
+LogicComponent* LogicComponent::CloneComponent(GameObject* parent, GameObject* src)
 {
 	LogicComponent* temp = new LogicComponent();
 	temp->SetParentPtr(parent);
 	temp->SetParentId(parent->Get_uID());
-	//temp->CloneScripts((LogicComponent*)parent->GetComponent(ComponentId::CT_Logic));
+	temp->CloneScripts((LogicComponent*)parent->GetComponent(ComponentId::CT_Logic), src);
 	//temp->_ScriptIds = _ScriptIds;
-	for (auto& itr : _ScriptIds)
-		temp->AddScript(itr);
+//	for (auto& itr : _ScriptIds)
+//		temp->AddScript(itr);
 
 	// c++ scripting
 	for (auto& itr : _scriptContianer)
