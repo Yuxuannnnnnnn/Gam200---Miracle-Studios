@@ -97,8 +97,6 @@ static bool ComboFilter__DrawPopup(ComboFilterState& state, int START, /*const c
 			// callback so that it can modify the input buffer
 			state.activeIdx = i;
 			clicked = 1;
-
-			_fileName = ENTRIES[i];
 		}
 		if (IsItemFocused() && IsKeyPressed(GetIO().KeyMap[ImGuiKey_Enter])) {
 			// Allow ENTER key to select current highlighted item (w/ keyboard navigation)
@@ -176,9 +174,11 @@ static bool ComboFilter(const char* id, char* buffer, int bufferlen, /*const cha
 			int i = s.activeIdx;
 			if (i >= 0) {
 				strcpy(buffer, hints[i]);
+				_filename = buffer;
 				done = true;
 			}
 		}
+		bool hello = ComboFilter__DrawPopup(s, idx, hints, num_hints, _filename);
 	}
 	return done;
 }
@@ -375,7 +375,7 @@ public:
 			strncpy(buf, _fileName.c_str(), _fileName.size());
 		}
 
-		if (ComboFilter("my combofilter", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName)) 
+		if (ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName)) 
 		{
 			puts(buf);
 		}
