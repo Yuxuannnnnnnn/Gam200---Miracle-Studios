@@ -14,8 +14,13 @@
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
 
+#define MY_PI 3.141592653589793238463
+
 using namespace mathLib;
 
 float Vec3Distance_LinetoPoint(Vector3 P, Vector3 Q, Vector3 R);
+
+float RadToDeg(float& rad);
+float DegToRad(float& deg);
 
 #endif

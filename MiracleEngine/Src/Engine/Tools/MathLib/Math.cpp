@@ -29,3 +29,14 @@ float Vec3Distance_LinetoPoint(Vector3 P, Vector3 Q, Vector3 R)
 
 	return R.Distance(S);
 }
+
+
+float RadToDeg(float& rad)
+{
+	return rad * (180.f / MY_PI);
+}
+
+float DegToRad(float& deg)
+{
+	return (deg * MY_PI) / 180.f;
+}
