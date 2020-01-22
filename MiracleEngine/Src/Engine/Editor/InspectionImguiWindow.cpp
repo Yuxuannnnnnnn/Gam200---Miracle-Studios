@@ -17,7 +17,7 @@ void InspectionImguiWindow::Update()
 {
 	if (MyFactory.CheckObjOrignialPointer(_inspectObj))
 	{
-		std::unordered_map < ComponentId, IComponent* > componentList = (_inspectObj)->GetComponentList();
+		std::unordered_map < ComponentId, IComponent* >& componentList = (_inspectObj)->GetComponentList();
 
 		ImGui::BeginChild("left pane", ImVec2(215, 0), true);
 		{
@@ -105,7 +105,7 @@ void InspectionImguiWindow::Update()
 					strncpy(file, idType.c_str(), idType.size());
 					ofn.lpstrFile = file;
 					ofn.nMaxFile = 1024;
-					ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER;
+					ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR;
 					
 					ofn.lpstrFilter = ".json\0.json";
 					ofn.lpstrFileTitle = NULL;
@@ -142,15 +142,21 @@ void InspectionImguiWindow::Update()
 			ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing() - 20)); // Leave room for 1 line below us
 			//if (ImGui::CollapsingHeader(commponentPair.second->ComponentName().c_str()))
 			//{
-			componentList[(ComponentId)_componentSelected]->Inspect();
+			if (_inspectObj->GetComponent((ComponentId)_componentSelected))
+				componentList[(ComponentId)_componentSelected]->Inspect();
 			//}
+
 			ImGui::EndChild();
-			//
-			//ImVec2 buttonSize(120, 20); // My button size
-			//if (ImGui::Button("Save Component ", buttonSize))
-			//{
-			//	componentList[(ComponentId)_componentSelected]->SaveComponent();
-			//}
+			
+			ImVec2 buttonSize(120, 20); // My button size
+
+			if (ComponentId(_componentSelected) != ComponentId::CT_Identity)
+			{
+				if (ImGui::Button("Delete Component ", buttonSize))
+				{
+					_inspectObj->RemoveComponent((ComponentId)_componentSelected);
+				}
+			}
 			//ImGui::SameLine();
 			//ImGui::TextDisabled("(?)");
 			//if (ImGui::IsItemHovered())

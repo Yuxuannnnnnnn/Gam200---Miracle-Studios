@@ -100,6 +100,8 @@ public:
 
 			if (!file.good())	//Check whether state of stream is good 
 				throw std::runtime_error("Can't write the JSON string to the file!");
+
+			file.close();
 		}
 	}
 };

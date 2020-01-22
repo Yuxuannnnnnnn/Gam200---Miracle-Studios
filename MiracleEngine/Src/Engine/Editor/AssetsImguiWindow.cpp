@@ -153,14 +153,31 @@ void AssetsImguiWindow::Update()
 	if (ImGui::CollapsingHeader("Scenes"))
 	{
 		auto& allScenes = MyResourceSystem.GetSceneList();
+		size_t sceneCount = allScenes.size();
+		std::string string = "Prototypes (" + std::to_string(sceneCount) + ")";
+
 		ImGui::Spacing();
+
+
+		static std::string selectedObj;
+		selectedObj = " - " + MyFactory.GetCurrentScene();
 
 		for (auto& scenePair : allScenes)
 		{
 			static bool selected;
 			std::string string = " - " + scenePair.first;
 
-			if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+			ImGuiSelectableFlags_ flags;
+
+
+			if (!string.compare(selectedObj))
+				flags = ImGuiSelectableFlags_Disabled;
+			else
+				flags = ImGuiSelectableFlags_AllowDoubleClick;
+
+
+
+			if (ImGui::Selectable(string.c_str(), selected, flags))
 			{
 				if (ImGui::IsMouseReleased(0))
 				{
@@ -193,19 +210,33 @@ void AssetsImguiWindow::Update()
 			ImGui::Separator();
 			ImGui::Spacing();
 
-			//	int i = 0;
+			int i = 0;
+
 			for (auto& ObjPair : PrototypeList)
 			{
 				//std::string objName = std::to_string(i) + ". " + ObjPair.first;
 				//i++;
 				static bool selected;
-				std::string string = " - " + ObjPair.first;
+				//std::string string = " - " + ObjPair.first;
 
-				if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+				std::string string = std::to_string(i) + " " + ObjPair.first; // "Object Type + Object unique number" string
+
+
+				ImGuiSelectableFlags_ flags;
+				static std::string selectedObj;
+
+				if (!string.compare(selectedObj))
+					flags = ImGuiSelectableFlags_Disabled;
+				else
+					flags = ImGuiSelectableFlags_AllowDoubleClick;
+
+
+				if (ImGui::Selectable(string.c_str(), selected, flags))
 				{
 					if (ImGui::IsMouseReleased(0))
 					{
 						InspectionImguiWindow::InspectGameObject(ObjPair.second);
+						selectedObj = string;
 						//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 						//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 						//ImGui::TreePop();
@@ -230,6 +261,7 @@ void AssetsImguiWindow::Update()
 				//ImGui::GetStateStorage()->SetInt(id, 0);
 
 				ImGui::Spacing();
+				i++;
 			}
 
 			//ImGui::TreePop();
@@ -253,14 +285,24 @@ void AssetsImguiWindow::Update()
 				static bool selected;
 				std::string string = " - " + texturePair.first;
 
+				ImGuiSelectableFlags_ flags;
+				static std::string selectedObj;
+
+				if (!string.compare(selectedObj))
+					flags = ImGuiSelectableFlags_Disabled;
+				else
+					flags = ImGuiSelectableFlags_AllowDoubleClick;
+
+
 				Texture2D* texture = MyResourceSystem.GetTexture2DResource(texturePair.first);
 				TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
 
-				if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+				if (ImGui::Selectable(string.c_str(), selected, flags))
 				{
 					if (ImGui::IsMouseReleased(0))
 					{
 						TextureImguiWindow::setTexture(textureWindow, texture, texturePair.first);
+						selectedObj = string;
 					}
 				}
 

@@ -177,6 +177,7 @@
     <ClInclude Include="Dep\sol\assert.hpp" />
     <ClInclude Include="Dep\sol\forward.hpp" />
     <ClInclude Include="Dep\sol\sol.hpp" />
+    <ClInclude Include="Src\Engine\Editor\PopUpBoxImguiWindow.h" />
     <ClInclude Include="Src\Engine\Editor\SpriteSheetCutterImguiWindow.h" />
     <ClInclude Include="Src\Engine\Editor\AssetsImguiWindow.h" />
     <ClInclude Include="Src\Engine\Editor\HierarchyImguiWindow.h" />
@@ -597,6 +598,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Editor\PopUpBoxImguiWindow.cpp" />
     <ClCompile Include="Src\Engine\Editor\SpriteSheetCutterImguiWindow.cpp" />
     <ClCompile Include="Src\Engine\Editor\AssetsImguiWindow.cpp" />
     <ClCompile Include="Src\Engine\Editor\HierarchyImguiWindow.cpp" />

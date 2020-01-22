@@ -329,6 +329,12 @@ void Factory::De_SerialiseLevel(std::string filename)
 								//else if there is a component data that is different, list the component name and the data in the component in the scene file
 							//else If prototype does not have the component, then save every single data in the specific component into the scene file
 
+	//if (filename.find("Resources"))
+	//{
+	std::string fileName = filename.substr(filename.find_last_of("\\") + 1);
+	filename = "./Resources/TextFiles/Scenes/Scenes/" + fileName;
+	//}
+
 
 	DeSerialiser SceneFile(filename);
 
@@ -337,28 +343,39 @@ void Factory::De_SerialiseLevel(std::string filename)
 	//- The ObjectType in the IdentityComponent will be used to save a Prototype
 	//= Get the Prototype file Path from the PrototypeList
 
-	std::vector<std::string> PrototypeResourcePathList;
+	typedef std::map<std::string, std::string> NamePath;
+	NamePath PrototypeResourcePathList;
 	rapidjson::Value PrototypesFilePaths;
 	PrototypesFilePaths.SetArray();
+
 
 	for (auto& IdComPair : GetComponentMap(Identity))
 	{
 		std::string ObjType = ((IdentityComponent*)IdComPair.second)->ObjectType();
 		//ObjType += ".json";
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
+		bool add = true;
+
 		if (MyResourceSystem.GetPrototypeResource(ObjType))
 		{
 			// PrototypeResourceList does not have the prototype yet 
 			for(auto& string: PrototypeResourcePathList)
 			{
-				if (!string.compare(ObjType))
+				if (!string.first.compare(ObjType))
 				{
+					add = false;
 					break;
 				}
 			}
 
-			std::string FilePath = MyResourceSystem.GetPrototypeList()[ObjType];
-			PrototypeResourcePathList.push_back(FilePath);
+			if (add)
+			{
+				std::string FilePath = MyResourceSystem.GetPrototypeResourcePath(ObjType);
+				if (!FilePath.empty())
+				{
+					PrototypeResourcePathList.insert(std::pair<std::string, std::string>(ObjType, FilePath));
+				}
+			}
 
 		}
 	}
@@ -366,7 +383,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	for (auto& prototypeName : PrototypeResourcePathList)
 	{
 		rapidjson::Value strVal;
-		strVal.SetString(prototypeName.c_str(), prototypeName.length(), SceneFile.Allocator());
+		strVal.SetString(prototypeName.second.c_str(), prototypeName.second.length(), SceneFile.Allocator());
 		PrototypesFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	//After Going thru the GameObjects list, the PrototypesFilePaths list is finalised
@@ -382,37 +399,67 @@ void Factory::De_SerialiseLevel(std::string filename)
 	//- Check through all the graphic Component for the texture File Name
 	//- Get the File path of the textures from the Resource Manager
 
-	std::vector<std::string> TextureResourcePathList;
+	NamePath TextureResourcePathList;
 	rapidjson::Value TextureFilePaths;
 	TextureFilePaths.SetArray();
 
-	std::vector<std::string> ShaderResourcePathList;
+	NamePath ShaderResourcePathList;
 	rapidjson::Value ShaderFilePaths;
 	ShaderFilePaths.SetArray();
 
 	for (auto& IdGrapPair : GetComponentMap(Graphic))
 	{
 
+		bool add = true;
+
 		std::string TextureFile = ((GraphicComponent*)IdGrapPair.second)->GetFileName();
 
-		if (MyResourceManager.GetTexture2DResource(TextureFile))
+		if (MyResourceSystem.GetTexture2DResource(TextureFile))
 		{
-			if ((std::find(TextureResourcePathList.begin(), TextureResourcePathList.end(), TextureFile) == TextureResourcePathList.end()))
+			// TextureResourcePathList does not have the texture yet 
+			for (auto& string : TextureResourcePathList)
 			{
-				std::string FilePath = MyResourceManager.GetTexture2DResourcePath(TextureFile);
-				TextureResourcePathList.push_back(FilePath);
+				if (!string.first.compare(TextureFile))
+				{
+					add = false;
+					break;
+				}
+			}
+
+			if (add)
+			{
+				std::string FilePath = MyResourceSystem.GetTexture2DResourcePath(TextureFile);
+				if (!FilePath.empty())
+				{
+					TextureResourcePathList.insert(std::pair<std::string, std::string>(TextureFile, FilePath));
+				}
 			}
 		}
 
+		add = true;
+
 		std::string ShaderFile = ((GraphicComponent*)IdGrapPair.second)->GetShaderType();
 
-		if (MyResourceManager.GetShaderResource(ShaderFile))
+		if (MyResourceSystem.GetShaderResource(ShaderFile))
 		{
-			if ((std::find(ShaderResourcePathList.begin(), ShaderResourcePathList.end(), ShaderFile) == ShaderResourcePathList.end()))
+			// ShaderResourcePathList does not have the shader yet 
+			for (auto& string : ShaderResourcePathList)
 			{
-				VertFrag vertfrag = MyResourceManager.GetShaderResourcePath(TextureFile);
-				ShaderResourcePathList.push_back(vertfrag.second);
-				ShaderResourcePathList.push_back(vertfrag.first);
+				if (!string.first.compare(ShaderFile))
+				{
+					add = false;
+					break;
+				}
+			}
+
+			if (add)
+			{
+				VertFrag vertfrag = MyResourceSystem.GetShaderResourcePath(ShaderFile);
+				if (!vertfrag.first.empty())
+				{
+					ShaderResourcePathList.insert(std::pair<std::string, std::string>(ShaderFile, vertfrag.second));
+					ShaderResourcePathList.insert(std::pair<std::string, std::string>(ShaderFile, vertfrag.first));
+				}
 			}
 		}
 	}
@@ -420,7 +467,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	for (auto& TextureName : TextureResourcePathList)
 	{
 		rapidjson::Value strVal;
-		strVal.SetString(TextureName.c_str(), TextureName.length(), SceneFile.Allocator());
+		strVal.SetString(TextureName.second.c_str(), TextureName.second.length(), SceneFile.Allocator());
 		TextureFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("TexturesFilesPaths", TextureFilePaths);
@@ -428,7 +475,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	for (auto& ShaderName : ShaderResourcePathList)
 	{
 		rapidjson::Value strVal;
-		strVal.SetString(ShaderName.c_str(), ShaderName.length(), SceneFile.Allocator());
+		strVal.SetString(ShaderName.second.c_str(), ShaderName.second.length(), SceneFile.Allocator());
 		ShaderFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("ShaderFilesPaths", ShaderFilePaths);
@@ -439,7 +486,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	//- Check through all the animation components for the animationdatafile names
 	//- Get file Path of the animationDataFile from the Resource Manager
 
-	std::vector<std::string> AnimationResourcePathList;
+	NamePath AnimationResourcePathList;
 	rapidjson::Value AnimationFilePaths;
 	AnimationFilePaths.SetArray();
 
@@ -449,12 +496,25 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 		for (auto& animFile : AnimFileList)
 		{
-			if (MyResourceManager.GetAnimationResource(animFile.first))
+			bool add = true;
+
+			if (MyResourceSystem.GetAnimationResource(animFile.first))
 			{
-				if ((std::find(AnimationResourcePathList.begin(), AnimationResourcePathList.end(), animFile.first) == AnimationResourcePathList.end()))
+				// AnimationResourcePathList does not have the aniamation yet 
+				for (auto& string : AnimationResourcePathList)
 				{
-					std::string FilePath = MyResourceManager.GetAnimationResourcePath(animFile.first);
-					AnimationResourcePathList.push_back(FilePath);
+					if (!string.first.compare(animFile.first))
+					{
+						add = false;
+						break;
+					}
+				}
+
+				if (add)
+				{
+					std::string FilePath = MyResourceSystem.GetAnimationResourcePath(animFile.first);
+					if(!FilePath.empty())
+						AnimationResourcePathList.insert(std::pair<std::string, std::string>(animFile.first, FilePath));
 				}
 			}
 		}
@@ -463,7 +523,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	for (auto& AnimName : AnimationResourcePathList)
 	{
 		rapidjson::Value strVal;
-		strVal.SetString(AnimName.c_str(), AnimName.length(), SceneFile.Allocator());
+		strVal.SetString(AnimName.second.c_str(), AnimName.second.length(), SceneFile.Allocator());
 		AnimationFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("AnimationDataFilesPaths", AnimationFilePaths);
@@ -473,7 +533,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	//Deserialise AudioFiles
 	//- Check throught the AudioComponents to get audio file name
 	//- Get the File path of the audiofile from the Resource Manager
-	std::vector<std::string> AudioResourcePathList;
+	NamePath AudioResourcePathList;
 	rapidjson::Value AudioFilePaths;
 	AudioFilePaths.SetArray();
 
@@ -481,22 +541,34 @@ void Factory::De_SerialiseLevel(std::string filename)
 	{
 		std::string audioFile = ((AudioComponent*)IdAudioPair.second)->GetFileName();
 
+		bool add = true;
 
-		if (MyResourceManager.GetSoundResource(audioFile))
+		if (MyResourceSystem.GetSoundResource(audioFile))
 		{
-			// PrototypeResourceList does not have the prototype yet
-			if ((std::find(AudioResourcePathList.begin(), AudioResourcePathList.end(), audioFile) == AudioResourcePathList.end()))
+			// AudioResourcePathList does not have the audio yet 
+			for (auto& string : AudioResourcePathList)
 			{
-				std::string FilePath = MyResourceManager.GetSoundResourcePath(audioFile);
-				AudioResourcePathList.push_back(FilePath);
+				if (!string.first.compare(audioFile))
+				{
+					add = false;
+					break;
+				}
 			}
+
+			if (add)
+			{
+				std::string FilePath = MyResourceSystem.GetSoundResourcePath(audioFile);
+				if (!FilePath.empty())
+					AudioResourcePathList.insert(std::pair<std::string, std::string>(audioFile, FilePath));
+			}
+	
 		}
 	}
 
 	for (auto& AudioName : AudioResourcePathList)
 	{
 		rapidjson::Value strVal;
-		strVal.SetString(AudioName.c_str(), AudioName.length(), SceneFile.Allocator());
+		strVal.SetString(AudioName.second.c_str(), AudioName.second.length(), SceneFile.Allocator());
 		AudioFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("AudioFilesPaths", AudioFilePaths);
@@ -506,7 +578,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	//Deserialise Font Used
 	//- Check throught the Font Component for the font type used
 	//- Get the File path of the Fontfile from the Resource Manager
-	std::vector<std::string> FontResourcePathList;
+	NamePath FontResourcePathList;
 	rapidjson::Value FontFilePaths;
 	FontFilePaths.SetArray();
 
@@ -514,13 +586,24 @@ void Factory::De_SerialiseLevel(std::string filename)
 	{
 		std::string fontFile = ((FontComponent*)IdFontPair.second)->GetFontType();
 
-		if (MyResourceManager.GetFontResource(fontFile))
+		bool add = true;
+
+		if (MyResourceSystem.GetFontResource(fontFile))
 		{
-			// PrototypeResourceList does not have the prototype yet
-			if ((std::find(FontResourcePathList.begin(), FontResourcePathList.end(), fontFile) == FontResourcePathList.end()))
+			// AudioResourcePathList does not have the audio yet 
+			for (auto& string : FontResourcePathList)
 			{
-				std::string FilePath = MyResourceManager.GetFontResourcePath(fontFile);
-				FontResourcePathList.push_back(FilePath);
+				if (!string.first.compare(fontFile))
+				{
+					add = false;
+					break;
+				}
+			}
+
+			if (add)
+			{
+				std::string FilePath = MyResourceSystem.GetFontResourcePath(fontFile);
+				FontResourcePathList.insert(std::pair<std::string, std::string>(fontFile, FilePath));
 			}
 		}
 	}
@@ -528,7 +611,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	for (auto& FontName : FontResourcePathList)
 	{
 		rapidjson::Value strVal;
-		strVal.SetString(FontName.c_str(), FontName.length(), SceneFile.Allocator());
+		strVal.SetString(FontName.second.c_str(), FontName.second.length(), SceneFile.Allocator());
 		FontFilePaths.PushBack(strVal, SceneFile.Allocator());
 	}
 	SceneFile.AddMember("FontFilesPath", FontFilePaths);
@@ -545,6 +628,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	{
 		const size_t id = IdIdcomPair.first;
 		std::string ObjType = ((IdentityComponent*)IdIdcomPair.second)->ObjectType();
+
 
 		rapidjson::Value obj;
 		obj.SetObject();
@@ -648,6 +732,15 @@ void Factory::SerialiseAllPrefabAssets(std::unordered_map<std::string, std::stri
 
 void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath)
 {
+	//if (filePath.find("Resources"))
+	//{
+		//std::string fileName = filePath.substr(filePath.find("Resources") + 9);
+		//filePath = "./Resources" + fileName;
+		//
+		std::string fileName = filePath.substr(filePath.find_last_of("\\") + 1);
+		filePath = "./Resources/TextFiles/GameObjects\\" + fileName;
+	//}
+
 	NewPrototype->DeSerialise(filePath);	//Deserialise prototype into a .json File
 
 	//Add Prototype Resource to editor Prototype List 
@@ -678,6 +771,9 @@ void Factory::ChangeScene(const std::string& scene)
 
 	if (MyResourceSystem.GetSceneList().find(scene) != MyResourceSystem.GetSceneList().end())
 	{
+
+		auto& list = MyResourceSystem.GetSceneList();
+
 		_currentScene = scene;
 
 		MyFactory.DeleteLevelNotPrefab();

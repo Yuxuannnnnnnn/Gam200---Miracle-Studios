@@ -101,7 +101,8 @@ void LogicComponent::Inspect()
 	{
 		for (auto itr2 : _engineSystems._scriptSystem->_ScriptsAll[itr]->_DataDep)
 		{
-			GetParentPtr()->GetComponent(ToComponentID(itr2))->Inspect();
+			if(GetParentPtr()->GetComponent(ToComponentID(itr2)))
+				GetParentPtr()->GetComponent(ToComponentID(itr2))->Inspect();
 		}
 	}
 
