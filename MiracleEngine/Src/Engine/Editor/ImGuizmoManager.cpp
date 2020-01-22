@@ -87,9 +87,9 @@ void ImGuizmoManager::Update()
 
 		//ImGuizmo::SetOrthographic(false);
 		ImGuizmo::BeginFrame();
-		ImGui::SetNextWindowPos(ImVec2(300, 0));
-		ImGui::SetNextWindowSize(ImVec2(300, 400));
-		ImGui::Begin("Editor");
+		ImGui::SetNextWindowPos(ImVec2(350, 0));
+		ImGui::SetNextWindowSize(ImVec2(880, 55));
+		ImGui::Begin("ToolBar");
 
 		float* objectMatrix = Mtx44::CreateTranspose(transform->GetModel()).m;
 
@@ -113,6 +113,7 @@ void ImGuizmoManager::Update()
 
 		transform->SetPos(Vec3{ matrixTranslation[0],matrixTranslation[1],matrixTranslation[2] });
 		transform->SetScale(Vec3{ matrixScale[0],matrixScale[1],matrixScale[2] });
+		transform->SetRotate(DegToRad( matrixRotation[2]));
 
 		//ImGuizmo::RecomposeMatrixFromComponents(transform->GetPos().m, m, transform->GetScale().m, objectMatrix);
 
@@ -144,24 +145,21 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 
 	if (ImGui::IsKeyPressed(KEYB_Q))
 		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	/*if (ImGui::IsKeyPressed(KEYB_W))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;*/
-	if (ImGui::IsKeyPressed(KEYB_E))
+	if (ImGui::IsKeyPressed(KEYB_W))
 		mCurrentGizmoOperation = ImGuizmo::SCALE;
+	if (ImGui::IsKeyPressed(KEYB_E))
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;
+
+	ImGui::SameLine();
 	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
 		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 	ImGui::SameLine();
-	/*if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;*/
-	ImGui::SameLine();
 	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
 		mCurrentGizmoOperation = ImGuizmo::SCALE;
-	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
-	ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
-	ImGui::InputFloat3("Tr", matrixTranslation, 3);
-	ImGui::InputFloat3("Rt", matrixRotation, 3);
-	ImGui::InputFloat3("Sc", matrixScale, 3);
-
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;
+	
 
 	//if (mCurrentGizmoOperation != ImGuizmo::SCALE)
 	//{
@@ -203,6 +201,12 @@ void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjec
 	//ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, useSnap ? &snap[0] : NULL, boundSizing ? bounds : NULL, boundSizingSnap ? boundsSnap : NULL);
 
 	ImGuizmo::Manipulate(cameraView, cameraProjection, mCurrentGizmoOperation, mCurrentGizmoMode, matrix, NULL, NULL, NULL, NULL);
+
+	/*float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+	ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
+	ImGui::InputFloat3("Tr", matrixTranslation, 3);
+	ImGui::InputFloat3("Rt", matrixRotation, 3);
+	ImGui::InputFloat3("Sc", matrixScale, 3);*/
 }
 
 

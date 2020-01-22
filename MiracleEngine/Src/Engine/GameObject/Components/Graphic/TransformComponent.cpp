@@ -131,9 +131,13 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Spacing();
-	ImGui::InputFloat("Input Rotation Angle", &_rotationAngle);
+
+	float DegAngle = RadToDeg(_rotationAngle);
+
+	ImGui::InputFloat("Input Rotation Angle", &DegAngle);
 	ImGui::Spacing();
-	ImGui::SliderFloat("Slider Rotation Angle", &_rotationAngle, 0, 360);
+	ImGui::SliderFloat("Slider Rotation Angle", &DegAngle, 0, 360);
 	ImGui::Spacing();
 
+	_rotationAngle = DegToRad(DegAngle);
 }
