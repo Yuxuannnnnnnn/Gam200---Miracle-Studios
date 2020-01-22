@@ -92,11 +92,12 @@ static bool ComboFilter__DrawPopup(ComboFilterState& state, int START, /*const c
 		}
 
 		PushID(i);
-		if (Selectable(ENTRIES[i], isIndexActive)) {
+		if (Selectable(ENTRIES[i], isIndexActive, ImGuiSelectableFlags_AllowDoubleClick)) {
 			// And item was clicked, notify the input
 			// callback so that it can modify the input buffer
 			state.activeIdx = i;
 			clicked = 1;
+
 		}
 		if (IsItemFocused() && IsKeyPressed(GetIO().KeyMap[ImGuiKey_Enter])) {
 			// Allow ENTER key to select current highlighted item (w/ keyboard navigation)
@@ -170,7 +171,8 @@ static bool ComboFilter(const char* id, char* buffer, int bufferlen, /*const cha
 		int idx = new_idx >= 0 ? new_idx : s.activeIdx;
 		s.selectionChanged = s.activeIdx != idx;
 		s.activeIdx = idx;
-		if (done || ComboFilter__DrawPopup(s, idx, hints, num_hints ,_filename)) {
+		bool hello = true;
+		if (done || (hello = ComboFilter__DrawPopup(s, idx, hints, num_hints ,_filename))) {
 			int i = s.activeIdx;
 			if (i >= 0) {
 				strcpy(buffer, hints[i]);
@@ -178,7 +180,6 @@ static bool ComboFilter(const char* id, char* buffer, int bufferlen, /*const cha
 				done = true;
 			}
 		}
-		bool hello = ComboFilter__DrawPopup(s, idx, hints, num_hints, _filename);
 	}
 	return done;
 }
@@ -331,10 +332,10 @@ public:
 
 
 			list[i] = ptr;
-			//if (!strncmp(ptr, _fileName.c_str(), 20))
-			//{
-			//	select = i;
-			//}
+			if (!strncmp(ptr, _fileName.c_str(), 20))
+			{
+				select = i;
+			}
 
 
 			i++;
@@ -362,7 +363,7 @@ public:
 		//	}
 		//}
 
-		static ComboFilterState s = { 0 };
+		static ComboFilterState s = { select, 0 };
 
 		static char buf[128];
 		
@@ -377,7 +378,7 @@ public:
 
 		if (ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName)) 
 		{
-			puts(buf);
+			//puts(buf);
 		}
 
 		{
