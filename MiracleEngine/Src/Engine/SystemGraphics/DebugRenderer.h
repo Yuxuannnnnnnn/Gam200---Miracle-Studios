@@ -54,9 +54,9 @@ private:
 	GLuint _batchvbo;
 };
 
-#define DrawDebugLine DebugRenderer::GetInstance().SubmitDebugLine
-#define DebugRendererLineDraw DebugRenderer::GetInstance().BatchDrawDebugLine
-#define DebugRenderCalculateProjMatrix DebugRenderer::GetInstance().CalculateProjMatrix
+//#define DrawDebugLine DebugRenderer::GetInstance().SubmitDebugLine
+//#define DebugRendererLineDraw DebugRenderer::GetInstance().BatchDrawDebugLine
+//#define DebugRenderCalculateProjMatrix DebugRenderer::GetInstance().CalculateProjMatrix
 
 #endif
 
