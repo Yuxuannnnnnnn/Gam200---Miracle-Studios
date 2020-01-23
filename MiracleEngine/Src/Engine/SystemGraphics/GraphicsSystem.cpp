@@ -71,12 +71,12 @@ GraphicsSystem::~GraphicsSystem()
 {
 }
 
+
 void GraphicsSystem::ResizeGraphics(float width, float height)
 {
 	_proj = glm::ortho(-width / 2.f, width / 2.f, -height / 2.f, height / 2.f, -30.0f, 30.0f);
 	glViewport(0, 0, width, height);
 }
-
 
 void GraphicsSystem::ClearSreen() const
 {
@@ -163,4 +163,10 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 	}
 
+}
+
+
+Matrix4x4& GraphicsSystem::GetProjection()
+{
+	return Matrix4x4{ (const float*)glm::value_ptr(_proj) };
 }

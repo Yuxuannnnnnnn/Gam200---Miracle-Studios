@@ -3,6 +3,7 @@
 
 #include "Script/Player.h"
 
+
 LogicSystem::~LogicSystem()
 {
 	for (auto& itr : _scriptTypeMap)

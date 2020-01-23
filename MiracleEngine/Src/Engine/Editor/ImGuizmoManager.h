@@ -9,8 +9,10 @@ private:
 	float _windowWidth;
 	float _windowHeight;
 
+	Vector3 _pos;
+
 public:
-	ImGuizmoManager() :_pickUId{ 0 }, _windowWidth{ 1280 }, _windowHeight{ 1024 }{}
+	ImGuizmoManager() :_pickUId{ 0 }, _windowWidth{ 1280 }, _windowHeight{ 1024 }, _pos{ 0,0,1 } {}
 	~ImGuizmoManager() {}
 
 	void Update();

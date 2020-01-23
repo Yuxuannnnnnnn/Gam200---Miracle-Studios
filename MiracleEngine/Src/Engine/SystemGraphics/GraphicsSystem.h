@@ -36,6 +36,8 @@ public:
 
 	void ResizeGraphics(float width, float height);
 
+	Matrix4x4& GetProjection();
+
 private:
 	void BeginScene();
 	void EndScene();

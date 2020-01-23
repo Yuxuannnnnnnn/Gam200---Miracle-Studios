@@ -68,18 +68,18 @@ void ImGuizmoManager::Update()
 
 		float cameraProjection[16];
 
-		float viewWidth = 8.f; // for orthographic
+		float viewWidth = _windowWidth / 2.f ; // for orthographic
 		float camYAngle = 90.f / 180.f * 3.14159f;
 		float camXAngle = 0;
 		float camDistance = 8.f;
 
-		float viewHeight = viewWidth * _windowHeight / _windowWidth;
+		float viewHeight = _windowHeight / 2.f;
 		OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, -viewWidth, viewWidth, cameraProjection);
 
 		ImGuizmo::SetOrthographic(true);
 
 		float eye[] = { cosf(camYAngle) * cosf(camXAngle) * camDistance, sinf(camXAngle) * camDistance, sinf(camYAngle) * cosf(camXAngle) * camDistance };
-		float at[] = { 0.f, 0.f, 0.f };
+		float at[] = { 0, 0, 0 };
 		float up[] = { 0.f, 1.f, 0.f };
 		LookAt(eye, at, up, cameraView);
 		ImGuizmo::BeginFrame();
@@ -93,24 +93,10 @@ void ImGuizmoManager::Update()
 
 		float* objectMatrix = Mtx44::CreateTranspose(transform->GetModel()).m;
 
-		float matrix[16] =
-		{ 1.f, 0.f, 0.f, 0.f,
-		  0.f, 1.f, 0.f, 0.f,
-		  0.f, 0.f, 1.f, 0.f,
-		  0.f, 0.f, 0.f, 1.f };
+		EditTransform(cameraView, cameraProjection, objectMatrix);
 
 		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 		ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
-		matrixTranslation[0] = matrixTranslation[0] / (_windowWidth / 2 /  viewWidth);
-		matrixTranslation[1] = matrixTranslation[1] / (_windowHeight / 2 / viewHeight);
-		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matrix);
-
-		EditTransform(cameraView, cameraProjection, matrix);
-
-		ImGuizmo::DecomposeMatrixToComponents(matrix, matrixTranslation, matrixRotation, matrixScale);
-		matrixTranslation[0] = matrixTranslation[0] * (_windowWidth / 2 / viewWidth);
-		matrixTranslation[1] = matrixTranslation[1] * (_windowHeight / 2 / viewHeight);
-
 		transform->SetPos(Vec3{ matrixTranslation[0],matrixTranslation[1],matrixTranslation[2] });
 		transform->SetScale(Vec3{ matrixScale[0],matrixScale[1],matrixScale[2] });
 		transform->SetRotate(DegToRad( matrixRotation[2]));
