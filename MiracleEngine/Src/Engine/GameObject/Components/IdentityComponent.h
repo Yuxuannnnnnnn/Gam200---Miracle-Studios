@@ -136,6 +136,7 @@ public:
 
 	//unsigned GameObjectType() const;
 
+
 	const std::string& ObjectType() const
 	{
 		return _ObjectType;

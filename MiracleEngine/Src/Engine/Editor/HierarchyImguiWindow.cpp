@@ -7,7 +7,7 @@
 
 
 HierarchyImguiWindow::HierarchyImguiWindow(bool open, ImGuiWindowFlags flags)
-	:IBaseImguiWindow("Hierarchy", 1, 515, 340, 570, open, flags)
+	:IBaseImguiWindow("Hierarchy", 1, 515, 340, 570, open, flags), isObjectSelected{false}
 {
 }
 
@@ -151,9 +151,18 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 		static std::string selectedObj;
 
 		if (!string.compare(selectedObj))
-			flags = ImGuiSelectableFlags_Disabled;
+		{
+			if(isObjectSelected)
+				flags = ImGuiSelectableFlags_Disabled;
+			else
+			{
+				flags = ImGuiSelectableFlags_AllowDoubleClick;
+			}
+		}
 		else
+		{
 			flags = ImGuiSelectableFlags_AllowDoubleClick;
+		}
 
 
 		if (ImGui::Selectable(string.c_str(), selected, flags))
@@ -162,6 +171,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 				InspectionImguiWindow::InspectGameObject(gameObject);
 				MyImGuizmoManager.SetPickObjectUId(uID);
 				selectedObj = string;
+				isObjectSelected = true;
 				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 				//ImGui::TreePop();

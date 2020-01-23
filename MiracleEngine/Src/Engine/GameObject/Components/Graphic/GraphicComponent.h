@@ -237,7 +237,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("GraphicComponent", rapidjson::Value(true));
+		prototypeDoc.AddMember("GraphicsComponent", rapidjson::Value(true));
 		//value.SetInt(_typeIdGraphic);
 		//prototypeDoc.AddMember("G.TypeId", value);
 
@@ -254,7 +254,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("GraphicComponent", rapidjson::Value(true), allocator);
+		prototypeDoc.AddMember("GraphicsComponent", rapidjson::Value(true), allocator);
 		//value.SetInt(_typeIdGraphic);
 		//prototypeDoc.AddMember("G.TypeId", value);
 
@@ -291,7 +291,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("GraphicComponent", rapidjson::Value(true), allocator);
+			value.AddMember("GraphicsComponent", rapidjson::Value(true), allocator);
 
 			if (!fileName.IsNull())	//if rapidjson::value container is not empty
 			{

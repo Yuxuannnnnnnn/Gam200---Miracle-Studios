@@ -14,7 +14,7 @@
 //When removing objects, make sure to remove child object along with parent object
 class HierarchyImguiWindow : public IBaseImguiWindow
 {
-
+	bool isObjectSelected;
 
 public:
 
@@ -35,6 +35,15 @@ public:
 	//void ShowColliderComponent(IComponent* component);
 	//void ShowLogicComponent(IComponent* component);
 	//void ShowAudioCommponent(IComponent* component);
+	void SetisObjectSelected(bool set)
+	{
+		isObjectSelected = set;
+	}
+
+	bool GetObjIsSelected()
+	{
+		return isObjectSelected;
+	}
 };
 
 #endif

@@ -10,7 +10,14 @@ void GraphicsSystem::Update(double dt)
 	for (const auto& renderobj : _renderObjects)
 	{
 		renderobj._pShader->Select();
-		renderobj._pTexture->Select();
+
+		if(renderobj._pTexture)
+			renderobj._pTexture->Select();
+		else
+		{
+			continue;
+		}
+
 		renderobj._pMesh->Select();
 
 		float u0 = renderobj._uv.u0;
@@ -154,6 +161,10 @@ void GraphicsSystem::UpdateRenderObjectList()
 		{
 			const std::string& fileName = graphicComp->GetFileName();
 			renderobject._pTexture = MyResourceManager.GetTexture2DResource(fileName);
+		}
+		else
+		{
+			renderobject._pTexture = nullptr;
 		}
 
 		renderobject._transform = modelTransform;

@@ -150,7 +150,7 @@ void InspectionImguiWindow::Update()
 			
 			ImVec2 buttonSize(120, 20); // My button size
 
-			if (ComponentId(_componentSelected) != ComponentId::CT_Identity)
+			if (ComponentId(_componentSelected) != ComponentId::CT_Identity && ComponentId(_componentSelected) != ComponentId::CT_Transform)
 			{
 				if (ImGui::Button("Delete Component ", buttonSize))
 				{
