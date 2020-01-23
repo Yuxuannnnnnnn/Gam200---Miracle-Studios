@@ -47,8 +47,7 @@ void GraphicsSystem::Update(double dt)
 
 void GraphicsSystem::BeginScene()
 {
-	_cameraSystem.Update();
-	_view = _cameraSystem.GetCamMatrix();
+	_view = glm::make_mat4(Mtx44::CreateTranspose(MyCameraSystem.GetCamMatrix()).m);
 	UpdateRenderObjectList();
 	ClearSreen();
 }
