@@ -226,10 +226,19 @@ void AssetsImguiWindow::Update()
 				ImGuiSelectableFlags_ flags;
 				static std::string selectedObj;
 
+				HierarchyImguiWindow* HierarchyWindow = dynamic_cast<HierarchyImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Hierarchy"]);
+
 				if (!string.compare(selectedObj))
-					flags = ImGuiSelectableFlags_Disabled;
+				{
+					if(!HierarchyWindow->GetObjIsSelected())
+						flags = ImGuiSelectableFlags_Disabled;
+					else
+						flags = ImGuiSelectableFlags_AllowDoubleClick;
+				}
 				else
+				{
 					flags = ImGuiSelectableFlags_AllowDoubleClick;
+				}
 
 
 				if (ImGui::Selectable(string.c_str(), selected, flags))
@@ -238,6 +247,7 @@ void AssetsImguiWindow::Update()
 					{
 						InspectionImguiWindow::InspectGameObject(ObjPair.second);
 						selectedObj = string;
+						HierarchyWindow->SetisObjectSelected(false);
 						//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 						//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 						//ImGui::TreePop();
@@ -286,17 +296,30 @@ void AssetsImguiWindow::Update()
 				static bool selected;
 				std::string string = " - " + texturePair.first;
 
+				Texture2D* texture = MyResourceSystem.GetTexture2DResource(texturePair.first);
+				TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
+
+
+
 				ImGuiSelectableFlags_ flags;
 				static std::string selectedObj;
 
 				if (!string.compare(selectedObj))
-					flags = ImGuiSelectableFlags_Disabled;
+				{
+					if (textureWindow->GetOpen())
+					{
+						flags = ImGuiSelectableFlags_Disabled;
+					}
+					else
+					{
+						flags = ImGuiSelectableFlags_AllowDoubleClick;
+					}
+				}
 				else
+				{
 					flags = ImGuiSelectableFlags_AllowDoubleClick;
+				}
 
-
-				Texture2D* texture = MyResourceSystem.GetTexture2DResource(texturePair.first);
-				TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
 
 				if (ImGui::Selectable(string.c_str(), selected, flags))
 				{

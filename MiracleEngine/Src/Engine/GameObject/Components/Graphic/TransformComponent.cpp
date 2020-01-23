@@ -34,7 +34,7 @@ std::string TransformComponent::ComponentName() const
 TransformComponent::TransformComponent(GameObject* parent, size_t uId, IComponent* component)
 	:IComponent(parent, uId),
 	_pos{ Vector3{ 0, 0, 0 } },
-	_scale{ Vector3{ 1, 1, 1 } },
+	_scale{ Vector3{ 100, 100, 1 } },
 	_rotationAngle{ 0.0f }
 {
 	if (component)
