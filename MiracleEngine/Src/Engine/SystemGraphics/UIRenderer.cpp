@@ -32,13 +32,15 @@ void UIRenderer::Update(std::unordered_map<size_t, IComponent*> uiMap, const glm
 
 		auto pTexture = MyResourceManager.GetTexture2DResource(uiComp->GetFileName());
 
-		pTexture->Select();
-		_uiMesh.Select();
-		_uiShader->Select();
+		if (!uiComp->GetFileName().empty())
+		{
+			pTexture->Select();
+			_uiMesh.Select();
+			_uiShader->Select();
 
-		_uiShader->SetUniformMat4f("u_MVP", mvp);
+			_uiShader->SetUniformMat4f("u_MVP", mvp);
 
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		}
 	}
 }
