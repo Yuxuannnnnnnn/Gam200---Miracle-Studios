@@ -51,37 +51,72 @@ GameObject* IResourceStructure::GetPrototypeResource(const std::string& name)
 
 std::string& IResourceStructure::GetTexture2DResourcePath(const std::string& name)
 {
-	return _mainContainer._Texture2DList[name];
+	if (_mainContainer._Texture2DList.find(name) != _mainContainer._Texture2DList.end())
+		return _mainContainer._Texture2DList[name];
+
+	std::string temp;
+
+	return temp;
 }
 
 std::pair<std::string, std::string>& IResourceStructure::GetShaderResourcePath(const std::string& name)
 {
-	return _mainContainer._ShaderList[name];
+	if (_mainContainer._ShaderList.find(name) != _mainContainer._ShaderList.end())
+		return _mainContainer._ShaderList[name];
+
+	std::pair<std::string, std::string> temp;
+
+	return temp;
 }
 
 std::string& IResourceStructure::GetFontResourcePath(const std::string& name)
 {
-	return _mainContainer._FontList[name];
+	if (_mainContainer._FontList.find(name) != _mainContainer._FontList.end())
+		return _mainContainer._FontList[name];
+
+	std::string temp;
+
+	return temp;
 }
 
 std::string& IResourceStructure::GetSoundResourcePath(const std::string& name)
 {
-	return _mainContainer._AudioList[name];
+	if (_mainContainer._AudioList.find(name) != _mainContainer._AudioList.end())
+		return _mainContainer._AudioList[name];
+
+	std::string temp;
+
+	return temp;
 }
 
 std::string& IResourceStructure::GetAnimationResourcePath(const std::string& name)
 {
-	return _mainContainer._AnimationList[name];
+	if (_mainContainer._AnimationList.find(name) != _mainContainer._AnimationList.end())
+		return _mainContainer._AnimationList[name];
+
+	std::string temp;
+
+	return temp;
 }
 
 std::string& IResourceStructure::GetPrototypeResourcePath(const std::string& name)
 {
-	return _mainContainer._PrototypeList[name];
+	if (_mainContainer._PrototypeList.find(name) != _mainContainer._PrototypeList.end())
+		return _mainContainer._PrototypeList[name];
+
+	std::string temp;
+
+	return temp;
 }
 
 std::string& IResourceStructure::GeScenePath(const std::string& name)
 {
-	return _mainContainer._SceneList[name];
+	if (_mainContainer._SceneList.find(name) != _mainContainer._SceneList.end())
+		return _mainContainer._SceneList[name];
+
+	std::string temp;
+
+	return temp;
 }
 
 NamePathMap& IResourceStructure::GetTexture2DList()
