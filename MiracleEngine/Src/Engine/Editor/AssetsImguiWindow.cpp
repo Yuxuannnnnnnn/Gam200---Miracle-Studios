@@ -9,7 +9,6 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 {
 	std::string audiosPath = "./Resources/Audio";
 	std::string fontsPath = "./Resources/Fonts";
-	std::string texturesPath = "./Resources/Image";
 
 	std::string shadersPath = "./Resources/Shader";
 
@@ -37,14 +36,59 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		ResourceList.clear();
 	}
 
+
+
+
+	std::vector<std::string> texturesPath;
+
+	texturesPath.push_back("./Resources/Image");
+	texturesPath.push_back("./Resources/Image/Character_Animation");
+	texturesPath.push_back("./Resources/Image/Enemies_Spawner");
+	texturesPath.push_back("./Resources/Image/Enemy(AI)");
+	texturesPath.push_back("./Resources/Image/Environment_Animation");
+	texturesPath.push_back("./Resources/Image/Powers_effect");
+							 	
+	texturesPath.push_back("./Resources/Image/Props_design");
+	texturesPath.push_back("./Resources/Image/Props_design/SCI_FI");
+	texturesPath.push_back("./Resources/Image/Props_design/SCI_FI/rusted_v2");
+							 		 
+	texturesPath.push_back("./Resources/Image/Tile");
+							 		
+	texturesPath.push_back("./Resources/Image/Interface");
+	texturesPath.push_back("./Resources/Image/Interface/Instruction_Menu");
+	texturesPath.push_back("./Resources/Image/Interface/HP_and_Progress_Bar");
+
+
+	std::vector<Folder*> FolderList;
+	FolderList.push_back(&Image);
+	FolderList.push_back(&characterAnimation);
+	FolderList.push_back(&EnemiesSpawner);
+	FolderList.push_back(&EnemyAI);
+	FolderList.push_back(&EnvironmentAnimation);
+	FolderList.push_back(&PowersEffect);
+	FolderList.push_back(&PropsDesign);
+	FolderList.push_back(&SCI_FI);
+	FolderList.push_back(&rusted_v2);
+	FolderList.push_back(&Tile);
+	FolderList.push_back(&Interface);
+	FolderList.push_back(&Instruction_Menu);
+	FolderList.push_back(&HP_and_Progress_Bar);
+
+	int i = 0;
 	{
-		for (const auto& textureFile : std::filesystem::directory_iterator(texturesPath))
+		for (auto& path : texturesPath)
 		{
-			std::cout << textureFile.path() << std::endl;
-			std::string path = textureFile.path().u8string();
-			//size_t namesize = path.find_last_of(".png") - 4 - path.find_last_of("\\/");
-			std::string fileName = path.substr(path.find_last_of("\\/") + 1);
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
+			for (const auto& textureFile : std::filesystem::directory_iterator(path))
+			{
+				std::cout << textureFile.path() << std::endl;
+				std::string path = textureFile.path().u8string();
+				//size_t namesize = path.find_last_of(".png") - 4 - path.find_last_of("\\/");
+				std::string fileName = path.substr(path.find_last_of("\\/") + 1);
+				ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
+
+				FolderList[i]->FileName.push_back(std::string(fileName));
+			}
+			i++;
 		}
 
 		MyResourceSystem.AddTexture2DResourceList(ResourceList);
@@ -281,7 +325,7 @@ void AssetsImguiWindow::Update()
 	}
 
 	{
-		auto textureFiles = MyResourceSystem.GetTexture2DList();
+		auto& textureFiles = MyResourceSystem.GetTexture2DList();
 		size_t textureCount = textureFiles.size();
 		std::string string = "Textures (" + std::to_string(textureCount) + ")";
 
@@ -289,51 +333,53 @@ void AssetsImguiWindow::Update()
 		{
 			ImGui::Spacing();
 
-			auto textureFiles = MyResourceSystem.GetTexture2DList();
+			//auto textureFiles = MyResourceSystem.GetTexture2DList();
+			TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
+			ImGuiSelectableFlags_ flags;
+			static std::string selectedObj;
 
-			for (auto& texturePair : textureFiles)
+			if (!string.compare(selectedObj))
 			{
-				static bool selected;
-				std::string string = " - " + texturePair.first;
-
-				Texture2D* texture = MyResourceSystem.GetTexture2DResource(texturePair.first);
-				TextureImguiWindow* textureWindow = dynamic_cast<TextureImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Texture"]);
-
-
-
-				ImGuiSelectableFlags_ flags;
-				static std::string selectedObj;
-
-				if (!string.compare(selectedObj))
+				if (textureWindow->GetOpen())
 				{
-					if (textureWindow->GetOpen())
-					{
-						flags = ImGuiSelectableFlags_Disabled;
-					}
-					else
-					{
-						flags = ImGuiSelectableFlags_AllowDoubleClick;
-					}
+					flags = ImGuiSelectableFlags_Disabled;
 				}
 				else
 				{
 					flags = ImGuiSelectableFlags_AllowDoubleClick;
 				}
+			}
+			else
+			{
+				flags = ImGuiSelectableFlags_AllowDoubleClick;
+			}
 
+			for (auto& textureName : Image.FileName)
+			{
+				static bool selected;
+				std::string string = " - " + textureName;
+
+				Texture2D* texture = MyResourceSystem.GetTexture2DResource(textureName);
 
 				if (ImGui::Selectable(string.c_str(), selected, flags))
 				{
 					if (ImGui::IsMouseReleased(0))
 					{
-						TextureImguiWindow::setTexture(textureWindow, texture, texturePair.first);
+						TextureImguiWindow::setTexture(textureWindow, texture, textureName);
 						selectedObj = string;
 					}
 				}
 
 				ImGui::Spacing();
-
 			}
 			//ImGui::TreePop();
+
+
+			string = characterAnimation.folderName;
+			if (ImGui::TreeNode(string.c_str()))
+			{
+				ImGui::TreePop();
+			}
 
 		}
 	}
