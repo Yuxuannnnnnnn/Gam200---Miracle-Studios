@@ -36,6 +36,10 @@ public:
 	///After components have been added call GOC->Initialize().
 	GameObject* CreateEmptyGameObject();
 
+	GameObject* CreateEmptyChildGameObject();
+
+	size_t GetNextGameObjectUId();
+
 	IComponent* CreateEmptyComponent(const std::string& name);
 
 	///Add a component creator enabling data driven composition

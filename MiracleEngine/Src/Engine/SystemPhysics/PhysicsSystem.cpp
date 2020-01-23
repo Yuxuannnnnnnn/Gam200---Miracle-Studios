@@ -58,7 +58,10 @@ void PhysicsSystem::ApplyVelocityToObject(double dt)
 			continue;
 
 		// newPos = newVel * dt + currPos;
-		((TransformComponent*)GetComponentMap(Transform)[it.first])->GetPos() += obj->_velocity * (float)dt;
+
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.first];
+
+		transform->SetPos(transform->GetPos() + obj->_velocity * (float)dt);
 	}
 }
 
