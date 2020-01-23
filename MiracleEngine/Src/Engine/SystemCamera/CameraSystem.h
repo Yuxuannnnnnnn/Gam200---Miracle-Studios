@@ -14,7 +14,8 @@ public:
 
 	void SetPos_CamEditor(GameObject* in);
 	void SetPos_CamEditor(Vector3& in);
-	void SetZoom_CamEditor(float f);
+	float GetZoom_CamEditor();
+	void SetZoom_CamEditor(float in);
 
 private:
 	glm::mat4 _camMatrix;
