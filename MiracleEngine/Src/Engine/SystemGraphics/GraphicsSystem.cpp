@@ -112,12 +112,18 @@ void GraphicsSystem::UpdateRenderObjectList()
 			// get animation from resource manager
 			Animation* currAnim = MyResourceManager.GetAnimationResource(anim->GetCurrAnim());
 			
-
-
-			renderobject._uv.u0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u0;
-			renderobject._uv.v0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_v0;
-			renderobject._uv.u1 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u1;
-			renderobject._uv.v1 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_v1;
+			if (currAnim)
+			{
+				renderobject._uv.u0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u0;
+				renderobject._uv.v0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_v0;
+				renderobject._uv.u1 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u1;
+				renderobject._uv.v1 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_v1;
+			}
+			else
+			{
+				if (DEBUGOUTPUT)
+					std::cout << "WARNING: Some Animation Component is giving a nullptr.\n";
+			}
 
 			//anim->testanim->Select();
 			////_testAnimation.Select();
