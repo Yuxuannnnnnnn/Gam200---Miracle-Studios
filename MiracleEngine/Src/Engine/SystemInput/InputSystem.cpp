@@ -172,8 +172,12 @@ void InputSystem::Update(Window& window)
 
 Vector3 InputSystem::GetMousePos() const
 {
-	return Vector3{ (float)_p.x - _windowWidth / 2.0f,
+	Vec3 ScreenSpace{ (float)_p.x - _windowWidth / 2.0f,
 	  _windowHeight / 2.0f - (float)_p.y, 1.0f };
+
+	Vec3 cameraPos = MyCameraSystem.GetPos_CamEditor();
+
+	return ScreenSpace - cameraPos;
 }
 
 void InputSystem::Exit()

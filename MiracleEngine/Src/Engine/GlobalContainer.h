@@ -20,6 +20,7 @@
 #include "Factory.h"
 #include "SystemAnimation/AnimationSystem.h"
 #include "SystemParticle/ParticleSystem.h"
+#include "SystemCamera/CameraSystem.h"    
 
 //#include "SystemPhysics/ButtonManager.h"
 //#include "SystemPhysics/CollisionManager.h"
@@ -53,6 +54,7 @@ public:
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
 		_audioSystem{ nullptr },
+		_cameraSystem{nullptr},
 
 		_frameRateControl{ nullptr },
 
@@ -89,7 +91,7 @@ public:
 		_animationSystem = new AnimationSystem();
 		_graphicsSystem = new GraphicsSystem();
 		_physicsSystem = new PhysicsSystem();
-
+		_cameraSystem = new CameraSystem();
 
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
 
@@ -129,6 +131,8 @@ public:
 		delete _graphicsSystem;
 		delete _audioSystem;
 		delete _physicsSystem;
+		delete _cameraSystem;
+
 
 		delete _frameRateControl;
 
@@ -162,6 +166,8 @@ public:
 	GraphicsSystem* _graphicsSystem;
 	PhysicsSystem* _physicsSystem;
 	ParticleSystem* _particleSystem;
+	CameraSystem* _cameraSystem;
+
 
 	AudioSystem* _audioSystem;
 
@@ -199,6 +205,7 @@ public:
 #define MyPhysicsSystem (*EngineSystems::GetInstance()._physicsSystem)
 #define MyAudioSystem (*EngineSystems::GetInstance()._audioSystem)
 #define MyAnimationSystem (*EngineSystems::GetInstance()._animationSystem)
+#define MyCameraSystem (*EngineSystems::GetInstance()._cameraSystem)
 
 #define MyAiSystem (*EngineSystems::GetInstance()._aiSystem)
 

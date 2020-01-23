@@ -5,7 +5,6 @@
 
 #include "UIRenderer.h"                                  // ui renderer for ui, font etc in screen space
 #include "DebugRenderer.h"                               // render debug lines
-#include "../SystemCamera/CameraSystem.h"                             // class contain one (or more) cameras
 
 
 #include "GameObject/Components/Graphic/TransformComponent.h"
@@ -50,9 +49,6 @@ private:
 
 	glm::mat4 _proj;                                     // projection matrix depth ( z-axis ) range from -30 to 30
 	glm::mat4 _view;                                   // camera view matrix
-
-	CameraSystem _cameraSystem;                        // class manage all the camera
-	 
 
 	std::vector<RenderObject> _renderObjects;
 

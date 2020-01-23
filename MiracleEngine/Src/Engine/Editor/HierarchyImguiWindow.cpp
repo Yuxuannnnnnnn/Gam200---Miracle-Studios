@@ -91,8 +91,6 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 		}
 	}
 
-
-
 	ShowGameObjects();				//Show Every GameObject in the GameObjectList
 }
 

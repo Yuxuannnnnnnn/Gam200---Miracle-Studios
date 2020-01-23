@@ -9,19 +9,21 @@ class CameraSystem
 {
 public:
 	CameraSystem();
-	const glm::mat4& GetCamMatrix();
+	float* GetCamMatrix();
 	void Update();
 
-	void SetPos_CamEditor(GameObject* in);
+	void SetPos_CamEditor(const size_t& in);
 	void SetPos_CamEditor(Vector3& in);
-	float GetZoom_CamEditor();
-	void SetZoom_CamEditor(float in);
+	Vector3& GetPos_CamEditor();
+
+	const float& GetZoom_CamEditor() const;
+	void SetZoom_CamEditor(float& in);
 
 private:
-	glm::mat4 _camMatrix;
-	float _xPos;
+	size_t _mainCameraUId;
 
-	bool bUseEditorCamera;
-	Vector3 cameraEditorPos;
-	float zoom;
+	Matrix4x4 _cameraMatrix;
+
+	Vector3 _cameraEditorPos;
+	float _cameraEditorzoom;
 };
