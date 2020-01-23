@@ -55,6 +55,22 @@ Vector3& TransformComponent::GetPos()
 
 void TransformComponent::SetPos(const Vector3& in)
 {
+
+	if (this->GetParentPtr()->GetChild())
+	{
+		Vec3 temp = in - _pos;
+
+		for (auto& it : this->GetParentPtr()->GetChildList())
+		{
+			TransformComponent* child = (TransformComponent*)GetComponentMap(Transform)[it.first];
+
+			if (!child)
+				continue;
+
+			child->MovePos(temp);
+		}
+	}
+
 	_pos = in;
 }
 
@@ -65,6 +81,21 @@ Vector3& TransformComponent::GetScale()
 
 void TransformComponent::SetScale(const Vector3& in)
 {
+	if (this->GetParentPtr()->GetChild())
+	{
+		Vec3 temp = in / _scale;
+
+		for (auto& it : this->GetParentPtr()->GetChildList())
+		{
+			TransformComponent* child = (TransformComponent*)GetComponentMap(Transform)[it.first];
+
+			if (!child)
+				continue;
+
+			child->MoveScale(temp);
+		}
+	}
+
 	_scale = in;
 }
 
@@ -75,6 +106,44 @@ float& TransformComponent::GetRotate()
 
 void TransformComponent::SetRotate(const float& in)
 {
+	if (this->GetParentPtr()->GetChild())
+	{
+		float temp = in - _rotationAngle;
+
+		for (auto& it : this->GetParentPtr()->GetChildList())
+		{
+			TransformComponent* child = (TransformComponent*)GetComponentMap(Transform)[it.first];
+
+			if (!child)
+				continue;
+
+			//float deg = atan(diff._y / diff._x);
+			/*Vector3 compareVec = { 0, 1, 0 };
+			float dot = diff._x * compareVec._x + diff._y * compareVec._y;
+			float det = diff._x * compareVec._y - diff._y * compareVec._x;
+			float deg = -atan2(det, dot);*/
+			//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(-atan2(det, dot));
+			Vec3 diff = child->_pos - this->_pos;
+			float deg = atan2(diff._y , diff._x);
+
+			float mag = diff.Length();
+
+			deg += temp;
+
+			Vec3 temp2{};
+
+			temp2._x = mag * cos(deg);
+			temp2._y = mag * sin(deg);
+
+
+			temp2 -= diff;
+
+			child->MovePos(temp2);
+
+			child->MoveRotate(temp);
+		}
+	}
+
 	_rotationAngle = in;
 }
 
@@ -100,10 +169,14 @@ void TransformComponent::SetModel(const float* in)
 void TransformComponent::Inspect()
 {
 	ImGui::Spacing();
-	ImGui::InputFloat2("Input Pos X, Y", _pos.m);
-	ImGui::Spacing();
-	ImGui::SliderFloat2("Slider Pos X, Y", _pos.m, -1000, 1000);
 
+	Vec3 tempPos = _pos;
+
+	ImGui::InputFloat2("Input Pos X, Y", tempPos.m);
+	ImGui::Spacing();
+	ImGui::SliderFloat2("Slider Pos X, Y", tempPos.m, -1000, 1000);
+
+	SetPos(tempPos);
 
 	ImGui::Spacing();
 	ImGui::Spacing();
@@ -123,9 +196,14 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Spacing();
-	ImGui::InputFloat3("Input Scale X, Y, Z", _scale.m);
+
+	Vec3 tempScale = _scale;
+
+	ImGui::InputFloat3("Input Scale X, Y, Z", tempScale.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat3("Slider Scale X, Y, Z", _scale.m, 0, 100);
+	ImGui::SliderFloat3("Slider Scale X, Y, Z", tempScale.m, 1, 100);
+
+	SetScale(tempScale);
 
 	ImGui::Spacing();
 	ImGui::Spacing();
@@ -136,10 +214,10 @@ void TransformComponent::Inspect()
 
 	ImGui::InputFloat("Input Rotation Angle", &DegAngle);
 	ImGui::Spacing();
-	ImGui::SliderFloat("Slider Rotation Angle", &DegAngle, 0, 360);
+	ImGui::SliderFloat("Slider Rotation Angle", &DegAngle, -180, 180);
 	ImGui::Spacing();
 
-	_rotationAngle = DegToRad(DegAngle);
+	SetRotate(DegToRad(DegAngle));
 }
 
 ///////////////////////////////////////////////////////////////
