@@ -4,13 +4,18 @@
 #include "Editor/ImGuizmoManager.h"
 
 GameObject::GameObject(size_t uId)
-	:_uId{ uId }, _destory{ false }, _enable{ true }, _alive{ true }
+	:_uId{ uId }, _destory{ false }, _enable{ true }, _alive{ true }, _independent{ true }, _anyChild{false}
 {
 	//std::cout << "GameObject::GameObject()" << std::endl;
 }
 
 GameObject::~GameObject()
 {
+	for (auto& it : _childObjects)
+	{
+		delete it.second;
+	}
+	_childObjects.clear();
 }
 
 
@@ -110,6 +115,28 @@ void GameObject::Serialise(Serialiser& document)
 		}
 	}
 
+	if (document.HasMember("HaveChild"))
+	{
+		_anyChild = true;
+
+		if (document.HasMember("ChildObjects") && document["ChildObjects"].IsArray())
+		{
+			unsigned size = document["ChildObjects"].Size();
+
+			for (unsigned i = 0; i < size; ++i)
+			{
+				Serialiser datafile(document["ChildObjects"][i]);
+
+				GameObject* child = new GameObject();
+
+				child->Serialise(datafile);
+				child->SetIndependent(false);
+				child->SetParent(this);
+
+				_childObjects[i] = child;
+			}
+		}
+	}
 }
 
 void GameObject::DeSerialise(std::string filePath)
@@ -198,6 +225,20 @@ GameObject* GameObject::Clone(size_t uid)
 		MyComponentManger.GetComponentContainer(it.first)->insert({ uid, temp });
 	}
 
+	newGameObject->SetChild(_anyChild);
+	newGameObject->SetIndependent(_independent);
+
+	if (_anyChild)
+	{
+		for (auto& it : _childObjects)
+		{
+			GameObject* newChildObject = it.second->Clone(MyFactory.GetNextGameObjectUId());
+			newChildObject->SetParent(newGameObject);
+
+			newGameObject->AddChildObject(newChildObject);
+		}
+	}
+
 	return newGameObject;
 }
 
@@ -210,6 +251,16 @@ bool GameObject::GetIndependent() const
 void GameObject::SetIndependent(bool independent)
 {
 	_independent = independent;
+}
+
+bool GameObject::GetChild() const
+{
+	return _anyChild;
+}
+
+void GameObject::SetChild(bool child)
+{
+	_anyChild = child;
 }
 
 GameObject* GameObject::GetParent() const
@@ -229,10 +280,17 @@ std::unordered_map<size_t, GameObject*>& GameObject::GetChildList()
 
 void GameObject::AddChildObject(GameObject* child)
 {
+	if (!child)
+		return;
 
+	_childObjects[child->Get_uID()] = child;
 }
 
 void GameObject::RemoveChildObject(GameObject* child)
 {
+	if (!child)
+		return;
 
+	if (_childObjects.find(child->Get_uID()) != _childObjects.end())
+		_childObjects.erase(child->Get_uID());
 }

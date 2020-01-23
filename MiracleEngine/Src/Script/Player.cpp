@@ -229,7 +229,8 @@ void Player::UpdateInput()
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = aimVector._x * compareVec._x + aimVector._y * compareVec._y;
 	float det = aimVector._x * compareVec._y - aimVector._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
+	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(-atan2(det, dot));
+	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(atan(aimVector._y / aimVector._x));
 
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_LBUTTON) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_LBUTTON))

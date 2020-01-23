@@ -74,6 +74,18 @@ GameObject* Factory::CreateEmptyGameObject()
 	return gameObject;
 }
 
+GameObject* Factory::CreateEmptyChildGameObject()
+{
+	GameObject* gameObject = new GameObject(++_lastGameObjectId);
+
+	return gameObject;
+}
+
+size_t Factory::GetNextGameObjectUId()
+{
+	return ++_lastGameObjectId;
+}
+
 IComponent* Factory::CreateEmptyComponent(const std::string& name)
 {
 	ComponentMapType::iterator iter = _componentMap.find(name);

@@ -54,5 +54,38 @@
       "FirerateTurret": 1.0,
       "FirerateWall": 1.0
     }
+  ],
+
+  "HaveChild": true,
+  "ChildObjects": [
+    {
+      "IdentityComponent": true,
+      "Name": "none",
+      "ObjectType": "child1",
+
+      "TransformComponent": true,
+      "Position": [ 200.0, 0.0 ],
+      "Scale": [ 50.0, 50.0 ],
+      "Rotate": 0.0,
+
+      "GraphicsComponent": true,
+      "G.TypeId": 0,
+      "G.FileName": "Player.png"
+    },
+
+    {
+      "IdentityComponent": true,
+      "Name": "none",
+      "ObjectType": "child2",
+
+      "TransformComponent": true,
+      "Position": [ -200.0, 0.0 ],
+      "Scale": [ 50.0, 50.0 ],
+      "Rotate": 0.0,
+
+      "GraphicsComponent": true,
+      "G.TypeId": 0,
+      "G.FileName": "Player.png"
+    }
   ]
 }

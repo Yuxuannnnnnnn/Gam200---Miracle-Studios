@@ -20,6 +20,7 @@ class GameObject
 private:
 	///////////////////////////////////////////////
 	bool _independent;
+	bool _anyChild;
 
 	GameObject* _parentObject;
 	
@@ -75,6 +76,9 @@ public:
 	///////////////////////////////////////////////
 	bool GetIndependent() const;
 	void SetIndependent(bool independent);
+
+	bool GetChild() const;
+	void SetChild(bool child);
 
 	GameObject* GetParent() const;
 	void SetParent(GameObject* parent);
