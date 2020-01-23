@@ -7,8 +7,11 @@ class TransformComponent: public IComponent
 private:
 	Vector3 _pos;	//Z value will be the renderlayer value, min 0, max 10 
 	Vector3 _scale;
-	Vector3 _rotate;
 	float _rotationAngle;
+
+	Vector3 _localPos;	//Z value will be the renderlayer value, min 0, max 10 
+	Vector3 _localScale;
+	float _localRotationAngle;
 
 	Matrix4x4 _model;
 
@@ -18,13 +21,12 @@ public:
 	TransformComponent() 
 		:_pos{ Vector3{ 0, 0, 1 } }, 
 		_scale{ Vector3{ 0, 0, 1 } },
-		_rotate{ Vector3{ 0, 0, 0 } },
 		_rotationAngle{ 0.0f }
 	{
 	}
 
 	TransformComponent(const Vector3& pos, const Vector3& scale, const float& angle) :
-		_pos{ pos }, _scale{ scale }, _rotate{ _rotate }, _rotationAngle{ angle }
+		_pos{ pos }, _scale{ scale }, _rotationAngle{ angle }
 	{
 
 	}
@@ -159,11 +161,18 @@ public:
 	void SetScale(const Vector3& in);
 
 	float& GetRotate();
-	void SetRotate(const float in);
+	void SetRotate(const float& in);
 
 	float* GetModel();
 	void SetModel(const float* in);
 
 	TransformComponent* CloneComponent() { return new TransformComponent(*this); }
+
+	///////////////////////////////////////////////////////////////
+
+	void MovePos(const Vector3& in);
+	void MoveScale(const Vector3& in);
+	void MoveRotate(const float& in);
+
 };
 

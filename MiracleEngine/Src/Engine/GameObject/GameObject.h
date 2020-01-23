@@ -18,6 +18,14 @@ typedef std::unordered_map <ComponentId, IComponent* > Map_ComponentList;
 class GameObject
 {
 private:
+	///////////////////////////////////////////////
+	bool _independent;
+
+	GameObject* _parentObject;
+	
+	std::unordered_map<size_t, GameObject*> _childObjects;
+	///////////////////////////////////////////////
+
 	Map_ComponentList _ComponentList; // Component List
 	size_t _uId; // Unique ID
 
@@ -63,6 +71,18 @@ public:
 	void SetDestory();
 	bool GetEnable() const;
 	void SetEnable(bool enable);
+
+	///////////////////////////////////////////////
+	bool GetIndependent() const;
+	void SetIndependent(bool independent);
+
+	GameObject* GetParent() const;
+	void SetParent(GameObject* parent);
+
+	std::unordered_map<size_t, GameObject*>& GetChildList();
+
+	void AddChildObject(GameObject* child);
+	void RemoveChildObject(GameObject* child);
 };
 
 

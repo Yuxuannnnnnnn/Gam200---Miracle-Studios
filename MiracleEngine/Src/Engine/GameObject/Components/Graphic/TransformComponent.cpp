@@ -73,7 +73,7 @@ float& TransformComponent::GetRotate()
 	return _rotationAngle;
 }
 
-void TransformComponent::SetRotate(const float in)
+void TransformComponent::SetRotate(const float& in)
 {
 	_rotationAngle = in;
 }
@@ -140,4 +140,21 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 
 	_rotationAngle = DegToRad(DegAngle);
+}
+
+///////////////////////////////////////////////////////////////
+
+void TransformComponent::MovePos(const Vector3& in)
+{
+	_pos += in;
+}
+
+void TransformComponent::MoveScale(const Vector3& in)
+{
+	_scale *= in;
+}
+
+void TransformComponent::MoveRotate(const float& in)
+{
+	_rotationAngle += in;
 }

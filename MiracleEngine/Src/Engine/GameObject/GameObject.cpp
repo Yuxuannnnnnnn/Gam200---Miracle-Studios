@@ -200,3 +200,39 @@ GameObject* GameObject::Clone(size_t uid)
 
 	return newGameObject;
 }
+
+///////////////////////////////////////////////
+bool GameObject::GetIndependent() const
+{
+	return _independent;
+}
+
+void GameObject::SetIndependent(bool independent)
+{
+	_independent = independent;
+}
+
+GameObject* GameObject::GetParent() const
+{
+	return _parentObject;
+}
+
+void GameObject::SetParent(GameObject* parent)
+{
+	_parentObject = parent;
+}
+
+std::unordered_map<size_t, GameObject*>& GameObject::GetChildList()
+{
+	return _childObjects;
+}
+
+void GameObject::AddChildObject(GameObject* child)
+{
+
+}
+
+void GameObject::RemoveChildObject(GameObject* child)
+{
+
+}
