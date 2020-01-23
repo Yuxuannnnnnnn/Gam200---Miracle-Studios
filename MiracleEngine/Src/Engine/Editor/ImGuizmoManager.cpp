@@ -40,6 +40,8 @@ void ImGuizmoManager::Update()
 			if (Collision::BBoxVsPoint(pickingBox, pos))
 			{
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
+				HierarchyImguiWindow* HierarchyWindow = dynamic_cast<HierarchyImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Hierarchy"]);
+				HierarchyWindow->SetSelectedObj(it.second->GetParentPtr());
 				SetPickObjectUId(it.first);
 				return;
 			}

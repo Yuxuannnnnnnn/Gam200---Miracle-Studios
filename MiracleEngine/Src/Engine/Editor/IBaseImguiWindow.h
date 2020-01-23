@@ -34,6 +34,10 @@ public:
 
 	void SetName(const char* name);
 	void SetWindowTrue(); //Set Imgui window to appear on screen
+	void SetWindowFalse() //Set Imgui window to not appear on screen
+	{
+		_open = false;
+	}
 	void Setflags(ImGuiWindowFlags_ flag); //Set the flags for each imgui Window
 
 	virtual void Update() = 0; //Derived ImguiWindow to override - Content for every frame

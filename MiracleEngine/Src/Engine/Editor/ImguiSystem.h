@@ -5,6 +5,8 @@
 #include "PreFabImguiWindow.h"
 #include "TextureImguiWindow.h"
 #include "PerformanceUsageWindow.h"
+#include "PopUpBoxImguiWindow.h"
+
 
 class ImguiSystem
 {
@@ -24,7 +26,10 @@ public:
 
 	IBaseImguiWindow* GetWindow(std::string windowName)
 	{
-		return _ImguiWindows[windowName];
+		if(_ImguiWindows.find(windowName) != _ImguiWindows.end())
+			return _ImguiWindows[windowName];
+
+		return nullptr;
 	}
 
 	ImguiSystem(const Window& window); //Initialise ImguiSystem
@@ -39,4 +44,5 @@ public:
 };
 
 #define MyPerformanceUsage (*(dynamic_cast<PerformanceUsageWindow *>(MyImguiSystem.GetWindow("PerformanceUsage"))))
+#define MyPopUpBox (*(dynamic_cast<PopUpBoxImguiWindow *>(MyImguiSystem.GetWindow("PopUpBox"))))
 
