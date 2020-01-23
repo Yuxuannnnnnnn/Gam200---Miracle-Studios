@@ -19,12 +19,52 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	std::string string1 = "New Scene ";
 	if (ImGui::Button(string1.c_str()))
 	{
-		MyFactory.DeleteLevelNotPrefab();
+		MyFactory.SetNewScene();
 	}
+
 
 	ImGui::SameLine();
 	std::string string2 = "Save Scene ";
 	if (ImGui::Button(string2.c_str()))
+	{
+		if (MyFactory.GetCurrentScene().empty())
+		{
+			OPENFILENAME ofn = { sizeof ofn };
+			ZeroMemory(&ofn, sizeof(ofn));
+			ofn.lStructSize = sizeof(ofn);
+			ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
+
+			char file[1024] = "\0";
+			ofn.lpstrFile = file;
+			ofn.nMaxFile = 1024;
+			ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR;
+
+			ofn.lpstrFilter = ".json\0.json";
+			ofn.lpstrFileTitle = NULL;
+			ofn.nMaxFileTitle = 0;
+			ofn.lpstrInitialDir = "./Resources/TextFiles/Scenes/Scenes";
+			ofn.nFilterIndex = 1;
+			ofn.lpstrTitle = TEXT("Save Scene File");
+			ofn.lpstrDefExt = "rle";
+
+			if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
+			{
+				std::cout << ofn.lpstrFile;
+				MyFactory.De_SerialiseLevel(ofn.lpstrFile);
+			}
+		}
+		else
+		{
+			const std::string& scenePath = MyResourceSystem.GeScenePath(MyFactory.GetCurrentScene());
+			MyFactory.De_SerialiseLevel(scenePath);
+		}
+
+	}
+
+
+	ImGui::SameLine();
+	std::string string3 = "Save As Scene ";
+	if (ImGui::Button(string3.c_str()))
 	{
 		OPENFILENAME ofn = { sizeof ofn };
 		ZeroMemory(&ofn, sizeof(ofn));
@@ -34,7 +74,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 		char file[1024] = "\0";
 		ofn.lpstrFile = file;
 		ofn.nMaxFile = 1024;
-		ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER;
+		ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR;
 
 		ofn.lpstrFilter = ".json\0.json";
 		ofn.lpstrFileTitle = NULL;
@@ -51,9 +91,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 		}
 	}
 
-	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
+
 
 	ShowGameObjects();				//Show Every GameObject in the GameObjectList
 }
@@ -63,6 +101,20 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 
 void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the GameObjectList - Used in Update() 
 {
+
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
+
+	std::string Scene("Scene: ");
+	Scene += MyFactory.GetCurrentScene();
+	ImGui::Text(Scene.c_str());	//Shows Total Number of GameObjects in this level on Imgui Window
+
+
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
+
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.65f);
 
 
@@ -94,11 +146,22 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 		std::string string = std::to_string(i) + " " + ObjectTypeID; // "Object Type + Object unique number" string
 
 		static bool selected;
-		if (ImGui::Selectable(string.c_str(), selected, ImGuiSelectableFlags_AllowDoubleClick))
+
+		ImGuiSelectableFlags_ flags;
+		static std::string selectedObj;
+
+		if (!string.compare(selectedObj))
+			flags = ImGuiSelectableFlags_Disabled;
+		else
+			flags = ImGuiSelectableFlags_AllowDoubleClick;
+
+
+		if (ImGui::Selectable(string.c_str(), selected, flags))
 			if (ImGui::IsMouseReleased(0))
 			{
 				InspectionImguiWindow::InspectGameObject(gameObject);
 				MyImGuizmoManager.SetPickObjectUId(uID);
+				selectedObj = string;
 				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
 				//ImGui::TreePop();

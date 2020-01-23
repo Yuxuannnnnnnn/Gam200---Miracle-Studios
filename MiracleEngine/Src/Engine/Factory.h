@@ -86,6 +86,13 @@ public:
 
 	const std::string& GetCurrentScene();
 
+	//For Level Editor
+	void SetNewScene()
+	{
+		_currentScene = "";
+		DeleteLevelNotPrefab();
+	}
+
 private:
 	///Used to incrementally generate unique id's.
 	unsigned _lastGameObjectId;
