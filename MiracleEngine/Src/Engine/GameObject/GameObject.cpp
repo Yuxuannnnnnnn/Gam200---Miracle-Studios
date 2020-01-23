@@ -11,6 +11,14 @@ GameObject::GameObject(size_t uId)
 
 GameObject::~GameObject()
 {
+	for (auto& it : _ComponentList)
+	{
+		MyComponentManger.GetComponentContainer(it.first)->erase(it.second->GetParentId());
+		delete it.second;
+	}
+
+	_ComponentList.clear();
+
 	for (auto& it : _childObjects)
 	{
 		delete it.second;

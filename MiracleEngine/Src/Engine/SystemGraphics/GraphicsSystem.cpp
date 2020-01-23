@@ -135,9 +135,13 @@ void GraphicsSystem::UpdateRenderObjectList()
 		size_t objID = graphicCompPair.first;	//Get GameObjectID
 		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[objID];
 
-		if (!Collision::DefaultColliderDataCheck(viewBox,
-			BBox::CreateBBoxFromData(transformComp->GetPos(), transformComp->GetScale(), transformComp->GetRotate())))
-			continue;
+		if (transformComp)
+		{
+			if (!Collision::DefaultColliderDataCheck(viewBox,
+				BBox::CreateBBoxFromData(transformComp->GetPos(), transformComp->GetScale(), transformComp->GetRotate())))
+				continue;
+		}
+
 
 
 		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
@@ -145,7 +149,13 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		renderobject._pMesh = &_quadMesh;
 		renderobject._pShader = _shader;
-		renderobject._pTexture = MyResourceManager.GetTexture2DResource(graphicComp->GetFileName());
+
+		if (!graphicComp->GetFileName().empty())
+		{
+			const std::string& fileName = graphicComp->GetFileName();
+			renderobject._pTexture = MyResourceManager.GetTexture2DResource(fileName);
+		}
+
 		renderobject._transform = modelTransform;
 		renderobject._zvalue = transformComp->GetPos().GetZ();
 		_renderObjects.push_back(renderobject);

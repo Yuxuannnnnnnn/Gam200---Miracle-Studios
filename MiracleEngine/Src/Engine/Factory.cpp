@@ -344,7 +344,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	//if (filename.find("Resources"))
 	//{
 	std::string fileName = filename.substr(filename.find_last_of("\\") + 1);
-	filename = "./Resources/TextFiles/Scenes/Scenes/" + fileName;
+	filename = "./Resources/TextFiles/Scenes/Scenes\\" + fileName;
 	//}
 
 

@@ -204,6 +204,7 @@ void AssetsImguiWindow::Update()
 			{
 				GameObject* newGameobject = MyFactory.CreateEmptyGameObject();//new GameObject();
 				newGameobject->AddComponent(ComponentId::CT_Identity);
+				newGameobject->AddComponent(ComponentId::CT_Transform);
 				InspectionImguiWindow::InspectGameObject(newGameobject);
 			}
 			ImGui::Spacing();
