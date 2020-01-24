@@ -106,6 +106,7 @@
     <ClCompile Include="Src\Script\Player.cpp" />
     <ClCompile Include="Src\Engine\SystemCamera\CameraSystem.cpp" />
     <ClCompile Include="Src\Engine\Editor\PopUpBoxImguiWindow.cpp" />
+    <ClCompile Include="Src\Script\Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -531,6 +532,7 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\ScriptTypeId.h" />
     <ClInclude Include="Src\Engine\SystemCamera\CameraSystem.h" />
     <ClInclude Include="Src\Engine\Editor\PopUpBoxImguiWindow.h" />
+    <ClInclude Include="Src\Script\Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
