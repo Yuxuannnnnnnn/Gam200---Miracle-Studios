@@ -24,5 +24,21 @@
 
   "AudioComponent": true,
   "A.TypeId": 0,
-  "A.FileName": "audio_enemy.ogg"
+  "A.FileName": "audio_enemy.ogg",
+
+   "Script2Id": [ "Enemy" ],
+  "Script2Data": [
+    {
+      "Health": 10,
+      "WeaponActive": 1,
+      "AmmoRpg": 0,
+      "AmmoTurret": 10,
+      "AmmoWall": 10,
+      "FireratePistol": 1.0,
+      "FirerateShotgun": 1.0,
+      "FirerateRpg": 1.0,
+      "FirerateTurret": 1.0,
+      "FirerateWall": 1.0
+    }
+  ]
 }

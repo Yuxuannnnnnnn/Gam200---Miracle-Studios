@@ -2,6 +2,7 @@
 #include "LogicSystem.h"
 
 #include "Script/Player.h"
+#include "Script/Enemy.h"
 
 
 LogicSystem::~LogicSystem()
@@ -25,7 +26,6 @@ void LogicSystem::Init() {
 	//ScriptSystem.Init();
 }
 void LogicSystem::Update(double dt) {
-
 	for (auto& itr : GetComponentMap(Logic)) {
 
 		LogicComponent* obj = (LogicComponent*)itr.second;
