@@ -29,29 +29,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	{
 		if (MyFactory.GetCurrentScene().empty())
 		{
-			OPENFILENAME ofn = { sizeof ofn };
-			ZeroMemory(&ofn, sizeof(ofn));
-			ofn.lStructSize = sizeof(ofn);
-			ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
-
-			char file[1024] = "\0";
-			ofn.lpstrFile = file;
-			ofn.nMaxFile = 1024;
-			ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR;
-
-			ofn.lpstrFilter = ".json\0.json";
-			ofn.lpstrFileTitle = NULL;
-			ofn.nMaxFileTitle = 0;
-			ofn.lpstrInitialDir = "./Resources/TextFiles/Scenes/Scenes";
-			ofn.nFilterIndex = 1;
-			ofn.lpstrTitle = TEXT("Save Scene File");
-			ofn.lpstrDefExt = "rle";
-
-			if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
-			{
-				std::cout << ofn.lpstrFile;
-				MyFactory.De_SerialiseLevel(ofn.lpstrFile);
-			}
+			MyFactory.WindowsDialogSaveLevel();
 		}
 		else
 		{
@@ -66,32 +44,8 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 	std::string string3 = "Save As Scene ";
 	if (ImGui::Button(string3.c_str()))
 	{
-		OPENFILENAME ofn = { sizeof ofn };
-		ZeroMemory(&ofn, sizeof(ofn));
-		ofn.lStructSize = sizeof(ofn); 
-		ofn.hwndOwner = _engineSystems._windowSystem->getWindow().Get_hwnd();
-
-		char file[1024] = "\0";
-		ofn.lpstrFile = file;
-		ofn.nMaxFile = 1024;
-		ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR;
-
-		ofn.lpstrFilter = ".json\0.json";
-		ofn.lpstrFileTitle = NULL;
-		ofn.nMaxFileTitle = 0;
-		ofn.lpstrInitialDir = "./Resources/TextFiles/Scenes/Scenes";
-		ofn.nFilterIndex = 1;
-		ofn.lpstrTitle = TEXT("Save Scene File");
-		ofn.lpstrDefExt = "rle";
-
-		if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
-		{
-			std::cout << ofn.lpstrFile;
-			MyFactory.De_SerialiseLevel(ofn.lpstrFile);
-		}
+		MyFactory.WindowsDialogSaveLevel();
 	}
-
-
 
 	ShowGameObjects();				//Show Every GameObject in the GameObjectList
 }
@@ -143,12 +97,11 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (gameObject->GetComponent(ComponentId::CT_Identity));
 
 		std::string ObjectTypeID = IdCom->GetName(); //Get Object Type of each GameObject
-		std::string string = std::to_string(i) + " " + ObjectTypeID; // "Object Type + Object unique number" string
+		std::string string = std::to_string(IdCom->GetParentId()) + " " + ObjectTypeID; // "Object Type + Object unique number" string
 
 		static bool selected;
 
 		ImGuiSelectableFlags_ flags;
-		static std::string selectedObj;
 
 		if (!string.compare(selectedObj))
 		{
@@ -191,6 +144,15 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 			//ImGuiID id = ImGui::GetID(string.c_str());
 			//ImGui::GetStateStorage()->SetInt(id, 0);
 		}
+
+		ImGui::SameLine();
+		std::string EnableCom = "##" + std::to_string(uID);
+		bool enable = gameObject->GetEnable();
+		if (ImGui::Checkbox(EnableCom.c_str(), &enable))
+		{
+			gameObject->SetEnable(enable);
+		}
+
 
 		i++;
 	}

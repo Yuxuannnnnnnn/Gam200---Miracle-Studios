@@ -47,8 +47,7 @@ void GraphicsSystem::Update(double dt)
 
 void GraphicsSystem::BeginScene()
 {
-	_cameraSystem.Update();
-	_view = _cameraSystem.GetCamMatrix();
+	_view = glm::make_mat4(Mtx44::CreateTranspose(MyCameraSystem.GetCamMatrix()).m);
 	UpdateRenderObjectList();
 	ClearSreen();
 }
@@ -78,12 +77,12 @@ GraphicsSystem::~GraphicsSystem()
 {
 }
 
+
 void GraphicsSystem::ResizeGraphics(float width, float height)
 {
 	_proj = glm::ortho(-width / 2.f, width / 2.f, -height / 2.f, height / 2.f, -30.0f, 30.0f);
 	glViewport(0, 0, width, height);
 }
-
 
 void GraphicsSystem::ClearSreen() const
 {
@@ -174,4 +173,10 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 	}
 
+}
+
+
+Matrix4x4& GraphicsSystem::GetProjection()
+{
+	return Matrix4x4{ (const float*)glm::value_ptr(_proj) };
 }

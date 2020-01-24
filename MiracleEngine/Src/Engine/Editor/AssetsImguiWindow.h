@@ -17,12 +17,48 @@
 
 //For Each Prototype - Can new prototype 
 
+class Folder
+{
+public:
+	std::vector<std::string> FileName;
+
+	std::string folderName;
+
+	Folder(std::string name)
+	{
+		folderName = name;
+	}
+};
+
+
 
 class AssetsImguiWindow: public IBaseImguiWindow
 {
 	//typedef std::unordered_map<std::string, std::string> NamePath;
 	//NamePath _vertexFiles;
 	//NamePath _fragmentFiles;
+
+	//typedef std::map<std::string, std::string> Folder;
+	typedef Folder SubFolder;
+	typedef Folder SubSubFolder;
+
+	Folder Image{ "Image" };
+	Folder characterAnimation{ "characterAnimation" };
+	Folder EnemiesSpawner{ "EnemiesSpawner" };
+	Folder EnemyAI{"EnemyAI"};
+	Folder EnvironmentAnimation{"EnvironmentAnimation"};
+	Folder PowersEffect{"PowersEffect"};
+
+	Folder PropsDesign{ "PropsDesign" };
+	SubFolder SCI_FI{ "SCI_FI" };
+	SubSubFolder rusted_v2{ "rusted_v2" };
+
+	Folder Tile{ "Tile" };
+
+	Folder Interface{ "Interface" };
+	SubFolder Instruction_Menu{ "Instruction_Menu" };
+	SubFolder HP_and_Progress_Bar{ "HP_and_Progress_Bar" };
+
 
 public:
 

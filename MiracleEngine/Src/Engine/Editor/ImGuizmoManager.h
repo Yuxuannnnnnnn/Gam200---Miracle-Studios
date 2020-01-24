@@ -1,24 +1,38 @@
 #ifndef _IMGUIZMO_MANAGER_H
 #define _IMGUIZMO_MANAGER_H
 
+#include "..//Dep/Imgui/ImGuizmo.h"
+
 class ImGuizmoManager final
 {
 private:
+	ImGuizmo::OPERATION _mCurrentGizmoOperation;
+
 	size_t _pickUId;
 
 	float _windowWidth;
 	float _windowHeight;
 
+	bool _dragCamera;
+
+	Vector3 _prevPos;
+	Vector3 _currPos;
+
 public:
-	ImGuizmoManager() :_pickUId{ 0 }, _windowWidth{ 1280 }, _windowHeight{ 1024 }{}
+	ImGuizmoManager() :_mCurrentGizmoOperation{ImGuizmo::TRANSLATE}, _pickUId{ 0 }, _windowWidth{ 1280 }, _windowHeight{ 1024 }, _dragCamera{ true }, _prevPos{ 0,0,1 }, _currPos{ 0,0,1 } {}
 	~ImGuizmoManager() {}
 
 	void Update();
+	void Draw();
+
 	void SetPickObjectUId(size_t uId);
 
 	void SetWindowSize(float width, float height);
 
 private:
+
+	void RenderToolBar();
+
 	void EditTransform(const float* cameraView, float* cameraProjection, float* matrix);
 
 	void OrthoGraphic(const float l, float r, float b, const float t, float zn, const float zf, float* m16)

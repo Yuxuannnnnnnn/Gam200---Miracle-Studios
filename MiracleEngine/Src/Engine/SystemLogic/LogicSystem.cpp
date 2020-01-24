@@ -4,6 +4,7 @@
 #include "Script/Player.h"
 #include "Script/Enemy.h"
 
+
 LogicSystem::~LogicSystem()
 {
 	for (auto& itr : _scriptTypeMap)

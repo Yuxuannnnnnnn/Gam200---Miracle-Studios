@@ -59,7 +59,7 @@ public:
 	void DeleteLevel();								//Level is Deleted when out of In-GameState
 	void DeleteLevelNotPrefab();
 	void De_SerialiseLevel(std::string filename);
-
+	void WindowsDialogSaveLevel();
 
 	////////////////////////////////////////////////////////////////////////////
 

@@ -15,6 +15,8 @@
 class HierarchyImguiWindow : public IBaseImguiWindow
 {
 	bool isObjectSelected;
+	std::string selectedObj;
+
 
 public:
 
@@ -43,6 +45,13 @@ public:
 	bool GetObjIsSelected()
 	{
 		return isObjectSelected;
+	}
+
+	void SetSelectedObj(GameObject * ObjName)
+	{
+		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(ObjName->GetComponent(ComponentId::CT_Identity));
+		selectedObj = std::to_string(IdCom->GetParentId()) + " " + IdCom->GetName();
+		isObjectSelected = true;
 	}
 };
 
