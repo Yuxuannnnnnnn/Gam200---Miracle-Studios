@@ -544,7 +544,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 
 void PhysicsSystem::ButtonUpdate()
 {
-	Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
+	Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMouseWorldPos();
 
 	for (auto& it : GetComponentMap(Button))
 	{

@@ -223,8 +223,8 @@ void Player::UpdateInput()
 		AddForce(GetParentId(), Vector3(0, -1, 0), spd);
 // MOUSE
 	Vector3 aimVector = { // use aimVector to determine direction player is facing
-		EngineSystems::GetInstance()._inputSystem->GetMousePos()._x,
-		EngineSystems::GetInstance()._inputSystem->GetMousePos()._y,
+		GetMousePos()._x,
+		GetMousePos()._y,
 		0 };
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = aimVector._x * compareVec._x + aimVector._y * compareVec._y;

@@ -9,21 +9,39 @@ class CameraSystem
 {
 public:
 	CameraSystem();
-	float* GetCamMatrix();
 	void Update();
+
 
 	void SetPos_CamEditor(const size_t& in);
 	void SetPos_CamEditor(Vector3& in);
+
+	Vector3& GetGlobalPos_CamEditor();
 	Vector3& GetPos_CamEditor();
 
 	const float& GetZoom_CamEditor() const;
 	void SetZoom_CamEditor(float& in);
+
+	///////////////////////////////////////////////////////////////////////////////////
+
+	// use by both gameplay and editor 
+
+	float* GetCamMatrix();
+	Vector3& GetCameraPos();
+	float& GetCameraZoom();
 
 private:
 	size_t _mainCameraUId;
 
 	Matrix4x4 _cameraMatrix;
 
+	//////////////////////////////////////////////////////
+	//temp main camera
+	Vector3 _tempmainCameraPos;
+	float _tempmainCameraZoom;
+
+
+	///////////////////////////////////////////////////////////////////////////////////
+	Vector3 _globalCameraEditorPos;
 	Vector3 _cameraEditorPos;
 	float _cameraEditorzoom;
 };

@@ -33,14 +33,16 @@ namespace Collision {
 		for (int a = 0; a < 2; ++a)
 		{
 			float det = boxA._normals[a].Dot(boxA._normals[a]);
-			float t = boxB._origin.Dot(boxA._normals[a]) / det;
+			Vector3 vec = boxB._origin - boxA._origin;
+			float t = vec.Dot(boxA._normals[a]) / det;
 
 			// Find the extent of boxB on boxA's axis x
 			float tMin = t;
 			float tMax = t;
 
 			for (int c = 1; c < 4; ++c) {
-				t = boxB._corners[c].Dot(boxA._normals[a]) / det;
+				vec = boxB._corners[c] - boxA._origin;
+				t = vec.Dot(boxA._normals[a]) / det;
 
 				if (t < tMin) {
 					tMin = t;

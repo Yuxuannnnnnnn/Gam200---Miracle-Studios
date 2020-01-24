@@ -3,11 +3,12 @@
 
 
 
-
+bool HierarchyImguiWindow::isObjectSelected = false;
+std::string HierarchyImguiWindow::selectedObj = "";
 
 
 HierarchyImguiWindow::HierarchyImguiWindow(bool open, ImGuiWindowFlags flags)
-	:IBaseImguiWindow("Hierarchy", 1, 515, 340, 570, open, flags), isObjectSelected{false}
+	:IBaseImguiWindow("Hierarchy", 1, 515, 340, 570, open, flags)
 {
 }
 

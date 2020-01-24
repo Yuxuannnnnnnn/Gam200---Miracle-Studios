@@ -170,14 +170,23 @@ void InputSystem::Update(Window& window)
 	InterruptCheck();
 }
 
-Vector3 InputSystem::GetMousePos() const
+
+Vector3 InputSystem::GetMouseWorldPos()
 {
-	Vec3 ScreenSpace{ (float)_p.x - _windowWidth / 2.0f,
+	Vec3 ScreenSpace{ ((float)_p.x - _windowWidth / 2.0f),
 	  _windowHeight / 2.0f - (float)_p.y, 1.0f };
 
-	Vec3 cameraPos = MyCameraSystem.GetPos_CamEditor();
+	ScreenSpace /= MyCameraSystem.GetZoom_CamEditor();
 
-	return ScreenSpace - cameraPos;
+	ScreenSpace -= MyCameraSystem.GetGlobalPos_CamEditor();
+
+	return Vec3{ ScreenSpace._x, ScreenSpace._y, 1.f };
+}
+
+Vector3 InputSystem::GetMouseScreenPos()
+{
+	return Vec3{ (float)_p.x - _windowWidth / 2.0f,
+	  _windowHeight / 2.0f - (float)_p.y, 1.0f };
 }
 
 void InputSystem::Exit()

@@ -9,9 +9,17 @@
 #ifndef _IMOUSE_HANDLER_H
 #define _IMOUSE_HANDLER_H
 
+#include "SystemInput/InputSystem.h"
+
 class IMouseHandler
 {
 public:
+	InputSystem* _input;
+
+	IMouseHandler();
+
+	const Vec3& GetMousePos() const;
+
 	virtual void OnMouseDown() {}
 	virtual void OnMouseDrag() {}
 	virtual void OnMouseUp() {}

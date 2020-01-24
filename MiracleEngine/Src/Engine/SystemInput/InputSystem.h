@@ -23,7 +23,8 @@ public:
 	void Update(Window& window);
 	void Exit();
 
-	Vector3 GetMousePos() const;
+	Vector3 GetMouseWorldPos();
+	Vector3 GetMouseScreenPos();
 
 	void SetWindowSize(float width, float height);
 private:

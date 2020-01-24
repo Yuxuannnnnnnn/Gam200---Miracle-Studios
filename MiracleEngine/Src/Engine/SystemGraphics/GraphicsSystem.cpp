@@ -95,9 +95,8 @@ void GraphicsSystem::UpdateRenderObjectList()
 {
 
 	// update 
-
-	BBox viewBox = BBox::CreateBBoxFromData(Vec3::Vec3Zero,
-		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() ,MyWindowsSystem.getWindow().GetWindowHeight()},
+	BBox viewBox = BBox::CreateBBoxFromData(Vec3{ -MyCameraSystem.GetCameraPos()._x,-MyCameraSystem.GetCameraPos()._y,1.f },
+		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() / MyCameraSystem.GetCameraZoom() ,MyWindowsSystem.getWindow().GetWindowHeight() / MyCameraSystem.GetCameraZoom() },
 		0.f);
 
 	for (auto& graphicCompPair : GetComponentMap(Graphic))

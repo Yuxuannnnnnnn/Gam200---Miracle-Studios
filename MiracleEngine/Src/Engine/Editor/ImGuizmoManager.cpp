@@ -9,21 +9,21 @@ void ImGuizmoManager::Update()
 	{
 		if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_RBUTTON))
 		{
-			_prevPos = MyInputSystem.GetMousePos();
+			_prevPos = MyInputSystem.GetMouseScreenPos();
 			_currPos = _prevPos;
 		}
 		else if (EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_RBUTTON) ||
 			EngineSystems::GetInstance()._inputSystem->KeyRelease(MOUSE_RBUTTON))
 		{
-			_currPos = MyInputSystem.GetMousePos();
+			_currPos = MyInputSystem.GetMouseScreenPos();
 			Vec3 diff = _currPos - _prevPos;
-			MyCameraSystem.GetPos_CamEditor() += diff;
+			MyCameraSystem.GetGlobalPos_CamEditor() += diff;
 			_prevPos = _currPos;
 		}
 	}
 	else if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_RBUTTON))
 	{
-		Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMousePos();
+		Vector3  pos = MyInputSystem.GetMouseWorldPos();
 
 		for (auto& it : GetComponentMap(Graphic))
 		{
@@ -71,7 +71,12 @@ void ImGuizmoManager::Update()
 	ImGuizmo::SetOrthographic(true);
 	ImGuizmo::BeginFrame();
 	ImGui::SetNextWindowPos(ImVec2(350, 0));
-	ImGui::SetNextWindowSize(ImVec2(880, 55));
+	
+	if(!_dragCamera)
+		ImGui::SetNextWindowSize(ImVec2(880, 55));
+	else
+		ImGui::SetNextWindowSize(ImVec2(880, 75));
+
 	ImGui::Begin("ToolBar");
 	RenderToolBar();
 	ImGui::End();
@@ -104,7 +109,7 @@ void ImGuizmoManager::Draw()
 
 			float camYAngle = 90.f / 180.f * 3.14159f;
 			float camXAngle = 0;
-			float camDistance = 8.f;
+			float camDistance = 10.f; // does not matter
 
 			// for orthographic
 			OrthoGraphic(-viewWidth, viewWidth, -viewHeight, viewHeight, -viewWidth, viewWidth, cameraProjection);
@@ -149,6 +154,8 @@ void ImGuizmoManager::RenderToolBar()
 	if (ImGui::IsKeyPressed(KEYB_Q))
 	{
 		_dragCamera = true;
+		HierarchyImguiWindow::SetSelectedObj(nullptr);
+		InspectionImguiWindow::InspectGameObject(nullptr);
 		_pickUId = 0;
 	}
 	if (ImGui::IsKeyPressed(KEYB_W))
@@ -174,6 +181,8 @@ void ImGuizmoManager::RenderToolBar()
 	if (ImGui::RadioButton("Camera", _dragCamera == true))
 	{
 		_dragCamera = true;
+		HierarchyImguiWindow::SetSelectedObj(nullptr);
+		InspectionImguiWindow::InspectGameObject(nullptr);
 		_pickUId = 0;
 	}
 	ImGui::SameLine();
@@ -195,8 +204,20 @@ void ImGuizmoManager::RenderToolBar()
 		_mCurrentGizmoOperation = ImGuizmo::SCALE;
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Go To Object"))
+	if (_dragCamera)
+	{
+		if (ImGui::Button("Go To Origin"))
+			MyCameraSystem.SetPos_CamEditor(_pickUId);
+
+		float zoom = MyCameraSystem.GetZoom_CamEditor();
+		ImGui::Spacing();
+		ImGui::SliderFloat("Editor Camera Zoom", &zoom, 0.1, 15);
+		MyCameraSystem.SetZoom_CamEditor(zoom);
+	}
+	else if(ImGui::Button("Go To Object"))
 		MyCameraSystem.SetPos_CamEditor(_pickUId);
+
+	
 }
 
 void ImGuizmoManager::EditTransform(const float* cameraView, float* cameraProjection, float* matrix)

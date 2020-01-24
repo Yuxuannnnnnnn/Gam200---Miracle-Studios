@@ -106,6 +106,7 @@
     <ClCompile Include="Src\Script\Player.cpp" />
     <ClCompile Include="Src\Engine\SystemCamera\CameraSystem.cpp" />
     <ClCompile Include="Src\Engine\Editor\PopUpBoxImguiWindow.cpp" />
+    <ClCompile Include="Src\Engine\Tools\EventHandler\IMouseHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />

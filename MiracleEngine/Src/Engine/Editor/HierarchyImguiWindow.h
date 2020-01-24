@@ -14,9 +14,8 @@
 //When removing objects, make sure to remove child object along with parent object
 class HierarchyImguiWindow : public IBaseImguiWindow
 {
-	bool isObjectSelected;
-	std::string selectedObj;
-
+	static bool isObjectSelected;
+	static std::string selectedObj;
 
 public:
 
@@ -47,8 +46,13 @@ public:
 		return isObjectSelected;
 	}
 
-	void SetSelectedObj(GameObject * ObjName)
+	static void SetSelectedObj(GameObject * ObjName)
 	{
+		isObjectSelected = false;
+
+		if (!ObjName)
+			return;
+
 		IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(ObjName->GetComponent(ComponentId::CT_Identity));
 		selectedObj = std::to_string(IdCom->GetParentId()) + " " + IdCom->GetName();
 		isObjectSelected = true;

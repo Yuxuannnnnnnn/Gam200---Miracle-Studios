@@ -677,6 +677,7 @@
     <ClCompile Include="Src\Engine\SystemWindows\Window.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\WindowsSystem.cpp" />
     <ClCompile Include="Src\Engine\Tools\EventHandler\EventHandler.cpp" />
+    <ClCompile Include="Src\Engine\Tools\EventHandler\IMouseHandler.cpp" />
     <ClCompile Include="Src\Engine\Tools\FileIO\DeSerialiser.cpp" />
     <ClCompile Include="Src\Engine\Tools\FileIO\FileIO.cpp" />
     <ClCompile Include="Src\Engine\Tools\FileIO\Serialiser.cpp" />
