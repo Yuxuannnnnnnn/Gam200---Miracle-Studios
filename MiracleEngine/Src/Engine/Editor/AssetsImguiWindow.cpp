@@ -3,6 +3,9 @@
 
 
 
+//#define LESSTEXTURE
+
+
 AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 
 	:IBaseImguiWindow("Assets",1, 20, 347, 490, open, flags)
@@ -42,6 +45,9 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 	std::vector<std::string> texturesPath;
 
 	texturesPath.push_back("./Resources/Image");
+
+#ifndef LESSTEXTURE
+
 	texturesPath.push_back("./Resources/Image/Character_Animation");
 	texturesPath.push_back("./Resources/Image/Enemies_Spawner");
 	texturesPath.push_back("./Resources/Image/Enemy(AI)");
@@ -58,9 +64,14 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 	texturesPath.push_back("./Resources/Image/Interface/Instruction_Menu");
 	texturesPath.push_back("./Resources/Image/Interface/HP_and_Progress_Bar");
 
+#endif 
+
 
 	std::vector<Folder*> FolderList;
 	FolderList.push_back(&Image);
+
+#ifndef LESSTEXTURE
+
 	FolderList.push_back(&characterAnimation);
 	FolderList.push_back(&EnemiesSpawner);
 	FolderList.push_back(&EnemyAI);
@@ -73,6 +84,9 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 	FolderList.push_back(&Interface);
 	FolderList.push_back(&Instruction_Menu);
 	FolderList.push_back(&HP_and_Progress_Bar);
+
+#endif 
+
 
 	int i = 0;
 	{
