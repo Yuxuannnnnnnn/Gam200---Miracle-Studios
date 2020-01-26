@@ -40,6 +40,8 @@ void Engine::Init()
 	MyInputSystem.Init();
 	_engineSystems._scriptSystem->Init();
 
+	DebugRenderer::GetInstance().Init();
+
 	MyEventHandler.ChangedWindowSize();
 
 //-------------------------------------------------------------
@@ -142,6 +144,7 @@ void Engine::Update()
 
 		// Graphics
 		MyFrameRateController.StartTimeCounter();
+		MyPhysicsSystem.Draw();
 		MyAnimationSystem.Update(dt);
 		MyParticleSystem.Draw();
 		MyGraphicsSystem.Update(dt);

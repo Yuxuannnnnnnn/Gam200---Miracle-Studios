@@ -11,27 +11,6 @@ void DebugRenderer::CalculateProjMatrix(int windowWidth, int windowHeight)
 }
 DebugRenderer::DebugRenderer()
 {
-	std::string temp = "DefaultDebugShader";
-
-	_shader =MyResourceSystem.GetShaderResource(temp);
-
-	if (!_shader &&MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/debug.vert", "Resources/Shader/debug.frag" } }))
-	{
-		_shader =MyResourceSystem.GetShaderResource(temp);
-	}
-
-	temp = "DefaultBatchShader";
-
-	_batchshader =MyResourceSystem.GetShaderResource(temp);
-
-	if (!_batchshader &&MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/batchdebug.vert", "Resources/Shader/batchdebug.frag" } }))
-	{
-		_batchshader =MyResourceSystem.GetShaderResource(temp);
-	}
-
-	_proj = glm::ortho(-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2,
-		-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, -15.0f, 15.0f);
-
 	_vaobatch = new VertexArray();
 	glGenBuffers(1, &_batchvbo);
 	//glEnableVertexAttribArray(0);
@@ -68,6 +47,31 @@ DebugRenderer::~DebugRenderer()
 	delete _vboCircle;
 	delete _vaobatch;
 }
+
+void DebugRenderer::Init()
+{
+	std::string temp = "DefaultDebugShader";
+
+	_shader = MyResourceSystem.GetShaderResource(temp);
+
+	if (!_shader && MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/debugSystem.vert", "Resources/Shader/debugSystem.frag" } }))
+	{
+		_shader = MyResourceSystem.GetShaderResource(temp);
+	}
+
+	temp = "DefaultBatchShader";
+
+	_batchshader = MyResourceSystem.GetShaderResource(temp);
+
+	if (!_batchshader && MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/batchdebug.vert", "Resources/Shader/batchdebug.frag" } }))
+	{
+		_batchshader = MyResourceSystem.GetShaderResource(temp);
+	}
+
+	_proj = glm::ortho(-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2,
+		-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, -15.0f, 15.0f);
+}
+
 void DebugRenderer::Update()
 {
 
@@ -80,7 +84,7 @@ void DebugRenderer::DrawCircle(float x, float y, float radiusin)
 
 	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 12));
 	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(radiusin * 2, radiusin * 2, 0));
-	glm::mat4 mvp = _proj * /*EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix()*/ model;
+	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m) * model;
 
 	int location = glGetUniformLocation(_shader->_id, "u_Color");
 	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
@@ -102,7 +106,7 @@ void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 12));
 
 	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2 - x1, y2 - y1, 0));
-	glm::mat4 mvp = _proj * /*EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix()*/ model;
+	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m) * model;
 
 
 

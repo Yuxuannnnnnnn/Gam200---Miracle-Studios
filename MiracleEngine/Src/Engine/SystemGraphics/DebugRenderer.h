@@ -23,6 +23,11 @@ class DebugRenderer : public ISingleton<DebugRenderer>
 public:
 	~DebugRenderer();
 	DebugRenderer();
+
+	//////////////////////////////////////////////////////////////////////
+	void Init();
+	//////////////////////////////////////////////////////////////////////
+
 	void Update();
 	
 	void DrawLine(float x1, float y1, float x2, float y2);
