@@ -793,7 +793,7 @@ void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePat
 
 void Factory::ChangeScene(const std::string& scene)
 {
-
+	_lastGameObjectId = 0;
 #ifdef LEVELEDITOR //for Level editor Mode
 
 	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
@@ -878,4 +878,16 @@ void Factory::LoadAllSceneAssets(std::unordered_map<std::string, std::string>& G
 const std::string& Factory::GetCurrentScene()
 {
 	return _currentScene;
+}
+
+void Factory::SetNewScene() 
+{
+	_lastGameObjectId = 0;
+	_currentScene = "";
+	DeleteLevelNotPrefab();
+}
+
+std::unordered_map<std::string, ComponentCreator*>& Factory::GetComponentList()
+{
+	return _componentMap;
 }

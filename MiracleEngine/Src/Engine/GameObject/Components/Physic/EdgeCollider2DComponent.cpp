@@ -12,7 +12,7 @@ EdgeCollider2DComponent::EdgeCollider2DComponent() :
 
 std::string EdgeCollider2DComponent::ComponentName() const
 {
-	return std::string("EdgeCollider2D Component");
+	return std::string("EdgeCollider Component");
 }
 
 void EdgeCollider2DComponent::SerialiseComponent(Serialiser& document)
@@ -35,7 +35,7 @@ void EdgeCollider2DComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void EdgeCollider2DComponent::Inspect()
 {
-	IComponent::Inspect();
+	Collider2D::Inspect();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

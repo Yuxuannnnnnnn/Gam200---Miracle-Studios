@@ -69,7 +69,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("BoxCollider2D", rapidjson::Value(true), allocator);
+			value.AddMember("EdgeCollider2DComponent", rapidjson::Value(true), allocator);
 
 			if (!type.IsNull())
 			{

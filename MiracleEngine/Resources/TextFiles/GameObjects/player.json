@@ -21,12 +21,12 @@
   ],
   "StartAnim": "CatAnimation.json",
 
-  "RigidBodyComponent": true,
+  "RigidBody2DComponent": true,
   "Mass": 10.0,
   "Friction": 0.1,
   "Static": false,
 
-  "CircleColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 1,
   "ColliderTrigger": false,

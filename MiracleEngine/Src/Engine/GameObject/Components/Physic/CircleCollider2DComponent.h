@@ -32,7 +32,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("CircleCollider2D", rapidjson::Value(true), allocator);
+		prototypeDoc.AddMember("CircleCollider2DComponent", rapidjson::Value(true), allocator);
 
 		Collider2D::DeSerialiseComponent(prototypeDoc, allocator);
 	}
@@ -67,7 +67,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("BoxCollider2D", rapidjson::Value(true), allocator);
+			value.AddMember("CircleCollider2DComponent", rapidjson::Value(true), allocator);
 
 			if (!type.IsNull())
 			{

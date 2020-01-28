@@ -12,7 +12,7 @@
   "G.TypeId": 0,
   "G.FileName": "Spawner.png",
 
-  "ColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 5,
   "ColliderTrigger": true

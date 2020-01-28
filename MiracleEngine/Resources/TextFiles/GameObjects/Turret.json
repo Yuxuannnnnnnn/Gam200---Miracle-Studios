@@ -12,7 +12,7 @@
   "G.TypeId": 0,
   "G.FileName": "Turret.png",
 
-  "CircleColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 4,
   "ColliderTrigger": true

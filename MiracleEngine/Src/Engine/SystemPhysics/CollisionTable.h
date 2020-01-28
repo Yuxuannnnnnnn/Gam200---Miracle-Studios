@@ -4,31 +4,21 @@
 #include <unordered_map>
 #include <unordered_set>
 
-enum class ColliderTag {
-	NONE = 0,
-	PLAYER = 1,
-	BULLET = 2,
-	ENEMY = 3,
-	TURRET = 4,
-	DESTORYABLE_BUILDING = 5,
-	BUILDING = 7,
-	BULLET_E = 8,
-	PICK_UPS = 9,
-	EDGES = 10,
-	BOSS = 11,
-
-	TOTAL_TAG
-};
+#include "CollisionTagIDs.h"
 
 class CollisionTable
 {
 	typedef std::unordered_map<ColliderTag, std::unordered_set<ColliderTag>> TABLE;
 	typedef std::pair<ColliderTag, std::unordered_set<ColliderTag>> ROW;
 
+	std::unordered_map<std::string, size_t> _tagList;
+
 public:
 	TABLE _table;
 
 	bool CheckCollisionTable(ColliderTag first, ColliderTag second);
+
+	std::unordered_map<std::string, size_t>& GetTagList();
 
 	CollisionTable();
 	~CollisionTable();

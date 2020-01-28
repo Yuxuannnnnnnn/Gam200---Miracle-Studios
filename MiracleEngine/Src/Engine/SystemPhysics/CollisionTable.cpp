@@ -38,6 +38,9 @@ CollisionTable::CollisionTable()
 	// EDGES
 	std::unordered_set<ColliderTag> row_edges{ ColliderTag::PLAYER, ColliderTag::BULLET, ColliderTag::ENEMY ,ColliderTag::BULLET_E };
 	_table.insert(ROW(ColliderTag::EDGES, row_edges));
+
+	for (int i = 0; i < (int)ColliderTag::TOTAL_TAG; i++)
+		_tagList.insert({ ToString((ColliderTag)i), i });
 }
 
 CollisionTable::~CollisionTable()
@@ -61,4 +64,9 @@ bool CollisionTable::CheckCollisionTable(ColliderTag first, ColliderTag second)
 	}
 
 	return false;
+}
+
+std::unordered_map<std::string, size_t>& CollisionTable::GetTagList()
+{
+	return _tagList;
 }
