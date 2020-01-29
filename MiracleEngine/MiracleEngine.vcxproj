@@ -259,6 +259,8 @@
     <ClInclude Include="Src\Engine\SystemParticle\ParticleSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingCircle.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingEdge.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingLine.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingPolygon.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\Collision.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\CollisionMap.h" />
@@ -668,6 +670,8 @@
     <ClCompile Include="Src\Engine\SystemParticle\ParticleSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingBox.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingCircle.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingEdge.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingLine.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingPolygon.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\Collision.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionMap.cpp" />

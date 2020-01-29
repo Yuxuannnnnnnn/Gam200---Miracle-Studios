@@ -2,122 +2,91 @@
 #include "BoundingPolygon.h"
 
 BoundingPolygon::BoundingPolygon() :
-	_BC{},
-	_origin{},
-	_corners{ nullptr },
-	_normals{ nullptr },
-	_rotationAngle{ 0.f },
-	_cornerNum{ 0 }
+	_AABB{},
+	_numPoints{0},
+	_pointArray{ nullptr },
+	_ptrEdgeArray{ nullptr },
+	_obbBox{false}
 {}
 
 BoundingPolygon::BoundingPolygon::BoundingPolygon(const BoundingPolygon& rhs) :
-	_BC{ rhs._BC },
-	_origin{ rhs._origin },
-	_corners{ new Vector3[rhs._cornerNum] },
-	_normals{ new Vector3[rhs._cornerNum] },
-	_rotationAngle{ rhs._rotationAngle },
-	_cornerNum{ rhs._cornerNum }
+	_AABB{ rhs._AABB },
+	_numPoints{ rhs._numPoints },
+	_pointArray{ new Vector3[rhs._numPoints] },
+	_ptrEdgeArray{ new BEdge[rhs._numPoints] },
+	_obbBox{ rhs._obbBox }
 {
-	for (size_t i = 0; i < rhs._cornerNum; ++i)
+	for (size_t i = 0; i < _numPoints; ++i)
 	{
-		_normals[i] = rhs._normals[i];
-		_corners[i] = rhs._corners[i];
+		_pointArray[i] = rhs._pointArray[i];
+		_ptrEdgeArray[i] = rhs._ptrEdgeArray[i];
 	}
+}
+
+BoundingPolygon::BoundingPolygon(Vector3* points, int numPoints) :
+	_AABB{ points, numPoints },
+	_numPoints{ numPoints },
+	_pointArray{ new Vector3[numPoints] },
+	_ptrEdgeArray{ new BEdge[numPoints] },
+	_obbBox{ false }
+{
+	for (int i = 0; i < numPoints; ++i)
+	{
+		_pointArray[i] = points[i];
+		_pointArray[i].SetZ(1.f);
+	}
+
+	for (int i = 0; i < numPoints; ++i)
+		_ptrEdgeArray[i] = BEdge{ _pointArray[i] , _pointArray[(i + 1) % _numPoints] };
 }
 
 BoundingPolygon::~BoundingPolygon()
 {
-	if (_corners)
-		delete[] _corners;
+	if (_pointArray)
+		delete[] _pointArray;
 
-	if (_normals)
-		delete[] _normals;
+	if (_ptrEdgeArray)
+		delete[] _ptrEdgeArray;
 }
 
-
-BoundingPolygon BoundingPolygon::CreateBBoxFromData(const Vec3& position, const Vec3& scale, const float& rotationAngle)
+BoundingPolygon BoundingPolygon::CreateBoxPolygon(const Vec3& position, const Vec3& scale, const float& rotationAngle)
 {
-	BBox box;
-	box._corners = new Vector3[4];
-	box._normals = new Vector3[4];
-	box._cornerNum = 4;
+	BPolygon box;
+	box._obbBox = true;
 
-	box._origin = position;
-	box._rotationAngle = rotationAngle;
+	box._numPoints = 4;
+	box._pointArray = new Vector3[box._numPoints];
+	box._ptrEdgeArray = new BEdge[box._numPoints];
 
 	if (rotationAngle)
 	{
-		Vector3 X{ cos(rotationAngle), sin(rotationAngle) };
-		Vector3 Y{ -sin(rotationAngle), cos(rotationAngle) };
+		Vector3 X{ cos(rotationAngle) * scale._x * 0.5f, sin(rotationAngle) * scale._x * 0.5f };
+		Vector3 Y{ -sin(rotationAngle) * scale._y * 0.5f, cos(rotationAngle) * scale._y * 0.5f };
 
-		X *= 0.5f * scale._x;
-		Y *= 0.5f * scale._y;
+		box._pointArray[0] = position + X + Y;
+		box._pointArray[1] = position - X + Y;
+		box._pointArray[2] = position - X - Y;
+		box._pointArray[3] = position + X - Y;
 
-		box._corners[0] = position - X - Y;
-		box._corners[1] = position + X - Y;
-		box._corners[2] = position + X + Y;
-		box._corners[3] = position - X + Y;
+		box._AABB = BBox{ box._pointArray , box._numPoints };
 	}
 	else
 	{
-		box._corners[0] = position + Vec3{ -0.5f * scale._x,  -0.5f * scale._y };
-		box._corners[1] = position + Vec3{ 0.5f * scale._x,  -0.5f * scale._y };
-		box._corners[2] = position + Vec3{ 0.5f * scale._x,  0.5f * scale._y };
-		box._corners[3] = position + Vec3{ -0.5f * scale._x,  0.5f * scale._y };
+		box._pointArray[0] = position + Vec3{ 0.5f * scale._x,  0.5f * scale._y };
+		box._pointArray[1] = position + Vec3{ -0.5f * scale._x,  0.5f * scale._y };
+		box._pointArray[2] = position + Vec3{ -0.5f * scale._x, -0.5f * scale._y };
+		box._pointArray[3] = position + Vec3{ 0.5f * scale._x, -0.5f * scale._y };
+
+		box._AABB = BBox{ position ,scale };
 	}
 
-	// Make the length of each axis 1/edge length so we know any
-	// dot product must be less than 1 to fall within the edge.
+	for (int i = 0; i < box._numPoints; ++i)
+		box._pointArray[i].SetZ(1.f);
 
-	
 
 	// box axis
-	box._normals[0] = (box._corners[1] - box._corners[0]) * 0.5f;
-	box._normals[1] = (box._corners[3] - box._corners[0]) * 0.5f;
-	// not use for box
-	box._normals[2];
-	box._normals[3];
-
-	box._BC = BCircle::CreateBCircleFromBBox(box);
+	box._ptrEdgeArray[0] = BEdge{ box._pointArray[2] , box._pointArray[1] , Vec3{ position._x,position._y,1.f} };
+	box._ptrEdgeArray[1] = BEdge{ box._pointArray[3] , box._pointArray[2] , Vec3{ position._x,position._y,1.f} };
 
 	return box;
-}
-
-BoundingPolygon BoundingPolygon::CreateBPolygonFromData(const std::vector<Vec3>& corners, const Vec3& center, const float& rotationAngle)
-{
-	BPolygon polygon;
-	polygon._cornerNum = corners.size();
-	polygon._corners = new Vector3[polygon._cornerNum];
-	polygon._normals = new Vector3[polygon._cornerNum];
-	
-	polygon._rotationAngle = rotationAngle;
-
-
-	if (rotationAngle)
-	{
-		// rotation of polygon
-	}
-	else
-	{
-		for (int i = 0; i < polygon._cornerNum; ++i)
-		{
-			polygon._corners[i] = corners[i];
-
-			if (i + 1 == polygon._cornerNum)
-			{
-				Vec3 temp = polygon._corners[0] - polygon._corners[i];
-				polygon._normals[i] = Vec3{ -temp._y, temp._x, 0 };
-			}
-			else
-			{
-				Vec3 temp = polygon._corners[i+1] - polygon._corners[i];
-				polygon._normals[i] = Vec3{ -temp._y, temp._x, 0 };
-			}
-		}
-	}
-
-
-	// create box;
-
-	return polygon;
 }

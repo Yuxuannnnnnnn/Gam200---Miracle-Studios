@@ -95,13 +95,25 @@ void GraphicsSystem::UpdateRenderObjectList()
 {
 
 	// update 
-	BBox viewBox = BBox::CreateBBoxFromData(Vec3{ -MyCameraSystem.GetCameraPos()._x,-MyCameraSystem.GetCameraPos()._y,1.f },
+	BPolygon viewBox = BPolygon::CreateBoxPolygon(Vec3{ -MyCameraSystem.GetCameraPos()._x,-MyCameraSystem.GetCameraPos()._y,1.f }, 
 		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() / MyCameraSystem.GetCameraZoom() ,MyWindowsSystem.getWindow().GetWindowHeight() / MyCameraSystem.GetCameraZoom() },
 		0.f);
 
 	for (auto& graphicCompPair : GetComponentMap(Graphic))
 	{
 		if (graphicCompPair.second->GetParentPtr()->GetDestory() || !graphicCompPair.second->GetEnable())
+			continue;
+
+		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[graphicCompPair.first];
+
+		if (!transformComp)
+			continue;
+
+		BPolygon viewBox2 = BPolygon::CreateBoxPolygon(Vec3{ transformComp->GetPos()._x,transformComp->GetPos()._y,1.f }, 
+			Vec3{ transformComp->GetScale()._x,transformComp->GetScale()._y },
+			transformComp->GetRotate());
+
+		if (!Collision::CollisionCheck(viewBox,viewBox2))
 			continue;
 
 		GraphicComponent* graphicComp = (GraphicComponent*)graphicCompPair.second;
@@ -135,19 +147,6 @@ void GraphicsSystem::UpdateRenderObjectList()
 			//_textureManager._textureMap[anim->GetFilePath()]->Select();
 
 		}
-
-
-		size_t objID = graphicCompPair.first;	//Get GameObjectID
-		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[objID];
-
-		if (transformComp)
-		{
-			if (!Collision::DefaultColliderDataCheck(viewBox,
-				BBox::CreateBBoxFromData(transformComp->GetPos(), transformComp->GetScale(), transformComp->GetRotate())))
-				continue;
-		}
-
-
 
 		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
 

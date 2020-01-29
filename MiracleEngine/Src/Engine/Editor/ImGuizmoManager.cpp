@@ -35,9 +35,11 @@ void ImGuizmoManager::Update()
 			if (!transform)
 				continue;
 
-			BBox pickingBox = BBox::CreateBBoxFromData(transform->GetPos(), transform->GetScale(), transform->GetRotate());
+			BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
+				Vec3{ transform->GetScale()._x, transform->GetScale()._y },
+				transform->GetRotate());
 
-			if (Collision::BBoxVsPoint(pickingBox, pos))
+			if (Collision::CollisionCheck(pickingBox, pos))
 			{
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
 				HierarchyImguiWindow* HierarchyWindow = dynamic_cast<HierarchyImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Hierarchy"]);
@@ -57,9 +59,11 @@ void ImGuizmoManager::Update()
 			if (!transform)
 				continue;
 
-			BBox pickingBox = BBox::CreateBBoxFromData(transform->GetPos(), transform->GetScale(), transform->GetRotate());
+			BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
+				Vec3{ transform->GetScale()._x, transform->GetScale()._y },
+				transform->GetRotate());
 
-			if (Collision::BBoxVsPoint(pickingBox, pos))
+			if (Collision::CollisionCheck(pickingBox, pos))
 			{
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
 				SetPickObjectUId( it.first);
@@ -80,10 +84,7 @@ void ImGuizmoManager::Update()
 	ImGui::Begin("ToolBar");
 	RenderToolBar();
 	ImGui::End();
-}
 
-void ImGuizmoManager::Draw()
-{
 	if (_pickUId != 0)
 	{
 		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[_pickUId];
@@ -132,6 +133,7 @@ void ImGuizmoManager::Draw()
 		}
 	}
 }
+
 
 void ImGuizmoManager::SetPickObjectUId(size_t uId)
 {

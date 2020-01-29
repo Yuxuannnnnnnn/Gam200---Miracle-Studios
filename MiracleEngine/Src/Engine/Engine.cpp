@@ -85,18 +85,13 @@ void Engine::Update()
 		MyCameraSystem.Update();
 		MyPerformanceUsage.InputFrameTime += MyFrameRateController.EndTimeCounter();
 
-
-		MyFrameRateController.StartTimeCounter();
+		
 		if (!MyImguiSystem._editorMode)
 		{
+			MyFrameRateController.StartTimeCounter();
 			//MyButtonManager.Update();
 			MyEventHandler.BroadcastInputEvents();
 			MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
-		}
-		else 
-		{
-			MyImGuizmoManager.Update();
-			MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 		}
 
 		if (!MyImguiSystem._editorMode)
@@ -153,7 +148,10 @@ void Engine::Update()
 		
 
 		MyFrameRateController.StartTimeCounter();
-		MyImGuizmoManager.Draw();
+
+		if (MyImguiSystem._editorMode)
+			MyImGuizmoManager.Update();
+
 		MyImguiSystem.Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 #else

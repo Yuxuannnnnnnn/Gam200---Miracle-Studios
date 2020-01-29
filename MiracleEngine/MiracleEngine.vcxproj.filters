@@ -108,6 +108,8 @@
     <ClCompile Include="Src\Engine\Editor\PopUpBoxImguiWindow.cpp" />
     <ClCompile Include="Src\Engine\Tools\EventHandler\IMouseHandler.cpp" />
     <ClCompile Include="Src\Script\Enemy.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingEdge.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingLine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -535,6 +537,8 @@
     <ClInclude Include="Src\Engine\Editor\PopUpBoxImguiWindow.h" />
     <ClInclude Include="Src\Script\Enemy.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\CollisionTagIDs.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingEdge.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingLine.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
