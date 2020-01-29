@@ -1,0 +1,47 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "Player01",
+  "Name": "none",
+
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 100.0, 100.0 ],
+  "Rotate": 0.0,
+
+  "GraphicsComponent": true,
+  "G.FileName": "Player.png",
+  "G.Shader": "",
+
+
+  "RigidBody2DComponent": true,
+  "Mass": 10.0,
+  "Friction": 0.1,
+  "Static": false,
+
+  "CircleCollider2DComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 1,
+  "ColliderTrigger": false,
+
+
+  "LogicComponent": true,
+
+  "ScriptId": [ "ScriptMove" ],
+  "PlayerData": [ { "Health": 10 } ],
+
+  "Script2Id": [ "Player" ],
+  "Script2Data": [
+    {
+      "Health": 10,
+      "WeaponActive": 1,
+      "AmmoRpg": 0,
+      "AmmoTurret": 10,
+      "AmmoWall": 10,
+      "FireratePistol": 1.0,
+      "FirerateShotgun": 1.0,
+      "FirerateRpg": 1.0,
+      "FirerateTurret": 1.0,
+      "FirerateWall": 1.0
+    }
+  ]
+}

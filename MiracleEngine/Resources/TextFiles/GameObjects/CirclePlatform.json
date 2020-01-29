@@ -1,0 +1,1 @@
+{"IdentityComponent":true,"ObjectType":"CirclePlatform","Name":"none","TransformComponent":true,"Position":[787.9991455078125,141.37100219726563],"Scale":[1000.0,1000.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"Circular_Platform_Rusted.png","G.Shader":"","CircleCollider2DComponent":true,"ColliderTypeId":2,"ColliderTag":0,"ColliderTrigger":true}

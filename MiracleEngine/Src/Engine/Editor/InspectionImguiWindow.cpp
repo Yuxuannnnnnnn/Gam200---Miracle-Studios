@@ -17,6 +17,12 @@ void InspectionImguiWindow::Update()
 {
 	if (MyFactory.CheckObjOrignialPointer(_inspectObj))
 	{
+		if (MyInputSystem.KeyDown(KeyCode::KEYB_DELETE))
+		{
+			_inspectObj->SetDestory();
+		}
+
+
 		std::unordered_map < ComponentId, IComponent* >& componentList = (_inspectObj)->GetComponentList();
 
 		ImGui::BeginChild("left pane", ImVec2(215, 0), true);

@@ -1,0 +1,1 @@
+{"PrototypesFilePaths":["./Resources/TextFiles/GameObjects\\Boss.json"],"TexturesFilesPaths":["./Resources/Image\\EnemyAttack.png"],"ShaderFilesPaths":[],"AnimationDataFilesPaths":[],"AudioFilesPaths":[],"FontFilesPath":[],"ClonableObjects":[{"IdentityComponent":true,"ObjectType":"Boss"}],"NonClonableObjects":[]}
