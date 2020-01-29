@@ -1,0 +1,1 @@
+{"IdentityComponent":true,"ObjectType":"CircleBatteryPlatform","Name":"none","TransformComponent":true,"Position":[0.0,0.0],"Scale":[100.0,100.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"Circular_Battery_Platform_rusted_neonLight.png","G.Shader":"DefaultShader","CircleCollider2DComponent":true,"ColliderTypeId":2,"ColliderTag":0,"ColliderTrigger":true}
