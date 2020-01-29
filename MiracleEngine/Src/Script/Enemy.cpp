@@ -85,7 +85,7 @@ void Enemy::Update(double dt)
 	if (_health <= 0)
 	{
 		ChancePickUps();
-		DestoryThis();
+		GetParentPtr()->SetDestory();
 	}
 
 	if (_stunned)

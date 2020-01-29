@@ -11,7 +11,7 @@ enum class Enemy_Type {
 	RANGER = 1
 };
 
-class Enemy : public IScript
+class Enemy : public IScript2
 {
 private:
 // Logic Data - General
