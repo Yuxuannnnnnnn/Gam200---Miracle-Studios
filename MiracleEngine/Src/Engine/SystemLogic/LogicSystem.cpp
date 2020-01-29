@@ -3,6 +3,8 @@
 
 #include "Script/Player.h"
 #include "Script/Enemy.h"
+#include "Script/Bullet.h"
+#include "Script/Turret.h"
 
 
 LogicSystem::~LogicSystem()

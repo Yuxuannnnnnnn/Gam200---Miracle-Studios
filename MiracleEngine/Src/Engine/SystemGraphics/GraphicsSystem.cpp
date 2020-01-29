@@ -1,11 +1,18 @@
 #include "GraphicsSystem.h"
 #include "PrecompiledHeaders.h"
+#include <algorithm>
+
+bool compare(RenderObject a, RenderObject b)
+{
+	return a._zvalue < b._zvalue;
+}
 
 void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
 
 	// Render gameobject in world space
+	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
 	for (const auto& renderobj : _renderObjects)
 	{
@@ -117,8 +124,12 @@ void GraphicsSystem::UpdateRenderObjectList()
 			continue;
 
 		GraphicComponent* graphicComp = (GraphicComponent*)graphicCompPair.second;
+		TransformComponent* transComp = (TransformComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Transform);
+
 
 		RenderObject renderobject;
+
+		renderobject._zvalue = transComp->GetPos().GetZ();
 
 		// check for if obj have animation
 
