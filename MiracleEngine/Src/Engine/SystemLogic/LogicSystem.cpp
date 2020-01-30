@@ -24,6 +24,7 @@ void LogicSystem::Init() {
 	enableScript2 = bUseOldScripting;
 
 	RegisterScript(Player);
+	RegisterScript(Enemy);
 
 	//ScriptSystem.Init();
 }

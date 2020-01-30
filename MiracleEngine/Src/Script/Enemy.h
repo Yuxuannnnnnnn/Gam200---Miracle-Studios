@@ -42,7 +42,7 @@ public:
 	void Inspect() ;
 
 	Enemy();
-
+	Enemy* Clone();
 	void Init();
 	void Update(double dt);
 // Logic - Behaviour

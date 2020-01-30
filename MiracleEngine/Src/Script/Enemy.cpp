@@ -63,11 +63,16 @@ Enemy::Enemy() :
 	_attackMelee *= _attackMelee;
 }
 
+Enemy* Enemy::Clone()
+{
+	return new Enemy(*this);
+}
+
 void Enemy::Init()
 {
 	for (auto idPair : _engineSystems._factory->getObjectlist())
 	{
-		if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0)
+		if ((((LogicComponent*)idPair.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)))
 		{
 			_target = idPair.second;
 			break;
@@ -192,34 +197,30 @@ void Enemy::FSM()
 	{
 		//std::cout << "/t AI Move!!!\n";
 	// get pathfinding
-		if (_timerPathing > 0)
-		{
-			MoveNode();
-		}
-		else
-		{
-			std::vector<Node*> newPath = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
-			if (!_destNode || _destNode->GetNodeId() != newPath.back()->GetNodeId())
-			{
-				_path = newPath;
-				_nextNode = _path.front();
-				_destNode = _path.back();
-				MoveNode(true);
-			}
-			else
-				MoveNode();
-			_timerPathing = _timerPathingCooldown;
-		}
+		//if (_timerPathing > 0)
+		//{
+		//	MoveNode();
+		//}
+		//else
+		//{
+		//	std::vector<Node*> newPath = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
+		//	if (!_destNode || _destNode->GetNodeId() != newPath.back()->GetNodeId())
+		//	{
+		//		_path = newPath;
+		//		_nextNode = _path.front();
+		//		_destNode = _path.back();
+		//		MoveNode(true);
+		//	}
+		//	else
+		//		MoveNode();
+		//	_timerPathing = _timerPathingCooldown;
+		//}
 		break;
 	}
 	case (unsigned)AiState::ATTACKING:
 	{
 		//std::cout << "/t AI ATK!!\n";
-		if (_enemyType == (int)Enemy_Type::BASIC)
 			AttackMelee();
-		else
-			AttackRange();
-		break;
 	}
 	default:
 		break;
@@ -252,7 +253,8 @@ void Enemy::ChancePickUps()
 
 Vector3& Enemy::GetDestinationPos()
 {
-	return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
+	if (_target)
+		return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 }
 Vector3& Enemy::GetPosition()
 {

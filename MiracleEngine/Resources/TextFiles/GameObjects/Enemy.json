@@ -26,6 +26,8 @@
   "A.TypeId": 0,
   "A.FileName": "audio_enemy.ogg",
 
+  "LogicComponent": true,
+
   "Script2Id": [ "Enemy" ],
   "Script2Data": [
     {
