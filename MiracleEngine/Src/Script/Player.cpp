@@ -222,10 +222,8 @@ void Player::UpdateInput()
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_S))
 		AddForce(GetParentId(), Vector3(0, -1, 0), spd);
 // MOUSE
-	Vector3 aimVector = { // use aimVector to determine direction player is facing
-		GetMousePos()._x,
-		GetMousePos()._y,
-		0 };
+	Vector3 aimVector = GetMousePos(); // use aimVector to determine direction player is facing
+	aimVector.SetZ(0.f);
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = aimVector._x * compareVec._x + aimVector._y * compareVec._y;
 	float det = aimVector._x * compareVec._y - aimVector._y * compareVec._x;

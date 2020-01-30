@@ -7,7 +7,7 @@ IMouseHandler::IMouseHandler() : _input{&MyInputSystem}
 
 }
 
-const Vec3& IMouseHandler::GetMousePos() const
+const Vec3 IMouseHandler::GetMousePos() const
 {
 	return _input->GetMouseScreenPos();
 }
