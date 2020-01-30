@@ -29,6 +29,11 @@ public:
 	Vector3& GetCameraPos();
 	float& GetCameraZoom();
 
+	// interact gameplay and script
+
+	void SetGamePlayCamPos(const Vector3& pos);
+	const Vector3& GetGamePlayCamPos() const;
+
 private:
 	size_t _mainCameraUId;
 

@@ -173,3 +173,13 @@ float& CameraSystem::GetCameraZoom()
 	return _gamePlayCameraZoom;
 #endif
 }
+
+void CameraSystem::SetGamePlayCamPos(const Vector3& pos)
+{
+	_gamePlayCameraPos = pos;
+}
+
+const Vector3& CameraSystem::GetGamePlayCamPos() const
+{
+	return _gamePlayCameraPos;
+}
