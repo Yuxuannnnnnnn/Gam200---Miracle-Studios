@@ -32,7 +32,7 @@ public:
 private:
 	size_t _scriptUId;
 
-	std::unordered_map<size_t, IScript2*> _scriptList;
+	std::unordered_map<size_t, IScript2*> _scriptList; // _scriptContianer[script->_type] = script->_uId;
 	std::unordered_map<std::string, ScriptCreator*> _scriptTypeMap;
 
 	bool enableScript2;

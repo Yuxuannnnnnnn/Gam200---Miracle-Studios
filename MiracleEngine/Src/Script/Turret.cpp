@@ -53,6 +53,12 @@ Turret::Turret() :
 	_attackRange *= _attackRange; // pow(2)
 }
 
+Turret* Turret::Clone()
+{
+	return new Turret(*this);
+}
+
+
 void Turret::Init()
 {
 	for (auto idPair : _engineSystems._factory->getObjectlist())

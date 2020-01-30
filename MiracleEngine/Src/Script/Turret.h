@@ -23,6 +23,8 @@ public:
 	void Inspect() ;
 
 	Turret();
+	Turret* Clone();
+
 
 	void Init();
 	void Update(double dt);

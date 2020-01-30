@@ -26,6 +26,7 @@ public:
 	void Inspect() ;
 
 	Bullet();
+	Bullet* Clone();
 
 	int StringToInt(std::string& in);
 	std::string IntToString(int bulletType);
