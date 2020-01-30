@@ -2,28 +2,14 @@
   "IdentityComponent": true,
   "ObjectType": "Player01",
   "Name": "none",
-
   "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 100.0, 100.0 ],
-  "Rotate": 0.0,
-
+  "Position": [ -44.46916198730469, 82.7489013671875, 1.0 ],
+  "Scale": [ 100.00000762939453, 100.00000762939453, 1.0 ],
+  "Rotate": 0.9859186410903931,
+  "Layer": 5,
   "GraphicsComponent": true,
   "G.FileName": "Player.png",
   "G.Shader": "",
-
-
-  "RigidBody2DComponent": true,
-  "Mass": 10.0,
-  "Friction": 0.1,
-  "Static": false,
-
-  "CircleCollider2DComponent": true,
-  "ColliderTypeId": 2,
-  "ColliderTag": 1,
-  "ColliderTrigger": false,
-
-
   "LogicComponent": true,
 
   "ScriptId": [ "ScriptMove" ],
@@ -43,5 +29,15 @@
       "FirerateTurret": 1.0,
       "FirerateWall": 1.0
     }
-  ]
+  ],
+
+  "RigidBody2DComponent": true,
+  "Mass": 10.0,
+  "Friction": 0.10000000149011612,
+  "Static": false,
+  "CircleCollider2DComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 1,
+  "ColliderTrigger": false,
+  "CameraComponent": true
 }

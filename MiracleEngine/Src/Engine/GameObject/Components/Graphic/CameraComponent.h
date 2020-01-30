@@ -6,9 +6,9 @@ class CameraComponent: public IComponent
 {
 private:
 	bool _isCurrentCamera;
-
-
 public:
+	float _cameraZoom;
+
 	//Constructor
 	CameraComponent(GameObject* parent = nullptr, size_t uId = 0, IComponent* component = nullptr);
 
@@ -23,6 +23,7 @@ public:
 
 		value.SetBool(true);
 		prototypeDoc.AddMember("CameraComponent", rapidjson::Value(true));
+
 	}
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -33,10 +34,7 @@ public:
 
 	std::string ComponentName() const override;
 
-	virtual void Inspect() override
-	{
-		IComponent::Inspect();
-	}
+	virtual void Inspect() override;
 
 
 
@@ -47,5 +45,8 @@ public:
 
 
 	CameraComponent* CloneComponent() { return new CameraComponent(*this); }
+
+
+	void SetMainCamera(bool main);
 };
 
