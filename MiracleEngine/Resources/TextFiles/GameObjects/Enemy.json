@@ -33,7 +33,8 @@
       "Health": 10,
       "EnemyType": 1,
       "StunDuration": 0.5,
-      "AttackRange": 10.0
+      "AttackRange": 0.0,
+      "AttackMelee": 4.0
     }
   ]
 }

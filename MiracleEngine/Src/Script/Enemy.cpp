@@ -19,7 +19,15 @@ void Enemy::SerialiseComponent(Serialiser& document)
 	}
 	if (document.HasMember("AttackRange") && document["AttackRange"].IsDouble())	//Checks if the variable exists in .Json file
 	{
-		_attackRange = (document["AttackRange"].IsDouble());
+		_attackRange = document["AttackRange"].GetDouble();
+		_attackRange *= 100;
+		_attackRange *= _attackRange;
+	}
+	if (document.HasMember("AttackMelee") && document["AttackMelee"].IsDouble())	//Checks if the variable exists in .Json file
+	{
+		_attackMelee = document["AttackMelee"].GetDouble();
+		_attackMelee *= 100;
+		_attackMelee *= _attackMelee;
 	}
 }
 
@@ -55,7 +63,7 @@ Enemy::Enemy() :
 	_destNode{ nullptr },
 	_mapTileSize{ 0 }
 {
-	_attackMelee = _attackRange = _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackMelee = _attackRange = 100; // _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_mapTileSize *= _mapTileSize;
 	_attackRange *= 5; // XxX tileSize
 	_attackMelee *= 2;
@@ -121,7 +129,7 @@ void Enemy::Update(double dt)
 
 void Enemy::AttackMelee()
 {
-	const float spd = 4.f;
+	const float spd = 60.f;
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
 		(GetDestinationPos()._y - GetPosition()._y),
@@ -133,12 +141,12 @@ void Enemy::AttackMelee()
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
-	moveVec.Normalize();
-	moveVec *= spd;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
-		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
-	);
-	//AddForwardForce(GetParentId(), 6000);
+	//moveVec.Normalize();
+	//moveVec *= spd;
+	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
+	//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
+	//);
+	AddForwardForce(GetParentId(), 1000 * spd);
 
 	// bump into player
 	if (_timerAttack <= 0)
@@ -146,38 +154,44 @@ void Enemy::AttackMelee()
 }
 void Enemy::AttackRange()
 {
-	//Vector3 moveVec(
-	//	(GetDestinationPos()._x - GetPosition()._x),
-	//	(GetDestinationPos()._y - GetPosition()._y),
-	//	0
-	//);
+	Vector3 moveVec(
+		(GetDestinationPos()._x - GetPosition()._x),
+		(GetDestinationPos()._y - GetPosition()._y),
+		0
+	);
 
-	//// rotate to face player
-	//Vector3 compareVec = { 0, 1, 0 };
-	//float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
-	//float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
-	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
+	// rotate to face player
+	Vector3 compareVec = { 0, 1, 0 };
+	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
+	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
+	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
 
-	//// shoot player
-	//if (_timerAttack <= 0)
-	//{
-	//	_timerAttack = _timerAttackCooldown;
-	//	// spawn bullet
-	//	GameObject* bullet = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
-	//	// set bullet position & rotation as same as 'parent' obj
-	//	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	//	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	//	AddForwardForce(bullet->Get_uID(), 70000);
-	//}
+	// shoot player
+	if (_timerAttack <= 0)
+	{
+		_timerAttack = _timerAttackCooldown;
+		// spawn bullet
+		GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+		AddForwardForce(bullet->Get_uID(), 70000);
+	}
 }
 void Enemy::CheckState()
 {
 	// _destinationPos - currPos
 	Vector3 tempVec3 = GetDestinationPos() - GetPosition();
-	// if (in range)
-	if (tempVec3.SquaredLength() < _attackRange)
+
+	if (_enemyType == 1 && tempVec3.SquaredLength() < _attackMelee)
+	{
+		_state = (unsigned)AiState::ATTACKING;
+		// set Anim state to EyeRed
+		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(0);
+	}
+	else if (_enemyType == 2 && tempVec3.SquaredLength() < _attackRange)
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
@@ -185,10 +199,9 @@ void Enemy::CheckState()
 	}
 	else
 	{
-		_state = (unsigned)AiState::ATTACKING;
-	//	_state = (unsigned)AiState::MOVING;
-	//	// set Anim state to EyeWhite
-	//	((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(1);
+		_state = (unsigned)AiState::MOVING;
+		// set Anim state to EyeWhite
+		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(1);
 	}
 }
 void Enemy::FSM()
@@ -203,6 +216,24 @@ void Enemy::FSM()
 		break;
 	case (unsigned)AiState::MOVING:
 	{
+		const float spd = 9.f;
+		Vector3 moveVec(
+			(GetDestinationPos()._x - GetPosition()._x),
+			(GetDestinationPos()._y - GetPosition()._y),
+			0
+		);
+
+		// rotate to face player
+		Vector3 compareVec = { 0, 1, 0 };
+		float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
+		float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
+		//moveVec.Normalize();
+		//moveVec *= spd;
+		//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
+		//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
+		//);
+		AddForwardForce(GetParentId(), 1000 * spd);
 		//std::cout << "/t AI Move!!!\n";
 	// get pathfinding
 		//if (_timerPathing > 0)
@@ -228,7 +259,12 @@ void Enemy::FSM()
 	case (unsigned)AiState::ATTACKING:
 	{
 		//std::cout << "/t AI ATK!!\n";
+		if (_enemyType == 1)
 			AttackMelee();
+		else if (_enemyType == 2)
+			AttackRange();
+		else
+			;
 	}
 	default:
 		break;
@@ -287,7 +323,7 @@ void Enemy::Move()
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
 
-	AddForwardForce(GetParentId(), 6000);
+	AddForwardForce(GetParentId(), 12000);
 }
 void Enemy::MoveNode(bool start)
 { // move to NextNod
