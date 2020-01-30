@@ -2,10 +2,12 @@
   "IdentityComponent": true,
   "Name": "none",
   "ObjectType": "Bullet",
+
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],
   "Scale": [ 20.0, 20.0 ],
   "Rotate": 0.0,
+
   "LogicComponent": true,
   "ScriptId": [],
   "GraphicsComponent": true,

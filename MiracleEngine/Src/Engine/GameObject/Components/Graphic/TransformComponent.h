@@ -38,13 +38,23 @@ public:
 		if (document.HasMember("Position" ) && document["Position" ].IsArray())	//Checks if the variable exists in .Json file
 		{
 			if (document["Position"][0].IsFloat() && document["Position" ][1].IsFloat())	//Check the array values
-				_pos = Vector3{ document[ "Position"][0].GetFloat(), document[ "Position" ][1].GetFloat(), 1 };
+				_pos = Vector3{ document[ "Position"][0].GetFloat(), document[ "Position" ][1].GetFloat(), 1};
+
+			if (document["Position"].Size() == 3)
+			{
+				_pos.SetZ(document["Position"][2].GetFloat());
+			}
 		}
 
 		if (document.HasMember( "Scale") && document["Scale"].IsArray())
 		{
 			if (document["Scale"][0].IsFloat() && document["Scale"][1].IsFloat())	//Check the array values
 				_scale = Vector3{ document["Scale"][0].GetFloat(), document["Scale"][1].GetFloat(), 1 };
+
+			if (document["Scale"].Size() == 3)
+			{
+				_scale.SetZ(document["Scale"][2].GetFloat());
+			}
 		}
 
 		if (document.HasMember("Rotate") && document["Rotate"].IsFloat())	//Checks if the variable exists in .Json file
@@ -63,11 +73,14 @@ public:
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_pos.GetX()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_pos.GetY()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_pos.GetZ()).Move(), prototypeDoc.Allocator());
 		prototypeDoc.AddMember("Position", value);
 
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_scale.GetZ()).Move(), prototypeDoc.Allocator());
+
 		prototypeDoc.AddMember("Scale", value);
 
 		value.SetFloat(_rotationAngle);
@@ -84,11 +97,13 @@ public:
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_pos.GetX()).Move(), allocator);
 		value.PushBack(rapidjson::Value(_pos.GetY()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_pos.GetZ()).Move(), allocator);
 		prototypeDoc.AddMember("Position", value, allocator);
 
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), allocator);
 		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_scale.GetZ()).Move(), allocator);
 		prototypeDoc.AddMember("Scale", value, allocator);
 
 		value.SetFloat(_rotationAngle);
