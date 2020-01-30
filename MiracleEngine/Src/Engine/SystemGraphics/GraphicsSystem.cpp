@@ -159,7 +159,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		}
 
-		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
+		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix()).m);
 
 
 		renderobject._pMesh = &_quadMesh;
