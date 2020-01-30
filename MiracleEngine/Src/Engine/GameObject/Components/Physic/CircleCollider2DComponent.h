@@ -10,10 +10,13 @@
 #define _CIRCLE_COLLIDER_2D_H
 
 #include "ICollider2D.h"
+#include "SystemPhysics/BoundingCircle.h"
 
 class CircleCollider2DComponent : public Collider2D
 {
 public:
+	BCircle _data;
+
 	Vector3	mCenPos;
 	float	mRadius;
 

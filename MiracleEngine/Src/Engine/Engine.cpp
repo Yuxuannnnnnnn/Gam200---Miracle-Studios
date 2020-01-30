@@ -139,13 +139,11 @@ void Engine::Update()
 
 		// Graphics
 		MyFrameRateController.StartTimeCounter();
-		MyPhysicsSystem.Draw();
 		MyAnimationSystem.Update(dt);
-		MyParticleSystem.Draw();
 		MyGraphicsSystem.Update(dt);
+		MyParticleSystem.Draw();
+		MyPhysicsSystem.Draw();
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
-
-		
 
 		MyFrameRateController.StartTimeCounter();
 

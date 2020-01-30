@@ -10,6 +10,7 @@
 #define _BOX_COLLIDER_2D_H
 
 #include "ICollider2D.h"
+#include "SystemPhysics/BoundingPolygon.h"
 
 typedef unsigned int outcode;
 #define TOP 0x0008 //1000
@@ -32,6 +33,8 @@ enum class OutCode_Type {
 class BoxCollider2DComponent : public Collider2D // renderer
 {
 public:
+	BPolygon _data;
+
 	// AABB
 	Vector3		mMaxPos;	// Bottom-right point with maximum x and y values
 	Vector3		mMinPos;	// Top-left point with minimum x and y values
