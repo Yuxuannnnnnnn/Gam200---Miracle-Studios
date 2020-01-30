@@ -26,21 +26,22 @@ void GraphicsSystem::Update(double dt)
 		}
 
 		renderobj._pMesh->Select();
-
-		float u0 = renderobj._uv.u0;
-		float v0 = renderobj._uv.v0;
-		float u1 = renderobj._uv.u1;
-		float v1 = renderobj._uv.v1;
-		GLfloat _positions[] =
+		if (renderobj._isAnimated)
 		{
-			-0.5f, -0.5f, 0.0f, u0, v0, // 0     // bottom left
-			 0.5f, -0.5f, 0.0f, u1, v0, // 1     // bottom right
-			 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
-			-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
-		};
+			float u0 = renderobj._uv.u0;
+			float v0 = renderobj._uv.v0;
+			float u1 = renderobj._uv.u1;
+			float v1 = renderobj._uv.v1;
+			GLfloat _positions[] =
+			{
+				-0.5f, -0.5f, 0.0f, u0, v0, // 0     // bottom left
+				 0.5f, -0.5f, 0.0f, u1, v0, // 1     // bottom right
+				 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
+				-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
+			};
 
-		renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
-
+			renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
+		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
@@ -137,7 +138,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 		RenderObject renderobject;
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
-
+		renderobject._isAnimated = false;
 		// check for if obj have animation
 
 		if (graphicComp->GetSibilingComponent(ComponentId::CT_Animation))
@@ -146,7 +147,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 			// get animation from resource manager
 			Animation* currAnim = MyResourceManager.GetAnimationResource(anim->GetCurrAnim());
-			
+			renderobject._isAnimated = true;
 			if (currAnim)
 			{
 				renderobject._uv.u0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u0;

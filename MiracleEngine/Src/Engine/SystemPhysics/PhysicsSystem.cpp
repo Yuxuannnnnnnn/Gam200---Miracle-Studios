@@ -174,12 +174,12 @@ void PhysicsSystem::CollisionDraw()
 
 		DebugRenderer::GetInstance().DrawLine(
 			object->mOrigin._x, object->mOrigin._y,
-			object->mOrigin._x + object->mAxis[0]._x * 40.f,
-			object->mOrigin._y + object->mAxis[0]._y * 40.f);
+			object->mOrigin._x + object->mAxis[0]._x * 10.f,
+			object->mOrigin._y + object->mAxis[0]._y * 10.f);
 		DebugRenderer::GetInstance().DrawLine(
 			object->mOrigin._x, object->mOrigin._y,
-			object->mOrigin._x + object->mAxis[1]._x * 40.f,
-			object->mOrigin._y + object->mAxis[1]._y * 40.f);
+			object->mOrigin._x + object->mAxis[1]._x * 10.f,
+			object->mOrigin._y + object->mAxis[1]._y * 10.f);
 	}
 
 	for (auto& it : GetComponentMap(CircleCollider2D))
@@ -447,6 +447,9 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)collider;
 		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
 
+		//object->_data = BEdge{}
+		
+
 		float dir = transform->GetRotate();
 		object->m_origin = transform->GetPos();
 		Vector3 scale = transform->GetScale();
@@ -523,6 +526,9 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	{
 		CircleCollider2DComponent* object = (CircleCollider2DComponent*)collider;
 		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
+
+		//object->_data = BCircle{}
+
 
 		object->mCenPos = transform->GetPos();
 		object->mRadius = transform->GetScale()._y * 0.5f;

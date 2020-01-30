@@ -10,10 +10,13 @@
 #define _EDGE_COLLIDER_2D_H
 
 #include "ICollider2D.h"
+#include "SystemPhysics/BoundingEdge.h"
 
 class EdgeCollider2DComponent : public Collider2D
 {
 public:
+	BEdge _data;
+
 	Vector3 m_origin;
 	Vector3	m_pt0;
 	Vector3	m_pt1;

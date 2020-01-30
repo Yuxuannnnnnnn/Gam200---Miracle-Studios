@@ -72,7 +72,14 @@ void Enemy::Init()
 {
 	for (auto idPair : _engineSystems._factory->getObjectlist())
 	{
-		if ((((LogicComponent*)idPair.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)))
+		//if ((((LogicComponent*)idPair.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)))
+		//{
+		//	_target = idPair.second;
+		//	break;
+		//}
+		if ( ((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01")==0 && 
+			(((LogicComponent*)idPair.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player))
+			)
 		{
 			_target = idPair.second;
 			break;
@@ -107,8 +114,11 @@ void Enemy::Update(double dt)
 	_timerAttack -= dt;
 	_timerPathing -= dt;
 
-	CheckState();
-	FSM();
+	if (_target)
+	{
+		CheckState();
+		FSM();
+	}
 }
 
 void Enemy::AttackMelee()

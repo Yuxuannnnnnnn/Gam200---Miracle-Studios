@@ -10,4 +10,5 @@ typedef struct BoundingEdge
 
 	BoundingEdge();
 	BoundingEdge(const Vector3& start, const Vector3& end, const Vector3& origin = Vector3{});
+	BoundingEdge(const Vector3& origin, const Vector3& scale, const float& rotateAngle);
 } BEdge;

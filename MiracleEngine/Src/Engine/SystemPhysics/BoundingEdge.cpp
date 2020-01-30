@@ -18,3 +18,8 @@ BoundingEdge::BoundingEdge(const Vector3& start, const Vector3& end, const Vecto
 	_normalVec.Set(-temp._y, temp._x);
 	_normalVec.Normalize();
 }
+
+BoundingEdge::BoundingEdge(const Vector3& origin, const Vector3& scale, const float& rotateAngle)
+{
+
+}
