@@ -12,6 +12,9 @@ class InputSystem
 	float _windowHeight;
 
 	std::map<std::string, KeyCode> Map_KeyCode;
+
+	std::unordered_set<size_t> _buttonHover;
+	std::unordered_set<size_t> _buttonPressed;
 public:
 	KeyCode StringToKeycode(const char* str);
 
@@ -30,6 +33,8 @@ public:
 private:
 
 	void InterruptCheck();
+
+	void ButtonUpdate();
 
 	unsigned char _currBuffer[256];
 	unsigned char _prevBuffer[256];

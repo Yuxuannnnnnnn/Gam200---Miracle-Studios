@@ -167,6 +167,8 @@ void InputSystem::Update(Window& window)
 	//int ret = GetKeyboardState(_currBuffer);
 	//(void)ret;
 
+	ButtonUpdate();
+
 	InterruptCheck();
 }
 
@@ -234,4 +236,32 @@ void InputSystem::InterruptCheck()
 	//{
 	//	MySceneManager.ChangeScene("Quit");
 	//}
+}
+
+void InputSystem::ButtonUpdate()
+{
+	_buttonHover.clear();
+	_buttonPressed.clear();
+
+	bool mouseDown = KeyDown(MOUSE_RBUTTON);
+
+	for (auto& it : GetComponentMap(Button))
+	{
+		ButtonComponent* obj = (ButtonComponent*)it.second;
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.first];
+		if (!obj || !transform)
+			continue;
+
+		BBox buttonBox = BBox{ transform->GetPos(),transform->GetScale() };
+
+		if (Collision::BBoxVsPoint(buttonBox, GetMouseScreenPos()))
+		{
+			// trigger button hover 
+
+			_buttonHover.insert(it.first);
+
+			if (mouseDown)
+				_buttonPressed.insert(it.first);
+		}
+	}
 }

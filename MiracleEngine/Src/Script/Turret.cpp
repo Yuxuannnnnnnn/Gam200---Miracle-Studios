@@ -115,8 +115,23 @@ void Turret::SearchTarget()
 
 	for (auto it : _engineSystems._factory->getObjectlist())
 	{
-		if ( ((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy")
-			&& !it.second->GetDestory())
+// target searching
+	//for (auto idPair : _engineSystems._factory->getObjectlist())
+	//{
+	//	if ((((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
+	//		((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
+	//		((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0) &&
+	//		(((LogicComponent*)idPair.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)) &&
+	//		!itr.second->GetDestory()
+	//		)
+	//	{
+	//		_target = idPair.second;
+	//		break;
+	//	}
+	//}
+		if (!it.second->GetDestory() && (
+			((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
+			((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0) )
 		{
 			IdentityComponent* idCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::CT_Identity));
 			if (_target->GetDestory())

@@ -15,5 +15,15 @@
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 4,
-  "ColliderTrigger": true
+  "ColliderTrigger": true,
+
+  "LogicComponent": true,
+  "Script2Id": [ "Turret" ],
+  "Script2Data": [
+    {
+      "Health": 10,
+      "Firerate": 0.5,
+      "AttackRange": 10.0
+    }
+  ]
 }
