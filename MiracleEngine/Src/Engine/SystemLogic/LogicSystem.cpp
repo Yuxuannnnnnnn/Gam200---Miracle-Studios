@@ -29,6 +29,8 @@ void LogicSystem::Init() {
 	RegisterScript(Enemy);
 	RegisterScript(Bullet);
 	RegisterScript(Turret);
+	RegisterScript(Spawner);
+	RegisterScript(Explosion);
 
 	//ScriptSystem.Init();
 }
