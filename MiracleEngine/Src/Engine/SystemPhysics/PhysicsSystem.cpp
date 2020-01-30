@@ -86,11 +86,11 @@ void PhysicsSystem::RigidbodyDraw()
 		if (length > 50.f)
 			length = 50.f;
 
-		/*DrawDebugLine(
+		DebugRenderer::GetInstance().DrawLine(
 			transform->GetPos()._x,
 			transform->GetPos()._y,
 			transform->GetPos()._x + newVel._x * length,
-			transform->GetPos()._y + newVel._y * length);*/
+			transform->GetPos()._y + newVel._y * length);
 	}
 }
 
@@ -168,19 +168,6 @@ void PhysicsSystem::CollisionDraw()
 			continue;
 
 		UpdateColliderData(object);
-
-		/*DrawDebugLine(
-			object->mCorner[0]._x, object->mCorner[0]._y,
-			object->mCorner[1]._x, object->mCorner[1]._y);
-		DrawDebugLine(
-			object->mCorner[1]._x, object->mCorner[1]._y,
-			object->mCorner[2]._x, object->mCorner[2]._y);
-		DrawDebugLine(
-			object->mCorner[2]._x, object->mCorner[2]._y,
-			object->mCorner[3]._x, object->mCorner[3]._y);
-		DrawDebugLine(
-			object->mCorner[3]._x, object->mCorner[3]._y,
-			object->mCorner[0]._x, object->mCorner[0]._y);*/
 
 		DebugRenderer::GetInstance().DrawLine(
 			object->mOrigin._x, object->mOrigin._y,
