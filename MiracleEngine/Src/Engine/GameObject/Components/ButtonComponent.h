@@ -56,6 +56,9 @@ public:
 
 		ButtonComponent* protoButtonCom = dynamic_cast<ButtonComponent*>(protoCom);
 
+		if (!protoButtonCom)
+			return;
+
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value buttonType;
 

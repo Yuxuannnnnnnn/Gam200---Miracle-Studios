@@ -122,6 +122,10 @@ float* CameraSystem::GetCamMatrix()
 	}
 #else
 	// GAMEPLAY CAMERA MATRIX DO HERE
+
+	Mtx44 translate = Mtx44::CreateTranslation(_gamePlayCameraPos);
+	_cameraMatrix = translate * Mtx44::CreateRotationZ(0) * Mtx44::CreateScale(Vec3{ _gamePlayCameraZoom ,_gamePlayCameraZoom ,1.f });
+
 #endif
 	/*
 	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(cameraEditorPos._x, cameraEditorPos._y, 1.f));
@@ -146,6 +150,8 @@ Vector3& CameraSystem::GetCameraPos()
 		// RETERN MAIN CAMERA POSITION
 	}
 #else
+
+	return _gamePlayCameraPos;
 	// RETERN MAIN CAMERA POSITION
 #endif
 }
@@ -164,5 +170,6 @@ float& CameraSystem::GetCameraZoom()
 	}
 #else
 	// GAMEPLAY CAMERA MATRIX DO HERE
+	return _gamePlayCameraZoom;
 #endif
 }

@@ -49,6 +49,9 @@ void GraphicsSystem::Update(double dt)
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
+
+	DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
+
 	EndScene();
 }
 
@@ -159,7 +162,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		}
 
-		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
+		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix()).m);
 
 
 		renderobject._pMesh = &_quadMesh;

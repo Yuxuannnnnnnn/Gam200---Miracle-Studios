@@ -4,6 +4,7 @@
 void PhysicsSystem::Update(double dt)
 {
 	UpdateVelocity(dt);
+	CollisionUpdate(dt);
 	ApplyVelocityToObject(dt);
 }
 
