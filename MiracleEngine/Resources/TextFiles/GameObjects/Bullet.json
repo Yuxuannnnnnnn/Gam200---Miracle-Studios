@@ -9,7 +9,11 @@
   "Rotate": 0.0,
 
   "LogicComponent": true,
-  "ScriptId": [],
+  "Script2Id": [ "Bullet" ],
+  "Lifetime": 3.0,
+  "BulletType": 1,
+
+
   "GraphicsComponent": true,
   "G.TypeId": 0,
   "G.FileName": "Bullet.png",
