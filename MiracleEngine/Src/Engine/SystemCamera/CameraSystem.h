@@ -39,6 +39,10 @@ private:
 	Vector3 _tempmainCameraPos;
 	float _tempmainCameraZoom;
 
+	//////////////////////////////////////////////////////
+	//temp gameplay camera
+	Vector3 _gamePlayCameraPos;
+	float _gamePlayCameraZoom = 1.0f;
 
 	///////////////////////////////////////////////////////////////////////////////////
 	Vector3 _globalCameraEditorPos;
