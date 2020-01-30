@@ -1,6 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "AnimationComponent.h"
 
+#include "Editor/ImguiFunctions.h"
 
 //void AnimationComponent::SetFilePath(const std::string path)
 //{
