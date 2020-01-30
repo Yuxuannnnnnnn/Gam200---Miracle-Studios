@@ -90,9 +90,8 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 {
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string Id = IdCom->ObjectType();
-
-	if (Id.compare("Enemy") == 0 ||
-		Id.compare("EnemyTwo") == 0)
+	//(((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy))
+	if ((((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy)))
 	{
 		GetParentPtr()->SetDestory();
 		//IScript2* GetSibilingScript(ScriptType type);
