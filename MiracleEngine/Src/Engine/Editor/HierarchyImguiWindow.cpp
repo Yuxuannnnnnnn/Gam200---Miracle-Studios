@@ -134,6 +134,17 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 			}
 
 		ImGui::SameLine();
+
+		std::string string1 = "Clone##" + string;
+		if (ImGui::Button(string1.c_str()))
+		{
+			GameObject* newGameobject = MyFactory.CloneGameObject(gameObject);
+			if (TransformComponent* tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
+				tmp->SetPos(Vector3::Vec3Zero);
+		}
+
+
+		ImGui::SameLine();
 		std::string deleteString = "Delete## " + string;
 		if (ImGui::Button(deleteString.c_str()))
 		{
