@@ -8,10 +8,10 @@ LogicComponent::LogicComponent()
 LogicComponent::~LogicComponent()
 {
 	// delete IScript2
-	for (auto itr : _scriptContianer)
+	for (auto& itr : _scriptContianer)
 	{
-		delete MyLogicSystem.GetScriptList()[GetParentId()];
-		MyLogicSystem.GetScriptList().erase(GetParentId());	
+		delete MyLogicSystem.GetScriptList()[itr.second];
+		MyLogicSystem.GetScriptList().erase(itr.second);
 	}
 }
 LogicComponent::LogicComponent(GameObject* parent, size_t uId, IComponent* component)
@@ -34,7 +34,6 @@ std::string LogicComponent::ComponentName() const
 {
 	return "Logic Component";
 }
-
 
 void LogicComponent::SerialiseComponent(Serialiser& document)
 {

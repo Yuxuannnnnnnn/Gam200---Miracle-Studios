@@ -14,10 +14,6 @@ void Bullet::SerialiseComponent(Serialiser& document)
 		std::string temp = (document["BulletType"].GetString());
 		_bulletType = StringToInt(temp);
 	}
-	if (document.HasMember("BulletSpeed") && document["BulletSpeed"].IsDouble())	//Checks if the variable exists in .Json file
-	{
-		_bulletSpeed = (document["BulletSpeed"].GetDouble());
-	}
 }
 void Bullet::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
@@ -96,7 +92,10 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string Id = IdCom->ObjectType();
 	//(((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy))
-	if ((((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy)))
+	if (
+		//Id->GetObjectType().compare("Enemy") == 0 && 
+		(((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy))
+	)
 	{
 		GetParentPtr()->SetDestory();
 		//IScript2* GetSibilingScript(ScriptType type);

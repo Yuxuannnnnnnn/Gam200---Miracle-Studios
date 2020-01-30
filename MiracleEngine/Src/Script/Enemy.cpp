@@ -70,18 +70,16 @@ Enemy* Enemy::Clone()
 
 void Enemy::Init()
 {
-	for (auto idPair : _engineSystems._factory->getObjectlist())
+	for (auto itr : _engineSystems._factory->getObjectlist())
 	{
-		//if ((((LogicComponent*)idPair.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)))
-		//{
-		//	_target = idPair.second;
-		//	break;
-		//}
-		if ( ((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01")==0 && 
-			(((LogicComponent*)idPair.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player))
+		if ( ( ((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01")==0 ||
+			((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
+			((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0) &&
+			(((LogicComponent*)itr.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)) &&
+			!itr.second->GetDestory()
 			)
 		{
-			_target = idPair.second;
+			_target = itr.second;
 			break;
 		}
 	}

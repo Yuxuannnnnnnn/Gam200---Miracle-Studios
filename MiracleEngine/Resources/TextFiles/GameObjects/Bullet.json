@@ -10,9 +10,12 @@
 
   "LogicComponent": true,
   "Script2Id": [ "Bullet" ],
-  "Lifetime": 3.0,
-  "BulletType": 1,
-
+  "Script2Data": [
+    {
+      "Lifetime": 3.0,
+      "BulletType": "BulletPlayer"
+    }
+  ],
 
   "GraphicsComponent": true,
   "G.TypeId": 0,
