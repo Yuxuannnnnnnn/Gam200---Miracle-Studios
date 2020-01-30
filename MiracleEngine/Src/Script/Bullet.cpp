@@ -46,6 +46,11 @@ void Bullet::Inspect()
 
 Bullet::Bullet() : _lifeTime{ 0.0 }, _bulletType{ 0 }, _bulletSpeed{ 0.0 }{}
 
+Bullet* Bullet::Clone()
+{
+	return new Bullet(*this);
+}
+
 int Bullet::StringToInt(std::string& in)
 {
 	if (in == "BulletPlayer")
