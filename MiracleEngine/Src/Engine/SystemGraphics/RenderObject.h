@@ -23,5 +23,6 @@ struct RenderObject
 	glm::mat4  _transform;
 	UV  _uv;
 	float _zvalue;
+	bool _isAnimated;
 
 };
