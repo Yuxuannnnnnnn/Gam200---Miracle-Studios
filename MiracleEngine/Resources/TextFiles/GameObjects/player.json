@@ -16,7 +16,8 @@
   "AnimationTypes": [
     {
       "AnimationType": "CatAnimation.json",
-      "TimeDelay": 0.0
+      "TimeDelay": 0.0,
+      "AnimationName": ""
     }
   ],
   "StartAnim": "CatAnimation.json",
