@@ -49,6 +49,9 @@ void GraphicsSystem::Update(double dt)
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
+
+	DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
+
 	EndScene();
 }
 
