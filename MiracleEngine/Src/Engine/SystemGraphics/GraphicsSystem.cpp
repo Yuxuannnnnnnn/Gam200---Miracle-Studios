@@ -49,10 +49,13 @@ void GraphicsSystem::Update(double dt)
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
-
 	DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
-
+	
 	EndScene();
+
+	DebugRenderer::GetInstance().DrawLine(-10.0f, -10.0f, -100.0f, -100.0f);
+
+
 }
 
 void GraphicsSystem::BeginScene()
@@ -105,8 +108,10 @@ void GraphicsSystem::UpdateRenderObjectList()
 {
 
 	// update 
-	BPolygon viewBox = BPolygon::CreateBoxPolygon(Vec3{ -MyCameraSystem.GetCameraPos()._x,-MyCameraSystem.GetCameraPos()._y,1.f }, 
-		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() / MyCameraSystem.GetCameraZoom() ,MyWindowsSystem.getWindow().GetWindowHeight() / MyCameraSystem.GetCameraZoom() },
+	Vec3 CameraPos = MyCameraSystem.GetCameraPos();
+	float cameraZoom = MyCameraSystem.GetCameraZoom();
+	BPolygon viewBox = BPolygon::CreateBoxPolygon(Vec3{ -CameraPos._x,-CameraPos._y,1.f },
+		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() / cameraZoom ,MyWindowsSystem.getWindow().GetWindowHeight() / cameraZoom },
 		0.f);
 
 	for (auto& graphicCompPair : GetComponentMap(Graphic))
@@ -128,7 +133,6 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		GraphicComponent* graphicComp = (GraphicComponent*)graphicCompPair.second;
 		TransformComponent* transComp = (TransformComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Transform);
-
 
 		RenderObject renderobject;
 

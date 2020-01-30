@@ -73,7 +73,10 @@ void ImGuizmoManager::Update()
 		for (auto& it : objLayer)
 		{
 			if (it.second > maxLayerObj.second)
+			{
 				maxLayerObj.first = it.first;
+				maxLayerObj.second = it.second;
+			}
 		}
 
 		if (maxLayerObj.first)

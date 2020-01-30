@@ -26,28 +26,19 @@ public:
 	// use by both gameplay and editor 
 
 	float* GetCamMatrix();
-	Vector3& GetCameraPos();
-	float& GetCameraZoom();
+	Vector3 GetCameraPos();
+	float GetCameraZoom();
 
 	// interact gameplay and script
 
-	void SetGamePlayCamPos(const Vector3& pos);
-	const Vector3& GetGamePlayCamPos() const;
+	void SetMainCamera(size_t mainCameraUId);
+	size_t GetMainCameraUId();
+	const Vector3& GetMainCameraPos() const;
 
 private:
 	size_t _mainCameraUId;
 
 	Matrix4x4 _cameraMatrix;
-
-	//////////////////////////////////////////////////////
-	//temp main camera
-	Vector3 _tempmainCameraPos;
-	float _tempmainCameraZoom;
-
-	//////////////////////////////////////////////////////
-	//temp gameplay camera
-	Vector3 _gamePlayCameraPos;
-	float _gamePlayCameraZoom = 1.0f;
 
 	///////////////////////////////////////////////////////////////////////////////////
 	Vector3 _globalCameraEditorPos;

@@ -83,6 +83,9 @@ void PhysicsSystem::RigidbodyDraw()
 
 		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.first];
 
+		if (!transform)
+			continue;
+
 		if (length > 50.f)
 			length = 50.f;
 
