@@ -30,11 +30,13 @@
   "Script2Id": [ "Enemy" ],
   "Script2Data": [
     {
-      "Health": 10,
+      "Health": 1,
       "EnemyType": 1,
       "StunDuration": 0.5,
       "AttackRange": 0.0,
-      "AttackMelee": 4.0
+      "AttackMelee": 4.0,
+      "MoveSpeed": 3.0,
+      "ChaseSpeed": 10.0
     }
   ]
 }

@@ -17,6 +17,14 @@ void Enemy::SerialiseComponent(Serialiser& document)
 	{
 		_timerStunCooldown = (document["StunDuration"].GetDouble());
 	}
+	if (document.HasMember("MoveSpeed") && document["MoveSpeed"].IsDouble())	//Checks if the variable exists in .Json file
+	{
+		_moveSpeed = (document["MoveSpeed"].GetDouble());
+	}
+	if (document.HasMember("ChaseSpeed") && document["ChaseSpeed"].IsDouble())	//Checks if the variable exists in .Json file
+	{
+		_chaseSpeed = (document["ChaseSpeed"].GetDouble());
+	}
 	if (document.HasMember("AttackRange") && document["AttackRange"].IsDouble())	//Checks if the variable exists in .Json file
 	{
 		_attackRange = document["AttackRange"].GetDouble();
@@ -109,6 +117,12 @@ void Enemy::Update(double dt)
 	if (_stunned)
 	{
 		_timerStun -= dt;
+		if (_enemyType == 1)
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() + 0.1 );
+		if (_enemyType == 2)
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() - 0.1 );
 		if (_timerStun <= 0)
 		{
 			_timerStun = _timerStunCooldown;
@@ -129,7 +143,6 @@ void Enemy::Update(double dt)
 
 void Enemy::AttackMelee()
 {
-	const float spd = 60.f;
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
 		(GetDestinationPos()._y - GetPosition()._y),
@@ -141,12 +154,12 @@ void Enemy::AttackMelee()
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
-	//moveVec.Normalize();
-	//moveVec *= spd;
-	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
-	//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
-	//);
-	AddForwardForce(GetParentId(), 1000 * spd);
+			//moveVec.Normalize();
+			//moveVec *= spd;
+			//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
+			//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
+			//);
+	AddForwardForce(GetParentId(), 1000 * _chaseSpeed);
 
 	// bump into player
 	if (_timerAttack <= 0)
@@ -216,7 +229,6 @@ void Enemy::FSM()
 		break;
 	case (unsigned)AiState::MOVING:
 	{
-		const float spd = 9.f;
 		Vector3 moveVec(
 			(GetDestinationPos()._x - GetPosition()._x),
 			(GetDestinationPos()._y - GetPosition()._y),
@@ -228,12 +240,12 @@ void Enemy::FSM()
 		float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 		float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
-		//moveVec.Normalize();
-		//moveVec *= spd;
-		//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
-		//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
-		//);
-		AddForwardForce(GetParentId(), 1000 * spd);
+				//moveVec.Normalize();
+				//moveVec *= spd;
+				//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
+				//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
+				//);
+		AddForwardForce(GetParentId(), 1000 * _moveSpeed);
 		//std::cout << "/t AI Move!!!\n";
 	// get pathfinding
 		//if (_timerPathing > 0)
