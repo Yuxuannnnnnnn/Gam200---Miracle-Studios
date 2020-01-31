@@ -218,6 +218,10 @@ public:
 		//{
 		//	_type = document["Type"].GetString();
 		//}
+
+		if (document.HasMember("AnimationComponent") && document["AnimationComponent"].IsBool())
+			SetEnable(document["AnimationComponent"].GetBool());
+
 		if (document.HasMember("AnimationTypes"))
 		{
 			for (int i = 0; i < document["AnimationTypes"].Size(); i++)
@@ -245,8 +249,8 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("AnimationComponent", rapidjson::Value(true));
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("AnimationComponent", value);
 
 		value.SetArray();
 		{
@@ -271,8 +275,8 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("AnimationComponent", rapidjson::Value(true), allocator);
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("AnimationComponent", value, allocator);
 
 		value.SetArray();
 		{
@@ -297,8 +301,15 @@ public:
 		AnimationComponent* protoAnimCom = dynamic_cast<AnimationComponent*>(protoCom);
 
 		bool addComponentIntoSceneFile = false;
+		rapidjson::Value enable;
 		rapidjson::Value animationsList;
 		animationsList.SetArray();
+
+		if (protoAnimCom->GetEnable() != this->GetEnable())
+		{
+			addComponentIntoSceneFile = true;
+			enable.SetBool(GetEnable());
+		}
 
 		for (auto& anim: _animations)
 		{
@@ -323,7 +334,11 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("AnimationComponent", rapidjson::Value(true), allocator);
+			if (enable.IsNull())
+				value.AddMember("AnimationComponent", enable, allocator);
+			else
+				value.AddMember("AnimationComponent", protoAnimCom->GetEnable(), allocator);
+
 
 			if (!animationsList.IsNull())	//if rapidjson::value container is not empty
 			{

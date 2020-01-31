@@ -18,6 +18,9 @@ public:
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override
 	{
+		if (document.HasMember("UIComponent") && document["UIComponent"].IsBool())
+			SetEnable(document["UIComponent"].GetBool());
+
 		if (document.HasMember("UI.FileName") && document["UI.FileName"].IsString())
 			_fileName = document["UI.FileName"].GetString();
 	}
@@ -26,9 +29,8 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("UIComponent", rapidjson::Value(true));
-
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("UIComponent", value);
 
 		value.SetString(rapidjson::StringRef(_fileName.c_str()));
 		prototypeDoc.AddMember("UI.FileName", value);
@@ -38,8 +40,8 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("UIComponent", rapidjson::Value(true), allocator);
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("UIComponent", value, allocator);
 
 
 		value.SetString(rapidjson::StringRef(_fileName.c_str()));
@@ -53,7 +55,15 @@ public:
 
 		bool addComponentIntoSceneFile = false;
 
+		rapidjson::Value enable;
 		rapidjson::Value filename;
+
+		if (protoIdentityCom->GetEnable() != this->GetEnable())
+		{
+			addComponentIntoSceneFile = true;
+			enable.SetBool(GetEnable());
+		}
+
 		if (protoIdentityCom->_fileName.compare(_fileName))	//If audiofile of Object is diff from prototype
 		{
 			addComponentIntoSceneFile = true;
@@ -63,8 +73,11 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("UIComponent", rapidjson::Value(true), allocator);
-			
+			if (enable.IsNull())
+				value.AddMember("UIComponent", enable, allocator);
+			else
+				value.AddMember("UIComponent", protoIdentityCom->GetEnable(), allocator);
+
 			if (filename.IsNull())
 			{
 				value.AddMember("UI.FileName", filename, allocator);

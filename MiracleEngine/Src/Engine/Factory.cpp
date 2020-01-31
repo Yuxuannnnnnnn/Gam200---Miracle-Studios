@@ -801,6 +801,8 @@ void Factory::UpdateScene()
 		_currentScene = _prevScene;
 
 	_prevScene = _currentScene;
+	_lastGameObjectId = 0;
+
 #ifdef LEVELEDITOR //for Level editor Mode
 	MyFactory.DeleteLevelNotPrefab();
 	MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);

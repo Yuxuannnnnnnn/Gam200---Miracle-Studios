@@ -14,12 +14,6 @@ IComponent::IComponent(GameObject* parent, size_t uId)
 {}
 
 
-std::string IComponent::ComponentName() const
-{
-	std::cout << "IComponent::ComponentName()" << std::endl;
-	return "&";
-}
-
 size_t IComponent::GetParentId() const
 {
 	return _ParentId;
