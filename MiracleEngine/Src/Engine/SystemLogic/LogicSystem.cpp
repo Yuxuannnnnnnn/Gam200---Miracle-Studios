@@ -7,6 +7,7 @@
 #include "Script/Turret.h"
 #include "Script/Spawner.h"
 #include "Script/Explosion.h"
+#include "Script/ButtonController.h"
 
 
 LogicSystem::~LogicSystem()
@@ -31,6 +32,7 @@ void LogicSystem::Init() {
 	RegisterScript(Turret);
 	RegisterScript(Spawner);
 	RegisterScript(Explosion);
+	RegisterScript(ButtonController);
 
 	//ScriptSystem.Init();
 }

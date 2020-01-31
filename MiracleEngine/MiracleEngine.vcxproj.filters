@@ -115,6 +115,7 @@
     <ClCompile Include="Src\Engine\Editor\ImguiFunctions.cpp" />
     <ClCompile Include="Src\Script\Explosion.cpp" />
     <ClCompile Include="Src\Script\Spawner.cpp" />
+    <ClCompile Include="Src\Script\ButtonController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -549,6 +550,7 @@
     <ClInclude Include="Src\Engine\Editor\ImguiFunctions.h" />
     <ClInclude Include="Src\Script\Spawner.h" />
     <ClInclude Include="Src\Script\Explosion.h" />
+    <ClInclude Include="Src\Script\ButtonController.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

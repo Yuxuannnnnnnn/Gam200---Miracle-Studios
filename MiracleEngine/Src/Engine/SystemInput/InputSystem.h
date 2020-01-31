@@ -13,14 +13,15 @@ class InputSystem
 
 	std::map<std::string, KeyCode> Map_KeyCode;
 
-	std::unordered_set<size_t> _buttonHover;
-	std::unordered_set<size_t> _buttonPressed;
+	std::unordered_set<size_t> _buttonTriggered;
 public:
 	KeyCode StringToKeycode(const char* str);
 
 	bool KeyDown(KeyCode key);
 	bool KeyHold(KeyCode key);
 	bool KeyRelease(KeyCode key);
+
+	bool ButtonTrigger(size_t buttonUId);
 
 	void Init();
 	void Update(Window& window);
