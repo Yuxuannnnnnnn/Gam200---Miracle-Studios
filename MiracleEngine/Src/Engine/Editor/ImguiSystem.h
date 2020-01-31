@@ -45,4 +45,5 @@ public:
 
 #define MyPerformanceUsage (*(dynamic_cast<PerformanceUsageWindow *>(MyImguiSystem.GetWindow("PerformanceUsage"))))
 #define MyPopUpBox (*(dynamic_cast<PopUpBoxImguiWindow *>(MyImguiSystem.GetWindow("PopUpBox"))))
+#define MyInspectionWindow (*(dynamic_cast<InspectionImguiWindow *>(MyImguiSystem.GetWindow("Inspector"))))
 

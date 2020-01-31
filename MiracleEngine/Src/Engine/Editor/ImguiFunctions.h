@@ -131,7 +131,7 @@ public:
 			}
 		};
 		using namespace ImGui;
-		static bool firstTime = true;
+		//static bool firstTime = true;
 		bool done = InputText(id, buffer, bufferlen, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue);
 		bool hot = s.activeIdx >= 0 && strcmp(buffer, hints[s.activeIdx]);
 		if (hot) {
@@ -141,8 +141,8 @@ public:
 			s.selectionChanged = s.activeIdx != idx;
 			s.activeIdx = idx;
 			bool hello = true;
-			if (firstTime || done || (hello = ComboFilter__DrawPopup(s, idx, hints, num_hints, _filename, open, i))) {
-				firstTime = false;
+			if (*open || done || (hello = ComboFilter__DrawPopup(s, idx, hints, num_hints, _filename, open, i))) {
+				*open = false;
 				int i = s.activeIdx;
 				if (i >= 0) {
 					strcpy(buffer, hints[i]);

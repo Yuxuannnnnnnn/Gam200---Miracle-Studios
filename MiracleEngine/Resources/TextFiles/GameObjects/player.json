@@ -1,97 +1,48 @@
 {
-  "IdentityComponent": true,
-  "Name": "none",
-  "ObjectType": "player",
+	"IdentityComponent": true,
+	"ObjectType": "player",
+	"Name": "none",
+	"TransformComponent": true,
+	"Position": [ 0.0, 0.0, 1.0 ],
+	"Scale": [ 70.0, 70.0, 1.0 ],
+	"Rotate": 0.0,
+	"Layer": 1,
+	"LogicComponent": true,
+	"ScriptId": [],
+	"GraphicsComponent": true,
+	"G.FileName": "catjump.png",
+	"G.Shader": "",
 
-  "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 70.0, 70.0 ],
-  "Rotate": 0.0,
+	"AnimationComponent": true,
+	"AnimationTypes": [
+		{
+			"AnimationType": "CatAnimation.json",
+			"TimeDelay": 0.0,
+			"AnimationName": "Idle"
+		},
+		{
+			"AnimationType": "CatAnimation.json",
+			"TimeDelay": 0.0,
+			"AnimationName": "Run"
+		},
+		{
+			"AnimationType": "DatafileExplosionBluePlasma24FPSSprite.json",
+			"TimeDelay": 0.0,
+			"AnimationName": "Walk"
+		}
+	],
+	"StartAnim": "Idle",
 
-  "GraphicsComponent": true,
-  "G.TypeId": 0,
-  "G.FileName": "catjump.png",
+	"RigidBody2DComponent": true,
+	"Mass": 10.0,
+	"Friction": 0.10000000149011612,
+	"Static": false,
+	"CircleCollider2DComponent": true,
+	"ColliderTypeId": 2,
+	"ColliderTag": 1,
+	"ColliderTrigger": false,
+	"AudioComponent": true,
+	"A.FileName": "audio_player.ogg",
+	"IsBGM": false
 
-  "AnimationComponent": true,
-  "AnimationTypes": [
-    {
-      "AnimationType": "CatAnimation.json",
-      "TimeDelay": 0.0,
-      "AnimationName": "Idle"
-    },
-    {
-      "AnimationType": "DatafileExplosionBluePlasma24FPSSprite.json",
-      "TimeDelay": 0.0,
-      "AnimationName": "Walk"
-    }
-  ],
-  "StartAnim": "Idle",
-
-  "RigidBody2DComponent": true,
-  "Mass": 10.0,
-  "Friction": 0.1,
-  "Static": false,
-
-  "CircleCollider2DComponent": true,
-  "ColliderTypeId": 2,
-  "ColliderTag": 1,
-  "ColliderTrigger": false,
-
-  "AudioComponent": true,
-  "A.TypeId": 0,
-  "A.FileName": "audio_player.ogg",
-
-  "LogicComponent": true,
-
-  "ScriptId": [ "ScriptMove" ],
-  "PlayerData": [ { "Health": 10 } ],
-
-  "Script2Id": [ "Player" ],
-  "Script2Data": [
-    {
-      "Health": 10,
-      "WeaponActive": 1,
-      "AmmoRpg": 5,
-      "AmmoTurret": 10,
-      "AmmoWall": 10,
-      "FireratePistol": 0.2,
-      "FirerateShotgun": 0.5,
-      "FirerateRpg": 1.5,
-      "FirerateTurret": 1.0,
-      "FirerateWall": 1.0
-    }
-  ],
-
-  "HaveChild": true,
-  "ChildObjects": [
-    {
-      "IdentityComponent": true,
-      "Name": "none",
-      "ObjectType": "child1",
-
-      "TransformComponent": true,
-      "Position": [ 200.0, 0.0 ],
-      "Scale": [ 50.0, 50.0 ],
-      "Rotate": 0.0,
-
-      "GraphicsComponent": true,
-      "G.TypeId": 0,
-      "G.FileName": "Player.png"
-    },
-
-    {
-      "IdentityComponent": true,
-      "Name": "none",
-      "ObjectType": "child2",
-
-      "TransformComponent": true,
-      "Position": [ -200.0, 0.0 ],
-      "Scale": [ 50.0, 50.0 ],
-      "Rotate": 0.0,
-
-      "GraphicsComponent": true,
-      "G.TypeId": 0,
-      "G.FileName": "Player.png"
-    }
-  ]
 }

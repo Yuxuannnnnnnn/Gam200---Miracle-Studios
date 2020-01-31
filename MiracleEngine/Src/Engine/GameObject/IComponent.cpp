@@ -53,5 +53,4 @@ void  IComponent::Inspect()
 	ImGui::Spacing();
 	std::string string = "Component Enable " + ComponentName();
 	ImGui::Checkbox(string.c_str(), &_enable);
-	ImGui::Spacing();
 }

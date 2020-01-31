@@ -43,11 +43,10 @@ private:
 	typedef std::string AnimationName;
 	typedef std::string AnimationFile;
 
-
 	std::map<AnimationName, AnimationFile> animationFileNameList;
 	std::map<AnimationName, timeDelay> _animations;	//Each animation has its own timedelay
 
-	std::string _startingAnim;
+	std::string _startingAnim;	//AnimationName
 
 	// let me know if got problem if vector change to map, i, e animation doesnt run.
 	//std::vector<std::string> _animations;
@@ -58,7 +57,7 @@ private:
 	int _currFrame;
 	int _maxFrame;	//cap of the current animation
 
-	std::string _currentAnim; //Logic Animation script will only touch and change this variable
+	std::string _currentAnim; //Logic Animation script will only touch and change this variable //Json FileName
 
 	//Animation* _currAnimation;	//only for optimisation
 
@@ -147,103 +146,7 @@ private:
 
 public:
 
-	virtual void Inspect() override
-	{
-		IComponent::Inspect();
-
-		////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
-
-		static std::unordered_map<std::string, Animation*>& animationList = MyResourceSystem.GetAnimationMap();
-		std::vector<const char*> AninmationTypeList(animationList.size());
-		//list[0] = "Choose a Texture ";
-
-
-		int a = 0;
-		for (auto& animationGraphicPair : animationList)
-		{
-			const char* ptr = animationGraphicPair.first.c_str();
-
-			AninmationTypeList[a] = ptr;
-			a++;
-		}
-
-	
-		int i = 0;
-		int select = 0;
-
-		for (const std::pair<AnimationName, timeDelay>& animation: _animations)
-		{
-			ImGui::Spacing();
-
-			if (i < _animations.size())
-			{
-				for (int j = 0; j < AninmationTypeList.size(); j++)
-				{
-					if (!strncmp(AninmationTypeList[j], animationFileNameList[animation.first].c_str(), animationFileNameList[animation.first].size()))
-					{
-						select = j;
-					}
-				}
-			}
-
-			static std::vector<ComboFilterState> s;
-
-			static std::vector<char*> buf;
-
-			static std::vector<ImGuiFunctions*> DropDownBars;
-
-			//static ImGuiFunctions function;
-
-			static std::vector<bool*> openArray;
-
-
-			//static std::vector< bool *(const char* id, char* buffer, int bufferlen, /*const char** hints*/ std::vector<const char*> hints,
-			//	int num_hints, ImGuiFunctions::ComboFilterState & s, std::string & _filename)> 
-
-
-			if (s.size() == i)
-			{
-				s.push_back(ComboFilterState{ select, 0 });
-			}
-			if (buf.size() == i)
-			{
-				buf.push_back(new char[128]);
-				openArray.push_back(new bool{ false });
-			}
-			if (DropDownBars.size() == i)
-			{
-				DropDownBars.push_back( new ImGuiFunctions{});
-			}
-
-			if (animationFileNameList[animation.first].empty())
-			{
-				strncpy(buf[i], "Choose an Animation File here", 18);
-			}
-			else
-			{
-				strncpy(buf[i], animationFileNameList[animation.first].c_str(), animationFileNameList[animation.first].size());
-			}
-
-
-			std::string AnimationType = "AnimationType##" + std::to_string(i);
-
-			if (DropDownBars[i]->ComboFilter(AnimationType.c_str(), buf[i], 128, AninmationTypeList, AninmationTypeList.size(), s[i], animationFileNameList[animation.first], openArray[i], i))
-			{
-				//puts(buf);
-			}
-
-
-			i++;
-		}
-		
-
-
-		////ImGui::SetCursorPos(ImVec2((MyWindowsSystem.getWindow().GetWindowWidth() - (width / scale)) * 0.5f, (MyWindowsSystem.getWindow().GetWindowHeight() - (height / scale)) * 0.5f));
-		//ImGui::Image((void*)(intptr_t)(_currTexture)->GetTextureID(), ImVec2(width / scale, height / scale),
-		//	ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
-
-
-	}
+	virtual void Inspect() override;
 
 
 
