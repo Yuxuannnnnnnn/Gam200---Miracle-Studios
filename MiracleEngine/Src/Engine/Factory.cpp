@@ -791,65 +791,53 @@ void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePat
 
 ///////////////////////////////////////////////////////////////////////////
 
-void Factory::ChangeScene(const std::string& scene)
+void Factory::UpdateScene()
 {
-	_lastGameObjectId = 0;
-#ifdef LEVELEDITOR //for Level editor Mode
-
-	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
-	{
-		_currentScene = scene;
+	if (_currentScene.compare(_prevScene) == 0 || 
+		_currentScene.compare("Quit") == 0 || _currentScene.compare("quit") == 0 || _currentScene.compare("") == 0)
 		return;
-	}
 
-	if (scene.compare("Restart") == 0 || scene.compare("restart") == 0)
-	{
-		MyFactory.DeleteLevelNotPrefab();
-		MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
-	}
+	if (_currentScene.compare("Restart") == 0 || _currentScene.compare("restart") == 0)
+		_currentScene = _prevScene;
 
-	if (MyResourceSystem.GetSceneList().find(scene) != MyResourceSystem.GetSceneList().end())
-	{
-
-		auto& list = MyResourceSystem.GetSceneList();
-
-		_currentScene = scene;
-
-		MyFactory.DeleteLevelNotPrefab();
-		MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
-	}
-	else
-	{
-		throw(0);
-	}
+	_prevScene = _currentScene;
+#ifdef LEVELEDITOR //for Level editor Mode
+	MyFactory.DeleteLevelNotPrefab();
+	MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
 
 #else	//for GamePlay mode
+	MyFactory.DeleteLevel();
+	MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
+#endif
 
-	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0)
+
+	MyCameraSystem.Init();
+}
+
+void Factory::ChangeScene(const std::string& scene)
+{
+	_prevScene = _currentScene;
+
+	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0 ||
+		scene.compare("Restart") == 0 || scene.compare("restart") == 0)
 	{
 		_currentScene = scene;
 		return;
 	}
 
-	if (!(scene.compare("Restart") == 0 || scene.compare("restart") == 0))
-	{
-		MyFactory.DeleteLevelNotPrefab();
-		MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
-	}
-
+#ifdef LEVELEDITOR //for Level editor Mode
+	if (MyResourceSystem.GetSceneList().find(scene) != MyResourceSystem.GetSceneList().end())
+#else	//for GamePlay mode
 	if (MyResourceManager.GetSceneList().find(scene) != MyResourceManager.GetSceneList().end())
+#endif
 	{
 		_currentScene = scene;
-
-		MyFactory.DeleteLevelNotPrefab();
-		MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
+		return;
 	}
 	else
 	{
 		throw(0);
 	}
-
-#endif
 	//if (scene.compare("Level1") == 0)
 	//	EngineSystems::GetInstance()._aiSystem->CreateNodeMapFromTileComp();
 }

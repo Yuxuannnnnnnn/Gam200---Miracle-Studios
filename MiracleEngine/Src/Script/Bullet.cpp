@@ -14,6 +14,10 @@ void Bullet::SerialiseComponent(Serialiser& document)
 		std::string temp = (document["BulletType"].GetString());
 		_bulletType = StringToInt(temp);
 	}
+	if (document.HasMember("BulletSpeed") && document["BulletSpeed"].IsDouble())	//Checks if the variable exists in .Json file
+	{
+		_bulletSpeed = (document["BulletSpeed"].GetDouble());
+	}
 }
 void Bullet::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
@@ -91,20 +95,33 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 {
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string Id = IdCom->ObjectType();
-	//(((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy))
-	if (
-		//Id->GetObjectType().compare("Enemy") == 0 && 
-		(((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy))
-	)
+
+	if (other->_tag == (unsigned)ColliderTag::BUILDING || other->_tag == (unsigned)ColliderTag::EDGES)
 	{
 		GetParentPtr()->SetDestory();
-		//IScript2* GetSibilingScript(ScriptType type);
-		Enemy* enemy = reinterpret_cast<Enemy*>(
-			((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy)
-		);
-		enemy->DecrementHealth();
-		enemy->SetStunned();
 	}
+
+	if (other->_tag == (unsigned)ColliderTag::ENEMY)
+	{
+		GetParentPtr()->SetDestory();
+
+		LogicComponent* enemy = (LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic);
+
+		if (!enemy)
+			return;
+			
+		Enemy* enemyScript = (Enemy*)MyLogicSystem.GetScriptList()[enemy->GetScript2Id(ScriptType::SCRIPT_Enemy)];
+
+		if (!enemyScript)
+			return;
+
+		enemyScript->DecrementHealth();
+		enemyScript->SetStunned();
+
+		return;
+	}
+
+	
 	//if (Id.compare("EnemyThree") == 0)
 	//{
 	//	GetParentPtr()->SetDestory();
@@ -118,6 +135,8 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 	//{
 	//	DestoryThis();
 	//}
+
+	
 }
 void Bullet::BulletCollisionTurret(Collider2D* other)
 {

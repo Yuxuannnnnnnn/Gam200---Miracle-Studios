@@ -11,9 +11,9 @@ void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
 
-	// Render gameobject in world space
 	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
+	// Render gameobject in world space
 	for (const auto& renderobj : _renderObjects)
 	{
 		renderobj._pShader->Select();
@@ -26,7 +26,7 @@ void GraphicsSystem::Update(double dt)
 		}
 
 		renderobj._pMesh->Select();
-		if (renderobj._isAnimated)
+		//if (renderobj._isAnimated)
 		{
 			float u0 = renderobj._uv.u0;
 			float v0 = renderobj._uv.v0;
@@ -50,12 +50,11 @@ void GraphicsSystem::Update(double dt)
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
-	DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
+	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
 	
 	EndScene();
 
-	DebugRenderer::GetInstance().DrawLine(-10.0f, -10.0f, -100.0f, -100.0f);
-
+	//DebugRenderer::GetInstance().DrawLine(-10.0f, -10.0f, -100.0f, -100.0f);
 
 }
 

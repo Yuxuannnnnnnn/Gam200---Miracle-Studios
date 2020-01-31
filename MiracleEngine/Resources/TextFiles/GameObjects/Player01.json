@@ -39,5 +39,7 @@
   "ColliderTypeId": 2,
   "ColliderTag": 1,
   "ColliderTrigger": false,
-  "CameraComponent": true
+  "CameraComponent": true,
+  "isCurrentCamera": true,
+  "cameraZoom":1.0
 }

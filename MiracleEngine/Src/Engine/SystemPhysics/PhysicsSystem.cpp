@@ -15,7 +15,7 @@ void PhysicsSystem::Update(double dt)
 void PhysicsSystem::Draw()
 {
 	RigidbodyDraw();
-	CollisionDraw();
+	//CollisionDraw();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -130,20 +130,17 @@ void PhysicsSystem::AddForwardForce(size_t uId, float force)
 void PhysicsSystem::CollisionUpdate(double dt)
 {
 	UpdateCollision(dt);
-	UpdateStaticCollision(dt);
+	//UpdateStaticCollision(dt);
 }
 
 void PhysicsSystem::CollisionDraw()
 {
 	for (auto& it : GetComponentMap(EdgeCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -162,13 +159,10 @@ void PhysicsSystem::CollisionDraw()
 
 	for (auto& it : GetComponentMap(BoxCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -184,13 +178,10 @@ void PhysicsSystem::CollisionDraw()
 
 	for (auto& it : GetComponentMap(CircleCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		CircleCollider2DComponent* object = (CircleCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -206,13 +197,10 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 	for (auto& it : GetComponentMap(EdgeCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -221,13 +209,10 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 	for (auto& it : GetComponentMap(BoxCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -236,13 +221,10 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 	for (auto& it : GetComponentMap(CircleCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		CircleCollider2DComponent* object = (CircleCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -255,16 +237,12 @@ void PhysicsSystem::UpdateCollision(double dt)
 	{
 		it = tempList.begin();
 
-		if ((*it)->_type == (unsigned)ColliderType::NONE_COLLIDER ||
-			(ColliderTag)(*it)->_tag == ColliderTag::BUILDING ||
-			(ColliderTag)(*it)->_tag == ColliderTag::EDGES)
+		if ((*it)->_type == (unsigned)ColliderType::NONE_COLLIDER)
 			continue;
 
 		for (auto& it2 : tempList)
 		{
-			if (it2->GetEnable() || !it2->_componentEnable || (*it) == it2 ||
-				(ColliderTag)it2->_tag == ColliderTag::BUILDING ||
-				(ColliderTag)it2->_tag == ColliderTag::EDGES)
+			if (!it2->GetEnable() || (*it) == it2)
 				continue;
 
 			if (!_collisionTable.CheckCollisionTable((ColliderTag)(*it)->_tag, (ColliderTag)it2->_tag))

@@ -6,8 +6,7 @@ Collider2D::Collider2D() :
 	_tag{ (unsigned)ColliderTag::NONE },
 	_layer{ 0 },
 	_trigger{ true },
-	_attachedRigidboy{ false },
-	_componentEnable{ true }
+	_attachedRigidboy{ false }
 {}
 
 std::string Collider2D::ComponentName() const
