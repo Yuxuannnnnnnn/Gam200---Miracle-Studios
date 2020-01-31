@@ -18,14 +18,14 @@
 
 
 
-void AnimationComponent::SetCurrentAnim(const std::string& AniamtionType)
+void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 {
-	setCurrentAnimation(AniamtionType);
+	setCurrentAnimation(AnimationName);
 	SetStartFrame();
 	ResetCurrTimeDelay();
-	SetTimeDelay(AniamtionType);
+	SetTimeDelay(AnimationName);
 
-	Animation* animResource = MyResourceManager.GetAnimationResource(AniamtionType);
+	Animation* animResource = MyResourceManager.GetAnimationResource(_currentAnim);
 	SetMaxFrame(animResource->GetMaxFrame());
 }
 

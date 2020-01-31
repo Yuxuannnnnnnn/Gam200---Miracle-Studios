@@ -37,6 +37,9 @@ public:
 	{
 		//size_t namesize = _textureName.find_last_of(".png") - 4 - path.find_last_of("\\/");
 
+		std::string fileName = filename.substr(filename.find_last_of("\\") + 1);
+		filename = "./Resources/TextFiles/AnimationData\\" + fileName;
+
 		DeSerialiser SpriteSheetData(filename);
 
 		rapidjson::Value value;
@@ -92,7 +95,7 @@ public:
 			SpriteSheetData.AddMember(frameNumber, Array);
 		}
 
-		SpriteSheetData.~DeSerialiser();
+		SpriteSheetData.ProduceJsonFile();
 
 
 		std::string file = filename.substr(filename.find_last_of("\\/") + 1);

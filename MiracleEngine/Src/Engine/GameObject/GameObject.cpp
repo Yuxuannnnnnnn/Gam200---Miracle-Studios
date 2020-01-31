@@ -161,6 +161,8 @@ void GameObject::DeSerialise(std::string filePath)
 		IComponent* component = ComponentPair.second;
 		component->DeSerialiseComponent(prototypeDoc);
 	}
+
+	prototypeDoc.ProduceJsonFile();
 }
 
 Map_ComponentList& GameObject::GetComponentList() // Get ComponentList

@@ -123,11 +123,23 @@ private:
 		_currentTimeDelay = 0;
 	}
 
-	timeDelay SetTimeDelay(std::string AnimationType)
+	void SetTimeDelay(std::string AnimationName)
 	{
-		if (_animations.find(AnimationType) != _animations.end())
+		if (_animations.find(AnimationName) != _animations.end())
 		{
-			_timeDelay = _animations[AnimationType];
+			 _timeDelay = _animations[AnimationName];
+			 return;
+		}
+
+		throw std::exception{ "Does not have AnimationType" };
+	}
+
+	void setCurrentAnimation(std::string AnimationName)
+	{
+		if (animationFileNameList.find(AnimationName) != animationFileNameList.end())
+		{
+			_currentAnim = animationFileNameList[AnimationName];
+			return;
 		}
 
 		throw std::exception{ "Does not have AnimationType" };
@@ -140,38 +152,48 @@ public:
 		IComponent::Inspect();
 
 		////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
-		
-		ImGui::Spacing();
-		/*
-		static auto& animationList = MyResourceSystem.GetAnimationMap();
-		std::vector<const char*> list(animationList.size());
+
+		static std::unordered_map<std::string, Animation*>& animationList = MyResourceSystem.GetAnimationMap();
+		std::vector<const char*> AninmationTypeList(animationList.size());
 		//list[0] = "Choose a Texture ";
 
-		int i = 0;
-		int select = 0;
-		for (auto animationGraphicPair = animationList.begin(); animationGraphicPair != animationList.end(); animationGraphicPair++)
+
+		int a = 0;
+		for (auto& animationGraphicPair : animationList)
 		{
-			const char* ptr = animationGraphicPair->first.c_str();
+			const char* ptr = animationGraphicPair.first.c_str();
 
-
-			list[i] = ptr;
-			if (!strncmp(ptr, _fileName.c_str(), 20))
-			{
-				select = i;
-			}
-
-
-			i++;
+			AninmationTypeList[a] = ptr;
+			a++;
 		}
 
-		
-		static std::vector<ImGuiFunctions::ComboFilterState> s;
+	
+		int i = 0;
+		int select = 0;
 
-		static std::vector<char*> buf;
-
-
-		for (int i = 0; i <= _animations.size(); i++)
+		for (const std::pair<AnimationName, timeDelay>& animation: _animations)
 		{
+			ImGui::Spacing();
+
+			if (i < _animations.size())
+			{
+				for (int j = 0; j < AninmationTypeList.size(); j++)
+				{
+					if (!strncmp(AninmationTypeList[j], animationFileNameList[animation.first].c_str(), 100))
+					{
+						select = j;
+					}
+				}
+			}
+
+			static std::vector<ImGuiFunctions::ComboFilterState> s;
+
+			static std::vector<char*> buf;
+
+			//static std::vector< bool *(const char* id, char* buffer, int bufferlen, /*const char** hints*/ std::vector<const char*> hints,
+			//	int num_hints, ImGuiFunctions::ComboFilterState & s, std::string & _filename)> 
+
+
 			if (s.size() == i)
 			{
 				s.push_back(ImGuiFunctions::ComboFilterState{ select, 0 });
@@ -181,21 +203,24 @@ public:
 				buf.push_back(new char[128]);
 			}
 
-			if (animation.empty())
+			if (animationFileNameList[animation.first].empty())
 			{
-				strncpy(buf, "type text here...", 18);
+				strncpy(buf[i], "Choose an Animation File here", 18);
 			}
 			else
 			{
-				strncpy(buf, _fileName.c_str(), _fileName.size());
+				strncpy(buf[i], animationFileNameList[animation.first].c_str(), animationFileNameList[animation.first].size());
 			}
 
-			if (ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName))
+			if (ImGuiFunctions::ComboFilter("AnimationType", buf[i], 128, AninmationTypeList, AninmationTypeList.size(), s[i], animationFileNameList[animation.first]))
 			{
 				//puts(buf);
 			}
+
+
+			i++;
 		}
-		*/
+		
 
 
 		////ImGui::SetCursorPos(ImVec2((MyWindowsSystem.getWindow().GetWindowWidth() - (width / scale)) * 0.5f, (MyWindowsSystem.getWindow().GetWindowHeight() - (height / scale)) * 0.5f));
@@ -222,6 +247,10 @@ public:
 		//{
 		//	_type = document["Type"].GetString();
 		//}
+
+		_animations.clear();
+		animationFileNameList.clear();
+
 		if (document.HasMember("AnimationTypes"))
 		{
 			for (int i = 0; i < document["AnimationTypes"].Size(); i++)
@@ -230,7 +259,8 @@ public:
 				//{
 				Serialiser datafile(document["AnimationTypes"][i]);
 
-				_animations.insert(std::pair<std::string, timeDelay>(datafile["AnimationType"].GetString(), datafile["TimeDelay"].GetFloat()));
+				_animations.insert(std::pair<AnimationName, timeDelay>(datafile["AnimationName"].GetString(), datafile["TimeDelay"].GetFloat()));
+				animationFileNameList.insert(std::pair<AnimationName, AnimationFile>(datafile["AnimationName"].GetString(), datafile["AnimationType"].GetString()));
 				//}
 			}
 		}
@@ -238,7 +268,7 @@ public:
 		if (document.HasMember("StartAnim"))
 		{
 			_startingAnim = document["StartAnim"].GetString();
-			_currentAnim = _startingAnim;
+			SetCurrentAnim(_startingAnim);
 		}
 
 		//_currAnimation = MyResourceManager.GetAnimationResource(_startingAnim);
@@ -258,8 +288,9 @@ public:
 			for (auto& anim : _animations)
 			{
 				object.SetObject();
-				object.AddMember("AnimationType", rapidjson::StringRef(anim.first.c_str()), prototypeDoc.Allocator());
+				object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), prototypeDoc.Allocator());
 				object.AddMember("TimeDelay", rapidjson::Value(anim.second), prototypeDoc.Allocator());
+				object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), prototypeDoc.Allocator());
 
 				value.PushBack(object, prototypeDoc.Allocator());
 			}
@@ -284,8 +315,10 @@ public:
 			for (auto& anim : _animations)
 			{
 				object.SetObject();
-				object.AddMember("AnimationType", rapidjson::StringRef(anim.first.c_str()), allocator);
+				object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), allocator);
 				object.AddMember("TimeDelay", rapidjson::Value(anim.second), allocator);
+				object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), allocator);
+
 
 				value.PushBack(object, allocator);
 			}
@@ -307,13 +340,25 @@ public:
 		for (auto& anim: _animations)
 		{
 			//Search Prototype for animation file, if dont have then add. OR if time delay is different then add the pair
-			if (protoAnimCom->_animations.find(anim.first) == protoAnimCom->_animations.end() || protoAnimCom->_animations[anim.first] != anim.second)
-			{
+			//if (protoAnimCom->_animations.find(anim.first) == protoAnimCom->_animations.end() || protoAnimCom->_animations[anim.first] != anim.second)
+			//{
 				addComponentIntoSceneFile = true;
+				rapidjson::Value Obj;
+				Obj.SetObject();
 				rapidjson::Value strVal;
+
+
+				strVal.SetString(animationFileNameList[anim.first].c_str(), animationFileNameList[anim.first].length(), allocator);
+				Obj.AddMember("AnimationType", strVal, allocator);
+
+				strVal.SetFloat(anim.second);
+				Obj.AddMember("TimeDelay", strVal, allocator);
+
 				strVal.SetString(anim.first.c_str(), anim.first.length(), allocator);
+				Obj.AddMember("AnimationName", strVal, allocator);
+
 				animationsList.PushBack(strVal, allocator);
-			}
+			//}
 		}
 
 		rapidjson::Value startingAnim;
@@ -347,10 +392,11 @@ public:
 
 
 //Editor or Serialisation
-	void AddAnimation(std::string animation, timeDelay delay)
-	{
-		_animations.insert(std::pair < std::string, timeDelay >(animation, delay));
-	}
+	//void AddAnimation(std::string animationType)
+	//{
+	//	_animations.insert(std::pair <AnimationName, timeDelay >(animation, delay));
+	//	animationFileNameList.insert(std::pair < std::string, timeDelay >(animation, delay));
+	//}
 
 
 
