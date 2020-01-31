@@ -179,16 +179,23 @@ public:
 			{
 				for (int j = 0; j < AninmationTypeList.size(); j++)
 				{
-					if (!strncmp(AninmationTypeList[j], animationFileNameList[animation.first].c_str(), 100))
+					if (!strncmp(AninmationTypeList[j], animationFileNameList[animation.first].c_str(), animationFileNameList[animation.first].size()))
 					{
 						select = j;
 					}
 				}
 			}
 
-			static std::vector<ImGuiFunctions::ComboFilterState> s;
+			static std::vector<ComboFilterState> s;
 
 			static std::vector<char*> buf;
+
+			static std::vector<ImGuiFunctions*> DropDownBars;
+
+			//static ImGuiFunctions function;
+
+			static std::vector<bool*> openArray;
+
 
 			//static std::vector< bool *(const char* id, char* buffer, int bufferlen, /*const char** hints*/ std::vector<const char*> hints,
 			//	int num_hints, ImGuiFunctions::ComboFilterState & s, std::string & _filename)> 
@@ -196,11 +203,16 @@ public:
 
 			if (s.size() == i)
 			{
-				s.push_back(ImGuiFunctions::ComboFilterState{ select, 0 });
+				s.push_back(ComboFilterState{ select, 0 });
 			}
 			if (buf.size() == i)
 			{
 				buf.push_back(new char[128]);
+				openArray.push_back(new bool{ false });
+			}
+			if (DropDownBars.size() == i)
+			{
+				DropDownBars.push_back( new ImGuiFunctions{});
 			}
 
 			if (animationFileNameList[animation.first].empty())
@@ -212,7 +224,10 @@ public:
 				strncpy(buf[i], animationFileNameList[animation.first].c_str(), animationFileNameList[animation.first].size());
 			}
 
-			if (ImGuiFunctions::ComboFilter("AnimationType", buf[i], 128, AninmationTypeList, AninmationTypeList.size(), s[i], animationFileNameList[animation.first]))
+
+			std::string AnimationType = "AnimationType##" + std::to_string(i);
+
+			if (DropDownBars[i]->ComboFilter(AnimationType.c_str(), buf[i], 128, AninmationTypeList, AninmationTypeList.size(), s[i], animationFileNameList[animation.first], openArray[i], i))
 			{
 				//puts(buf);
 			}
@@ -285,23 +300,28 @@ public:
 		value.SetBool(GetEnable());
 		prototypeDoc.AddMember("AnimationComponent", value);
 
-		value.SetArray();
+		if (!animationFileNameList.empty())
 		{
-			rapidjson::Value object;
-			for (auto& anim : _animations)
+			value.SetArray();
 			{
-				object.SetObject();
-				object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), prototypeDoc.Allocator());
-				object.AddMember("TimeDelay", rapidjson::Value(anim.second), prototypeDoc.Allocator());
-				object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), prototypeDoc.Allocator());
+				rapidjson::Value object;
+				for (auto& anim : _animations)
+				{
+					object.SetObject();
+					object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), prototypeDoc.Allocator());
+					object.AddMember("TimeDelay", rapidjson::Value(anim.second), prototypeDoc.Allocator());
+					object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), prototypeDoc.Allocator());
 
-				value.PushBack(object, prototypeDoc.Allocator());
+					value.PushBack(object, prototypeDoc.Allocator());
+				}
+				prototypeDoc.AddMember("AnimationTypes", value);
 			}
-			prototypeDoc.AddMember("AnimationTypes", value);
+
+			value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+			prototypeDoc.AddMember("StartAnim", value);
 		}
 
-		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
-		prototypeDoc.AddMember("StartAnim", value);
+
 	}
 
 
@@ -312,24 +332,27 @@ public:
 		value.SetBool(GetEnable());
 		prototypeDoc.AddMember("AnimationComponent", value, allocator);
 
-		value.SetArray();
+		if (!animationFileNameList.empty())
 		{
-			rapidjson::Value object;
-			for (auto& anim : _animations)
+			value.SetArray();
 			{
-				object.SetObject();
-				object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), allocator);
-				object.AddMember("TimeDelay", rapidjson::Value(anim.second), allocator);
-				object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), allocator);
+				rapidjson::Value object;
+				for (auto& anim : _animations)
+				{
+					object.SetObject();
+					object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), allocator);
+					object.AddMember("TimeDelay", rapidjson::Value(anim.second), allocator);
+					object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), allocator);
 
 
-				value.PushBack(object, allocator);
+					value.PushBack(object, allocator);
+				}
+				prototypeDoc.AddMember("AnimationTypes", value, allocator);
 			}
-			prototypeDoc.AddMember("AnimationTypes", value, allocator);
-		}
 
-		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
-		prototypeDoc.AddMember("StartAnim", value, allocator);
+			value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+			prototypeDoc.AddMember("StartAnim", value, allocator);
+		}
 	}
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -373,7 +396,7 @@ public:
 
 		rapidjson::Value startingAnim;
 
-		if (protoAnimCom->_startingAnim.compare(_startingAnim))	//If audiofile of Object is diff from prototype
+		if (protoAnimCom->_startingAnim.compare(_startingAnim) && !_startingAnim.empty())	//If audiofile of Object is diff from prototype
 		{
 			addComponentIntoSceneFile = true;
 			startingAnim.SetString(_startingAnim.c_str(), _startingAnim.length(), allocator);

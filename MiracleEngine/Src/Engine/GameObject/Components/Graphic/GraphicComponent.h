@@ -199,9 +199,13 @@ public:
 		//	}
 		//}
 
-		static ImGuiFunctions::ComboFilterState s = { select, 0 };
+		static ComboFilterState s = { select, 0 };
 
 		static char buf[128];
+		
+		static ImGuiFunctions Function;
+		static bool op = false;
+		static bool * open = &op;
 		
 		if (_fileName.empty())
 		{
@@ -212,7 +216,7 @@ public:
 			strncpy(buf, _fileName.c_str(), _fileName.size());
 		}
 
-		if (ImGuiFunctions::ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName))
+		if (Function.ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName, open))
 		{
 			//puts(buf);
 		}

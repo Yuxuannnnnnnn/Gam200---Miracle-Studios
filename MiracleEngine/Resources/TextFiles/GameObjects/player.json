@@ -18,6 +18,11 @@
       "AnimationType": "CatAnimation.json",
       "TimeDelay": 0.0,
       "AnimationName": "Idle"
+    },
+    {
+      "AnimationType": "DatafileExplosionBluePlasma24FPSSprite.json",
+      "TimeDelay": 0.0,
+      "AnimationName": "Walk"
     }
   ],
   "StartAnim": "Idle",
