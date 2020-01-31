@@ -75,6 +75,8 @@ public:
 	AssetsImguiWindow(bool open = true,	//Set the settings for the imgui window
 		ImGuiWindowFlags flags = ImGuiWindowFlags_::ImGuiWindowFlags_MenuBar);
 
+	void Init();
+
 	void Update() override;
 };
 

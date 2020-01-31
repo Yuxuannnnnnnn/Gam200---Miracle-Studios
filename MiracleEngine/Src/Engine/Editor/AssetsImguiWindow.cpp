@@ -10,6 +10,13 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 
 	:IBaseImguiWindow("Assets",1, 20, 347, 490, open, flags)
 {
+	
+}
+
+
+
+void AssetsImguiWindow::Init()
+{
 	std::string audiosPath = "./Resources/Audio";
 	std::string fontsPath = "./Resources/Fonts";
 
@@ -39,6 +46,20 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		ResourceList.clear();
 	}
 
+	{
+		for (const auto& AnimationDataFile : std::filesystem::directory_iterator(AnimationDataPath))
+		{
+			std::cout << AnimationDataFile.path() << std::endl;
+			std::string path = AnimationDataFile.path().u8string();
+			//size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\/");
+			std::string fileName = path.substr(path.find_last_of("\\/") + 1);
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
+		}
+
+		MyResourceSystem.AddAnimationResourceList(ResourceList);
+		ResourceList.clear();
+
+	}
 
 
 
@@ -53,13 +74,13 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 	texturesPath.push_back("./Resources/Image/Enemy(AI)");
 	texturesPath.push_back("./Resources/Image/Environment_Animation");
 	texturesPath.push_back("./Resources/Image/Powers_effect");
-							 	
+
 	texturesPath.push_back("./Resources/Image/Props_design");
 	texturesPath.push_back("./Resources/Image/Props_design/SCI_FI");
 	texturesPath.push_back("./Resources/Image/Props_design/SCI_FI/rusted_v2");
-							 		 
+
 	texturesPath.push_back("./Resources/Image/Tile");
-							 		
+
 	texturesPath.push_back("./Resources/Image/Interface");
 	texturesPath.push_back("./Resources/Image/Interface/Instruction_Menu");
 	texturesPath.push_back("./Resources/Image/Interface/HP_and_Progress_Bar");
@@ -123,7 +144,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		{
 			std::cout << shaderFile.path() << std::endl;
 			std::string path = shaderFile.path().u8string();
-		
+
 			std::string ShaderName = "";
 
 			if (path.find(".vert") != std::string::npos)
@@ -185,20 +206,7 @@ AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
 		ResourceList1.clear();
 	}
 
-	{
-		for (const auto& AnimationDataFile : std::filesystem::directory_iterator(AnimationDataPath))
-		{
-			std::cout << AnimationDataFile.path() << std::endl;
-			std::string path = AnimationDataFile.path().u8string();
-			//size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\/");
-			std::string fileName = path.substr(path.find_last_of("\\/") + 1);
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
-		}
-	
-		MyResourceSystem.AddAnimationResourceList(ResourceList);
-		ResourceList.clear();
-	
-	}
+
 }
 
 void AssetsImguiWindow::Update()

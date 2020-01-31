@@ -83,8 +83,7 @@ public:
 	}
 
 
-
-	~DeSerialiser() 
+	void ProduceJsonFile()
 	{
 		if (!_filename.empty())
 		{
@@ -103,6 +102,12 @@ public:
 
 			file.close();
 		}
+	}
+
+
+	~DeSerialiser() 
+	{
+
 	}
 };
 
