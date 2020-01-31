@@ -794,7 +794,7 @@ void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePat
 void Factory::UpdateScene()
 {
 	if (_currentScene.compare(_prevScene) == 0 || 
-		_currentScene.compare("Quit") == 0 || _currentScene.compare("quit") == 0)
+		_currentScene.compare("Quit") == 0 || _currentScene.compare("quit") == 0 || _currentScene.compare("") == 0)
 		return;
 
 	if (_currentScene.compare("Restart") == 0 || _currentScene.compare("restart") == 0)

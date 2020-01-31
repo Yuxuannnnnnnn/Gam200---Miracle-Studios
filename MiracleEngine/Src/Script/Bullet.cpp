@@ -96,10 +96,20 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string Id = IdCom->ObjectType();
 
-	LogicComponent* enemy = (LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic);
-
-	if (enemy)
+	if (other->_tag == (unsigned)ColliderTag::BUILDING || other->_tag == (unsigned)ColliderTag::EDGES)
 	{
+		GetParentPtr()->SetDestory();
+	}
+
+	if (other->_tag == (unsigned)ColliderTag::ENEMY)
+	{
+		GetParentPtr()->SetDestory();
+
+		LogicComponent* enemy = (LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic);
+
+		if (!enemy)
+			return;
+			
 		Enemy* enemyScript = (Enemy*)MyLogicSystem.GetScriptList()[enemy->GetScript2Id(ScriptType::SCRIPT_Enemy)];
 
 		if (!enemyScript)
@@ -107,7 +117,11 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 
 		enemyScript->DecrementHealth();
 		enemyScript->SetStunned();
+
+		return;
 	}
+
+	
 	//if (Id.compare("EnemyThree") == 0)
 	//{
 	//	GetParentPtr()->SetDestory();
@@ -122,7 +136,7 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 	//	DestoryThis();
 	//}
 
-	GetParentPtr()->SetDestory();
+	
 }
 void Bullet::BulletCollisionTurret(Collider2D* other)
 {

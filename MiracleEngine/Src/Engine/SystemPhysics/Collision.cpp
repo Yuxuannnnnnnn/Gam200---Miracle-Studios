@@ -495,12 +495,16 @@ void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
 				if (relVel.Dot(boxB->mAxis[0]) > 0)
 				{
 					transformA->GetPos() = transformB->GetPos() + boxB->mAxis[0] * (circleA->mRadius + transformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
-					rigidbodyA->_velocity = boxB->mAxis[0] * circleA->mRadius;
+					
+					if(rigidbodyA)
+						rigidbodyA->_velocity = boxB->mAxis[0] * circleA->mRadius;
 				}
 				else
 				{
 					transformA->GetPos() = transformB->GetPos() + -boxB->mAxis[0] * (circleA->mRadius + transformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
-					rigidbodyA->_velocity = -boxB->mAxis[0] * circleA->mRadius;
+
+					if (rigidbodyA)
+						rigidbodyA->_velocity = -boxB->mAxis[0] * circleA->mRadius;
 				}
 			}
 			else
@@ -510,11 +514,15 @@ void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
 				if (relVel.Dot(boxB->mAxis[1]) > 0)
 				{
 					transformA->GetPos() = transformB->GetPos() + boxB->mAxis[1] * (circleA->mRadius + transformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
+
+					if (rigidbodyA)
 					rigidbodyA->_velocity = boxB->mAxis[1] * circleA->mRadius;
 				}
 				else
 				{
 					transformA->GetPos() = transformB->GetPos() + -boxB->mAxis[1] * (circleA->mRadius + transformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
+
+					if (rigidbodyA)
 					rigidbodyA->_velocity = -boxB->mAxis[1] * circleA->mRadius;
 				}
 			}

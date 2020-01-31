@@ -130,7 +130,7 @@ void PhysicsSystem::AddForwardForce(size_t uId, float force)
 void PhysicsSystem::CollisionUpdate(double dt)
 {
 	UpdateCollision(dt);
-	UpdateStaticCollision(dt);
+	//UpdateStaticCollision(dt);
 }
 
 void PhysicsSystem::CollisionDraw()
@@ -237,16 +237,12 @@ void PhysicsSystem::UpdateCollision(double dt)
 	{
 		it = tempList.begin();
 
-		if ((*it)->_type == (unsigned)ColliderType::NONE_COLLIDER ||
-			(ColliderTag)(*it)->_tag == ColliderTag::BUILDING ||
-			(ColliderTag)(*it)->_tag == ColliderTag::EDGES)
+		if ((*it)->_type == (unsigned)ColliderType::NONE_COLLIDER)
 			continue;
 
 		for (auto& it2 : tempList)
 		{
-			if (!it2->GetEnable() || (*it) == it2 ||
-				(ColliderTag)it2->_tag == ColliderTag::BUILDING ||
-				(ColliderTag)it2->_tag == ColliderTag::EDGES)
+			if (!it2->GetEnable() || (*it) == it2)
 				continue;
 
 			if (!_collisionTable.CheckCollisionTable((ColliderTag)(*it)->_tag, (ColliderTag)it2->_tag))
