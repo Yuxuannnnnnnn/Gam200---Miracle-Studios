@@ -19,7 +19,7 @@
 
 void AnimationComponent::SetCurrentAnim(const std::string& AniamtionType)
 {
-	_currentAnim = AniamtionType;
+	setCurrentAnimation(AniamtionType);
 	SetStartFrame();
 	ResetCurrTimeDelay();
 	SetTimeDelay(AniamtionType);

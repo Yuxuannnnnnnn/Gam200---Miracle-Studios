@@ -38,7 +38,12 @@ private:
 
 //For editor Variables
 	typedef float timeDelay;
-	std::map<std::string, timeDelay> _animations;	//Each animation has its own timedelay
+	typedef std::string AnimationName;
+	typedef std::string AnimationFile;
+
+
+	std::map<AnimationName, AnimationFile> animationFileNameList;
+	std::map<AnimationName, timeDelay> _animations;	//Each animation has its own timedelay
 	std::string _startingAnim;
 
 	// let me know if got problem if vector change to map, i, e animation doesnt run.
