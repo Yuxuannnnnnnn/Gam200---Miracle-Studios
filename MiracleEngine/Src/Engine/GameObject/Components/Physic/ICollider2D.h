@@ -32,8 +32,6 @@ public:
 
 
 	bool _attachedRigidboy;
-	bool _componentEnable;
-
 public:
 	Collider2D();
 	Collider2D(const Collider2D& rhs) = default;

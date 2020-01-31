@@ -17,6 +17,8 @@ public:
 		if (document.HasMember("isCurrentCamera"))
 		{
 			_isCurrentCamera = document["isCurrentCamera"].GetBool();
+
+			SetMainCamera(_isCurrentCamera);
 		}
 
 		if (document.HasMember("cameraZoom"))
@@ -96,6 +98,7 @@ public:
 
 	CameraComponent* CloneComponent() { return new CameraComponent(*this); }
 
+	bool isMainCamera() const;
 
 	void SetMainCamera(bool main);
 };

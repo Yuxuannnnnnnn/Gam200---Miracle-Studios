@@ -809,6 +809,9 @@ void Factory::UpdateScene()
 	MyFactory.DeleteLevel();
 	MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
 #endif
+
+
+	MyCameraSystem.Init();
 }
 
 void Factory::ChangeScene(const std::string& scene)

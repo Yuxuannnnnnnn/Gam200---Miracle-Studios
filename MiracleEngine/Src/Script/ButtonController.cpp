@@ -77,9 +77,6 @@ void ButtonController::Update(double dt)
 {
 	(void)dt;
 
-	if (!_input->KeyRelease(MOUSE_LBUTTON))
-		return;
-
 	switch (_currScene)
 	{
 	case (int)SceneTag::MAINMENU:
