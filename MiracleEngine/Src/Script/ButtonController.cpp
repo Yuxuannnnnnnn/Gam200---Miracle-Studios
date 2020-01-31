@@ -82,25 +82,29 @@ void ButtonController::Update(double dt)
 	case (int)SceneTag::MAINMENU:
 	{
 		if (_input->ButtonTrigger(10)) // start
-		{
 			MyFactory.ChangeScene("truelevel1");
-			break;
-		}
-		//if (_input->ButtonTrigger(11)) // options
-		//	MyFactory.ChangeScene("Level1");
-		//if (_input->ButtonTrigger(12)) // instructions
-		//	MyFactory.ChangeScene("Level1");
-		//if (_input->ButtonTrigger(13)) // leaderboard
-		//	MyFactory.ChangeScene("Level1");
-		//if (_input->ButtonTrigger(14)) // help
-		//	MyFactory.ChangeScene("Level1");
-		//if (_input->ButtonTrigger(15)) // credits
-		//	MyFactory.ChangeScene("Level1");
-		if (_input->ButtonTrigger(16)) // quit
-		{
+		else if (_input->ButtonTrigger(11)) // options
+			MyFactory.ChangeScene("PlaceHolder");
+		else if (_input->ButtonTrigger(12)) // instructions
+			MyFactory.ChangeScene("PlaceHolder");
+		else if (_input->ButtonTrigger(13)) // leaderboard
+			MyFactory.ChangeScene("PlaceHolder");
+		else if (_input->ButtonTrigger(14)) // help
+			MyFactory.ChangeScene("PlaceHolder");
+		else if (_input->ButtonTrigger(15)) // credits
+			MyFactory.ChangeScene("PlaceHolder");
+		else if (_input->ButtonTrigger(16)) // quit
 			MyFactory.ChangeScene("Quit");
-			break;
-		}
+		else if (_input->ButtonTrigger(30)) // return to menu
+			MyFactory.ChangeScene("MainMenu");
+
+		break;
+	}
+	case (int)SceneTag::POPUPSCENE:
+	{
+		if (_input->ButtonTrigger(30)) // return to menu
+			MyFactory.ChangeScene("MainMenu");
+		break;
 	}
 	default:
 		break;

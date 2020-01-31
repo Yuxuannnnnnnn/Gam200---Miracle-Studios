@@ -59,5 +59,7 @@ public:
 	float GetWindowWidth() const;		//
 	float GetWindowHeight() const;		//
 
+	float GetWindowWidthRatio() const;
+	float GetWindowHeightRatio() const;
 };
 

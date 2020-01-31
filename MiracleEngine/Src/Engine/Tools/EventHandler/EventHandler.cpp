@@ -469,6 +469,7 @@ void EventHandler::BroadcastNewWindowSize(float width, float height)
 	MyImGuizmoManager.SetWindowSize(width, height);
 	MyInputSystem.SetWindowSize(width, height);
 	MyGraphicsSystem.ResizeGraphics(width, height);
+	DebugRenderer::GetInstance().CalculateProjMatrix(width, height);
 
 	_changedSize = false;
 }

@@ -4,6 +4,7 @@
 enum class SceneTag {
 	NONE = 0,
 	MAINMENU,
+	POPUPSCENE,
 
 	TOTAL_TAG
 };

@@ -435,6 +435,15 @@ float Window::GetWindowHeight() const
 	return _windowHeight;
 }
 
+float Window::GetWindowWidthRatio() const
+{
+	return _initWindowWidth / _windowWidth;
+}
+
+float Window::GetWindowHeightRatio() const
+{
+	return _initWindowHeight / _windowHeight;
+}
 
 
 //Getter function
