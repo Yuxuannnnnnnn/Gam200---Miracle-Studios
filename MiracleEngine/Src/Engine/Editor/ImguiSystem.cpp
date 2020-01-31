@@ -211,6 +211,10 @@ void ImguiSystem::Init()
 	_ImguiWindows["Hierarchy"] = new HierarchyImguiWindow();
 	_ImguiWindows["Inspector"] = new InspectionImguiWindow();
 	_ImguiWindows["Assets"] = new AssetsImguiWindow();
+	
+	dynamic_cast<AssetsImguiWindow*>(_ImguiWindows["Assets"])->Init();
+
+
 	_ImguiWindows["Texture"] = new TextureImguiWindow();
 	_ImguiWindows["PerformanceUsage"] = new PerformanceUsageWindow();
 	_ImguiWindows["SpriteSheetCutter"] = new SpriteSheetCutterImguiWindow();

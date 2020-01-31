@@ -17,10 +17,10 @@
     {
       "AnimationType": "CatAnimation.json",
       "TimeDelay": 0.0,
-      "AnimationName": ""
+      "AnimationName": "Idle"
     }
   ],
-  "StartAnim": "CatAnimation.json",
+  "StartAnim": "Idle",
 
   "RigidBody2DComponent": true,
   "Mass": 10.0,

@@ -684,6 +684,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 	//Returns false if scene already exists
 	MyResourceSystem.AddNewScene(std::pair < std::string, std::string>(file, filename));
+	SceneFile.ProduceJsonFile();
 
 }
 

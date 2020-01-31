@@ -1,7 +1,6 @@
 {
 	"GameScenes": [
-		"./Resources/TextFiles/Scenes/Scenes\\Level1.json",
-		"./Resources/TextFiles/Scenes/Scenes\\level2.json",
-		"./Resources/TextFiles/Scenes/Scenes\\MainMenu.json"
+		"./Resources/TextFiles/Scenes/Scenes/Level1.json",
+		"./Resources/TextFiles/Scenes/Scenes/MainMenu.json"
 	]
 }

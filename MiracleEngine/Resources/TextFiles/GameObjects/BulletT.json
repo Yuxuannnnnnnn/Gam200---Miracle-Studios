@@ -13,6 +13,15 @@
   "ShaderType": "",
   "RenderLayer": 1,
 
+  "LogicComponent": true,
+  "Script2Id": [ "Bullet" ],
+  "Script2Data": [
+    {
+      "Lifetime": 3.0,
+      "BulletType": "BulletTurret"
+    }
+  ],
+
   "RigidBody2DComponent": true,
   "Mass": 1.0,
   "Friction": 0.0,

@@ -40,7 +40,7 @@ void SpriteSheetCutterImguiWindow::Update()
 		strncpy(file, fileName.c_str(), fileName.size());
 		ofn.lpstrFile = file;
 		ofn.nMaxFile = 1024;
-		ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER;
+		ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_NOCHANGEDIR;
 
 		ofn.lpstrFilter = ".json\0.json";
 		ofn.lpstrFileTitle = NULL;
