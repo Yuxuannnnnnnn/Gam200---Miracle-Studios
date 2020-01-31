@@ -24,5 +24,19 @@
 
   "AudioComponent": true,
   "A.TypeId": 0,
-  "A.FileName": "audio_enemy.ogg"
+  "A.FileName": "audio_enemy.ogg",
+
+  "LogicComponent": true,
+  "Script2Id": [ "Enemy" ],
+  "Script2Data": [
+    {
+      "Health": 3,
+      "EnemyType": 2,
+      "StunDuration": 0.5,
+      "AttackRange": 4.0,
+      "AttackMelee": 0.0,
+      "MoveSpeed": 3.0,
+      "ChaseSpeed": 0.0
+    }
+  ]
 }

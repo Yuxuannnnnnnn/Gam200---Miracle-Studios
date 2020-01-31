@@ -131,7 +131,8 @@ void Turret::SearchTarget()
 	//}
 		if (!it.second->GetDestory() && (
 			((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
-			((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0) )
+			((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0
+			) )
 		{
 			IdentityComponent* idCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::CT_Identity));
 			if (_target->GetDestory())
@@ -139,7 +140,6 @@ void Turret::SearchTarget()
 				_target = it.second;
 				continue;
 			}
-
 			// check if current target is player
 			if (idCom->ObjectType().compare("Player"))
 				_target = it.second;

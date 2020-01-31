@@ -5,6 +5,8 @@
 #include "Script/Enemy.h"
 #include "Script/Bullet.h"
 #include "Script/Turret.h"
+#include "Script/Spawner.h"
+#include "Script/Explosion.h"
 
 
 LogicSystem::~LogicSystem()
@@ -27,6 +29,8 @@ void LogicSystem::Init() {
 	RegisterScript(Enemy);
 	RegisterScript(Bullet);
 	RegisterScript(Turret);
+	RegisterScript(Spawner);
+	RegisterScript(Explosion);
 
 	//ScriptSystem.Init();
 }
