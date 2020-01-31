@@ -14,6 +14,9 @@ public:
 
 	void SerialiseComponent(Serialiser& document) override
 	{
+		if (document.HasMember("CameraComponent") && document["CameraComponent"].IsBool())
+			SetEnable(document["CameraComponent"].GetBool());
+
 		if (document.HasMember("isCurrentCamera"))
 		{
 			_isCurrentCamera = document["isCurrentCamera"].GetBool();
@@ -31,6 +34,9 @@ public:
 	{
 		rapidjson::Value value;
 
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("CameraComponent", value);
+
 		value.SetBool(true);
 		prototypeDoc.AddMember("isCurrentCamera", rapidjson::Value(true));
 
@@ -42,6 +48,9 @@ public:
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		rapidjson::Value value;
+
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("CameraComponent", value, allocator);
 
 		value.SetBool(true);
 		prototypeDoc.AddMember("isCurrentCamera", rapidjson::Value(true), allocator);
@@ -57,8 +66,16 @@ public:
 		CameraComponent* protoTransformCom = dynamic_cast<CameraComponent*>(protoCom);
 
 		bool addComponentIntoSceneFile = false;
+
+		rapidjson::Value enable;
 		rapidjson::Value currentCamera;
 		rapidjson::Value cameraZoom;
+
+		if (protoTransformCom->GetEnable() != this->GetEnable())
+		{
+			addComponentIntoSceneFile = true;
+			enable.SetBool(GetEnable());
+		}
 
 		if (protoTransformCom->_isCurrentCamera != _isCurrentCamera)
 		{
@@ -76,7 +93,10 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("CameraComponent", rapidjson::Value(true), allocator);
+			if (enable.IsNull())
+				value.AddMember("CameraComponent", enable, allocator);
+			else
+				value.AddMember("CameraComponent", protoTransformCom->GetEnable(), allocator);
 
 			if (!currentCamera.IsNull())	//if rapidjson::value container is not empty
 			{

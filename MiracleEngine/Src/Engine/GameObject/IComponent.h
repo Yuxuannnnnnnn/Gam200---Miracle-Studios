@@ -25,7 +25,9 @@ public:
 
 //Interface functions to be implemented by Derived Classes
 	virtual std::string ComponentName() const = 0; //Every Comoponent has a ComponentName function
-	virtual void SerialiseComponent(Serialiser & document) = 0; //Every Component has to have a serialise function
+	
+	//Every Component has to have a serialise function
+	virtual void SerialiseComponent(Serialiser& document) = 0;
 	virtual void DeSerialiseComponent(DeSerialiser & prototypeDoc) = 0; //Every Component has to have a DeSerialise function
 	virtual void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
