@@ -16,7 +16,7 @@ class LogicComponent : public IComponent
 public:
 	LogicComponent();
 	LogicComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
-	virtual ~LogicComponent() {};
+	virtual ~LogicComponent();
 	LogicComponent(const LogicComponent& rhs) = default;
 	LogicComponent& operator=(const LogicComponent& rhs) = default;
 

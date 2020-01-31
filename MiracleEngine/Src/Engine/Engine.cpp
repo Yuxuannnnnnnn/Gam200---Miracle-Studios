@@ -50,10 +50,11 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	MyFactory.ChangeScene("Level1");
+	MyFactory.ChangeScene("MainMenu");
 
 	while (MyFactory.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{
+		MyFactory.UpdateScene();
 
 		MyEventHandler.BroadcastWindowEvents();
 
@@ -79,24 +80,18 @@ void Engine::Update()
 		MyImguiSystem.UpdateFrame();  //ImguiSystem updateframe must be before GraphicsSystem update, graphicSystem to clear buffer after each frame update
 		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 
-
 		MyFrameRateController.StartTimeCounter();
 		MyInputSystem.Update(MyWindowsSystem.getWindow());
 		MyCameraSystem.Update();
 		MyPerformanceUsage.InputFrameTime += MyFrameRateController.EndTimeCounter();
 
 
-		MyFrameRateController.StartTimeCounter();
 		if (!MyImguiSystem._editorMode)
 		{
+			MyFrameRateController.StartTimeCounter();
 			//MyButtonManager.Update();
 			MyEventHandler.BroadcastInputEvents();
 			MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
-		}
-		else 
-		{
-			MyImGuizmoManager.Update();
-			MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 		}
 
 		if (!MyImguiSystem._editorMode)
@@ -124,6 +119,20 @@ void Engine::Update()
 			else
 			{
 				MyFrameRateController.StartTimeCounter();
+				MyInputSystem.Update(MyWindowsSystem.getWindow());
+				MyCameraSystem.Update();
+				MyPerformanceUsage.InputFrameTime += MyFrameRateController.EndTimeCounter();
+
+
+				if (!MyImguiSystem._editorMode)
+				{
+					MyFrameRateController.StartTimeCounter();
+					//MyButtonManager.Update();
+					MyEventHandler.BroadcastInputEvents();
+					MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
+				}
+
+				MyFrameRateController.StartTimeCounter();
 				MyLogicSystem.Update(dt);
 				MyAiSystem.Update(dt);
 				MyParticleSystem.Update(dt);
@@ -144,16 +153,17 @@ void Engine::Update()
 
 		// Graphics
 		MyFrameRateController.StartTimeCounter();
-		MyPhysicsSystem.Draw();
 		MyAnimationSystem.Update(dt);
-		MyParticleSystem.Draw();
 		MyGraphicsSystem.Update(dt);
+		MyParticleSystem.Draw();
+		MyPhysicsSystem.Draw();
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
 
-		
-
 		MyFrameRateController.StartTimeCounter();
-		MyImGuizmoManager.Draw();
+
+		if (MyImguiSystem._editorMode)
+			MyImGuizmoManager.Update();
+
 		MyImguiSystem.Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 #else
@@ -181,6 +191,12 @@ void Engine::Update()
 		}
 		else
 		{
+			MyInputSystem.Update(MyWindowsSystem.getWindow());
+			MyCameraSystem.Update();
+
+			//MyButtonManager.Update();
+			MyEventHandler.BroadcastInputEvents();
+
 			MyLogicSystem.Update(dt);
 			MyAiSystem.Update(dt);
 			MyParticleSystem.Update(dt);

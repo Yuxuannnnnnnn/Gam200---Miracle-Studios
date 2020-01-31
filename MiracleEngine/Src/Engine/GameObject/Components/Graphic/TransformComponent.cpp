@@ -160,6 +160,19 @@ float* TransformComponent::GetModel()
 	return _model.m;
 }
 
+float* TransformComponent::GetMatrix()
+{
+	// calculate model matrix = TRS
+	Mtx44 translate = Mtx44::CreateTranslation(Vec3{_pos._x,_pos._y, (float)_layer});
+	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(_scale);
+
+	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
+		glm::vec3(transformComp->GetScale()._x, transformComp->GetScale()._y, 1.0f));*/
+
+
+	return _model.m;
+}
+
 void TransformComponent::SetModel(const float* in)
 {
 	_model = in;
@@ -182,14 +195,11 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Spacing();
-	int renderLayer = _pos.m[2];
-	ImGui::InputInt("RenderLayer", &renderLayer);
-	if (renderLayer <= 10 && renderLayer >= 0)
-		_pos.m[2] = renderLayer;
-	else if (renderLayer > 10)
-		_pos.m[2] = 10;
-	else if (renderLayer < 0)
-		_pos.m[2] = 0;
+	ImGui::InputInt("RenderLayer", &_layer);
+	if (_layer > 10)
+		_layer = 10;
+	else if (_layer < 0)
+		_layer = 0;
 
 
 	ImGui::Spacing();

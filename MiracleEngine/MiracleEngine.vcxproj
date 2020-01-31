@@ -177,6 +177,7 @@
     <ClInclude Include="Dep\sol\assert.hpp" />
     <ClInclude Include="Dep\sol\forward.hpp" />
     <ClInclude Include="Dep\sol\sol.hpp" />
+    <ClInclude Include="Src\Engine\Editor\ImguiFunctions.h" />
     <ClInclude Include="Src\Engine\Editor\PopUpBoxImguiWindow.h" />
     <ClInclude Include="Src\Engine\Editor\SpriteSheetCutterImguiWindow.h" />
     <ClInclude Include="Src\Engine\Editor\AssetsImguiWindow.h" />
@@ -259,10 +260,13 @@
     <ClInclude Include="Src\Engine\SystemParticle\ParticleSystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingCircle.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingEdge.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingLine.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingPolygon.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\Collision.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\CollisionMap.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\CollisionTable.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\CollisionTagIDs.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\IForce.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\PhysicsSystem.h" />
     <ClInclude Include="Src\Engine\SystemWindows\Console.h" />
@@ -589,8 +593,13 @@
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Resources\targetver.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
+    <ClInclude Include="Src\Script\Bullet.h" />
+    <ClInclude Include="Src\Script\ButtonController.h" />
     <ClInclude Include="Src\Script\Enemy.h" />
+    <ClInclude Include="Src\Script\Explosion.h" />
     <ClInclude Include="Src\Script\Player.h" />
+    <ClInclude Include="Src\Script\Spawner.h" />
+    <ClInclude Include="Src\Script\Turret.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp">
@@ -599,6 +608,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Editor\ImguiFunctions.cpp" />
     <ClCompile Include="Src\Engine\Editor\PopUpBoxImguiWindow.cpp" />
     <ClCompile Include="Src\Engine\Editor\SpriteSheetCutterImguiWindow.cpp" />
     <ClCompile Include="Src\Engine\Editor\AssetsImguiWindow.cpp" />
@@ -667,6 +677,8 @@
     <ClCompile Include="Src\Engine\SystemParticle\ParticleSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingBox.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingCircle.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingEdge.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingLine.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingPolygon.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\Collision.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionMap.cpp" />
@@ -747,8 +759,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\Script\Bullet.cpp" />
+    <ClCompile Include="Src\Script\ButtonController.cpp" />
     <ClCompile Include="Src\Script\Enemy.cpp" />
+    <ClCompile Include="Src\Script\Explosion.cpp" />
     <ClCompile Include="Src\Script\Player.cpp" />
+    <ClCompile Include="Src\Script\Spawner.cpp" />
+    <ClCompile Include="Src\Script\Turret.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />

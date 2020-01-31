@@ -10,10 +10,13 @@
 #define _EDGE_COLLIDER_2D_H
 
 #include "ICollider2D.h"
+#include "SystemPhysics/BoundingEdge.h"
 
 class EdgeCollider2DComponent : public Collider2D
 {
 public:
+	BEdge _data;
+
 	Vector3 m_origin;
 	Vector3	m_pt0;
 	Vector3	m_pt1;
@@ -69,7 +72,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("BoxCollider2D", rapidjson::Value(true), allocator);
+			value.AddMember("EdgeCollider2DComponent", rapidjson::Value(true), allocator);
 
 			if (!type.IsNull())
 			{

@@ -8,16 +8,25 @@
   "Scale": [ 20.0, 20.0 ],
   "Rotate": 0.0,
 
+  "LogicComponent": true,
+  "Script2Id": [ "Bullet" ],
+  "Script2Data": [
+    {
+      "Lifetime": 3.0,
+      "BulletType": "BulletEnemy"
+    }
+  ],
+
   "GraphicsComponent": true,
   "G.TypeId": 0,
   "G.FileName": "Bullet_E.png",
 
-  "RigidBodyComponent": true,
+  "RigidBody2DComponent": true,
   "Mass": 1.0,
   "Friction": 0.0,
   "Static": false,
 
-  "CircleColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 8,
   "ColliderTrigger": false

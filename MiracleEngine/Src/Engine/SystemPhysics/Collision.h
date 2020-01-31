@@ -7,6 +7,9 @@
 #include "GameObject/Components/Physic/RigidBody2DComponent.h"
 #include "BoundingCircle.h"
 #include "BoundingPolygon.h"
+#include "BoundingEdge.h"
+#include "BoundingLine.h"
+#include "BoundingBox.h"
 
 
 
@@ -24,16 +27,31 @@
 // For new collider box check
 namespace Collision {
 
-	bool DefaultColliderDataCheck(const BBox& boxA, const BBox& boxB);
+	bool CollisionCheck(const BCircle& circle, const Vector3& point);
+	bool CollisionCheck(const BBox& box, const Vector3& point);
+	bool CollisionCheck(const BPolygon& polygon, const Vector3& point);
+
+	bool CollisionCheck(const BCircle& circleA, const BCircle& circleB);
+	bool CollisionCheck(const BBox& boxA, const BBox& boxB);
+	bool CollisionCheck(const BPolygon& polygonA, const BPolygon& polygonB);
 
 	bool BCircleVsBCircle(const BCircle& circleA, const BCircle& circleB);
-	bool BBoxVsBBox(const BBox& boxA, const BBox& boxB);
-	bool BBoxOverlaps(const BBox& boxA, const BBox& boxB);
+	bool BCircleVsPoint(const BCircle& circle, const Vector3& point);
 
+	bool BBoxOverlaps(const BBox& boxA, const BBox& boxB);
+	bool BBoxVsBBox(const BBox& boxA, const BBox& boxB);
 	bool BBoxVsPoint(const BBox& box, const Vector3& point);
 
-	//bool BPolygonVsBPolygon(const BPolygon& polygonA, const BPolygon& polygonB);
+	bool BPolygonOverlaps(const BPolygon& polygonA, const BPolygon& polygonB);
+	bool BPolygonVsBPolygon(const BPolygon& polygonA, const BPolygon& polygonB);
+	bool BOBBOverlaps(const BPolygon& obbA, const BPolygon& obbB);
+	bool BOBBVsBOBB(const BPolygon& obbA, const BPolygon& obbB);
+	bool BPolygonVsPoint(const BPolygon& polygon, const Vector3& point);
+	bool BOBBVsPoint(const BPolygon& obb, const Vector3& point);
 
+
+	bool BCircleVsBBox(const BCircle& circle, const BBox& box);
+	
 };
 
 

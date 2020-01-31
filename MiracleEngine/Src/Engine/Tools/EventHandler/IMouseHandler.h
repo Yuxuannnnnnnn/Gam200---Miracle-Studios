@@ -18,7 +18,7 @@ public:
 
 	IMouseHandler();
 
-	const Vec3& GetMousePos() const;
+	const Vec3 GetMousePos() const;
 
 	virtual void OnMouseDown() {}
 	virtual void OnMouseDrag() {}

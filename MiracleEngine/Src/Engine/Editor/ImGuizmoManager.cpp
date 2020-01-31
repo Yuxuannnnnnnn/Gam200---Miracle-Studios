@@ -25,27 +25,6 @@ void ImGuizmoManager::Update()
 	{
 		Vector3  pos = MyInputSystem.GetMouseWorldPos();
 
-		for (auto& it : GetComponentMap(Graphic))
-		{
-			if (!it.second->GetEnable())
-				continue;
-
-			TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.second->GetParentId()];
-
-			if (!transform)
-				continue;
-
-			BBox pickingBox = BBox::CreateBBoxFromData(transform->GetPos(), transform->GetScale(), transform->GetRotate());
-
-			if (Collision::BBoxVsPoint(pickingBox, pos))
-			{
-				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
-				HierarchyImguiWindow* HierarchyWindow = dynamic_cast<HierarchyImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Hierarchy"]);
-				HierarchyWindow->SetSelectedObj(it.second->GetParentPtr());
-				SetPickObjectUId(it.first);
-				return;
-			}
-		}
 
 		for (auto& it : GetComponentMap(UI))
 		{
@@ -57,14 +36,57 @@ void ImGuizmoManager::Update()
 			if (!transform)
 				continue;
 
-			BBox pickingBox = BBox::CreateBBoxFromData(transform->GetPos(), transform->GetScale(), transform->GetRotate());
+			BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
+				Vec3{ transform->GetScale()._x, transform->GetScale()._y },
+				transform->GetRotate());
 
-			if (Collision::BBoxVsPoint(pickingBox, pos))
+			if (Collision::CollisionCheck(pickingBox, pos))
 			{
 				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
-				SetPickObjectUId( it.first);
+				SetPickObjectUId(it.first);
 				return;
 			}
+		}
+
+		std::unordered_map<size_t, int> objLayer;
+
+		for (auto& it : GetComponentMap(Graphic))
+		{
+			if (!it.second->GetEnable())
+				continue;
+
+			TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.second->GetParentId()];
+
+			if (!transform)
+				continue;
+
+			BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
+				Vec3{ transform->GetScale()._x, transform->GetScale()._y },
+				transform->GetRotate());
+
+			if (Collision::CollisionCheck(pickingBox, pos))
+				objLayer.insert({ it.first , transform->_layer });
+		}
+
+		std::pair<size_t, int> maxLayerObj{0,-100};
+
+		for (auto& it : objLayer)
+		{
+			if (it.second > maxLayerObj.second)
+			{
+				maxLayerObj.first = it.first;
+				maxLayerObj.second = it.second;
+			}
+		}
+
+		if (maxLayerObj.first)
+		{
+			GameObject* obj = MyFactory.getObjectlist()[maxLayerObj.first];
+
+			InspectionImguiWindow::InspectGameObject(obj);
+			HierarchyImguiWindow* HierarchyWindow = dynamic_cast<HierarchyImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Hierarchy"]);
+			HierarchyWindow->SetSelectedObj(obj);
+			SetPickObjectUId(maxLayerObj.first);
 		}
 	}
 
@@ -80,10 +102,7 @@ void ImGuizmoManager::Update()
 	ImGui::Begin("ToolBar");
 	RenderToolBar();
 	ImGui::End();
-}
 
-void ImGuizmoManager::Draw()
-{
 	if (_pickUId != 0)
 	{
 		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[_pickUId];
@@ -132,6 +151,7 @@ void ImGuizmoManager::Draw()
 		}
 	}
 }
+
 
 void ImGuizmoManager::SetPickObjectUId(size_t uId)
 {

@@ -86,10 +86,10 @@ inline const char* ToString(ComponentId type) //Convert TypeIdComponent Enum to 
 	case ComponentId::CT_Camera: 			return "CameraComponent";
 	case ComponentId::CT_Font: 				return "FontComponent";
 
-	case ComponentId::CT_RigidBody2D:		return "RigidBodyComponent";
-	case ComponentId::CT_CircleCollider2D:	return "CircleColliderComponent";
-	case ComponentId::CT_BoxCollider2D:		return "BoxColliderComponent";
-	case ComponentId::CT_EdgeCollider2D:	return "EdgeColliderComponent";
+	case ComponentId::CT_RigidBody2D:		return "RigidBody2DComponent";
+	case ComponentId::CT_CircleCollider2D:	return "CircleCollider2DComponent";
+	case ComponentId::CT_BoxCollider2D:		return "BoxCollider2DComponent";
+	case ComponentId::CT_EdgeCollider2D:	return "EdgeCollider2DComponent";
 
 	case ComponentId::CT_Logic:				return "LogicComponent";
 

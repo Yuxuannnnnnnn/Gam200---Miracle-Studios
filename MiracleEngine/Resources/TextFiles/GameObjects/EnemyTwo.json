@@ -12,17 +12,31 @@
   "G.TypeId": 0,
   "G.FileName": "EnemyTwo.png",
 
-  "RigidBodyComponent": true,
+  "RigidBody2DComponent": true,
   "Mass": 5.0,
   "Friction": 0.1,
   "Static": false,
 
-  "CircleColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 3,
   "ColliderTrigger": false,
 
   "AudioComponent": true,
   "A.TypeId": 0,
-  "A.FileName": "audio_enemy.ogg"
+  "A.FileName": "audio_enemy.ogg",
+
+  "LogicComponent": true,
+  "Script2Id": [ "Enemy" ],
+  "Script2Data": [
+    {
+      "Health": 3,
+      "EnemyType": 2,
+      "StunDuration": 0.5,
+      "AttackRange": 4.0,
+      "AttackMelee": 0.0,
+      "MoveSpeed": 3.0,
+      "ChaseSpeed": 0.0
+    }
+  ]
 }

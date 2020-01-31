@@ -12,8 +12,18 @@
   "G.TypeId": 0,
   "G.FileName": "Spawner.png",
 
-  "ColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 5,
-  "ColliderTrigger": true
+  "ColliderTrigger": true,
+
+  "LogicComponent": true,
+  "Script2Id": [ "Spawner" ],
+  "Script2Data": [
+    {
+      "Health": 10,
+      "SpawnType": 1,
+      "SpawnRate": 0.5
+    }
+  ]
 }

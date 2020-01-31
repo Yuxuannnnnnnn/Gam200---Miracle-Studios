@@ -25,15 +25,13 @@ enum class ColliderType{
 class Collider2D : public IComponent
 {
 public:
-	unsigned _type;
-	unsigned _tag;
-	unsigned _layer;
+	int _type;
+	int _tag;
+	int _layer;
 	bool _trigger;
 
 
 	bool _attachedRigidboy;
-	bool _componentEnable;
-
 public:
 	Collider2D();
 	Collider2D(const Collider2D& rhs) = default;

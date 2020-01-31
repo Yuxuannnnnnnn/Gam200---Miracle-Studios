@@ -167,6 +167,11 @@ void InputSystem::Update(Window& window)
 	//int ret = GetKeyboardState(_currBuffer);
 	//(void)ret;
 
+#ifdef LEVELEDITOR
+	if (!MyImguiSystem._editorMode)
+#endif // LEVELEDITOR
+		ButtonUpdate();
+
 	InterruptCheck();
 }
 
@@ -234,4 +239,62 @@ void InputSystem::InterruptCheck()
 	//{
 	//	MySceneManager.ChangeScene("Quit");
 	//}
+}
+
+bool InputSystem::ButtonTrigger(size_t buttonUId)
+{
+	if (_buttonTriggered.find(buttonUId) != _buttonTriggered.end())
+		return true;
+
+	return false;
+}
+
+void InputSystem::ButtonUpdate()
+{
+	bool mouseDown = KeyDown(MOUSE_LBUTTON);
+	bool mouseHold = KeyHold(MOUSE_LBUTTON);
+	bool mouseRelease = KeyRelease(MOUSE_LBUTTON);
+
+	_buttonTriggered.clear();
+
+	for (auto& it : GetComponentMap(Button))
+	{
+		ButtonComponent* obj = (ButtonComponent*)it.second;
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.first];
+		if (!obj || !transform || !obj->GetParentPtr()->GetEnable() || !obj->GetEnable())
+			continue;
+
+		BBox buttonBox = BBox{ transform->GetPos(),transform->GetScale() };
+
+		if (Collision::BBoxVsPoint(buttonBox, GetMouseScreenPos()))
+		{
+			if (mouseDown && !mouseRelease) // obj being pressed on
+			{
+				obj->_pressedAtStart = true;
+				obj->ButtonPressedState();
+				continue;
+			}
+			
+			if (mouseHold) // continue pressing down
+			{
+				obj->ButtonPressedState();
+				continue;
+			}
+			
+			if (mouseRelease && obj->_pressedAtStart)
+			{
+				obj->_pressedAtStart = false;
+				_buttonTriggered.insert(obj->GetButtonUId());
+			}
+			
+			obj->ButtonHoveredState();
+		}
+		else
+		{
+			if(mouseRelease)
+				obj->_pressedAtStart = false;
+
+			obj->ButtonNormalState();
+		}
+	}
 }

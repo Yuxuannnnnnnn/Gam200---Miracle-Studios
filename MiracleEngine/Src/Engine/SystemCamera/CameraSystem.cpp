@@ -6,8 +6,11 @@
 
 CameraSystem::CameraSystem() : _mainCameraUId{ 0 }, _globalCameraEditorPos{ 0.f, 0.f, 1.f }, _cameraEditorPos{ 0.f, 0.f, 1.f }, _cameraEditorzoom{ 1.f }
 {
-	_tempmainCameraPos = Vec3{ 0.f, 0.f, 1.f };
-	_tempmainCameraZoom = 1.f;
+}
+
+void CameraSystem::Init()
+{
+	FindMainCamera();
 }
 
 void CameraSystem::Update()
@@ -45,18 +48,9 @@ void CameraSystem::Update()
 
 		}
 	}
-#else
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Z))
-	{
-		_xPos = _xPos + 1;
-	}
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(_xPos, 0, 1));
-	//glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transformComponent->GetRotate(), glm::vec3(0, 0, 1));
-	_camMatrix = translate;
-#endif
-
 
 	_cameraEditorPos = _globalCameraEditorPos * _cameraEditorzoom;
+#endif
 }
 
 void CameraSystem::SetPos_CamEditor(const size_t& in)
@@ -67,7 +61,7 @@ void CameraSystem::SetPos_CamEditor(const size_t& in)
 
 		if (transform)
 		{
-			_globalCameraEditorPos = Vec3{ -transform->GetPos()._x, -transform->GetPos()._y, -transform->GetPos()._z };
+			_globalCameraEditorPos = Vec3{ -transform->GetPos()._x, -transform->GetPos()._y, 1.f };
 			_cameraEditorzoom = 1.f;
 		}
 	}
@@ -116,12 +110,34 @@ float* CameraSystem::GetCamMatrix()
 	}
 	else
 	{
-		Mtx44 translate = Mtx44::CreateTranslation(Vec3{ 0.f,0.f,1.f });
-		_cameraMatrix = translate * Mtx44::CreateRotationZ(0) * Mtx44::CreateScale(Vec3{ 1.f ,1.f ,1.f });
-		// GAMEPLAY CAMERA MATRIX DO HERE
+		CameraComponent* camera = (CameraComponent*)GetComponentMap(Camera)[_mainCameraUId];
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[_mainCameraUId];
+
+		if (!camera || !transform)
+		{
+			Mtx44 translate = Mtx44::CreateTranslation(Vec3{ 0.f,0.f,1.f });
+			_cameraMatrix = translate * Mtx44::CreateRotationZ(0) * Mtx44::CreateScale(Vec3{ 1.f ,1.f ,1.f });
+		}
+		else
+		{
+			Mtx44 translate = Mtx44::CreateTranslation(Vec3{ -transform->GetPos()._x,-transform->GetPos()._y,1.f });
+			_cameraMatrix = translate * Mtx44::CreateRotationZ(0) * Mtx44::CreateScale(Vec3{ camera->_cameraZoom ,camera->_cameraZoom ,1.f });
+		}
 	}
 #else
-	// GAMEPLAY CAMERA MATRIX DO HERE
+	CameraComponent* camera = (CameraComponent*)GetComponentMap(Camera)[_mainCameraUId];
+	TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[_mainCameraUId];
+
+	if (!camera || !transform)
+	{
+		Mtx44 translate = Mtx44::CreateTranslation(Vec3{ 0.f,0.f,1.f });
+		_cameraMatrix = translate * Mtx44::CreateRotationZ(0) * Mtx44::CreateScale(Vec3{ 1.f ,1.f ,1.f });
+	}
+	else
+	{
+		Mtx44 translate = Mtx44::CreateTranslation(Vec3{ -transform->GetPos()._x,-transform->GetPos()._y,1.f });
+		_cameraMatrix = translate * Mtx44::CreateRotationZ(0) * Mtx44::CreateScale(Vec3{ camera->_cameraZoom ,camera->_cameraZoom ,1.f });
+	}
 #endif
 	/*
 	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(cameraEditorPos._x, cameraEditorPos._y, 1.f));
@@ -132,7 +148,7 @@ float* CameraSystem::GetCamMatrix()
 	return _cameraMatrix.m;
 }
 
-Vector3& CameraSystem::GetCameraPos()
+Vector3 CameraSystem::GetCameraPos()
 {
 #ifdef LEVELEDITOR
 
@@ -142,15 +158,24 @@ Vector3& CameraSystem::GetCameraPos()
 	}
 	else
 	{
-		return _tempmainCameraPos;
-		// RETERN MAIN CAMERA POSITION
+		TransformComponent* obj = (TransformComponent*)GetComponentMap(Transform)[_mainCameraUId];
+
+		if (!obj)
+			return Vec3{0.f,0.f,1.f};
+
+		return Vec3{-obj->GetPos()._x, -obj->GetPos()._y, 1.f};
 	}
 #else
-	// RETERN MAIN CAMERA POSITION
+	TransformComponent* obj = (TransformComponent*)GetComponentMap(Transform)[_mainCameraUId];
+
+	if (!obj)
+		return Vec3{ 0.f,0.f,1.f };
+
+	return obj->GetPos();
 #endif
 }
 
-float& CameraSystem::GetCameraZoom()
+float CameraSystem::GetCameraZoom()
 {
 #ifdef LEVELEDITOR
 	if (MyImguiSystem._editorMode)
@@ -159,10 +184,62 @@ float& CameraSystem::GetCameraZoom()
 	}
 	else
 	{
-		return _tempmainCameraZoom;
-		// GAMEPLAY CAMERA MATRIX DO HERE
+		CameraComponent* obj = (CameraComponent*)GetComponentMap(Camera)[_mainCameraUId];
+
+		if (!obj)
+			return 1.f;
+
+		return obj->_cameraZoom;
 	}
 #else
-	// GAMEPLAY CAMERA MATRIX DO HERE
+	CameraComponent* obj = (CameraComponent*)GetComponentMap(Camera)[_mainCameraUId];
+
+	if (!obj)
+		return 1.f;
+
+	return obj->_cameraZoom;
 #endif
+}
+
+void CameraSystem::SetMainCamera(size_t mainCameraUId)
+{
+	for (auto& it : GetComponentMap(Camera))
+	{
+		if (it.first == mainCameraUId)
+		{
+			_mainCameraUId = mainCameraUId;
+			continue;
+		}
+
+		CameraComponent* obj = (CameraComponent*)it.second;
+		if(obj)
+			obj->SetMainCamera(false);
+	}
+}
+
+size_t CameraSystem::GetMainCameraUId()
+{
+	return _mainCameraUId;
+}
+
+const Vector3& CameraSystem::GetMainCameraPos() const
+{
+	TransformComponent* obj = (TransformComponent*)GetComponentMap(Transform)[_mainCameraUId];
+
+	if (!obj)
+		return Vec3{};
+
+	return obj->GetPos();
+}
+
+void CameraSystem::FindMainCamera()
+{
+	for (auto& it : GetComponentMap(Camera))
+	{
+		if (((CameraComponent*)it.second)->isMainCamera())
+		{
+			_mainCameraUId = it.first;
+			return;
+		}
+	}
 }

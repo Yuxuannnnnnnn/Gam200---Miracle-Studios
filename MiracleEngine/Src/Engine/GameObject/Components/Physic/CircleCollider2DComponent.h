@@ -10,10 +10,13 @@
 #define _CIRCLE_COLLIDER_2D_H
 
 #include "ICollider2D.h"
+#include "SystemPhysics/BoundingCircle.h"
 
 class CircleCollider2DComponent : public Collider2D
 {
 public:
+	BCircle _data;
+
 	Vector3	mCenPos;
 	float	mRadius;
 
@@ -32,7 +35,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("CircleCollider2D", rapidjson::Value(true), allocator);
+		prototypeDoc.AddMember("CircleCollider2DComponent", rapidjson::Value(true), allocator);
 
 		Collider2D::DeSerialiseComponent(prototypeDoc, allocator);
 	}
@@ -67,7 +70,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("BoxCollider2D", rapidjson::Value(true), allocator);
+			value.AddMember("CircleCollider2DComponent", rapidjson::Value(true), allocator);
 
 			if (!type.IsNull())
 			{

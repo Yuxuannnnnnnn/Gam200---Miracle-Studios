@@ -26,8 +26,24 @@ public:
 	{
 		rapidjson::Value value;
 
+		value.SetBool(true);
+		prototypeDoc.AddMember("UIComponent", rapidjson::Value(true));
+
+
 		value.SetString(rapidjson::StringRef(_fileName.c_str()));
 		prototypeDoc.AddMember("UI.FileName", value);
+	}
+
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	{
+		rapidjson::Value value;
+
+		value.SetBool(true);
+		prototypeDoc.AddMember("UIComponent", rapidjson::Value(true), allocator);
+
+
+		value.SetString(rapidjson::StringRef(_fileName.c_str()));
+		prototypeDoc.AddMember("UI.FileName", value, allocator);
 	}
 
 
@@ -60,10 +76,6 @@ public:
 	virtual void Inspect() override
 	{
 		IComponent::Inspect();
-	}
-
-	void DeserialiseComponentSceneFile(IComponent* protoCom, DeSerialiser& SceneFile) { 
-	
 	}
 
 

@@ -108,6 +108,14 @@
     <ClCompile Include="Src\Engine\Editor\PopUpBoxImguiWindow.cpp" />
     <ClCompile Include="Src\Engine\Tools\EventHandler\IMouseHandler.cpp" />
     <ClCompile Include="Src\Script\Enemy.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingEdge.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\BoundingLine.cpp" />
+    <ClCompile Include="Src\Script\Bullet.cpp" />
+    <ClCompile Include="Src\Script\Turret.cpp" />
+    <ClCompile Include="Src\Engine\Editor\ImguiFunctions.cpp" />
+    <ClCompile Include="Src\Script\Explosion.cpp" />
+    <ClCompile Include="Src\Script\Spawner.cpp" />
+    <ClCompile Include="Src\Script\ButtonController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -534,6 +542,15 @@
     <ClInclude Include="Src\Engine\SystemCamera\CameraSystem.h" />
     <ClInclude Include="Src\Engine\Editor\PopUpBoxImguiWindow.h" />
     <ClInclude Include="Src\Script\Enemy.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\CollisionTagIDs.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingEdge.h" />
+    <ClInclude Include="Src\Engine\SystemPhysics\BoundingLine.h" />
+    <ClInclude Include="Src\Script\Turret.h" />
+    <ClInclude Include="Src\Script\Bullet.h" />
+    <ClInclude Include="Src\Engine\Editor\ImguiFunctions.h" />
+    <ClInclude Include="Src\Script\Spawner.h" />
+    <ClInclude Include="Src\Script\Explosion.h" />
+    <ClInclude Include="Src\Script\ButtonController.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

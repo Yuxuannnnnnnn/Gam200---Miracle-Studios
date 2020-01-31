@@ -1,12 +1,19 @@
 #include "GraphicsSystem.h"
 #include "PrecompiledHeaders.h"
+#include <algorithm>
+
+bool compare(RenderObject a, RenderObject b)
+{
+	return a._zvalue < b._zvalue;
+}
 
 void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
 
-	// Render gameobject in world space
+	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
+	// Render gameobject in world space
 	for (const auto& renderobj : _renderObjects)
 	{
 		renderobj._pShader->Select();
@@ -19,21 +26,22 @@ void GraphicsSystem::Update(double dt)
 		}
 
 		renderobj._pMesh->Select();
-
-		float u0 = renderobj._uv.u0;
-		float v0 = renderobj._uv.v0;
-		float u1 = renderobj._uv.u1;
-		float v1 = renderobj._uv.v1;
-		GLfloat _positions[] =
+		//if (renderobj._isAnimated)
 		{
-			-0.5f, -0.5f, 0.0f, u0, v0, // 0     // bottom left
-			 0.5f, -0.5f, 0.0f, u1, v0, // 1     // bottom right
-			 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
-			-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
-		};
+			float u0 = renderobj._uv.u0;
+			float v0 = renderobj._uv.v0;
+			float u1 = renderobj._uv.u1;
+			float v1 = renderobj._uv.v1;
+			GLfloat _positions[] =
+			{
+				-0.5f, -0.5f, 0.0f, u0, v0, // 0     // bottom left
+				 0.5f, -0.5f, 0.0f, u1, v0, // 1     // bottom right
+				 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
+				-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
+			};
 
-		renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
-
+			renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
+		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
@@ -42,7 +50,12 @@ void GraphicsSystem::Update(double dt)
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
+	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
+	
 	EndScene();
+
+	//DebugRenderer::GetInstance().DrawLine(-10.0f, -10.0f, -100.0f, -100.0f);
+
 }
 
 void GraphicsSystem::BeginScene()
@@ -95,8 +108,10 @@ void GraphicsSystem::UpdateRenderObjectList()
 {
 
 	// update 
-	BBox viewBox = BBox::CreateBBoxFromData(Vec3{ -MyCameraSystem.GetCameraPos()._x,-MyCameraSystem.GetCameraPos()._y,1.f },
-		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() / MyCameraSystem.GetCameraZoom() ,MyWindowsSystem.getWindow().GetWindowHeight() / MyCameraSystem.GetCameraZoom() },
+	Vec3 CameraPos = MyCameraSystem.GetCameraPos();
+	float cameraZoom = MyCameraSystem.GetCameraZoom();
+	BPolygon viewBox = BPolygon::CreateBoxPolygon(Vec3{ -CameraPos._x,-CameraPos._y,1.f },
+		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() / cameraZoom ,MyWindowsSystem.getWindow().GetWindowHeight() / cameraZoom },
 		0.f);
 
 	for (auto& graphicCompPair : GetComponentMap(Graphic))
@@ -104,10 +119,25 @@ void GraphicsSystem::UpdateRenderObjectList()
 		if (graphicCompPair.second->GetParentPtr()->GetDestory() || !graphicCompPair.second->GetEnable())
 			continue;
 
+		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[graphicCompPair.first];
+
+		if (!transformComp)
+			continue;
+
+		BPolygon viewBox2 = BPolygon::CreateBoxPolygon(Vec3{ transformComp->GetPos()._x,transformComp->GetPos()._y,1.f }, 
+			Vec3{ transformComp->GetScale()._x,transformComp->GetScale()._y },
+			transformComp->GetRotate());
+
+		if (!Collision::CollisionCheck(viewBox,viewBox2))
+			continue;
+
 		GraphicComponent* graphicComp = (GraphicComponent*)graphicCompPair.second;
+		TransformComponent* transComp = (TransformComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Transform);
 
 		RenderObject renderobject;
 
+		renderobject._zvalue = transComp->GetPos().GetZ();
+		renderobject._isAnimated = false;
 		// check for if obj have animation
 
 		if (graphicComp->GetSibilingComponent(ComponentId::CT_Animation))
@@ -116,7 +146,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 			// get animation from resource manager
 			Animation* currAnim = MyResourceManager.GetAnimationResource(anim->GetCurrAnim());
-			
+			renderobject._isAnimated = true;
 			if (currAnim)
 			{
 				renderobject._uv.u0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u0;
@@ -136,20 +166,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		}
 
-
-		size_t objID = graphicCompPair.first;	//Get GameObjectID
-		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[objID];
-
-		if (transformComp)
-		{
-			if (!Collision::DefaultColliderDataCheck(viewBox,
-				BBox::CreateBBoxFromData(transformComp->GetPos(), transformComp->GetScale(), transformComp->GetRotate())))
-				continue;
-		}
-
-
-
-		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
+		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix()).m);
 
 
 		renderobject._pMesh = &_quadMesh;

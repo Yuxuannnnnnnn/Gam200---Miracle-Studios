@@ -5,15 +5,60 @@
 // For new collider box check
 namespace Collision {
 
-	bool DefaultColliderDataCheck(const BBox& boxA, const BBox& boxB)
+	bool CollisionCheck(const BCircle& circle, const Vector3& point)
+	{
+		return BCircleVsPoint(circle, point);
+	}
+
+	bool CollisionCheck(const BBox& box, const Vector3& point)
+	{
+		if (!CollisionCheck(box._BC, point))
+			return false;
+
+		return BBoxVsPoint(box, point);
+	}
+
+	bool CollisionCheck(const BPolygon& polygon, const Vector3& point)
+	{
+		if (!CollisionCheck(polygon._AABB, point))
+			return false;
+
+		if (polygon._obbBox)
+			return BOBBVsPoint(polygon, point);
+		else
+			return BPolygonVsPoint(polygon, point);
+
+		return true;
+	}
+
+	bool CollisionCheck(const BCircle& circleA, const BCircle& circleB)
+	{
+		return BCircleVsBCircle(circleA, circleB);
+	}
+
+
+	bool CollisionCheck(const BBox& boxA, const BBox& boxB)
 	{
 		//first check circle collision
-		if (!BCircleVsBCircle(boxA._BC, boxB._BC))
+		if (!CollisionCheck(boxA._BC, boxB._BC))
+			return false;
+
+		if (!BCircleVsBBox(boxA._BC, boxB))
 			return false;
 
 		//then continue the Box collision check (SAT)
-		if (!BBoxVsBBox(boxA, boxB))
+		return BBoxVsBBox(boxA, boxB);
+	}
+
+	bool CollisionCheck(const BPolygon& polygonA, const BPolygon& polygonB)
+	{
+		if (!CollisionCheck(polygonA._AABB, polygonB._AABB))
 			return false;
+
+		if (polygonA._obbBox && polygonB._obbBox)
+			return BOBBVsBOBB(polygonA, polygonB);
+		else
+			return BPolygonVsBPolygon(polygonA, polygonB);
 
 		return true;
 	}
@@ -23,26 +68,60 @@ namespace Collision {
 		return (circleA._center.Distance(circleB._center) <= (circleA._radius + circleB._radius));
 	}
 
-	bool BBoxVsBBox(const BBox& boxA, const BBox& boxB)
+	bool BCircleVsPoint(const BCircle& circle, const Vector3& point)
 	{
-		return BBoxOverlaps(boxA, boxB) && BBoxOverlaps(boxB, boxA);
+		return (point.Distance(circle._center) <= circle._radius);
 	}
 
 	bool BBoxOverlaps(const BBox& boxA, const BBox& boxB)
 	{
+		if (boxA._maxPoint._x < boxB._minPoint._x || boxA._maxPoint._y < boxB._minPoint._y ||
+			boxA._minPoint._x > boxB._maxPoint._x || boxA._minPoint._y > boxB._maxPoint._y)
+			return false;
+
+		return true;
+	}
+
+	bool BBoxVsBBox(const BBox& boxA, const BBox& boxB)
+	{
+		return BBoxOverlaps(boxA, boxB);// && BBoxOverlaps(boxB, boxA);
+	}
+
+	bool BBoxVsPoint(const BBox& box, const Vector3& point)
+	{
+		return (point._x > box._minPoint._x && point._x  < box._maxPoint._x &&
+			point._y  > box._minPoint._y && point._y < box._maxPoint._y);
+	}
+
+
+	bool BPolygonOverlaps(const BPolygon& polygonA, const BPolygon& polygonB)
+	{
+		return false;
+	}
+
+	bool BPolygonVsBPolygon(const BPolygon& polygonA, const BPolygon& polygonB)
+	{
+		return BPolygonVsBPolygon(polygonA, polygonB) && BPolygonVsBPolygon(polygonB, polygonA);
+	}
+
+	bool BOBBOverlaps(const BPolygon& obbA, const BPolygon& obbB)
+	{
 		for (int a = 0; a < 2; ++a)
 		{
-			float det = boxA._normals[a].Dot(boxA._normals[a]);
-			Vector3 vec = boxB._origin - boxA._origin;
-			float t = vec.Dot(boxA._normals[a]) / det;
+			Vector3 normal = obbA._ptrEdgeArray[a]._normalVec * obbA._ptrEdgeArray[a]._orthoDistance;
+			float det = normal.Dot(normal);
+			Vector3 vec = obbB._AABB._BC._center - obbA._AABB._BC._center;
+			float t = vec.Dot(normal) / det;
 
 			// Find the extent of boxB on boxA's axis x
 			float tMin = t;
 			float tMax = t;
 
-			for (int c = 1; c < 4; ++c) {
-				vec = boxB._corners[c] - boxA._origin;
-				t = vec.Dot(boxA._normals[a]) / det;
+			for (int c = 0; c < 4; ++c) {
+				Vector3 vec2 = obbB._pointArray[c];
+
+				vec = vec2 - obbA._AABB._BC._center;
+				t = vec.Dot(normal) / det;
 
 				if (t < tMin) {
 					tMin = t;
@@ -65,14 +144,25 @@ namespace Collision {
 		return true;
 	}
 
-	bool BBoxVsPoint(const BBox& box, const Vector3& point)
+	bool BOBBVsBOBB(const BPolygon& obbA, const BPolygon& obbB)
 	{
-		Vector3 vec = point - box._origin;
+		return BOBBOverlaps(obbA, obbB) && BOBBOverlaps(obbB, obbA);
+	}
+
+	bool BPolygonVsPoint(const BPolygon& polygon, const Vector3& point)
+	{
+		return false;
+	}
+
+	bool BOBBVsPoint(const BPolygon& obb, const Vector3& point)
+	{
+		Vector3 vec = point - obb._AABB._BC._center;
 
 		for (int a = 0; a < 2; ++a)
 		{
-			float det = box._normals[a].Dot(box._normals[a]);
-			float t = vec.Dot(box._normals[a]) / det;
+			Vector3 normal = obb._ptrEdgeArray[a]._normalVec * obb._ptrEdgeArray[a]._orthoDistance;
+			float det = normal.Dot(normal);
+			float t = vec.Dot(normal) / det;
 
 
 			// See if [tMin, tMax] intersects [-1, 1]
@@ -86,7 +176,19 @@ namespace Collision {
 		return true;
 	}
 
-	//bool BPolygonVsBPolygon(const BPolygon& polygonA, const BPolygon& polygonB);
+	bool BCircleVsBBox(const BCircle& circle, const BBox& box)
+	{
+		if (BBoxVsPoint(box, circle._center))
+			return true;
+
+		if (box._minPoint.Distance(Vec3{ box._minPoint._x,box._maxPoint._y,1.f }) <= circle._radius ||
+			box._maxPoint.Distance(Vec3{ box._minPoint._x,box._maxPoint._y,1.f }) <= circle._radius ||
+			box._maxPoint.Distance(Vec3{ box._maxPoint._x,box._minPoint._y,1.f }) <= circle._radius ||
+			box._minPoint.Distance(Vec3{ box._maxPoint._x,box._minPoint._y,1.f }) <= circle._radius)
+			return true;
+
+		return false;
+	}
 
 };
 
@@ -393,12 +495,16 @@ void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
 				if (relVel.Dot(boxB->mAxis[0]) > 0)
 				{
 					transformA->GetPos() = transformB->GetPos() + boxB->mAxis[0] * (circleA->mRadius + transformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
-					rigidbodyA->_velocity = boxB->mAxis[0] * circleA->mRadius;
+					
+					if(rigidbodyA)
+						rigidbodyA->_velocity = boxB->mAxis[0] * circleA->mRadius;
 				}
 				else
 				{
 					transformA->GetPos() = transformB->GetPos() + -boxB->mAxis[0] * (circleA->mRadius + transformB->GetScale()._x * 0.5f) + Vector3(0, diff * relVel._y);
-					rigidbodyA->_velocity = -boxB->mAxis[0] * circleA->mRadius;
+
+					if (rigidbodyA)
+						rigidbodyA->_velocity = -boxB->mAxis[0] * circleA->mRadius;
 				}
 			}
 			else
@@ -408,11 +514,15 @@ void CIRCLE_BOX_CollisionCR(Collider2D* colliderA,
 				if (relVel.Dot(boxB->mAxis[1]) > 0)
 				{
 					transformA->GetPos() = transformB->GetPos() + boxB->mAxis[1] * (circleA->mRadius + transformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
+
+					if (rigidbodyA)
 					rigidbodyA->_velocity = boxB->mAxis[1] * circleA->mRadius;
 				}
 				else
 				{
 					transformA->GetPos() = transformB->GetPos() + -boxB->mAxis[1] * (circleA->mRadius + transformB->GetScale()._y * 0.5f) + Vector3(diff * relVel._x);
+
+					if (rigidbodyA)
 					rigidbodyA->_velocity = -boxB->mAxis[1] * circleA->mRadius;
 				}
 			}

@@ -1,8 +1,5 @@
 #pragma once
-
 #include "Tools/MathLib/Math.h"
-
-extern class BoundingPolygon;
 
 typedef struct BoundingCircle
 {
@@ -10,11 +7,10 @@ typedef struct BoundingCircle
 	float _radius;
 
 	BoundingCircle();
-	BoundingCircle(Vector3 center, float radius);
-
-
-	static BoundingCircle CreateBCircleFromBBox(const BoundingPolygon& box);
-
-	//static BoundingCircle CreateBCircleFromBPolygen(const BoundingPolygon& polygon);
-
+	// create from data
+	BoundingCircle(const Vector3& center, const float& radius);
+	//create from box
+	BoundingCircle(const Vector3& center, const Vector3& scale);
+	//create from polygon
+	BoundingCircle(Vector3* points, int numPoints);
 } BCircle;

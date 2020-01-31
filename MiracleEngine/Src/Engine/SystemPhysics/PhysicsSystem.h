@@ -41,10 +41,6 @@ public:
 	void UpdateStaticCollision(double dt);
 	int CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir = 0, unsigned checked = 0);
 	void CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt);
-
-
-	void ButtonUpdate();
-	void ButtonDraw();
 };
 
 #endif

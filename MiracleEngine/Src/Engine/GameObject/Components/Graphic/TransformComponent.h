@@ -14,19 +14,22 @@ private:
 	float _localRotationAngle;
 
 	Matrix4x4 _model;
-
 public:
+	int _layer;
+
 	TransformComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 
-	TransformComponent() 
-		:_pos{ Vector3{ 0, 0, 1 } }, 
+	TransformComponent()
+		:_pos{ Vector3{ 0, 0, 1 } },
 		_scale{ Vector3{ 100, 100, 1 } },
-		_rotationAngle{ 0.0f }
+		_rotationAngle{ 0.0f },
+		_layer{ 1 }
 	{
 	}
 
 	TransformComponent(const Vector3& pos, const Vector3& scale, const float& angle) :
-		_pos{ pos }, _scale{ scale }, _rotationAngle{ angle }
+		_pos{ pos }, _scale{ scale }, _rotationAngle{ angle },
+		_layer{ 1 }
 	{
 
 	}
@@ -38,18 +41,33 @@ public:
 		if (document.HasMember("Position" ) && document["Position" ].IsArray())	//Checks if the variable exists in .Json file
 		{
 			if (document["Position"][0].IsFloat() && document["Position" ][1].IsFloat())	//Check the array values
-				_pos = Vector3{ document[ "Position"][0].GetFloat(), document[ "Position" ][1].GetFloat(), 1 };
+				_pos = Vector3{ document[ "Position"][0].GetFloat(), document[ "Position" ][1].GetFloat(), 1};
+
+			if (document["Position"].Size() == 3)
+			{
+				_pos.SetZ(document["Position"][2].GetFloat());
+			}
 		}
 
 		if (document.HasMember( "Scale") && document["Scale"].IsArray())
 		{
 			if (document["Scale"][0].IsFloat() && document["Scale"][1].IsFloat())	//Check the array values
 				_scale = Vector3{ document["Scale"][0].GetFloat(), document["Scale"][1].GetFloat(), 1 };
+
+			if (document["Scale"].Size() == 3)
+			{
+				_scale.SetZ(document["Scale"][2].GetFloat());
+			}
 		}
 
 		if (document.HasMember("Rotate") && document["Rotate"].IsFloat())	//Checks if the variable exists in .Json file
 		{
 			_rotationAngle = (document["Rotate"].GetFloat());
+		}
+
+		if (document.HasMember("Layer") && document["Layer"].IsInt())	//Checks if the variable exists in .Json file
+		{
+			_layer = (document["Layer"].GetInt());
 		}
 	}
 
@@ -63,15 +81,21 @@ public:
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_pos.GetX()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_pos.GetY()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_pos.GetZ()).Move(), prototypeDoc.Allocator());
 		prototypeDoc.AddMember("Position", value);
 
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_scale.GetZ()).Move(), prototypeDoc.Allocator());
+
 		prototypeDoc.AddMember("Scale", value);
 
 		value.SetFloat(_rotationAngle);
 		prototypeDoc.AddMember("Rotate", value);
+
+		value.SetInt(_layer);
+		prototypeDoc.AddMember("Layer", value);
 	}
 
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -84,15 +108,20 @@ public:
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_pos.GetX()).Move(), allocator);
 		value.PushBack(rapidjson::Value(_pos.GetY()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_pos.GetZ()).Move(), allocator);
 		prototypeDoc.AddMember("Position", value, allocator);
 
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), allocator);
 		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_scale.GetZ()).Move(), allocator);
 		prototypeDoc.AddMember("Scale", value, allocator);
 
 		value.SetFloat(_rotationAngle);
 		prototypeDoc.AddMember("Rotate", value, allocator);
+
+		value.SetInt(_layer);
+		prototypeDoc.AddMember("Layer", value, allocator);
 	}
 
 	virtual void Inspect() override;
@@ -104,6 +133,7 @@ public:
 		rapidjson::Value position;
 		rapidjson::Value scale;
 		rapidjson::Value rotate;
+		rapidjson::Value layer;
 
 		if (protoTransformCom->_pos != _pos)
 		{
@@ -128,6 +158,12 @@ public:
 			addComponentIntoSceneFile = true;
 			rotate.SetFloat(_rotationAngle);
 		}
+
+		if (protoTransformCom->_layer != _layer)
+		{
+			addComponentIntoSceneFile = true;
+			layer.SetInt(_layer);
+		}
 		
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
@@ -148,6 +184,11 @@ public:
 			{
 				value.AddMember("Rotate", rotate, allocator);
 			}
+
+			if (!layer.IsNull())
+			{
+				value.AddMember("Layer", layer, allocator);
+			}
 		}
 	}
 
@@ -163,8 +204,10 @@ public:
 	float& GetRotate();
 	void SetRotate(const float& in);
 
-	float* GetModel();
+	float* GetModel(); // for gzmo
 	void SetModel(const float* in);
+
+	float* GetMatrix(); // for graphic
 
 	TransformComponent* CloneComponent() { return new TransformComponent(*this); }
 

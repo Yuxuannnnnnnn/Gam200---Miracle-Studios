@@ -12,7 +12,7 @@
   "G.TypeId": 0,
   "G.FileName": "Rocket_icon_glow.png",
 
-  "CircleColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 9,
   "ColliderTrigger": true

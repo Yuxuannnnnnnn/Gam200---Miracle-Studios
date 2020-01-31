@@ -12,12 +12,12 @@
   "G.TypeId": 0,
   "G.FileName": "EnemyAttack.png",
 
-  "RigidBodyComponent": true,
+  "RigidBody2DComponent": true,
   "Mass": 5.0,
   "Friction": 0.1,
   "Static": false,
 
-  "CircleColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 3,
   "ColliderTrigger": false,
@@ -26,13 +26,17 @@
   "A.TypeId": 0,
   "A.FileName": "audio_enemy.ogg",
 
+  "LogicComponent": true,
   "Script2Id": [ "Enemy" ],
   "Script2Data": [
     {
-      "Health": 10,
+      "Health": 1,
       "EnemyType": 1,
       "StunDuration": 0.5,
-      "AttackRange": 10.0
+      "AttackRange": 0.0,
+      "AttackMelee": 4.0,
+      "MoveSpeed": 3.0,
+      "ChaseSpeed": 10.0
     }
   ]
 }

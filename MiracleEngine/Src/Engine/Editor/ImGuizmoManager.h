@@ -23,7 +23,6 @@ public:
 	~ImGuizmoManager() {}
 
 	void Update();
-	void Draw();
 
 	void SetPickObjectUId(size_t uId);
 

@@ -60,7 +60,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("RigidBodyComponent", rapidjson::Value(true));
+		prototypeDoc.AddMember("RigidBody2DComponent", rapidjson::Value(true));
 
 		value.SetFloat(_mass);
 		prototypeDoc.AddMember("Mass", value);
@@ -77,7 +77,7 @@ public:
 		rapidjson::Value value;
 
 		value.SetBool(true);
-		prototypeDoc.AddMember("RigidBodyComponent", rapidjson::Value(true), allocator);
+		prototypeDoc.AddMember("RigidBody2DComponent", rapidjson::Value(true), allocator);
 
 		value.SetFloat(_mass);
 		prototypeDoc.AddMember("Mass", value, allocator);

@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include "Tools/Resource/ResourceSystem.h"
+#include "Editor/ImguiFunctions.h"
 
 
 
@@ -37,6 +38,7 @@ private:
 
 
 //For editor Variables
+
 	typedef float timeDelay;
 	typedef std::string AnimationName;
 	typedef std::string AnimationFile;
@@ -44,6 +46,7 @@ private:
 
 	std::map<AnimationName, AnimationFile> animationFileNameList;
 	std::map<AnimationName, timeDelay> _animations;	//Each animation has its own timedelay
+
 	std::string _startingAnim;
 
 	// let me know if got problem if vector change to map, i, e animation doesnt run.
@@ -137,80 +140,62 @@ public:
 		IComponent::Inspect();
 
 		////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
+		
+		ImGui::Spacing();
+		/*
+		static auto& animationList = MyResourceSystem.GetAnimationMap();
+		std::vector<const char*> list(animationList.size());
+		//list[0] = "Choose a Texture ";
 
-		//ImGui::Spacing();
-		//
-		//static auto& AnimationList = MyResourceSystem.GetAnimationMap();
-		//
-		//int animationCount = 1;
-		//static std::vector<int> select(AnimationList.size(), 0);
-		//
-
-		//if (ImGui::Button("Add Animation"))
-		//{
-		//	_animations.insert(std::pair<std::string, timeDelay>(" ", 0.0f));
-		//	select.push_back(0);
-		//}
+		int i = 0;
+		int select = 0;
+		for (auto animationGraphicPair = animationList.begin(); animationGraphicPair != animationList.end(); animationGraphicPair++)
+		{
+			const char* ptr = animationGraphicPair->first.c_str();
 
 
-
-		//
-		//for (auto currshader : _current_ShaderList)
-		//{
-		//	ImGui::Spacing();
-		//
-		//	auto shader = _shaderList.begin();
-		//
-		//	std::vector<const char*> list(ShaderList.size() + 1);
-		//	list[0] = " Choose a shader ";
-		//
-		//	int i = 1;
-		//	//static int select = 0;
-		//	for (auto shaderPair = ShaderList.begin(); shaderPair != ShaderList.end(); shaderPair++)
-		//	{
-		//		const char* ptr = shaderPair->first.c_str();
-		//		list[i] = ptr;
-		//		if (shader != _shaderList.end())
-		//		{
-		//			if (strncmp(shaderPair->first.c_str(), shader->c_str(), 20) && currshader != nullptr)
-		//			{
-		//				select[shaderCount - 1] = i;
-		//			}
-		//		}
-		//		i++;
-		//	}
-		//	//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
-		//	currshader = list[select[shaderCount - 1]];            // Here our selection is a single pointer stored outside the object.
-		//
-		//	std::string shaderCountString = " Shader " + std::to_string(shaderCount);
-		//	if (ImGui::BeginCombo(shaderCountString.c_str(), currshader, 0)) // The second parameter is the label previewed before opening the combo.
-		//	{
-		//		for (int n = 0; n < list.size(); n++)
-		//		{
-		//			bool is_selected = (currshader == list[n]);
-		//			if (ImGui::Selectable(list[n], is_selected))
-		//			{
-		//				currshader = list[n];
-		//				select[shaderCount - 1] = n;
-		//			}
-		//
-		//			//if (is_selected);
-		//			//ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
-		//
-		//		}
-		//		ImGui::EndCombo();
-		//	}
-		//	if (shader != _shaderList.end())
-		//	{
-		//		shader++;
-		//	}
-		//	shaderCount++;
-		//}
+			list[i] = ptr;
+			if (!strncmp(ptr, _fileName.c_str(), 20))
+			{
+				select = i;
+			}
 
 
-		////Inspect starting animation - from the list of animations
+			i++;
+		}
+
+		
+		static std::vector<ImGuiFunctions::ComboFilterState> s;
+
+		static std::vector<char*> buf;
 
 
+		for (int i = 0; i <= _animations.size(); i++)
+		{
+			if (s.size() == i)
+			{
+				s.push_back(ImGuiFunctions::ComboFilterState{ select, 0 });
+			}
+			if (buf.size() == i)
+			{
+				buf.push_back(new char[128]);
+			}
+
+			if (animation.empty())
+			{
+				strncpy(buf, "type text here...", 18);
+			}
+			else
+			{
+				strncpy(buf, _fileName.c_str(), _fileName.size());
+			}
+
+			if (ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName))
+			{
+				//puts(buf);
+			}
+		}
+		*/
 
 
 		////ImGui::SetCursorPos(ImVec2((MyWindowsSystem.getWindow().GetWindowWidth() - (width / scale)) * 0.5f, (MyWindowsSystem.getWindow().GetWindowHeight() - (height / scale)) * 0.5f));
@@ -373,4 +358,16 @@ public:
 
 	AnimationComponent* CloneComponent() { return new AnimationComponent(*this); }
 };
+
+
+
+
+
+
+
+
+
+
+
+
 

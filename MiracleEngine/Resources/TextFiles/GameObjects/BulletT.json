@@ -13,12 +13,12 @@
   "ShaderType": "",
   "RenderLayer": 1,
 
-  "RigidBodyComponent": true,
+  "RigidBody2DComponent": true,
   "Mass": 1.0,
   "Friction": 0.0,
   "Static": false,
 
-  "CircleColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 2,
   "ColliderTrigger": false

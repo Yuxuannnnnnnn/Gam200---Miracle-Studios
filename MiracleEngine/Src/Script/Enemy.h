@@ -11,7 +11,7 @@ enum class Enemy_Type {
 	RANGER = 1
 };
 
-class Enemy : public IScript
+class Enemy : public IScript2
 {
 private:
 // Logic Data - General
@@ -24,8 +24,10 @@ private:
 	double _timerStunCooldown;
 	double _timerAttack;
 	double _timerAttackCooldown;
-	size_t _attackRange; // manually set in ctor
-	size_t _attackMelee; // manually set in ctor
+	size_t _attackRange;
+	size_t _attackMelee;
+	double _moveSpeed;
+	double _chaseSpeed;
 // Logic - Pathfinding
 	GameObject* _target;
 	int _state;	
@@ -42,7 +44,7 @@ public:
 	void Inspect() ;
 
 	Enemy();
-
+	Enemy* Clone();
 	void Init();
 	void Update(double dt);
 // Logic - Behaviour
