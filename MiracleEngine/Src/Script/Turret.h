@@ -12,6 +12,7 @@ private:
 	int _health;
 // Logic - Behaviour
 	GameObject* _target;
+	size_t _targetUid;
 	int _state;
 	double _timerAttack;
 	double _timeAttackCooldown;	
