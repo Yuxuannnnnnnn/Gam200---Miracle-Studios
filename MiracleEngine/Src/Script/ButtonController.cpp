@@ -83,7 +83,7 @@ void ButtonController::Update(double dt)
 	{
 		if (_input->ButtonTrigger(10)) // start
 		{
-			MyFactory.ChangeScene("Level1");
+			MyFactory.ChangeScene("truelevel1");
 			break;
 		}
 		//if (_input->ButtonTrigger(11)) // options

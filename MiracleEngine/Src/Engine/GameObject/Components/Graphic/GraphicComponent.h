@@ -43,6 +43,9 @@ public:
 		//if (document.HasMember("G.TypeId") && document["G.TypeId"].IsInt())	//Checks if the variable exists in .Json file
 		//	_typeIdGraphic = document["G.TypeId"].GetInt();
 
+		if (document.HasMember("GraphicsComponent") && document["GraphicsComponent"].IsBool())
+			SetEnable(document["GraphicsComponent"].GetBool());
+
 		if (document.HasMember("G.FileName") && document["G.FileName"].IsString())
 			_fileName = document["G.FileName"].GetString();
 
@@ -58,8 +61,8 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("GraphicsComponent", rapidjson::Value(true));
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("GraphicsComponent", value);
 		//value.SetInt(_typeIdGraphic);
 		//prototypeDoc.AddMember("G.TypeId", value);
 
@@ -75,8 +78,9 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("GraphicsComponent", rapidjson::Value(true), allocator);
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("GraphicsComponent", value, allocator);
+
 		//value.SetInt(_typeIdGraphic);
 		//prototypeDoc.AddMember("G.TypeId", value);
 
@@ -92,10 +96,17 @@ public:
 	{
 		GraphicComponent* protoGraphicCom = dynamic_cast<GraphicComponent*>(protoCom);
 
+		rapidjson::Value enable;
 		rapidjson::Value fileName;
 		rapidjson::Value shader;
 		rapidjson::Value renderlayer;
 		bool addComponentIntoSceneFile = false;
+
+		if (protoGraphicCom->GetEnable() != this->GetEnable())
+		{
+			addComponentIntoSceneFile = true;
+			enable.SetBool(GetEnable());
+		}
 
 		if (protoGraphicCom->_fileName.compare(_fileName))
 		{
@@ -113,7 +124,10 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("GraphicsComponent", rapidjson::Value(true), allocator);
+			if (enable.IsNull())
+				value.AddMember("GraphicsComponent", enable, allocator);
+			else
+				value.AddMember("GraphicsComponent", protoGraphicCom->GetEnable(), allocator);
 
 			if (!fileName.IsNull())	//if rapidjson::value container is not empty
 			{

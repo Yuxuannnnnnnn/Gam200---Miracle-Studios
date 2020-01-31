@@ -15,6 +15,9 @@ public:
 	void SerialiseComponent(Serialiser& document) override
 	{
 
+		if (document.HasMember("FontComponent") && document["FontComponent"].IsBool())
+			SetEnable(document["FontComponent"].GetBool());
+
 		if (document.HasMember("FontString") && document["FontString"].IsString())	//Checks if the variable exists in .Json file
 		{
 			_fontString = (document["FontString"].GetString());
@@ -32,8 +35,8 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("FontComponent", rapidjson::Value(true));
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("FontComponent", value);
 
 		value.SetString(rapidjson::StringRef(_fontString.c_str()));
 		prototypeDoc.AddMember("FontString", value);
@@ -46,8 +49,8 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("FontComponent", rapidjson::Value(true), allocator);
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("FontComponent", value, allocator);
 
 		value.SetString(rapidjson::StringRef(_fontString.c_str()));
 		prototypeDoc.AddMember("FontString", value, allocator);
@@ -61,9 +64,16 @@ public:
 	{
 		FontComponent* protoFontCom = dynamic_cast<FontComponent*>(protoCom);
 
+		rapidjson::Value enable;
 		rapidjson::Value fontString;
 		rapidjson::Value fontType;
 		bool addComponentIntoSceneFile = false;
+
+		if (protoFontCom->GetEnable() != this->GetEnable())
+		{
+			addComponentIntoSceneFile = true;
+			enable.SetBool(GetEnable());
+		}
 
 		if (protoFontCom->_fontString.compare(_fontString))
 		{
@@ -80,7 +90,10 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("FontComponent", rapidjson::Value(true), allocator);
+			if (enable.IsNull())
+				value.AddMember("FontComponent", enable, allocator);
+			else
+				value.AddMember("FontComponent", protoFontCom->GetEnable(), allocator);
 
 			if (!fontType.IsNull())	//if rapidjson::value container is not empty
 			{
