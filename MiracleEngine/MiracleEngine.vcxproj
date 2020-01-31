@@ -594,8 +594,11 @@
     <ClInclude Include="Resources\targetver.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
     <ClInclude Include="Src\Script\Bullet.h" />
+    <ClInclude Include="Src\Script\ButtonController.h" />
     <ClInclude Include="Src\Script\Enemy.h" />
+    <ClInclude Include="Src\Script\Explosion.h" />
     <ClInclude Include="Src\Script\Player.h" />
+    <ClInclude Include="Src\Script\Spawner.h" />
     <ClInclude Include="Src\Script\Turret.h" />
   </ItemGroup>
   <ItemGroup>
@@ -757,8 +760,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\Script\Bullet.cpp" />
+    <ClCompile Include="Src\Script\ButtonController.cpp" />
     <ClCompile Include="Src\Script\Enemy.cpp" />
+    <ClCompile Include="Src\Script\Explosion.cpp" />
     <ClCompile Include="Src\Script\Player.cpp" />
+    <ClCompile Include="Src\Script\Spawner.cpp" />
     <ClCompile Include="Src\Script\Turret.cpp" />
   </ItemGroup>
   <ItemGroup>

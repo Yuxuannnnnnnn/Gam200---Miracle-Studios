@@ -45,6 +45,8 @@ public:
 	std::unordered_map<size_t, IScript2*>& GetScriptList();
 
 	std::unordered_map<std::string, ScriptCreator*>& GetScriptTypeMap();
+
+	std::vector<IScript2*> GetScriptList(size_t objUId);
 };
 
 #endif

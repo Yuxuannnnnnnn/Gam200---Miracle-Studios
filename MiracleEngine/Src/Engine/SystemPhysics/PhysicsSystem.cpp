@@ -15,7 +15,7 @@ void PhysicsSystem::Update(double dt)
 void PhysicsSystem::Draw()
 {
 	RigidbodyDraw();
-	CollisionDraw();
+	//CollisionDraw();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -137,13 +137,10 @@ void PhysicsSystem::CollisionDraw()
 {
 	for (auto& it : GetComponentMap(EdgeCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -162,13 +159,10 @@ void PhysicsSystem::CollisionDraw()
 
 	for (auto& it : GetComponentMap(BoxCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -184,13 +178,10 @@ void PhysicsSystem::CollisionDraw()
 
 	for (auto& it : GetComponentMap(CircleCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		CircleCollider2DComponent* object = (CircleCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -206,13 +197,10 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 	for (auto& it : GetComponentMap(EdgeCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -221,13 +209,10 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 	for (auto& it : GetComponentMap(BoxCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -236,13 +221,10 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 	for (auto& it : GetComponentMap(CircleCollider2D))
 	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
+		if (!it.second || !it.second->GetEnable())
 			continue;
 
 		CircleCollider2DComponent* object = (CircleCollider2DComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
 
 		UpdateColliderData(object);
 
@@ -262,7 +244,7 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 		for (auto& it2 : tempList)
 		{
-			if (it2->GetEnable() || !it2->_componentEnable || (*it) == it2 ||
+			if (!it2->GetEnable() || (*it) == it2 ||
 				(ColliderTag)it2->_tag == ColliderTag::BUILDING ||
 				(ColliderTag)it2->_tag == ColliderTag::EDGES)
 				continue;
@@ -536,72 +518,5 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	}
 	default:
 		break;
-	}
-}
-
-void PhysicsSystem::ButtonUpdate()
-{
-	Vector3  pos = EngineSystems::GetInstance()._inputSystem->GetMouseWorldPos();
-
-	for (auto& it : GetComponentMap(Button))
-	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
-			continue;
-
-		ButtonComponent* object = (ButtonComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
-
-		_engineSystems._physicsSystem->UpdateColliderData(object);
-
-		if (TestBoxVsPoint(*object, pos))
-		{
-			if (EngineSystems::GetInstance()._inputSystem->KeyDown(MOUSE_LBUTTON) ||
-				(EngineSystems::GetInstance()._inputSystem->KeyHold(MOUSE_LBUTTON) && object->_pressed))
-			{
-				EventHandler::GetInstance().AddMouseClickEvent(it.first);
-			}
-
-			EventHandler::GetInstance().AddMouseHoverEvent(it.first);
-		}
-	}
-}
-
-void PhysicsSystem::ButtonDraw()
-{
-	for (auto it : GetComponentMap(Button))
-	{
-		if (it.second->GetParentPtr()->GetDestory() || !it.second->GetEnable())
-			continue;
-
-		ButtonComponent* object = (ButtonComponent*)it.second;
-
-		if (!object->_componentEnable)
-			continue;
-
-		_engineSystems._physicsSystem->UpdateColliderData(object);
-
-		/*DrawDebugLine(
-			object->mCorner[0]._x, object->mCorner[0]._y,
-			object->mCorner[1]._x, object->mCorner[1]._y);
-		DrawDebugLine(
-			object->mCorner[1]._x, object->mCorner[1]._y,
-			object->mCorner[2]._x, object->mCorner[2]._y);
-		DrawDebugLine(
-			object->mCorner[2]._x, object->mCorner[2]._y,
-			object->mCorner[3]._x, object->mCorner[3]._y);
-		DrawDebugLine(
-			object->mCorner[3]._x, object->mCorner[3]._y,
-			object->mCorner[0]._x, object->mCorner[0]._y);*/
-
-		DebugRenderer::GetInstance().DrawLine(
-			object->mOrigin._x, object->mOrigin._y,
-			object->mOrigin._x + object->mAxis[0]._x * 40.f,
-			object->mOrigin._y + object->mAxis[0]._y * 40.f);
-		DebugRenderer::GetInstance().DrawLine(
-			object->mOrigin._x, object->mOrigin._y,
-			object->mOrigin._x + object->mAxis[1]._x * 40.f,
-			object->mOrigin._y + object->mAxis[1]._y * 40.f);
 	}
 }

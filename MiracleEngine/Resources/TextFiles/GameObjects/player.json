@@ -16,7 +16,8 @@
   "AnimationTypes": [
     {
       "AnimationType": "CatAnimation.json",
-      "TimeDelay": 0.0
+      "TimeDelay": 0.0,
+      "AnimationName": ""
     }
   ],
   "StartAnim": "CatAnimation.json",
@@ -45,12 +46,12 @@
     {
       "Health": 10,
       "WeaponActive": 1,
-      "AmmoRpg": 0,
+      "AmmoRpg": 5,
       "AmmoTurret": 10,
       "AmmoWall": 10,
-      "FireratePistol": 1.0,
-      "FirerateShotgun": 1.0,
-      "FirerateRpg": 1.0,
+      "FireratePistol": 0.2,
+      "FirerateShotgun": 0.5,
+      "FirerateRpg": 1.5,
       "FirerateTurret": 1.0,
       "FirerateWall": 1.0
     }

@@ -17,6 +17,7 @@ private:
 	GameObject* _camera;
 	int _health, _healthMax;
 	int _progress, _progressMax;
+	double _timerSwitch, _timerSwitchDelay;
 // Logic Data - Weapons
 	int _weaponActive;
 	int _ammoRpg;

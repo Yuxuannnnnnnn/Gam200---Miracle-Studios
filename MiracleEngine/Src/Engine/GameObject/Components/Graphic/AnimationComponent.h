@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include "Tools/Resource/ResourceSystem.h"
+#include "Editor/ImguiFunctions.h"
 
 
 
@@ -37,7 +38,10 @@ private:
 
 
 //For editor Variables
+
 	typedef float timeDelay;
+	
+
 	std::map<std::string, timeDelay> _animations;	//Each animation has its own timedelay
 	std::string _startingAnim;
 
@@ -132,18 +136,18 @@ public:
 		IComponent::Inspect();
 
 		////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
-		/*
+		
 		ImGui::Spacing();
-
-		static auto& graphicList = MyResourceSystem.GetAnimationMap();
-		std::vector<const char*> list(graphicList.size());
+		/*
+		static auto& animationList = MyResourceSystem.GetAnimationMap();
+		std::vector<const char*> list(animationList.size());
 		//list[0] = "Choose a Texture ";
 
 		int i = 0;
 		int select = 0;
-		for (auto graphicPair = graphicList.begin(); graphicPair != graphicList.end(); graphicPair++)
+		for (auto animationGraphicPair = animationList.begin(); animationGraphicPair != animationList.end(); animationGraphicPair++)
 		{
-			const char* ptr = graphicPair->first.c_str();
+			const char* ptr = animationGraphicPair->first.c_str();
 
 
 			list[i] = ptr;
@@ -156,22 +160,36 @@ public:
 			i++;
 		}
 
-		static ComboFilterState s = { select, 0 };
+		
+		static std::vector<ImGuiFunctions::ComboFilterState> s;
 
-		static char buf[128];
+		static std::vector<char*> buf;
 
-		if (_fileName.empty())
-		{
-			strncpy(buf, "type text here...", 18);
-		}
-		else
-		{
-			strncpy(buf, _fileName.c_str(), _fileName.size());
-		}
 
-		if (ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName))
+		for (int i = 0; i <= _animations.size(); i++)
 		{
-			//puts(buf);
+			if (s.size() == i)
+			{
+				s.push_back(ImGuiFunctions::ComboFilterState{ select, 0 });
+			}
+			if (buf.size() == i)
+			{
+				buf.push_back(new char[128]);
+			}
+
+			if (animation.empty())
+			{
+				strncpy(buf, "type text here...", 18);
+			}
+			else
+			{
+				strncpy(buf, _fileName.c_str(), _fileName.size());
+			}
+
+			if (ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName))
+			{
+				//puts(buf);
+			}
 		}
 		*/
 

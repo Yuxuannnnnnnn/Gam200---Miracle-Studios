@@ -38,9 +38,16 @@ void CameraComponent::Inspect()
 	ImGui::Spacing();
 }
 
+bool CameraComponent::isMainCamera() const
+{
+	return _isCurrentCamera;
+}
 
 void CameraComponent::SetMainCamera(bool main)
 {
+	if (this->GetParentId() == 0)
+		return;
+
 	if (main)
 	{
 		MyCameraSystem.SetMainCamera(this->GetParentId());

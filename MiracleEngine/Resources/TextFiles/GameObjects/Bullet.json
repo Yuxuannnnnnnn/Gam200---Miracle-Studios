@@ -1,22 +1,25 @@
 {
   "IdentityComponent": true,
-  "Name": "none",
   "ObjectType": "Bullet",
-
+  "Name": "player_bullet",
   "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 20.0, 20.0 ],
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 20.0, 20.0, 1.0 ],
   "Rotate": 0.0,
-
+  "Layer": 1,
   "LogicComponent": true,
   "Script2Id": [ "Bullet" ],
-  "Lifetime": 3.0,
-  "BulletType": 1,
-
+  "Script2Data": [
+    {
+      "Lifetime": 2.0,
+      "BulletType": "BulletPlayer",
+      "BulletSpeed": 1.0
+    }
+  ],
 
   "GraphicsComponent": true,
-  "G.TypeId": 0,
   "G.FileName": "Bullet.png",
+  "G.Shader": "",
   "RigidBody2DComponent": true,
   "Mass": 1.0,
   "Friction": 0.0,
@@ -24,6 +27,5 @@
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 2,
-  "ColliderTrigger": false,
-  "TileMapComponent": true
+  "ColliderTrigger": false
 }

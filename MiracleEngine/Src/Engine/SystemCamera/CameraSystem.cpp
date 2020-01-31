@@ -8,6 +8,11 @@ CameraSystem::CameraSystem() : _mainCameraUId{ 0 }, _globalCameraEditorPos{ 0.f,
 {
 }
 
+void CameraSystem::Init()
+{
+	FindMainCamera();
+}
+
 void CameraSystem::Update()
 {
 #ifdef LEVELEDITOR
@@ -225,4 +230,16 @@ const Vector3& CameraSystem::GetMainCameraPos() const
 		return Vec3{};
 
 	return obj->GetPos();
+}
+
+void CameraSystem::FindMainCamera()
+{
+	for (auto& it : GetComponentMap(Camera))
+	{
+		if (((CameraComponent*)it.second)->isMainCamera())
+		{
+			_mainCameraUId = it.first;
+			return;
+		}
+	}
 }

@@ -112,6 +112,7 @@ Player::Player() :
 	_camera{ nullptr },
 	_health{ 30 }, _healthMax{ 30 },
 	_progress{ 0 }, _progressMax{ 30 },
+	_timerSwitch{ 0 }, _timerSwitchDelay{ 0.5 },
 
 	_weaponActive{ (int)WeaponId::PISTOL },
 	_ammoRpg{ 5 },
@@ -165,6 +166,7 @@ void Player::Update(double dt)
 	_timerShoot -= dt;
 	_timerDeploy -= dt;
 	_timerProg -= dt;
+	_timerSwitch -= dt;
 
 	UpdateInput();
 	UpdateCamera();
@@ -200,17 +202,19 @@ void Player::UpdateInput()
  //OTHERS
 	//if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu
 	//	_InputStyle = INGAME_PAUSE_ESCAPE;
+
 // SCALE
-	Vector3 scaleVec = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetScale();
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_LEFT))
-		scaleVec._x -= 1;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_RIGHT))
-		scaleVec._x += 1;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_UP))
-		scaleVec._y += 1;
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_DOWN))
-		scaleVec._y -= 1;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScale(scaleVec);
+	//Vector3 scaleVec = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetScale();
+	//if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_LEFT))
+	//	scaleVec._x -= 1;
+	//if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_RIGHT))
+	//	scaleVec._x += 1;
+	//if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_UP))
+	//	scaleVec._y += 1;
+	//if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_DOWN))
+	//	scaleVec._y -= 1;
+	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScale(scaleVec);
+
 // MOVEMENT
 	float spd = 3.f * 10000; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
@@ -221,6 +225,7 @@ void Player::UpdateInput()
 		AddForce(GetParentId(), Vector3(1, 0, 0), spd);
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_S))
 		AddForce(GetParentId(), Vector3(0, -1, 0), spd);
+
 // MOUSE
 	Vector3 aimVector = GetMousePos(); // use aimVector to determine direction player is facing
 	aimVector.SetZ(0.f);
@@ -267,7 +272,8 @@ void Player::UpdateInput()
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
 	{
-		WeaponSwitch();
+		if (_timerSwitch < 0)
+			WeaponSwitch();
 	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
@@ -315,8 +321,12 @@ void Player::UpdateInput()
 
 void Player::WeaponSwitch()
 {
-	(_weaponActive != 3) ? ++_weaponActive : _weaponActive = 1; // loop available weapons 1,2,3,1,2,3...
-	_timerShoot = 0; // reset timer so can shoot immediately
+	// reset switch delay timer
+	_timerSwitch = _timerSwitchDelay;
+	// loop available weapons 1,2,3,1,2,3...
+	(_weaponActive != 3) ? ++_weaponActive : _weaponActive = 1;
+	// reset timer so can shoot immediately
+	_timerShoot = 0;
 }
 
 void Player::WeaponShoot()

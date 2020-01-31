@@ -9,6 +9,8 @@ class CameraSystem
 {
 public:
 	CameraSystem();
+
+	void Init();
 	void Update();
 
 
@@ -35,6 +37,8 @@ public:
 	size_t GetMainCameraUId();
 	const Vector3& GetMainCameraPos() const;
 
+	
+	void FindMainCamera();
 private:
 	size_t _mainCameraUId;
 

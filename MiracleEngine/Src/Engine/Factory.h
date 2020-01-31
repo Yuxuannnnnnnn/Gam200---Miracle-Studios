@@ -77,6 +77,8 @@ public:
 
 	///////////////////////////////////////////////////////////////////////////
 
+	void UpdateScene();
+
 	void ChangeScene(const std::string& scene);
 
 	//For GamePlay 
@@ -105,6 +107,7 @@ private:
 	///Objects to be deleted
 	std::unordered_set<GameObject*> _objectsToBeDeleted;
 
+	std::string _prevScene;
 	std::string _currentScene;
 };
 
