@@ -7,7 +7,6 @@
 class ButtonComponent : public BoxCollider2DComponent
 {
 public:
-	bool _pressed;
 	int _buttonUId;
 
 	std::string _normalFileName;
