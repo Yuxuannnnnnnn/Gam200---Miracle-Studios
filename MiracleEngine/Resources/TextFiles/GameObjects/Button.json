@@ -1,1 +1,21 @@
-{"IdentityComponent":true,"ObjectType":"Button","Name":"StartButton","TransformComponent":true,"Position":[458.89312744140627,180.89605712890626,1.0],"Scale":[340.66094970703127,69.77033233642578,1.0],"Rotate":0.0,"Layer":2,"GraphicsComponent":false,"G.FileName":"button.png","G.Shader":"","ButtonComponent":true,"ButtonUId":10,"B.NormalFileName":"button.png"}
+{
+  "IdentityComponent": true,
+  "Name": "none",
+  "ObjectType": "Button",
+
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 100.0, 100.0 ],
+  "Rotate": 0.0,
+
+  "GraphicsComponent": true,
+  "G.TypeId": 0,
+  "G.FileName": "button.png",
+
+  "Font Component": true,
+  "FontId": 0,
+
+  "ButtonComponent": true,
+  "ButtonType": 1
+
+}

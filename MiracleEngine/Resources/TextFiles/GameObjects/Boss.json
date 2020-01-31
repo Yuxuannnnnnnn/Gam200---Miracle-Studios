@@ -12,18 +12,21 @@
   "G.TypeId": 0,
   "G.FileName": "EnemyAttack.png",
 
-  "RigidBody2DComponent": true,
+  "RigidBodyComponent": true,
   "Mass": 5.0,
   "Friction": 0.1,
   "Static": false,
 
-  "CircleCollider2DComponent": true,
+  "CircleColliderComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 3,
   "ColliderTrigger": false,
 
   "AudioComponent": true,
   "A.TypeId": 0,
-  "A.FileName": "audio_enemy.ogg"
+  "A.FileName": "audio_enemy.ogg",
 
+  "AnimationComponent": true,
+  "AnimationTypes": [],
+  "StartAnim": ""
 }

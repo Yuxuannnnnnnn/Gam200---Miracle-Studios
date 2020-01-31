@@ -1,0 +1,1 @@
+{"BoxCollider2DComponent":true,"ColliderTypeId":1,"ColliderTag":6,"ColliderTrigger":false,"IdentityComponent":true,"ObjectType":"Building4","Name":"none","TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,"Layer":1,"GraphicsComponent":true,"G.FileName":"Building_4_rusted.png","G.Shader":""}

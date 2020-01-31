@@ -12,12 +12,12 @@
   "G.TypeId": 0,
   "G.FileName": "Bullet.png",
 
-  "RigidBody2DComponent": true,
+  "RigidBodyComponent": true,
   "Mass": 1.0,
   "Friction": 1.0,
   "Static": false,
 
-  "CircleCollider2DComponent": true,
+  "CircleColliderComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 2,
   "ColliderTrigger": true

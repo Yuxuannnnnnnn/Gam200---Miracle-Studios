@@ -1,13 +1,1 @@
-{
-	"BoxCollider2DComponent": true,
-	"ColliderTypeId": 1,
-	"ColliderTag": 0,
-	"ColliderTrigger": true,
-	"IdentityComponent": true,
-	"ObjectType": "Building1",
-	"Name": "none",
-	"TransformComponent": true,
-	"Position": [ 0.0, 0.0 ],
-	"Scale": [ 100.0, 100.0 ],
-	"Rotate": 0.0,
-	"GraphicsComponent":true,"G.FileName":"Building_1_rusted_neon.png","G.Shader":""}
+{"BoxCollider2DComponent":true,"ColliderTypeId":1,"ColliderTag":6,"ColliderTrigger":false,"IdentityComponent":true,"ObjectType":"Building1","Name":"none","TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,"Layer":1,"GraphicsComponent":true,"G.FileName":"Building_1_rusted_neon.png","G.Shader":""}
