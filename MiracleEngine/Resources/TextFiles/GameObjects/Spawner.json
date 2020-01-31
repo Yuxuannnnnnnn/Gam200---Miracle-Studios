@@ -23,7 +23,7 @@
     {
       "Health": 10,
       "SpawnType": 1,
-      "SpawnRate": 0.5
+      "SpawnRate": 10
     }
   ]
 }
