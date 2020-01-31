@@ -36,7 +36,8 @@
       "AttackRange": 4.0,
       "AttackMelee": 0.0,
       "MoveSpeed": 3.0,
-      "ChaseSpeed": 0.0
+      "ChaseSpeed": 0.0,
+      "ChaseDuration": 0.0
     }
   ]
 }

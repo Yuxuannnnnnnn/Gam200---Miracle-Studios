@@ -28,6 +28,7 @@ private:
 	size_t _attackMelee;
 	double _moveSpeed;
 	double _chaseSpeed;
+	double _chaseTimer, _chaseDuration;
 // Logic - Pathfinding
 	GameObject* _target;
 	int _state;	

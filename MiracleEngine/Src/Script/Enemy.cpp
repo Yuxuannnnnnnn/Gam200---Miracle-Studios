@@ -25,6 +25,10 @@ void Enemy::SerialiseComponent(Serialiser& document)
 	{
 		_chaseSpeed = (document["ChaseSpeed"].GetDouble());
 	}
+	if (document.HasMember("ChaseDuration") && document["ChaseDuration"].IsDouble())	//Checks if the variable exists in .Json file
+	{
+		_chaseDuration = (document["ChaseDuration"].GetDouble());
+	}
 	if (document.HasMember("AttackRange") && document["AttackRange"].IsDouble())	//Checks if the variable exists in .Json file
 	{
 		_attackRange = document["AttackRange"].GetDouble();
@@ -107,13 +111,14 @@ void Enemy::Update(double dt)
 		Init();
 		_init = true;
 	}
-
+// death logic
 	if (_health <= 0)
 	{
-		ChancePickUps();
+		ChancePickUps(); // currently not working
 		GetParentPtr()->SetDestory();
 	}
 
+// stunned logic
 	if (_stunned)
 	{
 		_timerStun -= dt;
@@ -129,6 +134,22 @@ void Enemy::Update(double dt)
 			_stunned = false;
 		}
 		return;
+	}
+
+// chase duration logic
+	if (_enemyType == 1 && !_stunned)
+	{
+		if (_state == (int)AiState::ATTACKING)
+		{
+			_chaseTimer -= dt;
+			if (_chaseTimer < 0) // should stun enemy1 when chasing for _chaseDuration
+			{
+				_chaseTimer = _chaseDuration;
+				_stunned = true;
+			}
+		}
+		else
+			_chaseTimer = _chaseDuration;
 	}
 
 	_timerAttack -= dt;
@@ -163,7 +184,10 @@ void Enemy::AttackMelee()
 
 	// bump into player
 	if (_timerAttack <= 0)
+	{
+		_stunned = true;
 		_timerAttack = _timerAttackCooldown;
+	}
 }
 void Enemy::AttackRange()
 {
