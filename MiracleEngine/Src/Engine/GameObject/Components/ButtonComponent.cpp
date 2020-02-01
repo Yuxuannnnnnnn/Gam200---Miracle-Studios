@@ -51,15 +51,18 @@ void ButtonComponent::Inspect()
 		i++;
 	}
 
-	static ImGuiFunctions::ComboFilterState s1 = { select1, 0 };
+	static ComboFilterState s1 = { select1, 0 };
 	static char buf1[128];
+	static ImGuiFunctions function;
+	static bool op = false;
+	static bool* open = &op;
 
 	if (_normalFileName.empty())
 		strncpy(buf1, "type text here...", 18);
 	else
 		strncpy(buf1, _normalFileName.c_str(), _normalFileName.size());
 
-	ImGuiFunctions::ComboFilter("Normal Texture", buf1, IM_ARRAYSIZE(buf1), list, list.size(), s1, _normalFileName);
+	function.ComboFilter("Normal Texture", buf1, IM_ARRAYSIZE(buf1), list, list.size(), s1, _normalFileName, open);
 	ImGui::Spacing();
 
 
@@ -69,15 +72,17 @@ void ButtonComponent::Inspect()
 
 	if (_haveHoverState)
 	{
-		static ImGuiFunctions::ComboFilterState s2 = { select2, 0 };
+		static ComboFilterState s2 = { select2, 0 };
 		static char buf2[128];
+		static bool op = false;
+		static bool* open = &op;
 
 		if (_hoveredFileName.empty())
 			strncpy(buf2, "type text here...", 18);
 		else
 			strncpy(buf2, _hoveredFileName.c_str(), _hoveredFileName.size());
 
-		ImGuiFunctions::ComboFilter("Hovered Texture", buf2, IM_ARRAYSIZE(buf2), list, list.size(), s2, _hoveredFileName);
+		function.ComboFilter("Hovered Texture", buf2, IM_ARRAYSIZE(buf2), list, list.size(), s2, _hoveredFileName, open);
 		ImGui::Spacing();
 	}
 
@@ -87,7 +92,7 @@ void ButtonComponent::Inspect()
 
 	if (_havePressState)
 	{
-		static ImGuiFunctions::ComboFilterState s3 = { select3, 0 };
+		static ComboFilterState s3 = { select3, 0 };
 		static char buf3[128];
 
 		if (_pressedFileName.empty())
@@ -95,7 +100,7 @@ void ButtonComponent::Inspect()
 		else
 			strncpy(buf3, _pressedFileName.c_str(), _pressedFileName.size());
 
-		ImGuiFunctions::ComboFilter("Pressed Texture", buf3, IM_ARRAYSIZE(buf3), list, list.size(), s3, _pressedFileName);
+		function.ComboFilter("Pressed Texture", buf3, IM_ARRAYSIZE(buf3), list, list.size(), s3, _pressedFileName, open);
 		ImGui::Spacing();
 	}
 }

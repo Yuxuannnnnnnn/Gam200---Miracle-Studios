@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Editor\AnimationImguiWindow.h" />
     <ClInclude Include="Dep\Imgui\ImGuizmo.h" />
     <ClInclude Include="Dep\lua\lauxlib.h" />
     <ClInclude Include="Dep\lua\lua.h" />
@@ -602,6 +603,7 @@
     <ClInclude Include="Src\Script\Turret.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Engine\Editor\AnimationImguiWindow.cpp" />
     <ClCompile Include="Dep\Imgui\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>

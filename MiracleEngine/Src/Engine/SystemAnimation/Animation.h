@@ -17,6 +17,21 @@
 
 class Animation
 {
+
+private:
+
+	// vector of sprite frame make up a sequence of images, each frame is 1 image
+	std::vector<Frame*>* frame;
+
+	int NumOfFrames;
+
+	// ID to select which spritesheet
+	int _textureID;
+
+	char spriteSheetName[128];
+	Texture2D* spriteSheet;
+
+
 public:
 	Animation();
 	void Select();
@@ -34,15 +49,12 @@ public:
 
 	inline int GetMaxFrame() const { return NumOfFrames - 1; }
 
-private:
+	Texture2D* GetSpriteSheet()
+	{
+		return spriteSheet;
+	}
 
-	// vector of sprite frame make up a sequence of images, each frame is 1 image
-	std::vector<Frame*>* frame;
-	
-	int NumOfFrames;
 
-	// ID to select which spritesheet
-	int _textureID;
 };
 
 #endif

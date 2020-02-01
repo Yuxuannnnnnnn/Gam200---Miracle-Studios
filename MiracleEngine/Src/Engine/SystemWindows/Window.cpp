@@ -149,6 +149,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
+
+		case WM_SETFOCUS:
+			for (int i = 0; i < 512; i++) {
+				keybd_event((BYTE)i, MapVirtualKeyA((BYTE)i, 0), 0x0002, 0);
+			}
+			return 0;
 		
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);

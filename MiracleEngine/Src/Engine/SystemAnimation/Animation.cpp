@@ -4,6 +4,7 @@
 
 
 Animation::Animation()
+	:frame{ nullptr }, NumOfFrames{ 0 }, _textureID{0}, spriteSheetName{""}, spriteSheet{ nullptr }
 	//_currentFrame{ 0 },
 	//_frameDelay{ 1.0f }
 {
@@ -28,6 +29,11 @@ bool Animation::load(const std::string& path)	//Serialise
 
 	Serialiser file(path);
 
+	if (file.HasMember("SpriteSheetName"))
+	{
+		strncpy(spriteSheetName, file["SpriteSheetName"].GetString(), 128);
+		spriteSheet = MyResourceSystem.GetTexture2DResource(spriteSheetName);
+	}
 	NumOfFrames = file["NoofFrames"].GetInt();
 
 

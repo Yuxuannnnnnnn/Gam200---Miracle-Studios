@@ -46,20 +46,7 @@ void AssetsImguiWindow::Init()
 		ResourceList.clear();
 	}
 
-	{
-		for (const auto& AnimationDataFile : std::filesystem::directory_iterator(AnimationDataPath))
-		{
-			std::cout << AnimationDataFile.path() << std::endl;
-			std::string path = AnimationDataFile.path().u8string();
-			//size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\/");
-			std::string fileName = path.substr(path.find_last_of("\\/") + 1);
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
-		}
 
-		MyResourceSystem.AddAnimationResourceList(ResourceList);
-		ResourceList.clear();
-
-	}
 
 
 
@@ -176,6 +163,22 @@ void AssetsImguiWindow::Init()
 		}
 		MyResourceSystem.AddFontResourceList(ResourceList);
 		ResourceList.clear();
+	}
+
+
+	{
+		for (const auto& AnimationDataFile : std::filesystem::directory_iterator(AnimationDataPath))
+		{
+			std::cout << AnimationDataFile.path() << std::endl;
+			std::string path = AnimationDataFile.path().u8string();
+			//size_t namesize = path.find_last_of(".json") - 5 - path.find_last_of("\\/");
+			std::string fileName = path.substr(path.find_last_of("\\/") + 1);
+			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
+		}
+
+		MyResourceSystem.AddAnimationResourceList(ResourceList);
+		ResourceList.clear();
+
 	}
 
 	{

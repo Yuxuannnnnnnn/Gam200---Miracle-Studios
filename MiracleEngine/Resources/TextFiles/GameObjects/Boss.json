@@ -24,9 +24,5 @@
 
   "AudioComponent": true,
   "A.TypeId": 0,
-  "A.FileName": "audio_enemy.ogg",
-
-  "AnimationComponent": true,
-  "AnimationTypes": [],
-  "StartAnim": ""
+  "A.FileName": "audio_enemy.ogg"
 }

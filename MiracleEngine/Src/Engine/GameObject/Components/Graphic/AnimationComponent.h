@@ -43,11 +43,10 @@ private:
 	typedef std::string AnimationName;
 	typedef std::string AnimationFile;
 
-
 	std::map<AnimationName, AnimationFile> animationFileNameList;
 	std::map<AnimationName, timeDelay> _animations;	//Each animation has its own timedelay
 
-	std::string _startingAnim;
+	std::string _startingAnim;	//AnimationName
 
 	// let me know if got problem if vector change to map, i, e animation doesnt run.
 	//std::vector<std::string> _animations;
@@ -58,7 +57,7 @@ private:
 	int _currFrame;
 	int _maxFrame;	//cap of the current animation
 
-	std::string _currentAnim; //Logic Animation script will only touch and change this variable
+	std::string _currentAnim; //Logic Animation script will only touch and change this variable //Json FileName
 
 	//Animation* _currAnimation;	//only for optimisation
 
@@ -120,7 +119,7 @@ private:
 
 	void ResetCurrTimeDelay()
 	{
-		_currentTimeDelay = 0;
+		_currentTimeDelay = _timeDelay;
 	}
 
 	void SetTimeDelay(std::string AnimationName)
@@ -147,88 +146,7 @@ private:
 
 public:
 
-	virtual void Inspect() override
-	{
-		IComponent::Inspect();
-
-		////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
-
-		static std::unordered_map<std::string, Animation*>& animationList = MyResourceSystem.GetAnimationMap();
-		std::vector<const char*> AninmationTypeList(animationList.size());
-		//list[0] = "Choose a Texture ";
-
-
-		int a = 0;
-		for (auto& animationGraphicPair : animationList)
-		{
-			const char* ptr = animationGraphicPair.first.c_str();
-
-			AninmationTypeList[a] = ptr;
-			a++;
-		}
-
-	
-		int i = 0;
-		int select = 0;
-
-		for (const std::pair<AnimationName, timeDelay>& animation: _animations)
-		{
-			ImGui::Spacing();
-
-			if (i < _animations.size())
-			{
-				for (int j = 0; j < AninmationTypeList.size(); j++)
-				{
-					if (!strncmp(AninmationTypeList[j], animationFileNameList[animation.first].c_str(), 100))
-					{
-						select = j;
-					}
-				}
-			}
-
-			static std::vector<ImGuiFunctions::ComboFilterState> s;
-
-			static std::vector<char*> buf;
-
-			//static std::vector< bool *(const char* id, char* buffer, int bufferlen, /*const char** hints*/ std::vector<const char*> hints,
-			//	int num_hints, ImGuiFunctions::ComboFilterState & s, std::string & _filename)> 
-
-
-			if (s.size() == i)
-			{
-				s.push_back(ImGuiFunctions::ComboFilterState{ select, 0 });
-			}
-			if (buf.size() == i)
-			{
-				buf.push_back(new char[128]);
-			}
-
-			if (animationFileNameList[animation.first].empty())
-			{
-				strncpy(buf[i], "Choose an Animation File here", 18);
-			}
-			else
-			{
-				strncpy(buf[i], animationFileNameList[animation.first].c_str(), animationFileNameList[animation.first].size());
-			}
-
-			if (ImGuiFunctions::ComboFilter("AnimationType", buf[i], 128, AninmationTypeList, AninmationTypeList.size(), s[i], animationFileNameList[animation.first]))
-			{
-				//puts(buf);
-			}
-
-
-			i++;
-		}
-		
-
-
-		////ImGui::SetCursorPos(ImVec2((MyWindowsSystem.getWindow().GetWindowWidth() - (width / scale)) * 0.5f, (MyWindowsSystem.getWindow().GetWindowHeight() - (height / scale)) * 0.5f));
-		//ImGui::Image((void*)(intptr_t)(_currTexture)->GetTextureID(), ImVec2(width / scale, height / scale),
-		//	ImVec2(0, 0), ImVec2(1, 1), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
-
-
-	}
+	virtual void Inspect() override;
 
 
 
@@ -285,23 +203,28 @@ public:
 		value.SetBool(GetEnable());
 		prototypeDoc.AddMember("AnimationComponent", value);
 
-		value.SetArray();
+		if (!animationFileNameList.empty())
 		{
-			rapidjson::Value object;
-			for (auto& anim : _animations)
+			value.SetArray();
 			{
-				object.SetObject();
-				object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), prototypeDoc.Allocator());
-				object.AddMember("TimeDelay", rapidjson::Value(anim.second), prototypeDoc.Allocator());
-				object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), prototypeDoc.Allocator());
+				rapidjson::Value object;
+				for (auto& anim : _animations)
+				{
+					object.SetObject();
+					object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), prototypeDoc.Allocator());
+					object.AddMember("TimeDelay", rapidjson::Value(anim.second), prototypeDoc.Allocator());
+					object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), prototypeDoc.Allocator());
 
-				value.PushBack(object, prototypeDoc.Allocator());
+					value.PushBack(object, prototypeDoc.Allocator());
+				}
+				prototypeDoc.AddMember("AnimationTypes", value);
 			}
-			prototypeDoc.AddMember("AnimationTypes", value);
+
+			value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+			prototypeDoc.AddMember("StartAnim", value);
 		}
 
-		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
-		prototypeDoc.AddMember("StartAnim", value);
+
 	}
 
 
@@ -312,24 +235,27 @@ public:
 		value.SetBool(GetEnable());
 		prototypeDoc.AddMember("AnimationComponent", value, allocator);
 
-		value.SetArray();
+		if (!animationFileNameList.empty())
 		{
-			rapidjson::Value object;
-			for (auto& anim : _animations)
+			value.SetArray();
 			{
-				object.SetObject();
-				object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), allocator);
-				object.AddMember("TimeDelay", rapidjson::Value(anim.second), allocator);
-				object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), allocator);
+				rapidjson::Value object;
+				for (auto& anim : _animations)
+				{
+					object.SetObject();
+					object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), allocator);
+					object.AddMember("TimeDelay", rapidjson::Value(anim.second), allocator);
+					object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), allocator);
 
 
-				value.PushBack(object, allocator);
+					value.PushBack(object, allocator);
+				}
+				prototypeDoc.AddMember("AnimationTypes", value, allocator);
 			}
-			prototypeDoc.AddMember("AnimationTypes", value, allocator);
-		}
 
-		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
-		prototypeDoc.AddMember("StartAnim", value, allocator);
+			value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+			prototypeDoc.AddMember("StartAnim", value, allocator);
+		}
 	}
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -373,7 +299,7 @@ public:
 
 		rapidjson::Value startingAnim;
 
-		if (protoAnimCom->_startingAnim.compare(_startingAnim))	//If audiofile of Object is diff from prototype
+		if (protoAnimCom->_startingAnim.compare(_startingAnim) && !_startingAnim.empty())	//If audiofile of Object is diff from prototype
 		{
 			addComponentIntoSceneFile = true;
 			startingAnim.SetString(_startingAnim.c_str(), _startingAnim.length(), allocator);

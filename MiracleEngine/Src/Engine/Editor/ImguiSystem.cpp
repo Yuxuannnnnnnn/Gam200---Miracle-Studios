@@ -219,4 +219,5 @@ void ImguiSystem::Init()
 	_ImguiWindows["PerformanceUsage"] = new PerformanceUsageWindow();
 	_ImguiWindows["SpriteSheetCutter"] = new SpriteSheetCutterImguiWindow();
 	_ImguiWindows["PopUpBox"] = new PopUpBoxImguiWindow();
+	_ImguiWindows["Animation"] = new AnimationImguiWindow();
 }

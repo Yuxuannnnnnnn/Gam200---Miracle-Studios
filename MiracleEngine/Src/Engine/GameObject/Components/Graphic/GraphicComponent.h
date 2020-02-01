@@ -199,20 +199,24 @@ public:
 		//	}
 		//}
 
-		static ImGuiFunctions::ComboFilterState s = { select, 0 };
+		static ComboFilterState s = { select, 0 };
 
 		static char buf[128];
 		
+		static ImGuiFunctions Function;
+		static bool op = false;
+		static bool * open = &op;
+		
 		if (_fileName.empty())
 		{
-			strncpy(buf, "type text here...", 18);
+			strncpy(buf, "type text here...", 18 + 1);
 		}
 		else
 		{
-			strncpy(buf, _fileName.c_str(), _fileName.size());
+			strncpy(buf, _fileName.c_str(), _fileName.size() + 2);
 		}
 
-		if (ImGuiFunctions::ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName))
+		if (Function.ComboFilter("Texture", buf, IM_ARRAYSIZE(buf), list, list.size(), s, _fileName, open))
 		{
 			//puts(buf);
 		}
