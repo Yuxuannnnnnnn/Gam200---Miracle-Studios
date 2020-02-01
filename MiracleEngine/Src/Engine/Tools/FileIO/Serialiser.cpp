@@ -8,7 +8,7 @@ Serialiser::Serialiser(std::string file)
 	:iBuffer{nullptr}
 {
 	iBuffer = FileRead_FileToCharPtr(file.c_str()); //Convert file into a char* buffer
-	//std::cout << iBuffer << std::endl;
+	std::cout << iBuffer << std::endl;
 	ASSERT(iBuffer != nullptr);								//Check if ibuffer contains a string
 	_document.Parse<rapidjson::kParseStopWhenDoneFlag>(iBuffer);	//Convert char* buffer into rapidJson Document format
 }

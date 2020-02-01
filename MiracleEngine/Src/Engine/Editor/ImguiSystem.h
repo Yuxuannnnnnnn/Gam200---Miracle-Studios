@@ -6,6 +6,8 @@
 #include "TextureImguiWindow.h"
 #include "PerformanceUsageWindow.h"
 #include "PopUpBoxImguiWindow.h"
+#include "AnimationImguiWindow.h"
+
 
 
 class ImguiSystem
@@ -46,4 +48,4 @@ public:
 #define MyPerformanceUsage (*(dynamic_cast<PerformanceUsageWindow *>(MyImguiSystem.GetWindow("PerformanceUsage"))))
 #define MyPopUpBox (*(dynamic_cast<PopUpBoxImguiWindow *>(MyImguiSystem.GetWindow("PopUpBox"))))
 #define MyInspectionWindow (*(dynamic_cast<InspectionImguiWindow *>(MyImguiSystem.GetWindow("Inspector"))))
-
+#define MyAnimationWindow (*(dynamic_cast<AnimationImguiWindow *>(MyImguiSystem.GetWindow("Animation"))))

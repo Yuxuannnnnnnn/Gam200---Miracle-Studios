@@ -25,7 +25,7 @@ void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 	ResetCurrTimeDelay();
 	SetTimeDelay(AnimationName);
 
-	Animation* animResource = MyResourceManager.GetAnimationResource(_currentAnim);
+	Animation* animResource = MyResourceSystem.GetAnimationResource(_currentAnim);
 	SetMaxFrame(animResource->GetMaxFrame());
 }
 
@@ -179,6 +179,14 @@ void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 
 		ImGui::Spacing();
 		ImGui::Spacing();
+
+		ImGui::SameLine(150);
+
+		std::string Play = "Play Animation##" + std::to_string(i);
+		if (ImGui::Button(Play.c_str()))
+		{
+			MyAnimationWindow.SetAnimationWindow(animation.first, animation.second, animationFileNameList[animation.first]);
+		}
 
 		ImGui::SameLine(300);
 

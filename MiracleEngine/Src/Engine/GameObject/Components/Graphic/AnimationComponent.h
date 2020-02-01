@@ -119,7 +119,7 @@ private:
 
 	void ResetCurrTimeDelay()
 	{
-		_currentTimeDelay = 0;
+		_currentTimeDelay = _timeDelay;
 	}
 
 	void SetTimeDelay(std::string AnimationName)
