@@ -338,7 +338,7 @@ void AssetsImguiWindow::Update()
 				{
 					GameObject* newGameobject = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()[ObjPair.first]);
 					if(TransformComponent * tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
-						tmp->SetPos(Vector3::Vec3Zero);
+						tmp->SetPos({0,0,1});
 				}
 				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
 				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
