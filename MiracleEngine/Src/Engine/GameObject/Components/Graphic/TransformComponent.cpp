@@ -185,9 +185,9 @@ void TransformComponent::Inspect()
 
 	Vec3 tempPos = _pos;
 
-	ImGui::InputFloat2("Input Pos X, Y", tempPos.m);
+	ImGui::InputFloat3("Input Pos X, Y, Z", tempPos.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat2("Slider Pos X, Y", tempPos.m, -1000, 1000);
+	ImGui::SliderFloat3("Slider Pos X, Y, Z", tempPos.m, -1000, 1000);
 
 	SetPos(tempPos);
 

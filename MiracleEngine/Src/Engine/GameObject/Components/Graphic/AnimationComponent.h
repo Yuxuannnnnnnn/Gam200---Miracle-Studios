@@ -59,7 +59,8 @@ private:
 
 	std::string _currentAnim; //Logic Animation script will only touch and change this variable //Json FileName
 
-	//Animation* _currAnimation;	//only for optimisation
+	std::string _currenAnimName;
+	Animation* _currAnimationResource;	//only for optimisation
 
 public:
 	//float _timeDelay;	//remove
@@ -88,6 +89,19 @@ public:
 	}
 
 	inline int GetCurrFrame() { return _currFrame; }
+
+
+	Texture2D* GetCurrentTexture()
+	{
+		if(!_currentAnim.empty())	//If currentAnimation is not empty
+			return _currAnimationResource->GetSpriteSheet();
+		return nullptr;
+	}
+
+	Animation* GetAnimationResource()
+	{
+		return _currAnimationResource;
+	}
 
 
 	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
@@ -143,6 +157,12 @@ private:
 
 		throw std::exception{ "Does not have AnimationType" };
 	}
+
+	void SetAnimationResource()
+	{
+		_currAnimationResource = MyResourceSystem.GetAnimationResource(_currentAnim);
+	}
+
 
 public:
 
@@ -281,8 +301,8 @@ public:
 				addComponentIntoSceneFile = true;
 				rapidjson::Value Obj;
 				Obj.SetObject();
-				rapidjson::Value strVal;
 
+				rapidjson::Value strVal;
 
 				strVal.SetString(animationFileNameList[anim.first].c_str(), animationFileNameList[anim.first].length(), allocator);
 				Obj.AddMember("AnimationType", strVal, allocator);
@@ -293,7 +313,7 @@ public:
 				strVal.SetString(anim.first.c_str(), anim.first.length(), allocator);
 				Obj.AddMember("AnimationName", strVal, allocator);
 
-				animationsList.PushBack(strVal, allocator);
+				animationsList.PushBack(Obj, allocator);
 			//}
 		}
 
@@ -308,7 +328,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			if (enable.IsNull())
+			if (!enable.IsNull())
 				value.AddMember("AnimationComponent", enable, allocator);
 			else
 				value.AddMember("AnimationComponent", protoAnimCom->GetEnable(), allocator);

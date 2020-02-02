@@ -20,13 +20,13 @@
 
 void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 {
-	setCurrentAnimation(AnimationName);
-	SetStartFrame();
-	ResetCurrTimeDelay();
-	SetTimeDelay(AnimationName);
-
-	Animation* animResource = MyResourceSystem.GetAnimationResource(_currentAnim);
-	SetMaxFrame(animResource->GetMaxFrame());
+	_currenAnimName = AnimationName;
+	setCurrentAnimation(AnimationName);	//Set the _currentAnim .json File
+	SetStartFrame();	//Reset the current frame to 0
+	ResetCurrTimeDelay();	//Reset currentttimedelay to 0
+	SetTimeDelay(AnimationName);	//Set the TimeDelay
+	SetAnimationResource();	//Set the Animation*
+	SetMaxFrame(_currAnimationResource->GetMaxFrame());	//Set the Max Frame
 }
 
 
@@ -146,6 +146,8 @@ void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 		if (DropDownBars[i]->ComboFilter(AnimationType.c_str(), buf[i], 128, AninmationTypeList, AninmationTypeList.size(), s[i], animationFileNameList[animation.first], openArray[i], i))
 		{
 			//puts(buf);
+			if(!animation.first.compare(_currenAnimName))
+				SetCurrentAnim(animation.first);	//Reset the Animation File of the current animation playing
 		}
 
 
@@ -153,7 +155,11 @@ void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 		ImGui::Spacing();
 
 		std::string TimeDelay = "TimeDelay##" + std::to_string(i);
-		ImGui::InputFloat(TimeDelay.c_str(), &_animations[animation.first]);
+		if (ImGui::InputFloat(TimeDelay.c_str(), &_animations[animation.first], ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			if (!animation.first.compare(_currenAnimName))
+				SetCurrentAnim(animation.first);	//Reset the TimeDelay
+		}
 
 
 		ImGui::Spacing();

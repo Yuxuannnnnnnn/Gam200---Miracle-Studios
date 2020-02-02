@@ -93,7 +93,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			if (enable.IsNull())
+			if (!enable.IsNull())
 				value.AddMember("CameraComponent", enable, allocator);
 			else
 				value.AddMember("CameraComponent", protoTransformCom->GetEnable(), allocator);

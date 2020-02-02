@@ -1,1 +1,91 @@
-{"PrototypesFilePaths":["./Resources/TextFiles/GameObjects\\Boss.json"],"TexturesFilesPaths":["./Resources/Image\\EnemyAttack.png"],"ShaderFilesPaths":[],"AnimationDataFilesPaths":[],"AudioFilesPaths":[],"FontFilesPath":[],"ClonableObjects":[{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-108.0000228881836,119.35099792480469,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-224.00015258789063,-10.029571533203125,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-131.00001525878907,-104.30684661865235,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-24.000051498413087,-207.61056518554688,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[115.99999237060547,-145.42782592773438,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[75.99991607666016,144.4246826171875,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[169.99998474121095,5.0146942138671879,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-65.00011444091797,-5.014823913574219,1.0],"Layer":4},{"IdentityComponent":true,"ObjectType":"Boss"}],"NonClonableObjects":[]}
+{
+  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\Boss.json", 
+                           "./Resources/TextFiles/GameObjects\\player.json" ],
+  "TexturesFilesPaths": [ "./Resources/Image\\EnemyAttack.png", "./Resources/Image\\catjump.png" ],
+  "ShaderFilesPaths": [],
+  "AnimationDataFilesPaths": [],
+  "AudioFilesPaths": [],
+  "FontFilesPath": [],
+  "ClonableObjects": [
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -108.0000228881836, 119.35099792480469, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -224.00015258789063, -10.029571533203125, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -131.00001525878907, -104.30684661865235, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -24.000051498413087, -207.61056518554688, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ 115.99999237060547, -145.42782592773438, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ 75.99991607666016, 144.4246826171875, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ 169.99998474121095, 5.0146942138671879, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -65.00011444091797, -5.014823913574219, 1.0 ],
+      "Layer": 4
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -300.9992980957031, 233.68814086914063, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "player",
+      "TransformComponent": true,
+      "Position": [ -411.9992370605469, -130.38259887695313, 1.0 ],
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "CatAnimation.json",
+          "TimeDelay": 0.0,
+          "AnimationName": "Idle"
+        },
+        {
+          "AnimationType": "CatAnimation.json",
+          "TimeDelay": 0.0,
+          "AnimationName": "Run"
+        },
+        {
+          "AnimationType": "DatafileExplosionBluePlasma24FPSSprite.json",
+          "TimeDelay": 0.0,
+          "AnimationName": "Walk"
+        }
+      ]
+    }
+  ],
+  "NonClonableObjects": []
+}

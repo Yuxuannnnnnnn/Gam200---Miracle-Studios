@@ -1,1 +1,47 @@
-{"PrototypesFilePaths":["./Resources/TextFiles/GameObjects\\Boss.json","./Resources/TextFiles/GameObjects\\player.json"],"TexturesFilesPaths":["./Resources/Image\\EnemyAttack.png","./Resources/Image\\catjump.png"],"ShaderFilesPaths":[],"AnimationDataFilesPaths":[],"AudioFilesPaths":[],"FontFilesPath":[],"ClonableObjects":[{"IdentityComponent":true,"ObjectType":"player","AnimationComponent":null,"AnimationTypes":[null,null,null]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-305.9991455078125,-7.019859313964844,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-189.0000457763672,118.34803771972656,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-148.0000457763672,-99.29208374023438,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[-8.999988555908204,145.4276885986328,1.0]},{"IdentityComponent":true,"ObjectType":"Boss","TransformComponent":true,"Position":[15.000045776367188,-97.28605651855469,1.0],"Layer":5}],"NonClonableObjects":[]}
+{
+  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\Boss.json", 
+                           "./Resources/TextFiles/GameObjects\\player.json" ],
+  "TexturesFilesPaths": [ "./Resources/Image\\EnemyAttack.png", "./Resources/Image\\catjump.png" ],
+  "ShaderFilesPaths": [],
+  "AnimationDataFilesPaths": [],
+  "AudioFilesPaths": [],
+  "FontFilesPath": [],
+  "ClonableObjects": [
+    {
+      "IdentityComponent": true,
+      "ObjectType": "player"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -305.9991455078125, -7.019859313964844, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -189.0000457763672, 118.34803771972656, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -148.0000457763672, -99.29208374023438, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ -8.999988555908204, 145.4276885986328, 1.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Boss",
+      "TransformComponent": true,
+      "Position": [ 15.000045776367188, -97.28605651855469, 1.0 ],
+      "Layer": 5
+    }
+  ],
+  "NonClonableObjects": []
+}

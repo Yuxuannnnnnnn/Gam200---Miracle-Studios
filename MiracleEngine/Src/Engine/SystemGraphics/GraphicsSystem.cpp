@@ -143,6 +143,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		GraphicComponent* graphicComp = (GraphicComponent*)graphicCompPair.second;
 		TransformComponent* transComp = (TransformComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Transform);
+		AnimationComponent* animComp = (AnimationComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Animation);
 
 		RenderObject renderobject;
 
@@ -150,20 +151,18 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		// check for if obj have animation
 
-		if (graphicComp->GetSibilingComponent(ComponentId::CT_Animation))
+		if (animComp)
 		{
-			AnimationComponent* anim = (AnimationComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Animation);
-
 			// get animation from resource manager
-			Animation* currAnim = MyResourceManager.GetAnimationResource(anim->GetCurrAnim());
+			Animation* currAnim = animComp->GetAnimationResource();
 			renderobject._isAnimated = true;
 			renderobject._pMesh = &_quadMesh;
 			if (currAnim)
 			{
-				renderobject._uv.u0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u0;
-				renderobject._uv.v0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_v0;
-				renderobject._uv.u1 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u1;
-				renderobject._uv.v1 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_v1;
+				renderobject._uv.u0 = currAnim->GetCurrFrame(animComp->GetCurrFrame())->_u0;
+				renderobject._uv.v0 = currAnim->GetCurrFrame(animComp->GetCurrFrame())->_v0;
+				renderobject._uv.u1 = currAnim->GetCurrFrame(animComp->GetCurrFrame())->_u1;
+				renderobject._uv.v1 = currAnim->GetCurrFrame(animComp->GetCurrFrame())->_v1;
 			}
 			else
 			{
@@ -175,9 +174,23 @@ void GraphicsSystem::UpdateRenderObjectList()
 			////_testAnimation.Select();
 			//_textureManager._textureMap[anim->GetFilePath()]->Select();
 
+			renderobject._pTexture = animComp->GetCurrentTexture();
+
+
 		}
 		else
 		{
+
+			if (!graphicComp->GetFileName().empty())
+			{
+				const std::string& fileName = graphicComp->GetFileName();
+				renderobject._pTexture = MyResourceManager.GetTexture2DResource(fileName);
+			}
+			else
+			{
+				renderobject._pTexture = nullptr;
+			}
+
 			renderobject._pMesh = &_staticMesh;
 			renderobject._isAnimated = false;
 		}
@@ -186,15 +199,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		renderobject._pShader = _shader;
 
-		if (!graphicComp->GetFileName().empty())
-		{
-			const std::string& fileName = graphicComp->GetFileName();
-			renderobject._pTexture = MyResourceManager.GetTexture2DResource(fileName);
-		}
-		else
-		{
-			renderobject._pTexture = nullptr;
-		}
+
 
 		renderobject._transform = modelTransform;
 		renderobject._zvalue = transformComp->GetPos().GetZ();

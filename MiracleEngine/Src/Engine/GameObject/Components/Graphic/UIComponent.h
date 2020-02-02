@@ -72,7 +72,7 @@ public:
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			if (enable.IsNull())
+			if (!enable.IsNull())
 				value.AddMember("UIComponent", enable, allocator);
 			else
 				value.AddMember("UIComponent", protoIdentityCom->GetEnable(), allocator);

@@ -54,6 +54,8 @@ void Engine::Update()
 
 	while (MyFactory.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{
+
+
 		MyFactory.UpdateScene();
 
 		MyEventHandler.BroadcastWindowEvents();
