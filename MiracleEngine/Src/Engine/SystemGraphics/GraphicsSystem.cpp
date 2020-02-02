@@ -34,7 +34,7 @@ void GraphicsSystem::Update(double dt)
 
 		if (renderobj._isAnimated)
 		{
-			if (renderingAnim != ANIMATED)
+			//if (renderingAnim != ANIMATED)
 			{
 				renderobj._pMesh->Select();
 				renderingAnim = ANIMATED;
@@ -55,7 +55,7 @@ void GraphicsSystem::Update(double dt)
 		}
 		else
 		{
-			if (renderingAnim != STATIC)
+			//if (renderingAnim != STATIC)
 			{
 				renderobj._pMesh->Select();
 				renderingAnim = STATIC;
