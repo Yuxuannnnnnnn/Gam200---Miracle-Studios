@@ -74,9 +74,9 @@ void TransformComponent::SetPos(const Vector3& in)
 	_pos = in;
 }
 
-Vector3& TransformComponent::GetScale()
+Vector3 TransformComponent::GetScale()
 {
-	return _scale;
+	return Vector3{ _scale._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_scale._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f };
 }
 
 void TransformComponent::SetScale(const Vector3& in)
@@ -151,7 +151,7 @@ float* TransformComponent::GetModel()
 {
 	// calculate model matrix = TRS
 	Mtx44 translate = Mtx44::CreateTranslation(_pos);
-	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(_scale);
+	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(GetScale());
 
 	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
 		glm::vec3(transformComp->GetScale()._x, transformComp->GetScale()._y, 1.0f));*/
@@ -164,7 +164,7 @@ float* TransformComponent::GetMatrix()
 {
 	// calculate model matrix = TRS
 	Mtx44 translate = Mtx44::CreateTranslation(Vec3{_pos._x,_pos._y, (float)_layer});
-	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(_scale);
+	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(GetScale());
 
 	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
 		glm::vec3(transformComp->GetScale()._x, transformComp->GetScale()._y, 1.0f));*/
@@ -194,6 +194,7 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Spacing();
+
 	ImGui::Spacing();
 	ImGui::InputInt("RenderLayer", &_layer);
 	if (_layer > 10)

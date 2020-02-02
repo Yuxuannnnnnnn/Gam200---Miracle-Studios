@@ -33,6 +33,10 @@ public:
 	AudioSystem();
 	~AudioSystem();
 
+	void PlayBGM(const std::string& name);
+	void PlaySFX(const std::string& name);
+
+
 	void Play(const std::string& name, bool isBGM = false);
 
 	void StopAllSound();

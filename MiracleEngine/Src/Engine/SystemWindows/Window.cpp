@@ -443,12 +443,12 @@ float Window::GetWindowHeight() const
 
 float Window::GetWindowWidthRatio() const
 {
-	return _initWindowWidth / _windowWidth;
+	return _windowWidth / _initWindowWidth;
 }
 
 float Window::GetWindowHeightRatio() const
 {
-	return _initWindowHeight / _windowHeight;
+	return _windowHeight / _initWindowHeight;
 }
 
 

@@ -14,7 +14,17 @@ void AnimationSystem::Update(double dt)
 	
 	if (MyInputSystem.KeyDown(KeyCode::KEYB_M))
 	{
-		MyAudioSystem.Play("Button.ogg");
+		MyAudioSystem.PlaySFX("Button.ogg");
+	}
+
+	if (MyInputSystem.KeyDown(KeyCode::KEYB_N))
+	{
+		MyAudioSystem.PlaySFX("Coin.ogg");
+	}
+
+	if (MyInputSystem.KeyDown(KeyCode::KEYB_B))
+	{
+		MyAudioSystem.PlaySFX("Level1.ogg");
 	}
 	//for (auto& e : MyComponentManger._AnimationComponents)
 	//{

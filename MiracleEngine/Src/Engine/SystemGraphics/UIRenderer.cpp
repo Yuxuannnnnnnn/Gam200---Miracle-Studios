@@ -32,7 +32,7 @@ void UIRenderer::Update(std::unordered_map<size_t, IComponent*> uiMap, const glm
 
 		auto pTexture = MyResourceManager.GetTexture2DResource(uiComp->GetFileName());
 
-		if (!uiComp->GetFileName().empty())
+		if (pTexture && !uiComp->GetFileName().empty())
 		{
 			pTexture->Select();
 			_uiMesh.Select();

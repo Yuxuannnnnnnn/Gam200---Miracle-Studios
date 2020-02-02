@@ -25,7 +25,8 @@ private:
 
 public:
 
-	void PlayMusic(const std::string& soundName, bool IsBGM = false);
+	void PlayBGM(const std::string& soundName);
+	void PlaySFX(const std::string& soundName);
 
 	AudioComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 

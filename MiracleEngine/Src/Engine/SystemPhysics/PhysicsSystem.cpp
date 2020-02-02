@@ -15,7 +15,7 @@ void PhysicsSystem::Update(double dt)
 void PhysicsSystem::Draw()
 {
 	RigidbodyDraw();
-	//CollisionDraw();
+	CollisionDraw();
 }
 
 /////////////////////////////////////////////////////////////////////////////

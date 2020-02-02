@@ -3,10 +3,17 @@
 #include "AudioComponent.h"
 
 
-void AudioComponent::PlayMusic(const std::string& soundName, bool IsBGM)
+void AudioComponent::PlayBGM(const std::string& soundName)
 {
-	MyAudioSystem.Play(soundName);
+	MyAudioSystem.PlayBGM(soundName);
 }
+
+void AudioComponent::PlaySFX(const std::string& soundName)
+{
+	MyAudioSystem.PlaySFX(soundName);
+}
+
+
 
 AudioComponent::AudioComponent() :
 	_typeIdAudio{ (unsigned)TypeIdAudio::NONE },

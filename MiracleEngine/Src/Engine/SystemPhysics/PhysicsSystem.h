@@ -19,24 +19,24 @@ public:
 	void Update(double dt);
 	void Draw();
 
+	static void AddForce(size_t uId, Vector3 forceDir, float force);
+	static void AddForwardForce(size_t uId, float force);
+	static void UpdateColliderData(Collider2D* collider);
 
+public:
 	// changes
 	CollisionMap _collisionMap;
 	CollisionTable _collisionTable;
 
+private:
 	void UpdateVelocity(double dt);
 	void ApplyVelocityToObject(double dt);
 
-	void RigidbodyDraw();
-
-	static void AddForce(size_t uId, Vector3 forceDir, float force);
-	static void AddForwardForce(size_t uId, float force);
-
 	void CollisionUpdate(double dt);
+
+	void RigidbodyDraw();
 	void CollisionDraw();
-
-	static void UpdateColliderData(Collider2D* collider);
-
+	
 	void UpdateCollision(double dt);
 	void UpdateStaticCollision(double dt);
 	int CollisionCheckTile(Collider2D* object, unsigned centerTileId, double dt, unsigned dir = 0, unsigned checked = 0);

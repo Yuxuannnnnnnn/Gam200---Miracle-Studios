@@ -17,6 +17,13 @@ struct UV
 	float v1 = 1.0f;
 };
 
+enum RENDERCURRENT
+{
+	RENDERNONE,
+	STATIC,
+	ANIMATED
+};
+
 struct RenderObject
 {
 	Texture2D* _pTexture;
