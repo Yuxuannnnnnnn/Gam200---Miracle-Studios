@@ -5,7 +5,6 @@
 class UIComponent : public IComponent
 {
 private:
-
 	std::string _fileName;
 	//unsigned int _textureID;
 

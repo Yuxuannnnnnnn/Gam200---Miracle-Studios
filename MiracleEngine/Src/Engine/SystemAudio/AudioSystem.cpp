@@ -10,6 +10,8 @@ AudioSystem::AudioSystem()
 	_sfxGroup = nullptr;
 	FMOD_System_Create(&_fmodSystem);
 	FMOD_System_Init(_fmodSystem, 32, FMOD_INIT_NORMAL, 0);
+
+
 	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &_bgmGroup);
 	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &_sfxGroup);
 	
@@ -34,11 +36,12 @@ void AudioSystem::Update()
 	FMOD_System_Update(_fmodSystem);
 }
 
-void AudioSystem::Play(std::string& name)
+void AudioSystem::Play(const std::string& name, bool isBGM)
 {
-	Sound* sound = _soundManager.GetSound(name);
+	
+	auto sound = MyResourceManager.GetSoundResource(name);
 
-	if (sound->GetType() == SoundType::BGM)
+	if (isBGM)
 	{
 		FMOD_ChannelGroup_Stop(_bgmGroup);
 

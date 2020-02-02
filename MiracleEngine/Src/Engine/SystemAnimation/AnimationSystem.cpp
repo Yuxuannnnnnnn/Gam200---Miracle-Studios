@@ -12,6 +12,10 @@ void AnimationSystem::Update(double dt)
 		
 	}
 	
+	if (MyInputSystem.KeyDown(KeyCode::KEYB_M))
+	{
+		MyAudioSystem.Play("Button.ogg");
+	}
 	//for (auto& e : MyComponentManger._AnimationComponents)
 	//{
 	//	if (e.second->GetParentId() < 1000 || e.second->GetParentPtr()->GetDestory())
