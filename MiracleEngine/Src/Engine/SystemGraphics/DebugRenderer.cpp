@@ -85,15 +85,15 @@ void DebugRenderer::DrawCircle(float x, float y, float radiusin)
 	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 12));
 	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(radiusin * 2, radiusin * 2, 0));
 	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m) * model;
-
+	//glm::mat4 mvp = _proj * trans;
 	int location = glGetUniformLocation(_shader->_id, "u_Color");
 	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
 
 	location = glGetUniformLocation(_shader->_id, "u_MVP");
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	/*glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
 
 	glDrawArrays(GL_LINE_LOOP, 0, NUMBER_OF_VERTICES);
 }

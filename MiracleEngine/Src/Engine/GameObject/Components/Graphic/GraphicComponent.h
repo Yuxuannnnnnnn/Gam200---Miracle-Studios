@@ -19,11 +19,11 @@ private:
 	std::string _shader;
 	//RenderLayer _renderlayer; Not Used anymore because Z value is computed in Transformcomponent
 
-
 	float u0, v0;
 	float u1, v1;
-
 public:
+	// TODO:: Setalpha
+	void SetAlpha(float alphaValue);
 
 	unsigned int GetTextureID() const;               // base on asset file name, get the textureID on OpenGL for imgui
 	

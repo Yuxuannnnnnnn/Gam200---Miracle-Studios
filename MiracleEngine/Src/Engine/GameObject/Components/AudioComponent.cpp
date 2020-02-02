@@ -3,6 +3,10 @@
 #include "AudioComponent.h"
 
 
+void AudioComponent::PlayMusic(std::string soundName, bool IsBGM)
+{
+
+}
 
 AudioComponent::AudioComponent() :
 	_typeIdAudio{ (unsigned)TypeIdAudio::NONE },
