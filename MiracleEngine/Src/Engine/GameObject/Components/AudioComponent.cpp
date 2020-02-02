@@ -3,9 +3,9 @@
 #include "AudioComponent.h"
 
 
-void AudioComponent::PlayMusic(std::string soundName, bool IsBGM)
+void AudioComponent::PlayMusic(const std::string& soundName, bool IsBGM)
 {
-
+	MyAudioSystem.Play(soundName);
 }
 
 AudioComponent::AudioComponent() :
