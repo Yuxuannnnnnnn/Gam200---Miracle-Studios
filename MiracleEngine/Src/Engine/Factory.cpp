@@ -545,45 +545,46 @@ void Factory::De_SerialiseLevel(std::string filename)
 	//Deserialise AudioFiles
 	//- Check throught the AudioComponents to get audio file name
 	//- Get the File path of the audiofile from the Resource Manager
-	NamePath AudioResourcePathList;
-	rapidjson::Value AudioFilePaths;
-	AudioFilePaths.SetArray();
 
-	for (auto& IdAudioPair : GetComponentMap(Audio))
-	{
-		std::string audioFile = ((AudioComponent*)IdAudioPair.second)->GetFileName();
+	//NamePath AudioResourcePathList;
+	//rapidjson::Value AudioFilePaths;
+	//AudioFilePaths.SetArray();
+	//
+	//for (auto& IdAudioPair : GetComponentMap(Audio))
+	//{
+	//	std::string audioFile = ((AudioComponent*)IdAudioPair.second)->GetFileName();
+	//
+	//	bool add = true;
+	//
+	//	if (MyResourceSystem.GetSoundResource(audioFile))
+	//	{
+	//		// AudioResourcePathList does not have the audio yet 
+	//		for (auto& string : AudioResourcePathList)
+	//		{
+	//			if (!string.first.compare(audioFile))
+	//			{
+	//				add = false;
+	//				break;
+	//			}
+	//		}
+	//
+	//		if (add)
+	//		{
+	//			std::string FilePath = MyResourceSystem.GetSoundResourcePath(audioFile);
+	//			if (!FilePath.empty())
+	//				AudioResourcePathList.insert(std::pair<std::string, std::string>(audioFile, FilePath));
+	//		}
+	//
+	//	}
+	//}
 
-		bool add = true;
-
-		if (MyResourceSystem.GetSoundResource(audioFile))
-		{
-			// AudioResourcePathList does not have the audio yet 
-			for (auto& string : AudioResourcePathList)
-			{
-				if (!string.first.compare(audioFile))
-				{
-					add = false;
-					break;
-				}
-			}
-
-			if (add)
-			{
-				std::string FilePath = MyResourceSystem.GetSoundResourcePath(audioFile);
-				if (!FilePath.empty())
-					AudioResourcePathList.insert(std::pair<std::string, std::string>(audioFile, FilePath));
-			}
-	
-		}
-	}
-
-	for (auto& AudioName : AudioResourcePathList)
-	{
-		rapidjson::Value strVal;
-		strVal.SetString(AudioName.second.c_str(), AudioName.second.length(), SceneFile.Allocator());
-		AudioFilePaths.PushBack(strVal, SceneFile.Allocator());
-	}
-	SceneFile.AddMember("AudioFilesPaths", AudioFilePaths);
+	//for (auto& AudioName : AudioResourcePathList)
+	//{
+	//	rapidjson::Value strVal;
+	//	strVal.SetString(AudioName.second.c_str(), AudioName.second.length(), SceneFile.Allocator());
+	//	AudioFilePaths.PushBack(strVal, SceneFile.Allocator());
+	//}
+	//SceneFile.AddMember("AudioFilesPaths", AudioFilePaths);
 
 
 

@@ -43,6 +43,9 @@ void AssetsImguiWindow::Init()
 			ResourceList.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 		MyResourceSystem.AddAudioResourceList(ResourceList);
+
+		//MyResourceSystem.AddAudioSoundEffects(ResourceList);
+		//MyResourceSystem.AddAudioBGM(ResourceList);
 		ResourceList.clear();
 	}
 

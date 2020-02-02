@@ -12,19 +12,24 @@ class AudioComponent : public IComponent
 {
 private:
 
+	//std::string _fileName;
+	//int numOfLoops;
+	//float volume;
 
-	unsigned _typeIdAudio; //fmod id
 
-	std::string _fileName;
-	bool _isBGM;
+	typedef std::string fileName;
+	typedef float volume;
+	typedef int NumOfloops;
+	typedef std::string audioName;
 
-	//unsigned _fileTrackLength;
-	//size_t _lifetimeTotal;
-	//size_t _lifetimeCurrent;
-	//bool _loop;
+	std::map<audioName, std::tuple<fileName, volume, NumOfloops>> SoundList;
+
+	std::string currentBGM;
+	std::string currentSFX;
 
 public:
 
+//Script Usage
 	void PlayBGM(const std::string& soundName);
 	void PlaySFX(const std::string& soundName);
 
@@ -39,16 +44,18 @@ public:
 		//if (document.HasMember("A.TypeId") && document["A.TypeId"].IsInt())
 		//	_typeIdAudio = document["A.TypeId"].GetUint();
 
+		/*
 		if (document.HasMember("A.FileName") && document["A.FileName"].IsString())
 			_fileName = std::string(document["A.FileName"].GetString());
 
 		if (document.HasMember("IsBGM") && document["IsBGM"].IsBool())
 			_isBGM = document["IsBGM"].GetBool();
+			*/
 	}
 
 
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override 
-	{
+	{/*
 		rapidjson::Value value;
 
 		value.SetBool(true);
@@ -63,10 +70,11 @@ public:
 
 		value.SetBool(_isBGM);
 		prototypeDoc.AddMember("IsBGM", value);
+		*/
 	}
 
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
-	{
+	{/*
 		rapidjson::Value value;
 
 		value.SetBool(true);
@@ -81,6 +89,7 @@ public:
 
 		value.SetBool(_isBGM);
 		prototypeDoc.AddMember("IsBGM", value, allocator);
+		*/
 	}
 
 
@@ -89,7 +98,7 @@ public:
 
 	//SceneFile Sent in must be Document[ClonableObjects][objectfile or i]
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
-	{
+	{/*
 		AudioComponent* protoAudioCom = dynamic_cast<AudioComponent*>(protoCom);
 
 		bool addComponentIntoSceneFile = false;
@@ -125,7 +134,7 @@ public:
 			{
 				value.AddMember("IsBGM", audioFileName, allocator);
 			}
-		}
+		}*/
 	}
 
 
