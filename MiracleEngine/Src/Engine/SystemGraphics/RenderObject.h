@@ -7,6 +7,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+
+
 struct UV
 {
 	float u0 = 0.0f;

@@ -52,6 +52,7 @@ private:
 
 	std::vector<RenderObject> _renderObjects;
 
+	QuadMesh _staticMesh;
 	QuadMesh _quadMesh;
 	QuadMesh _q2{ 0.0f, 0.0f, 0.5f, 0.5f };
 	Shader* _shader;

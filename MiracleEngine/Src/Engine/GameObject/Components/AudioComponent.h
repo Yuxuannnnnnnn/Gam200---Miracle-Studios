@@ -23,6 +23,9 @@ private:
 	//bool _loop;
 
 public:
+
+	void PlayMusic(std::string soundName, bool IsBGM = false);
+
 	AudioComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 
 	bool IsBGM();

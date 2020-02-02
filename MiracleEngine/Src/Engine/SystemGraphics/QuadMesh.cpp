@@ -32,7 +32,7 @@ QuadMesh::QuadMesh()
 	layout.Push<float>(3);    // 3 float position
 	layout.Push<float>(2);    // 2 float UV
 
-	_vbo = new VertexBuffer(_positions, 4 * 5 * sizeof(GLfloat)); // bind vbo, bind, ebo must bind every single loop
+	_vbo = new VertexBuffer(_positions, 4 * 5 * sizeof(GLfloat)); 
 	_vao->AddBuffer(*_vbo, layout);
 	_ebo = new ElementBuffer(_indices, 6);
 

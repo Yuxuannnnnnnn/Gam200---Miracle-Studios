@@ -1,5 +1,8 @@
 #include "PrecompiledHeaders.h"
 
+void GraphicComponent::SetAlpha(float alphaValue)
+{
+}
 
 const std::string& GraphicComponent::GetFileName() const
 {
@@ -10,6 +13,8 @@ void GraphicComponent::SetFileName(const std::string& filename)
 {
 	_fileName = filename;
 }
+
+
 
 unsigned int GraphicComponent::GetTextureID() const
 {

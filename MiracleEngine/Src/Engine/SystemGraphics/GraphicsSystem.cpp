@@ -13,20 +13,28 @@ void GraphicsSystem::Update(double dt)
 
 	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
+	/*glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0);*/
+
+	int isdrawingAnimated = 0;
+
 	// Render gameobject in world space
 	for (const auto& renderobj : _renderObjects)
 	{
 		renderobj._pShader->Select();
 
-		if(renderobj._pTexture)
+		if (renderobj._pTexture)
 			renderobj._pTexture->Select();
 		else
 		{
 			continue;
 		}
 
+
 		renderobj._pMesh->Select();
-		//if (renderobj._isAnimated)
+
+		if (renderobj._isAnimated)
 		{
 			float u0 = renderobj._uv.u0;
 			float v0 = renderobj._uv.v0;
@@ -44,6 +52,8 @@ void GraphicsSystem::Update(double dt)
 		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
+
+		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
@@ -51,11 +61,10 @@ void GraphicsSystem::Update(double dt)
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
 	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
-	
+
 	EndScene();
 
-	//DebugRenderer::GetInstance().DrawLine(-10.0f, -10.0f, -100.0f, -100.0f);
-
+	DebugRenderer::GetInstance().DrawCircle(0.0f, 0.0f, 100.0f);
 }
 
 void GraphicsSystem::BeginScene()
@@ -124,11 +133,11 @@ void GraphicsSystem::UpdateRenderObjectList()
 		if (!transformComp)
 			continue;
 
-		BPolygon viewBox2 = BPolygon::CreateBoxPolygon(Vec3{ transformComp->GetPos()._x,transformComp->GetPos()._y,1.f }, 
+		BPolygon viewBox2 = BPolygon::CreateBoxPolygon(Vec3{ transformComp->GetPos()._x,transformComp->GetPos()._y,1.f },
 			Vec3{ transformComp->GetScale()._x,transformComp->GetScale()._y },
 			transformComp->GetRotate());
 
-		if (!Collision::CollisionCheck(viewBox,viewBox2))
+		if (!Collision::CollisionCheck(viewBox, viewBox2))
 			continue;
 
 		GraphicComponent* graphicComp = (GraphicComponent*)graphicCompPair.second;
@@ -137,7 +146,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 		RenderObject renderobject;
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
-		renderobject._isAnimated = false;
+
 		// check for if obj have animation
 
 		if (graphicComp->GetSibilingComponent(ComponentId::CT_Animation))
@@ -147,6 +156,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 			// get animation from resource manager
 			Animation* currAnim = MyResourceManager.GetAnimationResource(anim->GetCurrAnim());
 			renderobject._isAnimated = true;
+			renderobject._pMesh = &_quadMesh;
 			if (currAnim)
 			{
 				renderobject._uv.u0 = currAnim->GetCurrFrame(anim->GetCurrFrame())->_u0;
@@ -165,11 +175,14 @@ void GraphicsSystem::UpdateRenderObjectList()
 			//_textureManager._textureMap[anim->GetFilePath()]->Select();
 
 		}
-
+		else
+		{
+			renderobject._pMesh = &_staticMesh;
+			renderobject._isAnimated = false;
+		}
 		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix()).m);
 
 
-		renderobject._pMesh = &_quadMesh;
 		renderobject._pShader = _shader;
 
 		if (!graphicComp->GetFileName().empty())
@@ -185,7 +198,6 @@ void GraphicsSystem::UpdateRenderObjectList()
 		renderobject._transform = modelTransform;
 		renderobject._zvalue = transformComp->GetPos().GetZ();
 		_renderObjects.push_back(renderobject);
-
 
 	}
 
