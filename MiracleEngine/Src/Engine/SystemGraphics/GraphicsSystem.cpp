@@ -31,7 +31,7 @@ void GraphicsSystem::Update(double dt)
 			continue;
 		}
 
-		
+
 		if (renderobj._isAnimated)
 		{
 			if (renderingAnim != ANIMATED)
@@ -77,6 +77,7 @@ void GraphicsSystem::Update(double dt)
 	EndScene();
 
 	//DebugRenderer::GetInstance().DrawCircle(0.0f, 0.0f, 100.0f);
+	glDisable(GL_ALPHA_TEST);
 }
 
 void GraphicsSystem::BeginScene()
@@ -131,7 +132,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 	// update 
 	Vec3 CameraPos = MyCameraSystem.GetCameraPos();
 	float cameraZoom = MyCameraSystem.GetCameraZoom();
-	BPolygon viewBox = BPolygon::CreateBoxPolygon(Vec3{ -CameraPos._x,-CameraPos._y,1.f },
+	BPolygon viewBox = BPolygon::CreateBoxPolygon(Vec3{ -CameraPos._x, -CameraPos._y,1.f },
 		Vec3{ MyWindowsSystem.getWindow().GetWindowWidth() / cameraZoom ,MyWindowsSystem.getWindow().GetWindowHeight() / cameraZoom },
 		0.f);
 
