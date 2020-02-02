@@ -17,6 +17,20 @@ AudioSystem::AudioSystem()
 	
 }
 
+void AudioSystem::PlayBGM(const std::string& name)
+{
+
+
+}
+
+void AudioSystem::PlaySFX(const std::string& name)
+{
+	auto sound = MyResourceManager.GetSoundResource(name);
+
+	if(sound != nullptr)
+		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _sfxGroup, false, &_channel2);
+}
+
 AudioSystem::~AudioSystem()
 {
 }
@@ -28,11 +42,6 @@ void AudioSystem::Init()
 
 void AudioSystem::Update()
 {
-	//int a = 0;
-	//for (auto& e : _soundList)
-	//{
-	//	int x = 0;
-	//}
 	FMOD_System_Update(_fmodSystem);
 }
 

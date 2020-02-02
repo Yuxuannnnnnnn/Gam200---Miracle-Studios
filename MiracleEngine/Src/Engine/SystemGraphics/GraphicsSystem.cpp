@@ -17,7 +17,7 @@ void GraphicsSystem::Update(double dt)
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.5f);
 
-	int isdrawingAnimated = 0;
+	renderingAnim = RENDERNONE;
 
 	// Render gameobject in world space
 	for (const auto& renderobj : _renderObjects)
@@ -31,11 +31,15 @@ void GraphicsSystem::Update(double dt)
 			continue;
 		}
 
-
-		renderobj._pMesh->Select();
-
+		
 		if (renderobj._isAnimated)
 		{
+			if (renderingAnim != ANIMATED)
+			{
+				renderobj._pMesh->Select();
+				renderingAnim = ANIMATED;
+			}
+
 			float u0 = renderobj._uv.u0;
 			float v0 = renderobj._uv.v0;
 			float u1 = renderobj._uv.u1;
@@ -47,8 +51,15 @@ void GraphicsSystem::Update(double dt)
 				 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
 				-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
 			};
-
 			renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
+		}
+		else
+		{
+			if (renderingAnim != STATIC)
+			{
+				renderobj._pMesh->Select();
+				renderingAnim = STATIC;
+			}
 		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
