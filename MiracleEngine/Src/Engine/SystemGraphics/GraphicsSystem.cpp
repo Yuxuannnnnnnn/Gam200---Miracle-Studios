@@ -64,7 +64,7 @@ void GraphicsSystem::Update(double dt)
 
 	EndScene();
 
-	DebugRenderer::GetInstance().DrawCircle(0.0f, 0.0f, 100.0f);
+	//DebugRenderer::GetInstance().DrawCircle(0.0f, 0.0f, 100.0f);
 }
 
 void GraphicsSystem::BeginScene()
