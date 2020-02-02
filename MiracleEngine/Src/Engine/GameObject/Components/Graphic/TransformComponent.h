@@ -198,7 +198,7 @@ public:
 	Vector3& GetPos();
 	void SetPos(const Vector3& in);
 
-	Vector3& GetScale();
+	Vector3 GetScale();
 	void SetScale(const Vector3& in);
 
 	float& GetRotate();
