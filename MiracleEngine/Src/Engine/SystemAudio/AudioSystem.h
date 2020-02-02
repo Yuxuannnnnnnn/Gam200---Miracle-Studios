@@ -46,11 +46,11 @@ private:
 
 	SoundManager _soundManager;
 
-	FMOD_CHANNEL* _channel1;
-	FMOD_CHANNEL* _channel2;
+	FMOD_CHANNEL* _channel1 = nullptr;
+	FMOD_CHANNEL* _channel2 = nullptr;
 
-	FMOD_CHANNELGROUP* _bgmGroup;
-	FMOD_CHANNELGROUP* _sfxGroup;
+	FMOD_CHANNELGROUP* _bgmGroup = nullptr;
+	FMOD_CHANNELGROUP* _sfxGroup = nullptr;
 };
 
 #endif

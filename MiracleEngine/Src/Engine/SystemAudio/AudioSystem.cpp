@@ -27,8 +27,13 @@ void AudioSystem::PlaySFX(const std::string& name)
 {
 	auto sound = MyResourceManager.GetSoundResource(name);
 
+	
 	if(sound != nullptr)
 		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _sfxGroup, false, &_channel2);
+
+	FMOD_Channel_SetVolume(_channel2, 0.9f);
+	//FMOD_Channel_SetLoopCount(_channel2, 3);
+	FMOD_Channel_SetPaused(_channel2, false);
 }
 
 AudioSystem::~AudioSystem()
