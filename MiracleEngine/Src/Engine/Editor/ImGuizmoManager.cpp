@@ -25,6 +25,7 @@ void ImGuizmoManager::Update()
 	{
 		Vector3  pos = MyInputSystem.GetMouseWorldPos();
 
+		std::unordered_map<size_t, int> objLayer;
 
 		for (auto& it : GetComponentMap(UI))
 		{
@@ -32,8 +33,9 @@ void ImGuizmoManager::Update()
 				continue;
 
 			TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.second->GetParentId()];
+			UIComponent* obj = (UIComponent*)GetComponentMap(UI)[it.second->GetParentId()];
 
-			if (!transform)
+			if (!transform || !obj)
 				continue;
 
 			BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
@@ -41,31 +43,29 @@ void ImGuizmoManager::Update()
 				transform->GetRotate());
 
 			if (Collision::CollisionCheck(pickingBox, pos))
-			{
-				InspectionImguiWindow::InspectGameObject(it.second->GetParentPtr());
-				SetPickObjectUId(it.first);
-				return;
-			}
+				objLayer.insert({ it.first , obj->GetRenderLayer() });
 		}
 
-		std::unordered_map<size_t, int> objLayer;
-
-		for (auto& it : GetComponentMap(Graphic))
+		if (objLayer.empty())
 		{
-			if (!it.second->GetEnable())
-				continue;
+			for (auto& it : GetComponentMap(Graphic))
+			{
+				if (!it.second->GetEnable())
+					continue;
 
-			TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.second->GetParentId()];
+				TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[it.second->GetParentId()];
+				GraphicComponent* obj = (GraphicComponent*)GetComponentMap(Graphic)[it.second->GetParentId()];
 
-			if (!transform)
-				continue;
+				if (!transform || !obj)
+					continue;
 
-			BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
-				Vec3{ transform->GetScale()._x, transform->GetScale()._y },
-				transform->GetRotate());
+				BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
+					Vec3{ transform->GetScale()._x, transform->GetScale()._y },
+					transform->GetRotate());
 
-			if (Collision::CollisionCheck(pickingBox, pos))
-				objLayer.insert({ it.first , transform->_layer });
+				if (Collision::CollisionCheck(pickingBox, pos))
+					objLayer.insert({ it.first ,  obj->GetRenderLayer() });
+			}
 		}
 
 		std::pair<size_t, int> maxLayerObj{0,-100};
@@ -146,8 +146,8 @@ void ImGuizmoManager::Update()
 
 			float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 			ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
-			transform->SetPos(Vec3{ matrixTranslation[0],matrixTranslation[1],matrixTranslation[2] });
-			transform->SetScale(Vec3{ matrixScale[0] ,matrixScale[1],matrixScale[2] } / windowSizeOffset);
+			transform->SetPos(Vec3{ matrixTranslation[0],matrixTranslation[1], 1.f } / windowSizeOffset);
+			transform->SetScale(Vec3{ matrixScale[0] ,matrixScale[1], 1.f } / windowSizeOffset);
 			transform->SetRotate(DegToRad(matrixRotation[2]));
 			//ImGuizmo::RecomposeMatrixFromComponents(transform->GetPos().m, m, transform->GetScale().m, objectMatrix);
 		}

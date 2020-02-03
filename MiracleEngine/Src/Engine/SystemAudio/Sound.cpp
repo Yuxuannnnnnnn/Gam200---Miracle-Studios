@@ -2,8 +2,6 @@
 #include "Sound.h"
 
 Sound::Sound() :
-	_path{ "" },
-	_type{ BGM },
 	_sound{nullptr}
 {
 	//FMOD_System_CreateStream(_fmodSystem, "Resources\\Audio\\Level1.ogg", FMOD_LOOP_NORMAL | FMOD_2D, NULL, &_level1);
@@ -16,15 +14,6 @@ Sound::~Sound()
 	FMOD_Sound_Release(_sound);
 }
 
-std::string& Sound::GetPath()
-{
-	return _path;
-}
-
-SoundType Sound::GetType()
-{
-	return _type;
-}
 
 FMOD_SOUND* Sound::GetFSound()
 {

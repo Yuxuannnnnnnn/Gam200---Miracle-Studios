@@ -3,8 +3,6 @@
 #ifndef AUDIOSYSTEM_H
 #define AUDIOSYSTEM_H
 
-#include "SoundManager.h"
-
 #include "../Dep/fmod/inc/fmod.h"
 #include "../Dep/fmod/inc/fmod_errors.h"
 #include "../Dep/fmod/inc/fmod.hpp"
@@ -43,9 +41,6 @@ public:
 
 	FMOD_SYSTEM* _fmodSystem;
 private:
-
-	SoundManager _soundManager;
-
 	FMOD_CHANNEL* _channel1 = nullptr;
 	FMOD_CHANNEL* _channel2 = nullptr;
 

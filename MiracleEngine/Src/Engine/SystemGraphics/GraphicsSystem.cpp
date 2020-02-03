@@ -206,7 +206,8 @@ void GraphicsSystem::UpdateRenderObjectList()
 			renderobject._pMesh = &_staticMesh;
 			renderobject._isAnimated = false;
 		}
-		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix()).m);
+
+		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix(graphicComp->GetRenderLayer())).m);
 
 
 		renderobject._pShader = _shader;

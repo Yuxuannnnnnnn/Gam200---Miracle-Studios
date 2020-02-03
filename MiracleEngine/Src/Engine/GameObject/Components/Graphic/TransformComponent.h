@@ -15,21 +15,18 @@ private:
 
 	Matrix4x4 _model;
 public:
-	int _layer;
 
 	TransformComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 
 	TransformComponent()
 		:_pos{ Vector3{ 0, 0, 1 } },
 		_scale{ Vector3{ 100, 100, 1 } },
-		_rotationAngle{ 0.0f },
-		_layer{ 1 }
+		_rotationAngle{ 0.0f }
 	{
 	}
 
 	TransformComponent(const Vector3& pos, const Vector3& scale, const float& angle) :
-		_pos{ pos }, _scale{ scale }, _rotationAngle{ angle },
-		_layer{ 1 }
+		_pos{ pos }, _scale{ scale }, _rotationAngle{ angle }
 	{
 
 	}
@@ -64,11 +61,6 @@ public:
 		{
 			_rotationAngle = (document["Rotate"].GetFloat());
 		}
-
-		if (document.HasMember("Layer") && document["Layer"].IsInt())	//Checks if the variable exists in .Json file
-		{
-			_layer = (document["Layer"].GetInt());
-		}
 	}
 
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
@@ -93,9 +85,6 @@ public:
 
 		value.SetFloat(_rotationAngle);
 		prototypeDoc.AddMember("Rotate", value);
-
-		value.SetInt(_layer);
-		prototypeDoc.AddMember("Layer", value);
 	}
 
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -119,9 +108,6 @@ public:
 
 		value.SetFloat(_rotationAngle);
 		prototypeDoc.AddMember("Rotate", value, allocator);
-
-		value.SetInt(_layer);
-		prototypeDoc.AddMember("Layer", value, allocator);
 	}
 
 	virtual void Inspect() override;
@@ -133,7 +119,6 @@ public:
 		rapidjson::Value position;
 		rapidjson::Value scale;
 		rapidjson::Value rotate;
-		rapidjson::Value layer;
 
 		if (protoTransformCom->_pos != _pos)
 		{
@@ -159,13 +144,6 @@ public:
 			rotate.SetFloat(_rotationAngle);
 		}
 
-		if (protoTransformCom->_layer != _layer)
-		{
-			addComponentIntoSceneFile = true;
-			layer.SetInt(_layer);
-		}
-		
-
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
 			value.AddMember("TransformComponent", rapidjson::Value(true), allocator);
@@ -184,18 +162,13 @@ public:
 			{
 				value.AddMember("Rotate", rotate, allocator);
 			}
-
-			if (!layer.IsNull())
-			{
-				value.AddMember("Layer", layer, allocator);
-			}
 		}
 	}
 
 
 // GetPID
 
-	Vector3& GetPos();
+	Vector3 GetPos();
 	void SetPos(const Vector3& in);
 
 	Vector3 GetScale();
@@ -207,7 +180,7 @@ public:
 	float* GetModel(); // for gzmo
 	void SetModel(const float* in);
 
-	float* GetMatrix(); // for graphic
+	float* GetMatrix(int layer = 1); // for graphic
 
 	TransformComponent* CloneComponent() { return new TransformComponent(*this); }
 
