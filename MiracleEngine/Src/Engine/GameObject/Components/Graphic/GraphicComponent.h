@@ -107,6 +107,13 @@ public:
 	{
 		GraphicComponent* protoGraphicCom = dynamic_cast<GraphicComponent*>(protoCom);
 
+		if (!protoGraphicCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
+
 		rapidjson::Value enable;
 		rapidjson::Value fileName;
 		rapidjson::Value shader;

@@ -93,6 +93,13 @@ public:
 	{
 		RigidBody2DComponent* protoIColliderCom = dynamic_cast<RigidBody2DComponent*>(protoCom);
 
+
+		if (!protoIColliderCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value  mass;
 		rapidjson::Value  fictionVal;

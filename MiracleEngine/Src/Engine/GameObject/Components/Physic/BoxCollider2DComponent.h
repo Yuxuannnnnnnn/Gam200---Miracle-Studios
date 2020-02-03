@@ -86,6 +86,12 @@ public:
 	{
 		Collider2D* protoIColliderCom = dynamic_cast<Collider2D*>(protoCom);
 
+		if (!protoIColliderCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value type;
 		rapidjson::Value tag;

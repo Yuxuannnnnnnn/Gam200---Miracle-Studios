@@ -65,6 +65,13 @@ public:
 		//value.AddMember("CameraComponent", rapidjson::Value(true), allocator);
 		CameraComponent* protoTransformCom = dynamic_cast<CameraComponent*>(protoCom);
 
+		if (!protoTransformCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
+
 		bool addComponentIntoSceneFile = false;
 
 		rapidjson::Value enable;

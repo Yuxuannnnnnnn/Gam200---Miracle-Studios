@@ -282,6 +282,13 @@ public:
 	{
 		AnimationComponent* protoAnimCom = dynamic_cast<AnimationComponent*>(protoCom);
 
+		if (!protoAnimCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
+
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value enable;
 		rapidjson::Value animationsList;

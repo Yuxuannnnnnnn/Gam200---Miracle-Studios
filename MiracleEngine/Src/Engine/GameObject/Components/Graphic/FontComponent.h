@@ -64,6 +64,12 @@ public:
 	{
 		FontComponent* protoFontCom = dynamic_cast<FontComponent*>(protoCom);
 
+		if (!protoFontCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
 		rapidjson::Value enable;
 		rapidjson::Value fontString;
 		rapidjson::Value fontType;
