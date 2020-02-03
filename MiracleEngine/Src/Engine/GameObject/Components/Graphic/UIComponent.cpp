@@ -12,25 +12,14 @@ void UIComponent::SetFileName(const std::string& filename)
 }
 
 UIComponent::UIComponent() :
-	_fileName{}
+	_fileName{},
+	_layer{ 11 }
 {
 }
 
 UIComponent::~UIComponent()
 {
 	//delete[]_fileName;
-}
-
-UIComponent::UIComponent(const UIComponent& rhs)
-{
-	_fileName = rhs._fileName;;
-
-}
-
-UIComponent& UIComponent::operator= (const UIComponent& rhs)
-{
-	_fileName = rhs._fileName;
-	return *this;
 }
 
 std::string UIComponent::ComponentName() const

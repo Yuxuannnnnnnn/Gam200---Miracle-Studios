@@ -46,7 +46,6 @@
     <ClCompile Include="Src\Engine\SystemAnimation\Frame.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\AudioSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\Sound.cpp" />
-    <ClCompile Include="Src\Engine\SystemAudio\SoundManager.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BasicRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BatchRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\DebugBatchRenderer.cpp" />
@@ -465,7 +464,6 @@
     <ClInclude Include="Src\Engine\SystemAudio\AudioSystem.h" />
     <ClInclude Include="Src\Engine\SystemAudio\Sound.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundEnum.h" />
-    <ClInclude Include="Src\Engine\SystemAudio\SoundManager.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BasicRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BatchRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BufferLayout.h" />

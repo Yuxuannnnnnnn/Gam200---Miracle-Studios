@@ -231,7 +231,6 @@
     <ClInclude Include="Src\Engine\SystemAudio\AudioSystem.h" />
     <ClInclude Include="Src\Engine\SystemAudio\Sound.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundEnum.h" />
-    <ClInclude Include="Src\Engine\SystemAudio\SoundManager.h" />
     <ClInclude Include="Src\Engine\SystemCamera\CameraSystem.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BasicRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BatchRenderer.h" />
@@ -653,7 +652,6 @@
     <ClCompile Include="Src\Engine\SystemAnimation\Frame.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\AudioSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\Sound.cpp" />
-    <ClCompile Include="Src\Engine\SystemAudio\SoundManager.cpp" />
     <ClCompile Include="Src\Engine\SystemCamera\CameraSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BasicRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BatchRenderer.cpp" />
