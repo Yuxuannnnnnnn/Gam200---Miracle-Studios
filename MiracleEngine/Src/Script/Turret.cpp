@@ -64,7 +64,10 @@ void Turret::Init()
 {
 	for (auto idPair : _engineSystems._factory->getObjectlist())
 	{
-		if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0)
+		if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
+			((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0 ||
+			((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
+			((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player01") == 0)
 		{
 			_target = idPair.second;
 			_targetUid = idPair.second->Get_uID();
@@ -95,7 +98,10 @@ Vector3& Turret::GetDestinationPos()
 	{
 		for (auto idPair : _engineSystems._factory->getObjectlist())
 		{
-			if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0)
+			if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
+				((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0 ||
+				((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
+				((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player01") == 0)
 			{
 				_target = idPair.second;
 				_targetUid = idPair.second->Get_uID();

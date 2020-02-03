@@ -155,6 +155,7 @@ void Player::Update(double dt)
 	{
 		Init();
 		_init = true;
+		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Character_BodyFloat_sprite.png");
 	}
 	if (_god)
 	{
@@ -296,6 +297,15 @@ void Player::UpdateInput()
 			}
 		}
 	}
+
+
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_8) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_8))
+	{
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Character_BodyFloat_spriteSpriteSheetData.json");
+	}
+	
+
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
 	{
