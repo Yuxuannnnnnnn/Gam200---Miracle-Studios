@@ -32,6 +32,13 @@ Sound* IResourceStructure::GetSoundResource(const std::string& name)
 
 	return nullptr;
 }
+Sound* IResourceStructure::GetLoopSoundResource(const std::string& name)
+{
+	if (_mainContainer._LoopAudioMap.find(name) != _mainContainer._LoopAudioMap.end())
+		return _mainContainer._LoopAudioMap[name];
+
+	return nullptr;
+}
 
 Animation* IResourceStructure::GetAnimationResource(const std::string& name)
 {
@@ -88,6 +95,16 @@ std::string& IResourceStructure::GetSoundResourcePath(const std::string& name)
 
 	return temp;
 }
+std::string& IResourceStructure::GetLoopSoundResourcePath(const std::string& name)
+{
+	if (_mainContainer._LoopAudioList.find(name) != _mainContainer._LoopAudioList.end())
+		return _mainContainer._LoopAudioList[name];
+
+	std::string temp;
+
+	return temp;
+}
+
 
 std::string& IResourceStructure::GetAnimationResourcePath(const std::string& name)
 {
@@ -139,6 +156,11 @@ NamePathMap& IResourceStructure::GetSoundList()
 	return _mainContainer._AudioList;
 }
 
+NamePathMap& IResourceStructure::GetLoopSoundList()
+{
+	return _mainContainer._LoopAudioList;
+}
+
 NamePathMap& IResourceStructure::GetAnimationList()
 {
 	return _mainContainer._AnimationList;
@@ -172,6 +194,11 @@ FontMap& IResourceStructure::GetFontMap()
 AudioMap& IResourceStructure::GetSoundMap()
 {
 	return _mainContainer._AudioMap;
+}
+
+AudioMap& IResourceStructure::GetLoopSoundMap()
+{
+	return _mainContainer._LoopAudioMap;
 }
 
 AnimationMap& IResourceStructure::GetAnimationMap()

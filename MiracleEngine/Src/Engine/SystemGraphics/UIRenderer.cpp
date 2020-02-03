@@ -26,7 +26,10 @@ void UIRenderer::Update(std::unordered_map<size_t, IComponent*> uiMap, const glm
 		size_t objID = uiCompPair.first;	//Get GameObjectID
 		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[objID];
 
-		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetModel()).m);
+		if (!transformComp)
+			continue;
+
+		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix(uiComp->GetRenderLayer())).m);
 
 		glm::mat4 mvp = proj * modelTransform;
 

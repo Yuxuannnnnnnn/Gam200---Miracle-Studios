@@ -44,6 +44,7 @@ struct ResourceContainer
 	ShaderMap _ShaderMap;
 	FontMap _FontMap;
 	AudioMap _AudioMap;
+	AudioMap _LoopAudioMap;
 	AnimationMap _AnimationMap;
 	PrototypeMap _PrototypeMap;
 
@@ -51,6 +52,7 @@ struct ResourceContainer
 	NamePairMap _ShaderList;
 	NamePathMap _FontList;
 	NamePathMap _AudioList;
+	NamePathMap _LoopAudioList;
 	NamePathMap _AnimationList;
 	NamePathMap _PrototypeList;
 
@@ -72,6 +74,7 @@ public:
 	virtual void AddShaderResourceList(const NamePairMap& list) = 0;
 	virtual void AddFontResourceList(const NamePathMap& list) = 0;
 	virtual void AddAudioResourceList(const NamePathMap& list) = 0;
+	virtual void AddLoopAudioResourceList(const NamePathMap& list) = 0;
 	virtual void AddAnimationResourceList(const NamePathMap& list) = 0;
 	virtual void AddPrototypeResourceList(const NamePathMap_unordered& list) = 0;
 	virtual void AddSceneList(const NamePathMap_unordered& list) = 0;
@@ -80,6 +83,7 @@ public:
 	virtual bool AddNewShaderResource(const NamePair& list) = 0;
 	virtual bool AddNewFontResource(const NamePath& list) = 0;
 	virtual bool AddNewAudioResource(const NamePath& list) = 0;
+	virtual bool AddNewLoopAudioResource(const NamePath& list) = 0;
 	virtual bool AddNewAnimationResource(const NamePath& list) = 0;
 	virtual bool AddNewPrototypeResource(const NamePath& list) = 0;
 	virtual bool AddNewScene(const NamePath& list) = 0;
@@ -89,6 +93,7 @@ public:
 	virtual Shader* GetShaderResource(const std::string& name);
 	virtual FontRenderer* GetFontResource(const std::string& name);
 	virtual Sound* GetSoundResource(const std::string& name);
+	virtual Sound* GetLoopSoundResource(const std::string& name);
 	virtual Animation* GetAnimationResource(const std::string& name);
 	virtual GameObject* GetPrototypeResource(const std::string& name);
 
@@ -96,6 +101,7 @@ public:
 	std::pair<std::string, std::string>& GetShaderResourcePath(const std::string& name);
 	std::string&						 GetFontResourcePath(const std::string& name);
 	std::string&						 GetSoundResourcePath(const std::string& name);
+	std::string&						 GetLoopSoundResourcePath(const std::string& name);
 	std::string&						 GetAnimationResourcePath(const std::string& name);
 	std::string&						 GetPrototypeResourcePath(const std::string& name);
 	std::string&						 GeScenePath(const std::string& name);
@@ -104,6 +110,7 @@ public:
 	NamePairMap& GetShaderList();
 	NamePathMap& GetFontList();
 	NamePathMap& GetSoundList();
+	NamePathMap& GetLoopSoundList();
 	NamePathMap& GetAnimationList();
 	NamePathMap& GetPrototypeList();
 	NamePathMap_unordered& GetSceneList();
@@ -112,6 +119,7 @@ public:
 	ShaderMap& GetShaderMap();
 	FontMap& GetFontMap();
 	AudioMap& GetSoundMap();
+	AudioMap& GetLoopSoundMap();
 	AnimationMap& GetAnimationMap();
 	PrototypeMap& GetPrototypeMap();
 

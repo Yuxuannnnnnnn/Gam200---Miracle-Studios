@@ -48,9 +48,9 @@ TransformComponent::TransformComponent(GameObject* parent, size_t uId, IComponen
 
 
 
-Vector3& TransformComponent::GetPos()
+Vector3 TransformComponent::GetPos()
 {
-	return _pos;
+	return Vector3{ _pos._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_pos._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f } ;
 }
 
 void TransformComponent::SetPos(const Vector3& in)
@@ -150,7 +150,7 @@ void TransformComponent::SetRotate(const float& in)
 float* TransformComponent::GetModel()
 {
 	// calculate model matrix = TRS
-	Mtx44 translate = Mtx44::CreateTranslation(_pos);
+	Mtx44 translate = Mtx44::CreateTranslation(GetPos());
 	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(GetScale());
 
 	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
@@ -160,10 +160,10 @@ float* TransformComponent::GetModel()
 	return _model.m;
 }
 
-float* TransformComponent::GetMatrix()
+float* TransformComponent::GetMatrix(int layer)
 {
 	// calculate model matrix = TRS
-	Mtx44 translate = Mtx44::CreateTranslation(Vec3{_pos._x,_pos._y, (float)_layer});
+	Mtx44 translate = Mtx44::CreateTranslation(Vec3{ GetPos()._x,GetPos()._y, (float)layer});
 	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(GetScale());
 
 	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
@@ -190,18 +190,6 @@ void TransformComponent::Inspect()
 	ImGui::SliderFloat3("Slider Pos X, Y, Z", tempPos.m, -1000, 1000);
 
 	SetPos(tempPos);
-
-	ImGui::Spacing();
-	ImGui::Spacing();
-	ImGui::Spacing();
-
-	ImGui::Spacing();
-	ImGui::InputInt("RenderLayer", &_layer);
-	if (_layer > 10)
-		_layer = 10;
-	else if (_layer < 0)
-		_layer = 0;
-
 
 	ImGui::Spacing();
 	ImGui::Spacing();

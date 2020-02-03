@@ -21,6 +21,8 @@ private:
 
 	float u0, v0;
 	float u1, v1;
+
+	int _layer;
 public:
 	// TODO:: Setalpha
 	void SetAlpha(float alphaValue);
@@ -53,7 +55,10 @@ public:
 		if (document.HasMember("G.Shader") && document["G.Shader"].IsString())
 			_shader = document["G.Shader"].GetString();
 
-
+		if (document.HasMember("G.Layer") && document["G.Layer"].IsInt())	//Checks if the variable exists in .Json file
+		{
+			_layer = (document["G.Layer"].GetInt());
+		}
 	}
 
 
@@ -71,6 +76,9 @@ public:
 
 		value.SetString(rapidjson::StringRef(_shader.c_str()));
 		prototypeDoc.AddMember("G.Shader", value);
+
+		value.SetInt(_layer);
+		prototypeDoc.AddMember("G.Layer", value);
 
 	}
 
@@ -90,6 +98,9 @@ public:
 		value.SetString(rapidjson::StringRef(_shader.c_str()));
 		prototypeDoc.AddMember("G.Shader", value, allocator);
 
+		value.SetInt(_layer);
+		prototypeDoc.AddMember("G.Layer", value, allocator);
+
 	}
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -99,7 +110,8 @@ public:
 		rapidjson::Value enable;
 		rapidjson::Value fileName;
 		rapidjson::Value shader;
-		rapidjson::Value renderlayer;
+		rapidjson::Value layer;
+
 		bool addComponentIntoSceneFile = false;
 
 		if (protoGraphicCom->GetEnable() != this->GetEnable())
@@ -120,7 +132,11 @@ public:
 			shader.SetString(rapidjson::StringRef(_shader.c_str()));
 		}		
 		
-
+		if (protoGraphicCom->_layer != _layer)
+		{
+			addComponentIntoSceneFile = true;
+			layer.SetInt(_layer);
+		}
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
@@ -139,9 +155,9 @@ public:
 				value.AddMember("G.Shader", shader, allocator);
 			}
 
-			if (!renderlayer.IsNull())
+			if (!layer.IsNull())
 			{
-				value.AddMember("G.RenderLayer", renderlayer, allocator);
+				value.AddMember("G.Layer", layer, allocator);
 			}
 		}
 
@@ -151,10 +167,20 @@ public:
 	virtual void Inspect() override
 	{
 		IComponent::Inspect();
-		
-		ImGui::Spacing();
-		//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
 
+		//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
+	
+		ImGui::Spacing();
+		ImGui::Spacing();
+
+		ImGui::InputInt("RenderLayer", &_layer);
+		if (_layer > 10)
+			_layer = 30;
+		else if (_layer < 0)
+			_layer = 0;
+
+		ImGui::Spacing();
+		ImGui::Spacing();
 
 		static auto& graphicList = MyResourceSystem.GetTexture2DList();
 		std::vector<const char*> list(graphicList.size());
@@ -365,7 +391,7 @@ public:
 
 	int GetRenderLayer()
 	{
-		return 0;
+		return _layer;
 	}
 	void SetRenderLayer(int state);
 

@@ -34,6 +34,7 @@ public:
 	void AddShaderResourceList(const NamePairMap& list);
 	void AddFontResourceList(const NamePathMap& list);
 	void AddAudioResourceList(const NamePathMap& list);
+	void AddLoopAudioResourceList(const NamePathMap& list);
 	void AddAnimationResourceList(const NamePathMap& list);
 	void AddPrototypeResourceList(const NamePathMap_unordered& list);
 	void AddSceneList(const NamePathMap_unordered& list);
@@ -42,6 +43,7 @@ public:
 	bool AddNewShaderResource(const NamePair& list);
 	bool AddNewFontResource(const NamePath& list);
 	bool AddNewAudioResource(const NamePath& list);
+	bool AddNewLoopAudioResource(const NamePath& list);
 	bool AddNewAnimationResource(const NamePath& list);
 	bool AddNewPrototypeResource(const NamePath& list);
 	bool AddNewScene(const NamePath& list);
@@ -50,6 +52,7 @@ public:
 	Shader* GetShaderResource(const std::string& name) override;
 	FontRenderer* GetFontResource(const std::string& name) override;
 	Sound* GetSoundResource(const std::string& name) override;
+	Sound* GetLoopSoundResource(const std::string& name) override;
 	Animation* GetAnimationResource(const std::string& name) override;
 	GameObject* GetPrototypeResource(const std::string& name) override;
 

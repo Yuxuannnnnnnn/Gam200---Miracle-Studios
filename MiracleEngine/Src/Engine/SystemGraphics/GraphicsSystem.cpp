@@ -34,7 +34,7 @@ void GraphicsSystem::Update(double dt)
 
 		if (renderobj._isAnimated)
 		{
-			if (renderingAnim != ANIMATED)
+			//if (renderingAnim != ANIMATED)
 			{
 				renderobj._pMesh->Select();
 				renderingAnim = ANIMATED;
@@ -55,7 +55,7 @@ void GraphicsSystem::Update(double dt)
 		}
 		else
 		{
-			if (renderingAnim != STATIC)
+			//if (renderingAnim != STATIC)
 			{
 				renderobj._pMesh->Select();
 				renderingAnim = STATIC;
@@ -206,7 +206,8 @@ void GraphicsSystem::UpdateRenderObjectList()
 			renderobject._pMesh = &_staticMesh;
 			renderobject._isAnimated = false;
 		}
-		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix()).m);
+
+		glm::mat4 modelTransform = glm::make_mat4(Mtx44::CreateTranspose(transformComp->GetMatrix(graphicComp->GetRenderLayer())).m);
 
 
 		renderobject._pShader = _shader;

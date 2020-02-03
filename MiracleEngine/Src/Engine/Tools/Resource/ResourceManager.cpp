@@ -76,6 +76,19 @@ void ResourceManager::AddAudioResourceList(const NamePathMap& list)
 	}
 }
 
+void ResourceManager::AddLoopAudioResourceList(const NamePathMap& list)
+{
+	if (_editerMode)
+	{
+		for (auto& it : list)
+			AddNewLoopAudioResource(NamePath{ it.first, it.second });
+	}
+	else
+	{
+		MyResourceSystem.AddLoopAudioResourceList(list);
+	}
+}
+
 void ResourceManager::AddAnimationResourceList(const NamePathMap& list)
 {
 	if (_editerMode)
@@ -184,6 +197,22 @@ bool ResourceManager::AddNewAudioResource(const NamePath& list)
 	return false;
 }
 
+bool ResourceManager::AddNewLoopAudioResource(const NamePath& list)
+{
+	if (MyResourceSystem.GetLoopSoundResource(list.first) || MyResourceSystem.AddNewLoopAudioResource(list)) // check resource created before?
+	{
+		if (_editerMode)
+		{
+			_mainContainer._LoopAudioMap.insert(std::pair<std::string, Sound*>(list.first, MyResourceSystem.GetLoopSoundResource(list.first)));
+			_mainContainer._LoopAudioList.insert(list);
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
 bool ResourceManager::AddNewAnimationResource(const NamePath& list)
 {
 	if (MyResourceSystem.GetAnimationResource(list.first) || MyResourceSystem.AddNewAnimationResource(list)) // check resource created before?
@@ -282,6 +311,19 @@ Sound* ResourceManager::GetSoundResource(const std::string& name)
 	return MyResourceSystem.GetSoundResource(name);
 }
 
+Sound* ResourceManager::GetLoopSoundResource(const std::string& name)
+{
+	if (_editerMode)
+	{
+		if (_mainContainer._LoopAudioMap.find(name) != _mainContainer._LoopAudioMap.end())
+			return _mainContainer._LoopAudioMap[name];
+
+		return nullptr;
+	}
+
+	return MyResourceSystem.GetLoopSoundResource(name);
+}
+
 Animation* ResourceManager::GetAnimationResource(const std::string& name)
 {
 	if (_editerMode)
@@ -322,6 +364,7 @@ void ResourceManager::ClearAllResources()
 	_mainContainer._ShaderMap.clear();
 	_mainContainer._FontMap.clear();
 	_mainContainer._AudioMap.clear();
+	_mainContainer._LoopAudioMap.clear();
 	_mainContainer._AnimationMap.clear();
 	_mainContainer._PrototypeMap.clear();
 
@@ -329,6 +372,7 @@ void ResourceManager::ClearAllResources()
 	_mainContainer._ShaderList.clear();
 	_mainContainer._FontList.clear();
 	_mainContainer._AudioList.clear();
+	_mainContainer._LoopAudioList.clear();
 	_mainContainer._AnimationList.clear();
 	_mainContainer._PrototypeList.clear();
 

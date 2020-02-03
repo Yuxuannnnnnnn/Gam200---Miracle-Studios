@@ -17,6 +17,7 @@ private:
 	ObjectAllocator<Shader> _ShaderAllocater;
 	ObjectAllocator<FontRenderer> _FontAllocater;
 	ObjectAllocator<Sound> _AudioAllocater;
+	ObjectAllocator<Sound> _LoopAudioAllocater;
 	ObjectAllocator<Animation> _AnimationAllocater;
 public:
 	ResourceSystem();
@@ -30,6 +31,7 @@ public:
 	void AddShaderResourceList(const NamePairMap& list);
 	void AddFontResourceList(const NamePathMap& list);
 	void AddAudioResourceList(const NamePathMap& list);
+	void AddLoopAudioResourceList(const NamePathMap& list);
 	void AddAnimationResourceList(const NamePathMap& list);
 	void AddPrototypeResourceList(const NamePathMap_unordered& list);
 	void AddSceneList(const NamePathMap_unordered& list);
@@ -38,6 +40,7 @@ public:
 	bool AddNewShaderResource(const NamePair& list);
 	bool AddNewFontResource(const NamePath& list);
 	bool AddNewAudioResource(const NamePath& list);
+	bool AddNewLoopAudioResource(const NamePath& list);
 	bool AddNewAnimationResource(const NamePath& list);
 	bool AddNewPrototypeResource(const NamePath& list);
 	bool AddNewScene(const NamePath& list);

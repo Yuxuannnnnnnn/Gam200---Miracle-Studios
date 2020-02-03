@@ -36,7 +36,8 @@ unsigned int GraphicComponent::GetTextureID() const
 
 GraphicComponent::GraphicComponent() :
 	_fileName{}, 
-	_shader{}
+	_shader{},
+	_layer{ 1 }
 {
 }
 

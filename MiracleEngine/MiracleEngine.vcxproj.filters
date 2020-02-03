@@ -46,7 +46,6 @@
     <ClCompile Include="Src\Engine\SystemAnimation\Frame.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\AudioSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\Sound.cpp" />
-    <ClCompile Include="Src\Engine\SystemAudio\SoundManager.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BasicRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\BatchRenderer.cpp" />
     <ClCompile Include="Src\Engine\SystemGraphics\DebugBatchRenderer.cpp" />
@@ -117,6 +116,8 @@
     <ClCompile Include="Src\Script\Spawner.cpp" />
     <ClCompile Include="Src\Script\ButtonController.cpp" />
     <ClCompile Include="Src\Engine\Editor\AnimationImguiWindow.cpp" />
+    <ClCompile Include="Src\Script\Boss.cpp" />
+    <ClCompile Include="Src\Script\PickUps.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -465,7 +466,6 @@
     <ClInclude Include="Src\Engine\SystemAudio\AudioSystem.h" />
     <ClInclude Include="Src\Engine\SystemAudio\Sound.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundEnum.h" />
-    <ClInclude Include="Src\Engine\SystemAudio\SoundManager.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BasicRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BatchRenderer.h" />
     <ClInclude Include="Src\Engine\SystemGraphics\BufferLayout.h" />
@@ -553,6 +553,8 @@
     <ClInclude Include="Src\Script\Explosion.h" />
     <ClInclude Include="Src\Script\ButtonController.h" />
     <ClInclude Include="Src\Engine\Editor\AnimationImguiWindow.h" />
+    <ClInclude Include="Src\Script\PickUps.h" />
+    <ClInclude Include="Src\Script\Boss.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

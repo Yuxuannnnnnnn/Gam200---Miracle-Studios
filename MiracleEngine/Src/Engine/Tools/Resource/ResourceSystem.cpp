@@ -34,6 +34,12 @@ void ResourceSystem::AddAudioResourceList(const NamePathMap& list)
 		AddNewAudioResource(NamePath{ it.first, it.second });
 }
 
+void ResourceSystem::AddLoopAudioResourceList(const NamePathMap& list)
+{
+	for (auto& it : list)
+		AddNewLoopAudioResource(NamePath{ it.first, it.second });
+}
+
 void ResourceSystem::AddAnimationResourceList(const NamePathMap& list)
 {
 	for (auto& it : list)
@@ -106,6 +112,21 @@ bool ResourceSystem::AddNewAudioResource(const NamePath& list)
 	{
 		_mainContainer._AudioMap.insert(std::pair<std::string, Sound*>(list.first, newSound));
 		_mainContainer._AudioList.insert(list);
+		return true;
+	}
+
+	return false;
+}
+
+bool ResourceSystem::AddNewLoopAudioResource(const NamePath& list)
+{
+	Sound* newSound = (Sound*)_LoopAudioAllocater.Allocate();
+
+	// load
+	if (newSound->load(list.second, 1))
+	{
+		_mainContainer._LoopAudioMap.insert(std::pair<std::string, Sound*>(list.first, newSound));
+		_mainContainer._LoopAudioList.insert(list);
 		return true;
 	}
 
@@ -189,6 +210,14 @@ void ResourceSystem::ClearAllResources()
 		_AudioAllocater.Free(it.second);
 	}
 
+	for (auto it : _mainContainer._LoopAudioMap)
+	{
+		//unload
+		it.second->unload();
+
+		_LoopAudioAllocater.Free(it.second);
+	}
+
 	for (auto it : _mainContainer._AnimationMap)
 	{
 		//unload
@@ -207,6 +236,7 @@ void ResourceSystem::ClearAllResources()
 	_mainContainer._ShaderMap.clear();
 	_mainContainer._FontMap.clear();
 	_mainContainer._AudioMap.clear();
+	_mainContainer._LoopAudioMap.clear();
 	_mainContainer._AnimationMap.clear();
 	_mainContainer._PrototypeMap.clear();
 
@@ -214,6 +244,7 @@ void ResourceSystem::ClearAllResources()
 	_mainContainer._ShaderList.clear();
 	_mainContainer._FontList.clear();
 	_mainContainer._AudioList.clear();
+	_mainContainer._LoopAudioList.clear();
 	_mainContainer._AnimationList.clear();
 	_mainContainer._PrototypeList.clear();
 	_mainContainer._SceneList.clear();
