@@ -3,7 +3,7 @@
 
 
 
-#define LESSTEXTURE
+//#define LESSTEXTURE
 
 
 AssetsImguiWindow::AssetsImguiWindow(bool open, ImGuiWindowFlags flags)
