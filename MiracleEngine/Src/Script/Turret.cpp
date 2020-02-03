@@ -88,18 +88,36 @@ void Turret::Update(double dt)
 
 Vector3& Turret::GetDestinationPos()
 {
-	if (!_target || _target->GetDestory()) // if not target, find player
+	GameObject* exist = MyFactory.GetObjectWithId(_targetUid);
+	if (!exist)
+		return ((TransformComponent*)exist->GetComponent(ComponentId::CT_Transform))->GetPos();
+	else
 	{
 		for (auto idPair : _engineSystems._factory->getObjectlist())
 		{
 			if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0)
 			{
 				_target = idPair.second;
+				_targetUid = idPair.second->Get_uID();
+				return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 				//break;
 			}
 		}
 	}
-	return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
+
+	//if (!_target || _target->GetDestory()) // if not target, find player
+	//{
+	//	for (auto idPair : _engineSystems._factory->getObjectlist())
+	//	{
+	//		if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0)
+	//		{
+	//			_target = idPair.second;
+	//			//break;
+	//		}
+	//	}
+	//}
+	//return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 }
 
 Vector3& Turret::GetPosition()

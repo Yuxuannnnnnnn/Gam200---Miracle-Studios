@@ -7,6 +7,7 @@
 #include "Script/Turret.h"
 #include "Script/Spawner.h"
 #include "Script/Explosion.h"
+#include "Script/PickUps.h"
 #include "Script/ButtonController.h"
 
 

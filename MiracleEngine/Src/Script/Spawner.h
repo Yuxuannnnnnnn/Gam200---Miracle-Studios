@@ -19,6 +19,7 @@ private:
 	int _health;
 	int _spawntype;
 // Logic - Behaviour
+	int _spawnstyle; // fixed to spawn certain enemy type or random
 	double _timerSpawn;
 	double _timerCooldownSpawn;
 public:
