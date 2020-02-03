@@ -1,1 +1,65 @@
-{"IdentityComponent":true,"ObjectType":"player","Name":"none","TransformComponent":true,"Position":[-548.9990234375,386.1363220214844,1.000244140625],"Scale":[200.0,200.0,1.0],"Rotate":0.0,"Layer":1,"GraphicsComponent":true,"G.FileName":"catjump.png","G.Shader":"","LogicComponent":true,"ScriptId":[],"AnimationComponent":true,"AnimationTypes":[{"AnimationType":"Turret_Transform_spriteSpriteSheetData.json","TimeDelay":0.10000000149011612,"AnimationName":"Idle"},{"AnimationType":"CatAnimation.json","TimeDelay":0.0,"AnimationName":"Run"},{"AnimationType":"DatafileExplosionBluePlasma24FPSSprite.json","TimeDelay":0.0,"AnimationName":"Walk"},{"AnimationType":"Character_BodyFloat_spriteSpriteSheetData.json","TimeDelay":0.0,"AnimationName":"jump"}],"StartAnim":"Idle","AudioComponent":true,"A.FileName":"audio_player.ogg","IsBGM":false,"RigidBody2DComponent":true,"Mass":10.0,"Friction":0.10000000149011612,"Static":false,"CircleCollider2DComponent":true,"ColliderTypeId":2,"ColliderTag":1,"ColliderTrigger":false}
+{
+  "IdentityComponent": true,
+  "ObjectType": "Player",
+  "Name": "none",
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 0.0 ],
+  "Scale": [ 200.0, 200.0, 1.0 ],
+  "Rotate": 0.0,
+  "Layer": 10,
+  "GraphicsComponent": true,
+  "G.FileName": "catjump.png",
+  "G.Shader": "",
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Script2Id": [ "Player" ],
+  "Script2Data": [
+    {
+      "Health": 10,
+      "WeaponActive": 1,
+      "AmmoRpg": 0,
+      "AmmoTurret": 10,
+      "AmmoWall": 10,
+      "FireratePistol": 1.0,
+      "FirerateShotgun": 1.0,
+      "FirerateRpg": 1.0,
+      "FirerateTurret": 1.0,
+      "FirerateWall": 1.0
+    }
+  ],
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Turret_Transform_spriteSpriteSheetData.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Idle"
+    },
+    {
+      "AnimationType": "CatAnimation.json",
+      "TimeDelay": 0.0,
+      "AnimationName": "Run"
+    },
+    {
+      "AnimationType": "DatafileExplosionBluePlasma24FPSSprite.json",
+      "TimeDelay": 0.0,
+      "AnimationName": "Walk"
+    },
+    {
+      "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
+      "TimeDelay": 0.0,
+      "AnimationName": "jump"
+    }
+  ],
+  "StartAnim": "Idle",
+  "AudioComponent": true,
+  "A.FileName": "audio_player.ogg",
+  "IsBGM": false,
+  "RigidBody2DComponent": true,
+  "Mass": 10.0,
+  "Friction": 0.10000000149011612,
+  "Static": false,
+  "CircleCollider2DComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 1,
+  "ColliderTrigger": false
+}

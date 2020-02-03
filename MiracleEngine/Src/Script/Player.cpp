@@ -302,7 +302,7 @@ void Player::UpdateInput()
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_8) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_8))
 	{
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Character_BodyFloat_spriteSpriteSheetData.json");
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("jump");
 	}
 	
 
