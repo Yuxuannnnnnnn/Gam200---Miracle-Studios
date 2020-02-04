@@ -26,7 +26,9 @@ void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 	ResetCurrTimeDelay();	//Reset currentttimedelay to 0
 	SetTimeDelay(AnimationName);	//Set the TimeDelay
 	SetAnimationResource();	//Set the Animation*
-	SetMaxFrame(_currAnimationResource->GetMaxFrame());	//Set the Max Frame
+
+	if(_currAnimationResource)
+		SetMaxFrame(_currAnimationResource->GetMaxFrame());	//Set the Max Frame
 }
 
 
