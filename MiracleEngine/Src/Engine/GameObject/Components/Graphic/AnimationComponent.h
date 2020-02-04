@@ -222,11 +222,12 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(GetEnable());
-		prototypeDoc.AddMember("AnimationComponent", value);
-
 		if (!animationFileNameList.empty())
 		{
+			value.SetBool(GetEnable());
+			prototypeDoc.AddMember("AnimationComponent", value);
+
+
 			value.SetArray();
 			{
 				rapidjson::Value object;
@@ -254,11 +255,13 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(GetEnable());
-		prototypeDoc.AddMember("AnimationComponent", value, allocator);
 
 		if (!animationFileNameList.empty())
 		{
+			value.SetBool(GetEnable());
+			prototypeDoc.AddMember("AnimationComponent", value, allocator);
+
+	
 			value.SetArray();
 			{
 				rapidjson::Value object;
