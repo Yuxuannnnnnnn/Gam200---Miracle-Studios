@@ -172,6 +172,9 @@ void Player::Update(double dt)
 	UpdateInput();
 	UpdateCamera();
 	UpdateUI();
+
+	//play idle animation here, if there is no movement
+	//play death animation when health is zero
 }
 
 void Player::UpdateCamera()
@@ -255,7 +258,11 @@ void Player::UpdateInput()
 
 		//MyAudioSystem.PlaySFX("Coin.ogg");
 
+		//play firing animation here
+
 	}
+	//Right click to activate shield, play shield animation.
+
 // NUMBERS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_1))
@@ -380,7 +387,7 @@ void Player::WeaponShoot()
 		}
 		default:
 			break;
-		}
+		}	
 }
 
 void Player::WeaponShoot_Pistol()
