@@ -144,6 +144,7 @@ private:
 			 return;
 		}
 
+		return;
 		throw std::exception{ "Does not have AnimationType" };
 	}
 
@@ -155,6 +156,7 @@ private:
 			return;
 		}
 
+		return;
 		throw std::exception{ "Does not have AnimationType" };
 	}
 
