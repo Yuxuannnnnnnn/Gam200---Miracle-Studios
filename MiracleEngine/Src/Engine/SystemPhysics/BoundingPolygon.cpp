@@ -9,7 +9,7 @@ BoundingPolygon::BoundingPolygon() :
 	_obbBox{false}
 {}
 
-BoundingPolygon::BoundingPolygon::BoundingPolygon(const BoundingPolygon& rhs) :
+BoundingPolygon::BoundingPolygon(const BoundingPolygon& rhs) :
 	_AABB{ rhs._AABB },
 	_numPoints{ rhs._numPoints },
 	_pointArray{ new Vector3[rhs._numPoints] },
@@ -22,6 +22,32 @@ BoundingPolygon::BoundingPolygon::BoundingPolygon(const BoundingPolygon& rhs) :
 		_ptrEdgeArray[i] = rhs._ptrEdgeArray[i];
 	}
 }
+
+BoundingPolygon& BoundingPolygon::operator=(const BoundingPolygon& rhs)
+{
+	_AABB = rhs._AABB;
+	_numPoints = rhs._numPoints;
+	_obbBox = rhs._obbBox;
+
+	if (_pointArray)
+		delete[] _pointArray;
+
+	if (_ptrEdgeArray)
+		delete[] _ptrEdgeArray;
+
+	_pointArray = new Vector3[rhs._numPoints];
+	_ptrEdgeArray = new BEdge[rhs._numPoints];
+	
+
+	for (size_t i = 0; i < _numPoints; ++i)
+	{
+		_pointArray[i] = rhs._pointArray[i];
+		_ptrEdgeArray[i] = rhs._ptrEdgeArray[i];
+	}
+
+	return *this;
+}
+
 
 BoundingPolygon::BoundingPolygon(Vector3* points, int numPoints) :
 	_AABB{ points, numPoints },

@@ -185,9 +185,9 @@ void TransformComponent::Inspect()
 
 	Vec3 tempPos = _pos;
 
-	ImGui::InputFloat3("Input Pos X, Y, Z", tempPos.m);
+	ImGui::InputFloat2("Input Pos X, Y", tempPos.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat3("Slider Pos X, Y, Z", tempPos.m, -1000, 1000);
+	ImGui::SliderFloat2("Slider Pos X, Y", tempPos.m, -1000, 1000);
 
 	SetPos(tempPos);
 
@@ -198,9 +198,9 @@ void TransformComponent::Inspect()
 
 	Vec3 tempScale = _scale;
 
-	ImGui::InputFloat3("Input Scale X, Y, Z", tempScale.m);
+	ImGui::InputFloat2("Input Scale X, Y", tempScale.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat3("Slider Scale X, Y, Z", tempScale.m, 1, 100);
+	ImGui::SliderFloat2("Slider Scale X, Y", tempScale.m, 1, 500);
 
 	SetScale(tempScale);
 

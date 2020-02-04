@@ -31,8 +31,6 @@ public:
 	float _fictionVal;
 	bool _static;
 
-	bool _componentEnable;
-
 public:
 	RigidBody2DComponent();
 	RigidBody2DComponent(const RigidBody2DComponent& rhs) = default;

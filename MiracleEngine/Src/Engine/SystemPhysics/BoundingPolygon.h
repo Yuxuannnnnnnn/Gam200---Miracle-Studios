@@ -17,6 +17,9 @@ typedef struct BoundingPolygon
 	BoundingPolygon(Vector3* points, int numPoints);
 
 	BoundingPolygon(const BoundingPolygon& rhs);
+
+	BoundingPolygon& operator=(const BoundingPolygon& rhs);
+
 	~BoundingPolygon();
 
 	// create a OBB box if rotated

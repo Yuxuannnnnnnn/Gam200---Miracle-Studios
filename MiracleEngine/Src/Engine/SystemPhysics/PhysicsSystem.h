@@ -9,8 +9,9 @@
 class PhysicsSystem final
 {
 	std::vector<Collider2D*> _allEnableColliders; // frame based
+	size_t _drawUId; // single obj draw
 public:
-	PhysicsSystem() = default;
+	PhysicsSystem();
 	~PhysicsSystem() {}
 
 	PhysicsSystem(const PhysicsSystem& rhs) = delete;
@@ -33,9 +34,14 @@ private:
 	void ApplyVelocityToObject(double dt);
 
 	void CollisionUpdate(double dt);
+	void AllColliderDataUpdate();
 
 	void RigidbodyDraw();
-	void CollisionDraw();
+	void AllColliderDraw();
+
+	void DrawBoxCollider2D(Collider2D* obj);
+	void DraWCircleCollider2D(Collider2D* obj);
+	void DrawEdgeCollider2D(Collider2D* obj);
 	
 	void UpdateCollision(double dt);
 	void UpdateStaticCollision(double dt);
