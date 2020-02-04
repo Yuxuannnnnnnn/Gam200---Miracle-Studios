@@ -37,6 +37,8 @@ void PhysicsSystem::AllColliderDataUpdate()
 		if (!it.second || !it.second->GetEnable())
 			continue;
 
+		Collider2D* obj = (Collider2D*)it.second;
+
 		UpdateColliderData((Collider2D*)it.second);
 	}
 
@@ -45,7 +47,14 @@ void PhysicsSystem::AllColliderDataUpdate()
 		if (!it.second || !it.second->GetEnable())
 			continue;
 
-		UpdateColliderData((Collider2D*)it.second);
+		Collider2D* obj = (Collider2D*)it.second;
+
+		if (GetComponentMap(RigidBody2D).find(it.first) != GetComponentMap(RigidBody2D).end())
+			obj->_attachedRigidboy = true;
+		else
+			obj->_attachedRigidboy = false;
+
+		UpdateColliderData(obj);
 	}
 
 	for (auto& it : GetComponentMap(BoxCollider2D))
@@ -53,7 +62,14 @@ void PhysicsSystem::AllColliderDataUpdate()
 		if (!it.second || !it.second->GetEnable())
 			continue;
 
-		UpdateColliderData((Collider2D*)it.second);
+		Collider2D* obj = (Collider2D*)it.second;
+
+		if (GetComponentMap(RigidBody2D).find(it.first) != GetComponentMap(RigidBody2D).end())
+			obj->_attachedRigidboy = true;
+		else
+			obj->_attachedRigidboy = false;
+
+		UpdateColliderData(obj);
 	}
 }
 

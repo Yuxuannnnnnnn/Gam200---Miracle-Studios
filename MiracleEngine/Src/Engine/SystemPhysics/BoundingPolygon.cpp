@@ -113,6 +113,8 @@ BoundingPolygon BoundingPolygon::CreateBoxPolygon(const Vec3& position, const Ve
 	// box axis
 	box._ptrEdgeArray[0] = BEdge{ box._pointArray[2] , box._pointArray[1] , Vec3{ position._x,position._y,1.f} };
 	box._ptrEdgeArray[1] = BEdge{ box._pointArray[3] , box._pointArray[2] , Vec3{ position._x,position._y,1.f} };
+	box._ptrEdgeArray[2] = BEdge{ box._pointArray[0] , box._pointArray[3] , Vec3{ position._x,position._y,1.f} };
+	box._ptrEdgeArray[3] = BEdge{ box._pointArray[1] , box._pointArray[0] , Vec3{ position._x,position._y,1.f} };
 
 	return box;
 }

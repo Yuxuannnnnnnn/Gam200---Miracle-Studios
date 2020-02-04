@@ -685,6 +685,10 @@
     <ClCompile Include="Src\Engine\SystemPhysics\Collision.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionMap.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionTable.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision_Dynamic.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision_OldCode.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision_Response.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision_Static.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\IForce.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Collision.cpp" />

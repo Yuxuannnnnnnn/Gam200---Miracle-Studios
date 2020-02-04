@@ -121,6 +121,10 @@
     <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Draw.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Collision.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Physics.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision_Static.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision_Dynamic.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision_Response.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\Collision_OldCode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
