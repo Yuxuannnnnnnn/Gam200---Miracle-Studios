@@ -15,6 +15,7 @@ private:
 	bool _god;
 	bool _init;
 	GameObject* _camera;
+	double _timerShield, _timerShieldDuration;
 	int _health, _healthMax;
 	int _progress, _progressMax;
 	double _timerSwitch, _timerSwitchDelay;
@@ -32,6 +33,10 @@ private:
 	double _firerateWall;
 // Logic Data - Progression
 	double _timerProg, _timerProgCooldown;
+// Logic Data - Animation
+	bool _moving;
+	int _animState, _animStatePrev; // 0==NoChange, 1==StartMove, 2==StartIdle, 3==StartShoot, etc
+
 public:
 	void SerialiseComponent(Serialiser& document) ;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;
@@ -60,6 +65,8 @@ public:
 	void SetProgress(int val);
 	int GetProgressMax();
 	void ProgressIncement(int in = 1);
+
+	void DamagePlayer();
 
 	void OnTrigger2DEnter(Collider2D* other);
 };

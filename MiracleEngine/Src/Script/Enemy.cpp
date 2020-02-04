@@ -308,27 +308,27 @@ void Enemy::FSM()
 }
 void Enemy::ChancePickUps()
 {
-	//std::srand((unsigned)std::time(0));
-	//int Yaya = 1 + std::rand() % 8;
+	std::srand((unsigned)std::time(0));
+	int Yaya = 1 + std::rand() % 8;
 
-	//if (Yaya == 4) // health
-	//{
-	//	GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Health"]);
-	//	// set bullet position & rotation as same as 'parent' obj
-	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	//}
-	//else if (Yaya == 8) // ammo
-	//{
-	//	GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
-	//	// set bullet position & rotation as same as 'parent' obj
-	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	//}
+	if (Yaya == 4) // health
+	{
+		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Health"]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+	}
+	else if (Yaya == 8) // ammo
+	{
+		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+	}
 }
 
 Vector3& Enemy::GetDestinationPos()

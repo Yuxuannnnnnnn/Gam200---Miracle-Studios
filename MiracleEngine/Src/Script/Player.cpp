@@ -4,6 +4,9 @@
 
 void Player::SerialiseComponent(Serialiser& document)
 {
+	if (document.HasMember("ShieldDuration") && document["ShieldDuration"].IsDouble())	//Checks if the variable exists in .Json file
+		_timerShieldDuration = document["ShieldDuration"].GetDouble();
+
 	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
 		_health = _healthMax = document["Health"].GetInt();
 
@@ -110,6 +113,7 @@ Player::Player() :
 	_god{ false },
 	_init{ false },
 	_camera{ nullptr },
+	_timerShield{ 0 }, _timerShieldDuration{ 0 },
 	_health{ 30 }, _healthMax{ 30 },
 	_progress{ 0 }, _progressMax{ 30 },
 	_timerSwitch{ 0 }, _timerSwitchDelay{ 0.5 },
@@ -125,7 +129,11 @@ Player::Player() :
 	_firerateRPG{ 2 },
 	_firerateTurret{ 5 },
 	_firerateWall{ 4 },
-	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 }
+
+	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 },
+
+	_moving{ false },
+	_animState{ 0 }, _animStatePrev{ 0 }
 {
 }
 
@@ -163,18 +171,40 @@ void Player::Update(double dt)
 		_ammoRpg = _ammoTurret = _ammoWall = 10;
 		_timerShoot = _timerDeploy = 0.0;
 	}
+	if (_health == 0)
+	{
+		_animState = 0;
+		// trigger game end state/thing
+	}
 
 	_timerShoot -= dt;
 	_timerDeploy -= dt;
 	_timerProg -= dt;
 	_timerSwitch -= dt;
+	_timerShield -= dt;
 
 	UpdateInput();
 	UpdateCamera();
 	UpdateUI();
 
-	//play idle animation here, if there is no movement
-	//play death animation when health is zero
+// anim updating related logic
+	_animState = _moving ? 1 : 2;
+	if (_timerShield < 0.0) _animState = 4;
+// setting animation state
+	if (_animState != _animStatePrev)
+	{
+		_animStatePrev = _animState;
+		if (_animState == 0) // die
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
+		if (_animState == 1) // start moving
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
+		if (_animState == 2) // stopped moving
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+
+		if (_animState == 4) // shield on
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+	}
+
 }
 
 void Player::UpdateCamera()
@@ -220,17 +250,28 @@ void Player::UpdateInput()
 	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScale(scaleVec);
 
 // MOVEMENT
-
-
+	_moving = false;
 	float spd = 3.f * 10000; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
+	{
+		_moving = true;
 		AddForce(GetParentId(), Vector3(0, 1, 0), spd);
+	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_A))
+	{
+		_moving = true;
 		AddForce(GetParentId(), Vector3(-1, 0, 0), spd);
+	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_D))
+	{
+		_moving = true;
 		AddForce(GetParentId(), Vector3(1, 0, 0), spd);
+	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_S))
+	{
+		_moving = true;
 		AddForce(GetParentId(), Vector3(0, -1, 0), spd);
+	}
 
 // MOUSE
 	Vector3 aimVector = GetMousePos(); // use aimVector to determine direction player is facing
@@ -259,9 +300,14 @@ void Player::UpdateInput()
 		//MyAudioSystem.PlaySFX("Coin.ogg");
 
 		//play firing animation here
-
+		
 	}
 	//Right click to activate shield, play shield animation.
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_RBUTTON) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_RBUTTON))
+	{
+
+	}
 
 // NUMBERS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
@@ -460,6 +506,12 @@ int Player::GetProgressMax()
 void Player::ProgressIncement(int in)
 {
 	_progress += in;
+}
+
+void Player::DamagePlayer()
+{
+	// if shield exists, damage that first
+	// else damage health
 }
 
 void Player::OnTrigger2DEnter(Collider2D* other)
