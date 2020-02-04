@@ -687,6 +687,9 @@
     <ClCompile Include="Src\Engine\SystemPhysics\CollisionTable.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\IForce.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Collision.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Draw.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Physics.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\Console.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\ScreenSize.cpp" />
     <ClCompile Include="Src\Engine\SystemWindows\Window.cpp" />

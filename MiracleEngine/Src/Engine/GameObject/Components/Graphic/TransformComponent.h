@@ -115,6 +115,12 @@ public:
 	{
 		TransformComponent* protoTransformCom = dynamic_cast<TransformComponent*>(protoCom);
 
+		if (!protoTransformCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value position;
 		rapidjson::Value scale;

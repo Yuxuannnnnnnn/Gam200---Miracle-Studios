@@ -12,20 +12,20 @@ void AnimationSystem::Update(double dt)
 		
 	}
 	
-	if (MyInputSystem.KeyDown(KeyCode::KEYB_M))
+	/*if (MyInputSystem.KeyDown(KeyCode::KEYB_M))
 	{
-		MyAudioSystem.PlaySFX("Button.ogg");
+		MyAudioSystem.PlayBGM("Button.ogg");
 	}
 
 	if (MyInputSystem.KeyDown(KeyCode::KEYB_N))
 	{
-		MyAudioSystem.PlaySFX("Coin.ogg");
+		MyAudioSystem.PlayBGM("Coin.ogg");
 	}
 
 	if (MyInputSystem.KeyDown(KeyCode::KEYB_B))
 	{
-		MyAudioSystem.PlaySFX("Level1.ogg");
-	}
+		MyAudioSystem.PlayBGM("Level1.ogg", 0.5f);
+	}*/
 	//for (auto& e : MyComponentManger._AnimationComponents)
 	//{
 	//	if (e.second->GetParentId() < 1000 || e.second->GetParentPtr()->GetDestory())

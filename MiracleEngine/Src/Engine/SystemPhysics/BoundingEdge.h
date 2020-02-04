@@ -3,6 +3,7 @@
 
 typedef struct BoundingEdge
 {
+	Vector3		_centerPoint;
 	Vector3		_startPoint;
 	Vector3		_endPoint;
 	Vector3		_normalVec;

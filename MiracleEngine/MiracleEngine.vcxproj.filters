@@ -118,6 +118,9 @@
     <ClCompile Include="Src\Engine\Editor\AnimationImguiWindow.cpp" />
     <ClCompile Include="Src\Script\Boss.cpp" />
     <ClCompile Include="Src\Script\PickUps.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Draw.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Collision.cpp" />
+    <ClCompile Include="Src\Engine\SystemPhysics\PhysicsSystem_Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />

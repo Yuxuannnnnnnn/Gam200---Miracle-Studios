@@ -31,8 +31,6 @@ public:
 	float _fictionVal;
 	bool _static;
 
-	bool _componentEnable;
-
 public:
 	RigidBody2DComponent();
 	RigidBody2DComponent(const RigidBody2DComponent& rhs) = default;
@@ -92,6 +90,13 @@ public:
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		RigidBody2DComponent* protoIColliderCom = dynamic_cast<RigidBody2DComponent*>(protoCom);
+
+
+		if (!protoIColliderCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
 
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value  mass;

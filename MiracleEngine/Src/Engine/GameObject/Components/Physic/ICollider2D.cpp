@@ -58,6 +58,8 @@ void Collider2D::Inspect()
 		}
 	}
 
+	ImGui::Spacing();
+
 }
 
 

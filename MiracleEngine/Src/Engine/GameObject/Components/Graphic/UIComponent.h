@@ -66,6 +66,12 @@ public:
 	{
 		UIComponent* protoIdentityCom = dynamic_cast<UIComponent*>(protoCom);
 
+		if (!protoIdentityCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
 		bool addComponentIntoSceneFile = false;
 
 		rapidjson::Value enable;

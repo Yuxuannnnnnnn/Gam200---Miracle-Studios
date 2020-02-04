@@ -133,7 +133,10 @@ public:
 		ButtonComponent* protoButtonCom = dynamic_cast<ButtonComponent*>(protoCom);
 
 		if (!protoButtonCom)
+		{
+			DeSerialiseComponent(value, allocator);
 			return;
+		}
 
 		bool addComponentIntoSceneFile = false;
 		rapidjson::Value buttonType;

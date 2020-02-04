@@ -35,17 +35,9 @@ class BoxCollider2DComponent : public Collider2D // renderer
 public:
 	BPolygon _data;
 
-	// AABB
-	Vector3		mMaxPos;	// Bottom-right point with maximum x and y values
-	Vector3		mMinPos;	// Top-left point with minimum x and y values
-
-	//OBB
-	Vector3 mOrigin; // corner[0].dot(axis[a])
-	Vector3 mCorner[4]; // Corners of the box, where 0 is the lower left.
-	Vector3 mAxis[2];  // Two edges of the box extended away from corner[0].
-
-	Vector3 mScale;
-	float mAngle;
+	Vector3 _center;
+	Vector3 _scale;
+	float _angle;
 
 public:
 	BoxCollider2DComponent();
@@ -57,7 +49,38 @@ public:
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override
 	{
+		if (document.HasMember("BoxCollider2DComponent") && document["BoxCollider2DComponent"].IsBool())
+			SetEnable(document["BoxCollider2DComponent"].GetBool());
+
 		Collider2D::SerialiseComponent(document);
+
+		if (document.HasMember("Collider2D.B.Center") && document["Collider2D.B.Center"].IsArray())
+		{
+			if (document["Collider2D.B.Center"][0].IsFloat() && document["Collider2D.B.Center"][1].IsFloat())
+				_center = Vector3{ document["Collider2D.B.Center"][0].GetFloat(), document["Collider2D.B.Center"][1].GetFloat(), 1 };
+
+			if (document["Collider2D.B.Center"].Size() == 3)
+			{
+				_center.SetZ(document["Collider2D.B.Center"][2].GetFloat());
+			}
+		}
+
+		if (document.HasMember("Collider2D.B.Scale") && document["Collider2D.B.Scale"].IsArray())
+		{
+			if (document["Collider2D.B.Scale"][0].IsFloat() && document["Collider2D.B.Scale"][1].IsFloat())
+				_scale = Vector3{ document["Collider2D.B.Scale"][0].GetFloat(), document["Collider2D.B.Scale"][1].GetFloat(), 1 };
+
+			if (document["Collider2D.B.Scale"].Size() == 3)
+			{
+				_scale.SetZ(document["Collider2D.B.Scale"][2].GetFloat());
+			}
+		}
+
+
+		if (document.HasMember("Collider2D.B.Angle") && document["Collider2D.B.Angle"].IsFloat())	//Checks if the variable exists in .Json file
+		{
+			_angle = (document["Collider2D.B.Angle"].GetFloat());
+		}
 	}
 
 
@@ -65,31 +88,79 @@ public:
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("BoxCollider2DComponent", rapidjson::Value(true));
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("BoxCollider2DComponent", value);
 
 		Collider2D::DeSerialiseComponent(prototypeDoc);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_center.GetX()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_center.GetY()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_center.GetZ()).Move(), prototypeDoc.Allocator());
+		prototypeDoc.AddMember("Collider2D.B.Center", value);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_scale.GetZ()).Move(), prototypeDoc.Allocator());
+		prototypeDoc.AddMember("Collider2D.B.Scale", value);
+
+		value.SetFloat(_angle);
+		prototypeDoc.AddMember("Collider2D.B.Angle", value);
 	}
 
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		rapidjson::Value value;
 
-		value.SetBool(true);
-		prototypeDoc.AddMember("BoxCollider2DComponent", rapidjson::Value(true), allocator);
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("BoxCollider2DComponent", value, allocator);
 
 		Collider2D::DeSerialiseComponent(prototypeDoc, allocator);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_center.GetX()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_center.GetY()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_center.GetZ()).Move(), allocator);
+		prototypeDoc.AddMember("Collider2D.B.Center", value, allocator);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_scale.GetZ()).Move(), allocator);
+		prototypeDoc.AddMember("Collider2D.B.Scale", value, allocator);
+
+		value.SetFloat(_angle);
+		prototypeDoc.AddMember("Collider2D.B.Angle", value, allocator);
 	}
 
 	void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
-		Collider2D* protoIColliderCom = dynamic_cast<Collider2D*>(protoCom);
+		BoxCollider2DComponent* protoIColliderCom = dynamic_cast<BoxCollider2DComponent*>(protoCom);
+
+		if (!protoIColliderCom)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
 
 		bool addComponentIntoSceneFile = false;
+		rapidjson::Value enable;
 		rapidjson::Value type;
 		rapidjson::Value tag;
 		rapidjson::Value trigger;
+
+		rapidjson::Value center;
+		rapidjson::Value scale;
+		rapidjson::Value angle;
+
+
+		if (protoIColliderCom->GetEnable() != this->GetEnable())
+		{
+			addComponentIntoSceneFile = true;
+			enable.SetBool(GetEnable());
+		}
 
 		if (protoIColliderCom->_type != _type)	//If audiofile of Object is diff from prototype
 		{
@@ -109,10 +180,37 @@ public:
 			trigger.SetBool(_trigger);
 		}
 
+		if (protoIColliderCom->_center != _center)
+		{
+			center.SetArray();
+			addComponentIntoSceneFile = true;
+			center.PushBack(rapidjson::Value(_center._x), allocator);
+			center.PushBack(rapidjson::Value(_center._y), allocator);
+			center.PushBack(rapidjson::Value(_center._z), allocator);
+		}
+
+		if (protoIColliderCom->_scale != _scale)
+		{
+			scale.SetArray();
+			addComponentIntoSceneFile = true;
+			scale.PushBack(rapidjson::Value(_scale._x), allocator);
+			scale.PushBack(rapidjson::Value(_scale._y), allocator);
+			scale.PushBack(rapidjson::Value(_scale._z), allocator);
+		}
+
+		if (protoIColliderCom->_angle != _angle)
+		{
+			addComponentIntoSceneFile = true;
+			angle.SetFloat(_angle);
+		}
+
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
-			value.AddMember("BoxCollider2DComponent", rapidjson::Value(true), allocator);
+			if (!enable.IsNull())
+				value.AddMember("BoxCollider2DComponent", enable, allocator);
+			else
+				value.AddMember("BoxCollider2DComponent", protoIColliderCom->GetEnable(), allocator);
 
 			if (!type.IsNull())
 			{
@@ -127,6 +225,21 @@ public:
 			if (!trigger.IsNull())
 			{
 				value.AddMember("ColliderTrigger", trigger, allocator);
+			}
+
+			if (!center.IsNull())
+			{
+				value.AddMember("Collider2D.B.Center", center, allocator);
+			}
+
+			if (!scale.IsNull())
+			{
+				value.AddMember("Collider2D.B.Scale", scale, allocator);
+			}
+
+			if (!angle.IsNull())
+			{
+				value.AddMember("Collider2D.B.Angle", angle, allocator);
 			}
 		}
 	}
