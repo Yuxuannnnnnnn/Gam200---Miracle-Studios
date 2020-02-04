@@ -15,8 +15,7 @@ RigidBody2DComponent::RigidBody2DComponent() :
 	_direction{ 0.f,1.f,0.f },
 	_mass{ 1.f },
 	_fictionVal{ 0.f },
-	_static{ true },
-	_componentEnable{ true }
+	_static{ true }
 {}
 
 std::string RigidBody2DComponent::ComponentName() const
