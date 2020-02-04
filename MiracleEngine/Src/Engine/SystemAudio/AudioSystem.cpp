@@ -17,13 +17,24 @@ AudioSystem::AudioSystem()
 	
 }
 
-void AudioSystem::PlayBGM(const std::string& name)
+void AudioSystem::PlayBGM(const std::string& name, float volume)
 {
+	auto sound = MyResourceManager.GetLoopSoundResource(name);
 
+	if (sound != nullptr)
+	{
+		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _sfxGroup, false, &_channel2);
 
+		FMOD_ChannelGroup_Stop(_bgmGroup);
+		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _bgmGroup, 0, &_channel1);
+
+		FMOD_Channel_SetVolume(_channel2, volume);
+		//FMOD_Channel_SetLoopCount(_channel2, 3);
+		FMOD_Channel_SetPaused(_channel2, false);
+	}
 }
 
-void AudioSystem::PlaySFX(const std::string& name)
+void AudioSystem::PlaySFX(const std::string& name, float volume)
 {
 	auto sound = MyResourceManager.GetSoundResource(name);
 
@@ -31,7 +42,7 @@ void AudioSystem::PlaySFX(const std::string& name)
 	if(sound != nullptr)
 		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _sfxGroup, false, &_channel2);
 
-	FMOD_Channel_SetVolume(_channel2, 0.9f);
+	FMOD_Channel_SetVolume(_channel2, volume);
 	//FMOD_Channel_SetLoopCount(_channel2, 3);
 	FMOD_Channel_SetPaused(_channel2, false);
 }
@@ -58,7 +69,6 @@ void AudioSystem::Play(const std::string& name, bool isBGM)
 	if (isBGM)
 	{
 		FMOD_ChannelGroup_Stop(_bgmGroup);
-
 		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _bgmGroup, 0, &_channel1);
 	}
 	else

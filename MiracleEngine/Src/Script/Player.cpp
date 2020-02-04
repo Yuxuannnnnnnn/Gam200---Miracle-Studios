@@ -217,6 +217,8 @@ void Player::UpdateInput()
 	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScale(scaleVec);
 
 // MOVEMENT
+
+
 	float spd = 3.f * 10000; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
 		AddForce(GetParentId(), Vector3(0, 1, 0), spd);
@@ -240,6 +242,19 @@ void Player::UpdateInput()
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_LBUTTON))
 	{
 		WeaponShoot();
+
+		// wait for audio system deserialize
+
+		/*AudioComponent* audioptr = (AudioComponent*)this->GetSibilingComponent(ComponentId::CT_Audio);
+		if (audioptr)
+		{
+			audioptr->PlaySFX("Button");
+		}*/
+
+		//MyAudioSystem.PlayBGM("Level1.ogg", 0.5f);
+
+		//MyAudioSystem.PlaySFX("Coin.ogg");
+
 	}
 // NUMBERS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
