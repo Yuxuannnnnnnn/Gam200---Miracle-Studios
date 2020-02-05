@@ -28,6 +28,7 @@
 
   "GraphicsComponent": true,
   "G.FileName": "catjump.png",
+  "G.Shader": "",
   "G.Layer": 1,
   "AnimationComponent": true,
   "AnimationTypes": [
@@ -45,6 +46,11 @@
       "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
       "TimeDelay": 0.1,
       "AnimationName": "Idle"
+    },
+    {
+      "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
+      "TimeDelay": 0.1,
+      "AnimationName": "Run"
     },
     {
       "AnimationType": "SpriteSheetData_Character_Shield.json",

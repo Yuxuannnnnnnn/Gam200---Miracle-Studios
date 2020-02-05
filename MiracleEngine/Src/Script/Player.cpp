@@ -210,7 +210,11 @@ void Player::Update(double dt)
 	{
 		_animStatePrev = _animState;
 		if (_animState == 0) // die
+		{
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
+			_timerDeath = (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()
+				* (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+		}
 		if (_animState == 1) // start moving
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
 		if (_animState == 2) // stopped moving

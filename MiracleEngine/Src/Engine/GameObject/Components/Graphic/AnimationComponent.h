@@ -117,6 +117,14 @@ public:
 	
 //Only for Logic Animation script--------------------------------------
 	void SetCurrentAnim(const std::string& AniamtionType);
+	int GetMaxFrame()
+	{
+		return _maxFrame;
+	}
+	float GetTimeDelay()
+	{
+		return _timeDelay;
+	}
 //---------------------------------------------------------------------
 
 
