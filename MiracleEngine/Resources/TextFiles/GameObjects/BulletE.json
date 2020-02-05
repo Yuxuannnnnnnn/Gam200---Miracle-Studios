@@ -13,7 +13,8 @@
   "Script2Data": [
     {
       "Lifetime": 3.0,
-      "BulletType": "BulletEnemy"
+      "BulletType": "BulletEnemy",
+      "BulletSpeed": 0.5
     }
   ],
 

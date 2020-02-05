@@ -15,11 +15,14 @@ private:
 	bool _god;
 	bool _init;
 	GameObject* _camera;
-	double _timerShield, _timerShieldDuration;
 	int _health, _healthMax;
 	int _progress, _progressMax;
-	double _timerSwitch, _timerSwitchDelay;
+// Logic Data - Shield
+	bool _shieldOn;
+	double _timerShield, _timerShieldDuration;
+	double _timerShieldActivateCooldown, _timerShieldCooldown;
 // Logic Data - Weapons
+	double _timerSwitch, _timerSwitchDelay;
 	int _weaponActive;
 	int _ammoRpg;
 	int _ammoTurret;
@@ -35,7 +38,7 @@ private:
 	double _timerProg, _timerProgCooldown;
 // Logic Data - Animation
 	bool _moving;
-	int _animState, _animStatePrev; // 0==NoChange, 1==StartMove, 2==StartIdle, 3==StartShoot, etc
+	int _animState, _animStatePrev; // 1==StartMove, 2==StartIdle, 3==StartShoot, etc
 
 public:
 	void SerialiseComponent(Serialiser& document) ;
@@ -49,6 +52,7 @@ public:
 	void Init();
 	void Update(double dt);
 
+	void UpdateShield(double dt);
 	void WeaponSwitch();
 	void WeaponShoot();
 	void WeaponShoot_Pistol();
@@ -66,7 +70,7 @@ public:
 	int GetProgressMax();
 	void ProgressIncement(int in = 1);
 
-	void DamagePlayer();
+	void DamagePlayer(int dmg = 1);
 
 	void OnTrigger2DEnter(Collider2D* other);
 };

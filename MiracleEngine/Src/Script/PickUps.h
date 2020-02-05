@@ -11,25 +11,18 @@ enum class PickUp_Type
 	ROCKET_AMMO = 2,
 };
 
-class PickUps : public IScript
+class PickUps : public IScript2
 {
 private:
 	double _lifeTime;
 	int _pickupType;
 public:
 	PickUps();
-
 	void SerialiseComponent(Serialiser& document);
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
+	void Inspect();
 
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) 
-	{
-	}
-
-	void Inspect() 
-	{
-
-	}
-
+	PickUps* Clone();
 	void Update(double dt);
 };
 

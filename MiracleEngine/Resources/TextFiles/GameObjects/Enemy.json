@@ -33,8 +33,8 @@
       "Health": 1,
       "EnemyType": 1,
       "StunDuration": 0.5,
-      "AttackRange": 0.0,
-      "AttackMelee": 4.0,
+      "AttackRangeShoot": 0.0,
+      "AttackRangeMelee": 4.0,
       "MoveSpeed": 3.0,
       "ChaseSpeed": 10.0,
       "ChaseDuration": 2.0

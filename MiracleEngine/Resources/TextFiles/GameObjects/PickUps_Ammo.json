@@ -15,6 +15,14 @@
   "CircleColliderComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 9,
-  "ColliderTrigger": true
+  "ColliderTrigger": true,
 
+  "LogicComponent": true,
+  "Script2Id": [ "PickUps" ],
+  "Script2Data": [
+    {
+      "Lifetime": 5.0,
+      "PickUps_Type": 2
+    }
+  ]
 }
