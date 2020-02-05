@@ -26,9 +26,8 @@
     }
   ],
 
-  "GraphicsComponent": false,
+  "GraphicsComponent": true,
   "G.FileName": "catjump.png",
-  "G.Shader": "",
   "G.Layer": 1,
   "AnimationComponent": true,
   "AnimationTypes": [
@@ -39,17 +38,17 @@
     },
     {
       "AnimationType": "Character_death_spriteSpriteSheetData.json",
-      "TimeDelay": 0.0,
+      "TimeDelay": 0.1,
       "AnimationName": "Death"
     },
     {
       "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
-      "TimeDelay": 0.0,
+      "TimeDelay": 0.1,
       "AnimationName": "Idle"
     },
     {
       "AnimationType": "SpriteSheetData_Character_Shield.json",
-      "TimeDelay": 0.0,
+      "TimeDelay": 0.1,
       "AnimationName": "Shield"
     }
   ],
