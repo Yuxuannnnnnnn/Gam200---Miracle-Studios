@@ -3,6 +3,7 @@
 
 #pragma once
 #include "../IComponent.h"
+#include "Tools/MathLib/Math.h"
 
 enum class ButtonStates {
 	NORMAL,
@@ -12,7 +13,7 @@ enum class ButtonStates {
 	TOTAL_BUTTONSTATE
 };
 
-class ButtonComponent : public BoxCollider2DComponent
+class ButtonComponent : public IComponent
 {
 private:
 	TransformComponent* _transform;
