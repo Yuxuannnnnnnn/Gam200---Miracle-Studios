@@ -23,6 +23,8 @@ public:
 	IComponent(GameObject * parent, size_t uId);	//Initialise Parent Ptr & ParentId
 	virtual ~IComponent() = default;	//virtual destructor to delete deerived Components
 
+	virtual void Init() {}
+
 //Interface functions to be implemented by Derived Classes
 	virtual std::string ComponentName() const = 0; //Every Comoponent has a ComponentName function
 	

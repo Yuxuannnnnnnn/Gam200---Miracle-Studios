@@ -21,6 +21,7 @@
 #include "SystemAnimation/AnimationSystem.h"
 #include "SystemParticle/ParticleSystem.h"
 #include "SystemCamera/CameraSystem.h"    
+#include "LinkingFactory.h"
 
 //#include "SystemPhysics/ButtonManager.h"
 //#include "SystemPhysics/CollisionManager.h"
@@ -54,7 +55,7 @@ public:
 		_graphicsSystem{ nullptr },
 		_physicsSystem{ nullptr },
 		_audioSystem{ nullptr },
-		_cameraSystem{nullptr},
+		_cameraSystem{ nullptr },
 
 		_frameRateControl{ nullptr },
 
@@ -62,6 +63,7 @@ public:
 		//_prefabFactory{ nullptr },
 
 		_factory{ nullptr },
+		_linkFactory{ nullptr },
 		_particleSystem{ nullptr },
 
 		//_sceneManager{ nullptr },
@@ -99,6 +101,7 @@ public:
 		//_prefabFactory = new GameObjectPrototype();
 
 		_factory = new Factory;
+		_linkFactory = new LinkingFactory;
 		_particleSystem = new ParticleSystem;
 		//_sceneManager = new SceneManager();
 
@@ -149,6 +152,8 @@ public:
 		//delete _rigidbodyManager;
 		delete _imGuizmoManager;
 
+		delete _linkFactory;
+
 		delete _resourceManager;
 	}
 
@@ -168,6 +173,7 @@ public:
 	ParticleSystem* _particleSystem;
 	CameraSystem* _cameraSystem;
 
+	LinkingFactory* _linkFactory;
 
 	AudioSystem* _audioSystem;
 
@@ -219,6 +225,7 @@ public:
 //#define MyPrototypeFactory (*EngineSystems::GetInstance()._prefabFactory)
 
 #define MyFactory (*EngineSystems::GetInstance()._factory)
+#define MyLinkFactory (*EngineSystems::GetInstance()._linkFactory)
 #define MyParticleSystem (*EngineSystems::GetInstance()._particleSystem)
 
 //#define MySceneManager (*EngineSystems::GetInstance()._sceneManager)
