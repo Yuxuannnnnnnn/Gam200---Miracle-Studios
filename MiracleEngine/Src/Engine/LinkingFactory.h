@@ -9,6 +9,7 @@ public:
 	LinkingFactory() {}
 
 	void SaveNewLinkID(int Id, size_t objectUId);
-
-	
+	GameObject* GetLinkIDObject(int Id);
 };
+
+#define GetLinkObject(linkID) MyLinkFactory->GetLinkIDObject(linkID);
