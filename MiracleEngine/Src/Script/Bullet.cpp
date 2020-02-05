@@ -38,7 +38,7 @@ void Bullet::Inspect()
 	ImGui::Spacing();
 	ImGui::InputDouble("Lifetime ", &_lifeTime);
 	ImGui::Spacing();
-	ImGui::Text("BulletType ", IntToString(_bulletType));
+	ImGui::InputInt("BulletType ", &_bulletType);
 	ImGui::Spacing();
 	ImGui::InputDouble("BulletSpeed ", &_bulletSpeed);
 	ImGui::Spacing();
@@ -155,9 +155,7 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 		Player* player = reinterpret_cast<Player*>(
 			((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)
 		);
-		int hp = player->GetHealth();
-		hp -= 2;
-		player->SetHealth(hp);
+		player->DamagePlayer();
 	}
 	else if (IdCom->ObjectType().compare("Spawner") == 0 ||
 		IdCom->ObjectType().compare("Wall") == 0 ||
@@ -169,19 +167,22 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 
 void Bullet::OnCollision2DTrigger(Collider2D* other )
 {
-	std::string temp;
-	switch (_bulletType)
-	{
-	case 1:
-		BulletCollisionPlayer(other);
-		break;
-	case 2:
+	GetParentPtr()->SetDestory();
+	if (_bulletType == 2)
 		BulletCollisionTurret(other);
-		break;
-	case 3:
-		BulletCollisionEnemy(other);
-		break;
-	default:
-		break;
-	}
+
+	//switch (_bulletType)
+	//{
+	//case 1:
+	//	BulletCollisionPlayer(other);
+	//	break;
+	//case 2:
+	//	BulletCollisionTurret(other);
+	//	break;
+	//case 3:
+	//	BulletCollisionEnemy(other);
+	//	break;
+	//default:
+	//	break;
+	//}
 }
