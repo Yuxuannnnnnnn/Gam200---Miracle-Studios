@@ -9,7 +9,6 @@
 class PhysicsSystem final
 {
 	std::vector<Collider2D*> _allEnableColliders; // frame based
-	size_t _drawUId; // single obj draw
 public:
 	PhysicsSystem();
 	~PhysicsSystem() {}

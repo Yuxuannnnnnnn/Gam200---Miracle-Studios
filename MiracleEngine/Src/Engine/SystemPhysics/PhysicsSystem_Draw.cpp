@@ -5,71 +5,22 @@ void PhysicsSystem::AllColliderDraw()
 {
 	AllColliderDataUpdate();
 
-	for (auto& it : GetComponentMap(BoxCollider2D))
+	for (auto& it : _allEnableColliders)
 	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		DrawBoxCollider2D((Collider2D*)it.second);
-	}
-
-	for (auto& it : GetComponentMap(CircleCollider2D))
-	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		DraWCircleCollider2D((Collider2D*)it.second);
-	}
-
-	for (auto& it : GetComponentMap(EdgeCollider2D))
-	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		DrawEdgeCollider2D((Collider2D*)it.second);
-	}
-}
-
-void PhysicsSystem::AllColliderDataUpdate()
-{
-	for (auto& it : GetComponentMap(EdgeCollider2D))
-	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		Collider2D* obj = (Collider2D*)it.second;
-
-		UpdateColliderData((Collider2D*)it.second);
-	}
-
-	for (auto& it : GetComponentMap(CircleCollider2D))
-	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		Collider2D* obj = (Collider2D*)it.second;
-
-		if (GetComponentMap(RigidBody2D).find(it.first) != GetComponentMap(RigidBody2D).end())
-			obj->_attachedRigidboy = true;
-		else
-			obj->_attachedRigidboy = false;
-
-		UpdateColliderData(obj);
-	}
-
-	for (auto& it : GetComponentMap(BoxCollider2D))
-	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		Collider2D* obj = (Collider2D*)it.second;
-
-		if (GetComponentMap(RigidBody2D).find(it.first) != GetComponentMap(RigidBody2D).end())
-			obj->_attachedRigidboy = true;
-		else
-			obj->_attachedRigidboy = false;
-
-		UpdateColliderData(obj);
+		switch (it->_type)
+		{
+		case (int)ColliderType::BOX_COLLIDER:
+			DrawBoxCollider2D(it);
+			break;
+		case (int)ColliderType::CIRCLE_COLLIDER:
+			DraWCircleCollider2D(it);
+			break;
+		case (int)ColliderType::EDGE_COLLIDER:
+			DrawEdgeCollider2D(it);
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -120,6 +71,37 @@ void PhysicsSystem::DrawBoxCollider2D(Collider2D* obj)
 		boxCenter._y,
 		boxCenter._x + Y_axis._x * 10.f,
 		boxCenter._y + Y_axis._y * 10.f);
+
+
+	DebugRenderer::GetInstance().DrawLine(
+		object->_data._AABB._maxPoint._x,
+		object->_data._AABB._maxPoint._y,
+		object->_data._AABB._minPoint._x,
+		object->_data._AABB._maxPoint._y);
+
+	DebugRenderer::GetInstance().DrawLine(
+		object->_data._AABB._maxPoint._x,
+		object->_data._AABB._maxPoint._y,
+		object->_data._AABB._maxPoint._x,
+		object->_data._AABB._minPoint._y);
+
+	DebugRenderer::GetInstance().DrawLine(
+		object->_data._AABB._minPoint._x,
+		object->_data._AABB._minPoint._y,
+		object->_data._AABB._maxPoint._x,
+		object->_data._AABB._minPoint._y);
+
+	DebugRenderer::GetInstance().DrawLine(
+		object->_data._AABB._minPoint._x,
+		object->_data._AABB._minPoint._y,
+		object->_data._AABB._minPoint._x,
+		object->_data._AABB._maxPoint._y);
+
+
+	DebugRenderer::GetInstance().DrawCircle(
+		object->_data._AABB._BC._center._x, object->_data._AABB._BC._center._y,
+		object->_data._AABB._BC._radius);
+
 }
 
 void PhysicsSystem::DraWCircleCollider2D(Collider2D* obj)

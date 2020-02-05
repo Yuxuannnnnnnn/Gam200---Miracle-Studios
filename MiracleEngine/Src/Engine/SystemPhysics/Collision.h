@@ -89,10 +89,12 @@ namespace Collision {
 	bool BPolygonVsBPolygon(const BPolygon& polygonA, const BPolygon& polygonB);
 	bool BPolygonVsPoint(const BPolygon& polygon, const Vector3& point);
 
+	void BPolygonProjInterval(const BPolygon& polygon, const Vector3& normal, float& min, float& max);
+
 	// Edge Function
 
 	bool BEdgeVSBCircle(const BEdge& edge, const BCircle& circle);
-	bool BEdgeVSBOBB(const BEdge& edge, const BPolygon& obb);
+	bool BEdgeVSBPolygon(const BEdge& edge, const BPolygon& obb);
 };
 
 ////////////////////////////////// Dynamic
@@ -102,5 +104,11 @@ bool CircleVsCircleIntersection(CircleCollider2DComponent* circleA, CircleCollid
 bool CircleVsBoxIntersection(CircleCollider2DComponent* circle, BoxCollider2DComponent* box, CollisionData& data);
 bool CircleVsEdgeIntersection(CircleCollider2DComponent* circle, EdgeCollider2DComponent* edge, CollisionData& data);
 bool BoxVsEdgeIntersection(BoxCollider2DComponent* box, EdgeCollider2DComponent* edge, CollisionData& data);
+
+void BoxVsBoxResponse(CollisionData& data);
+void CircleVsCircleResponse(CollisionData& data);
+void CircleVsBoxResponse(CollisionData& data);
+void CircleVsEdgeResponse(CollisionData& data);
+void BoxVsEdgeResponse(CollisionData& data);
 
 #endif

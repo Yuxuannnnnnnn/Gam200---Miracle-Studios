@@ -50,7 +50,7 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	MyFactory.ChangeScene("MainMenu");
+	MyFactory.ChangeScene("Level1");
 
 	while (MyFactory.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{
@@ -159,7 +159,7 @@ void Engine::Update()
 		MyGraphicsSystem.Update(dt);
 		MyParticleSystem.Draw();
 
-		if(MyImguiSystem._editorMode)
+		//if(MyImguiSystem._editorMode)
 			MyPhysicsSystem.Draw();
 
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
