@@ -49,8 +49,8 @@ public:
 	void Init();
 	void Update(double dt);
 // Logic - Behaviour
-	void AttackMelee();
-	void AttackRange();
+	void AttackRangeMelee();
+	void AttackRangeShoot();
 	void CheckState();
 	void FSM();
 	void ChancePickUps();

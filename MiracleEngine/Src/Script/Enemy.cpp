@@ -29,15 +29,15 @@ void Enemy::SerialiseComponent(Serialiser& document)
 	{
 		_chaseDuration = (document["ChaseDuration"].GetDouble());
 	}
-	if (document.HasMember("AttackRange") && document["AttackRange"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsDouble())	//Checks if the variable exists in .Json file
 	{
-		_attackRangeShoot = document["AttackRange"].GetDouble();
+		_attackRangeShoot = document["AttackRangeShoot"].GetDouble();
 		_attackRangeShoot *= 100;
 		_attackRangeShoot *= _attackRangeShoot;
 	}
-	if (document.HasMember("AttackMelee") && document["AttackMelee"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("AttackRangeMelee") && document["AttackRangeMelee"].IsDouble())	//Checks if the variable exists in .Json file
 	{
-		_attackRangeMelee = document["AttackMelee"].GetDouble();
+		_attackRangeMelee = document["AttackRangeMelee"].GetDouble();
 		_attackRangeMelee *= 100;
 		_attackRangeMelee *= _attackRangeMelee;
 	}
@@ -178,7 +178,7 @@ void Enemy::Update(double dt)
 	}
 }
 
-void Enemy::AttackMelee()
+void Enemy::AttackRangeMelee()
 {
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
@@ -205,7 +205,7 @@ void Enemy::AttackMelee()
 		_timerAttack = _timerAttackCooldown;
 	}
 }
-void Enemy::AttackRange()
+void Enemy::AttackRangeShoot()
 {
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
@@ -312,9 +312,9 @@ void Enemy::FSM()
 	{
 		//std::cout << "/t AI ATK!!\n";
 		if (_enemyType == 1)
-			AttackMelee();
+			AttackRangeMelee();
 		else if (_enemyType == 2)
-			AttackRange();
+			AttackRangeShoot();
 		else
 			;
 	}

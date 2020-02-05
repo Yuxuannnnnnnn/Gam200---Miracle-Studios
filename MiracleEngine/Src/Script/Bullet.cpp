@@ -140,10 +140,9 @@ void Bullet::BulletCollisionPlayer(Collider2D* other)
 }
 void Bullet::BulletCollisionTurret(Collider2D* other)
 {
-	//GameObject* explosion = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["Explosion"]);
-	//((TransformComponent*)explosion->GetComponent(ComponentId::CT_Transform))->SetPos(
-	//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	//DestoryThis();
+	GameObject* explosion = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Explosion"]);
+	((TransformComponent*)explosion->GetComponent(ComponentId::CT_Transform))->SetPos(
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 }
 void Bullet::BulletCollisionEnemy(Collider2D* other)
 {

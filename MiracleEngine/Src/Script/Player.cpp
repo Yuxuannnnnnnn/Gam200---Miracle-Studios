@@ -204,7 +204,7 @@ void Player::Update(double dt)
 
 // anim updating related logic
 	_animState = _moving ? 1 : 2;
-	_animState = _shieldOn ? 4 : 3;
+	//_animState = _shieldOn ? 4 : 3;
 // setting animation state
 	if (_animState != _animStatePrev)
 	{
@@ -221,9 +221,10 @@ void Player::Update(double dt)
 		if (_animState == 3) // shield off
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
 		if (_animState == 4) // shield on
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shield");
 	}
-
+	else
+		_animStatePrev = _animState;
 }
 
 void Player::UpdateCamera()

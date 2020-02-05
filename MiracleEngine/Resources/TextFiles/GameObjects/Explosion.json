@@ -26,7 +26,8 @@
   "Script2Id": [ "Explosion" ],
   "Script2Data": [
     {
-      "Lifetime": 2.0
+      "Lifetime": 2.0,
+      "Radius": 100
     }
   ]
 }

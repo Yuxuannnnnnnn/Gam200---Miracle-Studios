@@ -7,9 +7,9 @@ void Turret::SerialiseComponent(Serialiser& document)
 		_health = (document["Health"].GetInt());
 	if (document.HasMember("Firerate") && document["Firerate"].IsDouble())
 		_timeAttackCooldown = (document["Firerate"].GetDouble());
-	if (document.HasMember("AttackRange") && document["AttackRange"].IsInt())
+	if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsInt())
 	{
-		_attackRangeShoot = document["AttackRange"].GetDouble();
+		_attackRangeShoot = document["AttackRangeShoot"].GetDouble();
 		_attackRangeShoot *= 100;
 		_attackRangeShoot *= _attackRangeShoot;
 	}
@@ -26,7 +26,7 @@ void Turret::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	prototypeDoc.AddMember("Firerate", value);
 	value.Clear();
 	value.SetInt(_attackRangeShoot);
-	prototypeDoc.AddMember("AttackRange", value);
+	prototypeDoc.AddMember("AttackRangeShoot", value);
 	value.Clear();
 }
 
