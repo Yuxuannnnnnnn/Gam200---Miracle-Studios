@@ -18,6 +18,26 @@
 
 
 
+int AnimationComponent::GetCurrentFrame()
+{
+	return _currFrame;
+}
+
+int AnimationComponent::GetMaxFrame()
+{
+	return _maxFrame;
+}
+
+bool AnimationComponent::IsPlayingOnce()
+{
+	return _playOnce;
+}
+
+void AnimationComponent::SetPlayingOnce(bool isplayingonce)
+{
+	_playOnce = isplayingonce;
+}
+
 void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 {
 	_currenAnimName = AnimationName;
@@ -31,7 +51,20 @@ void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 		SetMaxFrame(_currAnimationResource->GetMaxFrame());	//Set the Max Frame
 }
 
+void AnimationComponent::SetCurrentAnimOnce(const std::string& AnimationName)
+{
+	_currenAnimName = AnimationName;
+	setCurrentAnimation(AnimationName);	//Set the _currentAnim .json File
+	SetStartFrame();	//Reset the current frame to 0
+	ResetCurrTimeDelay();	//Reset currentttimedelay to 0
+	SetTimeDelay(AnimationName);	//Set the TimeDelay
+	SetAnimationResource();	//Set the Animation*
 
+	if (_currAnimationResource)
+		SetMaxFrame(_currAnimationResource->GetMaxFrame());	//Set the Max Frame
+
+	_playOnce = true;
+}
 
  void AnimationComponent::Inspect()
 {
@@ -327,7 +360,7 @@ void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 
 
 AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponent* component)
-	: IComponent(parent, uId), _currentAnim{ "" }, _startingAnim{ "" }, /*_currAnimation{ nullptr },*/ _currFrame{ 0 }, _timeDelay{ 0.5f }, _currentTimeDelay{0.5f}, _maxFrame{6}
+	: IComponent(parent, uId), _currentAnim{ "" }, _startingAnim{ "" }, _playOnce{ false },/*_currAnimation{ nullptr },*/ _currFrame{ 0 }, _timeDelay{ 0.5f }, _currentTimeDelay{ 0.5f }, _maxFrame{ 6 }
 {
 	if (component)
 	{

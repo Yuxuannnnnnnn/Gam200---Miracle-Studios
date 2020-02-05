@@ -18,10 +18,6 @@
 */
 
 
-
-
-
-
 class AnimationComponent: public IComponent
 {
 	// let designer choose timedelay for individual anim
@@ -52,10 +48,14 @@ private:
 	//std::vector<std::string> _animations;
 
 //For Smart component Variables
+	bool _playOnce; 
+	
 	float _timeDelay;	//Factor to change from one frame to another frame
 	float _currentTimeDelay; //Use to countdown the timeDelay of the specific frame
 	int _currFrame;
 	int _maxFrame;	//cap of the current animation
+
+
 
 	std::string _currentAnim; //Logic Animation script will only touch and change this variable //Json FileName
 
@@ -103,7 +103,10 @@ public:
 		return _currAnimationResource;
 	}
 
-
+	int GetCurrentFrame();
+	int GetMaxFrame();
+	bool IsPlayingOnce();
+	void SetPlayingOnce(bool);
 	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
 // called when switching animation from idle to run, etc
 	//void GetTimeDelayFromCurrentAnim(/* take in args if needed */)
@@ -117,6 +120,9 @@ public:
 	
 //Only for Logic Animation script--------------------------------------
 	void SetCurrentAnim(const std::string& AniamtionType);
+	void SetCurrentAnimOnce(const std::string& AnimationType);
+
+
 //---------------------------------------------------------------------
 
 

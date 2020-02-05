@@ -306,7 +306,13 @@ void Player::UpdateInput()
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_LBUTTON))
 	{
 		WeaponShoot();
+		GameObject* turret = nullptr;
+		turret = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Turret"]);
+		((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 
+		AnimationComponent* anim = (AnimationComponent *)turret->GetComponent(ComponentId::CT_Animation);
+		anim->SetPlayingOnce("turret");
 		// wait for audio system deserialize
 
 		/*AudioComponent* audioptr = (AudioComponent*)this->GetSibilingComponent(ComponentId::CT_Audio);
@@ -323,6 +329,8 @@ void Player::UpdateInput()
 		// ANIM NOTE: Shields are to be a seperate entitiy to the actual player
 		// so only the logic to set the anim of that obj is here
 		
+
+
 	}
 	//Right click to activate shield, play shield animation.
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_RBUTTON) ||
