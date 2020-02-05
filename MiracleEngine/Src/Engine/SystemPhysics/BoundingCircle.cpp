@@ -14,7 +14,7 @@ BoundingCircle::BoundingCircle(const Vector3& center, const float& radius) :
 
 BoundingCircle::BoundingCircle(const Vector3& center, const Vector3& scale) :
 	_center{ center },
-	_radius{ Vector3(scale._x, scale._y, 0).Length() }
+	_radius{ Vector3(scale._x * 0.5f, scale._y * 0.5f, 0).Length() }
 {}
 
 BoundingCircle::BoundingCircle(Vector3* points, int numPoints)
@@ -42,7 +42,7 @@ BoundingCircle::BoundingCircle(Vector3* points, int numPoints)
 
 	// Set up an initial sphere B with its centre as the midpoint
 	// of y and z, the radius as half of the distance between y and z
-	_center = y + ((z - y) / 2);
+	_center = y + ((z - y) * 0.5f);
 	_radius = (y.Distance(z)) * 0.5f;
 
 	// Check if all points are covered by the BC

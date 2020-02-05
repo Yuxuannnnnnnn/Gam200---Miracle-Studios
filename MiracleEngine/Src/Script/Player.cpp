@@ -4,6 +4,12 @@
 
 void Player::SerialiseComponent(Serialiser& document)
 {
+	if (document.HasMember("ShieldDuration") && document["ShieldDuration"].IsDouble())	//Checks if the variable exists in .Json file
+		_timerShield = _timerShieldDuration = document["ShieldDuration"].GetDouble();
+	
+	if (document.HasMember("ShieldCooldown") && document["ShieldCooldown"].IsDouble())	//Checks if the variable exists in .Json file
+		_timerShieldCooldown = document["ShieldCooldown"].GetDouble();
+
 	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
 		_health = _healthMax = document["Health"].GetInt();
 
@@ -39,6 +45,12 @@ void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
 // Logic Data - General
+	value.SetDouble(_timerShieldDuration);
+	prototypeDoc.AddMember("ShieldDuration", value);
+	value.Clear();
+	value.SetDouble(_timerShieldCooldown);
+	prototypeDoc.AddMember("ShieldCooldown", value);
+	value.Clear();
 	value.SetInt(_health);
 	prototypeDoc.AddMember("Health", value);
 	value.Clear();
@@ -76,6 +88,10 @@ void Player::Inspect()
 {
 // Logic Data - General
 	ImGui::Spacing();
+	ImGui::InputDouble("ShieldDuration ", &_timerShieldDuration);
+	ImGui::Spacing();
+	ImGui::InputDouble("ShieldCooldown ", &_timerShieldCooldown);
+	ImGui::Spacing();
 	ImGui::InputInt("Health ", &_health);
 	ImGui::Spacing();
 	ImGui::InputInt("HealthMax ", &_healthMax);
@@ -110,10 +126,13 @@ Player::Player() :
 	_god{ false },
 	_init{ false },
 	_camera{ nullptr },
+	_timerShield{ 0 }, _timerShieldDuration{ 0 },
 	_health{ 30 }, _healthMax{ 30 },
 	_progress{ 0 }, _progressMax{ 30 },
-	_timerSwitch{ 0 }, _timerSwitchDelay{ 0.5 },
 
+	_shieldOn{ false },
+	_timerSwitch{ 0 }, _timerSwitchDelay{ 0.5 },
+	_timerShieldActivateCooldown{ 0 }, _timerShieldCooldown{ 1.5 },
 	_weaponActive{ (int)WeaponId::PISTOL },
 	_ammoRpg{ 5 },
 	_ammoTurret{ 2 },
@@ -125,7 +144,11 @@ Player::Player() :
 	_firerateRPG{ 2 },
 	_firerateTurret{ 5 },
 	_firerateWall{ 4 },
-	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 }
+
+	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 },
+
+	_moving{ false },
+	_animState{ 0 }, _animStatePrev{ 0 }
 {
 }
 
@@ -163,6 +186,11 @@ void Player::Update(double dt)
 		_ammoRpg = _ammoTurret = _ammoWall = 10;
 		_timerShoot = _timerDeploy = 0.0;
 	}
+	if (_health == 0)
+	{
+		_animState = 0;
+		// trigger game end state/thing
+	}
 
 	_timerShoot -= dt;
 	_timerDeploy -= dt;
@@ -172,14 +200,36 @@ void Player::Update(double dt)
 	UpdateInput();
 	UpdateCamera();
 	UpdateUI();
+	UpdateShield(dt);
 
-	//play idle animation here, if there is no movement
-	//play death animation when health is zero
+// anim updating related logic
+	_animState = _moving ? 1 : 2;
+	//_animState = _shieldOn ? 4 : 3;
+// setting animation state
+	if (_animState != _animStatePrev)
+	{
+		_animStatePrev = _animState;
+		if (_animState == 0) // die
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
+		if (_animState == 1) // start moving
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
+		if (_animState == 2) // stopped moving
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+
+		// ANIM NOTE: Shields are to be a seperate entitiy to the actual player
+		// so only the logic to set the anim of that obj is here
+		if (_animState == 3) // shield off
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+		if (_animState == 4) // shield on
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shield");
+	}
+	else
+		_animStatePrev = _animState;
 }
 
 void Player::UpdateCamera()
 {
-	auto a = EngineSystems::GetInstance()._graphicsSystem;
+	//auto a = EngineSystems::GetInstance()._graphicsSystem;
 	/*a->GetCamera().SetCameraPos(((TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform))->GetPos()._x,
 		((TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform))->GetPos()._y);*/
 }
@@ -220,17 +270,28 @@ void Player::UpdateInput()
 	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScale(scaleVec);
 
 // MOVEMENT
-
-
+	_moving = false;
 	float spd = 3.f * 10000; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
+	{
+		_moving = true;
 		AddForce(GetParentId(), Vector3(0, 1, 0), spd);
+	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_A))
+	{
+		_moving = true;
 		AddForce(GetParentId(), Vector3(-1, 0, 0), spd);
+	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_D))
+	{
+		_moving = true;
 		AddForce(GetParentId(), Vector3(1, 0, 0), spd);
+	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_S))
+	{
+		_moving = true;
 		AddForce(GetParentId(), Vector3(0, -1, 0), spd);
+	}
 
 // MOUSE
 	Vector3 aimVector = GetMousePos(); // use aimVector to determine direction player is facing
@@ -258,10 +319,21 @@ void Player::UpdateInput()
 
 		//MyAudioSystem.PlaySFX("Coin.ogg");
 
-		//play firing animation here
-
+		// ANIM: play firing animation here
+		// ANIM NOTE: Shields are to be a seperate entitiy to the actual player
+		// so only the logic to set the anim of that obj is here
+		
 	}
 	//Right click to activate shield, play shield animation.
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_RBUTTON) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_RBUTTON))
+	{
+		// check if can actiavate shield
+		_shieldOn = (_timerShieldActivateCooldown > 0) ? false : true;
+		if (!_shieldOn){
+			// do sth to show that shield cannot activate
+		}
+	}
 
 // NUMBERS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
@@ -320,14 +392,6 @@ void Player::UpdateInput()
 		}
 	}
 
-
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_8) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_8))
-	{
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("death1");
-	}
-	
-
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
 	{
@@ -348,6 +412,29 @@ void Player::UpdateInput()
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_I))
 	{
 		;//EngineSystems::GetInstance()._sceneManager->ChangeScene(Scenes::MAIN_MENU);
+	}
+}
+
+void Player::UpdateShield(double dt)
+{
+	if (_shieldOn)
+	{
+		_timerShield -= dt;
+
+		// check if need turn shieldOff
+		if (_timerShield < 0.0)
+		{
+			// start the cooldown
+			_timerShieldActivateCooldown = _timerShieldCooldown;
+			// reset the shieldOn duration
+			_timerShield = _timerShieldCooldown;
+			_shieldOn = false;
+		}
+	}
+	else //_shieldOff
+	{
+		// cooldown countdown
+		_timerShieldActivateCooldown -= dt;
 	}
 }
 
@@ -462,9 +549,35 @@ void Player::ProgressIncement(int in)
 	_progress += in;
 }
 
+void Player::DamagePlayer(int dmg)
+{
+	if (_shieldOn)
+		return;
+	else
+		_health -= dmg;
+}
+
 void Player::OnTrigger2DEnter(Collider2D* other)
 {
-	(void)other;
+	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+	if (otherType.compare("BulletE"))
+	{
+		DamagePlayer();
+	}
+	if (otherType.compare("PickUp_Health"))
+	{
+		_health += 2;
+		if (_health > _healthMax)
+			_health = _healthMax;
+		other->GetParentPtr()->SetDestory();
+	}
+	if (otherType.compare("PickUp_Ammo"))
+	{
+		_ammoRpg += 5;
+		other->GetParentPtr()->SetDestory();
+	}
+
+
 
 	/*IdentityComponent* idCom = dynamic_cast <IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string id = idCom->ObjectType();

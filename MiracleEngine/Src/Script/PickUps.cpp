@@ -5,6 +5,10 @@
 PickUps::PickUps() : _lifeTime{ -666.f }, _pickupType{ (int)PickUp_Type::NONE }
 {}
 
+PickUps* PickUps::Clone()
+{
+	return new PickUps(*this);
+}
 
 void PickUps::SerialiseComponent(Serialiser& document)
 {
@@ -17,6 +21,18 @@ void PickUps::SerialiseComponent(Serialiser& document)
 		_pickupType = (document["PickUps_Type"].GetInt());
 	}
 }
+void PickUps::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+}
+
+void PickUps::Inspect()
+{
+	ImGui::Spacing();
+	ImGui::InputDouble("Lifetime ", &_lifeTime);
+	ImGui::Spacing();
+	ImGui::InputInt("Pickup Type ", &_pickupType);
+	ImGui::Spacing();
+}
 
 void PickUps::Update(double dt)
 {
@@ -25,6 +41,6 @@ void PickUps::Update(double dt)
 		_lifeTime -= dt;
 
 		if (_lifeTime < 0)
-			DestoryThis();
+			GetParentPtr()->SetDestory();
 	}
 }

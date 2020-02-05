@@ -33,11 +33,20 @@
       "Health": 3,
       "EnemyType": 2,
       "StunDuration": 0.5,
-      "AttackRange": 4.0,
-      "AttackMelee": 0.0,
+      "AttackRangeShoot": 4.0,
+      "AttackRangeMelee": 0.0,
       "MoveSpeed": 3.0,
       "ChaseSpeed": 0.0,
       "ChaseDuration": 0.0
     }
-  ]
+  ],
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "EnemyTwo_Explode.json",
+      "TimeDelay": 0.0,
+      "AnimationName": "Death"
+    }
+  ],
+  "StartAnim": ""
 }

@@ -16,7 +16,10 @@ private:
 	int _state;
 	double _timerAttack;
 	double _timeAttackCooldown;	
-	size_t _attackRange; // currently set to 1*_mapTileSize
+	size_t _attackRangeShoot; // currently set to 1*_mapTileSize
+// Logic Data - Animation
+	bool _shooting;
+	int _animState, _animStatePrev; // 1==StartIdle, 2==StartShoot
 
 public:
 	void SerialiseComponent(Serialiser& document) ;

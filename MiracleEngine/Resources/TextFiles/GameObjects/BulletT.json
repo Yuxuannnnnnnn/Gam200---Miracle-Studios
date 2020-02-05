@@ -18,7 +18,8 @@
   "Script2Data": [
     {
       "Lifetime": 3.0,
-      "BulletType": "BulletTurret"
+      "BulletType": "BulletTurret",
+      "BulletSpeed": 1.0
     }
   ],
 

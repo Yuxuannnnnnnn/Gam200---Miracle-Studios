@@ -29,17 +29,17 @@ void Enemy::SerialiseComponent(Serialiser& document)
 	{
 		_chaseDuration = (document["ChaseDuration"].GetDouble());
 	}
-	if (document.HasMember("AttackRange") && document["AttackRange"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsDouble())	//Checks if the variable exists in .Json file
 	{
-		_attackRange = document["AttackRange"].GetDouble();
-		_attackRange *= 100;
-		_attackRange *= _attackRange;
+		_attackRangeShoot = document["AttackRangeShoot"].GetDouble();
+		_attackRangeShoot *= 100;
+		_attackRangeShoot *= _attackRangeShoot;
 	}
-	if (document.HasMember("AttackMelee") && document["AttackMelee"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("AttackRangeMelee") && document["AttackRangeMelee"].IsDouble())	//Checks if the variable exists in .Json file
 	{
-		_attackMelee = document["AttackMelee"].GetDouble();
-		_attackMelee *= 100;
-		_attackMelee *= _attackMelee;
+		_attackRangeMelee = document["AttackRangeMelee"].GetDouble();
+		_attackRangeMelee *= 100;
+		_attackRangeMelee *= _attackRangeMelee;
 	}
 }
 
@@ -50,6 +50,22 @@ void Enemy::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void Enemy::Inspect()
 {
+	// health, type, stunDur, moveSpd, chaseSpd, atkRange, AtkMelee
+	ImGui::Spacing();
+	ImGui::InputInt("Health ", &_health);
+	ImGui::Spacing();
+	ImGui::InputInt("Enemy Type ", &_enemyType);
+	ImGui::Spacing();
+	ImGui::InputDouble("Stun Duration ", &_timerStunCooldown);
+	ImGui::Spacing();
+	ImGui::InputDouble("Move Speed ", &_moveSpeed);
+	ImGui::Spacing();
+	ImGui::InputDouble("Chase Speed ", &_chaseSpeed);
+	ImGui::Spacing();
+	ImGui::InputInt("Shoot Attack Range ", &_attackRangeShoot);
+	ImGui::Spacing();
+	ImGui::InputInt("Melee Attack Range ", &_attackRangeMelee);
+	ImGui::Spacing();
 
 }
 
@@ -63,8 +79,8 @@ Enemy::Enemy() :
 	_timerStunCooldown{ 2.0 },
 	_timerAttack{ 0.0 },
 	_timerAttackCooldown{ 1.0 },
-	_attackRange{ 0 },
-	_attackMelee{ 0 },
+	_attackRangeShoot{ 0 },
+	_attackRangeMelee{ 0 },
 
 	_target{ nullptr },
 	_state{ 0 },
@@ -75,12 +91,12 @@ Enemy::Enemy() :
 	_destNode{ nullptr },
 	_mapTileSize{ 0 }
 {
-	_attackMelee = _attackRange = 100; // _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackRangeMelee = _attackRangeShoot = 100; // _mapTileSize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_mapTileSize *= _mapTileSize;
-	_attackRange *= 5; // XxX tileSize
-	_attackMelee *= 2;
-	_attackRange *= _attackRange; // pow(2) for vector3.length() comparison
-	_attackMelee *= _attackMelee;
+	_attackRangeShoot *= 5; // XxX tileSize
+	_attackRangeMelee *= 2;
+	_attackRangeShoot *= _attackRangeShoot; // pow(2) for vector3.length() comparison
+	_attackRangeMelee *= _attackRangeMelee;
 }
 
 Enemy* Enemy::Clone()
@@ -162,7 +178,7 @@ void Enemy::Update(double dt)
 	}
 }
 
-void Enemy::AttackMelee()
+void Enemy::AttackRangeMelee()
 {
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
@@ -189,7 +205,7 @@ void Enemy::AttackMelee()
 		_timerAttack = _timerAttackCooldown;
 	}
 }
-void Enemy::AttackRange()
+void Enemy::AttackRangeShoot()
 {
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
@@ -222,13 +238,13 @@ void Enemy::CheckState()
 	// _destinationPos - currPos
 	Vector3 tempVec3 = GetDestinationPos() - GetPosition();
 
-	if (_enemyType == 1 && tempVec3.SquaredLength() < _attackMelee)
+	if (_enemyType == 1 && tempVec3.SquaredLength() < _attackRangeMelee)
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
 		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(0);
 	}
-	else if (_enemyType == 2 && tempVec3.SquaredLength() < _attackRange)
+	else if (_enemyType == 2 && tempVec3.SquaredLength() < _attackRangeShoot)
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
@@ -296,9 +312,9 @@ void Enemy::FSM()
 	{
 		//std::cout << "/t AI ATK!!\n";
 		if (_enemyType == 1)
-			AttackMelee();
+			AttackRangeMelee();
 		else if (_enemyType == 2)
-			AttackRange();
+			AttackRangeShoot();
 		else
 			;
 	}
@@ -308,27 +324,27 @@ void Enemy::FSM()
 }
 void Enemy::ChancePickUps()
 {
-	//std::srand((unsigned)std::time(0));
-	//int Yaya = 1 + std::rand() % 8;
+	std::srand((unsigned)std::time(0));
+	int Yaya = 1 + std::rand() % 8;
 
-	//if (Yaya == 4) // health
-	//{
-	//	GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Health"]);
-	//	// set bullet position & rotation as same as 'parent' obj
-	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	//}
-	//else if (Yaya == 8) // ammo
-	//{
-	//	GameObject* pickups = EngineSystems::GetInstance()._gameObjectFactory->CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
-	//	// set bullet position & rotation as same as 'parent' obj
-	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	//}
+	if (Yaya == 4) // health
+	{
+		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Health"]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+	}
+	else if (Yaya == 8) // ammo
+	{
+		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
+		// set bullet position & rotation as same as 'parent' obj
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+	}
 }
 
 Vector3& Enemy::GetDestinationPos()
@@ -433,8 +449,9 @@ void Enemy::SetStunned()
 
 void Enemy::OnCollision2DTrigger(Collider2D* other)
 {
-	//if (other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::PLAYER || other->GetParentPtr()->Get_typeId() == (unsigned)TypeIdGO::TURRET)
-	//{
-	//	DestoryThis();
-	//}
+	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+	if (otherType.compare("Bullet"))
+	{
+		_health--;
+	}
 }

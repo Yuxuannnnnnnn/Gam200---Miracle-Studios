@@ -5,104 +5,16 @@
 void PhysicsSystem::CollisionUpdate(double dt)
 {
 	AllColliderDataUpdate();
-	//UpdateCollision(dt);
+	UpdateCollision(dt);
 	//UpdateStaticCollision(dt);
 }
 
-void PhysicsSystem::UpdateColliderData(Collider2D* collider)
-{
-	switch (collider->_type)
-	{
-	case (unsigned)ColliderType::EDGE_COLLIDER:
-	{
-		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)collider;
-		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
-
-		if (!transform || !object)
-			return;
-
-		Vector3 globalPos = transform->GetPos() + object->_center;
-
-		object->_data = BEdge{ globalPos + object->_start,  globalPos + object->_end };
-		break;
-	}
-	case (unsigned)ColliderType::BOX_COLLIDER:
-	{
-		BoxCollider2DComponent* object = (BoxCollider2DComponent*)collider;
-		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
-
-		if (!transform || !object)
-			return;
-
-		Vector3 globalPos = transform->GetPos() + object->_center;
-
-		object->_data = BoundingPolygon::CreateBoxPolygon(globalPos,
-			object->_scale,
-			object->_angle + transform->GetRotate());
-		break;
-	}
-	case (unsigned)ColliderType::CIRCLE_COLLIDER:
-	{
-		CircleCollider2DComponent* object = (CircleCollider2DComponent*)collider;
-		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
-
-		if (!transform || !object)
-			return;
-
-		Vector3 globalPos = transform->GetPos() + object->_center;
-
-		object->_data = BCircle{ globalPos ,object->_radius };
-		break;
-	}
-	default:
-		break;
-	}
-}
-
-
 void PhysicsSystem::UpdateCollision(double dt)
 {
-	_allEnableColliders.clear();
-
-	for (auto& it : GetComponentMap(EdgeCollider2D))
-	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)it.second;
-
-		UpdateColliderData(object);
-
-		_allEnableColliders.push_back(object);
-	}
-
-	for (auto& it : GetComponentMap(BoxCollider2D))
-	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		BoxCollider2DComponent* object = (BoxCollider2DComponent*)it.second;
-
-		UpdateColliderData(object);
-
-		_allEnableColliders.push_back(object);
-	}
-
-	for (auto& it : GetComponentMap(CircleCollider2D))
-	{
-		if (!it.second || !it.second->GetEnable())
-			continue;
-
-		CircleCollider2DComponent* object = (CircleCollider2DComponent*)it.second;
-
-		UpdateColliderData(object);
-
-		_allEnableColliders.push_back(object);
-	}
-
 	std::vector<Collider2D*>::iterator it;
+	std::vector<Collider2D*> tempList = _allEnableColliders;
 
-	for (std::vector<Collider2D*> tempList = _allEnableColliders; !tempList.empty(); tempList.erase(it))
+	for (; !tempList.empty(); tempList.erase(it))
 	{
 		it = tempList.begin();
 
@@ -111,7 +23,7 @@ void PhysicsSystem::UpdateCollision(double dt)
 
 		for (auto& it2 : tempList)
 		{
-			if (!it2->GetEnable() || (*it) == it2)
+			if ((*it) == it2 || it2->_tag == (unsigned)ColliderType::NONE_COLLIDER)
 				continue;
 
 			if (!_collisionTable.CheckCollisionTable((ColliderTag)(*it)->_tag, (ColliderTag)it2->_tag))
@@ -202,83 +114,87 @@ int PhysicsSystem::CollisionCheckTile(Collider2D* object, unsigned centerTileId,
 
 void PhysicsSystem::CollisionCheckResponse(Collider2D* collider1, Collider2D* collider2, double dt)
 {
-	TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider1->GetParentId()];
-	TransformComponent* transform2 = (TransformComponent*)GetComponentMap(Transform)[collider2->GetParentId()];
+	if (collider1->_trigger && collider2->_trigger)
+		return;
 
-	//RigidBody2DComponent* rigidbody = nullptr;
-	//RigidBody2DComponent* rigidbody2 = nullptr;
+	if (!collider1->_attachedRigidboy && !collider2->_attachedRigidboy)
+		return;
 
-	//if (collider1->_attachedRigidboy)
-	//	rigidbody = (RigidBody2DComponent*)GetComponentMap(RigidBody2D)[collider1->GetParentId()];
+	if (collider1->_type == (unsigned)ColliderType::BOX_COLLIDER)
+	{
+		if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+			BoxVsBoxCollisionUpdate(collider1, collider2, dt);
+		else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+			CircleVsBoxCollisionUpdate(collider2, collider1, dt);
+		else if (collider2->_type == (unsigned)ColliderType::EDGE_COLLIDER)
+			BoxVsEdgeCollisionUpdate(collider1, collider2, dt);
+	}
+	else if (collider1->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+	{
+		if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+			CircleVsBoxCollisionUpdate(collider1, collider2, dt);
+		else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+			CircleVsCircleCollisionUpdate(collider1, collider2, dt);
+		else if (collider2->_type == (unsigned)ColliderType::EDGE_COLLIDER)
+			CircleVsEdgeCollisionUpdate(collider1, collider2, dt);
+	}
+	else if (collider1->_type == (unsigned)ColliderType::EDGE_COLLIDER)
+	{
+		if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
+			BoxVsEdgeCollisionUpdate(collider2, collider1, dt);
+		else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
+			CircleVsEdgeCollisionUpdate(collider2, collider1, dt);
+	}
+}
 
-	//if (collider2->_attachedRigidboy)
-	//	rigidbody2 = (RigidBody2DComponent*)GetComponentMap(RigidBody2D)[collider2->GetParentId()];
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//if (collider1->_type == (unsigned)ColliderType::BOX_COLLIDER)
-	//{
-	//	if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
-	//	{
-	//		BOX_BOX_CollisionCR(
-	//			collider1, transform, rigidbody,
-	//			collider2, transform2, rigidbody2,
-	//			dt);
-	//	}
-	//	else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
-	//	{
-	//		CIRCLE_BOX_CollisionCR(
-	//			collider2, transform2, rigidbody2,
-	//			collider1, transform, rigidbody,
-	//			dt);
-	//	}
-	//	else if (collider2->_type == (unsigned)ColliderType::EDGE_COLLIDER)
-	//	{
-	//		BOX_EDGE_CollisionCR(
-	//			collider1, transform, rigidbody,
-	//			collider2,
-	//			dt);
-	//	}
-	//}
-	//else if (collider1->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
-	//{
-	//	if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
-	//	{
-	//		CIRCLE_BOX_CollisionCR(
-	//			collider1, transform, rigidbody,
-	//			collider2, transform2, rigidbody2,
-	//			dt);
-	//	}
-	//	else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
-	//	{
-	//		CIRCLE_CIRCLE_CollisionCR(
-	//			collider1, transform, rigidbody,
-	//			collider2, transform2, rigidbody2,
-	//			dt);
-	//	}
-	//	else if (collider2->_type == (unsigned)ColliderType::EDGE_COLLIDER)
-	//	{
-	//		CIRCLE_EDGE_CollisionCR(
-	//			collider1, transform, rigidbody,
-	//			collider2,
-	//			dt);
-	//	}
-	//}
-	//else if (collider1->_type == (unsigned)ColliderType::EDGE_COLLIDER)
-	//{
-	//	if (collider2->_type == (unsigned)ColliderType::BOX_COLLIDER)
-	//	{
-	//		BOX_EDGE_CollisionCR(
-	//			collider2, transform2, rigidbody2,
-	//			collider1,
-	//			dt);
-	//	}
-	//	else if (collider2->_type == (unsigned)ColliderType::CIRCLE_COLLIDER)
-	//	{
-	//		CIRCLE_EDGE_CollisionCR(
-	//			collider2, transform2, rigidbody2,
-	//			collider1,
-	//			dt);
-	//	}
-	//	// else if (collider2->_type == (unsigned)ColliderType::EDGE_COLLIDER)
-	//	// ignore edge edge collision
-	//}
+void PhysicsSystem::UpdateColliderData(Collider2D* collider)
+{
+	switch (collider->_type)
+	{
+	case (unsigned)ColliderType::EDGE_COLLIDER:
+	{
+		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)collider;
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
+
+		if (!transform || !object)
+			return;
+
+		Vector3 globalPos = transform->GetPos() + object->_center;
+
+		object->_data = BEdge{ globalPos + object->_start,  globalPos + object->_end };
+		break;
+	}
+	case (unsigned)ColliderType::BOX_COLLIDER:
+	{
+		BoxCollider2DComponent* object = (BoxCollider2DComponent*)collider;
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
+
+		if (!transform || !object)
+			return;
+
+		Vector3 globalPos = transform->GetPos() + object->_center;
+
+		object->_data = BoundingPolygon::CreateBoxPolygon(globalPos,
+			object->_scale,
+			object->_angle + transform->GetRotate());
+		break;
+	}
+	case (unsigned)ColliderType::CIRCLE_COLLIDER:
+	{
+		CircleCollider2DComponent* object = (CircleCollider2DComponent*)collider;
+		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
+
+		if (!transform || !object)
+			return;
+
+		Vector3 globalPos = transform->GetPos() + object->_center;
+
+		object->_data = BCircle{ globalPos ,object->_radius };
+		break;
+	}
+	default:
+		break;
+	}
 }

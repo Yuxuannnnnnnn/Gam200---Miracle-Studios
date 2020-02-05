@@ -89,19 +89,19 @@ BoundingPolygon BoundingPolygon::CreateBoxPolygon(const Vec3& position, const Ve
 		Vector3 X{ cos(rotationAngle) * scale._x * 0.5f, sin(rotationAngle) * scale._x * 0.5f };
 		Vector3 Y{ -sin(rotationAngle) * scale._y * 0.5f, cos(rotationAngle) * scale._y * 0.5f };
 
-		box._pointArray[0] = position + X + Y;
-		box._pointArray[1] = position - X + Y;
-		box._pointArray[2] = position - X - Y;
-		box._pointArray[3] = position + X - Y;
+		box._pointArray[0] = position - X + Y;
+		box._pointArray[1] = position + X + Y;
+		box._pointArray[2] = position + X - Y;
+		box._pointArray[3] = position - X - Y;
 
 		box._AABB = BBox{ box._pointArray , box._numPoints };
 	}
 	else
 	{
-		box._pointArray[0] = position + Vec3{ 0.5f * scale._x,  0.5f * scale._y };
-		box._pointArray[1] = position + Vec3{ -0.5f * scale._x,  0.5f * scale._y };
-		box._pointArray[2] = position + Vec3{ -0.5f * scale._x, -0.5f * scale._y };
-		box._pointArray[3] = position + Vec3{ 0.5f * scale._x, -0.5f * scale._y };
+		box._pointArray[0] = position + Vec3{ -0.5f * scale._x,  0.5f * scale._y };
+		box._pointArray[1] = position + Vec3{ 0.5f * scale._x,  0.5f * scale._y };
+		box._pointArray[2] = position + Vec3{ 0.5f * scale._x, -0.5f * scale._y };
+		box._pointArray[3] = position + Vec3{ -0.5f * scale._x, -0.5f * scale._y };
 
 		box._AABB = BBox{ position ,scale };
 	}
@@ -111,8 +111,10 @@ BoundingPolygon BoundingPolygon::CreateBoxPolygon(const Vec3& position, const Ve
 
 
 	// box axis
-	box._ptrEdgeArray[0] = BEdge{ box._pointArray[2] , box._pointArray[1] , Vec3{ position._x,position._y,1.f} };
-	box._ptrEdgeArray[1] = BEdge{ box._pointArray[3] , box._pointArray[2] , Vec3{ position._x,position._y,1.f} };
+	box._ptrEdgeArray[0] = BEdge{ box._pointArray[0] , box._pointArray[1] , Vec3{ position._x,position._y,1.f} };
+	box._ptrEdgeArray[1] = BEdge{ box._pointArray[1] , box._pointArray[2] , Vec3{ position._x,position._y,1.f} };
+	box._ptrEdgeArray[2] = BEdge{ box._pointArray[2] , box._pointArray[3] , Vec3{ position._x,position._y,1.f} };
+	box._ptrEdgeArray[3] = BEdge{ box._pointArray[3] , box._pointArray[0] , Vec3{ position._x,position._y,1.f} };
 
 	return box;
 }

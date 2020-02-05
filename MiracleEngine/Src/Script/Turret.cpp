@@ -7,11 +7,11 @@ void Turret::SerialiseComponent(Serialiser& document)
 		_health = (document["Health"].GetInt());
 	if (document.HasMember("Firerate") && document["Firerate"].IsDouble())
 		_timeAttackCooldown = (document["Firerate"].GetDouble());
-	if (document.HasMember("AttackRange") && document["AttackRange"].IsInt())
+	if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsInt())
 	{
-		_attackRange = (document["AttackRange"].GetInt());
-		_attackRange *= EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-		_attackRange *= _attackRange; // pow(2)
+		_attackRangeShoot = document["AttackRangeShoot"].GetDouble();
+		_attackRangeShoot *= 100;
+		_attackRangeShoot *= _attackRangeShoot;
 	}
 }
 
@@ -25,8 +25,8 @@ void Turret::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	value.SetDouble(_timeAttackCooldown);
 	prototypeDoc.AddMember("Firerate", value);
 	value.Clear();
-	value.SetInt(_attackRange);
-	prototypeDoc.AddMember("AttackRange", value);
+	value.SetInt(_attackRangeShoot);
+	prototypeDoc.AddMember("AttackRangeShoot", value);
 	value.Clear();
 }
 
@@ -49,9 +49,9 @@ Turret::Turret() :
 	_timeAttackCooldown{ 3.0 }
 	
 {
-	_attackRange = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 5; // 5 tileSize
-	_attackRange *= _attackRange; // pow(2)
+	_attackRangeShoot = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackRangeShoot *= 5; // 5 tileSize
+	_attackRangeShoot *= _attackRangeShoot; // pow(2)
 }
 
 Turret* Turret::Clone()
@@ -87,13 +87,30 @@ void Turret::Update(double dt)
 
 	_timerAttack -= dt;
 	FSM();
+
+	// anim updating related logic
+	if (_init)
+		_animState = 1;
+	else
+		_animState = _shooting ? 2 : 3;
+	// setting animation state
+//	if (_animState != _animStatePrev)
+//	{
+//		_animStatePrev = _animState;
+//		if (_animState == 1) // deploy
+//			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Deploy");
+//		if (_animState == 2) // idle
+//			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+//		if (_animState == 3) // shoot
+//			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shoot");
+//	}
 }
 
 Vector3& Turret::GetDestinationPos()
 {
 	GameObject* exist = MyFactory.GetObjectWithId(_targetUid);
-	if (!exist)
-		return ((TransformComponent*)exist->GetComponent(ComponentId::CT_Transform))->GetPos();
+	if (exist != nullptr)
+		return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 	else
 	{
 		for (auto idPair : _engineSystems._factory->getObjectlist())
@@ -133,78 +150,77 @@ Vector3& Turret::GetPosition()
 
 void Turret::SearchTarget()
 {
-	//_targetUid, use the facList to see if obj still exists, if not then go search for new item
+	GameObject* tempGO = nullptr, * tempPlayer = nullptr;
+
+	//_targetUid, use the factoryList to see if obj still exists, if not then go search for new item
 	GameObject* exist = MyFactory.GetObjectWithId(_targetUid);
-	if (!exist)
+	if (exist != nullptr)
 	{
-			for (auto itr : _engineSystems._factory->getObjectlist())
-				if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player"))
+		for (auto it : _engineSystems._factory->getObjectlist())
+		{
+			// target searching
+			if (it.second->GetAlive() && (
+				((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
+				((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0
+				))
+			{
+				// if target == player, take first enemy, then continue normal search
+				if (((IdentityComponent*)exist->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
+					((IdentityComponent*)exist->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0 ||
+					((IdentityComponent*)exist->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
+					((IdentityComponent*)exist->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player01") == 0)
 				{
-					_target = itr.second;
-					_targetUid = itr.second->Get_uID();
-					return;
+					_target = it.second;
+					_targetUid = it.second->Get_uID();
 				}
+				// check distance of both objects
+				Vector3 distTarget(
+					(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos()._x - GetPosition()._x),
+					(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos()._y - GetPosition()._y),
+					0);
+				Vector3 distTemp(
+					(((TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform))->GetPos()._x - GetPosition()._x),
+					(((TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform))->GetPos()._y - GetPosition()._y),
+					0);
+				if (distTarget.Length() > distTemp.Length())
+				{
+					_targetUid = it.second->Get_uID();
+					_target = it.second;
+				}
+			}
+		}
 	}
-
-
-	// loop through _listObject, get closest 
-	GameObject* tempGO = nullptr, *tempPlayer = nullptr;
-	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
-
-	for (auto it : _engineSystems._factory->getObjectlist())
+	else
 	{
-		// target searching
-			//for (auto idPair : _engineSystems._factory->getObjectlist())
-			//{
-			//	if ((((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
-			//		((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
-			//		((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0) &&
-			//		(((LogicComponent*)idPair.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)) &&
-			//		!itr.second->GetDestory()
-			//		)
-			//	{
-			//		_target = idPair.second;
-			//		break;
-			//	}
-			//}
-		if (it.second == nullptr)
+		// just set target to first enemy || player, priority is enemy find 1 enemy
+		for (auto itr : _engineSystems._factory->getObjectlist())
 		{
-			std::cout << "i";
-			continue;
+			if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
+				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0)
+			{
+				_targetUid = itr.second->Get_uID();
+				_target = itr.second;
+				return;
+			}
+			if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
+				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0 ||
+				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
+				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player01") == 0)
+				tempGO = itr.second;
 		}
-		if (!it.second->GetDestory() && (
-			((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
-			((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0
-			) )
+		// target as player
+		if (tempGO)
 		{
-		// check distance of both objects
-			tempGO = it.second;
-			// if _target closer than tempGO,
-			Vector3 distTarget(
-				(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos()._x - GetPosition()._x),
-				(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos()._y - GetPosition()._y),
-				0
-			);
-			Vector3 distTemp(
-				(((TransformComponent*)tempGO->GetComponent(ComponentId::CT_Transform))->GetPos()._x - GetPosition()._x),
-				(((TransformComponent*)tempGO->GetComponent(ComponentId::CT_Transform))->GetPos()._y - GetPosition()._y),
-				0
-			);
-			if( distTarget.Length() > distTemp.Length())
-				_target = tempGO;
-			break;
+			_targetUid = tempGO->Get_uID();
+			_target = tempGO;
 		}
 	}
-	// else no Enemies detected, so look at player
-//	if (!tempGO && !_target)
-//		for (auto itr : _engineSystems._factory->getObjectlist())
-//			if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player"))
-//					_target = itr.second;
 }
 void Turret::ShootTarget()
 {
 	if (_timerAttack <= 0)
 	{
+		_shooting = true;
 		_timerAttack = _timeAttackCooldown;
 		//std::cout << "Fired!" << std::endl;
 			// spawn bullet
@@ -216,6 +232,8 @@ void Turret::ShootTarget()
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 50000);
 	}
+	else
+		_shooting = false;
 }
 void Turret::RotateToTarget()
 {
@@ -241,7 +259,7 @@ void Turret::FSM()
 	{
 		// check range
 		Vector3 tempVec3 = GetDestinationPos() - GetPosition();
-		if (tempVec3.SquaredLength() > _attackRange)
+		if (tempVec3.SquaredLength() > _attackRangeShoot)
 			_state = (unsigned)AiState::MOVING;
 		else if (id.compare("Player"))
 			_state = (unsigned)AiState::MOVING;
@@ -253,9 +271,11 @@ void Turret::FSM()
 	switch (_state)
 	{
 	case (unsigned)AiState::IDLE:
+		ShootTarget();
 		//std::cout << "\t AI No Target!!!\n";
 		break;
 	case (unsigned)AiState::MOVING:
+		ShootTarget();
 		//std::cout << "\t AI MOVING!!\n";
 		break;
 	case (unsigned)AiState::ATTACKING:

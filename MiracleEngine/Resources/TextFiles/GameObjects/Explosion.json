@@ -20,5 +20,14 @@
   "CircleColliderComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 2,
-  "ColliderTrigger": true
+  "ColliderTrigger": true,
+
+  "LogicComponent": true,
+  "Script2Id": [ "Explosion" ],
+  "Script2Data": [
+    {
+      "Lifetime": 2.0,
+      "Radius": 100
+    }
+  ]
 }
