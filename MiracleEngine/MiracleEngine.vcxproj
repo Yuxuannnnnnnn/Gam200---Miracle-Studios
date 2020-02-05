@@ -225,6 +225,7 @@
     <ClInclude Include="Src\Engine\GameObject\IComponent.h" />
     <ClInclude Include="Src\Engine\GlobalContainer.h" />
     <ClInclude Include="Src\Engine\ISystem.h" />
+    <ClInclude Include="Src\Engine\LinkingFactory.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\Animation.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\AnimationSystem.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\Frame.h" />
@@ -649,6 +650,7 @@
     <ClCompile Include="Src\Engine\GameObject\Components\TileMapComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\GameObject.cpp" />
     <ClCompile Include="Src\Engine\GameObject\IComponent.cpp" />
+    <ClCompile Include="Src\Engine\LinkingFactory.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\Animation.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\AnimationSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\Frame.cpp" />

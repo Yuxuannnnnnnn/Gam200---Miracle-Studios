@@ -6,7 +6,7 @@
 
 
 IdentityComponent::IdentityComponent(GameObject* parent, size_t uId, IComponent* component)
-	: IComponent(parent, uId)/*, _typeId{ (unsigned)TypeIdGO::NONE }*/,  _ObjectType{ "none" }, _name{ "none" }
+	: IComponent(parent, uId)/*, _typeId{ (unsigned)TypeIdGO::NONE }*/, _ObjectType{ "none" }, _name{ "none" }, _linkUId{ 0 }
 {
 	//if (component)
 	//{

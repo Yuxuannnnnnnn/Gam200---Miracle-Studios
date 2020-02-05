@@ -10,10 +10,11 @@
 class IdentityComponent: public IComponent
 {
 private:
-
 	//unsigned _typeId;  //Change to string
 	std::string _ObjectType; // GameObject Type
 	std::string _name;
+
+	int _linkUId;
 
 public:
 	std::string ComponentName() const override;
@@ -33,6 +34,11 @@ public:
 		{
 			_ObjectType = document["ObjectType"].GetString();
 		}
+
+		if (document.HasMember("LinkUId") && document["LinkUId"].IsInt())
+		{
+			_linkUId = document["LinkUId"].GetInt();
+		}
 	}
 
 
@@ -48,6 +54,9 @@ public:
 
 		value.SetString(rapidjson::StringRef(_name.c_str()));
 		prototypeDoc.AddMember("Name", value);
+
+		value.SetInt(_linkUId);
+		prototypeDoc.AddMember("LinkUId", value);
 
 		//value.SetInt(_typeId);
 		//prototypeDoc.AddMember("GameObjectType", value);
@@ -66,6 +75,9 @@ public:
 		value.SetString(rapidjson::StringRef(_name.c_str()));
 		prototypeDoc.AddMember("Name", value, allocator);
 
+		value.SetInt(_linkUId);
+		prototypeDoc.AddMember("LinkUId", value, allocator);
+
 		//value.SetInt(_typeId);
 		//prototypeDoc.AddMember("GameObjectType", value);
 	}
@@ -79,15 +91,14 @@ public:
 		bool addComponentIntoSceneFile = false;
 
 		rapidjson::Value ObjectType;
-		ObjectType.SetString(rapidjson::StringRef(_ObjectType.c_str()));
+		rapidjson::Value LinkUId;
 
+		ObjectType.SetString(rapidjson::StringRef(_ObjectType.c_str()));
 
 		rapidjson::Value Name("IdentityComponent", allocator);
 		value.AddMember(Name, rapidjson::Value(true), allocator);
 		Name.SetString("ObjectType", allocator);
 		value.AddMember(Name, ObjectType, allocator);
-
-
 
 		rapidjson::Value name;
 		if (protoIdentityCom->_name.compare(_name))	//If audiofile of Object is diff from prototype
@@ -97,6 +108,14 @@ public:
 
 			Name.SetString("Name", allocator);
 			value.AddMember(Name, name, allocator);
+		}
+
+		if (protoIdentityCom->_linkUId != _linkUId)
+		{
+			addComponentIntoSceneFile = true;
+			LinkUId.SetInt(_linkUId);
+
+			value.AddMember("LinkUId", _linkUId, allocator);
 		}
 	}
 
@@ -119,6 +138,11 @@ public:
 		string = "Name of Object ";
 		ImGui::InputText(string.c_str(), Name, 100);
 		_name = Name;
+		ImGui::Spacing();
+
+
+		ImGui::Spacing();
+		ImGui::InputInt("Linking ID", &_linkUId);
 		ImGui::Spacing();
 	}
 
