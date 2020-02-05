@@ -50,6 +50,8 @@ void PhysicsSystem::ApplyVelocityToObject(double dt)
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void PhysicsSystem::AddForce(size_t uId, Vector3 forceDir, float force)
 {
 	RigidBody2DComponent* object = (RigidBody2DComponent*)GetComponentMap(RigidBody2D)[uId];

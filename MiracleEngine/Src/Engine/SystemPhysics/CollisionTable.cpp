@@ -51,7 +51,7 @@ CollisionTable::~CollisionTable()
 bool CollisionTable::CheckCollisionTable(ColliderTag first, ColliderTag second)
 {
 	if (first == ColliderTag::NONE || second == ColliderTag::NONE)
-		return true;
+		return false;
 
 	TABLE::iterator it = _table.find(first);
 
