@@ -3,12 +3,12 @@
 
 Turret::Turret() : 
 	_init{ false },
-	_health{ 1 },
-	_target{ nullptr },
-	_targetUid{ 0 },
+	_health{ 1 }, _healthMax{ 1 },
+	_target{ nullptr }, _targetUid{ 0 },
 	_state{ (unsigned)AiState::IDLE },
-	_timerAttack{ 0.0 },
-	_timeAttackCooldown{ 3.0 }
+	_timerAttack{ 0.0 }, _timeAttackCooldown{ 3.0 },
+	_deployTime{ 0.5 }, _shooting{ false },
+	_animState{ 1 }, _animStatePrev{ 1 }
 	
 {
 	_attackRangeShoot = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
@@ -24,7 +24,11 @@ Turret* Turret::Clone()
 
 void Turret::Init()
 {
+	// set Deploy animation and set the animation's speed
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Deploy");
+	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+		_deployTime / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() );
+	// _target = player
 	for (auto idPair : _engineSystems._factory->getObjectlist())
 	{
 		if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
@@ -44,6 +48,11 @@ void Turret::Update(double dt)
 	{
 		Init();
 		_init = true;
+	}
+	if (_deployTime > 0)
+	{
+		_deployTime -= dt;
+		return; // force turret to just play animation while "deploying"
 	}
 	if (_health <= 0)
 		GetParentPtr()->SetDestory();
@@ -216,15 +225,16 @@ void Turret::FSM()
 	// if no enemy
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::CT_Identity));
 	std::string id = IdCom->ObjectType();
-	if (id.compare("Player"))
+	if (id.compare("Player") == 0 ||
+		id.compare("player") == 0 || 
+		id.compare("Player01") == 0 || 
+		id.compare("player01") == 0 )
 		_state = (unsigned)AiState::IDLE;
 	else
 	{
 		// check range
 		Vector3 tempVec3 = GetDestinationPos() - GetPosition();
 		if (tempVec3.SquaredLength() > _attackRangeShoot)
-			_state = (unsigned)AiState::MOVING;
-		else if (id.compare("Player"))
 			_state = (unsigned)AiState::MOVING;
 		else
 			_state = (unsigned)AiState::ATTACKING;
@@ -234,11 +244,9 @@ void Turret::FSM()
 	switch (_state)
 	{
 	case (unsigned)AiState::IDLE:
-		ShootTarget();
 		//std::cout << "\t AI No Target!!!\n";
 		break;
 	case (unsigned)AiState::MOVING:
-		ShootTarget();
 		//std::cout << "\t AI MOVING!!\n";
 		break;
 	case (unsigned)AiState::ATTACKING:

@@ -12,8 +12,9 @@
   "Script2Data": [
     {
       "Health": 10,
-      "Firerate": 1.2,
-      "AttackRangeShoot": 4
+      "Firerate": 2,
+      "AttackRangeShoot": 4,
+      "DeployTime": 2.0
     }
   ],
   "GraphicsComponent": true,

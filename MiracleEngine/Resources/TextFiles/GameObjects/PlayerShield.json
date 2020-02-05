@@ -1,7 +1,7 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "Player",
-  "Name": "Player",
+  "ObjectType": "PlayerShield",
+  "Name": "PlayerShield",
   "LinkUId": 0,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
@@ -11,39 +11,20 @@
   "G.FileName": "catjump.png",
   "G.Shader": "",
   "G.Layer": 1,
-  "LogicComponent": true,
-  "ScriptId": [],
-  "Script2Id": [ "Player" ],
-  "Script2Data": [
-    {
-      "ShieldDuration": 2.0,
-      "ShieldCooldown": 1.0,
-      "Health": 10,
-      "WeaponActive": 1,
-      "AmmoRpg": 0,
-      "AmmoTurret": 10,
-      "AmmoWall": 10,
-      "FireratePistol": 1.0,
-      "FirerateShotgun": 1.0,
-      "FirerateRpg": 1.0,
-      "FirerateTurret": 1.0,
-      "FirerateWall": 1.0
-    }
-  ],
   "AnimationComponent": true,
   "AnimationTypes": [
     {
-      "AnimationType": "Character_death_spriteSpriteSheetData.json",
+      "AnimationType": "PlayerShieldBreak_SpriteSheetData.json",
       "TimeDelay": 0.10000000149011612,
-      "AnimationName": "Death"
+      "AnimationName": "Off"
     },
     {
-      "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
+      "AnimationType": "PlayerShield_SpriteSheetData.json",
       "TimeDelay": 0.10000000149011612,
-      "AnimationName": "Move"
+      "AnimationName": "On"
     }
   ],
-  "StartAnim": "Move",
+  "StartAnim": "On",
   "RigidBody2DComponent": true,
   "Mass": 10.0,
   "Friction": 0.10000000149011612,
@@ -54,4 +35,5 @@
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
   "Collider2D.C.Radius": 0.0
+
 }
