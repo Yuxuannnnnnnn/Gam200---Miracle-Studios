@@ -134,7 +134,7 @@ public:
 		prototypeDoc.AddMember("Collider2D.B.Angle", value, allocator);
 	}
 
-	void Inspect() override;
+	virtual void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		BoxCollider2DComponent* protoIColliderCom = dynamic_cast<BoxCollider2DComponent*>(protoCom);

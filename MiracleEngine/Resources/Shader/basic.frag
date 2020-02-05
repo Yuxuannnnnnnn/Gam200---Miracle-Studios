@@ -12,7 +12,7 @@ uniform float u_Alpha;
 void main()
 {
 	vec4 texColor = texture(u_Texture, v_TexCoord);
-	if(texColor.a < 0.1)
+	if(texColor.a < 0.62)
 		discard;
 	color = texColor;
 	if(u_Alpha > 0.5)
