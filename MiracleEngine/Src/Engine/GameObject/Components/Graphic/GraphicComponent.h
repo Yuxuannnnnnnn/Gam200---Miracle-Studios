@@ -19,6 +19,9 @@ private:
 	std::string _shader;
 	//RenderLayer _renderlayer; Not Used anymore because Z value is computed in Transformcomponent
 
+	bool _hasAlpha;
+
+
 	float u0, v0;
 	float u1, v1;
 
