@@ -817,6 +817,9 @@ void Factory::UpdateScene()
 	for (auto& it : GetComponentMap(Identity))
 		it.second->Init();
 
+	for (auto& it : GetComponentMap(Button))
+		it.second->Init();
+
 	MyCameraSystem.Init();
 	MyLogicSystem.Init();
 }
