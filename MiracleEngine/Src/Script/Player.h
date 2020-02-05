@@ -39,7 +39,8 @@ private:
 // Logic Data - Animation
 	bool _moving;
 	int _animState, _animStatePrev; // 1==StartMove, 2==StartIdle, 3==StartShoot, etc
-
+// Logic - DelayDeathForAnimation
+	double _timerDeath;
 public:
 	void SerialiseComponent(Serialiser& document) ;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;

@@ -29,6 +29,8 @@ private:
 	double _moveSpeed;
 	double _chaseSpeed;
 	double _chaseTimer, _chaseDuration;
+// Logic - DelayDeathForAnimation
+	double _timerDeath;
 // Logic - Pathfinding
 	GameObject* _target;
 	int _state;	
@@ -54,6 +56,10 @@ public:
 	void CheckState();
 	void FSM();
 	void ChancePickUps();
+// Logic Data - Animation
+	bool _enemy1charging;
+	int _animState, _animStatePrev;
+
 // Logic - Pathfinding
 	Vector3& GetDestinationPos();	// _target's position
 	Vector3& GetPosition();			// _parent's / self position
@@ -69,3 +75,7 @@ public:
 	void OnCollision2DTrigger(Collider2D* other);
 };
 #endif
+
+/*
+
+*/

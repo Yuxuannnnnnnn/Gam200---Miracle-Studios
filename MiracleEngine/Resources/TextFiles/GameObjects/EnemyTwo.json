@@ -39,14 +39,5 @@
       "ChaseSpeed": 0.0,
       "ChaseDuration": 0.0
     }
-  ],
-  "AnimationComponent": true,
-  "AnimationTypes": [
-    {
-      "AnimationType": "EnemyTwo_Explode.json",
-      "TimeDelay": 0.0,
-      "AnimationName": "Death"
-    }
-  ],
-  "StartAnim": ""
+  ]
 }
