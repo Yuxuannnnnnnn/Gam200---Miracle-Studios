@@ -130,8 +130,15 @@ void Enemy::Update(double dt)
 // death logic
 	if (_health <= 0)
 	{
-		ChancePickUps(); // currently not working
-		GetParentPtr()->SetDestory();
+		_animState = 0;
+		_timerDeath -= dt;
+		// if animation finish playing
+		if (_timerDeath <= 0)
+		{
+			ChancePickUps();
+			GetParentPtr()->SetDestory();
+			return;
+		}
 	}
 
 // stunned logic
@@ -162,7 +169,10 @@ void Enemy::Update(double dt)
 			{
 				_chaseTimer = _chaseDuration;
 				_stunned = true;
+				_enemy1charging = false;
 			}
+			else
+				_enemy1charging = true;
 		}
 		else
 			_chaseTimer = _chaseDuration;
@@ -176,6 +186,34 @@ void Enemy::Update(double dt)
 		CheckState();
 		FSM();
 	}
+
+// anim updating related logic
+	if (_enemyType == 0)
+	{
+		_animState = _enemy1charging ? 1 : 2;
+	}
+	if (_health <= 0)
+		_animState = 0;
+// setting animation state
+	if (_animState != _animStatePrev)
+	{
+		_animStatePrev = _animState;
+		if (_enemyType == 0) // charger
+		{
+			if (_animState == 1) // start moving
+				;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
+			if (_animState == 2) // stopped moving
+				;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+		}
+		if (_animState == 0) // die
+		{
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
+			;// _timerDeath = ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()
+			;//	*(float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame();
+		}
+	}
+	else
+		_animStatePrev = _animState;
 }
 
 void Enemy::AttackRangeMelee()
@@ -183,8 +221,7 @@ void Enemy::AttackRangeMelee()
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
 		(GetDestinationPos()._y - GetPosition()._y),
-		0
-	);
+		0);
 
 	// rotate to face player
 	Vector3 compareVec = { 0, 1, 0 };
