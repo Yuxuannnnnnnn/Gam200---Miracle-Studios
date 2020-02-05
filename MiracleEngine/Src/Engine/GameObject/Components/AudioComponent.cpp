@@ -5,13 +5,13 @@
 
 void AudioComponent::PlayBGM(const std::string& soundName)
 {
-	MyAudioSystem.PlayBGM(std::get<0>(SoundList[soundName]));	//Set fileName
+	MyAudioSystem.PlayBGM(std::get<0>(BackgroundSoundList[soundName]), std::get<1>(BackgroundSoundList[soundName]));	//Set fileName
 	//MyAudioSystem.setVolumeBGM(std::get<1>(SoundList[soundName]);	//Set Volume
 }
 
 void AudioComponent::PlaySFX(const std::string& soundName)
 {
-	MyAudioSystem.PlaySFX(std::get<0>(SoundList[soundName]));	//Set fileName
+	MyAudioSystem.PlaySFX(std::get<0>(SFXList[soundName]), std::get<1>(SFXList[soundName]));	//Set fileName
 	//MyAudioSystem.setVolumeSFX(std::get<1>(SoundList[soundName]);	//Set Volume
 	//MyAudioSystem.setLoopSFX(std::get<2>(SoundList[soundName]);	//Set number of Loops
 }
@@ -19,6 +19,10 @@ void AudioComponent::PlaySFX(const std::string& soundName)
 
 
 AudioComponent::AudioComponent()
+	:SFXList{},
+	BackgroundSoundList{},
+	currentBGMName{""},
+	currentSFXName{""}
 	//_typeIdAudio{ (unsigned)TypeIdAudio::NONE },
 	//_fileName{ std::string() }
 	//_fileTrackLength{ 0 },
@@ -82,8 +86,455 @@ std::string AudioComponent::ComponentName() const
 void AudioComponent::Inspect()
 {
 	IComponent::Inspect();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
+	ImGui::Spacing();
 
-	static auto AudioList = MyResourceSystem.GetSoundList();
+	static std::unordered_map<std::string, Sound*>& AudioList = MyResourceSystem.GetSoundMap();
+	std::vector<const char*> AudioTypeList(AudioList.size());
+
+
+	//std::map<audioName, std::tuple<fileName, volume, NumOfloops>> SFXList;	//Add SoundEffects
+	//
+	//std::map<audioName, std::tuple<fileName, volume>> BackgroundSoundList;	//Add BackgroundMusic
+	//
+	//std::string currentBGM;	//When inspection changes the values, have to inform the audioSystem incase the soundtrack is playing currently
+	//std::string currentSFX;
+	//std::get<0>(SFXList[soundName]
+
+	int a = 0;
+	for (auto& audioPair : AudioList)
+	{
+		const char* ptr = audioPair.first.c_str();
+
+		AudioTypeList[a] = ptr;
+		a++;
+	}
+
+	{
+		int i = 0;
+		int select = 0;
+
+		std::vector<audioName> NameList;
+		std::vector<audioName> UnchangedNameList;
+
+		for (auto& sfxPairTuple : SFXList)
+		{
+			//NameList.push_back(animation.first);
+			//UnchangedNameList.push_back(animation.first);
+
+			ImGui::Spacing();
+
+			if (i < SFXList.size())
+			{
+				for (int j = 0; j < AudioTypeList.size(); j++)
+				{
+					if (!strncmp(AudioTypeList[j], std::get<0>(sfxPairTuple.second).c_str(),
+						std::get<0>(sfxPairTuple.second).size()))
+					{
+						select = j;
+					}
+				}
+			}
+
+			static std::vector<ComboFilterState> s;
+			static std::vector<char*> buf;
+			static std::vector<ImGuiFunctions*> DropDownBars;
+			//static ImGuiFunctions function;
+			static std::vector<bool*> openArray;
+
+
+			//static std::vector< bool *(const char* id, char* buffer, int bufferlen, /*const char** hints*/ std::vector<const char*> hints,
+			//	int num_hints, ImGuiFunctions::ComboFilterState & s, std::string & _filename)> 
+
+
+			if (s.size() == i)
+			{
+				s.push_back(ComboFilterState{ select, 0 });
+			}
+			if (buf.size() == i)
+			{
+				buf.push_back(new char[128]);
+				strncpy(buf[i], "", 2);
+				openArray.push_back(new bool{ true });
+			}
+			if (DropDownBars.size() == i)
+			{
+				DropDownBars.push_back(new ImGuiFunctions{});
+			}
+
+			if (std::get<0>(sfxPairTuple.second).empty())
+			{
+				strncpy(buf[i], "Choose a Sound File here", 31);
+			}
+			else
+			{
+				strncpy(buf[i], std::get<0>(sfxPairTuple.second).c_str(),
+					std::get<0>(sfxPairTuple.second).size() + 2);
+			}
+
+
+			std::string SoundFile = "SFX File##" + std::to_string(i);
+
+			if (DropDownBars[i]->ComboFilter(SoundFile.c_str(), buf[i], 128,
+				AudioTypeList, AudioTypeList.size(), s[i],
+				std::get<0>(sfxPairTuple.second), openArray[i], i))
+			{
+			}
+
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			std::string VolumeString = "Volume##" + std::to_string(i);
+			if (ImGui::SliderFloat(VolumeString.c_str(), &std::get<1>(sfxPairTuple.second), 0, 100))
+			{
+			}
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			std::string NumOfLoopsString = "Num Of Loops##" + std::to_string(i);
+			if (ImGui::InputInt(NumOfLoopsString.c_str(), &std::get<2>(sfxPairTuple.second)))
+			{
+			}
+
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			//AnimationName is not changed in the loop, saved in NameList, ChangedList and UnchangedNameList
+			std::string SFXNameString = "SFX Name##" + std::to_string(i);
+			char SFXName[128] = "\0";
+			bool done;
+			strncpy(SFXName, sfxPairTuple.first.c_str(), sfxPairTuple.first.length() + 2);
+			if (done = ImGui::InputText(SFXNameString.c_str(), SFXName, 128, ImGuiInputTextFlags_EnterReturnsTrue))
+			{
+				std::string length(SFXName);
+				if (int i = strncmp(SFXName, sfxPairTuple.first.c_str(), length.length()))
+				{
+					NameList.push_back(std::string(SFXName));
+					UnchangedNameList.push_back(sfxPairTuple.first);
+				}
+			}
+
+
+			i++;
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			ImGui::SameLine(200);
+
+			std::string Play = "Play SFX##" + std::to_string(i);
+			if (ImGui::Button(Play.c_str()))
+			{
+				//MyAnimationWindow.SetAnimationWindow(animation.first, animation.second, animationFileNameList[animation.first]);
+				MyAudioSystem.PlaySFX(std::get<0>(sfxPairTuple.second), std::get<1>(sfxPairTuple.second));
+			}
+
+			ImGui::SameLine(270);
+
+			std::string Stop = "Stop SFX##" + std::to_string(i);
+			if (ImGui::Button(Stop.c_str()))
+			{
+				//MyAnimationWindow.SetAnimationWindow(animation.first, animation.second, animationFileNameList[animation.first]);
+				//MyAudioSystem.StopSFXSound(); - Need this function in case background music is running in the background, thus should not stop all music audio from playing
+				MyAudioSystem.StopAllSound();
+			}
+
+			ImGui::SameLine(340);
+
+			std::string Delete = "Delete SFX##" + std::to_string(i);
+			if (ImGui::Button(Delete.c_str()))
+			{
+				SFXList.erase(sfxPairTuple.first);
+				break;
+			}
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+			ImGui::Separator();
+		}
+
+
+		std::map<audioName, std::tuple<fileName, volume, NumOfloops>> tempNameFileList;
+		//SFXName is changed here, key pair is extracted and changed and inserted back into the maps
+
+		for (auto& NamePairTuple : SFXList)
+		{
+			std::pair<audioName, std::tuple<fileName, volume, NumOfloops> > nameFile;
+
+			nameFile = NamePairTuple;
+
+			for (int i = 0; i < UnchangedNameList.size(); i++)
+			{
+				if (!UnchangedNameList[i].compare(nameFile.first))
+				{
+					nameFile.first = NameList[i];
+					break;
+				}
+			}
+			tempNameFileList.insert(nameFile);
+
+		}
+
+		SFXList.clear();
+
+		SFXList = tempNameFileList;
+
+
+	}
+
+	{
+		int i = 0;
+		int select = 0;
+
+		std::vector<audioName> NameList;
+		std::vector<audioName> UnchangedNameList;
+
+		for (auto& sfxPairTuple : BackgroundSoundList)
+		{
+			//NameList.push_back(animation.first);
+			//UnchangedNameList.push_back(animation.first);
+
+			ImGui::Spacing();
+
+			if (i < SFXList.size())
+			{
+				for (int j = 0; j < AudioTypeList.size(); j++)
+				{
+					if (!strncmp(AudioTypeList[j], std::get<0>(sfxPairTuple.second).c_str(),
+						std::get<0>(sfxPairTuple.second).size()))
+					{
+						select = j;
+					}
+				}
+			}
+
+			static std::vector<ComboFilterState> s;
+			static std::vector<char*> buf;
+			static std::vector<ImGuiFunctions*> DropDownBars;
+			//static ImGuiFunctions function;
+			static std::vector<bool*> openArray;
+
+
+			//static std::vector< bool *(const char* id, char* buffer, int bufferlen, /*const char** hints*/ std::vector<const char*> hints,
+			//	int num_hints, ImGuiFunctions::ComboFilterState & s, std::string & _filename)> 
+
+
+			if (s.size() == i)
+			{
+				s.push_back(ComboFilterState{ select, 0 });
+			}
+			if (buf.size() == i)
+			{
+				buf.push_back(new char[128]);
+				strncpy(buf[i], "", 2);
+				openArray.push_back(new bool{ true });
+			}
+			if (DropDownBars.size() == i)
+			{
+				DropDownBars.push_back(new ImGuiFunctions{});
+			}
+
+			if (std::get<0>(sfxPairTuple.second).empty())
+			{
+				strncpy(buf[i], "Choose a Sound File here", 31);
+			}
+			else
+			{
+				strncpy(buf[i], std::get<0>(sfxPairTuple.second).c_str(),
+					std::get<0>(sfxPairTuple.second).size() + 2);
+			}
+
+
+			std::string SoundFile = "Background Audio File##" + std::to_string(i);
+
+			if (DropDownBars[i]->ComboFilter(SoundFile.c_str(), buf[i], 128,
+				AudioTypeList, AudioTypeList.size(), s[i],
+				std::get<0>(sfxPairTuple.second), openArray[i], i))
+			{
+			}
+
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			std::string VolumeString = "Volume##" + std::to_string(i);
+			if (ImGui::SliderFloat(VolumeString.c_str(), &std::get<1>(sfxPairTuple.second), 0, 100))
+			{
+			}
+
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			//AnimationName is not changed in the loop, saved in NameList, ChangedList and UnchangedNameList
+			std::string SFXNameString = "Background Audio Name##" + std::to_string(i);
+			char SFXName[128] = "\0";
+			bool done;
+			strncpy(SFXName, sfxPairTuple.first.c_str(), sfxPairTuple.first.length() + 2);
+			if (done = ImGui::InputText(SFXNameString.c_str(), SFXName, 128, ImGuiInputTextFlags_EnterReturnsTrue))
+			{
+				std::string length(SFXName);
+				if (int i = strncmp(SFXName, sfxPairTuple.first.c_str(), length.length()))
+				{
+					NameList.push_back(std::string(SFXName));
+					UnchangedNameList.push_back(sfxPairTuple.first);
+				}
+			}
+
+
+			i++;
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			ImGui::SameLine(200);
+
+			std::string Play = "Play BGM##" + std::to_string(i);
+			if (ImGui::Button(Play.c_str()))
+			{
+				MyAudioSystem.PlayBGM(std::get<0>(sfxPairTuple.second), std::get<1>(sfxPairTuple.second));
+				//MyAnimationWindow.SetAnimationWindow(animation.first, animation.second, animationFileNameList[animation.first]);
+			}
+
+			ImGui::SameLine(270);
+
+			std::string Stop = "Stop BGM##" + std::to_string(i);
+			if (ImGui::Button(Stop.c_str()))
+			{
+				MyAudioSystem.StopAllSound();
+				//MyAnimationWindow.SetAnimationWindow(animation.first, animation.second, animationFileNameList[animation.first]);
+			}
+
+			ImGui::SameLine(340);
+
+			std::string Delete = "Delete BGM##" + std::to_string(i);
+			if (ImGui::Button(Delete.c_str()))
+			{
+				BackgroundSoundList.erase(sfxPairTuple.first);
+				break;
+			}
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+			ImGui::Separator();
+		}
+
+
+		std::map<audioName, std::tuple<fileName, volume>> tempNameFileList;
+		//SFXName is changed here, key pair is extracted and changed and inserted back into the maps
+
+		for (auto& NamePairTuple : BackgroundSoundList)
+		{
+			std::pair<audioName, std::tuple<fileName, volume> > nameFile;
+
+			nameFile = NamePairTuple;
+
+			for (int i = 0; i < UnchangedNameList.size(); i++)
+			{
+				if (!UnchangedNameList[i].compare(nameFile.first))
+				{
+					nameFile.first = NameList[i];
+					break;
+				}
+			}
+			tempNameFileList.insert(nameFile);
+
+		}
+
+		BackgroundSoundList.clear();
+
+		BackgroundSoundList = tempNameFileList;
+	}
+
+		ImGui::Spacing();
+		ImGui::Spacing();
+		if (ImGui::Button("Add New SFX"))
+		{
+			SFXList.insert(std::pair<audioName, std::tuple<fileName, volume, NumOfloops>>("", { "", 0.0, 0 }));
+		}
+
+		ImGui::SameLine(150);
+
+		if (ImGui::Button("Add New Background Audio"))
+		{
+			BackgroundSoundList.insert(std::pair<audioName, std::tuple<fileName, volume>>("", { "", 0.0}));
+		}
+
+
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::Separator();
+
+
+
+
+
+
+
+
+
+
+	
+
+	//if (!_animations.empty())
+	//{
+	//	ImGui::Spacing();
+	//	ImGui::Spacing();
+	//	std::vector<const char*> AnimationNameList(_animations.size());
+	//	//list[0] = "Choose a Texture ";
+	//
+	//
+	//	int a = 0;
+	//	int select1 = 0;
+	//	for (auto& NameTime : _animations)
+	//	{
+	//		const char* ptr = NameTime.first.c_str();
+	//
+	//		AnimationNameList[a] = ptr;
+	//		if (!strncmp(ptr, _startingAnim.c_str(), _startingAnim.length()))
+	//		{
+	//			select1 = a;
+	//		}
+	//
+	//		a++;
+	//	}
+	//
+	//
+	//	char buf[128] = "";
+	//	static ImGuiFunctions function;
+	//	static bool op = true;
+	//	static bool* open = &op;
+	//	static ComboFilterState s{ select1, 0 };
+	//
+	//	//static std::vector< bool *(const char* id, char* buffer, int bufferlen, /*const char** hints*/ std::vector<const char*> hints,
+	//	//	int num_hints, ImGuiFunctions::ComboFilterState & s, std::string & _filename)> 
+	//
+	//
+	//	if (_startingAnim.empty())
+	//	{
+	//		strncpy(buf, "Choose an AnimationName here", 30);
+	//	}
+	//	else
+	//	{
+	//		strncpy(buf, _startingAnim.c_str(), _startingAnim.size() + 2);
+	//	}
+	//
+	//
+	//	std::string StartingAnim = "StartingAnim##" + std::to_string(i);
+	//
+	//	if (function.ComboFilter(StartingAnim.c_str(), buf, 128, AnimationNameList, AnimationNameList.size(), s, _startingAnim, open, i))
+	//	{
+	//		//puts(buf);
+	//	}
+	//}
+	
+
 
 
 	//std::vector<const char*> list( AudioList.size() + 1);

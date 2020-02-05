@@ -22,10 +22,14 @@ private:
 	typedef int NumOfloops;
 	typedef std::string audioName;
 
-	std::map<audioName, std::tuple<fileName, volume, NumOfloops>> SoundList;
+	std::map<audioName, std::tuple<fileName, volume, NumOfloops>> SFXList;	//Add SoundEffects
 
-	std::string currentBGM;
-	std::string currentSFX;
+	std::map<audioName, std::tuple<fileName, volume>> BackgroundSoundList;	//Add BackgroundMusic
+
+	audioName currentBGMName;	//When inspection changes the values, have to inform the audioSystem incase the soundtrack is playing currently
+	audioName currentSFXName;
+
+
 
 public:
 
