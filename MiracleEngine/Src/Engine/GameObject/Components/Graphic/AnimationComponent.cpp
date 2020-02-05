@@ -28,6 +28,11 @@ int AnimationComponent::GetMaxFrame()
 	return _maxFrame;
 }
 
+float AnimationComponent::GetTimeDelay()
+{
+	return _timeDelay;
+}
+
 bool AnimationComponent::IsPlayingOnce()
 {
 	return _playOnce;
