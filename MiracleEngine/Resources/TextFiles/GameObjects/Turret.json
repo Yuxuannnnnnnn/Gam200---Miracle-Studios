@@ -1,1 +1,24 @@
-{"IdentityComponent":true,"ObjectType":"Turret","Name":"none","LinkUId":0,"TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[70.0,70.0,1.0],"Rotate":0.0,"LogicComponent":true,"ScriptId":[],"GraphicsComponent":true,"G.FileName":"Turret.png","G.Shader":"","G.Layer":1,"AnimationComponent":true,"AnimationTypes":[{"AnimationType":"Turret_Transform_spriteSpriteSheetData.json","TimeDelay":0.0,"AnimationName":"turret"}],"StartAnim":"turret"}
+{
+	"IdentityComponent": true,
+	"ObjectType": "Turret",
+	"Name": "none",
+	"LinkUId": 0,
+	"TransformComponent": true,
+	"Position": [ 0.0, 0.0, 1.0 ],
+	"Scale": [ 70.0, 70.0, 1.0 ],
+	"Rotate": 0.0,
+	"LogicComponent": true,
+	"ScriptId": [],
+	"GraphicsComponent": true,
+	"G.FileName": "Turret.png",
+	"G.Shader": "",
+	"G.Layer": 1,
+	"AnimationComponent": true,
+	"AnimationTypes": [
+		{
+			"AnimationType": "Turret_Transform_spriteSpriteSheetData.json",
+			"TimeDelay": 0.0,
+			"AnimationName": "turret"
+		}
+	],
+	"StartAnim":"turret"}
