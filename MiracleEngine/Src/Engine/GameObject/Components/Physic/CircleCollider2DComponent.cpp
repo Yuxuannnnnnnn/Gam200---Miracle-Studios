@@ -36,7 +36,7 @@ void CircleCollider2DComponent::Inspect()
 
 	ImGui::InputFloat2("Circle Center Pos X, Y", _center.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat2("Circle Center Pos X, Y", _center.m, -1000, 1000);
+	ImGui::SliderFloat2("Circle Center Pos X Y", _center.m, -1000, 1000);
 
 	ImGui::Spacing();
 	ImGui::Spacing();
@@ -45,7 +45,7 @@ void CircleCollider2DComponent::Inspect()
 
 	ImGui::InputFloat("Circle Radius", &_radius);
 	ImGui::Spacing();
-	ImGui::SliderFloat("Circle Radius", &_radius, 0, 500);
+	ImGui::SliderFloat("circle Radius", &_radius, 0, 500);
 
 	ImGui::Spacing();
 }

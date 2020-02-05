@@ -8,7 +8,8 @@ enum class ScriptType {
 	SCRIPT_Spawner,
 	SCRIPT_Explosion,
 	SCRIPT_PickUps,
-	SCRIPT_ButtonController,
+	SCRIPT_ButtonController, 
+	SCRIPT_HealthController,
 	SCRIPT_COUNT
 };
 
@@ -24,6 +25,7 @@ inline const char* ToScriptName(ScriptType type)
 	case ScriptType::SCRIPT_Explosion:	return "Explosion";
 	case ScriptType::SCRIPT_PickUps:	return "PickUps";
 	case ScriptType::SCRIPT_ButtonController:	return "ButtonController";
+	case ScriptType::SCRIPT_HealthController:	return "HealthController";
 
 	default:      return "None";
 	}
@@ -47,6 +49,8 @@ inline ScriptType ToScriptId(std::string& name)
 		return ScriptType::SCRIPT_PickUps;
 	if (name.compare("ButtonController") == 0)
 		return ScriptType::SCRIPT_ButtonController;
+	if (name.compare("HealthController") == 0)
+		return ScriptType::SCRIPT_HealthController;
 	
 	return ScriptType::SCRIPT_COUNT;
 }

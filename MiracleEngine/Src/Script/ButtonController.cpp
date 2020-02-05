@@ -89,8 +89,6 @@ void ButtonController::Update(double dt)
 			MyFactory.ChangeScene("PlaceHolder");
 		else if (_input->ButtonTrigger(13)) // leaderboard
 			MyFactory.ChangeScene("PlaceHolder");
-		else if (_input->ButtonTrigger(14)) // help
-			MyFactory.ChangeScene("PlaceHolder");
 		else if (_input->ButtonTrigger(15)) // credits
 			MyFactory.ChangeScene("PlaceHolder");
 		else if (_input->ButtonTrigger(16)) // quit

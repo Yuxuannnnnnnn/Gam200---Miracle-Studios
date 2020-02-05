@@ -37,6 +37,7 @@ public:
 
 	virtual IScript2* Clone() = 0;
 
+	virtual void Init() {}
 	virtual void Update(double dt) = 0;
 
 	void SetParentPtr(GameObject* parent);
