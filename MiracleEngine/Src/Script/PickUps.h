@@ -11,7 +11,7 @@ enum class PickUp_Type
 	ROCKET_AMMO = 2,
 };
 
-class PickUps : public IScript
+class PickUps : public IScript2
 {
 private:
 	double _lifeTime;
@@ -27,9 +27,14 @@ public:
 
 	void Inspect() 
 	{
-
+		ImGui::Spacing();
+		ImGui::InputDouble("Lifetime ", &_lifeTime);
+		ImGui::Spacing();
+		ImGui::InputInt("Pickup Type ", &_pickupType);
+		ImGui::Spacing();
 	}
 
+	PickUps* Clone();
 	void Update(double dt);
 };
 

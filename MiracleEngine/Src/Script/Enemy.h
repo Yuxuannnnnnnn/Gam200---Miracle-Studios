@@ -24,8 +24,8 @@ private:
 	double _timerStunCooldown;
 	double _timerAttack;
 	double _timerAttackCooldown;
-	size_t _attackRange;
-	size_t _attackMelee;
+	int _attackRangeShoot;
+	int _attackRangeMelee;
 	double _moveSpeed;
 	double _chaseSpeed;
 	double _chaseTimer, _chaseDuration;

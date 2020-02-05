@@ -9,9 +9,9 @@ void Turret::SerialiseComponent(Serialiser& document)
 		_timeAttackCooldown = (document["Firerate"].GetDouble());
 	if (document.HasMember("AttackRange") && document["AttackRange"].IsInt())
 	{
-		_attackRange = document["AttackRange"].GetDouble();
-		_attackRange *= 100;
-		_attackRange *= _attackRange;
+		_attackRangeShoot = document["AttackRange"].GetDouble();
+		_attackRangeShoot *= 100;
+		_attackRangeShoot *= _attackRangeShoot;
 	}
 }
 
@@ -25,7 +25,7 @@ void Turret::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	value.SetDouble(_timeAttackCooldown);
 	prototypeDoc.AddMember("Firerate", value);
 	value.Clear();
-	value.SetInt(_attackRange);
+	value.SetInt(_attackRangeShoot);
 	prototypeDoc.AddMember("AttackRange", value);
 	value.Clear();
 }
@@ -49,9 +49,9 @@ Turret::Turret() :
 	_timeAttackCooldown{ 3.0 }
 	
 {
-	_attackRange = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
-	_attackRange *= 5; // 5 tileSize
-	_attackRange *= _attackRange; // pow(2)
+	_attackRangeShoot = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackRangeShoot *= 5; // 5 tileSize
+	_attackRangeShoot *= _attackRangeShoot; // pow(2)
 }
 
 Turret* Turret::Clone()
@@ -259,7 +259,7 @@ void Turret::FSM()
 	{
 		// check range
 		Vector3 tempVec3 = GetDestinationPos() - GetPosition();
-		if (tempVec3.SquaredLength() > _attackRange)
+		if (tempVec3.SquaredLength() > _attackRangeShoot)
 			_state = (unsigned)AiState::MOVING;
 		else if (id.compare("Player"))
 			_state = (unsigned)AiState::MOVING;

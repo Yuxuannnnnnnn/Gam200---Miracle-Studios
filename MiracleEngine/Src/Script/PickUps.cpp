@@ -5,6 +5,10 @@
 PickUps::PickUps() : _lifeTime{ -666.f }, _pickupType{ (int)PickUp_Type::NONE }
 {}
 
+PickUps* PickUps::Clone()
+{
+	return new PickUps(*this);
+}
 
 void PickUps::SerialiseComponent(Serialiser& document)
 {
@@ -25,6 +29,6 @@ void PickUps::Update(double dt)
 		_lifeTime -= dt;
 
 		if (_lifeTime < 0)
-			DestoryThis();
+			GetParentPtr()->SetDestory();
 	}
 }

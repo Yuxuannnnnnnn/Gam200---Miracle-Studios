@@ -33,6 +33,7 @@ void LogicSystem::Init() {
 	RegisterScript(Turret);
 	RegisterScript(Spawner);
 	RegisterScript(Explosion);
+	RegisterScript(PickUps);
 	RegisterScript(ButtonController);
 
 	//ScriptSystem.Init();
