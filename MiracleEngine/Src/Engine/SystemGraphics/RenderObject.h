@@ -33,5 +33,6 @@ struct RenderObject
 	UV  _uv;
 	float _zvalue;
 	bool _isAnimated;
+	float _alpha;
 
 };

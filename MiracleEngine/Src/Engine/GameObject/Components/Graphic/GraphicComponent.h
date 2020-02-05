@@ -23,10 +23,10 @@ private:
 	float u1, v1;
 
 	int _layer;
+	float _alphaVal;
 public:
-	// TODO:: Setalpha
 	void SetAlpha(float alphaValue);
-
+	float GetAlpha();
 	unsigned int GetTextureID() const;               // base on asset file name, get the textureID on OpenGL for imgui
 	
 	const std::string& GetFileName() const;
