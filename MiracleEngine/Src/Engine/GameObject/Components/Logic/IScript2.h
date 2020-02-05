@@ -34,6 +34,7 @@ public:
 	virtual void DeSerialiseComponent(DeSerialiser& prototypeDoc) = 0;
 	virtual void Inspect() = 0;
 	virtual void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator) {}
+	virtual void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) {}
 
 	virtual IScript2* Clone() = 0;
 
