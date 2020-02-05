@@ -210,18 +210,18 @@ void Player::Update(double dt)
 	{
 		_animStatePrev = _animState;
 		if (_animState == 0) // die
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
 		if (_animState == 1) // start moving
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
 		if (_animState == 2) // stopped moving
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
 
 		// ANIM NOTE: Shields are to be a seperate entitiy to the actual player
 		// so only the logic to set the anim of that obj is here
 		if (_animState == 3) // shield off
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
 		if (_animState == 4) // shield on
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shield");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shield");
 	}
 	else
 		_animStatePrev = _animState;
