@@ -1,44 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "Script/Turret.h"
 
-void Turret::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Health") && document["Health"].IsInt())
-		_health = (document["Health"].GetInt());
-	if (document.HasMember("Firerate") && document["Firerate"].IsDouble())
-		_timeAttackCooldown = (document["Firerate"].GetDouble());
-	if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsInt())
-	{
-		_attackRangeShoot = document["AttackRangeShoot"].GetDouble();
-		_attackRangeShoot *= 100;
-		_attackRangeShoot *= _attackRangeShoot;
-	}
-}
-
-void Turret::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-	rapidjson::Value value;
-
-	value.SetInt(_health);
-	prototypeDoc.AddMember("Health", value);
-	value.Clear();
-	value.SetDouble(_timeAttackCooldown);
-	prototypeDoc.AddMember("Firerate", value);
-	value.Clear();
-	value.SetInt(_attackRangeShoot);
-	prototypeDoc.AddMember("AttackRangeShoot", value);
-	value.Clear();
-}
-
-void Turret::Inspect()
-{
-	ImGui::Spacing();
-	ImGui::InputInt("Health ", &_health);
-	ImGui::Spacing();
-	ImGui::InputDouble("Firerate ", &_timeAttackCooldown);
-	ImGui::Spacing();
-}
-
 Turret::Turret() : 
 	_init{ false },
 	_health{ 1 },

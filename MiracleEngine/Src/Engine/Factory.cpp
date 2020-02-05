@@ -814,8 +814,14 @@ void Factory::UpdateScene()
 	MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
 #endif
 
+	for (auto& it : GetComponentMap(Identity))
+		it.second->Init();
+
+	for (auto& it : GetComponentMap(Button))
+		it.second->Init();
 
 	MyCameraSystem.Init();
+	MyLogicSystem.Init();
 }
 
 void Factory::ChangeScene(const std::string& scene)

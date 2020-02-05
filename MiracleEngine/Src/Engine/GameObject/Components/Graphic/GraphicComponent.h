@@ -19,14 +19,17 @@ private:
 	std::string _shader;
 	//RenderLayer _renderlayer; Not Used anymore because Z value is computed in Transformcomponent
 
+	bool _hasAlpha;
+
+
 	float u0, v0;
 	float u1, v1;
 
 	int _layer;
+	float _alphaVal;
 public:
-	// TODO:: Setalpha
 	void SetAlpha(float alphaValue);
-
+	float GetAlpha();
 	unsigned int GetTextureID() const;               // base on asset file name, get the textureID on OpenGL for imgui
 	
 	const std::string& GetFileName() const;
@@ -181,10 +184,10 @@ public:
 		ImGui::Spacing();
 
 		ImGui::InputInt("RenderLayer", &_layer);
-		if (_layer > 10)
+	/*	if (_layer > 10)
 			_layer = 30;
 		else if (_layer < 0)
-			_layer = 0;
+			_layer = 0;*/
 
 		ImGui::Spacing();
 		ImGui::Spacing();
