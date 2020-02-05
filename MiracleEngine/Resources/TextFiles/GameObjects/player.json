@@ -30,35 +30,39 @@
   "G.FileName": "catjump.png",
   "G.Shader": "",
   "G.Layer": 1,
+
   "AnimationComponent": true,
   "AnimationTypes": [
-    {
-      "AnimationType": "Character_muzzle_attack_sprite_2SpriteSheetData.json",
-      "TimeDelay": 0.10000000149011612,
-      "AnimationName": "Attack"
-    },
     {
       "AnimationType": "Character_death_spriteSpriteSheetData.json",
       "TimeDelay": 0.1,
       "AnimationName": "Death"
     },
     {
-      "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
+      "AnimationType": "Character_BodyFloat_sprite_2SpriteSheetData.json",
       "TimeDelay": 0.1,
-      "AnimationName": "Idle"
+      "AnimationName": "Move"
     },
+
     {
-      "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
+      "AnimationType": "Character_muzzle_attack_sprite_2SpriteSheetData.json",
       "TimeDelay": 0.1,
-      "AnimationName": "Run"
+      "AnimationName": "Attack"
+    },
+
+    {
+      "AnimationType": "Character_ShieldBreak.json",
+      "TimeDelay": 0.1,
+      "AnimationName": "ShieldBreak"
     },
     {
       "AnimationType": "SpriteSheetData_Character_Shield.json",
       "TimeDelay": 0.1,
-      "AnimationName": "Shield"
+      "AnimationName": "ShieldIdle"
     }
   ],
-  "StartAnim": "Idle",
+  "StartAnim": "Move",
+  
   "RigidBody2DComponent": true,
   "Mass": 10.0,
   "Friction": 0.10000000149011612,

@@ -62,6 +62,11 @@ public:
 		{
 			_layer = (document["G.Layer"].GetInt());
 		}
+
+		if (document.HasMember("_hasAlpha") && document["_hasAlpha"].IsBool())	//Checks if the variable exists in .Json file
+		{
+			_hasAlpha = (document["_hasAlpha"].GetBool());
+		}
 	}
 
 
@@ -82,6 +87,9 @@ public:
 
 		value.SetInt(_layer);
 		prototypeDoc.AddMember("G.Layer", value);
+
+		value.SetBool(_hasAlpha);
+		prototypeDoc.AddMember("_hasAlpha", value);
 
 	}
 
@@ -104,6 +112,9 @@ public:
 		value.SetInt(_layer);
 		prototypeDoc.AddMember("G.Layer", value, allocator);
 
+		value.SetBool(_hasAlpha);
+		prototypeDoc.AddMember("_hasAlpha", value, allocator);
+
 	}
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -121,6 +132,7 @@ public:
 		rapidjson::Value fileName;
 		rapidjson::Value shader;
 		rapidjson::Value layer;
+		rapidjson::Value HasAlpha;
 
 		bool addComponentIntoSceneFile = false;
 
@@ -128,6 +140,12 @@ public:
 		{
 			addComponentIntoSceneFile = true;
 			enable.SetBool(GetEnable());
+		}
+
+		if (protoGraphicCom->_hasAlpha != this->_hasAlpha)
+		{
+			addComponentIntoSceneFile = true;
+			HasAlpha.SetBool(_hasAlpha);
 		}
 
 		if (protoGraphicCom->_fileName.compare(_fileName))
@@ -154,6 +172,11 @@ public:
 				value.AddMember("GraphicsComponent", enable, allocator);
 			else
 				value.AddMember("GraphicsComponent", protoGraphicCom->GetEnable(), allocator);
+
+			if (!HasAlpha.IsNull())	//if rapidjson::value container is not empty
+			{
+				value.AddMember("_hasAlpha", HasAlpha, allocator);
+			}
 
 			if (!fileName.IsNull())	//if rapidjson::value container is not empty
 			{
@@ -282,7 +305,7 @@ public:
 				i++;
 			}
 
-			if (ImGui::BeginCombo(" ", list[select], 0)) // The second parameter is the label previewed before opening the combo.
+			if (ImGui::BeginCombo("Shader", list[select], 0)) // The second parameter is the label previewed before opening the combo.
 			{
 				for (int n = 0; n < list.size(); n++)
 				{
@@ -299,6 +322,11 @@ public:
 				}
 				ImGui::EndCombo();
 			}
+
+
+			ImGui::Spacing();
+			std::string string = "Has Alpha ";
+			ImGui::Checkbox(string.c_str(), &_hasAlpha);
 			//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
 
 			//AssetsImguiWindow*  window = dynamic_cast<AssetsImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Assets"]);

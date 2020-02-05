@@ -12,6 +12,21 @@
   "G.TypeId": 0,
   "G.FileName": "EnemyAttack.png",
 
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Charger_enemy_sprite.json",
+      "TimeDelay": 0.1,
+      "AnimationName": "Death"
+    },
+    {
+      "AnimationType": "Charging_enemies2_sprite.json",
+      "TimeDelay": 0.1,
+      "AnimationName": "Move"
+    }
+  ],
+  "StartAnim": "Move",
+
   "RigidBody2DComponent": true,
   "Mass": 5.0,
   "Friction": 0.1,
@@ -31,7 +46,7 @@
   "Script2Data": [
     {
       "Health": 1,
-      "EnemyType": 1,
+      "EnemyType": 0,
       "StunDuration": 0.5,
       "AttackRangeShoot": 0.0,
       "AttackRangeMelee": 4.0,
