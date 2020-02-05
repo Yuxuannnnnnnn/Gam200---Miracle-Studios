@@ -14,8 +14,8 @@ void GraphicsSystem::Update(double dt)
 	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.5f);
+	//glEnable(GL_ALPHA_TEST);
+	//glAlphaFunc(GL_GREATER, 0.5f);
 
 	renderingAnim = RENDERNONE;
 
@@ -30,6 +30,8 @@ void GraphicsSystem::Update(double dt)
 		{
 			continue;
 		}
+
+		
 
 
 		if (renderobj._isAnimated)
@@ -64,7 +66,12 @@ void GraphicsSystem::Update(double dt)
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 
-		glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
+		/*if (renderobj._alpha < 0.95f)
+		{
+			glDisable(GL_ALPHA_TEST);
+			renderobj._pShader->SetUniform1f("u_Alpha", renderobj._alpha);
+		}*/
+		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
@@ -160,10 +167,10 @@ void GraphicsSystem::UpdateRenderObjectList()
 		RenderObject renderobject;
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
-
+		renderobject._alpha = graphicComp->GetAlpha();
 		// check for if obj have animation
 
-		if (animComp)
+		if (animComp && animComp->GetEnable())
 		{
 			// get animation from resource manager
 			Animation* currAnim = animComp->GetAnimationResource();

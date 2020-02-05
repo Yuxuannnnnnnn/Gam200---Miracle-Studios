@@ -216,16 +216,16 @@ void Player::Update(double dt)
 				* (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
 		}
 		if (_animState == 1) // start moving
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
 		if (_animState == 2) // stopped moving
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
 
 		// ANIM NOTE: Shields are to be a seperate entitiy to the actual player
 		// so only the logic to set the anim of that obj is here
 		if (_animState == 3) // shield off
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
 		if (_animState == 4) // shield on
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shield");
+			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shield");
 	}
 	else
 		_animStatePrev = _animState;
@@ -310,7 +310,16 @@ void Player::UpdateInput()
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_LBUTTON))
 	{
 		WeaponShoot();
+		GameObject* turret = nullptr;
+		turret = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Turret"]);
+		((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 
+		AnimationComponent* anim = (AnimationComponent *)turret->GetComponent(ComponentId::CT_Animation);
+		anim->SetPlayingOnce("turret");
+
+		GraphicComponent* graphic = (GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic);
+		graphic->SetAlpha(0.6f);
 		// wait for audio system deserialize
 
 		/*AudioComponent* audioptr = (AudioComponent*)this->GetSibilingComponent(ComponentId::CT_Audio);
@@ -327,6 +336,8 @@ void Player::UpdateInput()
 		// ANIM NOTE: Shields are to be a seperate entitiy to the actual player
 		// so only the logic to set the anim of that obj is here
 		
+
+
 	}
 	//Right click to activate shield, play shield animation.
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::MOUSE_RBUTTON) ||

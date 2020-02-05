@@ -10,6 +10,14 @@ void AnimationSystem::Update(double dt)
 
 		GC->UpdateTimeDelay(dt);
 		
+		if (GC->IsPlayingOnce())
+		{
+			if (GC->GetCurrFrame() >= GC->GetMaxFrame())
+			{
+				GC->SetEnable(false);
+				GC->SetPlayingOnce(false);
+			}
+		}
 	}
 	
 	/*if (MyInputSystem.KeyDown(KeyCode::KEYB_M))
