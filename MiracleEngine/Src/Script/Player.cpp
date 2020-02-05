@@ -317,6 +317,9 @@ void Player::UpdateInput()
 
 		AnimationComponent* anim = (AnimationComponent *)turret->GetComponent(ComponentId::CT_Animation);
 		anim->SetPlayingOnce("turret");
+
+		GraphicComponent* graphic = (GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic);
+		graphic->SetAlpha(0.6f);
 		// wait for audio system deserialize
 
 		/*AudioComponent* audioptr = (AudioComponent*)this->GetSibilingComponent(ComponentId::CT_Audio);
