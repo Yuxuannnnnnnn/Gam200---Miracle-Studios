@@ -9,13 +9,22 @@ void UIMesh::Select()
 
 UIMesh::UIMesh()
 {
+	//GLfloat _positions[] =
+	//{
+	//	 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, // 0     // bottom left
+	//	 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // 1     // bottom right
+	//	 0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // 2     // top right
+	//	 0.0f,  0.5f, 0.0f, 0.0f, 1.0f  // 3     // top left
+	//};
+
 	GLfloat _positions[] =
 	{
-		 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, // 0     // bottom left
-		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // 1     // bottom right
-		 0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // 2     // top right
-		 0.0f,  0.5f, 0.0f, 0.0f, 1.0f  // 3     // top left
+		 -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // 0     // bottom left
+		  0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // 1     // bottom right
+		  0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // 2     // top right
+		 -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // 3     // top left
 	};
+
 	GLuint _indices[6] =
 	{
 		0,1,2,
