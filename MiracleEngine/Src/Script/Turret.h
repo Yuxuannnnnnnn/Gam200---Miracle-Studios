@@ -46,6 +46,7 @@ public:
 		value.SetArray();
 		{
 			rapidjson::Value object;
+			object.SetObject();
 			object.AddMember("Health", _health, prototypeDoc.Allocator());
 			object.AddMember("Firerate", _timeAttackCooldown, prototypeDoc.Allocator());
 			_attackRangeShoot /= 100;
@@ -65,6 +66,7 @@ public:
 		value.SetArray();
 		{
 			rapidjson::Value object;
+			object.SetObject();
 			object.AddMember("Health", _health, allocator);
 			object.AddMember("Firerate", _timeAttackCooldown, allocator);
 			_attackRangeShoot /= 100;
@@ -85,7 +87,22 @@ public:
 
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
-		return;
+		rapidjson::Value doc;
+
+		doc.SetBool(true);
+		value.AddMember("Script2Id", doc, allocator);
+
+		doc.SetArray();
+		{
+			rapidjson::Value object;
+			object.SetObject();
+			object.AddMember("Health", _health, allocator);
+			object.AddMember("Firerate", _timeAttackCooldown, allocator);
+			_attackRangeShoot /= 100;
+			_attackRangeShoot /= _attackRangeShoot;
+			object.AddMember("AttackRangeShoot", _attackRangeShoot, allocator);
+			doc.PushBack(object, allocator);
+		}
 	}
 
 	Turret();

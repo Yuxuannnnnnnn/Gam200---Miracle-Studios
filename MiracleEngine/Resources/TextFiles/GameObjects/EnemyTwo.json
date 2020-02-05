@@ -12,6 +12,21 @@
   "G.TypeId": 0,
   "G.FileName": "EnemyTwo.png",
 
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Shooter_enemy_sprite.json",
+      "TimeDelay": 0.1,
+      "AnimationName": "Death"
+    },
+    {
+      "AnimationType": "Enemies1_sprite.json",
+      "TimeDelay": 0.1,
+      "AnimationName": "Move"
+    }
+  ],
+  "StartAnim": "Move",
+
   "RigidBody2DComponent": true,
   "Mass": 5.0,
   "Friction": 0.1,
@@ -31,7 +46,7 @@
   "Script2Data": [
     {
       "Health": 3,
-      "EnemyType": 2,
+      "EnemyType": 1,
       "StunDuration": 0.5,
       "AttackRangeShoot": 4.0,
       "AttackRangeMelee": 0.0,
