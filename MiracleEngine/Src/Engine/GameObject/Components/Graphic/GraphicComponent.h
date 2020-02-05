@@ -184,10 +184,10 @@ public:
 		ImGui::Spacing();
 
 		ImGui::InputInt("RenderLayer", &_layer);
-		if (_layer > 10)
+	/*	if (_layer > 10)
 			_layer = 30;
 		else if (_layer < 0)
-			_layer = 0;
+			_layer = 0;*/
 
 		ImGui::Spacing();
 		ImGui::Spacing();
