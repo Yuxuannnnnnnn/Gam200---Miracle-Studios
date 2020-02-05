@@ -6,31 +6,19 @@
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 200.0, 200.0, 1.0 ],
   "Rotate": 0.0,
-  "GraphicsComponent": true,
+  "LogicComponent": true,
+  "ScriptId": [],
+  "GraphicsComponent": false,
   "G.FileName": "catjump.png",
   "G.Shader": "",
   "G.Layer": 1,
-  "LogicComponent": true,
-  "ScriptId": [],
-  "Script2Id": [ "Player" ],
-  "Script2Data": [
-    {
-      "ShieldDuration": 2.0,
-      "ShieldCooldown": 2.0,
-      "Health": 10,
-      "WeaponActive": 1,
-      "AmmoRpg": 5,
-      "AmmoTurret": 10,
-      "AmmoWall": 10,
-      "FireratePistol": 0.2,
-      "FirerateShotgun": 0.6,
-      "FirerateRpg": 1.2,
-      "FirerateTurret": 1.0,
-      "FirerateWall": 1.0
-    }
-  ],
   "AnimationComponent": true,
   "AnimationTypes": [
+    {
+      "AnimationType": "Character_muzzle_attack_sprite_2SpriteSheetData.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Attack"
+    },
     {
       "AnimationType": "Character_death_spriteSpriteSheetData.json",
       "TimeDelay": 0.0,
@@ -42,19 +30,9 @@
       "AnimationName": "Idle"
     },
     {
-      "AnimationType": "CatAnimation.json",
+      "AnimationType": "SpriteSheetData_Character_Shield.json",
       "TimeDelay": 0.0,
-      "AnimationName": "Run"
-    },
-    {
-      "AnimationType": "DatafileExplosionBluePlasma24FPSSprite.json",
-      "TimeDelay": 0.0,
-      "AnimationName": "Walk"
-    },
-    {
-      "AnimationType": "Turret_Transform_spriteSpriteSheetData.json",
-      "TimeDelay": 0.10000000149011612,
-      "AnimationName": "jump"
+      "AnimationName": "Shield"
     }
   ],
   "StartAnim": "Idle",
@@ -62,8 +40,11 @@
   "Mass": 10.0,
   "Friction": 0.10000000149011612,
   "Static": false,
-  "CircleCollider2DComponent": true,
+  "CircleCollider2DComponent": false,
   "ColliderTypeId": 2,
   "ColliderTag": 1,
-  "ColliderTrigger": false
+  "ColliderTrigger": false,
+  "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
+  "Collider2D.C.Radius": 0.0
+
 }
