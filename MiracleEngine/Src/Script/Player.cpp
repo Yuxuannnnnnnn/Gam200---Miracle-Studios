@@ -221,7 +221,7 @@ void Player::Update(double dt)
 		if (_animState == 3) // shield off
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
 		if (_animState == 4) // shield on
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shield");
 	}
 
 }

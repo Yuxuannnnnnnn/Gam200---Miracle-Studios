@@ -6,8 +6,26 @@
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 200.0, 200.0, 1.0 ],
   "Rotate": 0.0,
+
   "LogicComponent": true,
-  "ScriptId": [],
+  "Script2Id": [ "Player" ],
+  "Script2Data": [
+    {
+      "ShieldDuration": 2.0,
+      "ShieldCooldown": 1.0,
+      "Health": 10,
+      "WeaponActive": 1,
+      "AmmoRpg": 0,
+      "AmmoTurret": 10,
+      "AmmoWall": 10,
+      "FireratePistol": 1.0,
+      "FirerateShotgun": 1.0,
+      "FirerateRpg": 1.0,
+      "FirerateTurret": 1.0,
+      "FirerateWall": 1.0
+    }
+  ],
+
   "GraphicsComponent": false,
   "G.FileName": "catjump.png",
   "G.Shader": "",

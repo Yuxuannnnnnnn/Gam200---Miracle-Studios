@@ -21,6 +21,18 @@ void PickUps::SerialiseComponent(Serialiser& document)
 		_pickupType = (document["PickUps_Type"].GetInt());
 	}
 }
+void PickUps::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+}
+
+void PickUps::Inspect()
+{
+	ImGui::Spacing();
+	ImGui::InputDouble("Lifetime ", &_lifeTime);
+	ImGui::Spacing();
+	ImGui::InputInt("Pickup Type ", &_pickupType);
+	ImGui::Spacing();
+}
 
 void PickUps::Update(double dt)
 {

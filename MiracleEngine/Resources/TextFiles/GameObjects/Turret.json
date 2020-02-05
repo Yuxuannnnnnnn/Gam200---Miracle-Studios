@@ -19,7 +19,7 @@
     {
       "Health": 10,
       "Firerate": 0.5,
-      "AttackRange": 20.0
+      "AttackRangeShoot": 20.0
     }
   ]
 }

@@ -2,7 +2,7 @@
 #include "Script/Explosion.h"
 #include "Script/Enemy.h"
 
-Explosion::Explosion() : _lifeTime{ -666.f }
+Explosion::Explosion() : _lifeTime{ -666.f }, _radius{0}
 {}
 
 Explosion* Explosion::Clone()
@@ -12,10 +12,34 @@ Explosion* Explosion::Clone()
 
 void Explosion::SerialiseComponent(Serialiser& document)
 {
-	if (document.HasMember("Lifetime") && document["Lifetime"].IsFloat())	//Checks if the variable exists in .Json file
+	if (document.HasMember("Lifetime") && document["Lifetime"].IsDouble())	//Checks if the variable exists in .Json file
 	{
-		_lifeTime = (document["Lifetime"].GetFloat());
+		_lifeTime = (document["Lifetime"].GetDouble());
 	}
+	if (document.HasMember("Radius") && document["Radius"].IsInt())	//Checks if the variable exists in .Json file
+	{
+		_radius = (document["Radius"].GetInt());
+	}
+}
+void Explosion::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetDouble(_lifeTime);
+	prototypeDoc.AddMember("Lifetime", value);
+	value.Clear();
+	value.SetInt(_radius);
+	prototypeDoc.AddMember("Radius", value);
+	value.Clear();
+}
+
+void Explosion::Inspect()
+{
+	ImGui::Spacing();
+	ImGui::InputDouble("Lifetime ", &_lifeTime);
+	ImGui::Spacing();
+	ImGui::InputInt("Radius ", &_radius);
+	ImGui::Spacing();
 }
 
 void Explosion::Update(double dt)
@@ -28,6 +52,20 @@ void Explosion::Update(double dt)
 }
 
 void Explosion::OnTrigger2DEnter(Collider2D* other)
+{
+	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
+	std::string Id = IdCom->ObjectType();
+
+	if (Id.compare("Enemy") || Id.compare("EnemyTwo"))
+	{
+		Enemy* enemy = reinterpret_cast<Enemy*>(
+			((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy)
+			);
+		enemy->GetParentPtr()->SetDestory();
+	}
+}
+
+void Explosion::OnCollision2DStay(Collider2D* other)
 {
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string Id = IdCom->ObjectType();

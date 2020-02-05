@@ -18,21 +18,9 @@ private:
 	int _pickupType;
 public:
 	PickUps();
-
 	void SerialiseComponent(Serialiser& document);
-
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) 
-	{
-	}
-
-	void Inspect() 
-	{
-		ImGui::Spacing();
-		ImGui::InputDouble("Lifetime ", &_lifeTime);
-		ImGui::Spacing();
-		ImGui::InputInt("Pickup Type ", &_pickupType);
-		ImGui::Spacing();
-	}
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
+	void Inspect();
 
 	PickUps* Clone();
 	void Update(double dt);
