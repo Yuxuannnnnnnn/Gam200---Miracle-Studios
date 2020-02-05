@@ -2,6 +2,12 @@
 
 void GraphicComponent::SetAlpha(float alphaValue)
 {
+	_alphaVal = alphaValue;
+}
+
+float GraphicComponent::GetAlpha()
+{
+	return _alphaVal;
 }
 
 const std::string& GraphicComponent::GetFileName() const
@@ -39,6 +45,7 @@ GraphicComponent::GraphicComponent() :
 	_shader{},
 	_layer{ 1 }
 {
+	_alphaVal = 1.0f;
 }
 
 GraphicComponent::~GraphicComponent()

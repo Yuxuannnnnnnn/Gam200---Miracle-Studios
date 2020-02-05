@@ -17,6 +17,9 @@ private:
 	int _linkUId;
 
 public:
+
+	virtual void Init() override;
+
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override
 	{
@@ -119,32 +122,7 @@ public:
 		}
 	}
 
-	void Inspect() override
-	{
-		ImGui::Spacing();
-		std::string string = std::string("Game Object Type ");
-		//strncpy(_current_ObjectType, _ObjectType.c_str(), _ObjectType.length());
-
-
-		char objType[100] = "\0";
-		strncpy(objType, _ObjectType.c_str(), _ObjectType.length());
-		ImGui::InputText(string.c_str(), objType, 100);
-		_ObjectType = objType;
-		ImGui::Spacing();
-
-		char Name[100] = "\0";
-		strncpy(Name, _name.c_str(), _name.length());
-		//strncpy(_current_Name, _name.c_str(), _name.length());
-		string = "Name of Object ";
-		ImGui::InputText(string.c_str(), Name, 100);
-		_name = Name;
-		ImGui::Spacing();
-
-
-		ImGui::Spacing();
-		ImGui::InputInt("Linking ID", &_linkUId);
-		ImGui::Spacing();
-	}
+	void Inspect() override;
 
 
 	const std::string& GetName() const

@@ -3,19 +3,32 @@
 #include "ButtonComponent.h"
 
 ButtonComponent::ButtonComponent() :
+	_transform{ nullptr },
+	_graphic{ nullptr },
 	_buttonUId{ 0 },
 	_currState{ ButtonStates::NORMAL },
 	_haveHoverState{ false },
 	_havePressState{ false },
+	_normalScale{ Vec3{1.f,1.f,1.f} },
+	_hoveredScale{ Vec3{1.f,1.f,1.f} },
+	_pressedScale{ Vec3{1.f,1.f,1.f} },
 	_normalFileName{},
 	_hoveredFileName{},
 	_pressedFileName{},
+	_hoveredAudioFileName{},
+	_pressedAudioFileName{},
 	_pressedAtStart{false}
 {}
 
 std::string ButtonComponent::ComponentName() const
 {
 	return std::string("Button Component");
+}
+
+void ButtonComponent::Init()
+{
+	_transform = (TransformComponent*)GetComponentMap(Transform)[GetParentId()];
+	_graphic = (GraphicComponent*)GetComponentMap(Graphic)[this->GetParentId()];
 }
 
 void ButtonComponent::Inspect()
@@ -28,13 +41,21 @@ void ButtonComponent::Inspect()
 
 	static auto& graphicList = MyResourceSystem.GetTexture2DList();
 	std::vector<const char*> list(graphicList.size());
+
+	static auto& AudioList = MyResourceSystem.GetSoundList();
+	std::vector<const char*> soundlist(AudioList.size());
+
 	//list[0] = "Choose a Texture ";
 
 	int i = 0;
 	int select1 = 0;
 	int select2 = 0;
 	int select3 = 0;
-	for (auto graphicPair = graphicList.begin(); graphicPair != graphicList.end(); graphicPair++)
+
+	int select4 = 0;
+	int select5 = 0;
+
+	for (auto& graphicPair = graphicList.begin(); graphicPair != graphicList.end(); graphicPair++)
 	{
 		const char* ptr = graphicPair->first.c_str();
 		list[i] = ptr;
@@ -51,6 +72,21 @@ void ButtonComponent::Inspect()
 		i++;
 	}
 
+	i = 0;
+	for (auto& soundPair = AudioList.begin(); soundPair != AudioList.end(); soundPair++)
+	{
+		const char* ptr = soundPair->first.c_str();
+		soundlist[i] = ptr;
+
+		if (!strncmp(ptr, _hoveredAudioFileName.c_str(), 20))
+			select4 = i;
+
+		if (!strncmp(ptr, _pressedAudioFileName.c_str(), 20))
+			select5 = i;
+		i++;
+	}
+
+
 	static ComboFilterState s1 = { select1, 0 };
 	static char buf1[128];
 	static ImGuiFunctions function;
@@ -65,7 +101,12 @@ void ButtonComponent::Inspect()
 	function.ComboFilter("Normal Texture", buf1, IM_ARRAYSIZE(buf1), list, list.size(), s1, _normalFileName, open);
 	ImGui::Spacing();
 
+	ImGui::InputFloat2("Scale X, Y", _normalScale.m);
+	ImGui::Spacing();
+	ImGui::SliderFloat2("Scale X, Y", _normalScale.m, -500, 500);
 
+	ImGui::Spacing();
+	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Checkbox("Have Hovered State", &_haveHoverState);
 	ImGui::Spacing();
@@ -74,8 +115,6 @@ void ButtonComponent::Inspect()
 	{
 		static ComboFilterState s2 = { select2, 0 };
 		static char buf2[128];
-		static bool op = false;
-		static bool* open = &op;
 
 		if (_hoveredFileName.empty())
 			strncpy(buf2, "type text here...", 18);
@@ -84,8 +123,27 @@ void ButtonComponent::Inspect()
 
 		function.ComboFilter("Hovered Texture", buf2, IM_ARRAYSIZE(buf2), list, list.size(), s2, _hoveredFileName, open);
 		ImGui::Spacing();
+
+		ImGui::InputFloat2("Scale X, Y", _hoveredScale.m);
+		ImGui::Spacing();
+		ImGui::SliderFloat2("Scale X, Y", _hoveredScale.m, -500, 500);
+		ImGui::Spacing();
+
+		static ComboFilterState s4 = { select4, 0 };
+		static char buf4[128];
+
+		if (_hoveredAudioFileName.empty())
+			strncpy(buf4, "type text here...", 18);
+		else
+			strncpy(buf4, _hoveredAudioFileName.c_str(), _hoveredAudioFileName.size());
+
+		function.ComboFilter("Audio File", buf4, IM_ARRAYSIZE(buf4), soundlist, soundlist.size(), s4, _hoveredAudioFileName, open);
+		ImGui::Spacing();
 	}
 
+	
+	ImGui::Spacing();
+	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Checkbox("Have Pressed State", &_havePressState);
 	ImGui::Spacing();
@@ -101,6 +159,22 @@ void ButtonComponent::Inspect()
 			strncpy(buf3, _pressedFileName.c_str(), _pressedFileName.size());
 
 		function.ComboFilter("Pressed Texture", buf3, IM_ARRAYSIZE(buf3), list, list.size(), s3, _pressedFileName, open);
+		ImGui::Spacing();
+
+		ImGui::InputFloat2("Scale X, Y", _pressedScale.m);
+		ImGui::Spacing();
+		ImGui::SliderFloat2("Scale X, Y", _pressedScale.m, -500, 500);
+		ImGui::Spacing();
+
+		static ComboFilterState s5 = { select5, 0 };
+		static char buf5[128];
+
+		if (_pressedAudioFileName.empty())
+			strncpy(buf5, "type text here...", 18);
+		else
+			strncpy(buf5, _pressedAudioFileName.c_str(), _pressedAudioFileName.size());
+
+		function.ComboFilter("Audio File", buf5, IM_ARRAYSIZE(buf5), soundlist, soundlist.size(), s5, _pressedAudioFileName, open);
 		ImGui::Spacing();
 	}
 }
@@ -120,12 +194,11 @@ void ButtonComponent::ButtonNormalState()
 
 	_currState = ButtonStates::NORMAL;
 
-	GraphicComponent* graphic = (GraphicComponent*)GetComponentMap(Graphic)[this->GetParentId()];
+	if (_graphic)
+		_graphic->SetFileName(_normalFileName);
 
-	if (!graphic || !graphic->GetEnable())
-		return;
-
-	graphic->SetFileName(_normalFileName);
+	if (_transform)
+		_transform->SetScale(_normalScale);
 }
 
 void ButtonComponent::ButtonHoveredState()
@@ -135,12 +208,11 @@ void ButtonComponent::ButtonHoveredState()
 
 	_currState = ButtonStates::HOVERED;
 
-	GraphicComponent* graphic = (GraphicComponent*)GetComponentMap(Graphic)[this->GetParentId()];
+	if (_graphic)
+		_graphic->SetFileName(_hoveredFileName);
 
-	if (!graphic || !graphic->GetEnable())
-		return;
-
-	graphic->SetFileName(_hoveredFileName);
+	if (_transform)
+		_transform->SetScale(_hoveredScale);
 }
 
 void ButtonComponent::ButtonPressedState()
@@ -150,10 +222,9 @@ void ButtonComponent::ButtonPressedState()
 
 	_currState = ButtonStates::PRESSED;
 
-	GraphicComponent* graphic = (GraphicComponent*)GetComponentMap(Graphic)[this->GetParentId()];
+	if (_graphic)
+		_graphic->SetFileName(_pressedFileName);
 
-	if (!graphic || !graphic->GetEnable())
-		return;
-
-	graphic->SetFileName(_pressedFileName);
+	if (_transform)
+		_transform->SetScale(_pressedScale);
 }
