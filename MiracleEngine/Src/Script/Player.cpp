@@ -310,16 +310,22 @@ void Player::UpdateInput()
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_LBUTTON))
 	{
 		WeaponShoot();
-		GameObject* turret = nullptr;
+		
+		
+		/*GameObject* turret = nullptr;
 		turret = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Turret"]);
 		((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 
 		AnimationComponent* anim = (AnimationComponent *)turret->GetComponent(ComponentId::CT_Animation);
-		anim->SetPlayingOnce("turret");
+		anim->SetPlayingOnce(true);
 
 		GraphicComponent* graphic = (GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic);
-		graphic->SetAlpha(0.6f);
+		graphic->SetAlpha(0.6f);*/
+
+
+
+
 		// wait for audio system deserialize
 
 		/*AudioComponent* audioptr = (AudioComponent*)this->GetSibilingComponent(ComponentId::CT_Audio);
