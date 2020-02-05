@@ -97,29 +97,29 @@ void LogicComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidj
 
 void LogicComponent::Inspect()
 {
-	std::cout << "LogicComponent::Inspect() \n";
-	std::cout << "\t Scripts :: ";
-	for (auto itr : _ScriptIds)
-		std::cout << itr << ", ";
-	std::cout << "\n";
+	// itr through _scriptContianer and call the actual IScript2* from LogicSys _scriptList
+	for (auto script2id : ((LogicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScriptContianer())
+		for (auto script2ptrs : _engineSystems._logicSystem->GetScriptList(GetParentId()))
+			script2ptrs->Inspect(); // and call their inspects
 
-	std::cout << "\t DataComponents :: ";
-	for (auto itr : _ScriptIds)
+	if (DEBUG_LUA)
 	{
-		for (auto itr2 : _engineSystems._scriptSystem->_ScriptsAll[itr]->_DataDep)
+		std::cout << "LogicComponent::Inspect() \n";
+		std::cout << "\t Scripts :: ";
+		for (auto itr : _ScriptIds)
+			std::cout << itr << ", ";
+		std::cout << "\n";
+		std::cout << "\t DataComponents :: ";
+		for (auto itr : _ScriptIds)
 		{
-			if(GetParentPtr()->GetComponent(ToComponentID(itr2)))
-				GetParentPtr()->GetComponent(ToComponentID(itr2))->Inspect();
+			for (auto itr2 : _engineSystems._scriptSystem->_ScriptsAll[itr]->_DataDep)
+			{
+				if (GetParentPtr()->GetComponent(ToComponentID(itr2)))
+					GetParentPtr()->GetComponent(ToComponentID(itr2))->Inspect();
+			}
 		}
 	}
-
-	//IComponent::Inspect();
-	//for (auto& scriptPair : _ScriptIds)
-	//{
-	//	//scriptPair.second->Inspect();
-	//}
 }
-
 void LogicComponent::Init()
 {
 

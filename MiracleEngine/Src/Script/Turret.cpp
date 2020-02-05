@@ -87,6 +87,23 @@ void Turret::Update(double dt)
 
 	_timerAttack -= dt;
 	FSM();
+
+	// anim updating related logic
+	if (_init)
+		_animState = 1;
+	else
+		_animState = _shooting ? 2 : 3;
+	// setting animation state
+//	if (_animState != _animStatePrev)
+//	{
+//		_animStatePrev = _animState;
+//		if (_animState == 1) // deploy
+//			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Deploy");
+//		if (_animState == 2) // idle
+//			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+//		if (_animState == 3) // shoot
+//			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shoot");
+//	}
 }
 
 Vector3& Turret::GetDestinationPos()
@@ -203,6 +220,7 @@ void Turret::ShootTarget()
 {
 	if (_timerAttack <= 0)
 	{
+		_shooting = true;
 		_timerAttack = _timeAttackCooldown;
 		//std::cout << "Fired!" << std::endl;
 			// spawn bullet
@@ -214,6 +232,8 @@ void Turret::ShootTarget()
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 50000);
 	}
+	else
+		_shooting = false;
 }
 void Turret::RotateToTarget()
 {
