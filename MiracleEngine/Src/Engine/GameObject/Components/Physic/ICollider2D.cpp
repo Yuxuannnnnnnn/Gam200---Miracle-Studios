@@ -42,7 +42,7 @@ void Collider2D::Inspect()
 				select = i;
 		}
 
-		if (ImGui::BeginCombo(" ", list[select], 0)) // The second parameter is the label previewed before opening the combo.
+		if (ImGui::BeginCombo("Collider Tag", list[select], 0)) // The second parameter is the label previewed before opening the combo.
 		{
 			for (int n = 0; n < list.size(); n++)
 			{

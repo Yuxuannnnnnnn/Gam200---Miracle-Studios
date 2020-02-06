@@ -284,6 +284,7 @@ void InputSystem::ButtonUpdate()
 			if (mouseRelease && obj->_pressedAtStart)
 			{
 				obj->_pressedAtStart = false;
+				MyAudioSystem.PlaySFX(obj->_pressedAudioFileName);
 				_buttonTriggered.insert(obj->GetButtonUId());
 			}
 			

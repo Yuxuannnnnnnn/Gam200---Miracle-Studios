@@ -20,8 +20,7 @@ private:
 	int _enemyType;
 // Logic - Behaviour
 	bool _stunned;
-	double _timerStun;
-	double _timerStunCooldown;
+	double _timerStun, _timerStunCooldown;
 	double _timerAttack;
 	double _timerAttackCooldown;
 	int _attackRangeShoot;

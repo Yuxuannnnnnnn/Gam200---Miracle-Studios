@@ -32,9 +32,12 @@ void BoxCollider2DComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::Spacing();
 
-	ImGui::InputFloat2("Box Center Pos X, Y", _center.m);
+	Vec3 tempPos = _center;
+
+	ImGui::InputFloat2("Box Center Pos X, Y", tempPos.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat2("Box Center Pos X, Y", _center.m, -1000, 1000);
+	ImGui::SliderFloat2("Box Center X Y", _center.m, -1000, 1000);
+
 
 	ImGui::Spacing();
 	ImGui::Spacing();
@@ -43,7 +46,7 @@ void BoxCollider2DComponent::Inspect()
 
 	ImGui::InputFloat2("Box Scale X, Y", _scale.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat2("Box Scale X, Y", _scale.m, 1, 500);
+	ImGui::SliderFloat2("Box Scale X Y", _scale.m, 1, 500);
 
 	ImGui::Spacing();
 	ImGui::Spacing();
@@ -53,7 +56,7 @@ void BoxCollider2DComponent::Inspect()
 	float DegAngle = RadToDeg(_angle);
 	ImGui::InputFloat("Box Rotation Angle", &DegAngle);
 	ImGui::Spacing();
-	ImGui::SliderFloat("Box Rotation Angle", &DegAngle, -180, 180);
+	ImGui::SliderFloat("Box Angle", &DegAngle, -180, 180);
 	_angle = DegToRad(DegAngle);
 
 	ImGui::Spacing();

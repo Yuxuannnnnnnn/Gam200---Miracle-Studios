@@ -43,7 +43,7 @@ unsigned int GraphicComponent::GetTextureID() const
 GraphicComponent::GraphicComponent() :
 	_fileName{}, 
 	_shader{},
-	_layer{ 1 }
+	_layer{ 1 }, _hasAlpha{false}
 {
 	_alphaVal = 1.0f;
 }

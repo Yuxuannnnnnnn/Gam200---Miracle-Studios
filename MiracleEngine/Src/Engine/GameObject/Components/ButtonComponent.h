@@ -35,10 +35,9 @@ private:
 	std::string _pressedFileName;
 
 	std::string _hoveredAudioFileName;
-	std::string _pressedAudioFileName;
 public:
 	bool _pressedAtStart;
-
+	std::string _pressedAudioFileName;
 
 	ButtonComponent();
 	ButtonComponent(const ButtonComponent& rhs) = default;

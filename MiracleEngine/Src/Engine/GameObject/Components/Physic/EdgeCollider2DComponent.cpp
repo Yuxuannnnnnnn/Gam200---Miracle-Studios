@@ -26,7 +26,7 @@ void EdgeCollider2DComponent::Inspect()
 
 	ImGui::InputFloat2("Edge Center Pos X, Y", _center.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat2("Edge Center Pos X, Y", _center.m, -1000, 1000);
+	ImGui::SliderFloat2("Edge Center Pos X Y", _center.m, -1000, 1000);
 
 	ImGui::Spacing();
 	ImGui::Spacing();
@@ -35,7 +35,7 @@ void EdgeCollider2DComponent::Inspect()
 
 	ImGui::InputFloat2("Edge Start Pos X, Y", _start.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat2("Edge Start Pos X, Y", _start.m, -1000, 1000);
+	ImGui::SliderFloat2("Edge Start Pos X Y", _start.m, -1000, 1000);
 
 	ImGui::Spacing();
 	ImGui::Spacing();
@@ -44,7 +44,7 @@ void EdgeCollider2DComponent::Inspect()
 
 	ImGui::InputFloat2("Edge End Pos X, Y", _end.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat2("Edge End Pos X, Y", _end.m, -1000, 1000);
+	ImGui::SliderFloat2("Edge End Pos X Y", _end.m, -1000, 1000);
 
 	ImGui::Spacing();
 }

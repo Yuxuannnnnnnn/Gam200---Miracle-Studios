@@ -9,6 +9,7 @@
 #include "Script/Explosion.h"
 #include "Script/PickUps.h"
 #include "Script/ButtonController.h"
+#include "Script/HealthController.h"
 
 
 LogicSystem::~LogicSystem()
@@ -35,6 +36,26 @@ void LogicSystem::Init() {
 	RegisterScript(Explosion);
 	RegisterScript(PickUps);
 	RegisterScript(ButtonController);
+	RegisterScript(HealthController);
+
+	for (auto& itr : GetComponentMap(Logic)) {
+
+		LogicComponent* obj = (LogicComponent*)itr.second;
+
+		if (!obj)
+			continue;
+
+		if (enableScript2)
+		{
+			for (auto& itr : obj->GetScriptContianer())
+			{
+				_scriptList[itr.second]->Init();
+			}
+		}
+
+
+	}
+
 
 	//ScriptSystem.Init();
 }

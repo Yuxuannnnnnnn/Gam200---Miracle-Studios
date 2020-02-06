@@ -106,6 +106,7 @@ public:
 	int GetCurrentFrame();
 	int GetMaxFrame();
 	float GetTimeDelay();
+	void SetTimeDelay(float time);
 	bool IsPlayingOnce();
 	void SetPlayingOnce(bool);
 	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
@@ -117,8 +118,6 @@ public:
 	//	_currentTimeDelay = _timeDelay;
 	//	_currFrame = _maxFrame;
 	//}
-
-	
 //Only for Logic Animation script--------------------------------------
 	void SetCurrentAnim(const std::string& AniamtionType);
 	void SetCurrentAnimOnce(const std::string& AnimationType);
@@ -147,8 +146,8 @@ private:
 	{
 		if (_animations.find(AnimationName) != _animations.end())
 		{
-			 _timeDelay = _animations[AnimationName];
-			 return;
+			_timeDelay = _animations[AnimationName];
+			return;
 		}
 
 		return;

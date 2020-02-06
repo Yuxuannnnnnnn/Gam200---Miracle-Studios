@@ -8,6 +8,9 @@ void LinkingFactory::SaveNewLinkID(int Id, size_t objectUId)
 
 GameObject* LinkingFactory::GetLinkIDObject(int Id)
 {
+	if (!Id)
+		return nullptr;
+
 	if (_objectLinkMap.find(Id) == _objectLinkMap.end())
 		return nullptr;
 

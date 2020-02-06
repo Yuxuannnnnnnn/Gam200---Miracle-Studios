@@ -33,6 +33,11 @@ float AnimationComponent::GetTimeDelay()
 	return _timeDelay;
 }
 
+void AnimationComponent::SetTimeDelay(float time)
+{
+	 _timeDelay = time;
+}
+
 bool AnimationComponent::IsPlayingOnce()
 {
 	return _playOnce;
@@ -138,7 +143,8 @@ void AnimationComponent::SetCurrentAnimOnce(const std::string& AnimationName)
 		{
 			for (int j = 0; j < AninmationTypeList.size(); j++)
 			{
-				if (!strncmp(AninmationTypeList[j], animationFileNameList[animation.first].c_str(), animationFileNameList[animation.first].size()))
+				if (!strncmp(AninmationTypeList[j], animationFileNameList[animation.first].c_str(), 
+					animationFileNameList[animation.first].size()))
 				{
 					select = j;
 				}

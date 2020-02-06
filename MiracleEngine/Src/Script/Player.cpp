@@ -43,45 +43,45 @@ void Player::SerialiseComponent(Serialiser& document)
 
 void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
-	rapidjson::Value value;
-// Logic Data - General
-	value.SetDouble(_timerShieldDuration);
-	prototypeDoc.AddMember("ShieldDuration", value);
-	value.Clear();
-	value.SetDouble(_timerShieldCooldown);
-	prototypeDoc.AddMember("ShieldCooldown", value);
-	value.Clear();
-	value.SetInt(_health);
-	prototypeDoc.AddMember("Health", value);
-	value.Clear();
-	value.SetInt(_weaponActive);
-	prototypeDoc.AddMember("WeaponActive", value);
-	value.Clear();
-// Logic Data - Weapons
-	value.SetInt(_ammoRpg);
-	prototypeDoc.AddMember("AmmoRpg", value);
-	value.Clear();
-	value.SetInt(_ammoTurret);
-	prototypeDoc.AddMember("AmmoTurret", value);
-	value.Clear();
-	value.SetInt(_ammoWall);
-	prototypeDoc.AddMember("AmmoWall", value);
-	value.Clear();
-	value.SetDouble(_fireratePistol);
-	prototypeDoc.AddMember("FireratePistol", value);
-	value.Clear();
-	value.SetDouble(_firerateShotgun);
-	prototypeDoc.AddMember("FirerateShotgun", value);
-	value.Clear();
-	value.SetDouble(_firerateRPG);
-	prototypeDoc.AddMember("FirerateRpg", value);
-	value.Clear();
-	value.SetDouble(_firerateTurret);
-	prototypeDoc.AddMember("FirerateTurret", value);
-	value.Clear();
-	value.SetDouble(_firerateWall);
-	prototypeDoc.AddMember("FirerateWall", value);
-	value.Clear();
+//	rapidjson::Value value;
+//// Logic Data - General
+//	value.SetDouble(_timerShieldDuration);
+//	prototypeDoc.AddMember("ShieldDuration", value);
+//	value.Clear();
+//	value.SetDouble(_timerShieldCooldown);
+//	prototypeDoc.AddMember("ShieldCooldown", value);
+//	value.Clear();
+//	value.SetInt(_health);
+//	prototypeDoc.AddMember("Health", value);
+//	value.Clear();
+//	value.SetInt(_weaponActive);
+//	prototypeDoc.AddMember("WeaponActive", value);
+//	value.Clear();
+//// Logic Data - Weapons
+//	value.SetInt(_ammoRpg);
+//	prototypeDoc.AddMember("AmmoRpg", value);
+//	value.Clear();
+//	value.SetInt(_ammoTurret);
+//	prototypeDoc.AddMember("AmmoTurret", value);
+//	value.Clear();
+//	value.SetInt(_ammoWall);
+//	prototypeDoc.AddMember("AmmoWall", value);
+//	value.Clear();
+//	value.SetDouble(_fireratePistol);
+//	prototypeDoc.AddMember("FireratePistol", value);
+//	value.Clear();
+//	value.SetDouble(_firerateShotgun);
+//	prototypeDoc.AddMember("FirerateShotgun", value);
+//	value.Clear();
+//	value.SetDouble(_firerateRPG);
+//	prototypeDoc.AddMember("FirerateRpg", value);
+//	value.Clear();
+//	value.SetDouble(_firerateTurret);
+//	prototypeDoc.AddMember("FirerateTurret", value);
+//	value.Clear();
+//	value.SetDouble(_firerateWall);
+//	prototypeDoc.AddMember("FirerateWall", value);
+//	value.Clear();
 }
 
 void Player::Inspect()
@@ -216,16 +216,16 @@ void Player::Update(double dt)
 				* (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
 		}
 		if (_animState == 1) // start moving
-			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
 		if (_animState == 2) // stopped moving
-			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Attack");
 
 		// ANIM NOTE: Shields are to be a seperate entitiy to the actual player
 		// so only the logic to set the anim of that obj is here
 		if (_animState == 3) // shield off
-			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("ShieldBreak");
 		if (_animState == 4) // shield on
-			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Shield");
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("ShieldIdle");
 	}
 	else
 		_animStatePrev = _animState;

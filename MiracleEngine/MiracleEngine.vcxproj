@@ -599,6 +599,7 @@
     <ClInclude Include="Src\Script\ButtonController.h" />
     <ClInclude Include="Src\Script\Enemy.h" />
     <ClInclude Include="Src\Script\Explosion.h" />
+    <ClInclude Include="Src\Script\HealthController.h" />
     <ClInclude Include="Src\Script\PickUps.h" />
     <ClInclude Include="Src\Script\Player.h" />
     <ClInclude Include="Src\Script\Spawner.h" />
@@ -775,6 +776,7 @@
     <ClCompile Include="Src\Script\ButtonController.cpp" />
     <ClCompile Include="Src\Script\Enemy.cpp" />
     <ClCompile Include="Src\Script\Explosion.cpp" />
+    <ClCompile Include="Src\Script\HealthController.cpp" />
     <ClCompile Include="Src\Script\PickUps.cpp" />
     <ClCompile Include="Src\Script\Player.cpp" />
     <ClCompile Include="Src\Script\Spawner.cpp" />

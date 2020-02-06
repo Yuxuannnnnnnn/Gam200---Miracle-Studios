@@ -138,11 +138,10 @@ void LogicComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 		DeSerialiseComponent(value, allocator);
 		return;
 	}
-	else
-	{
-		DeSerialiseComponent(value, allocator);
-	}
-	// ???
+
+	for (auto script2id : ((LogicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScriptContianer())
+		for (auto script2ptrs : _engineSystems._logicSystem->GetScriptList(GetParentId()))
+			script2ptrs->DeserialiseComponentSceneFile(protoCom, value, allocator);
 }
 
 void LogicComponent::Init()

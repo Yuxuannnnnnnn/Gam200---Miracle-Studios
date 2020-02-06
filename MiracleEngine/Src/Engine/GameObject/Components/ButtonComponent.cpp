@@ -39,6 +39,8 @@ void ButtonComponent::Inspect()
 	ImGui::InputInt("Button ID", &_buttonUId);
 	ImGui::Spacing();
 
+	ImGui::NewLine();
+
 	static auto& graphicList = MyResourceSystem.GetTexture2DList();
 	std::vector<const char*> list(graphicList.size());
 
@@ -98,12 +100,10 @@ void ButtonComponent::Inspect()
 	else
 		strncpy(buf1, _normalFileName.c_str(), _normalFileName.size());
 
-	function.ComboFilter("Normal Texture", buf1, IM_ARRAYSIZE(buf1), list, list.size(), s1, _normalFileName, open);
+	function.ComboFilter("Normal Texture", buf1, IM_ARRAYSIZE(buf1), list, (int)list.size(), s1, _normalFileName, open);
 	ImGui::Spacing();
 
-	ImGui::InputFloat2("Scale X, Y", _normalScale.m);
-	ImGui::Spacing();
-	ImGui::SliderFloat2("Scale X, Y", _normalScale.m, -500, 500);
+	ImGui::InputFloat2("Normal Scale X, Y", _normalScale.m);
 
 	ImGui::Spacing();
 	ImGui::Spacing();
@@ -121,12 +121,10 @@ void ButtonComponent::Inspect()
 		else
 			strncpy(buf2, _hoveredFileName.c_str(), _hoveredFileName.size());
 
-		function.ComboFilter("Hovered Texture", buf2, IM_ARRAYSIZE(buf2), list, list.size(), s2, _hoveredFileName, open);
+		function.ComboFilter("Hovered Texture", buf2, IM_ARRAYSIZE(buf2), list, (int)list.size(), s2, _hoveredFileName, open);
 		ImGui::Spacing();
 
-		ImGui::InputFloat2("Scale X, Y", _hoveredScale.m);
-		ImGui::Spacing();
-		ImGui::SliderFloat2("Scale X, Y", _hoveredScale.m, -500, 500);
+		ImGui::InputFloat2("Hovered Scale X, Y", _hoveredScale.m);
 		ImGui::Spacing();
 
 		static ComboFilterState s4 = { select4, 0 };
@@ -137,7 +135,7 @@ void ButtonComponent::Inspect()
 		else
 			strncpy(buf4, _hoveredAudioFileName.c_str(), _hoveredAudioFileName.size());
 
-		function.ComboFilter("Audio File", buf4, IM_ARRAYSIZE(buf4), soundlist, soundlist.size(), s4, _hoveredAudioFileName, open);
+		function.ComboFilter("Hovered Audio File", buf4, IM_ARRAYSIZE(buf4), soundlist, (int)soundlist.size(), s4, _hoveredAudioFileName, open);
 		ImGui::Spacing();
 	}
 
@@ -158,12 +156,10 @@ void ButtonComponent::Inspect()
 		else
 			strncpy(buf3, _pressedFileName.c_str(), _pressedFileName.size());
 
-		function.ComboFilter("Pressed Texture", buf3, IM_ARRAYSIZE(buf3), list, list.size(), s3, _pressedFileName, open);
+		function.ComboFilter("Pressed Texture", buf3, IM_ARRAYSIZE(buf3), list, (int)list.size(), s3, _pressedFileName, open);
 		ImGui::Spacing();
 
-		ImGui::InputFloat2("Scale X, Y", _pressedScale.m);
-		ImGui::Spacing();
-		ImGui::SliderFloat2("Scale X, Y", _pressedScale.m, -500, 500);
+		ImGui::InputFloat2("Pressed Scale X, Y", _pressedScale.m);
 		ImGui::Spacing();
 
 		static ComboFilterState s5 = { select5, 0 };
@@ -174,7 +170,7 @@ void ButtonComponent::Inspect()
 		else
 			strncpy(buf5, _pressedAudioFileName.c_str(), _pressedAudioFileName.size());
 
-		function.ComboFilter("Audio File", buf5, IM_ARRAYSIZE(buf5), soundlist, soundlist.size(), s5, _pressedAudioFileName, open);
+		function.ComboFilter("Pressed Audio File", buf5, IM_ARRAYSIZE(buf5), soundlist, (int)soundlist.size(), s5, _pressedAudioFileName, open);
 		ImGui::Spacing();
 	}
 }
@@ -213,6 +209,8 @@ void ButtonComponent::ButtonHoveredState()
 
 	if (_transform)
 		_transform->SetScale(_hoveredScale);
+
+	MyAudioSystem.PlaySFX(_hoveredAudioFileName);
 }
 
 void ButtonComponent::ButtonPressedState()

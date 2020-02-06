@@ -174,6 +174,14 @@ public:
 
 // GetPID
 
+	Vector3& GetPositionA() { return _pos; }
+	void SetPositionA(Vector3 in) { _pos = in; }
+	float& GetRotationA() { return _rotationAngle; }
+	void SetRotationA(float in) { _rotationAngle = in; }
+	Vector3& GetScaleA() { return _scale; }
+	void SetScaleA(Vector3 in) { _scale = in; }
+
+
 	Vector3 GetPos();
 	void SetPos(const Vector3& in);
 

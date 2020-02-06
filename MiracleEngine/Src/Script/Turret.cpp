@@ -3,12 +3,13 @@
 
 Turret::Turret() : 
 	_init{ false },
-	_health{ 1 },
-	_target{ nullptr },
-	_targetUid{ 0 },
+	_health{ 1 }, _healthMax{ 1 },
+	_target{ nullptr }, _targetUid{ 0 },
 	_state{ (unsigned)AiState::IDLE },
-	_timerAttack{ 0.0 },
-	_timeAttackCooldown{ 3.0 }
+	_timerAttack{ 0.0 }, _timeAttackCooldown{ 3.0 },
+	_deployTime{ 0.5 }, _shooting{ false },
+	_animState{ 1 }, _animStatePrev{ 1 },
+	_transform{nullptr}
 	
 {
 	_attackRangeShoot = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
@@ -24,6 +25,22 @@ Turret* Turret::Clone()
 
 void Turret::Init()
 {
+	for (auto& it : GetParentPtr()->GetChildList())
+	{
+		_turretBase = it.second;
+		break;;
+	}
+
+	_turretBase->SetEnable(false);
+
+
+	_transform = ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform));
+
+	// set Deploy animation and set the animation's speed
+	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Deploy");
+	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+		_deployTime / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() );
+	// _target = player
 	for (auto idPair : _engineSystems._factory->getObjectlist())
 	{
 		if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
@@ -37,6 +54,7 @@ void Turret::Init()
 		}
 	}
 }
+
 void Turret::Update(double dt)
 {
 	if (!_init)
@@ -44,6 +62,17 @@ void Turret::Update(double dt)
 		Init();
 		_init = true;
 	}
+
+	if (_deployTime > 0)
+	{
+		_deployTime -= dt;
+
+		if(_deployTime <= 0.0)
+			_turretBase->SetEnable(true);
+
+		return; // force turret to just play animation while "deploying"
+	}
+		
 	if (_health <= 0)
 		GetParentPtr()->SetDestory();
 
@@ -72,7 +101,7 @@ Vector3& Turret::GetDestinationPos()
 {
 	GameObject* exist = MyFactory.GetObjectWithId(_targetUid);
 	if (exist != nullptr)
-		return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
+		return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA();
 	else
 	{
 		for (auto idPair : _engineSystems._factory->getObjectlist())
@@ -84,12 +113,12 @@ Vector3& Turret::GetDestinationPos()
 			{
 				_target = idPair.second;
 				_targetUid = idPair.second->Get_uID();
-				return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
+				return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA();
 				//break;
 			}
 		}
 	}
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA();
 
 	//if (!_target || _target->GetDestory()) // if not target, find player
 	//{
@@ -107,7 +136,7 @@ Vector3& Turret::GetDestinationPos()
 
 Vector3& Turret::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA();
 }
 
 void Turret::SearchTarget()
@@ -137,14 +166,14 @@ void Turret::SearchTarget()
 				}
 				// check distance of both objects
 				Vector3 distTarget(
-					(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos()._x - GetPosition()._x),
-					(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos()._y - GetPosition()._y),
+					(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA()._x - GetPosition()._x),
+					(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA()._y - GetPosition()._y),
 					0);
 				Vector3 distTemp(
-					(((TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform))->GetPos()._x - GetPosition()._x),
-					(((TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform))->GetPos()._y - GetPosition()._y),
+					(((TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform))->GetPositionA()._x - GetPosition()._x),
+					(((TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform))->GetPositionA()._y - GetPosition()._y),
 					0);
-				if (distTarget.Length() > distTemp.Length())
+				if (distTarget.SquaredLength() >= distTemp.SquaredLength())
 				{
 					_targetUid = it.second->Get_uID();
 					_target = it.second;
@@ -188,9 +217,9 @@ void Turret::ShootTarget()
 			// spawn bullet
 		GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletT"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPositionA(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPositionA());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotationA(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 50000);
 	}
@@ -215,15 +244,16 @@ void Turret::FSM()
 	// if no enemy
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::CT_Identity));
 	std::string id = IdCom->ObjectType();
-	if (id.compare("Player"))
+	if (id.compare("Player") == 0 ||
+		id.compare("player") == 0 || 
+		id.compare("Player01") == 0 || 
+		id.compare("player01") == 0 )
 		_state = (unsigned)AiState::IDLE;
 	else
 	{
 		// check range
 		Vector3 tempVec3 = GetDestinationPos() - GetPosition();
 		if (tempVec3.SquaredLength() > _attackRangeShoot)
-			_state = (unsigned)AiState::MOVING;
-		else if (id.compare("Player"))
 			_state = (unsigned)AiState::MOVING;
 		else
 			_state = (unsigned)AiState::ATTACKING;
@@ -233,11 +263,9 @@ void Turret::FSM()
 	switch (_state)
 	{
 	case (unsigned)AiState::IDLE:
-		ShootTarget();
 		//std::cout << "\t AI No Target!!!\n";
 		break;
 	case (unsigned)AiState::MOVING:
-		ShootTarget();
 		//std::cout << "\t AI MOVING!!\n";
 		break;
 	case (unsigned)AiState::ATTACKING:

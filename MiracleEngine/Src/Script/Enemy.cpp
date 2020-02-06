@@ -160,7 +160,7 @@ void Enemy::Update(double dt)
 	}
 
 // chase duration logic
-	if (_enemyType == 1 && !_stunned)
+	if (_enemyType == 0 && !_stunned)
 	{
 		if (_state == (int)AiState::ATTACKING)
 		{
@@ -201,15 +201,22 @@ void Enemy::Update(double dt)
 		if (_enemyType == 0) // charger
 		{
 			if (_animState == 1) // start moving
-				;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Run");
+				 ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
 			if (_animState == 2) // stopped moving
-				;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Idle");
+				 ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
 		}
-		if (_animState == 0) // die
+		if (_enemyType == 1) // shooter
 		{
-			;// ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
-			;// _timerDeath = ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()
-			;//	*(float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame();
+			if (_animState == 1) // start moving
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
+			if (_animState == 2) // stopped moving
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
+		}
+		if (_animState == 0 && _health <= 0) // die
+		{
+			 ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
+			 _timerDeath = (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()
+				*(float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
 		}
 	}
 	else
@@ -275,23 +282,23 @@ void Enemy::CheckState()
 	// _destinationPos - currPos
 	Vector3 tempVec3 = GetDestinationPos() - GetPosition();
 
-	if (_enemyType == 1 && tempVec3.SquaredLength() < _attackRangeMelee)
+	if (_enemyType == 0 && tempVec3.SquaredLength() < _attackRangeMelee)
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
-		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(0);
+		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(0);
 	}
-	else if (_enemyType == 2 && tempVec3.SquaredLength() < _attackRangeShoot)
+	else if (_enemyType == 1 && tempVec3.SquaredLength() < _attackRangeShoot)
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
-		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(0);
+		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(0);
 	}
 	else
 	{
 		_state = (unsigned)AiState::MOVING;
 		// set Anim state to EyeWhite
-		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(1);
+		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(1);
 	}
 }
 void Enemy::FSM()
@@ -348,9 +355,9 @@ void Enemy::FSM()
 	case (unsigned)AiState::ATTACKING:
 	{
 		//std::cout << "/t AI ATK!!\n";
-		if (_enemyType == 1)
+		if (_enemyType == 0)
 			AttackRangeMelee();
-		else if (_enemyType == 2)
+		else if (_enemyType == 1)
 			AttackRangeShoot();
 		else
 			;

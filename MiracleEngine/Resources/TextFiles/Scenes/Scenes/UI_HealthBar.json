@@ -1,0 +1,32 @@
+{"PrototypesFilePaths":["./Resources/TextFiles/GameObjects\\none.json"],"TexturesFilesPaths":["./Resources/Image/Props_design/SCI_FI\\Stain_4_soil.png"],"ShaderFilesPaths":[],"AnimationDataFilesPaths":[],"FontFilesPath":[],"NonClonableObjects":[
+{"IdentityComponent":true,"ObjectType":"none","Name":"hp_Bar","TransformComponent":true,"Position":[-715.0007934570313,407.19683837890627,1.0],"Scale":[500.0,160.0,1.0],"UIComponent":true,"UI.FileName":"HP_and_Progress_Bar_Fullset.png","UI.Layer":11},
+{"IdentityComponent":true,"ObjectType":"none","Name":"1","LinkUId":101,"TransformComponent":true,"Position":[-797.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"2","LinkUId":102,"TransformComponent":true,"Position":[-769.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"3","LinkUId":103,"TransformComponent":true,"Position":[-741.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"4","LinkUId":104,"TransformComponent":true,"Position":[-713.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"5","LinkUId":105,"TransformComponent":true,"Position":[-685.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"6","LinkUId":106,"TransformComponent":true,"Position":[-657.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"7","LinkUId":107,"TransformComponent":true,"Position":[-629.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"8","LinkUId":108,"TransformComponent":true,"Position":[-601.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"9","LinkUId":109,"TransformComponent":true,"Position":[-573.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"10","LinkUId":110,"TransformComponent":true,"Position":[-545.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"11","LinkUId":111,"TransformComponent":true,"Position":[-517.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"12","LinkUId":112,"TransformComponent":true,"Position":[-489.0,442.0,1.0],"Scale":[50.0,60.0,1.0],"UIComponent":true,"UI.FileName":"HP_Bar_green.png","UI.Layer":13},
+{"IdentityComponent":true,"ObjectType":"none","Name":"progress","LinkUId":100,"TransformComponent":true,"Position":[-813.0010375976563,397.16717529296877,1.0],"Scale":[0.0,45.47723388671875,1.0],"UIComponent":true,"UI.FileName":"Progress_Bar.png","UI.Layer":12},
+{"IdentityComponent":true,"ObjectType":"none","Name":"Hp_controller","LinkUId":0,"TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,
+"LogicComponent":true,
+"ScriptId":[],
+"Script2Id": [ "HealthController" ],
+"Script2Data": [
+    {
+	"H.GreenFileName":"HP_Bar_green.png",
+	"H.OrangeFileName":"HP_Bar_orange.png",
+	"H.RedFileName":"HP_Bar_red.png",
+      "H.ProgressScale": 318.0,
+	  "H.MaxHealth": 12,
+	  "H.HealthLinkID" : [ 101, 102,103,104,105,106,107,108,109,110,111,112],
+	  "H.ProgressLinkID" : 100
+    }
+  ]}
+  
+  ]}
