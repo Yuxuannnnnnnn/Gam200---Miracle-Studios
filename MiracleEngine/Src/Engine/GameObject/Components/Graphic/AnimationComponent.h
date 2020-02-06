@@ -118,7 +118,10 @@ public:
 	//	_currFrame = _maxFrame;
 	//}
 
-	
+	void SetTimeDelay(float time)
+	{
+		_timeDelay = time;
+	}
 //Only for Logic Animation script--------------------------------------
 	void SetCurrentAnim(const std::string& AniamtionType);
 	void SetCurrentAnimOnce(const std::string& AnimationType);
@@ -147,8 +150,8 @@ private:
 	{
 		if (_animations.find(AnimationName) != _animations.end())
 		{
-			 _timeDelay = _animations[AnimationName];
-			 return;
+			_timeDelay = _animations[AnimationName];
+			return;
 		}
 
 		return;
