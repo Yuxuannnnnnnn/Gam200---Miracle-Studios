@@ -9,8 +9,10 @@
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
-  "G.TypeId": 0,
   "G.FileName": "Rocket_icon_glow.png",
+  "G.Shader": "",
+  "G.Layer": 15,
+  "_hasAlpha": true,
 
   "CircleColliderComponent": true,
   "ColliderTypeId": 2,
