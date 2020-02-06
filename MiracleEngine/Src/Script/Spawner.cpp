@@ -6,7 +6,8 @@ Spawner::Spawner() :
 	_health{ 0 },
 	_spawnType{ 0 },
 	_timerSpawn{ 0 },
-	_timerSpawnCooldown{ 10 }
+	_timerSpawnCooldown{ 10 },
+	_light{ false }, _lightPrevState{ false }
 {
 }
 
@@ -18,6 +19,7 @@ Spawner* Spawner::Clone()
 void Spawner::Init()
 {
 	_init = true;
+	_light = _lightPrevState = false;
 }
 
 void Spawner::Update(double dt)
@@ -25,14 +27,29 @@ void Spawner::Update(double dt)
 	if (!_init)
 		Init();
 
+// spawn logic
 	_timerSpawn -= dt;
 	if (_timerSpawn <= 0)
 		Spawn();
+
+// lit unlit logic
+	_timerLight -= dt;
+	if (_timerLight < 0)
+		_light = false;
+	if (_light != _lightPrevState)
+	{
+		_lightPrevState = _light;
+		if (!_light)
+			((GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic))->SetFileName("Spawner_Platform_lit.png");
+		else
+			((GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic))->SetFileName("Spawner_Platform_unlit.png");
+	}
 }
 
 void Spawner::Spawn()
 {
-	// reset timer for spawning
+	_light = true;
+	_timerLight = _timerLightDuration;
 	_timerSpawn = _timerSpawnCooldown;
 	
 	// add code for rng spawning if want to

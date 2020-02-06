@@ -154,6 +154,7 @@ Player::Player() :
 	_progress{ 0 }, _progressMax{ 30 },
 	_progressLevel{0},
 
+	_timerGodSwitch{ 0 }, _timerGodSwitchDelay{ 0.5 },
 	_shieldOn{ false },
 	_timerSwitch{ 0 }, _timerSwitchDelay{ 0.5 },
 	_timerShieldActivateCooldown{ 0 }, _timerShieldCooldown{ 1.5 },
@@ -258,6 +259,7 @@ void Player::Update(double dt)
 	_timerDeploy -= dt;
 	_timerProg -= dt;
 	_timerSwitch -= dt;
+	_timerGodSwitch -= dt;
 
 	UpdateInput();
 	UpdateCamera();
@@ -490,11 +492,16 @@ void Player::UpdateInput()
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
 	{
-		_god = !_god;
-		if (!_god)
-			return;
-		_health = _healthMax;
-		_timerShoot = _timerDeploy = 0.0;
+		if (_timerGodSwitch < 0)
+		{
+			_god = !_god;
+			_timerGodSwitch = _timerGodSwitchDelay;
+		}
+		if (_god)
+		{
+			_health = _healthMax;
+			_timerShoot = _timerDeploy = 0.0;
+		}
 	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_P))
 	{
@@ -682,6 +689,10 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	if (otherType.compare("BulletE"))
 	{
 		DamagePlayer();
+	}
+	if (otherType.compare("Enemy"))
+	{
+		DamagePlayer(2);
 	}
 	if (otherType.compare("PickUp_Health"))
 	{

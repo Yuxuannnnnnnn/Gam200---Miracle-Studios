@@ -13,13 +13,14 @@
     {
       "Health": 10,
       "SpawnType": 1,
-      "SpawnRate": 2
+      "SpawnRate": 2.0,
+      "LightDuration": 1.0
     }
   ],
   "GraphicsComponent": true,
-  "G.FileName": "Spawner_Platform_lit.png",
+  "G.FileName": "Spawner_Platform_unlit.png",
   "G.Shader": "",
-  "G.Layer": 6,
+  "G.Layer": 11,
   "_hasAlpha": true,
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,

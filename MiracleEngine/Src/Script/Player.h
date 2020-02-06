@@ -17,6 +17,7 @@ private:
 	int _health, _healthMax;
 	int _progress, _progressMax;
 	int _progressLevel;
+	double _timerGodSwitch, _timerGodSwitchDelay;
 // Logic Data - Shield
 	bool _shieldOn;
 	double _timerShield, _timerShieldDuration;
