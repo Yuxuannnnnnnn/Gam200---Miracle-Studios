@@ -39,6 +39,10 @@ CollisionTable::CollisionTable()
 	std::unordered_set<ColliderTag> row_edges{ ColliderTag::PLAYER, ColliderTag::BULLET, ColliderTag::ENEMY ,ColliderTag::BULLET_E };
 	_table.insert(ROW(ColliderTag::EDGES, row_edges));
 
+	//SPAWNER
+	std::unordered_set<ColliderTag> row_spawn{ ColliderTag::PLAYER, ColliderTag::BULLET };
+	_table.insert(ROW(ColliderTag::SPAWNER, row_spawn));
+
 	for (int i = 0; i < (int)ColliderTag::TOTAL_TAG; i++)
 		_tagList.insert({ ToString((ColliderTag)i), i });
 }

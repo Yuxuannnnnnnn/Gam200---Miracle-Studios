@@ -166,7 +166,7 @@ HealthController::HealthController() :
 
 HealthController* HealthController::Clone()
 {
-	return new HealthController;
+	return new HealthController(*this);
 }
 
 void HealthController::Init()

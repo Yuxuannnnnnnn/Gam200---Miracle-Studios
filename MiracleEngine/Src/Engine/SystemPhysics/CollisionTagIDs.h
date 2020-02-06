@@ -12,6 +12,7 @@ enum class ColliderTag {
 	PICK_UPS,
 	EDGES,
 	BOSS,
+	SPAWNER,
 
 	TOTAL_TAG
 };
@@ -31,6 +32,7 @@ inline const char* ToString(ColliderTag type) //Convert TypeIdComponent Enum to 
 	case ColliderTag::PICK_UPS:			return "PICK UPS";
 	case ColliderTag::EDGES:			return "EDGES";
 	case ColliderTag::BOSS:			return "BOSS";
+	case ColliderTag::SPAWNER:			return "SPAWNER";
 
 	default:      return "[Unknown ColliderTag]";
 	}
