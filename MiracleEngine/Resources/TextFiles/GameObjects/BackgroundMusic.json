@@ -1,1 +1,1 @@
-{"IdentityComponent":true,"ObjectType":"BackgroundMusic","Name":"none","LinkUId":0,"AudioComponent":true,"SFXList":[{"SFXName":"","fileName":"","volume":0.0,"NumOfloops":0}]}
+{"IdentityComponent":true,"ObjectType":"BackgroundMusic","Name":"BGM","LinkUId":0,"AudioComponent":true,"BackgroundSoundList":[{"BGMName":"","fileName":"gameplaybgm2.wav","volume":0.36800000071525576}]}

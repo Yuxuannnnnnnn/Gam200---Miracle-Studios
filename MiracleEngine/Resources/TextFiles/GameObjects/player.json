@@ -66,28 +66,28 @@
 
   "HaveChild": true,
   "ChildObjects": [
-    {
-      "IdentityComponent": true,
-      "ObjectType": "PlayerMuzzle",
-      "Name": "PlayerMuzzle",
-      "LinkUId": 0,
-      "TransformComponent": true,
-      "Position": [ 0.0, 60.0, 1.0 ],
-      "Scale": [ 65.0, 65.0, 1.0 ],
-      "Rotate": 0.0,
-      "GraphicsComponent": true,
-      "G.FileName": "Muzzle_Idle.png",
-      "G.Shader": "",
-      "G.Layer": 6,
-      "AnimationComponent": false,
-      "AnimationTypes": [
-        {
-          "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
-          "TimeDelay": 0.10000000149011612,
-          "AnimationName": "Shoot"
-        }
-      ],
-      "StartAnim": "Shoot"
-    }
+  {
+	 "IdentityComponent": true,
+    "ObjectType": "PlayerMuzzle",
+	  "Name": "PlayerMuzzle",
+	  "LinkUId": 0,
+	  "TransformComponent": true,
+	  "Position": [0.0,60.0,1.0 ],
+	  "Scale": [ 65.0,65.0,1.0],
+	  "Rotate": 0.0,
+	  "GraphicsComponent": true,
+	  "G.FileName": "Muzzle_Idle.png",
+	  "G.Shader": "",
+	  "G.Layer": 6,
+	  "AnimationComponent": true,
+	  "AnimationTypes": [
+		{
+		  "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
+		  "TimeDelay": 0.10000000149011612,
+		  "AnimationName": "Shoot"
+		}
+	  ],
+	  "StartAnim": "Shoot"
+  }
   ]
 }
