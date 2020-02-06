@@ -1,5 +1,5 @@
 {
-	"PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\Background.json", "./Resources/TextFiles/GameObjects\\Battery.json", "./Resources/TextFiles/GameObjects\\Building1.json", "./Resources/TextFiles/GameObjects\\Building2.json", "./Resources/TextFiles/GameObjects\\Building3.json", "./Resources/TextFiles/GameObjects\\Building4.json", "./Resources/TextFiles/GameObjects\\Bullet.json", "./Resources/TextFiles/GameObjects\\CircleBatteryPlatform.json", "./Resources/TextFiles/GameObjects\\CirclePlatform.json", "./Resources/TextFiles/GameObjects\\Crate.json", "./Resources/TextFiles/GameObjects\\Player01.json", "./Resources/TextFiles/GameObjects\\SphereBuilding.json", "./Resources/TextFiles/GameObjects\\none.json", "./Resources/TextFiles/GameObjects\\snowy.json" ],
+	"PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\Background.json", "./Resources/TextFiles/GameObjects\\Battery.json", "./Resources/TextFiles/GameObjects\\Building1.json", "./Resources/TextFiles/GameObjects\\Building2.json", "./Resources/TextFiles/GameObjects\\Building3.json", "./Resources/TextFiles/GameObjects\\Building4.json", "./Resources/TextFiles/GameObjects\\Bullet.json", "./Resources/TextFiles/GameObjects\\CircleBatteryPlatform.json", "./Resources/TextFiles/GameObjects\\CirclePlatform.json", "./Resources/TextFiles/GameObjects\\Crate.json", "./Resources/TextFiles/GameObjects\\player.json", "./Resources/TextFiles/GameObjects\\SphereBuilding.json", "./Resources/TextFiles/GameObjects\\none.json", "./Resources/TextFiles/GameObjects\\snowy.json" ],
 	"TexturesFilesPaths": [ "./Resources/Image/Props_design/SCI_FI\\Battery_rusted.png", "./Resources/Image/Props_design/SCI_FI\\Building_1_rusted_neon.png", "./Resources/Image/Props_design/SCI_FI\\Building_2_Rusted_400.png", "./Resources/Image/Props_design/SCI_FI\\Building_3_Rusted.png", "./Resources/Image/Props_design/SCI_FI\\Building_4_rusted.png", "./Resources/Image\\Bullet.png", "./Resources/Image/Props_design/SCI_FI\\Circle shadow.png", "./Resources/Image/Props_design/SCI_FI\\Circular_Battery_Platform_rusted_neonLight.png", "./Resources/Image/Props_design/SCI_FI\\Circular_Platform_Rusted.png", "./Resources/Image/Props_design/SCI_FI\\Crate_rusted.png", "./Resources/Image\\Player.png", "./Resources/Image/Tile\\Snowy_Texture.png", "./Resources/Image/Props_design/SCI_FI\\Sphere_buidling.png", "./Resources/Image/Props_design/SCI_FI\\Stain_4_soil.png", "./Resources/Image\\background.png", "./Resources/Image/Props_design/SCI_FI\\grass_patch_big.png" ],
 	"ShaderFilesPaths": [ "Resources/Shader/basic.frag" ],
 	"AnimationDataFilesPaths": [],
@@ -183,14 +183,6 @@
 			"TransformComponent": true,
 			"Position": [ 235.04946899414063, -2205.128662109375, 1.0 ],
 			"Scale": [ 500.0, 500.0, 1.0 ]
-		},
-		{
-			"IdentityComponent": true,
-			"ObjectType": "Player01",
-			"TransformComponent": true,
-			"Position": [ -1094.8419189453126, -1290.2374267578126, 1.0 ],
-			"Scale": [ 106.00000762939453, 98.00000762939453, 1.0 ],
-			"Rotate": 1.0274335145950318
 		},
 		{
 			"IdentityComponent": true,
@@ -3801,4 +3793,91 @@
 			"Rotate": 1.0609030723571778
 		}
 	],
-	"NonClonableObjects":[]}
+	"NonClonableObjects":[
+	{
+  "IdentityComponent": true,
+  "ObjectType": "Player",
+  "Name": "Player",
+  "LinkUId": 999,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 200.0, 200.0, 1.0 ],
+  "Rotate": 0.0,
+  "GraphicsComponent": true,
+  "G.FileName": "catjump.png",
+  "G.Shader": "",
+  "G.Layer": 7,
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Script2Id": [ "Player" ],
+  "Script2Data": [
+    {
+      "ShieldDuration": 5.0,
+      "ShieldCooldown": 15.0,
+      "Health": 10,
+      "WeaponActive": 1,
+      "AmmoRpg": 0,
+      "AmmoTurret": 10,
+      "AmmoWall": 10,
+      "FireratePistol": 1.0,
+      "FirerateShotgun": 1.0,
+      "FirerateRpg": 1.0,
+      "FirerateTurret": 1.0,
+      "FirerateWall": 1.0,
+	  "MuzzlePosition": [0.0,22.064964294433595,1.0 ],
+	  "MuzzleScale": [ 149.99981689453126,149.99981689453126,1.0]
+    }
+  ],
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Character_death_spriteSpriteSheetData.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Death"
+    },
+    {
+      "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Move"
+    }
+  ],
+  "StartAnim": "Move",
+  "RigidBody2DComponent": true,
+  "Mass": 10.0,
+  "Friction": 0.10000000149011612,
+  "Static": false,
+  "CircleCollider2DComponent": false,
+  "ColliderTypeId": 2,
+  "ColliderTag": 1,
+  "ColliderTrigger": false,
+  "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
+  "Collider2D.C.Radius": 0.0,
+  
+  "HaveChild": true,
+  "ChildObjects": [
+  {
+	 "IdentityComponent": true,
+	  "ObjectType": "PlayerMuzzle",
+	  "Name": "PlayerMuzzle",
+	  "LinkUId": 0,
+	  "TransformComponent": true,
+	  "Position": [0.0,60.0,1.0 ],
+	  "Scale": [ 65.0,65.0,1.0],
+	  "Rotate": 0.0,
+	  "GraphicsComponent": true,
+	  "G.FileName": "Muzzle_Idle.png",
+	  "G.Shader": "",
+	  "G.Layer": 6,
+	  "AnimationComponent": false,
+	  "AnimationTypes": [
+		{
+		  "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
+		  "TimeDelay": 0.10000000149011612,
+		  "AnimationName": "Shoot"
+		}
+	  ],
+	  "StartAnim": "Shoot"
+  }
+  ]
+}
+	]}
