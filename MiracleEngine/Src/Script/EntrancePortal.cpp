@@ -148,14 +148,12 @@ void EntrancePortal::OpenPortal()
 	_graphicComponent->SetFileName(_openPortalFileName);
 }
 
-void EntrancePortal::OnCollision2DStay(Collider2D* other)
+void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 {
 	if (_clear)
 	{
 		std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
-		if (otherType.compare("Player"))
-		{
-			MyFactory.ChangeScene(_nextScene);
-		}
+		if (!otherType.compare("Player"))
+			MyFactory.ChangeScene("MainMenu");
 	}
 }

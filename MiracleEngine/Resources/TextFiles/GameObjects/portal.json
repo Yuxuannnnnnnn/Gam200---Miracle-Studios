@@ -14,7 +14,7 @@ ColliderTrigger":true,"Collider2D.B.Center":[0.0,39.369998931884769,1.0],
     {
 	"E.OpenEntranceFileName": "EntranceTo_Level2.png",
 	"E.CloseEntranceFileName" : "EntranceTo_Level2.png",
-	"E.ProgressCount" : 10,
+	"E.ProgressCount" : 3,
 	"E.NextScene": "MainMenu"
 	}]
 }

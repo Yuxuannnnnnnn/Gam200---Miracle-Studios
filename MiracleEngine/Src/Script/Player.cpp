@@ -686,22 +686,22 @@ void Player::DamagePlayer(int dmg)
 void Player::OnTrigger2DEnter(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
-	if (otherType.compare("BulletE"))
+	if (!otherType.compare("BulletE"))
 	{
 		DamagePlayer();
 	}
-	if (otherType.compare("Enemy"))
+	if (!otherType.compare("Enemy"))
 	{
 		DamagePlayer(2);
 	}
-	if (otherType.compare("PickUp_Health"))
+	if (!otherType.compare("PickUp_Health"))
 	{
 		_health += 2;
 		if (_health > _healthMax)
 			_health = _healthMax;
 		other->GetParentPtr()->SetDestory();
 	}
-	if (otherType.compare("PickUp_Ammo"))
+	if (!otherType.compare("PickUp_Ammo"))
 	{
 		_ammoRpg += 5;
 		other->GetParentPtr()->SetDestory();
