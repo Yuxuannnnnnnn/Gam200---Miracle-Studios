@@ -84,13 +84,13 @@ void ButtonController::Update(double dt)
 		if (_input->ButtonTrigger(10)) // start
 			MyFactory.ChangeScene("truelevel1");
 		else if (_input->ButtonTrigger(11)) // options
-			MyFactory.ChangeScene("PlaceHolder");
+			MyFactory.ChangeScene("OptionPage");
 		else if (_input->ButtonTrigger(12)) // instructions
-			MyFactory.ChangeScene("PlaceHolder");
+			MyFactory.ChangeScene("instructionPage");
 		else if (_input->ButtonTrigger(13)) // leaderboard
-			MyFactory.ChangeScene("PlaceHolder");
+			MyFactory.ChangeScene("LeaderBoardPage");
 		else if (_input->ButtonTrigger(15)) // credits
-			MyFactory.ChangeScene("PlaceHolder");
+			MyFactory.ChangeScene("CreditPage");
 		else if (_input->ButtonTrigger(16)) // quit
 			MyFactory.ChangeScene("Quit");
 		else if (_input->ButtonTrigger(30)) // return to menu

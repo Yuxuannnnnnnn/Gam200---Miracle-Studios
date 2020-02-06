@@ -73,6 +73,7 @@ void Spawner::Spawn()
 		enemy = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Enemy"]);
 		break;
 	case 2:
+		enemy = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["EnemyTwo"]);
 		break;
 	case 3:
 		break;
