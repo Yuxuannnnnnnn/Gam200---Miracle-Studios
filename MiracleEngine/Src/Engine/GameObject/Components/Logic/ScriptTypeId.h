@@ -10,6 +10,7 @@ enum class ScriptType {
 	SCRIPT_PickUps,
 	SCRIPT_ButtonController, 
 	SCRIPT_HealthController,
+	SCRIPT_ShieldSkill,
 	SCRIPT_COUNT
 };
 
@@ -26,6 +27,7 @@ inline const char* ToScriptName(ScriptType type)
 	case ScriptType::SCRIPT_PickUps:	return "PickUps";
 	case ScriptType::SCRIPT_ButtonController:	return "ButtonController";
 	case ScriptType::SCRIPT_HealthController:	return "HealthController";
+	case ScriptType::SCRIPT_ShieldSkill:	return "ShieldSkill";
 
 	default:      return "None";
 	}
@@ -51,6 +53,8 @@ inline ScriptType ToScriptId(std::string& name)
 		return ScriptType::SCRIPT_ButtonController;
 	if (name.compare("HealthController") == 0)
 		return ScriptType::SCRIPT_HealthController;
+	if (name.compare("ShieldSkill") == 0)
+		return ScriptType::SCRIPT_ShieldSkill;
 	
 	return ScriptType::SCRIPT_COUNT;
 }

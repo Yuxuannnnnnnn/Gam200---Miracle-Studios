@@ -1,5 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "Player.h"
+#include "ShieldSkill.h"
 
 
 void Player::SerialiseComponent(Serialiser& document)
@@ -39,6 +40,28 @@ void Player::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("FirerateWall") && document["FirerateWall"].IsDouble())	//Checks if the variable exists in .Json file
 		_firerateWall = document["FirerateWall"].GetDouble();
+
+	if (document.HasMember("MuzzlePosition") && document["MuzzlePosition"].IsArray())
+	{
+		if (document["MuzzlePosition"][0].IsFloat() && document["MuzzlePosition"][1].IsFloat())	//Check the array values
+			_muzzlePos = Vector3{ document["MuzzlePosition"][0].GetFloat(), document["MuzzlePosition"][1].GetFloat(), 1.f };
+
+		if (document["MuzzlePosition"].Size() == 3)
+		{
+			_muzzlePos.SetZ(document["MuzzlePosition"][2].GetFloat());
+		}
+	}
+
+	if (document.HasMember("MuzzleScale") && document["MuzzleScale"].IsArray())
+	{
+		if (document["MuzzleScale"][0].IsFloat() && document["MuzzleScale"][1].IsFloat())	//Check the array values
+			_muzzleScale = Vector3{ document["MuzzleScale"][0].GetFloat(), document["MuzzleScale"][1].GetFloat(), 1.f };
+
+		if (document["MuzzleScale"].Size() == 3)
+		{
+			_muzzleScale.SetZ(document["MuzzleScale"][2].GetFloat());
+		}
+	}
 }
 
 void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -148,7 +171,14 @@ Player::Player() :
 	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 },
 
 	_moving{ false },
-	_animState{ 0 }, _animStatePrev{ 0 }
+	_animState{ 0 }, _animStatePrev{ 0 },
+	_muzzleTransfrom{ nullptr },
+	_muzzleAnimation{ nullptr },
+	_muzzlePos{},
+	_muzzlestartPos{},
+	_muzzleScale{ },
+	_animTime{ -1.0 },
+	_objTransfrom{ nullptr }
 {
 }
 
@@ -159,6 +189,17 @@ Player* Player::Clone()
 
 void Player::Init()
 {
+	for (auto& it : GetParentPtr()->GetChildList())
+	{
+		_muzzleTransfrom = (TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform);
+		_muzzlestartPos = _muzzleTransfrom->GetPositionA();
+		_muzzleAnimation = (AnimationComponent*)it.second->GetComponent(ComponentId::CT_Animation);
+		break;;
+	}
+
+	MyLinkFactory.SaveNewLinkID(999, GetParentId());
+	_objTransfrom = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
+
 	// find Camera
 	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
@@ -178,8 +219,28 @@ void Player::Update(double dt)
 	{
 		Init();
 		_init = true;
+		return;
 		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Character_BodyFloat_sprite.png");
 	}
+
+	if (_animTime > 0)
+	{
+		_animTime -= dt;
+
+		if (_animTime <= 0)
+		{
+			float mag = (_muzzlestartPos - _muzzlePos).Length();
+			Vec3 temp = _objTransfrom->GetPositionA() - _muzzleTransfrom->GetPositionA();
+			_muzzleTransfrom->SetPositionA(_muzzleTransfrom->GetPositionA() - temp.Normalize() * mag);
+
+			 temp = _muzzleTransfrom->GetScaleA();
+			_muzzleTransfrom->SetScaleA(_muzzleScale);
+			_muzzleScale = temp;
+			
+		}
+	}
+
+
 	if (_god)
 	{
 		_health = _healthMax;
@@ -350,10 +411,18 @@ void Player::UpdateInput()
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_RBUTTON))
 	{
 		// check if can actiavate shield
-		_shieldOn = (_timerShieldActivateCooldown > 0) ? false : true;
-		if (!_shieldOn){
-			// do sth to show that shield cannot activate
+		if (_timerShieldActivateCooldown <= 0)
+		{
+			if (!_shieldSkill)
+			{
+				std::string temp = "ShieldSkill";
+				_shieldSkill = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(666)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+			}
+			_shieldOn = true;
+			((ShieldSkill*)_shieldSkill)->ActionShield(_timerShieldDuration);
+			_timerShieldActivateCooldown = _timerShieldDuration + _timerShieldCooldown;
 		}
+	
 	}
 
 // NUMBERS
@@ -438,25 +507,25 @@ void Player::UpdateInput()
 
 void Player::UpdateShield(double dt)
 {
-	if (_shieldOn)
-	{
-		_timerShield -= dt;
+	//if (_shieldOn)
+	//{
+	//	_timerShield -= dt;
 
-		// check if need turn shieldOff
-		if (_timerShield < 0.0)
-		{
-			// start the cooldown
-			_timerShieldActivateCooldown = _timerShieldCooldown;
-			// reset the shieldOn duration
-			_timerShield = _timerShieldCooldown;
-			_shieldOn = false;
-		}
-	}
-	else //_shieldOff
-	{
+	//	// check if need turn shieldOff
+	//	if (_timerShield < 0.0)
+	//	{
+	//		// start the cooldown
+	//		_timerShieldActivateCooldown = _timerShieldCooldown;
+	//		// reset the shieldOn duration
+	//		_timerShield = _timerShieldCooldown;
+	//		_shieldOn = false;
+	//	}
+	//}
+	//else //_shieldOff
+	//{
 		// cooldown countdown
 		_timerShieldActivateCooldown -= dt;
-	}
+	
 }
 
 void Player::WeaponSwitch()
@@ -475,6 +544,24 @@ void Player::WeaponShoot()
 	_weaponActive < 1 ? _weaponActive = 1 : _weaponActive;
 	_weaponActive > 3 ? _weaponActive = 3 : _weaponActive;
 	if (_timerShoot <= 0)
+	{
+		if(!_muzzleAnimation->GetEnable())
+			_muzzleAnimation->SetEnable(true);
+
+		if (_animTime < 0)
+		{
+			float mag = (_muzzlestartPos - _muzzlePos).Length();
+			Vec3 temp = _objTransfrom->GetPositionA() - _muzzleTransfrom->GetPositionA();
+			_muzzleTransfrom->SetPositionA(_muzzleTransfrom->GetPositionA() + temp.Normalize() * mag);
+
+			 temp = _muzzleTransfrom->GetScaleA();
+			_muzzleTransfrom->SetScaleA(_muzzleScale);
+			_muzzleScale = temp;
+		}
+
+		_muzzleAnimation->SetCurrentAnimOnce("Shoot");
+		_animTime = _muzzleAnimation->GetMaxFrame() * _muzzleAnimation->GetTimeDelay();
+
 		switch (_weaponActive)
 		{
 		case (int)WeaponId::PISTOL:
@@ -489,13 +576,14 @@ void Player::WeaponShoot()
 		}
 		case (int)WeaponId::RPG:
 		{
-			if(_ammoRpg)
+			if (_ammoRpg)
 				WeaponShoot_RPG();
 			break;
 		}
 		default:
 			break;
-		}	
+		}
+	}
 }
 
 void Player::WeaponShoot_Pistol()

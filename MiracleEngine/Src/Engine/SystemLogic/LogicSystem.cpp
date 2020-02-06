@@ -10,6 +10,7 @@
 #include "Script/PickUps.h"
 #include "Script/ButtonController.h"
 #include "Script/HealthController.h"
+#include "Script/ShieldSkill.h"
 
 
 LogicSystem::~LogicSystem()
@@ -37,6 +38,7 @@ void LogicSystem::Init() {
 	RegisterScript(PickUps);
 	RegisterScript(ButtonController);
 	RegisterScript(HealthController);
+	RegisterScript(ShieldSkill);
 
 	for (auto& itr : GetComponentMap(Logic)) {
 

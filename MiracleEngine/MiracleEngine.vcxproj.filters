@@ -127,6 +127,7 @@
     <ClCompile Include="Src\Engine\SystemPhysics\Collision_OldCode.cpp" />
     <ClCompile Include="Src\Engine\LinkingFactory.cpp" />
     <ClCompile Include="Src\Script\HealthController.cpp" />
+    <ClCompile Include="Src\Script\ShieldSkill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -566,6 +567,7 @@
     <ClInclude Include="Src\Script\Boss.h" />
     <ClInclude Include="Src\Engine\LinkingFactory.h" />
     <ClInclude Include="Src\Script\HealthController.h" />
+    <ClInclude Include="Src\Script\ShieldSkill.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

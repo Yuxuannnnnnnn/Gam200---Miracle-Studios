@@ -2,7 +2,7 @@
   "IdentityComponent": true,
   "ObjectType": "PlayerShield",
   "Name": "PlayerShield",
-  "LinkUId": 0,
+  "LinkUId": 666,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 200.0, 200.0, 1.0 ],
@@ -10,7 +10,7 @@
   "GraphicsComponent": true,
   "G.FileName": "catjump.png",
   "G.Shader": "",
-  "G.Layer": 1,
+  "G.Layer": 8,
   "AnimationComponent": true,
   "AnimationTypes": [
     {
@@ -25,15 +25,18 @@
     }
   ],
   "StartAnim": "On",
-  "RigidBody2DComponent": true,
-  "Mass": 10.0,
-  "Friction": 0.10000000149011612,
-  "Static": false,
-  "CircleCollider2DComponent": false,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 1,
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-  "Collider2D.C.Radius": 0.0
+  "Collider2D.C.Radius": 65.0,
+  
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Script2Id": [ "ShieldSkill" ],
+  "Script2Data": [
+    {}
+  ]
 
 }

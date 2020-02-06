@@ -2,7 +2,7 @@
   "IdentityComponent": true,
   "ObjectType": "Player",
   "Name": "Player",
-  "LinkUId": 0,
+  "LinkUId": 999,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 200.0, 200.0, 1.0 ],
@@ -10,14 +10,14 @@
   "GraphicsComponent": true,
   "G.FileName": "catjump.png",
   "G.Shader": "",
-  "G.Layer": 1,
+  "G.Layer": 7,
   "LogicComponent": true,
   "ScriptId": [],
   "Script2Id": [ "Player" ],
   "Script2Data": [
     {
-      "ShieldDuration": 2.0,
-      "ShieldCooldown": 1.0,
+      "ShieldDuration": 5.0,
+      "ShieldCooldown": 15.0,
       "Health": 10,
       "WeaponActive": 1,
       "AmmoRpg": 0,
@@ -27,7 +27,9 @@
       "FirerateShotgun": 1.0,
       "FirerateRpg": 1.0,
       "FirerateTurret": 1.0,
-      "FirerateWall": 1.0
+      "FirerateWall": 1.0,
+	  "MuzzlePosition": [0.0,22.064964294433595,1.0 ],
+	  "MuzzleScale": [ 149.99981689453126,149.99981689453126,1.0]
     }
   ],
   "AnimationComponent": true,
@@ -53,5 +55,32 @@
   "ColliderTag": 1,
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-  "Collider2D.C.Radius": 0.0
+  "Collider2D.C.Radius": 0.0,
+  
+  "HaveChild": true,
+  "ChildObjects": [
+  {
+	 "IdentityComponent": true,
+	  "ObjectType": "PlayerMuzzle",
+	  "Name": "PlayerMuzzle",
+	  "LinkUId": 0,
+	  "TransformComponent": true,
+	  "Position": [0.0,60.0,1.0 ],
+	  "Scale": [ 65.0,65.0,1.0],
+	  "Rotate": 0.0,
+	  "GraphicsComponent": true,
+	  "G.FileName": "Muzzle_Idle.png",
+	  "G.Shader": "",
+	  "G.Layer": 6,
+	  "AnimationComponent": false,
+	  "AnimationTypes": [
+		{
+		  "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
+		  "TimeDelay": 0.10000000149011612,
+		  "AnimationName": "Shoot"
+		}
+	  ],
+	  "StartAnim": "Shoot"
+  }
+  ]
 }
