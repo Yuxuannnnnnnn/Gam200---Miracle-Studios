@@ -165,6 +165,15 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 			gameObject->SetEnable(enable);
 		}
 
+		if (CameraComponent * cam = (CameraComponent*)(gameObject->GetComponent(ComponentId::CT_Camera)))
+		{
+			if (cam->isMainCamera())
+			{
+				ImGui::SameLine();
+				ImGui::TextDisabled("MainCamera");
+			}
+		}
+		
 
 		i++;
 	}
