@@ -2,7 +2,7 @@
 #include "Script/Explosion.h"
 #include "Script/Enemy.h"
 
-Explosion::Explosion() : _lifeTime{ -666.f }, _radius{0}
+Explosion::Explosion() : _init{ false }, _lifeTime { -666.f }, _radius{ 0 }
 {}
 
 Explosion* Explosion::Clone()
@@ -44,6 +44,13 @@ void Explosion::Inspect()
 
 void Explosion::Update(double dt)
 {
+	if (!_init)
+	{
+		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("boom");
+		_lifeTime = ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay() * ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame();
+	//	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+	//		_lifeTime / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() );
+	}
 	if (_lifeTime > 0.0f)
 		_lifeTime -= dt;
 
@@ -53,28 +60,28 @@ void Explosion::Update(double dt)
 
 void Explosion::OnTrigger2DEnter(Collider2D* other)
 {
-	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
-	std::string Id = IdCom->ObjectType();
+	//IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
+	//std::string Id = IdCom->ObjectType();
 
-	if (Id.compare("Enemy") || Id.compare("EnemyTwo"))
-	{
-		Enemy* enemy = reinterpret_cast<Enemy*>(
-			((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy)
-			);
-		enemy->GetParentPtr()->SetDestory();
-	}
+	//if (Id.compare("Enemy") || Id.compare("EnemyTwo"))
+	//{
+	//	Enemy* enemy = reinterpret_cast<Enemy*>(
+	//		((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy)
+	//		);
+	//	enemy->GetParentPtr()->SetDestory();
+	//}
 }
 
 void Explosion::OnCollision2DStay(Collider2D* other)
 {
-	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
-	std::string Id = IdCom->ObjectType();
+	//IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
+	//std::string Id = IdCom->ObjectType();
 
-	if (Id.compare("Enemy") || Id.compare("EnemyTwo"))
-	{
-		Enemy* enemy = reinterpret_cast<Enemy*>(
-			((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy)
-			);
-		enemy->GetParentPtr()->SetDestory();
-	}
+	//if (Id.compare("Enemy") || Id.compare("EnemyTwo"))
+	//{
+	//	Enemy* enemy = reinterpret_cast<Enemy*>(
+	//		((LogicComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Enemy)
+	//		);
+	//	enemy->GetParentPtr()->SetDestory();
+	//}
 }
