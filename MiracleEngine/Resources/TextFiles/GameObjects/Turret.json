@@ -5,7 +5,7 @@
   "LinkUId": 0,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
-  "Scale": [ 70.0, 70.0, 1.0 ],
+  "Scale": [ 90.0, 90.0, 1.0 ],
   "Rotate": 0.0,
   "LogicComponent": true,
   "Script2Id": [ "Turret" ],
@@ -19,7 +19,7 @@
     }
   ],
   "GraphicsComponent": true,
-  "G.FileName": "Turret.png",
+  "G.FileName": "Turret_Body_Sprite.png",
   "G.Shader": "",
   "G.Layer": 1,
   "AnimationComponent": true,
