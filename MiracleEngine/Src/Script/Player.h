@@ -16,6 +16,7 @@ private:
 	GameObject* _camera;
 	int _health, _healthMax;
 	int _progress, _progressMax;
+	int _progressLevel;
 // Logic Data - Shield
 	bool _shieldOn;
 	double _timerShield, _timerShieldDuration;
@@ -83,6 +84,8 @@ public:
 	void SetProgress(int val);
 	int GetProgressMax();
 	void ProgressIncement(int in = 1);
+
+	int GetProgressLevel() const;
 
 	void DamagePlayer(int dmg = 1);
 
