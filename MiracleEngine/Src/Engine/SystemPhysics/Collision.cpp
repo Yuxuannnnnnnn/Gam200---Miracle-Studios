@@ -394,6 +394,50 @@ void CircleVsBoxCollisionUpdate(Collider2D* circle, Collider2D* box, double dt)
 	if (Collision::CollisionCheck(Box->_data, Circle->_data))
 	{
 		std::cout << "circle box static check" << std::endl;
+
+		if (!rigidbodyA || rigidbodyA->_static)
+			return;
+
+		Vector3 newPoint0 = Box->_data._pointArray[0] + Box->_data._ptrEdgeArray[0]._normalVec * Circle->_data._radius + Box->_data._ptrEdgeArray[3]._normalVec * Circle->_data._radius;
+		Vector3 newPoint1 = Box->_data._pointArray[1] + Box->_data._ptrEdgeArray[1]._normalVec * Circle->_data._radius + Box->_data._ptrEdgeArray[2]._normalVec * Circle->_data._radius;
+		Vector3 newPoint2 = Box->_data._pointArray[2] + Box->_data._ptrEdgeArray[2]._normalVec * Circle->_data._radius + Box->_data._ptrEdgeArray[1]._normalVec * Circle->_data._radius;
+		Vector3 newPoint3 = Box->_data._pointArray[3] + Box->_data._ptrEdgeArray[3]._normalVec * Circle->_data._radius + Box->_data._ptrEdgeArray[0]._normalVec * Circle->_data._radius;
+
+		Vec3 newpoints[4] = { newPoint0 ,newPoint1 ,newPoint2 ,newPoint3 };
+
+		BPolygon newBox = BPolygon{ newpoints, 4 };
+
+		float t[4] = { 0.f,0.f ,0.f ,0.f };
+
+		for (unsigned i = 0; i < 4; ++i)
+			t[i] = Vec3Distance_LinetoPoint(newBox._ptrEdgeArray[i]._startPoint, newBox._ptrEdgeArray[i]._endPoint, Circle->_data._center);
+
+		float min = t[0];
+		unsigned edgeNum = 0;
+
+		for (unsigned i = 1; i < 4; ++i)
+		{
+			if (t[i] < min)
+			{
+				min = t[i];
+				edgeNum = i;
+			}
+		}
+
+
+		Vec3 normal = newBox._ptrEdgeArray[edgeNum]._normalVec;
+
+		Vec3 panc = newBox._AABB._BC._center - Circle->_data._center;
+		float relfDis = newBox._ptrEdgeArray[edgeNum]._orthoDistance - panc.AbsDot(normal);
+
+		Vec3 reflcVec = normal * relfDis;
+
+		rigidbodyA->SetVelocity(reflcVec);
+
+
+		EventHandler::GetInstance().AddCollided2DEvent(Circle, Box);
+		EventHandler::GetInstance().AddCollided2DEvent(Box, Circle);
+
 	}
 	else if (CircleVsBoxIntersection(Circle, Box, data))
 	{
