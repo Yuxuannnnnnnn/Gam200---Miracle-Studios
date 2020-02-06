@@ -28,7 +28,7 @@
   "AnimationTypes": [
     {
       "AnimationType": "Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json",
-      "TimeDelay": 0.03,
+      "TimeDelay": 0.08,
       "AnimationName": "boom"
     }
   ],
