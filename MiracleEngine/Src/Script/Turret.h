@@ -79,7 +79,7 @@ public:
 		}
 	}
 
-	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+	void Turret::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		rapidjson::Value value;
 
@@ -100,24 +100,8 @@ public:
 		}
 	}
 
-	void Turret::Inspect()
-	{
-		ImGui::Spacing();
-		ImGui::InputInt("Health ", &_health);
-		ImGui::Spacing();
-		ImGui::InputDouble("Firerate ", &_timeAttackCooldown);
-		ImGui::Spacing();
-		ImGui::InputInt("AttackRange Shoot ", &_attackRangeShoot);
-		ImGui::Spacing();
-		ImGui::InputDouble("DeployTime ", &_deployTime);
-		ImGui::Spacing();
 
-		ImGui::Spacing();
-		ImGui::InputFloat2("DeployScale ", _deployScale.m);
-		ImGui::Spacing();
-	}
-
-	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+	void Turret::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
 		rapidjson::Value doc;
 
@@ -138,9 +122,25 @@ public:
 		}
 	}
 
+	void Turret::Inspect()
+	{
+		ImGui::Spacing();
+		ImGui::InputInt("Health ", &_health);
+		ImGui::Spacing();
+		ImGui::InputDouble("Firerate ", &_timeAttackCooldown);
+		ImGui::Spacing();
+		ImGui::InputInt("AttackRange Shoot ", &_attackRangeShoot);
+		ImGui::Spacing();
+		ImGui::InputDouble("DeployTime ", &_deployTime);
+		ImGui::Spacing();
+
+		ImGui::Spacing();
+		ImGui::InputFloat2("DeployScale ", _deployScale.m);
+		ImGui::Spacing();
+	}
+
 	Turret();
 	Turret* Clone();
-
 
 	void Init();
 	void Update(double dt);

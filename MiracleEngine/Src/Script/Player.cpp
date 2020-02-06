@@ -5,40 +5,40 @@
 
 void Player::SerialiseComponent(Serialiser& document)
 {
-	if (document.HasMember("ShieldDuration") && document["ShieldDuration"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("ShieldDuration") && document["ShieldDuration"].IsDouble())
 		_timerShield = _timerShieldDuration = document["ShieldDuration"].GetDouble();
 	
-	if (document.HasMember("ShieldCooldown") && document["ShieldCooldown"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("ShieldCooldown") && document["ShieldCooldown"].IsDouble())
 		_timerShieldCooldown = document["ShieldCooldown"].GetDouble();
 
-	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
+	if (document.HasMember("Health") && document["Health"].IsInt())
 		_health = _healthMax = document["Health"].GetInt();
 
-	if (document.HasMember("WeaponActive") && document["WeaponActive"].IsInt())	//Checks if the variable exists in .Json file
+	if (document.HasMember("WeaponActive") && document["WeaponActive"].IsInt())
 		_weaponActive = document["WeaponActive"].GetInt();
 
-	if (document.HasMember("AmmoRpg") && document["AmmoRpg"].IsInt())	//Checks if the variable exists in .Json file
+	if (document.HasMember("AmmoRpg") && document["AmmoRpg"].IsInt())
 		_ammoRpg = document["AmmoRpg"].GetInt();
 
-	if (document.HasMember("AmmoTurret") && document["AmmoTurret"].IsInt())	//Checks if the variable exists in .Json file
+	if (document.HasMember("AmmoTurret") && document["AmmoTurret"].IsInt())
 		_ammoTurret = document["AmmoTurret"].GetInt();
 
-	if (document.HasMember("AmmoWall") && document["AmmoWall"].IsInt())	//Checks if the variable exists in .Json file
+	if (document.HasMember("AmmoWall") && document["AmmoWall"].IsInt())
 		_ammoWall = document["AmmoWall"].GetInt();
 
-	if (document.HasMember("FireratePistol") && document["FireratePistol"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("FireratePistol") && document["FireratePistol"].IsDouble())
 		_fireratePistol = document["FireratePistol"].GetDouble();
 
-	if (document.HasMember("FirerateShotgun") && document["FirerateShotgun"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("FirerateShotgun") && document["FirerateShotgun"].IsDouble())
 		_firerateShotgun = document["FirerateShotgun"].GetDouble();
 
-	if (document.HasMember("FirerateRpg") && document["FirerateRpg"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("FirerateRpg") && document["FirerateRpg"].IsDouble())
 		_firerateRPG = document["FirerateRpg"].GetDouble();
 
-	if (document.HasMember("FirerateTurret") && document["FirerateTurret"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("FirerateTurret") && document["FirerateTurret"].IsDouble())
 		_firerateTurret = document["FirerateTurret"].GetDouble();
 
-	if (document.HasMember("FirerateWall") && document["FirerateWall"].IsDouble())	//Checks if the variable exists in .Json file
+	if (document.HasMember("FirerateWall") && document["FirerateWall"].IsDouble())
 		_firerateWall = document["FirerateWall"].GetDouble();
 
 	if (document.HasMember("MuzzlePosition") && document["MuzzlePosition"].IsArray())

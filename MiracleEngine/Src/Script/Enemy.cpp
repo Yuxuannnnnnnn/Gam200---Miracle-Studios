@@ -3,72 +3,6 @@
 #include <cstdlib>
 #include <ctime>
 
-void Enemy::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Health") && document["Health"].IsInt())	//Checks if the variable exists in .Json file
-	{
-		_health = (document["Health"].GetInt());
-	}
-	if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())	//Checks if the variable exists in .Json file
-	{
-		_enemyType = (document["EnemyType"].GetInt());
-	}
-	if (document.HasMember("StunDuration") && document["StunDuration"].IsDouble())	//Checks if the variable exists in .Json file
-	{
-		_timerStunCooldown = (document["StunDuration"].GetDouble());
-	}
-	if (document.HasMember("MoveSpeed") && document["MoveSpeed"].IsDouble())	//Checks if the variable exists in .Json file
-	{
-		_moveSpeed = (document["MoveSpeed"].GetDouble());
-	}
-	if (document.HasMember("ChaseSpeed") && document["ChaseSpeed"].IsDouble())	//Checks if the variable exists in .Json file
-	{
-		_chaseSpeed = (document["ChaseSpeed"].GetDouble());
-	}
-	if (document.HasMember("ChaseDuration") && document["ChaseDuration"].IsDouble())	//Checks if the variable exists in .Json file
-	{
-		_chaseDuration = (document["ChaseDuration"].GetDouble());
-	}
-	if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsDouble())	//Checks if the variable exists in .Json file
-	{
-		_attackRangeShoot = document["AttackRangeShoot"].GetDouble();
-		_attackRangeShoot *= 100;
-		_attackRangeShoot *= _attackRangeShoot;
-	}
-	if (document.HasMember("AttackRangeMelee") && document["AttackRangeMelee"].IsDouble())	//Checks if the variable exists in .Json file
-	{
-		_attackRangeMelee = document["AttackRangeMelee"].GetDouble();
-		_attackRangeMelee *= 100;
-		_attackRangeMelee *= _attackRangeMelee;
-	}
-}
-
-void Enemy::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-
-}
-
-void Enemy::Inspect()
-{
-	// health, type, stunDur, moveSpd, chaseSpd, atkRange, AtkMelee
-	ImGui::Spacing();
-	ImGui::InputInt("Health ", &_health);
-	ImGui::Spacing();
-	ImGui::InputInt("Enemy Type ", &_enemyType);
-	ImGui::Spacing();
-	ImGui::InputDouble("Stun Duration ", &_timerStunCooldown);
-	ImGui::Spacing();
-	ImGui::InputDouble("Move Speed ", &_moveSpeed);
-	ImGui::Spacing();
-	ImGui::InputDouble("Chase Speed ", &_chaseSpeed);
-	ImGui::Spacing();
-	ImGui::InputInt("Shoot Attack Range ", &_attackRangeShoot);
-	ImGui::Spacing();
-	ImGui::InputInt("Melee Attack Range ", &_attackRangeMelee);
-	ImGui::Spacing();
-
-}
-
 Enemy::Enemy() :
 	_init{ false },
 	_health{ 5 },
@@ -112,28 +46,25 @@ void Enemy::Init()
 			((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
 			((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0) &&
 			(((LogicComponent*)itr.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)) &&
-			!itr.second->GetDestory()
-			)
+			!itr.second->GetDestory() )
 		{
 			_target = itr.second;
 			break;
 		}
 	}
+	_init = true;
 }
 void Enemy::Update(double dt)
 {
 	if (!_init)
-	{
 		Init();
-		_init = true;
-	}
 // death logic
 	if (_health <= 0)
 	{
 		_animState = 0;
 		_timerDeath += dt;
 		// if animation finish playing
-		if (_timerDeath >= (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()* (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame()))
+		if (_timerDeath >= (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay() * (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame()))
 		{
 			ChancePickUps();
 			GetParentPtr()->SetDestory();
@@ -161,7 +92,7 @@ void Enemy::Update(double dt)
 	}
 
 // chase duration logic
-	if (_enemyType == 0 && !_stunned && _health > 0)
+	if (_enemyType == 1 && !_stunned && _health > 0)
 	{
 		if (_state == (int)AiState::ATTACKING)
 		{
@@ -189,7 +120,7 @@ void Enemy::Update(double dt)
 	}
 
 // anim updating related logic
-	if (_enemyType == 0 && _health > 0)
+	if (_enemyType == 1 && _health > 0)
 	{
 		_animState = _enemy1charging ? 2 : 1;
 	}
@@ -197,15 +128,15 @@ void Enemy::Update(double dt)
 	if (_animState != _animStatePrev)
 	{
 		_animStatePrev = _animState;
-		if (_enemyType == 0) // charger
+		if (_animState == 0)
 		{
-			if (_animState == 0)
-			{
-				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
-				//	_timerDeath = (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()
-				//		* (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
-				return;
-			}
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
+			//	_timerDeath = (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()
+			//		* (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+			return;
+		}
+		if (_enemyType == 1) // charger
+		{			
 			if (_animState == 1) // moving
 				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
 			if (_animState == 2) // charging
@@ -215,7 +146,7 @@ void Enemy::Update(double dt)
 					_chaseDuration / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
 			}
 		}
-		if (_enemyType == 1) // shooter
+		if (_enemyType == 2) // shooter
 		{
 			if (_animState == 1) // moving
 				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
@@ -234,17 +165,11 @@ void Enemy::AttackRangeMelee()
 		(GetDestinationPos()._x - GetPosition()._x),
 		(GetDestinationPos()._y - GetPosition()._y),
 		0);
-
 	// rotate to face player
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
-			//moveVec.Normalize();
-			//moveVec *= spd;
-			//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
-			//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
-			//);
 	AddForwardForce(GetParentId(), 1000 * _chaseSpeed);
 
 	// bump into player
@@ -275,10 +200,10 @@ void Enemy::AttackRangeShoot()
 		// spawn bullet
 		GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPositionA(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPositionA());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotationA(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotationA());
 		AddForwardForce(bullet->Get_uID(), 70000);
 	}
 }
@@ -287,13 +212,13 @@ void Enemy::CheckState()
 	// _destinationPos - currPos
 	Vector3 tempVec3 = GetDestinationPos() - GetPosition();
 
-	if (_enemyType == 0 && tempVec3.SquaredLength() < _attackRangeMelee)
+	if (_enemyType == 1 && tempVec3.SquaredLength() < _attackRangeMelee)
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
 		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(0);
 	}
-	else if (_enemyType == 1 && tempVec3.SquaredLength() < _attackRangeShoot)
+	else if (_enemyType == 2 && tempVec3.SquaredLength() < _attackRangeShoot)
 	{
 		_state = (unsigned)AiState::ATTACKING;
 		// set Anim state to EyeRed
@@ -360,7 +285,7 @@ void Enemy::FSM()
 	case (unsigned)AiState::ATTACKING:
 	{
 		//std::cout << "/t AI ATK!!\n";
-		if (_enemyType == 0)
+		if (_enemyType == 1)
 		{
 			Vector3 distVec(
 				(GetDestinationPos()._x - GetPosition()._x),
@@ -369,10 +294,15 @@ void Enemy::FSM()
 			if (distVec.SquaredLength() < _attackRangeMelee)
 				AttackRangeMelee();
 		}
-		else if (_enemyType == 1)
-			AttackRangeShoot();
-		else
-			;
+		if (_enemyType == 2)
+		{
+			Vector3 distVec(
+				(GetDestinationPos()._x - GetPosition()._x),
+				(GetDestinationPos()._y - GetPosition()._y),
+				0);
+			if (distVec.SquaredLength() < _attackRangeShoot)
+				AttackRangeShoot();
+		}
 	}
 	default:
 		break;
@@ -422,8 +352,7 @@ void Enemy::Move()
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
 		(GetDestinationPos()._y - GetPosition()._y),
-		0
-	);
+		0);
 
 	// rotate to face player
 	Vector3 compareVec = { 0, 1, 0 };

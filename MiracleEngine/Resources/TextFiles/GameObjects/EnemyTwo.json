@@ -5,7 +5,7 @@
   "LinkUId": 0,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
-  "Scale": [ 100.0, 70.0, 1.0 ],
+  "Scale": [ 150.0,75.0,1.0 ],
   "Rotate": 0.0,
   "GraphicsComponent": true,
   "G.FileName": "EnemyTwo.png",
@@ -18,7 +18,7 @@
   "Script2Data": [
     {
       "Health": 5,
-      "EnemyType": 0,
+      "EnemyType": 2,
       "StunDuration": 1.0,
       "AttackRangeShoot": 5.0,
       "AttackRangeMelee": 0.0,
@@ -51,6 +51,5 @@
   "ColliderTag": 3,
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-  "Collider2D.C.Radius": 0.0
-
+  "Collider2D.C.Radius": 45.0
 }

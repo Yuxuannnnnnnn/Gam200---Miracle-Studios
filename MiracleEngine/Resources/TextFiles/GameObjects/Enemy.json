@@ -21,7 +21,7 @@
   "Script2Data": [
     {
       "Health": 5,
-      "EnemyType": 0,
+      "EnemyType": 1,
       "StunDuration": 1.0,
       "AttackRangeShoot": 0.0,
       "AttackRangeMelee": 6.0,
