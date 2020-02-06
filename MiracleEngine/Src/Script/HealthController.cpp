@@ -272,7 +272,7 @@ void HealthController::IncreaseEXP(float exp)
 	_progressPercent += exp;
 
 	if (_progressPercent >= 1.f)
-		_progressPercent = 0.f;
+		_progressPercent = 0.001f;
 
 	UpdateProgressBar();
 }
