@@ -22,6 +22,11 @@ private:
 	bool _shooting;
 	int _animState, _animStatePrev; // 1==StartIdle, 2==StartShoot
 
+	GameObject* _turretBase;
+	Vec3 _deployScale;
+
+	TransformComponent* _transform;
+
 public:
 	void Turret::SerialiseComponent(Serialiser& document)
 	{
@@ -37,6 +42,20 @@ public:
 		}
 		if (document.HasMember("DeployTime") && document["DeployTime"].IsDouble())
 			_deployTime = (document["DeployTime"].GetDouble());
+
+		if (document.HasMember("DeployScale") && document["DeployScale"].IsDouble())
+			_deployTime = (document["DeployScale"].GetDouble());
+
+		if (document.HasMember("DeployScale") && document["DeployScale"].IsArray())
+		{
+			if (document["DeployScale"][0].IsFloat() && document["DeployScale"][1].IsFloat())	//Check the array values
+				_deployScale = Vector3{ document["DeployScale"][0].GetFloat(), document["DeployScale"][1].GetFloat(), 1.f };
+
+			if (document["DeployScale"].Size() == 3)
+			{
+				_deployScale.SetZ(document["DeployScale"][2].GetFloat());
+			}
+		}
 	}
 
 	void Turret::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -91,6 +110,10 @@ public:
 		ImGui::InputInt("AttackRange Shoot ", &_attackRangeShoot);
 		ImGui::Spacing();
 		ImGui::InputDouble("DeployTime ", &_deployTime);
+		ImGui::Spacing();
+
+		ImGui::Spacing();
+		ImGui::InputFloat2("DeployScale ", _deployScale.m);
 		ImGui::Spacing();
 	}
 
