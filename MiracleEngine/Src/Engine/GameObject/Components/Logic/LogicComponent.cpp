@@ -101,7 +101,20 @@ void LogicComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidj
 	prototypeDoc.AddMember("ScriptId", value, allocator);
 }
 
+void LogicComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
 
+	if (!protoLogicCom)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	for (auto script2id : ((LogicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScriptContianer())
+		for (auto script2ptrs : _engineSystems._logicSystem->GetScriptList(GetParentId()))
+			script2ptrs->DeserialiseComponentSceneFile(protoCom, value, allocator);
+}
 
 void LogicComponent::Inspect()
 {
@@ -129,20 +142,7 @@ void LogicComponent::Inspect()
 	}
 }
 
-void LogicComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
-{
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
 
-	if (!protoLogicCom)
-	{
-		DeSerialiseComponent(value, allocator);
-		return;
-	}
-
-	for (auto script2id : ((LogicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScriptContianer())
-		for (auto script2ptrs : _engineSystems._logicSystem->GetScriptList(GetParentId()))
-			script2ptrs->DeserialiseComponentSceneFile(protoCom, value, allocator);
-}
 
 void LogicComponent::Init()
 {

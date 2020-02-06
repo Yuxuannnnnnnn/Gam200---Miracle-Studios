@@ -1,31 +1,30 @@
 {
   "IdentityComponent": true,
-  "Name": "none",
   "ObjectType": "Spawner",
-
+  "Name": "Spawner",
+  "LinkUId": 0,
   "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 100.0, 100.0 ],
+  "Position": [ 133.33349609375, 1772.2227783203126, 1.0 ],
+  "Scale": [ 544.1040649414063, 544.1040649414063, 1.0 ],
   "Rotate": 0.0,
-
-  "GraphicsComponent": true,
-  "G.FileName": "Spawner.png",
-  "G.Shader": "",
-  "G.Layer": 6,
-  "_hasAlpha": true,
-
-  "CircleCollider2DComponent": true,
-  "ColliderTypeId": 2,
-  "ColliderTag": 5,
-  "ColliderTrigger": true,
-
   "LogicComponent": true,
   "Script2Id": [ "Spawner" ],
   "Script2Data": [
     {
       "Health": 10,
       "SpawnType": 1,
-      "SpawnRate": 10
+      "SpawnRate": 2
     }
-  ]
+  ],
+  "GraphicsComponent": true,
+  "G.FileName": "Spawner_Platform_lit.png",
+  "G.Shader": "",
+  "G.Layer": 6,
+  "_hasAlpha": true,
+  "CircleCollider2DComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 5,
+  "ColliderTrigger": false,
+  "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
+  "Collider2D.C.Radius": 200.3679962158203
 }
