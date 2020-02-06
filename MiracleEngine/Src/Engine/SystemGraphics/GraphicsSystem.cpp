@@ -13,6 +13,7 @@ void GraphicsSystem::Update(double dt)
 
 	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
+	glAlphaFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//glEnable(GL_ALPHA_TEST);
 	//glAlphaFunc(GL_GREATER, 0.5f);
@@ -22,6 +23,8 @@ void GraphicsSystem::Update(double dt)
 	// Render gameobject in world space
 	for (const auto& renderobj : _renderObjects)
 	{
+		if (renderobj._hasAlpha)
+			continue;
 		renderobj._pShader->Select();
 
 		if (renderobj._pTexture)
@@ -76,6 +79,63 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 
+	for (const auto& renderobj : _renderObjects)
+	{
+		if (!(renderobj._hasAlpha))
+			continue;
+		renderobj._pShader->Select();
+
+		if (renderobj._pTexture)
+			renderobj._pTexture->Select();
+		else
+		{
+			continue;
+		}
+
+
+
+
+		if (renderobj._isAnimated)
+		{
+			if (renderingAnim != ANIMATED)
+			{
+				renderobj._pMesh->Select();
+				renderingAnim = ANIMATED;
+			}
+
+			float u0 = renderobj._uv.u0;
+			float v0 = renderobj._uv.v0;
+			float u1 = renderobj._uv.u1;
+			float v1 = renderobj._uv.v1;
+			GLfloat _positions[] =
+			{
+				-0.5f, -0.5f, 0.0f, u0, v0, // 0     // bottom left
+				 0.5f, -0.5f, 0.0f, u1, v0, // 1     // bottom right
+				 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
+				-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
+			};
+			renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
+		}
+		else
+		{
+			if (renderingAnim != STATIC)
+			{
+				renderobj._pMesh->Select();
+				renderingAnim = STATIC;
+			}
+		}
+		glm::mat4 mvp = _proj * _view * renderobj._transform;
+		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
+
+		/*if (renderobj._alpha < 0.95f)
+		{
+			glDisable(GL_ALPHA_TEST);
+			renderobj._pShader->SetUniform1f("u_Alpha", renderobj._alpha);
+		}*/
+		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
+		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
@@ -164,7 +224,17 @@ void GraphicsSystem::UpdateRenderObjectList()
 		TransformComponent* transComp = (TransformComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Transform);
 		AnimationComponent* animComp = (AnimationComponent*)graphicComp->GetSibilingComponent(ComponentId::CT_Animation);
 
+
 		RenderObject renderobject;
+
+		if (graphicComp->HasAlpha())
+		{
+			renderobject._hasAlpha = true;
+		}
+		else
+		{
+			renderobject._hasAlpha = false;
+		}
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
 		renderobject._alpha = graphicComp->GetAlpha();
