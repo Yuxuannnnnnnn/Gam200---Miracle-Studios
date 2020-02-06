@@ -39,6 +39,11 @@ public:
 
 	AudioComponent(GameObject* parent, size_t uId, IComponent* component = nullptr);
 
+	void StopBGM();
+	void StopSFX();
+	void StopAllSound();
+
+	// not used
 	bool IsBGM();
 	void SetIsBGM(bool isbgm);
 
