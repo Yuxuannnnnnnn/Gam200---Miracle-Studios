@@ -7,10 +7,13 @@
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 200.0, 200.0, 1.0 ],
   "Rotate": 0.0,
+
   "GraphicsComponent": true,
   "G.FileName": "catjump.png",
   "G.Shader": "",
-  "G.Layer": 8,
+  "G.Layer": 16,
+  "_hasAlpha": true,
+
   "AnimationComponent": true,
   "AnimationTypes": [
     {
@@ -31,7 +34,7 @@
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
   "Collider2D.C.Radius": 65.0,
-  
+
   "LogicComponent": true,
   "ScriptId": [],
   "Script2Id": [ "ShieldSkill" ],

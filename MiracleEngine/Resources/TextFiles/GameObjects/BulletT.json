@@ -11,7 +11,8 @@
   "GraphicsComponent": true,
   "G.FileName": "Bullet_T.png",
   "ShaderType": "",
-  "RenderLayer": 1,
+  "G.Layer": 20,
+  "_hasAlpha": true,
 
   "LogicComponent": true,
   "Script2Id": [ "Bullet" ],

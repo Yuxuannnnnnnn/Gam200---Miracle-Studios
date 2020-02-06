@@ -167,8 +167,8 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 void Bullet::OnCollision2DTrigger(Collider2D* other )
 {
 	GetParentPtr()->SetDestory();
-	if (_bulletType == 2)
-		BulletCollisionTurret(other);
+//if (_bulletType == 2)
+//	BulletCollisionTurret(other);
 
 	//switch (_bulletType)
 	//{
