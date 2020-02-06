@@ -29,6 +29,6 @@ public:
 
 	void OpenPortal();
 
-	void OnCollision2DStay(Collider2D* other) override;
+	virtual void OnTrigger2DEnter(Collider2D* other);
 };
 
