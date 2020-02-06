@@ -1,7 +1,7 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "Player",
-  "Name": "Player",
+  "ObjectType": "player",
+  "Name": "player",
   "LinkUId": 999,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
@@ -53,12 +53,12 @@
   "Mass": 10.0,
   "Friction": 0.10000000149011612,
   "Static": false,
-  "CircleCollider2DComponent": false,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 1,
   "ColliderTrigger": false,
-  "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-  "Collider2D.C.Radius": 0.0,
+  "Collider2D.C.Center": [ 0.0, -6.0, 1.0 ],
+  "Collider2D.C.Radius": 66.1760025024414,
 
   "CameraComponent": true,
   "isCurrentCamera": true,
@@ -66,28 +66,28 @@
 
   "HaveChild": true,
   "ChildObjects": [
-  {
-	 "IdentityComponent": true,
-    "ObjectType": "PlayerMuzzle",
-	  "Name": "PlayerMuzzle",
-	  "LinkUId": 0,
-	  "TransformComponent": true,
-	  "Position": [0.0,60.0,1.0 ],
-	  "Scale": [ 65.0,65.0,1.0],
-	  "Rotate": 0.0,
-	  "GraphicsComponent": true,
-	  "G.FileName": "Muzzle_Idle.png",
-	  "G.Shader": "",
-	  "G.Layer": 6,
-	  "AnimationComponent": true,
-	  "AnimationTypes": [
-		{
-		  "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
-		  "TimeDelay": 0.10000000149011612,
-		  "AnimationName": "Shoot"
-		}
-	  ],
-	  "StartAnim": "Shoot"
-  }
+    {
+      "IdentityComponent": true,
+      "ObjectType": "PlayerMuzzle",
+      "Name": "PlayerMuzzle",
+      "LinkUId": 0,
+      "TransformComponent": true,
+      "Position": [ 0.0, 60.0, 1.0 ],
+      "Scale": [ 65.0, 65.0, 1.0 ],
+      "Rotate": 0.0,
+      "GraphicsComponent": true,
+      "G.FileName": "Muzzle_Idle.png",
+      "G.Shader": "",
+      "G.Layer": 6,
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
+          "TimeDelay": 0.10000000149011612,
+          "AnimationName": "Shoot"
+        }
+      ],
+      "StartAnim": "Shoot"
+    }
   ]
 }
