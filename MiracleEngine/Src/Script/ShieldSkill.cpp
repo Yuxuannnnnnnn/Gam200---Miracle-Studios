@@ -25,7 +25,7 @@ ShieldSkill::ShieldSkill() :
 
 ShieldSkill* ShieldSkill::Clone()
 {
-	return new ShieldSkill;
+	return new ShieldSkill(*this);
 }
 
 void ShieldSkill::Init()

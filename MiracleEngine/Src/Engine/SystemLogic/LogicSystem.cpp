@@ -11,6 +11,8 @@
 #include "Script/ButtonController.h"
 #include "Script/HealthController.h"
 #include "Script/ShieldSkill.h"
+#include "Script/MouseCursor.h"
+#include "Script/EntrancePortal.h"
 
 
 LogicSystem::~LogicSystem()
@@ -39,6 +41,8 @@ void LogicSystem::Init() {
 	RegisterScript(ButtonController);
 	RegisterScript(HealthController);
 	RegisterScript(ShieldSkill);
+	RegisterScript(MouseCursor);
+	RegisterScript(EntrancePortal);
 
 	for (auto& itr : GetComponentMap(Logic)) {
 
