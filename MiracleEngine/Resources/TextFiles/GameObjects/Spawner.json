@@ -9,8 +9,10 @@
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
-  "G.TypeId": 0,
   "G.FileName": "Spawner.png",
+  "G.Shader": "",
+  "G.Layer": 6,
+  "_hasAlpha": true,
 
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
