@@ -303,6 +303,29 @@ void Factory::SerialiseLevel(std::string FileName)
 			tmp->Serialise(datafile);
 		}
 	}
+
+
+	for (auto& idcom : GetComponentMap(Identity))
+	{
+		IdentityComponent* com = (IdentityComponent*)idcom.second;
+		if (!(com->ObjectType().compare("BackgroundMusic")))
+		{
+			AudioComponent * audcom = (AudioComponent*)(com->GetSibilingComponent(ComponentId::CT_Audio));
+			//audcom->PlayBGM();
+			if (!_currentScene.compare("MainMenu"))
+			{
+				audcom->PlayBGM("mainmenu");
+			}
+			else if (!_currentScene.compare("truelevel1"))
+			{
+				audcom->PlayBGM("level1");
+			}
+			else if (!_currentScene.compare("truelevel2"))
+			{
+				audcom->PlayBGM("level2");
+			}
+		}
+	}
 }
 
 
@@ -647,8 +670,17 @@ void Factory::De_SerialiseLevel(std::string filename)
 		obj.SetObject();
 		GameObject* proObj = nullptr;
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
-		if (proObj = MyResourceSystem.GetPrototypeResource(ObjType))
+
+		bool bo = ObjType.compare("PlayerMuzzle");
+
+
+		if (!bo)
+			continue;
+
+
+		if ((proObj = MyResourceSystem.GetPrototypeResource(ObjType)) && !(IdIdcomPair.second->GetParentPtr()->GetChild()))
 		{
+
 			std::unordered_map <ComponentId, IComponent* >& comList = _gameObjectIdMap[id]->GetComponentList();
 
 			for (auto& IdComPair : comList)

@@ -259,7 +259,7 @@ public:
 			rapidjson::Value strVal;
 
 			strVal.SetString(anim.first.c_str(), anim.first.length(), allocator);
-			Obj.AddMember("SFXName", strVal, allocator);
+			Obj.AddMember("BGMName", strVal, allocator);
 
 			strVal.SetString(std::get<0>(anim.second).c_str(), std::get<0>(anim.second).length(), allocator);
 			Obj.AddMember("fileName", strVal, allocator);

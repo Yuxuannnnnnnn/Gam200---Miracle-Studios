@@ -23,14 +23,12 @@ void AudioSystem::PlayBGM(const std::string& name, float volume)
 
 	if (sound != nullptr)
 	{
-		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _sfxGroup, false, &_channel2);
-
 		FMOD_ChannelGroup_Stop(_bgmGroup);
 		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _bgmGroup, 0, &_channel1);
 
-		FMOD_Channel_SetVolume(_channel2, volume);
+		FMOD_Channel_SetVolume(_channel1, volume);
 		//FMOD_Channel_SetLoopCount(_channel2, 3);
-		FMOD_Channel_SetPaused(_channel2, false);
+		FMOD_Channel_SetPaused(_channel1, false);
 	}
 }
 

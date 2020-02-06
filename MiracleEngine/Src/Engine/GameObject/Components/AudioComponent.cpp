@@ -206,7 +206,7 @@ void AudioComponent::Inspect()
 			ImGui::Spacing();
 
 			std::string VolumeString = "Volume##" + std::to_string(i);
-			if (ImGui::SliderFloat(VolumeString.c_str(), &std::get<1>(sfxPairTuple.second), 0, 100))
+			if (ImGui::SliderFloat(VolumeString.c_str(), &std::get<1>(sfxPairTuple.second), 0, 1))
 			{
 			}
 
@@ -381,7 +381,7 @@ void AudioComponent::Inspect()
 			ImGui::Spacing();
 
 			std::string VolumeString = "Volume##" + std::to_string(i);
-			if (ImGui::SliderFloat(VolumeString.c_str(), &std::get<1>(sfxPairTuple.second), 0, 100))
+			if (ImGui::SliderFloat(VolumeString.c_str(), &std::get<1>(sfxPairTuple.second), 0, 1))
 			{
 			}
 
