@@ -158,6 +158,8 @@ void Turret::SearchTarget()
 	{
 		for (auto it : _engineSystems._factory->getObjectlist())
 		{
+			if (it.second == nullptr)
+				continue;
 			// target searching
 			if (!it.second->GetDestory() && (
 				((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
@@ -195,6 +197,8 @@ void Turret::SearchTarget()
 		// just set target to first enemy || player, priority is enemy find 1 enemy
 		for (auto itr : _engineSystems._factory->getObjectlist())
 		{
+			if (itr.second == nullptr)
+				continue;
 			if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
 				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0)
 			{

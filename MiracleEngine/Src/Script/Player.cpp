@@ -694,14 +694,14 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	{
 		DamagePlayer(2);
 	}
-	if (!otherType.compare("PickUp_Health"))
+	if (!otherType.compare("PickUps_Health"))
 	{
 		_health += 2;
 		if (_health > _healthMax)
 			_health = _healthMax;
 		other->GetParentPtr()->SetDestory();
 	}
-	if (!otherType.compare("PickUp_Ammo"))
+	if (!otherType.compare("PickUps_Ammo"))
 	{
 		_ammoRpg += 5;
 		other->GetParentPtr()->SetDestory();

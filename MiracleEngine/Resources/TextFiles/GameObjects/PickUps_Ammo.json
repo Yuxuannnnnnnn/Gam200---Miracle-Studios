@@ -16,7 +16,7 @@
 
   "CircleColliderComponent": true,
   "ColliderTypeId": 2,
-  "ColliderTag": 9,
+  "ColliderTag": 8,
   "ColliderTrigger": true,
 
   "LogicComponent": true,

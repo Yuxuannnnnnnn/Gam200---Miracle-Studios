@@ -14,7 +14,8 @@
       "Health": 10,
       "SpawnType": 1,
       "SpawnRate": 2.0,
-      "LightDuration": 1.0
+      "LightDuration": 1.0,
+      "SpawnAmount": 10
     }
   ],
   "GraphicsComponent": true,

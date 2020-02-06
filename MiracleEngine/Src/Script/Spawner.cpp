@@ -48,10 +48,18 @@ void Spawner::Update(double dt)
 
 void Spawner::Spawn()
 {
+	if (_spawnAmount <= 0)
+	{
+		_light = false;
+		return;
+	}
+
+	_spawnAmount--;
 	_light = true;
 	_timerLight = _timerLightDuration;
-	_timerSpawn = _timerSpawnCooldown;
-	
+	_timerSpawn = _timerSpawnCooldown;	
+
+
 	// add code for rng spawning if want to
 	std::srand((unsigned)std::time(0));
 	int random = 1 + std::rand() % 2;

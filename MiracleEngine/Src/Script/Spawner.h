@@ -21,6 +21,7 @@ private:
 	double _timerSpawn, _timerSpawnCooldown;
 	double _timerLight, _timerLightDuration;
 	bool _light, _lightPrevState;
+	int _spawnAmount;
 public:
 	void SerialiseComponent(Serialiser& document)
 	{
@@ -32,6 +33,8 @@ public:
 			_timerSpawnCooldown = document["SpawnRate"].GetDouble();
 		if (document.HasMember("LightDuration") && document["LightDuration"].GetDouble())
 			_timerLightDuration = document["LightDuration"].GetDouble();
+		if (document.HasMember("SpawnAmount") && document["SpawnAmount"].IsInt())
+			_spawnAmount = document["SpawnAmount"].GetInt();
 	}
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	{
@@ -45,6 +48,7 @@ public:
 			object.AddMember("SpawnType", rapidjson::Value(_spawnType), prototypeDoc.Allocator());
 			object.AddMember("SpawnRate", rapidjson::Value(_timerSpawnCooldown), prototypeDoc.Allocator());
 			object.AddMember("LightDuration", rapidjson::Value(_timerLightDuration), prototypeDoc.Allocator());
+			object.AddMember("SpawnAmount", rapidjson::Value(_spawnAmount), prototypeDoc.Allocator());
 			value.PushBack(object, prototypeDoc.Allocator());
 		}
 	}
@@ -60,6 +64,7 @@ public:
 			object.AddMember("SpawnType", rapidjson::Value(_spawnType), allocator);
 			object.AddMember("SpawnRate", rapidjson::Value(_timerSpawnCooldown), allocator);
 			object.AddMember("LightDuration", rapidjson::Value(_timerLightDuration), allocator);
+			object.AddMember("SpawnAmount", rapidjson::Value(_spawnAmount), allocator);
 			value.PushBack(object, allocator);
 		}
 	}
@@ -77,6 +82,8 @@ public:
 		ImGui::InputDouble("SpawnRate ", &_timerSpawnCooldown);
 		ImGui::Spacing();
 		ImGui::InputDouble("LightDuration ", &_timerLightDuration);
+		ImGui::Spacing();
+		ImGui::InputInt("SpawnAmount ", &_spawnAmount);
 		ImGui::Spacing();
 	}
 
