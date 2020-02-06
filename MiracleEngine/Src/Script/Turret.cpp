@@ -8,7 +8,8 @@ Turret::Turret() :
 	_state{ (unsigned)AiState::IDLE },
 	_timerAttack{ 0.0 }, _timeAttackCooldown{ 3.0 },
 	_deployTime{ 0.5 }, _shooting{ false },
-	_animState{ 1 }, _animStatePrev{ 1 }
+	_animState{ 1 }, _animStatePrev{ 1 },
+	_transform{nullptr}
 	
 {
 	_attackRangeShoot = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
@@ -24,6 +25,17 @@ Turret* Turret::Clone()
 
 void Turret::Init()
 {
+	for (auto& it : GetParentPtr()->GetChildList())
+	{
+		_turretBase = it.second;
+		break;;
+	}
+
+	_turretBase->SetEnable(false);
+
+
+	_transform = ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform));
+
 	// set Deploy animation and set the animation's speed
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Deploy");
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
@@ -42,6 +54,7 @@ void Turret::Init()
 		}
 	}
 }
+
 void Turret::Update(double dt)
 {
 	if (!_init)
@@ -49,11 +62,17 @@ void Turret::Update(double dt)
 		Init();
 		_init = true;
 	}
+
 	if (_deployTime > 0)
 	{
 		_deployTime -= dt;
+
+		if(_deployTime <= 0.0)
+			_turretBase->SetEnable(true);
+
 		return; // force turret to just play animation while "deploying"
 	}
+		
 	if (_health <= 0)
 		GetParentPtr()->SetDestory();
 

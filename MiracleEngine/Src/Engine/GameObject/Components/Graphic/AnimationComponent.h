@@ -106,6 +106,7 @@ public:
 	int GetCurrentFrame();
 	int GetMaxFrame();
 	float GetTimeDelay();
+	void SetTimeDelay(float time);
 	bool IsPlayingOnce();
 	void SetPlayingOnce(bool);
 	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn

@@ -33,6 +33,11 @@ float AnimationComponent::GetTimeDelay()
 	return _timeDelay;
 }
 
+void AnimationComponent::SetTimeDelay(float time)
+{
+	 _timeDelay = time;
+}
+
 bool AnimationComponent::IsPlayingOnce()
 {
 	return _playOnce;

@@ -14,7 +14,8 @@
       "Health": 10,
       "Firerate": 2,
       "AttackRangeShoot": 4,
-      "DeployTime": 2.0
+      "DeployTime": 2.0,
+	  "DeployScale": [100.0,100.0,1.0]
     }
   ],
   "GraphicsComponent": true,
@@ -29,5 +30,14 @@
       "AnimationName": "Deploy"
     }
   ],
-  "StartAnim": "Deploy"
+  "StartAnim": "Deploy",
+  
+  "HaveChild": true,
+  "ChildObjects": [
+  {
+ "IdentityComponent":true,"ObjectType":"TurretLeg","Name":"TurretLeg","LinkUId":0,
+"TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,
+"GraphicsComponent":true,"G.FileName":"Turret_Leg_Sprite.png","G.Shader":"","G.Layer":1
+  }
+  ]
 }
