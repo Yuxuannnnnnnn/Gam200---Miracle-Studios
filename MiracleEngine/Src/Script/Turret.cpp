@@ -36,6 +36,10 @@ void Turret::Init()
 
 	_transform = ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform));
 
+	Vec3 temp = _transform->GetScaleA();
+	_transform->SetScaleA(_deployScale);
+	_deployScale = temp;
+
 	// set Deploy animation and set the animation's speed
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Deploy");
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
@@ -67,8 +71,13 @@ void Turret::Update(double dt)
 	{
 		_deployTime -= dt;
 
-		if(_deployTime <= 0.0)
+		if (_deployTime <= 0.0)
+		{
+			Vec3 temp = _transform->GetScaleA();
+			_transform->SetScaleA(_deployScale);
+			_deployScale = temp;
 			_turretBase->SetEnable(true);
+		}
 
 		return; // force turret to just play animation while "deploying"
 	}

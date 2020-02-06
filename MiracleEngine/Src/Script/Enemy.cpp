@@ -131,18 +131,17 @@ void Enemy::Update(double dt)
 	if (_health <= 0)
 	{
 		_animState = 0;
-		_timerDeath -= dt;
+		_timerDeath += dt;
 		// if animation finish playing
-		if (_timerDeath <= 0)
+		if (_timerDeath >= (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()* (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame()))
 		{
 			ChancePickUps();
 			GetParentPtr()->SetDestory();
-			return;
 		}
 	}
 
 // stunned logic
-	if (_stunned)
+	if (_stunned && _health>0)
 	{
 		_timerStun -= dt;
 		if (_enemyType == 1)
@@ -151,28 +150,30 @@ void Enemy::Update(double dt)
 		if (_enemyType == 2)
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() - 0.1 );
-		if (_timerStun <= 0)
+		if (_timerStun < 0)
 		{
 			_timerStun = _timerStunCooldown;
 			_stunned = false;
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScaleA(defaultScale);
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(true);
 		}
 		return;
 	}
 
 // chase duration logic
-	if (_enemyType == 0 && !_stunned)
+	if (_enemyType == 0 && !_stunned && _health > 0)
 	{
 		if (_state == (int)AiState::ATTACKING)
 		{
 			_chaseTimer -= dt;
-			if (_chaseTimer < 0) // should stun enemy1 when chasing for _chaseDuration
+			if (_chaseTimer < 0 && _enemy1charging) // should stun enemy1 when chasing for _chaseDuration
 			{
 				_chaseTimer = _chaseDuration;
 				_stunned = true;
 				_enemy1charging = false;
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScaleA(idleScale);
 			}
-			else
-				_enemy1charging = true;
 		}
 		else
 			_chaseTimer = _chaseDuration;
@@ -188,35 +189,38 @@ void Enemy::Update(double dt)
 	}
 
 // anim updating related logic
-	if (_enemyType == 0)
+	if (_enemyType == 0 && _health > 0)
 	{
-		_animState = _enemy1charging ? 1 : 2;
+		_animState = _enemy1charging ? 2 : 1;
 	}
-	if (_health <= 0)
-		_animState = 0;
 // setting animation state
 	if (_animState != _animStatePrev)
 	{
 		_animStatePrev = _animState;
 		if (_enemyType == 0) // charger
 		{
-			if (_animState == 1) // start moving
-				 ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
-			if (_animState == 2) // stopped moving
-				 ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
+			if (_animState == 0)
+			{
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
+				//	_timerDeath = (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()
+				//		* (float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+				return;
+			}
+			if (_animState == 1) // moving
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
+			if (_animState == 2) // charging
+			{
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Move");
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+					_chaseDuration / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+			}
 		}
 		if (_enemyType == 1) // shooter
 		{
-			if (_animState == 1) // start moving
+			if (_animState == 1) // moving
 				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
-			if (_animState == 2) // stopped moving
+			if (_animState == 2) // moving
 				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
-		}
-		if (_animState == 0 && _health <= 0) // die
-		{
-			 ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Death");
-			 _timerDeath = (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay()
-				*(float)((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
 		}
 	}
 	else
@@ -225,6 +229,7 @@ void Enemy::Update(double dt)
 
 void Enemy::AttackRangeMelee()
 {
+	_enemy1charging = true;
 	Vector3 moveVec(
 		(GetDestinationPos()._x - GetPosition()._x),
 		(GetDestinationPos()._y - GetPosition()._y),
@@ -356,7 +361,14 @@ void Enemy::FSM()
 	{
 		//std::cout << "/t AI ATK!!\n";
 		if (_enemyType == 0)
-			AttackRangeMelee();
+		{
+			Vector3 distVec(
+				(GetDestinationPos()._x - GetPosition()._x),
+				(GetDestinationPos()._y - GetPosition()._y),
+				0);
+			if (distVec.SquaredLength() < _attackRangeMelee)
+				AttackRangeMelee();
+		}
 		else if (_enemyType == 1)
 			AttackRangeShoot();
 		else
@@ -384,8 +396,8 @@ void Enemy::ChancePickUps()
 	{
 		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPositionA(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPositionA());
 		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	}
@@ -394,11 +406,11 @@ void Enemy::ChancePickUps()
 Vector3& Enemy::GetDestinationPos()
 {
 	if (_target)
-		return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
+		return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA();
 }
 Vector3& Enemy::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
+	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA();
 }
 std::vector<Node*>& Enemy::GetPath()
 {
@@ -494,8 +506,9 @@ void Enemy::SetStunned()
 void Enemy::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
-	if (otherType.compare("Bullet"))
+	if (otherType.compare("Bullet") == 0)
 	{
 		_health--;
+		_stunned;
 	}
 }
