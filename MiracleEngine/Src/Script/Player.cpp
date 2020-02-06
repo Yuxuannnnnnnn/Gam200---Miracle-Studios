@@ -339,6 +339,9 @@ void Player::UpdateInput()
 	float spd = 3.f * 10000; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
 	{
+
+		MyAudioSystem.PlayBGM("Level1", 1.0f);
+
 		_moving = true;
 		AddForce(GetParentId(), Vector3(0, 1, 0), spd);
 	}
