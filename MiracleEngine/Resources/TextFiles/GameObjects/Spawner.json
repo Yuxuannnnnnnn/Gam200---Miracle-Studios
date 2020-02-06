@@ -25,7 +25,7 @@
     {
       "Health": 10,
       "SpawnType": 1,
-      "SpawnRate": 10
+      "SpawnCooldown": 2.0
     }
   ]
 }
