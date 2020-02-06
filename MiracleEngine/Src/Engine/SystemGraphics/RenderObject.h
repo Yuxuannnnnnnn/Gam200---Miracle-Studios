@@ -34,5 +34,5 @@ struct RenderObject
 	float _zvalue;
 	bool _isAnimated;
 	float _alpha;
-
+	bool _hasAlpha;
 };

@@ -84,27 +84,17 @@ BoundingPolygon BoundingPolygon::CreateBoxPolygon(const Vec3& position, const Ve
 	box._pointArray = new Vector3[box._numPoints];
 	box._ptrEdgeArray = new BEdge[box._numPoints];
 
-	if (rotationAngle)
-	{
-		Vector3 X{ cos(rotationAngle) * scale._x * 0.5f, sin(rotationAngle) * scale._x * 0.5f };
-		Vector3 Y{ -sin(rotationAngle) * scale._y * 0.5f, cos(rotationAngle) * scale._y * 0.5f };
 
-		box._pointArray[0] = position - X + Y;
-		box._pointArray[1] = position + X + Y;
-		box._pointArray[2] = position + X - Y;
-		box._pointArray[3] = position - X - Y;
+	Vector3 X{ cos(rotationAngle) * scale._x * 0.5f, sin(rotationAngle) * scale._x * 0.5f };
+	Vector3 Y{ -sin(rotationAngle) * scale._y * 0.5f, cos(rotationAngle) * scale._y * 0.5f };
 
-		box._AABB = BBox{ box._pointArray , box._numPoints };
-	}
-	else
-	{
-		box._pointArray[0] = position + Vec3{ -0.5f * scale._x,  0.5f * scale._y };
-		box._pointArray[1] = position + Vec3{ 0.5f * scale._x,  0.5f * scale._y };
-		box._pointArray[2] = position + Vec3{ 0.5f * scale._x, -0.5f * scale._y };
-		box._pointArray[3] = position + Vec3{ -0.5f * scale._x, -0.5f * scale._y };
+	box._pointArray[0] = position - X + Y;
+	box._pointArray[1] = position + X + Y;
+	box._pointArray[2] = position + X - Y;
+	box._pointArray[3] = position - X - Y;
 
-		box._AABB = BBox{ position ,scale };
-	}
+	box._AABB = BBox{ box._pointArray , box._numPoints };
+
 
 	for (int i = 0; i < box._numPoints; ++i)
 		box._pointArray[i].SetZ(1.f);

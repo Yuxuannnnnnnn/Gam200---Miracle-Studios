@@ -28,6 +28,8 @@ private:
 	int _layer;
 	float _alphaVal;
 public:
+	inline bool HasAlpha() { return _hasAlpha; }
+
 	void SetAlpha(float alphaValue);
 	float GetAlpha();
 	unsigned int GetTextureID() const;               // base on asset file name, get the textureID on OpenGL for imgui

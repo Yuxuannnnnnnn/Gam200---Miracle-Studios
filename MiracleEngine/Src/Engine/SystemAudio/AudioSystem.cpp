@@ -83,3 +83,14 @@ void AudioSystem::StopAllSound()
 	FMOD_ChannelGroup_Stop(_bgmGroup);
 	FMOD_ChannelGroup_Stop(_sfxGroup);
 }
+
+
+void AudioSystem::StopBGM()
+{
+	FMOD_ChannelGroup_Stop(_bgmGroup);
+}
+
+void AudioSystem::StopSFX()
+{
+	FMOD_ChannelGroup_Stop(_sfxGroup);
+}
