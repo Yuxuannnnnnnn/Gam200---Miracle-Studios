@@ -13,6 +13,8 @@ class EntrancePortal : public IScript2
 	bool _clear;
 	GraphicComponent* _graphicComponent;
 	IScript2* _playerScript;
+
+	bool _init;
 public:
 
 	void SerialiseComponent(Serialiser& document);

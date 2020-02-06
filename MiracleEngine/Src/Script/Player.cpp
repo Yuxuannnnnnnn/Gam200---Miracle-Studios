@@ -152,6 +152,8 @@ Player::Player() :
 	_timerShield{ 0 }, _timerShieldDuration{ 0 },
 	_health{ 30 }, _healthMax{ 30 },
 	_progress{ 0 }, _progressMax{ 30 },
+	_progressLevel{0},
+
 	_timerGodSwitch{ 0 }, _timerGodSwitchDelay{ 0.5 },
 	_shieldOn{ false },
 	_timerSwitch{ 0 }, _timerSwitchDelay{ 0.5 },
@@ -311,6 +313,7 @@ void Player::UpdateUI()
 	{
 		_progress = 0;
 		_progressMax *= 2;
+		_progressLevel++;
 	}
 	// set percents
 	//EngineSystems::GetInstance()._graphicsSystem->SetHealthPercentage(static_cast<float>(_health) / _healthMax);
@@ -665,6 +668,11 @@ int Player::GetProgressMax()
 void Player::ProgressIncement(int in)
 {
 	_progress += in;
+}
+
+int Player::GetProgressLevel() const
+{
+	return _progressLevel;
 }
 
 void Player::DamagePlayer(int dmg)
