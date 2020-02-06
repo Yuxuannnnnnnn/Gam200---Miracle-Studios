@@ -132,7 +132,7 @@ void AudioComponent::Inspect()
 				for (int j = 0; j < AudioTypeList.size(); j++)
 				{
 					if (!strncmp(AudioTypeList[j], std::get<0>(sfxPairTuple.second).c_str(),
-						std::get<0>(sfxPairTuple.second).size()))
+						AudioList.find(AudioTypeList[j])->first.size()))
 					{
 						select = j;
 					}
@@ -307,7 +307,7 @@ void AudioComponent::Inspect()
 				for (int j = 0; j < AudioTypeList.size(); j++)
 				{
 					if (!strncmp(AudioTypeList[j], std::get<0>(sfxPairTuple.second).c_str(),
-						std::get<0>(sfxPairTuple.second).size()))
+						AudioList.find(AudioTypeList[j])->first.size()))
 					{
 						select = j;
 					}

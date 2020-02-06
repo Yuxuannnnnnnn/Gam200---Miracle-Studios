@@ -1,10 +1,1 @@
-{
-	"IdentityComponent": true,
-	"Name": "none",
-	"ObjectType": "BackgroundMusic",
-
-	"AudioComponent": true,
-	"A.TypeId": 0,
-	"A.FileName": "Level1.ogg",
-	"IsBGM": true
-}
+{"IdentityComponent":true,"ObjectType":"BackgroundMusic","Name":"none","LinkUId":0,"AudioComponent":true,"SFXList":[{"SFXName":"","fileName":"","volume":0.0,"NumOfloops":0}]}
