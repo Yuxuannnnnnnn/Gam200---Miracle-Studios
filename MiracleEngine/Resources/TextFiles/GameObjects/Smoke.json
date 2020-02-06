@@ -1,0 +1,1 @@
+{"IdentityComponent":true,"ObjectType":"Smoke","Name":"none","LinkUId":0,"TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,"AnimationComponent":true,"AnimationTypes":[{"AnimationType":"Smoke_Trail_sprite_smallSpriteSheetData.json","TimeDelay":0.0,"AnimationName":"Smoke"}],"StartAnim":"Smoke"}
