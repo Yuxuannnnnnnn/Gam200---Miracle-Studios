@@ -159,7 +159,7 @@ void Turret::SearchTarget()
 		for (auto it : _engineSystems._factory->getObjectlist())
 		{
 			// target searching
-			if (it.second->GetAlive() && (
+			if (!it.second->GetDestory() && (
 				((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
 				((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0
 				))

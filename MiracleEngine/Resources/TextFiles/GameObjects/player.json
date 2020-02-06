@@ -7,10 +7,13 @@
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 200.0, 200.0, 1.0 ],
   "Rotate": 0.0,
+
   "GraphicsComponent": true,
   "G.FileName": "catjump.png",
   "G.Shader": "",
-  "G.Layer": 7,
+  "G.Layer": 15,
+  "_hasAlpha": true,
+
   "LogicComponent": true,
   "ScriptId": [],
   "Script2Id": [ "Player" ],
@@ -28,8 +31,8 @@
       "FirerateRpg": 1.0,
       "FirerateTurret": 1.0,
       "FirerateWall": 1.0,
-	  "MuzzlePosition": [0.0,22.064964294433595,1.0 ],
-	  "MuzzleScale": [ 149.99981689453126,149.99981689453126,1.0]
+      "MuzzlePosition": [ 0.0, 22.064964294433595, 1.0 ],
+      "MuzzleScale": [ 149.99981689453126, 149.99981689453126, 1.0 ]
     }
   ],
   "AnimationComponent": true,
@@ -56,31 +59,35 @@
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
   "Collider2D.C.Radius": 0.0,
-  
+
+  "CameraComponent": true,
+  "isCurrentCamera": true,
+  "cameraZoom": 1.0,
+
   "HaveChild": true,
   "ChildObjects": [
-  {
-	 "IdentityComponent": true,
-	  "ObjectType": "PlayerMuzzle",
-	  "Name": "PlayerMuzzle",
-	  "LinkUId": 0,
-	  "TransformComponent": true,
-	  "Position": [0.0,60.0,1.0 ],
-	  "Scale": [ 65.0,65.0,1.0],
-	  "Rotate": 0.0,
-	  "GraphicsComponent": true,
-	  "G.FileName": "Muzzle_Idle.png",
-	  "G.Shader": "",
-	  "G.Layer": 6,
-	  "AnimationComponent": false,
-	  "AnimationTypes": [
-		{
-		  "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
-		  "TimeDelay": 0.10000000149011612,
-		  "AnimationName": "Shoot"
-		}
-	  ],
-	  "StartAnim": "Shoot"
-  }
+    {
+      "IdentityComponent": true,
+      "ObjectType": "PlayerMuzzle",
+      "Name": "PlayerMuzzle",
+      "LinkUId": 0,
+      "TransformComponent": true,
+      "Position": [ 0.0, 60.0, 1.0 ],
+      "Scale": [ 65.0, 65.0, 1.0 ],
+      "Rotate": 0.0,
+      "GraphicsComponent": true,
+      "G.FileName": "Muzzle_Idle.png",
+      "G.Shader": "",
+      "G.Layer": 6,
+      "AnimationComponent": false,
+      "AnimationTypes": [
+        {
+          "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
+          "TimeDelay": 0.10000000149011612,
+          "AnimationName": "Shoot"
+        }
+      ],
+      "StartAnim": "Shoot"
+    }
   ]
 }

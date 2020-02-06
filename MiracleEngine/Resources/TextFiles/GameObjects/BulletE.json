@@ -21,7 +21,8 @@
   "GraphicsComponent": true,
   "G.TypeId": 0,
   "G.FileName": "Bullet_E.png",
-
+  "G.Layer": 20,
+  "_hasAlpha": true,
   "RigidBody2DComponent": true,
   "Mass": 1.0,
   "Friction": 0.0,
