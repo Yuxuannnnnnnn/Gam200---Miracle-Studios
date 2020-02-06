@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject/Components/Logic/IScript2.h"
-
 enum class WeaponId {
 	NONE = 0,
 	PISTOL = 1,
@@ -41,6 +40,20 @@ private:
 	int _animState, _animStatePrev; // 1==StartMove, 2==StartIdle, 3==StartShoot, etc
 // Logic - DelayDeathForAnimation
 	double _timerDeath;
+
+	double _animTime;
+
+	TransformComponent* _muzzleTransfrom;
+	AnimationComponent* _muzzleAnimation;
+
+	Vec3 _muzzlePos;
+	Vec3 _muzzlestartPos;
+	Vec3 _muzzleScale;
+
+	TransformComponent* _objTransfrom;
+
+	IScript2* _shieldSkill;
+
 public:
 	void SerialiseComponent(Serialiser& document) ;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;

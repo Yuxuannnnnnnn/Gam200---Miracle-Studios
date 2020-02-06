@@ -38,6 +38,8 @@ public:
 	void Play(const std::string& name, bool isBGM = false);
 
 	void StopAllSound();
+	void StopBGM();
+	void StopSFX();
 
 	FMOD_SYSTEM* _fmodSystem;
 private:

@@ -54,6 +54,23 @@ AudioComponent::AudioComponent(GameObject* parent, size_t uId, IComponent* compo
 	}
 }
 
+void AudioComponent::StopBGM()
+{
+	MyAudioSystem.StopBGM();
+}
+
+void AudioComponent::StopSFX()
+{
+	MyAudioSystem.StopSFX();
+}
+
+
+void AudioComponent::StopAllSound()
+{
+	MyAudioSystem.StopAllSound();
+}
+
+
 //bool AudioComponent::IsBGM()
 //{
 //	return _isBGM;

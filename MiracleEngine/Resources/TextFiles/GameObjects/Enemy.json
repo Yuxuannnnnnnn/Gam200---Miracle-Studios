@@ -1,17 +1,31 @@
 {
   "IdentityComponent": true,
-  "Name": "none",
   "ObjectType": "Enemy",
-
+  "Name": "none",
+  "LinkUId": 0,
   "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 70.0, 70.0 ],
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 500.0, 500.0, 1.0 ],
   "Rotate": 0.0,
-
   "GraphicsComponent": true,
-  "G.TypeId": 0,
-  "G.FileName": "EnemyAttack.png",
-
+  "G.FileName": "Enemies_charging.png",
+  "G.Shader": "",
+  "G.Layer": 1,
+  "_hasAlpha": false,
+  "LogicComponent": true,
+  "Script2Id": [ "Enemy" ],
+  "Script2Data": [
+    {
+      "Health": 5,
+      "EnemyType": 0,
+      "StunDuration": 1.0,
+      "AttackRangeShoot": 0.0,
+      "AttackRangeMelee": 6.0,
+      "MoveSpeed": 3.0,
+      "ChaseSpeed": 7.0,
+      "ChaseDuration": 2.0
+    }
+  ],
   "AnimationComponent": true,
   "AnimationTypes": [
     {
@@ -26,33 +40,16 @@
     }
   ],
   "StartAnim": "Move",
-
+  "AudioComponent": true,
   "RigidBody2DComponent": true,
   "Mass": 5.0,
-  "Friction": 0.1,
+  "Friction": 0.10000000149011612,
   "Static": false,
-
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 3,
   "ColliderTrigger": false,
+  "Collider2D.C.Center": [ 0.0, 10.0, 1.0 ],
+  "Collider2D.C.Radius": 75.0
 
-  "AudioComponent": true,
-  "A.TypeId": 0,
-  "A.FileName": "audio_enemy.ogg",
-
-  "LogicComponent": true,
-  "Script2Id": [ "Enemy" ],
-  "Script2Data": [
-    {
-      "Health": 1,
-      "EnemyType": 0,
-      "StunDuration": 0.5,
-      "AttackRangeShoot": 0.0,
-      "AttackRangeMelee": 4.0,
-      "MoveSpeed": 3.0,
-      "ChaseSpeed": 10.0,
-      "ChaseDuration": 2.0
-    }
-  ]
 }
