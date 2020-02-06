@@ -130,7 +130,3 @@ public:
 	void OnCollision2DTrigger(Collider2D* other);
 };
 #endif
-
-/*
-
-*/

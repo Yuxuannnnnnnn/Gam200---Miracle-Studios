@@ -5,7 +5,7 @@
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],
-  "Scale": [ 200.0, 200.0 ],
+  "Scale": [ 300.0, 300.0 ],
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
@@ -24,11 +24,21 @@
   "ColliderTag": 2,
   "ColliderTrigger": true,
 
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json",
+      "TimeDelay": 0.03,
+      "AnimationName": "boom"
+    }
+  ],
+  "StartAnim": "boom",
+
   "LogicComponent": true,
   "Script2Id": [ "Explosion" ],
   "Script2Data": [
     {
-      "Lifetime": 2.0,
+      "Lifetime": 1.0,
       "Radius": 100
     }
   ]

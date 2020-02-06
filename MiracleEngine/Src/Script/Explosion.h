@@ -9,6 +9,7 @@ class Enemy; // forward declare
 class Explosion : public IScript2
 {
 private:
+	bool _init;
 	double _lifeTime;
 	int _radius;
 public:
