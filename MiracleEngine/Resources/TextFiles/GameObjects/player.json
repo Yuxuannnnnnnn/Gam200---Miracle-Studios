@@ -61,7 +61,7 @@
   "ChildObjects": [
   {
 	 "IdentityComponent": true,
-	  "ObjectType": "PlayerMuzzle",
+    "ObjectType": "PlayerMuzzle",
 	  "Name": "PlayerMuzzle",
 	  "LinkUId": 0,
 	  "TransformComponent": true,
