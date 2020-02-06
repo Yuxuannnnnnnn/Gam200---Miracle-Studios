@@ -6,9 +6,8 @@
 
 /*_bulletType
 	0 unknown
-	1 walker
+	1 charger
 	2 shooter
-	3 charger
 */
 
 class Spawner : public IScript2
@@ -20,6 +19,8 @@ private:
 	int _spawnType;
 // Logic - Behaviour
 	double _timerSpawn, _timerSpawnCooldown;
+	double _timerLight, _timerLightDuration;
+	bool _light, _lightPrevState;
 public:
 	void SerialiseComponent(Serialiser& document)
 	{
@@ -27,25 +28,44 @@ public:
 			_health = _healthMax = document["Health"].GetInt();
 		if (document.HasMember("SpawnType") && document["SpawnType"].IsInt())
 			_spawnType = document["SpawnType"].GetInt();
-		if (document.HasMember("SpawnCooldown") && document["SpawnCooldown"].GetDouble())
-			_timerSpawnCooldown = document["SpawnCooldown"].GetDouble();
+		if (document.HasMember("SpawnRate") && document["SpawnRate"].GetDouble())
+			_timerSpawnCooldown = document["SpawnRate"].GetDouble();
+		if (document.HasMember("LightDuration") && document["LightDuration"].GetDouble())
+			_timerLightDuration = document["LightDuration"].GetDouble();
 	}
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	{
 		rapidjson::Value value;
 		prototypeDoc.AddMember("Script2Data", rapidjson::Value(true));
-		value.SetInt(_healthMax);
-		prototypeDoc.AddMember("Health", value);
-		value.SetInt(_spawnType);
-		prototypeDoc.AddMember("SpawnType", value);
-		value.SetDouble(_timerSpawnCooldown);
-		prototypeDoc.AddMember("SpawnCooldown", value);
+		value.SetArray();
+		{
+			rapidjson::Value object;
+			object.SetObject();
+			object.AddMember("Health", rapidjson::Value(_healthMax), prototypeDoc.Allocator());
+			object.AddMember("SpawnType", rapidjson::Value(_spawnType), prototypeDoc.Allocator());
+			object.AddMember("SpawnRate", rapidjson::Value(_timerSpawnCooldown), prototypeDoc.Allocator());
+			object.AddMember("LightDuration", rapidjson::Value(_timerLightDuration), prototypeDoc.Allocator());
+			value.PushBack(object, prototypeDoc.Allocator());
+		}
 	}
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
+		rapidjson::Value value;
+		prototypeDoc.AddMember("Script2Data", rapidjson::Value(true), allocator);
+		value.SetArray();
+		{
+			rapidjson::Value object;
+			object.SetObject();
+			object.AddMember("Health", rapidjson::Value(_healthMax), allocator);
+			object.AddMember("SpawnType", rapidjson::Value(_spawnType), allocator);
+			object.AddMember("SpawnRate", rapidjson::Value(_timerSpawnCooldown), allocator);
+			object.AddMember("LightDuration", rapidjson::Value(_timerLightDuration), allocator);
+			value.PushBack(object, allocator);
+		}
 	}
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
+		// ???????????????????????????????????????????????
 	}
 	void Inspect()
 	{
@@ -54,7 +74,9 @@ public:
 		ImGui::Spacing();
 		ImGui::InputInt("SpawnType ", &_spawnType);
 		ImGui::Spacing();
-		ImGui::InputDouble("SpawnCooldown ", &_timerSpawnCooldown);
+		ImGui::InputDouble("SpawnRate ", &_timerSpawnCooldown);
+		ImGui::Spacing();
+		ImGui::InputDouble("LightDuration ", &_timerLightDuration);
 		ImGui::Spacing();
 	}
 
