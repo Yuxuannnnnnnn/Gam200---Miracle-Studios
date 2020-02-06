@@ -18,6 +18,17 @@ void GraphicsSystem::Update(double dt)
 	//glEnable(GL_ALPHA_TEST);
 	//glAlphaFunc(GL_GREATER, 0.5f);
 
+
+	glDisable(GL_DITHER);
+	glDisable(GL_POINT_SMOOTH);
+	glDisable(GL_LINE_SMOOTH);
+	glDisable(GL_POLYGON_SMOOTH);
+	glHint(GL_POINT_SMOOTH, GL_DONT_CARE);
+	glHint(GL_LINE_SMOOTH, GL_DONT_CARE);
+	glHint(GL_POLYGON_SMOOTH_HINT, GL_DONT_CARE);
+#define GL_MULTISAMPLE_ARB 0x809D
+	glDisable(GL_MULTISAMPLE_ARB);
+
 	renderingAnim = RENDERNONE;
 
 	// Render gameobject in world space
