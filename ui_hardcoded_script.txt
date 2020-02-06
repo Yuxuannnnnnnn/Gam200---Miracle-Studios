@@ -1,0 +1,15 @@
+{"IdentityComponent":true,"ObjectType":"none","Name":"Hp_controller","LinkUId":0,"TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,
+"LogicComponent":true,
+"ScriptId":[],
+"Script2Id": [ "HealthController" ],
+"Script2Data": [
+    {
+	"H.GreenFileName":"HP_Bar_green.png",
+	"H.OrangeFileName":"HP_Bar_orange.png",
+	"H.RedFileName":"HP_Bar_red.png",
+      "H.ProgressScale": 318.0,
+	  "H.MaxHealth": 12,
+	  "H.HealthLinkID" : [ 101, 102,103,104,105,106,107,108,109,110,111,112],
+	  "H.ProgressLinkID" : 100
+    }
+  ]},

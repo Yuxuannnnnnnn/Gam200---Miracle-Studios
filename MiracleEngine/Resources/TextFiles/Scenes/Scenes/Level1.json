@@ -9,9 +9,9 @@
 			"IdentityComponent": true,
 			"ObjectType": "player",
 			"TransformComponent": true,
-			"Position": [ 82.72696685791016, 2.225679397583008, 1.0 ],
+			"Position": [ 0.0, 0.0, 1.0 ],
 			"Scale": [ 199.99998474121095, 199.9999237060547, 1.0 ],
-			"Rotate": 0.7874771356582642,
+			"Rotate": 0.0,
 			"GraphicsComponent": true,
 			
 			"G.FileName": "PlayerBullet.png",
