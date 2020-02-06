@@ -25,13 +25,10 @@ void Bullet::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 	value.SetDouble(_lifeTime);
 	prototypeDoc.AddMember("Lifetime", value);
-	value.Clear();
 	value.SetInt(_bulletType);
 	prototypeDoc.AddMember("BulletType", value);
-	value.Clear();
 	value.SetDouble(_bulletSpeed);
 	prototypeDoc.AddMember("BulletSpeed", value);
-	value.Clear();
 }
 void Bullet::Inspect()
 {
