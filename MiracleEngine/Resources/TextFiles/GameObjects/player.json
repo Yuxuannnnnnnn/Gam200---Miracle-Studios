@@ -1,11 +1,11 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "player",
-  "Name": "player",
+  "ObjectType": "Player",
+  "Name": "Player",
   "LinkUId": 999,
   "TransformComponent": true,
-  "Position": [ 0.0, 0.0, 1.0 ],
-  "Scale": [ 200.0, 200.0, 1.0 ],
+  "Position": [ 154.2581329345703,-1809.2265625,1.0 ],
+  "Scale": [ 180.0,180.0,1.0 ],
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
@@ -31,8 +31,8 @@
       "FirerateRpg": 1.0,
       "FirerateTurret": 1.0,
       "FirerateWall": 1.0,
-      "MuzzlePosition": [ 0.0, 25.0, 0.0 ],
-	  "MuzzlePosition2": [ 0.0, 60.0, 0.0 ],
+      "MuzzlePosition": [ 0.0, 20.0, 0.0 ],
+	  "MuzzlePosition2": [ 0.0, 50.0, 0.0 ],
       "MuzzleScale": [ 150.0, 150.0, 1.0 ]
     }
   ],
@@ -59,7 +59,7 @@
   "ColliderTag": 1,
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, -6.0, 1.0 ],
-  "Collider2D.C.Radius": 66.1760025024414,
+  "Collider2D.C.Radius": 57.0,
 
   "CameraComponent": true,
   "isCurrentCamera": true,
@@ -73,8 +73,8 @@
       "Name": "PlayerMuzzle",
       "LinkUId": 0,
       "TransformComponent": true,
-      "Position": [ 0.0, 55.0, 1.0 ],
-      "Scale": [ 65.0, 65.0, 1.0 ],
+      "Position": [ 0.0, 50.0, 1.0 ],
+      "Scale": [ 58.0, 58.0, 1.0 ],
       "Rotate": 0.0,
       "GraphicsComponent": true,
       "G.FileName": "Muzzle_Idle.png",
