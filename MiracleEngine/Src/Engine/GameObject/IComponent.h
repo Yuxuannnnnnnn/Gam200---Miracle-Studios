@@ -16,8 +16,8 @@ private:
 	GameObject* _ParentPtr;
 	size_t _ParentId;
 	bool _enable;
-
 public:
+	bool _init;
 
 	IComponent();
 	IComponent(GameObject * parent, size_t uId);	//Initialise Parent Ptr & ParentId

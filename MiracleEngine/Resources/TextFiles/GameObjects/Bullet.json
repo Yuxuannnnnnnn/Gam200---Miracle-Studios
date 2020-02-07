@@ -15,7 +15,7 @@
     {
       "Lifetime": 3.0,
       "BulletType": "BulletPlayer",
-      "BulletSpeed": 0.5
+      "BulletSpeed": 1.0
     }
   ],
 

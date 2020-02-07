@@ -83,6 +83,7 @@ void ImguiSystem::UpdateFrame()
 				}
 				if (ImGui::MenuItem("OFF  "))
 				{
+					MyFactory.ReInitScene();
 					_editorMode = false;
 				}
 				ImGui::EndMenu();

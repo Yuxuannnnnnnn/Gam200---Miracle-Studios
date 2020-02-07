@@ -846,12 +846,31 @@ void Factory::UpdateScene()
 	MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
 #endif
 
+	ReInitScene();
+}
+
+void Factory::ReInitScene()
+{
+	for (auto& it : GetComponentMap(Transform))
+	{
+		if (!it.second)
+			continue;
+
+		it.second->Init();
+	}
 	for (auto& it : GetComponentMap(Identity))
+	{
+		if (!it.second)
+			continue;
 		it.second->Init();
-
+	}
 	for (auto& it : GetComponentMap(Button))
+	{
+		if (!it.second)
+			continue;
 		it.second->Init();
 
+	}
 	MyCameraSystem.Init();
 	MyLogicSystem.Init();
 }
