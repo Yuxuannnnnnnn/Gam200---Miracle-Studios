@@ -15,6 +15,8 @@ class InputSystem
 
 	std::unordered_set<size_t> _buttonTriggered;
 public:
+	bool _pause;
+
 	KeyCode StringToKeycode(const char* str);
 
 	bool KeyDown(KeyCode key);

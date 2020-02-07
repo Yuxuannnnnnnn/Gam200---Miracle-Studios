@@ -17,7 +17,7 @@ class ButtonComponent : public IComponent
 {
 private:
 	TransformComponent* _transform;
-	GraphicComponent* _graphic;
+	UIComponent* _graphic;
 
 	int _buttonUId;
 
