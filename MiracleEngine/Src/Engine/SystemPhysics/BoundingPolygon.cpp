@@ -29,11 +29,8 @@ BoundingPolygon& BoundingPolygon::operator=(const BoundingPolygon& rhs)
 	_numPoints = rhs._numPoints;
 	_obbBox = rhs._obbBox;
 
-	if (_pointArray)
-		delete[] _pointArray;
-
-	if (_ptrEdgeArray)
-		delete[] _ptrEdgeArray;
+	delete[] _pointArray;
+	delete[] _ptrEdgeArray;
 
 	_pointArray = new Vector3[rhs._numPoints];
 	_ptrEdgeArray = new BEdge[rhs._numPoints];

@@ -5,7 +5,7 @@
 void PhysicsSystem::CollisionUpdate(double dt)
 {
 	AllColliderDataUpdate();
-	UpdateCollision(dt);
+	//UpdateCollision(dt);
 	//UpdateStaticCollision(dt);
 }
 
@@ -155,7 +155,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	{
 	case (unsigned)ColliderType::EDGE_COLLIDER:
 	{
-		EdgeCollider2DComponent* object = (EdgeCollider2DComponent*)collider;
+		EdgeCollider2DComponent* object = dynamic_cast<EdgeCollider2DComponent*>(collider);
 		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
 
 		if (!transform || !object)
@@ -168,7 +168,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	}
 	case (unsigned)ColliderType::BOX_COLLIDER:
 	{
-		BoxCollider2DComponent* object = (BoxCollider2DComponent*)collider;
+		BoxCollider2DComponent* object = dynamic_cast<BoxCollider2DComponent*>(collider);
 		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
 
 		if (!transform || !object)
@@ -183,7 +183,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 	}
 	case (unsigned)ColliderType::CIRCLE_COLLIDER:
 	{
-		CircleCollider2DComponent* object = (CircleCollider2DComponent*)collider;
+		CircleCollider2DComponent* object = dynamic_cast<CircleCollider2DComponent*>(collider);
 		TransformComponent* transform = (TransformComponent*)GetComponentMap(Transform)[collider->GetParentId()];
 
 		if (!transform || !object)

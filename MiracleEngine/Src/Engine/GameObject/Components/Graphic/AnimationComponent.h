@@ -49,6 +49,7 @@ private:
 
 //For Smart component Variables
 	bool _playOnce; 
+	bool _animationPlaying;
 	
 	float _timeDelay;	//Factor to change from one frame to another frame
 	float _currentTimeDelay; //Use to countdown the timeDelay of the specific frame
@@ -65,6 +66,12 @@ private:
 public:
 	//float _timeDelay;	//remove
 
+
+
+	void SetAnimationPlaying(bool set)
+	{
+		_animationPlaying = set;
+	}
 
 	//Updates currentTimeDelay, as delay reaches 0, change to another frame
 	//When reaches max frame, frame start from 0 again.
@@ -104,9 +111,13 @@ public:
 	}
 
 	int GetCurrentFrame();
+
+
+
 	int GetMaxFrame();
 	float GetTimeDelay();
 	void SetTimeDelay(float time);
+
 	bool IsPlayingOnce();
 	void SetPlayingOnce(bool);
 	// Starting get from seriailize file, i.e starting anim delay and maxframe. when current changed, update this fn
@@ -118,9 +129,12 @@ public:
 	//	_currentTimeDelay = _timeDelay;
 	//	_currFrame = _maxFrame;
 	//}
+
+
 //Only for Logic Animation script--------------------------------------
 	void SetCurrentAnim(const std::string& AniamtionType);
 	void SetCurrentAnimOnce(const std::string& AnimationType);
+	bool IsAnimationPlaying();
 
 
 //---------------------------------------------------------------------

@@ -869,8 +869,8 @@ void Factory::ReInitScene()
 		if (!it.second)
 			continue;
 		it.second->Init();
-
 	}
+
 	MyCameraSystem.Init();
 	MyLogicSystem.Init();
 }
