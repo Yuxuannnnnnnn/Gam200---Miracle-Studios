@@ -251,7 +251,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 		renderobject._alpha = graphicComp->GetAlpha();
 		// check for if obj have animation
 
-		if (animComp && animComp->GetEnable())
+		if (animComp && IsAnimationPlaying())
 		{
 			// get animation from resource manager
 			Animation* currAnim = animComp->GetAnimationResource();

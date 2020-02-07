@@ -15,7 +15,10 @@
 
 
 
-
+bool IsAnimationPlaying()
+{
+	return _animationPlaying;
+}
 
 
 int AnimationComponent::GetCurrentFrame()
@@ -50,6 +53,7 @@ void AnimationComponent::SetPlayingOnce(bool isplayingonce)
 
 void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 {
+	SetAnimationPlaying(true);
 	_currenAnimName = AnimationName;
 	setCurrentAnimation(AnimationName);	//Set the _currentAnim .json File
 	SetStartFrame();	//Reset the current frame to 0
@@ -63,15 +67,7 @@ void AnimationComponent::SetCurrentAnim(const std::string& AnimationName)
 
 void AnimationComponent::SetCurrentAnimOnce(const std::string& AnimationName)
 {
-	_currenAnimName = AnimationName;
-	setCurrentAnimation(AnimationName);	//Set the _currentAnim .json File
-	SetStartFrame();	//Reset the current frame to 0
-	ResetCurrTimeDelay();	//Reset currentttimedelay to 0
-	SetTimeDelay(AnimationName);	//Set the TimeDelay
-	SetAnimationResource();	//Set the Animation*
-
-	if (_currAnimationResource)
-		SetMaxFrame(_currAnimationResource->GetMaxFrame());	//Set the Max Frame
+	SetCurrentAnim(AnimationName);
 
 	_playOnce = true;
 }
