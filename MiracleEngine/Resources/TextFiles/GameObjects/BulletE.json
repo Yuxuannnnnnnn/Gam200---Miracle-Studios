@@ -5,7 +5,7 @@
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],
-  "Scale": [ 20.0, 20.0 ],
+  "Scale": [ 60.0, 60.0 ],
   "Rotate": 0.0,
 
   "LogicComponent": true,

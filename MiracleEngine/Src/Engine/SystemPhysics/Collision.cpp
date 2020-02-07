@@ -14,10 +14,8 @@ void BoxVsBoxCollisionUpdate(Collider2D* boxA, Collider2D* boxB, double dt)
 	{
 		if (Collision::CollisionCheck(BoxA->_data, BoxB->_data))
 		{
-			if (BoxA->_trigger)
-				EventHandler::GetInstance().AddTriggered2DEvent(BoxA, BoxB);
-			else
-				EventHandler::GetInstance().AddTriggered2DEvent(BoxB, BoxA);
+			EventHandler::GetInstance().AddTriggered2DEvent(BoxA, BoxB);
+			EventHandler::GetInstance().AddTriggered2DEvent(BoxB, BoxA);
 		}
 
 		return;
@@ -127,10 +125,8 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 	{
 		if (Collision::CollisionCheck(CircleA->_data, CircleB->_data))
 		{
-			if (CircleA->_trigger)
-				EventHandler::GetInstance().AddTriggered2DEvent(CircleA, CircleB);
-			else
-				EventHandler::GetInstance().AddTriggered2DEvent(CircleB, CircleA);
+			EventHandler::GetInstance().AddTriggered2DEvent(CircleA, CircleB);
+			EventHandler::GetInstance().AddTriggered2DEvent(CircleB, CircleA);
 		}
 
 		return;
@@ -339,6 +335,17 @@ void CircleVsBoxCollisionUpdate(Collider2D* circle, Collider2D* box, double dt)
 	if (!Circle || !Box) // check dynamic_cast success
 		return;
 
+	if (Circle->_trigger || Box->_trigger)
+	{
+		if (Collision::CollisionCheck(Box->_data, Circle->_data))
+		{
+			EventHandler::GetInstance().AddTriggered2DEvent(Circle, Box);
+			EventHandler::GetInstance().AddTriggered2DEvent(Box, Circle);
+		}
+
+		return;
+	}
+
 	CollisionData data;
 
 	TransformComponent* transformA = (TransformComponent*)GetComponentMap(Transform)[Circle->GetParentId()];
@@ -457,9 +464,7 @@ void CircleVsEdgeCollisionUpdate(Collider2D* circle, Collider2D* edge, double dt
 	{
 		if (Collision::BEdgeVSBCircle(Edge->_data, Circle->_data))
 		{
-			if (Circle->_trigger)
-				EventHandler::GetInstance().AddTriggered2DEvent(Circle, Edge);
-			else
+			EventHandler::GetInstance().AddTriggered2DEvent(Circle, Edge);
 				EventHandler::GetInstance().AddTriggered2DEvent(Edge, Circle);
 		}
 
@@ -548,9 +553,7 @@ void BoxVsEdgeCollisionUpdate(Collider2D* box, Collider2D* edge, double dt)
 	{
 		if (Collision::BEdgeVSBPolygon(Edge->_data, Box->_data))
 		{
-			if (Box->_trigger)
-				EventHandler::GetInstance().AddTriggered2DEvent(Box, Edge);
-			else
+			EventHandler::GetInstance().AddTriggered2DEvent(Box, Edge);
 				EventHandler::GetInstance().AddTriggered2DEvent(Edge, Box);
 		}
 

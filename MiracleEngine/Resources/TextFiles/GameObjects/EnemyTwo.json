@@ -17,7 +17,7 @@
   "Script2Id": [ "Enemy" ],
   "Script2Data": [
     {
-      "Health": 5,
+      "Health": 2,
       "EnemyType": 2,
       "StunDuration": 1.0,
       "AttackRangeShoot": 5.0,

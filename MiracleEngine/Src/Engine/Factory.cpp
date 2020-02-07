@@ -678,7 +678,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 			continue;
 
 
-		if ((proObj = MyResourceSystem.GetPrototypeResource(ObjType)) && !(IdIdcomPair.second->GetParentPtr()->GetChild()))
+		if ((proObj = MyResourceSystem.GetPrototypeResource(ObjType)))
 		{
 
 			std::unordered_map <ComponentId, IComponent* >& comList = _gameObjectIdMap[id]->GetComponentList();

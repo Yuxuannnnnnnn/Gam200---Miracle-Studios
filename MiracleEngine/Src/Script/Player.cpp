@@ -152,6 +152,8 @@ Player::Player() :
 	_timerShield{ 0 }, _timerShieldDuration{ 0 },
 	_health{ 30 }, _healthMax{ 30 },
 	_progress{ 0 }, _progressMax{ 30 },
+	_progressLevel{0},
+
 	_timerGodSwitch{ 0 }, _timerGodSwitchDelay{ 0.5 },
 	_shieldOn{ false },
 	_timerSwitch{ 0 }, _timerSwitchDelay{ 0.5 },
@@ -311,6 +313,7 @@ void Player::UpdateUI()
 	{
 		_progress = 0;
 		_progressMax *= 2;
+		_progressLevel++;
 	}
 	// set percents
 	//EngineSystems::GetInstance()._graphicsSystem->SetHealthPercentage(static_cast<float>(_health) / _healthMax);
@@ -667,6 +670,11 @@ void Player::ProgressIncement(int in)
 	_progress += in;
 }
 
+int Player::GetProgressLevel() const
+{
+	return _progressLevel;
+}
+
 void Player::DamagePlayer(int dmg)
 {
 	if (_shieldOn)
@@ -678,22 +686,22 @@ void Player::DamagePlayer(int dmg)
 void Player::OnTrigger2DEnter(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
-	if (otherType.compare("BulletE"))
+	if (!otherType.compare("BulletE"))
 	{
 		DamagePlayer();
 	}
-	if (otherType.compare("Enemy"))
+	if (!otherType.compare("Enemy"))
 	{
 		DamagePlayer(2);
 	}
-	if (otherType.compare("PickUp_Health"))
+	if (!otherType.compare("PickUps_Health"))
 	{
 		_health += 2;
 		if (_health > _healthMax)
 			_health = _healthMax;
 		other->GetParentPtr()->SetDestory();
 	}
-	if (otherType.compare("PickUp_Ammo"))
+	if (!otherType.compare("PickUps_Ammo"))
 	{
 		_ammoRpg += 5;
 		other->GetParentPtr()->SetDestory();

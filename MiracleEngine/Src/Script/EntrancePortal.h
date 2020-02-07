@@ -13,6 +13,8 @@ class EntrancePortal : public IScript2
 	bool _clear;
 	GraphicComponent* _graphicComponent;
 	IScript2* _playerScript;
+
+	bool _init;
 public:
 
 	void SerialiseComponent(Serialiser& document);
@@ -27,6 +29,6 @@ public:
 
 	void OpenPortal();
 
-	void OnCollision2DStay(Collider2D* other) override;
+	virtual void OnTrigger2DEnter(Collider2D* other);
 };
 

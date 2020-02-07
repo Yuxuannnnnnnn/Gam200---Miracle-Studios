@@ -1,6 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "EntrancePortal.h"
-
+#include "Player.h"
 void EntrancePortal::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("E.OpenEntranceFileName") && document["E.OpenEntranceFileName"].IsString())
@@ -117,23 +117,43 @@ EntrancePortal* EntrancePortal::Clone()
 void EntrancePortal::Init()
 {
 	_graphicComponent = (GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic);
+	_graphicComponent->SetFileName(_closePortalFileName);
 }
 
 void EntrancePortal::Update(double dt)
 {
-	if (!_playerScript)
+	if (!_init)
 	{
-		std::string temp = "Player";
-		_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		Init();
+		_init = true;
+		return;
+	}
+
+	if (!_clear)
+	{
+		if (!_playerScript)
+		{
+			std::string temp = "Player";
+			_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		}
+
+		if (((Player*)_playerScript)->GetProgressLevel() >= _progressCount)
+			OpenPortal();
 	}
 }
 
 void EntrancePortal::OpenPortal()
 {
-
-
+	_clear = true;
+	_graphicComponent->SetFileName(_openPortalFileName);
 }
 
-void EntrancePortal::OnCollision2DStay(Collider2D* other)
+void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 {
+	if (_clear)
+	{
+		std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+		if (!otherType.compare("Player"))
+			MyFactory.ChangeScene("MainMenu");
+	}
 }

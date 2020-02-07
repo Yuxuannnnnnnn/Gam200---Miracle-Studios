@@ -1,1 +1,1 @@
-{"IdentityComponent":true,"ObjectType":"none","Name":"none","LinkUId":0,"TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"Enemies_charging.png","G.Shader":"","G.Layer":1}
+{"IdentityComponent":true,"ObjectType":"charging enemy","Name":"charging enemy","LinkUId":0,"TransformComponent":true,"Position":[-24.816226959228517,111.21322631835938,1.0],"Scale":[224.0,224.0,1.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"Enemies_charging.png","G.Shader":"","G.Layer":1,"_hasAlpha":true}
