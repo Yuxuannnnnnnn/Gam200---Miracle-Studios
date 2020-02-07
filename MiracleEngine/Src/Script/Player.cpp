@@ -435,6 +435,8 @@ void Player::UpdateInput()
 				std::string temp = "ShieldSkill";
 				_shieldSkill = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(666)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 			}
+
+
 			_shieldOn = true;
 			((ShieldSkill*)_shieldSkill)->ActionShield(_timerShieldDuration);
 			_timerShieldActivateCooldown = _timerShieldDuration + _timerShieldCooldown;

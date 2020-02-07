@@ -56,51 +56,51 @@ void PhysicsSystem::DrawBoxCollider2D(Collider2D* obj)
 		object->_data._pointArray[0]._y);
 
 
-	Vector3 boxCenter = object->_data._AABB._BC._center;
-	Vector3 X_axis = object->_data._ptrEdgeArray[0]._normalVec;
-	Vector3 Y_axis = object->_data._ptrEdgeArray[1]._normalVec;
+	//Vector3 boxCenter = object->_data._AABB._BC._center;
+	//Vector3 X_axis = object->_data._ptrEdgeArray[0]._normalVec;
+	//Vector3 Y_axis = object->_data._ptrEdgeArray[1]._normalVec;
 
-	DebugRenderer::GetInstance().DrawLine(
-		boxCenter._x,
-		boxCenter._y,
-		boxCenter._x + X_axis._x * 10.f,
-		boxCenter._y + X_axis._y * 10.f);
+	//DebugRenderer::GetInstance().DrawLine(
+	//	boxCenter._x,
+	//	boxCenter._y,
+	//	boxCenter._x + X_axis._x * 10.f,
+	//	boxCenter._y + X_axis._y * 10.f);
 
-	DebugRenderer::GetInstance().DrawLine(
-		boxCenter._x,
-		boxCenter._y,
-		boxCenter._x + Y_axis._x * 10.f,
-		boxCenter._y + Y_axis._y * 10.f);
-
-
-	DebugRenderer::GetInstance().DrawLine(
-		object->_data._AABB._maxPoint._x,
-		object->_data._AABB._maxPoint._y,
-		object->_data._AABB._minPoint._x,
-		object->_data._AABB._maxPoint._y);
-
-	DebugRenderer::GetInstance().DrawLine(
-		object->_data._AABB._maxPoint._x,
-		object->_data._AABB._maxPoint._y,
-		object->_data._AABB._maxPoint._x,
-		object->_data._AABB._minPoint._y);
-
-	DebugRenderer::GetInstance().DrawLine(
-		object->_data._AABB._minPoint._x,
-		object->_data._AABB._minPoint._y,
-		object->_data._AABB._maxPoint._x,
-		object->_data._AABB._minPoint._y);
-
-	DebugRenderer::GetInstance().DrawLine(
-		object->_data._AABB._minPoint._x,
-		object->_data._AABB._minPoint._y,
-		object->_data._AABB._minPoint._x,
-		object->_data._AABB._maxPoint._y);
+	//DebugRenderer::GetInstance().DrawLine(
+	//	boxCenter._x,
+	//	boxCenter._y,
+	//	boxCenter._x + Y_axis._x * 10.f,
+	//	boxCenter._y + Y_axis._y * 10.f);
 
 
-	DebugRenderer::GetInstance().DrawCircle(
-		object->_data._AABB._BC._center._x, object->_data._AABB._BC._center._y,
-		object->_data._AABB._BC._radius);
+	//DebugRenderer::GetInstance().DrawLine(
+	//	object->_data._AABB._maxPoint._x,
+	//	object->_data._AABB._maxPoint._y,
+	//	object->_data._AABB._minPoint._x,
+	//	object->_data._AABB._maxPoint._y);
+
+	//DebugRenderer::GetInstance().DrawLine(
+	//	object->_data._AABB._maxPoint._x,
+	//	object->_data._AABB._maxPoint._y,
+	//	object->_data._AABB._maxPoint._x,
+	//	object->_data._AABB._minPoint._y);
+
+	//DebugRenderer::GetInstance().DrawLine(
+	//	object->_data._AABB._minPoint._x,
+	//	object->_data._AABB._minPoint._y,
+	//	object->_data._AABB._maxPoint._x,
+	//	object->_data._AABB._minPoint._y);
+
+	//DebugRenderer::GetInstance().DrawLine(
+	//	object->_data._AABB._minPoint._x,
+	//	object->_data._AABB._minPoint._y,
+	//	object->_data._AABB._minPoint._x,
+	//	object->_data._AABB._maxPoint._y);
+
+
+	//DebugRenderer::GetInstance().DrawCircle(
+	//	object->_data._AABB._BC._center._x, object->_data._AABB._BC._center._y,
+	//	object->_data._AABB._BC._radius);
 
 }
 

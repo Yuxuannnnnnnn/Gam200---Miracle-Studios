@@ -129,7 +129,6 @@ void Engine::Update()
 				if (!MyImguiSystem._editorMode)
 				{
 					MyFrameRateController.StartTimeCounter();
-					//MyButtonManager.Update();
 					MyEventHandler.BroadcastInputEvents();
 					MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
 				}
