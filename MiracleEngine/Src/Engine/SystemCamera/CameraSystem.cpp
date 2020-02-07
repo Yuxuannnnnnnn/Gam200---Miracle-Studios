@@ -236,6 +236,9 @@ void CameraSystem::FindMainCamera()
 {
 	for (auto& it : GetComponentMap(Camera))
 	{
+		if (!it.second)
+			return;
+
 		if (((CameraComponent*)it.second)->isMainCamera())
 		{
 			_mainCameraUId = it.first;

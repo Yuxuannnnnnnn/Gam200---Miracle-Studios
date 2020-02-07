@@ -131,7 +131,7 @@ void HealthController::Inspect()
 		for (unsigned i = 0; i < temp; i++)
 			_hpBatteryLinkID.push_back(0);
 	else if (temp < 0)
-		for (; temp < 0; i++)
+		for (; temp < 0; temp++)
 			_hpBatteryLinkID.pop_back();
 
 	for (unsigned i = 0; i < _maxHealth; i++)

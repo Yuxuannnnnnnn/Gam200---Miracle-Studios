@@ -13,6 +13,7 @@ enum class ScriptType {
 	SCRIPT_ShieldSkill,
 	SCRIPT_MouseCursor,
 	SCRIPT_EntrancePortal,
+	SCRIPT_PauseMenu,
 	SCRIPT_COUNT
 };
 
@@ -32,6 +33,7 @@ inline const char* ToScriptName(ScriptType type)
 	case ScriptType::SCRIPT_ShieldSkill:	return "ShieldSkill";
 	case ScriptType::SCRIPT_MouseCursor:	return "MouseCursor";
 	case ScriptType::SCRIPT_EntrancePortal:	return "EntrancePortal";
+	case ScriptType::SCRIPT_PauseMenu:	return "PauseMenu";
 
 	default:      return "None";
 	}

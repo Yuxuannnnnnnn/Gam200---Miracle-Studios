@@ -28,7 +28,7 @@
   "AnimationTypes": [
     {
       "AnimationType": "Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json",
-      "TimeDelay": 0.08,
+      "TimeDelay": 0.02,
       "AnimationName": "boom"
     }
   ],
@@ -38,7 +38,7 @@
   "Script2Id": [ "Explosion" ],
   "Script2Data": [
     {
-      "Lifetime": 1.0,
+      "Lifetime": 0.3,
       "Radius": 100
     }
   ]

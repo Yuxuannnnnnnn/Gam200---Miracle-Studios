@@ -13,6 +13,7 @@
 #include "Script/ShieldSkill.h"
 #include "Script/MouseCursor.h"
 #include "Script/EntrancePortal.h"
+#include "Script/PauseMenu.h"
 
 
 LogicSystem::~LogicSystem()
@@ -43,6 +44,7 @@ void LogicSystem::Init() {
 	RegisterScript(ShieldSkill);
 	RegisterScript(MouseCursor);
 	RegisterScript(EntrancePortal);
+	RegisterScript(PauseMenu);
 
 	for (auto& itr : GetComponentMap(Logic)) {
 

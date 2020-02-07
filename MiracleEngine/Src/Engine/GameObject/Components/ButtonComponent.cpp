@@ -28,7 +28,7 @@ std::string ButtonComponent::ComponentName() const
 void ButtonComponent::Init()
 {
 	_transform = (TransformComponent*)GetComponentMap(Transform)[GetParentId()];
-	_graphic = (GraphicComponent*)GetComponentMap(Graphic)[this->GetParentId()];
+	_graphic = (UIComponent*)GetComponentMap(UI)[this->GetParentId()];
 }
 
 void ButtonComponent::Inspect()
