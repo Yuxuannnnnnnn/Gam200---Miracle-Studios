@@ -49,7 +49,7 @@ private:
 	AnimationComponent* _muzzleAnimation;
 
 	Vec3 _muzzlePos;
-	Vec3 _muzzlestartPos;
+	Vec3 _muzzlePos2;
 	Vec3 _muzzleScale;
 
 	TransformComponent* _objTransfrom;

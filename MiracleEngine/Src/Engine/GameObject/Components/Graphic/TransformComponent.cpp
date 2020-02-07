@@ -24,13 +24,6 @@ std::string TransformComponent::ComponentName() const
 //	}
 //}
 
-
-
-
-
-
-
-
 TransformComponent::TransformComponent(GameObject* parent, size_t uId, IComponent* component)
 	:IComponent(parent, uId),
 	_pos{ Vector3{ 0, 0, 1} },
@@ -117,24 +110,11 @@ void TransformComponent::SetRotate(const float& in)
 			if (!child)
 				continue;
 
-			//float deg = atan(diff._y / diff._x);
-			/*Vector3 compareVec = { 0, 1, 0 };
-			float dot = diff._x * compareVec._x + diff._y * compareVec._y;
-			float det = diff._x * compareVec._y - diff._y * compareVec._x;
-			float deg = -atan2(det, dot);*/
-			//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(-atan2(det, dot));
 			Vec3 diff = child->_pos - this->_pos;
-			float deg = atan2(diff._y , diff._x);
-
 			float mag = diff.Length();
+			float deg = atan2(diff._y, diff._x) + temp;
 
-			deg += temp;
-
-			Vec3 temp2{};
-
-			temp2._x = mag * cos(deg);
-			temp2._y = mag * sin(deg);
-
+			Vec3 temp2{ mag * cos(deg), mag * sin(deg) };
 
 			temp2 -= diff;
 
@@ -223,7 +203,10 @@ void TransformComponent::Inspect()
 
 void TransformComponent::MovePos(const Vector3& in)
 {
-	_pos += in;
+	if (GetParentPtr()->GetChild())
+		SetPos(_pos + in);
+	else
+		_pos += in;
 }
 
 void TransformComponent::MoveScale(const Vector3& in)
@@ -233,5 +216,23 @@ void TransformComponent::MoveScale(const Vector3& in)
 
 void TransformComponent::MoveRotate(const float& in)
 {
+	if (GetParentPtr()->GetChild())
+		SetRotate(_rotationAngle + in);
+	else
 	_rotationAngle += in;
+}
+
+void TransformComponent::Init()
+{
+	if (_init)
+		return;
+
+	if (GetParentPtr()->GetChild())
+		for (auto& it : GetParentPtr()->GetChildList())
+			it.second->GetComponent(ComponentId::CT_Transform)->Init();
+
+	SetPos(_localPos);
+	SetRotate(_localRotationAngle);
+
+	_init = true;
 }

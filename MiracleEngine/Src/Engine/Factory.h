@@ -77,6 +77,8 @@ public:
 
 	///////////////////////////////////////////////////////////////////////////
 
+	void ReInitScene();
+
 	void UpdateScene();
 
 	void ChangeScene(const std::string& scene);

@@ -22,7 +22,7 @@
   "GraphicsComponent": true,
   "G.FileName": "Turret_Body_Sprite.png",
   "G.Shader": "",
-  "G.Layer": 15,
+  "G.Layer": 13,
   "_hasAlpha": true,
 
   "AnimationComponent": true,
@@ -49,7 +49,7 @@
       "GraphicsComponent": true,
       "G.FileName": "Turret_Leg_Sprite.png",
       "G.Shader": "",
-      "G.Layer": 1
+      "G.Layer": 12
     }
   ]
 }

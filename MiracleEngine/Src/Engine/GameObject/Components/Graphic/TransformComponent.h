@@ -9,7 +9,7 @@ private:
 	Vector3 _scale;
 	float _rotationAngle;
 
-	Vector3 _localPos;	//Z value will be the renderlayer value, min 0, max 10 
+	Vector3 _localPos;
 	Vector3 _localScale;
 	float _localRotationAngle;
 
@@ -38,11 +38,11 @@ public:
 		if (document.HasMember("Position" ) && document["Position" ].IsArray())	//Checks if the variable exists in .Json file
 		{
 			if (document["Position"][0].IsFloat() && document["Position" ][1].IsFloat())	//Check the array values
-				_pos = Vector3{ document[ "Position"][0].GetFloat(), document[ "Position" ][1].GetFloat(), 1};
+				_localPos = Vector3{ document[ "Position"][0].GetFloat(), document[ "Position" ][1].GetFloat(), 1};
 
 			if (document["Position"].Size() == 3)
 			{
-				_pos.SetZ(document["Position"][2].GetFloat());
+				_localPos.SetZ(document["Position"][2].GetFloat());
 			}
 		}
 
@@ -59,7 +59,7 @@ public:
 
 		if (document.HasMember("Rotate") && document["Rotate"].IsFloat())	//Checks if the variable exists in .Json file
 		{
-			_rotationAngle = (document["Rotate"].GetFloat());
+			_localRotationAngle = (document["Rotate"].GetFloat());
 		}
 	}
 
@@ -203,6 +203,8 @@ public:
 	void MovePos(const Vector3& in);
 	void MoveScale(const Vector3& in);
 	void MoveRotate(const float& in);
+
+	virtual void Init() override;
 
 };
 

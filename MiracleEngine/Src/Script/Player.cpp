@@ -52,6 +52,17 @@ void Player::SerialiseComponent(Serialiser& document)
 		}
 	}
 
+	if (document.HasMember("MuzzlePosition2") && document["MuzzlePosition2"].IsArray())
+	{
+		if (document["MuzzlePosition2"][0].IsFloat() && document["MuzzlePosition2"][1].IsFloat())	//Check the array values
+			_muzzlePos2 = Vector3{ document["MuzzlePosition2"][0].GetFloat(), document["MuzzlePosition2"][1].GetFloat(), 1.f };
+
+		if (document["MuzzlePosition2"].Size() == 3)
+		{
+			_muzzlePos2.SetZ(document["MuzzlePosition2"][2].GetFloat());
+		}
+	}
+
 	if (document.HasMember("MuzzleScale") && document["MuzzleScale"].IsArray())
 	{
 		if (document["MuzzleScale"][0].IsFloat() && document["MuzzleScale"][1].IsFloat())	//Check the array values
@@ -177,7 +188,7 @@ Player::Player() :
 	_muzzleTransfrom{ nullptr },
 	_muzzleAnimation{ nullptr },
 	_muzzlePos{},
-	_muzzlestartPos{},
+	_muzzlePos2{},
 	_muzzleScale{ },
 	_animTime{ -1.0 },
 	_objTransfrom{ nullptr }
@@ -194,7 +205,6 @@ void Player::Init()
 	for (auto& it : GetParentPtr()->GetChildList())
 	{
 		_muzzleTransfrom = (TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform);
-		_muzzlestartPos = _muzzleTransfrom->GetPositionA();
 		_muzzleAnimation = (AnimationComponent*)it.second->GetComponent(ComponentId::CT_Animation);
 		break;;
 	}
@@ -231,7 +241,7 @@ void Player::Update(double dt)
 
 		if (_animTime <= 0)
 		{
-			float mag = (_muzzlestartPos - _muzzlePos).Length();
+			float mag = (_muzzlePos2 - _muzzlePos).Length();
 			Vec3 temp = _objTransfrom->GetPositionA() - _muzzleTransfrom->GetPositionA();
 			_muzzleTransfrom->SetPositionA(_muzzleTransfrom->GetPositionA() - temp.Normalize() * mag);
 
@@ -443,7 +453,7 @@ void Player::UpdateInput()
 			turret = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Turret"]);
 			// set bullet position & rotation as same as 'parent' obj
 			((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + aimVector.Normalized() * 100.f);
 		}
 	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
@@ -562,7 +572,7 @@ void Player::WeaponShoot()
 
 		if (_animTime < 0)
 		{
-			float mag = (_muzzlestartPos - _muzzlePos).Length();
+			float mag = (_muzzlePos2 - _muzzlePos).Length();
 			Vec3 temp = _objTransfrom->GetPositionA() - _muzzleTransfrom->GetPositionA();
 			_muzzleTransfrom->SetPositionA(_muzzleTransfrom->GetPositionA() + temp.Normalize() * mag);
 
@@ -606,7 +616,7 @@ void Player::WeaponShoot_Pistol()
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	AddForwardForce(bullet->Get_uID(), 70000);
+	AddForwardForce(bullet->Get_uID(), 70000.0 * 2.f);
 }
 void Player::WeaponShoot_Shotgun()
 {
@@ -618,15 +628,15 @@ void Player::WeaponShoot_Shotgun()
 	bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Bullet"]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot);
-	AddForwardForce(bullet->Get_uID(), 70000);
+	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
 	bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Bullet"]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot-0.2f);
-	AddForwardForce(bullet->Get_uID(), 70000);
+	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
 	bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Bullet"]);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot+0.2f);
-	AddForwardForce(bullet->Get_uID(), 70000);
+	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
 }
 void Player::WeaponShoot_RPG()
 {

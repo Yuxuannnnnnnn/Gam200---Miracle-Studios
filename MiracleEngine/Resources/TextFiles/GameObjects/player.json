@@ -31,8 +31,9 @@
       "FirerateRpg": 1.0,
       "FirerateTurret": 1.0,
       "FirerateWall": 1.0,
-      "MuzzlePosition": [ 0.0, 22.064964294433595, 1.0 ],
-      "MuzzleScale": [ 149.99981689453126, 149.99981689453126, 1.0 ]
+      "MuzzlePosition": [ 0.0, 25.0, 0.0 ],
+	  "MuzzlePosition2": [ 0.0, 60.0, 0.0 ],
+      "MuzzleScale": [ 150.0, 150.0, 1.0 ]
     }
   ],
   "AnimationComponent": true,
@@ -72,18 +73,19 @@
       "Name": "PlayerMuzzle",
       "LinkUId": 0,
       "TransformComponent": true,
-      "Position": [ 0.0, 60.0, 1.0 ],
+      "Position": [ 0.0, 55.0, 1.0 ],
       "Scale": [ 65.0, 65.0, 1.0 ],
       "Rotate": 0.0,
       "GraphicsComponent": true,
       "G.FileName": "Muzzle_Idle.png",
       "G.Shader": "",
-      "G.Layer": 6,
+      "G.Layer": 14,
+	  "_hasAlpha": true,
       "AnimationComponent": true,
       "AnimationTypes": [
         {
           "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
-          "TimeDelay": 0.10000000149011612,
+          "TimeDelay": 0.050,
           "AnimationName": "Shoot"
         }
       ],

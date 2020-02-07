@@ -1,11 +1,12 @@
 #include "PrecompiledHeaders.h"
 #include "IComponent.h"
 
-IComponent::IComponent() 
+IComponent::IComponent()
 	:
 	_ParentPtr{ nullptr },
 	_ParentId{ 0 },
-	_enable{ true }
+	_enable{ true },
+	_init{ false }
 {}
 
 
