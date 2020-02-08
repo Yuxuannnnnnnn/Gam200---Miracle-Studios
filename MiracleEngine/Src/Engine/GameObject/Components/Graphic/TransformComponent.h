@@ -13,6 +13,10 @@ private:
 	Vector3 _localScale;
 	float _localRotationAngle;
 
+	Vector3 _pivotPoint;
+
+	Vector3 _localPivotPoint;
+
 	Matrix4x4 _model;
 public:
 
@@ -21,12 +25,13 @@ public:
 	TransformComponent()
 		:_pos{ Vector3{ 0, 0, 1 } },
 		_scale{ Vector3{ 100, 100, 1 } },
-		_rotationAngle{ 0.0f }
+		_rotationAngle{ 0.0f },
+		_pivotPoint{ Vector3{ 0, 0, 1 } }
 	{
 	}
 
 	TransformComponent(const Vector3& pos, const Vector3& scale, const float& angle) :
-		_pos{ pos }, _scale{ scale }, _rotationAngle{ angle }
+		_pos{ pos }, _scale{ scale }, _rotationAngle{ angle }, _pivotPoint{ pos }
 	{
 
 	}
@@ -61,6 +66,17 @@ public:
 		{
 			_localRotationAngle = (document["Rotate"].GetFloat());
 		}
+
+		if (document.HasMember("PivotPosition") && document["PivotPosition"].IsArray())	//Checks if the variable exists in .Json file
+		{
+			if (document["PivotPosition"][0].IsFloat() && document["PivotPosition"][1].IsFloat())	//Check the array values
+				_localPivotPoint = Vector3{ document["PivotPosition"][0].GetFloat(), document["PivotPosition"][1].GetFloat(), 1 };
+
+			if (document["PivotPosition"].Size() == 3)
+			{
+				_localPivotPoint.SetZ(document["PivotPosition"][2].GetFloat());
+			}
+		}
 	}
 
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
@@ -80,11 +96,16 @@ public:
 		value.PushBack(rapidjson::Value(_scale.GetX()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_scale.GetY()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_scale.GetZ()).Move(), prototypeDoc.Allocator());
-
 		prototypeDoc.AddMember("Scale", value);
 
 		value.SetFloat(_rotationAngle);
 		prototypeDoc.AddMember("Rotate", value);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_pivotPoint.GetX()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_pivotPoint.GetY()).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_pivotPoint.GetZ()).Move(), prototypeDoc.Allocator());
+		prototypeDoc.AddMember("PivotPosition", value);
 	}
 
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -108,6 +129,12 @@ public:
 
 		value.SetFloat(_rotationAngle);
 		prototypeDoc.AddMember("Rotate", value, allocator);
+
+		value.SetArray();
+		value.PushBack(rapidjson::Value(_pivotPoint.GetX()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_pivotPoint.GetY()).Move(), allocator);
+		value.PushBack(rapidjson::Value(_pivotPoint.GetZ()).Move(), allocator);
+		prototypeDoc.AddMember("PivotPosition", value, allocator);
 	}
 
 	virtual void Inspect() override;
@@ -125,6 +152,8 @@ public:
 		rapidjson::Value position;
 		rapidjson::Value scale;
 		rapidjson::Value rotate;
+
+		rapidjson::Value pivot;
 
 		if (protoTransformCom->_pos != _pos)
 		{
@@ -150,6 +179,15 @@ public:
 			rotate.SetFloat(_rotationAngle);
 		}
 
+		if (protoTransformCom->_pivotPoint != _pivotPoint)
+		{
+			pivot.SetArray();
+			addComponentIntoSceneFile = true;
+			pivot.PushBack(rapidjson::Value(_pivotPoint._x), allocator);
+			pivot.PushBack(rapidjson::Value(_pivotPoint._y), allocator);
+			pivot.PushBack(rapidjson::Value(_pivotPoint._z), allocator);
+		}
+
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 		{
 			value.AddMember("TransformComponent", rapidjson::Value(true), allocator);
@@ -168,6 +206,11 @@ public:
 			{
 				value.AddMember("Rotate", rotate, allocator);
 			}
+
+			if (!pivot.IsNull())
+			{
+				value.AddMember("PivotPosition", pivot, allocator);
+			}
 		}
 	}
 
@@ -185,6 +228,9 @@ public:
 	Vector3 GetPos();
 	void SetPos(const Vector3& in);
 
+	Vector3 GetPivot();
+	void SetPivot(const Vector3& in);
+
 	Vector3 GetScale();
 	void SetScale(const Vector3& in);
 
@@ -197,6 +243,8 @@ public:
 	float* GetMatrix(int layer = 1); // for graphic
 
 	TransformComponent* CloneComponent() { return new TransformComponent(*this); }
+
+	void SetPivotPointRotation(const float& in);
 
 	///////////////////////////////////////////////////////////////
 

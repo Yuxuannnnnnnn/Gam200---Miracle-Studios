@@ -32,9 +32,8 @@ void BoxCollider2DComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::Spacing();
 
-	Vec3 tempPos = _center;
 
-	ImGui::InputFloat2("Box Center Pos X, Y", tempPos.m);
+	ImGui::InputFloat2("Box Center Pos X, Y", _center.m);
 	ImGui::Spacing();
 	ImGui::SliderFloat2("Box Center X Y", _center.m, -1000, 1000);
 

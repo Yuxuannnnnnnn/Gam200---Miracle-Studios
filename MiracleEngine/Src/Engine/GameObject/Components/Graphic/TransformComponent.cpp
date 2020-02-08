@@ -46,6 +46,17 @@ Vector3 TransformComponent::GetPos()
 	return Vector3{ _pos._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_pos._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f } ;
 }
 
+Vector3 TransformComponent::GetPivot()
+{
+	return Vector3{ _pivotPoint._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_pivotPoint._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f };
+}
+
+void TransformComponent::SetPivot(const Vector3& in)
+{
+	SetPos(in + Vector3{ _pos._x -_pivotPoint._x , _pos._y - _pivotPoint._y });
+	_pivotPoint = in;
+}
+
 void TransformComponent::SetPos(const Vector3& in)
 {
 
@@ -99,10 +110,10 @@ float& TransformComponent::GetRotate()
 
 void TransformComponent::SetRotate(const float& in)
 {
-	if (this->GetParentPtr()->GetChild())
-	{
-		float temp = in - _rotationAngle;
+	float temp = in - _rotationAngle;
 
+	/*if (this->GetParentPtr()->GetChild())
+	{
 		for (auto& it : this->GetParentPtr()->GetChildList())
 		{
 			TransformComponent* child = (TransformComponent*)GetComponentMap(Transform)[it.first];
@@ -110,7 +121,9 @@ void TransformComponent::SetRotate(const float& in)
 			if (!child)
 				continue;
 
-			Vec3 diff = child->_pos - this->_pos;
+			Vec3 pivot = _pos + _pivotPoint;
+			pivot._z = 1.f;
+			Vec3 diff = child->_pos - pivot;
 			float mag = diff.Length();
 			float deg = atan2(diff._y, diff._x) + temp;
 
@@ -122,15 +135,25 @@ void TransformComponent::SetRotate(const float& in)
 
 			child->MoveRotate(temp);
 		}
-	}
+	}*/
 
+	Vec3 diff = _pos - _pivotPoint;
+	float mag = diff.Length();
+	float deg = atan2(diff._y, diff._x) + temp;
+
+	Vec3 temp2{ mag * cos(deg), mag * sin(deg) };
+
+	temp2 -= diff;
+
+
+	MovePos(temp2);
 	_rotationAngle = in;
 }
 
 float* TransformComponent::GetModel()
 {
 	// calculate model matrix = TRS
-	Mtx44 translate = Mtx44::CreateTranslation(GetPos());
+	Mtx44 translate = Mtx44::CreateTranslation(GetPivot());
 	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(GetScale());
 
 	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
@@ -197,6 +220,12 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 
 	SetRotate(DegToRad(DegAngle));
+
+
+	ImGui::InputFloat2("Input Pivot X, Y", _pivotPoint.m);
+	ImGui::Spacing();
+	ImGui::SliderFloat2("Slider Pivot X, Y", _pivotPoint.m, -1000, 1000);
+	
 }
 
 ///////////////////////////////////////////////////////////////
@@ -233,6 +262,8 @@ void TransformComponent::Init()
 
 	SetPos(_localPos);
 	SetRotate(_localRotationAngle);
+	_pivotPoint = _pos + _localPivotPoint;
+	_pivotPoint._z = 1.f;
 
 	_init = true;
 }
