@@ -262,7 +262,7 @@ GraphicsSystem::~GraphicsSystem()
 
 void GraphicsSystem::ResizeGraphics(float width, float height)
 {
-	_proj = glm::ortho(-width / 2.f, width / 2.f, -height / 2.f, height / 2.f, -30.0f, 30.0f);
+	_proj = glm::ortho(-width / 2.f, width / 2.f, -height / 2.f, height / 2.f, -150.0f, 150.0f);
 	glViewport(0, 0, width, height);
 }
 
@@ -309,9 +309,14 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		if (graphicComp->IsFadingOut())
 		{
-			graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
-			renderobject._hasAdjustableAlpha = true;
-			
+#ifdef LEVELEDITOR
+
+			if (MyImguiSystem._editorMode)
+#endif
+			{
+				graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
+				renderobject._hasAdjustableAlpha = true;
+			}
 		}
 
 		if (graphicComp->HasAlpha())
@@ -335,7 +340,16 @@ void GraphicsSystem::UpdateRenderObjectList()
 		}
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
-		renderobject._alpha = graphicComp->GetAlpha();
+
+		if (graphicComp->IsFlickering())
+		{
+			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			renderobject._alpha = r;
+		}
+		else
+		{
+			renderobject._alpha = graphicComp->GetAlpha();
+		}
 		// check for if obj have animation
 
 		if (animComp && animComp->IsAnimationPlaying())
