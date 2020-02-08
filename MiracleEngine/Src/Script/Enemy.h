@@ -26,8 +26,6 @@ private:
 	double _moveSpeed, _chaseSpeed;
 	double _chaseTimer, _chaseDuration;
 // Logic - Animation
-	Vector3 defaultScale{ 500, 500, 1 };
-	Vector3 idleScale{ 350, 350, 1 };
 	double _timerDeath;
 // Logic - Pathfinding
 	GameObject* _target;
