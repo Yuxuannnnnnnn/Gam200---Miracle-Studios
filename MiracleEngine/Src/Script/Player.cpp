@@ -463,8 +463,7 @@ void Player::UpdateInput()
 
 			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableAlpha(true);
 			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableAdjustableAlpha(true);
-			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableFadingOut(true);
-
+			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableFlickering(true);
 		}
 	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||

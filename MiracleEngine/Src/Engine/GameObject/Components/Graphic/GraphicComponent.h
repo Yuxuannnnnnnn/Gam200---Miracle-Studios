@@ -72,6 +72,10 @@ public:
 		_hasAlpha = isAlpha;
 	}
 
+	void EnableFlickering(bool isAlpha)
+	{
+		_isFlickering = isAlpha;
+	}
 
 	void SetAlpha(float alphaValue);
 	float GetAlpha();
