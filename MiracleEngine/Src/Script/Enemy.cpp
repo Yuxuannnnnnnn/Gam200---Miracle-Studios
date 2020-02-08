@@ -53,6 +53,7 @@ void Enemy::Init()
 		}
 	}
 	_init = true;
+	_animState = 1;
 }
 void Enemy::Update(double dt)
 {

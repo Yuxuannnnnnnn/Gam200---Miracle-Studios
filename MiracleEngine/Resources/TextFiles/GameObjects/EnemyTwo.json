@@ -3,15 +3,18 @@
   "ObjectType": "EnemyTwo",
   "Name": "enemytwo",
   "LinkUId": 0,
+
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 150.0,75.0,1.0 ],
   "Rotate": 0.0,
+
   "GraphicsComponent": true,
   "G.FileName": "EnemyTwo.png",
   "G.Shader": "",
   "G.Layer": 15,
   "_hasAlpha": true,
+
   "LogicComponent": true,
   "ScriptId": [],
   "Script2Id": [ "Enemy" ],
@@ -24,7 +27,7 @@
       "AttackRangeMelee": 0.0,
       "MoveSpeed": 3.0,
       "ChaseSpeed": 0.0,
-      "ChaseDuration": 0.0
+      "ChaseDuration": 2.0
     }
   ],
   "AnimationComponent": true,
@@ -41,7 +44,9 @@
     }
   ],
   "StartAnim": "Move",
+
   "AudioComponent": true,
+
   "RigidBody2DComponent": true,
   "Mass": 5.0,
   "Friction": 0.10000000149011612,

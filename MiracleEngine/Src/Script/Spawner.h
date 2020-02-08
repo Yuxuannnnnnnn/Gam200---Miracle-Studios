@@ -17,11 +17,12 @@ private:
 	bool _init;
 	int _health, _healthMax;
 	int _spawnType;
+	int _spawnAmount;
 // Logic - Behaviour
 	double _timerSpawn, _timerSpawnCooldown;
 	double _timerLight, _timerLightDuration;
 	bool _light, _lightPrevState;
-	int _spawnAmount;
+	
 public:
 	void SerialiseComponent(Serialiser& document)
 	{
@@ -29,8 +30,8 @@ public:
 			_health = _healthMax = document["Health"].GetInt();
 		if (document.HasMember("SpawnType") && document["SpawnType"].IsInt())
 			_spawnType = document["SpawnType"].GetInt();
-		if (document.HasMember("SpawnRate") && document["SpawnRate"].GetDouble())
-			_timerSpawnCooldown = document["SpawnRate"].GetDouble();
+		if (document.HasMember("SpawnCooldown") && document["SpawnCooldown"].GetDouble())
+			_timerSpawn = _timerSpawnCooldown = document["SpawnCooldown"].GetDouble();
 		if (document.HasMember("LightDuration") && document["LightDuration"].GetDouble())
 			_timerLightDuration = document["LightDuration"].GetDouble();
 		if (document.HasMember("SpawnAmount") && document["SpawnAmount"].IsInt())
@@ -46,7 +47,7 @@ public:
 			object.SetObject();
 			object.AddMember("Health", rapidjson::Value(_healthMax), prototypeDoc.Allocator());
 			object.AddMember("SpawnType", rapidjson::Value(_spawnType), prototypeDoc.Allocator());
-			object.AddMember("SpawnRate", rapidjson::Value(_timerSpawnCooldown), prototypeDoc.Allocator());
+			object.AddMember("SpawnCooldown", rapidjson::Value(_timerSpawnCooldown), prototypeDoc.Allocator());
 			object.AddMember("LightDuration", rapidjson::Value(_timerLightDuration), prototypeDoc.Allocator());
 			object.AddMember("SpawnAmount", rapidjson::Value(_spawnAmount), prototypeDoc.Allocator());
 			value.PushBack(object, prototypeDoc.Allocator());
@@ -62,7 +63,7 @@ public:
 			object.SetObject();
 			object.AddMember("Health", rapidjson::Value(_healthMax), allocator);
 			object.AddMember("SpawnType", rapidjson::Value(_spawnType), allocator);
-			object.AddMember("SpawnRate", rapidjson::Value(_timerSpawnCooldown), allocator);
+			object.AddMember("SpawnCooldown", rapidjson::Value(_timerSpawnCooldown), allocator);
 			object.AddMember("LightDuration", rapidjson::Value(_timerLightDuration), allocator);
 			object.AddMember("SpawnAmount", rapidjson::Value(_spawnAmount), allocator);
 			value.PushBack(object, allocator);
@@ -79,7 +80,7 @@ public:
 		ImGui::Spacing();
 		ImGui::InputInt("SpawnType ", &_spawnType);
 		ImGui::Spacing();
-		ImGui::InputDouble("SpawnRate ", &_timerSpawnCooldown);
+		ImGui::InputDouble("SpawnCooldown ", &_timerSpawnCooldown);
 		ImGui::Spacing();
 		ImGui::InputDouble("LightDuration ", &_timerLightDuration);
 		ImGui::Spacing();

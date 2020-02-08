@@ -3,10 +3,12 @@
 
 Spawner::Spawner() :
 	_init{ false },
-	_health{ 0 },
+	_health{ 0 }, _healthMax{ 0 },
 	_spawnType{ 0 },
-	_timerSpawn{ 0 },
-	_timerSpawnCooldown{ 10 },
+	_spawnAmount{ 0 },
+
+	_timerSpawn{ 0 }, _timerSpawnCooldown{ 10 },
+	_timerLight{ 0 }, _timerLightDuration{ 0 },
 	_light{ false }, _lightPrevState{ false }
 {
 }
@@ -20,6 +22,7 @@ void Spawner::Init()
 {
 	_init = true;
 	_light = _lightPrevState = false;
+	((GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic))->SetFileName("Spawner_Platform_unlit.png");
 }
 
 void Spawner::Update(double dt)
@@ -59,10 +62,10 @@ void Spawner::Spawn()
 	_timerLight = _timerLightDuration;
 	_timerSpawn = _timerSpawnCooldown;	
 
-
 	// add code for rng spawning if want to
 	std::srand((unsigned)std::time(0));
 	int random = 1 + std::rand() % 2;
+
 	GameObject* enemy = nullptr;
 	switch (_spawnType)
 	{
