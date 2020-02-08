@@ -19,7 +19,7 @@ private:
 	int _health;
 	int _enemyType;
 // Logic - Behaviour
-	bool _stunned;
+	bool _stunned, _stunActivate;
 	double _timerStun, _timerStunCooldown;
 	double _timerAttack, _timerAttackCooldown;
 	int _attackRangeShoot, _attackRangeMelee;
@@ -27,6 +27,9 @@ private:
 	double _chaseTimer, _chaseDuration;
 // Logic - Animation
 	double _timerDeath;
+	bool _deathStart;
+	bool _charging, _chargingStart;
+	int _animState, _animStatePrev;
 // Logic - Pathfinding
 	GameObject* _target;
 	int _state;	
@@ -109,10 +112,6 @@ public:
 	void CheckState();
 	void FSM();
 	void ChancePickUps();
-// Logic Data - Animation
-	bool _enemy1charging;
-	int _animState, _animStatePrev;
-
 // Logic - Pathfinding
 	Vector3& GetDestinationPos();	// _target's position
 	Vector3& GetPosition();			// _parent's / self position

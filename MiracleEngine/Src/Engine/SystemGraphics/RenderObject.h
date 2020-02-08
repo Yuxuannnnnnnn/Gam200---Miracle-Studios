@@ -35,4 +35,5 @@ struct RenderObject
 	bool _isAnimated;
 	float _alpha;
 	bool _hasAlpha;
+	bool _hasAdjustableAlpha;
 };

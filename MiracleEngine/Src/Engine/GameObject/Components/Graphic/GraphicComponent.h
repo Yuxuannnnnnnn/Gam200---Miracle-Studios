@@ -37,8 +37,25 @@ private:
 	float u1, v1;
 
 public:
-	inline bool HasAlpha() { return _hasAlpha; }
+	inline bool HasAlpha() 
+	{
+		return _hasAlpha; 
+	}
 
+	inline bool HasAdjustableAlpha()
+	{
+		return _hasAdjustableAlpha;
+	}
+
+	inline bool IsFadingOut()
+	{
+		return _isFadingOut;
+	}
+
+	inline bool IsFlickering()
+	{
+		return _isFlickering;
+	}
 
 	void EnableAlpha(bool isAlpha)
 	{
