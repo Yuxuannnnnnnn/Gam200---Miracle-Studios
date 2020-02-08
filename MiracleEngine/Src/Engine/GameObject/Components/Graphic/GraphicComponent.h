@@ -25,6 +25,11 @@ private:
 	// has alpha adjustable in programming
 	bool _hasAdjustableAlpha;
 
+	
+	bool _isFadingOut;
+	bool _isFlickering;
+
+
 	float u0, v0;
 	float u1, v1;
 
