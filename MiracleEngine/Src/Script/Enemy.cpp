@@ -9,12 +9,13 @@ Enemy::Enemy() :
 	_enemyType{ (int)Enemy_Type::BASIC },
 
 	_stunned{ false },
-	_timerStun{ 0.0 },
-	_timerStunCooldown{ 2.0 },
-	_timerAttack{ 0.0 },
-	_timerAttackCooldown{ 1.0 },
-	_attackRangeShoot{ 0 },
-	_attackRangeMelee{ 0 },
+	_timerStun{ 0.0 }, _timerStunCooldown{ 2.0 },
+	_timerAttack{ 0.0 }, _timerAttackCooldown{ 1.0 },
+	_attackRangeShoot{ 0 }, _attackRangeMelee{ 0 },
+	_moveSpeed{ 0.0 }, _chaseSpeed{ 0.0 },
+	_chaseTimer{ 0.0 }, _chaseDuration{ 0.0 },
+
+	_timerDeath{ 0.0 },
 
 	_target{ nullptr },
 	_state{ 0 },
@@ -86,7 +87,7 @@ void Enemy::Update(double dt)
 		{
 			_timerStun = _timerStunCooldown;
 			_stunned = false;
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScaleA(defaultScale);
+			//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScaleA(defaultScale);
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(true);
 		}
 		return;
@@ -104,7 +105,7 @@ void Enemy::Update(double dt)
 				_stunned = true;
 				_enemy1charging = false;
 				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
-				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScaleA(idleScale);
+				//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScaleA(idleScale);
 			}
 		}
 		else

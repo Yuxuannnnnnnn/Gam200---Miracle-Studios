@@ -235,7 +235,7 @@ public:
 	void SetScale(const Vector3& in);
 
 	float& GetRotate();
-	void SetRotate(const float& in);
+	void SetRotate(const float& in, TransformComponent* parent = nullptr);
 
 	float* GetModel(); // for gzmo
 	void SetModel(const float* in);
@@ -250,7 +250,7 @@ public:
 
 	void MovePos(const Vector3& in);
 	void MoveScale(const Vector3& in);
-	void MoveRotate(const float& in);
+	void MoveRotate(TransformComponent* parent, const float& in);
 
 	virtual void Init() override;
 

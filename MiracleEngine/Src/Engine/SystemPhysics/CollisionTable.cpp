@@ -16,7 +16,7 @@ CollisionTable::CollisionTable()
 	_table.insert(ROW(ColliderTag::BULLET_E, row_bullet2));
 
 	// ENEMY
-	std::unordered_set<ColliderTag> row_enemy{ ColliderTag::BULLET, ColliderTag::PLAYER, ColliderTag::BUILDING, ColliderTag::DESTORYABLE_BUILDING,ColliderTag::EDGES };
+	std::unordered_set<ColliderTag> row_enemy{ ColliderTag::ENEMY, ColliderTag::BULLET, ColliderTag::PLAYER, ColliderTag::BUILDING, ColliderTag::DESTORYABLE_BUILDING,ColliderTag::EDGES };
 	_table.insert(ROW(ColliderTag::ENEMY, row_enemy));
 
 	// TURRET

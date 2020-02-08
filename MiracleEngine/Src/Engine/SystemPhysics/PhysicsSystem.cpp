@@ -1,19 +1,23 @@
 #include "PrecompiledHeaders.h"
 #include "PhysicsSystem.h"
 
-PhysicsSystem::PhysicsSystem()
+PhysicsSystem::PhysicsSystem() : _drawLines{ false }, _enableCollider{true}
 {
 }
 
 void PhysicsSystem::Update(double dt)
 {
 	UpdateVelocity(dt);
-	CollisionUpdate(dt);
+	if(_enableCollider)
+		CollisionUpdate(dt);
 	ApplyVelocityToObject(dt);
 }
 
 void PhysicsSystem::Draw()
 {
+	if (!_drawLines)
+		return;
+
 	RigidbodyDraw();
 	AllColliderDraw();	
 }

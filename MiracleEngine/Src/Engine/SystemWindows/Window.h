@@ -61,5 +61,7 @@ public:
 
 	float GetWindowWidthRatio() const;
 	float GetWindowHeightRatio() const;
+
+	bool GetFullscreen() const;
 };
 

@@ -18,8 +18,16 @@ private:
 	std::string _fileName;      
 	std::string _shader;
 	//RenderLayer _renderlayer; Not Used anymore because Z value is computed in Transformcomponent
-
+	
+	// has alpha from PNG
 	bool _hasAlpha;
+
+	// has alpha adjustable in programming
+	bool _hasAdjustableAlpha;
+
+	
+	bool _isFadingOut;
+	bool _isFlickering;
 
 
 	float u0, v0;
@@ -29,6 +37,13 @@ private:
 	float _alphaVal;
 public:
 	inline bool HasAlpha() { return _hasAlpha; }
+
+
+	void EnableAlpha(bool isAlpha)
+	{
+		_hasAlpha = isAlpha;
+	}
+
 
 	void SetAlpha(float alphaValue);
 	float GetAlpha();

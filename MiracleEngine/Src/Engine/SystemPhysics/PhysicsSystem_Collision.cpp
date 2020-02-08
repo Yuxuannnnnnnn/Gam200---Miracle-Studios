@@ -1,11 +1,20 @@
 #include "PrecompiledHeaders.h"
 #include "PhysicsSystem.h"
 
+void PhysicsSystem::SetColliderMode(bool t)
+{
+	_enableCollider = t;
+}
+
+bool PhysicsSystem::GetColliderMode() const
+{
+	return _enableCollider;
+}
 
 void PhysicsSystem::CollisionUpdate(double dt)
 {
 	AllColliderDataUpdate();
-	//UpdateCollision(dt);
+	UpdateCollision(dt);
 	//UpdateStaticCollision(dt);
 }
 
