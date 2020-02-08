@@ -693,6 +693,7 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 
 	if (!otherType.compare("PickUps_Health"))
 	{
+		other->GetParentPtr()->SetDestory();
 
 		if (_god)
 			return;
@@ -707,7 +708,7 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		
 		if (_health > _healthMax)
 			_health = _healthMax;
-		other->GetParentPtr()->SetDestory();
+		
 	}
 	if (!otherType.compare("PickUps_Ammo"))
 	{

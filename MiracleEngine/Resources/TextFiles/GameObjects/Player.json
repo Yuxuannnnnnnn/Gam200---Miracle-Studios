@@ -4,15 +4,15 @@
   "Name": "player",
   "LinkUId": 999,
   "TransformComponent": true,
-  "Position": [ 0, 0 ,1.0 ],
-  "Scale": [ 180.0,180.0,1.0 ],
+  "Position": [ 0, 0, 1.0 ],
+  "Scale": [ 180.0, 180.0, 1.0 ],
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
   "G.FileName": "catjump.png",
   "G.Shader": "",
   "G.Layer": 15,
-  "_hasAlpha": true,
+  "_hasAlpha": false,
 
   "LogicComponent": true,
   "ScriptId": [],
@@ -77,7 +77,7 @@
       "G.FileName": "Muzzle_Idle_2.png",
       "G.Shader": "",
       "G.Layer": 14,
-	  "_hasAlpha": true,
+      "_hasAlpha": true,
       "AnimationComponent": true,
       "AnimationTypes": [
         {

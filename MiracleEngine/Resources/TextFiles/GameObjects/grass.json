@@ -1,1 +1,14 @@
-{"IdentityComponent":true,"ObjectType":"grass","Name":"grass","LinkUId":0,"TransformComponent":true,"Position":[-2488.892578125,-295.2220764160156,1.0],"Scale":[200.00006103515626,200.00006103515626,1.0],"Rotate":0.7841242551803589,"GraphicsComponent":true,"G.FileName":"grass_patch_big.png","G.Shader":"","G.Layer":2,"_hasAlpha":false}
+{
+  "IdentityComponent": true,
+  "ObjectType": "grass",
+  "Name": "grass",
+  "LinkUId": 0,
+  "TransformComponent": true,
+  "Position": [ -2488.892578125, -295.2220764160156, 1.0 ],
+  "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+  "Rotate": 0.7841242551803589,
+  "GraphicsComponent": true,
+  "G.FileName": "grass_patch_big.png",
+  "G.Shader": "",
+  "G.Layer": 2,
+  "_hasAlpha":true}

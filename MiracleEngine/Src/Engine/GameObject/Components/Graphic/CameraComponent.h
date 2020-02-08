@@ -112,7 +112,7 @@ public:
 
 			if (!cameraZoom.IsNull())
 			{
-				value.AddMember("Scale", cameraZoom, allocator);
+				value.AddMember("cameraZoom", cameraZoom, allocator);
 			}
 		}
 	}

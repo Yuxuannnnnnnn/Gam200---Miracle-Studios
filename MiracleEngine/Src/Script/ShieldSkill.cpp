@@ -56,6 +56,9 @@ void ShieldSkill::Update(double dt)
 	{
 		_animation->SetCurrentAnimOnce("Off");
 		_animTimer = _animation->GetMaxFrame() * _animation->GetTimeDelay();
+
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("ShieldBreak");
 	}
 	else if (_animTimer > 0)
 	{
@@ -74,4 +77,7 @@ void ShieldSkill::ActionShield(double skilltimer)
 	GetParentPtr()->SetEnable(true);
 	_timer = skilltimer;
 	_animation->SetCurrentAnim("On");
+
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("Activate");
 }

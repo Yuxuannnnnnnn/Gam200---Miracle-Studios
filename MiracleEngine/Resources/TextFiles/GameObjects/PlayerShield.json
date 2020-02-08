@@ -4,42 +4,56 @@
   "Name": "PlayerShield",
   "LinkUId": 666,
   "TransformComponent": true,
-  "Position": [ 0.0, 0.0, 1.0 ],
+  "Position": [ -3211.361083984375, -895.933349609375, 1.0 ],
   "Scale": [ 600.0, 550.0, 1.0 ],
   "Rotate": 0.0,
-
-  "GraphicsComponent": true,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "GraphicsComponent": false,
   "G.FileName": "catjump.png",
   "G.Shader": "",
   "G.Layer": 17,
   "_hasAlpha": true,
-
-  "AnimationComponent": true,
-  "AnimationTypes": [
-    {
-      "AnimationType": "PlayerShieldBreak_SpriteSheetData.json",
-      "TimeDelay": 0.10000000149011612,
-      "AnimationName": "Off"
-    },
-    {
-      "AnimationType": "PlayerShield_SpriteSheetData.json",
-      "TimeDelay": 0.10000000149011612,
-      "AnimationName": "On"
-    }
-  ],
-  "StartAnim": "On",
-  "CircleCollider2DComponent": true,
-  "ColliderTypeId": 2,
-  "ColliderTag": 1,
-  "ColliderTrigger": false,
-  "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-  "Collider2D.C.Radius": 90.0,
-
+  "_hasAdjustableAlpha": false,
+  "_alphaVal": 1.0,
+  "_isFadingOut": false,
+  "_isFlickering": false,
   "LogicComponent": true,
   "ScriptId": [],
   "Script2Id": [ "ShieldSkill" ],
-  "Script2Data": [
-    {}
-  ]
-
-}
+  "Script2Data": [ {} ],
+      "AudioComponent": true,
+      "SFXList": [
+        {
+          "SFXName": "Activate",
+          "fileName": "Shield.wav",
+          "volume": 0.13600000739097596,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "ShieldBreak",
+          "fileName": "Shield2.wav",
+          "volume": 0.19099999964237214,
+          "NumOfloops": 0
+        }
+      ],
+      "AnimationComponent": false,
+      "AnimationTypes": [
+        {
+          "AnimationType": "PlayerShieldBreak_SpriteSheetData.json",
+          "TimeDelay": 0.10000000149011612,
+          "AnimationName": "Off"
+        },
+        {
+          "AnimationType": "PlayerShield_SpriteSheetData.json",
+          "TimeDelay": 0.10000000149011612,
+          "AnimationName": "On"
+        }
+      ],
+      "StartAnim": "On",
+      "CircleCollider2DComponent": false,
+      "ColliderTypeId": 2,
+      "ColliderTag": 1,
+      "ColliderTrigger": false,
+      "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
+      "Collider2D.C.Radius": 90.0
+    }
