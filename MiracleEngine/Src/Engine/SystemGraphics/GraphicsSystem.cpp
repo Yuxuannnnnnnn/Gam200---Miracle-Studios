@@ -317,7 +317,6 @@ void GraphicsSystem::UpdateRenderObjectList()
 				graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
 				renderobject._hasAdjustableAlpha = true;
 			}
-			
 		}
 
 		if (graphicComp->HasAlpha())
