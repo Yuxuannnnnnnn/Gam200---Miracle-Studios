@@ -53,7 +53,22 @@ Vector3 TransformComponent::GetPivot()
 
 void TransformComponent::SetPivot(const Vector3& in)
 {
-	SetPos(in + Vector3{ _pos._x -_pivotPoint._x , _pos._y - _pivotPoint._y });
+	Vec3 temp = Vector3{ in._x - _pivotPoint._x , in._y - _pivotPoint._y };
+
+	if (this->GetParentPtr()->GetChild())
+	{
+		for (auto& it : this->GetParentPtr()->GetChildList())
+		{
+			TransformComponent* child = (TransformComponent*)GetComponentMap(Transform)[it.first];
+
+			if (!child)
+				continue;
+
+			child->MovePos(temp);
+		}
+	}
+
+	_pos += temp;
 	_pivotPoint = in;
 }
 
@@ -75,7 +90,11 @@ void TransformComponent::SetPos(const Vector3& in)
 		}
 	}
 
+	
+
+	_pivotPoint = _pivotPoint - _pos;
 	_pos = in;
+	_pivotPoint = _pos + _pivotPoint;
 }
 
 Vector3 TransformComponent::GetScale()
@@ -108,11 +127,11 @@ float& TransformComponent::GetRotate()
 	return _rotationAngle;
 }
 
-void TransformComponent::SetRotate(const float& in)
+void TransformComponent::SetRotate(const float& in, TransformComponent* parent)
 {
 	float temp = in - _rotationAngle;
 
-	/*if (this->GetParentPtr()->GetChild())
+	if (this->GetParentPtr()->GetChild())
 	{
 		for (auto& it : this->GetParentPtr()->GetChildList())
 		{
@@ -121,32 +140,28 @@ void TransformComponent::SetRotate(const float& in)
 			if (!child)
 				continue;
 
-			Vec3 pivot = _pos + _pivotPoint;
-			pivot._z = 1.f;
-			Vec3 diff = child->_pos - pivot;
-			float mag = diff.Length();
-			float deg = atan2(diff._y, diff._x) + temp;
-
-			Vec3 temp2{ mag * cos(deg), mag * sin(deg) };
-
-			temp2 -= diff;
-
-			child->MovePos(temp2);
-
-			child->MoveRotate(temp);
+			child->MoveRotate(this,temp);
 		}
-	}*/
+	}
 
-	Vec3 diff = _pos - _pivotPoint;
-	float mag = diff.Length();
-	float deg = atan2(diff._y, diff._x) + temp;
+	Vec3 temp2;
 
-	Vec3 temp2{ mag * cos(deg), mag * sin(deg) };
+	if (!parent)
+	{
+		Vec3 diff = _pos - _pivotPoint;
+		float mag = diff.Length();
+		float deg = atan2(diff._y, diff._x) + temp;
+		temp2 = Vec3{ mag * cos(deg), mag * sin(deg) } - diff;
+	}
+	else
+	{
+		Vec3 diff = _pos - parent->_pivotPoint;
+		float mag = diff.Length();
+		float deg = atan2(diff._y, diff._x) + temp;
+		temp2 = Vec3{ mag * cos(deg), mag * sin(deg) } -diff;
+	}
 
-	temp2 -= diff;
-
-
-	MovePos(temp2);
+	_pos += temp2;
 	_rotationAngle = in;
 }
 
@@ -221,34 +236,30 @@ void TransformComponent::Inspect()
 
 	SetRotate(DegToRad(DegAngle));
 
+	Vec3 tempPivot = _pivotPoint - _pos;
 
-	ImGui::InputFloat2("Input Pivot X, Y", _pivotPoint.m);
+	ImGui::InputFloat2("Input Pivot X, Y", tempPivot.m);
 	ImGui::Spacing();
-	ImGui::SliderFloat2("Slider Pivot X, Y", _pivotPoint.m, -1000, 1000);
-	
+	ImGui::SliderFloat2("Slider Pivot X, Y", tempPivot.m, -1000, 1000);
+
+	_pivotPoint = _pos + tempPivot;
 }
 
 ///////////////////////////////////////////////////////////////
 
 void TransformComponent::MovePos(const Vector3& in)
 {
-	if (GetParentPtr()->GetChild())
-		SetPos(_pos + in);
-	else
-		_pos += in;
+	SetPos(_pos + in);
 }
 
 void TransformComponent::MoveScale(const Vector3& in)
 {
-	_scale *= in;
+	SetScale(_scale * in);
 }
 
-void TransformComponent::MoveRotate(const float& in)
+void TransformComponent::MoveRotate(TransformComponent* parent, const float& in)
 {
-	if (GetParentPtr()->GetChild())
-		SetRotate(_rotationAngle + in);
-	else
-	_rotationAngle += in;
+	SetRotate(_rotationAngle + in, parent);
 }
 
 void TransformComponent::Init()
@@ -261,9 +272,10 @@ void TransformComponent::Init()
 			it.second->GetComponent(ComponentId::CT_Transform)->Init();
 
 	SetPos(_localPos);
-	SetRotate(_localRotationAngle);
-	_pivotPoint = _pos + _localPivotPoint;
+
+	_pivotPoint = _localPos + _localPivotPoint;
 	_pivotPoint._z = 1.f;
 
+	SetRotate(_localRotationAngle);
 	_init = true;
 }
