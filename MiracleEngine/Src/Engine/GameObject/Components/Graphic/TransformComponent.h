@@ -101,13 +101,13 @@ public:
 		value.SetFloat(_rotationAngle);
 		prototypeDoc.AddMember("Rotate", value);
 
-		_pivotPoint -= _localPos;
+		_pivotPoint -= _pos;
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_pivotPoint.GetX()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_pivotPoint.GetY()).Move(), prototypeDoc.Allocator());
 		value.PushBack(rapidjson::Value(_pivotPoint.GetZ()).Move(), prototypeDoc.Allocator());
 		prototypeDoc.AddMember("PivotPosition", value);
-		_pivotPoint += _localPos;
+		_pivotPoint += _pos;
 	}
 
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -132,13 +132,13 @@ public:
 		value.SetFloat(_rotationAngle);
 		prototypeDoc.AddMember("Rotate", value, allocator);
 
-		_pivotPoint -= _localPos;
+		_pivotPoint -= _pos;
 		value.SetArray();
 		value.PushBack(rapidjson::Value(_pivotPoint.GetX()).Move(), allocator);
 		value.PushBack(rapidjson::Value(_pivotPoint.GetY()).Move(), allocator);
 		value.PushBack(rapidjson::Value(_pivotPoint.GetZ()).Move(), allocator);
 		prototypeDoc.AddMember("PivotPosition", value, allocator);
-		_pivotPoint += _localPos;
+		_pivotPoint += _pos;
 	}
 
 	virtual void Inspect() override;
@@ -185,13 +185,13 @@ public:
 
 		if (protoTransformCom->_pivotPoint != _pivotPoint)
 		{
-			_pivotPoint -= _localPos;
+			_pivotPoint -= _pos;
 			pivot.SetArray();
 			addComponentIntoSceneFile = true;
 			pivot.PushBack(rapidjson::Value(_pivotPoint._x), allocator);
 			pivot.PushBack(rapidjson::Value(_pivotPoint._y), allocator);
 			pivot.PushBack(rapidjson::Value(_pivotPoint._z), allocator);
-			_pivotPoint += _localPos;
+			_pivotPoint += _pos;
 		}
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
