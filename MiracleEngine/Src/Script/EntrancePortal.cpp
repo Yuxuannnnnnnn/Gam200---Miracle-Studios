@@ -153,7 +153,12 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 	if (_clear)
 	{
 		std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
-		if (!otherType.compare("Player"))
-			MyFactory.ChangeScene("MainMenu");
+		if (!otherType.compare("player"))
+			MyFactory.ChangeScene("VictoryScene");
 	}
+}
+
+void EntrancePortal::IncreaseKillCount(int kills)
+{
+	_KillCount += kills;
 }

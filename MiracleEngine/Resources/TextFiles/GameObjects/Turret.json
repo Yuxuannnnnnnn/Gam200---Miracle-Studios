@@ -5,9 +5,18 @@
   "LinkUId": 0,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
-  "Scale": [ 90.0, 90.0, 1.0 ],
+  "Scale": [ 70.0, 130, 1.0 ],
   "Rotate": 0.0,
   "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "GraphicsComponent": true,
+  "G.FileName": "Turret_Body_Sprite.png",
+  "G.Shader": "",
+  "G.Layer": 13,
+  "_hasAlpha": true,
+  "_hasAdjustableAlpha": false,
+  "_alphaVal": 1.0,
+  "_isFadingOut": false,
+  "_isFlickering": false,
   "LogicComponent": true,
   "Script2Id": [ "Turret" ],
   "Script2Data": [
@@ -19,15 +28,16 @@
       "DeployScale": [ 80.0, 140.0, 1.0 ]
     }
   ],
-  "GraphicsComponent": true,
-  "G.FileName": "Turret_Body_Sprite.png",
-  "G.Shader": "",
-  "G.Layer": 13,
-  "_hasAlpha": true,
-  "_hasAdjustableAlpha": false,
-  "_alphaVal": 1.0,
-  "_isFadingOut": false,
-  "_isFlickering": false,
+  "ScriptId": [],
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Turret_Transform_spriteSpriteSheetData.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Deploy"
+    }
+  ],
+  "StartAnim": "Deploy",
   "AudioComponent": true,
   "SFXList": [
     {
@@ -39,17 +49,27 @@
     {
       "SFXName": "Shoot",
       "fileName": "TurretShoot.wav",
+
       "volume": 0.12099999934434891,
       "NumOfloops": 0
     }
   ],
-  "AnimationComponent": true,
-  "AnimationTypes": [
+
+  "HaveChild": true,
+  "ChildObjects": [
     {
-      "AnimationType": "Turret_Transform_spriteSpriteSheetData.json",
-      "TimeDelay": 0.10000000149011612,
-      "AnimationName": "Deploy"
+      "IdentityComponent": true,
+      "ObjectType": "TurretLeg",
+      "Name": "TurretLeg",
+      "LinkUId": 0,
+      "TransformComponent": true,
+      "Position": [ 0.0, 0.0, 1.0 ],
+      "Scale": [ 100.0, 100.0, 1.0 ],
+      "Rotate": 0.0,
+      "GraphicsComponent": true,
+      "G.FileName": "Turret_Leg_Sprite.png",
+      "G.Shader": "",
+      "G.Layer": 12
     }
-  ],
-  "StartAnim": "Deploy"
+  ]
 }

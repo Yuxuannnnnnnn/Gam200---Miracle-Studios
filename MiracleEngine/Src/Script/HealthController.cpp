@@ -204,6 +204,9 @@ void HealthController::DecreaseHealth(int hit)
 	if (i < 0)
 		i = 0;
 
+	if (_currHealth < 0)
+		_currHealth = 0;
+
 	for (; i < _currHealth; i++)
 		_hpBattery[i]->SetEnable(false);
 

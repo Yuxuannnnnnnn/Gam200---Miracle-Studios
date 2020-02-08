@@ -1,5 +1,9 @@
-{"BoxCollider2DComponent":true,"ColliderTypeId":1,"ColliderTag":6,"
-ColliderTrigger":true,"Collider2D.B.Center":[0.0,39.369998931884769,1.0],
+{
+	"BoxCollider2DComponent": true,
+	"ColliderTypeId": 1,
+	"ColliderTag": 6,
+	" ColliderTrigger":true,
+	"Collider2D.B.Center":[0.0,39.369998931884769,1.0],
 "Collider2D.B.Scale":[200.0,122.8030014038086,1.0],"Collider2D.B.Angle":0.0,
 "IdentityComponent":true,"ObjectType":"none","Name":"portal","LinkUId":0,
 "TransformComponent":true,"Position":[-198.0009002685547,235.6922607421875,1.0],
@@ -11,10 +15,10 @@ ColliderTrigger":true,"Collider2D.B.Center":[0.0,39.369998931884769,1.0],
   "ScriptId": [],
   "Script2Id": [ "EntrancePortal" ],
   "Script2Data": [
-    {
-	"E.OpenEntranceFileName": "EntranceTo_Level2.png",
-	"E.CloseEntranceFileName" : "EntranceTo_Level2.png",
-	"E.ProgressCount" : 3,
-	"E.NextScene": "MainMenu"
-	}]
+		{
+			"E.OpenEntranceFileName": "EntranceTo_Level2.png",
+			"E.CloseEntranceFileName": "EntranceTo_Level2_close.png",
+			"E.ProgressCount": 1,
+			"E.NextScene": "MainMenu"
+		}]
 }

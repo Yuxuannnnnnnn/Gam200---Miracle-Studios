@@ -15,6 +15,8 @@ class EntrancePortal : public IScript2
 	IScript2* _playerScript;
 
 	bool _init;
+
+	int _KillCount;
 public:
 
 	void SerialiseComponent(Serialiser& document);
@@ -30,5 +32,7 @@ public:
 	void OpenPortal();
 
 	virtual void OnTrigger2DEnter(Collider2D* other);
+
+	void IncreaseKillCount(int kills = 0);
 };
 

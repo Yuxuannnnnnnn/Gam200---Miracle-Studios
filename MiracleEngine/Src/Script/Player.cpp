@@ -418,10 +418,6 @@ void Player::UpdateInput()
 			// set bullet position & rotation as same as 'parent' obj
 			((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
 				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + aimVector.Normalized() * 100.f);
-
-			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableAlpha(true);
-			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableAdjustableAlpha(true);
-			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableFlickering(true);
 		}
 	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
@@ -660,13 +656,13 @@ void Player::DamagePlayer(int dmg)
 		return;
 	else
 	{
-		//if (!_healthBar)
-		//{
-		//	std::string temp = "HealthController";
-		//	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		//}
-		//
-		//((HealthController*)_healthBar)->DecreaseHealth(dmg);
+		if (!_healthBar)
+		{
+			std::string temp = "HealthController";
+			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		}
+		
+		((HealthController*)_healthBar)->DecreaseHealth(dmg);
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 		audcom->PlaySFX("GetHit");
 
@@ -698,12 +694,12 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		if (_god)
 			return;
 
-		//if (!_healthBar)
-		//{
-		//	std::string temp = "HealthController";
-		//	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		//}
-		//((HealthController*)_healthBar)->IncreaseHealth(2);
+		if (!_healthBar)
+		{
+			std::string temp = "HealthController";
+			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		}
+		((HealthController*)_healthBar)->IncreaseHealth(2);
 		_health += 2;
 		
 		if (_health > _healthMax)
