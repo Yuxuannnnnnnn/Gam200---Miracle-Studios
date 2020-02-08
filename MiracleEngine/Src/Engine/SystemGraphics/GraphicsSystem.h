@@ -22,6 +22,7 @@
 #include "QuadMesh.h"
 
 #include <vector>
+#include <cmath>
 
 class GraphicsSystem
 {
