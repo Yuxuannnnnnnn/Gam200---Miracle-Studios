@@ -131,6 +131,7 @@
     <ClCompile Include="Src\Script\MouseCursor.cpp" />
     <ClCompile Include="Src\Script\EntrancePortal.cpp" />
     <ClCompile Include="Src\Script\PauseMenu.cpp" />
+    <ClCompile Include="Src\Engine\SystemAudio\AudioEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -574,6 +575,7 @@
     <ClInclude Include="Src\Script\MouseCursor.h" />
     <ClInclude Include="Src\Script\EntrancePortal.h" />
     <ClInclude Include="Src\Script\PauseMenu.h" />
+    <ClInclude Include="Src\Engine\SystemAudio\AudioEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

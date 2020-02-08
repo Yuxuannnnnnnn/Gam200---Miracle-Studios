@@ -36,8 +36,25 @@ private:
 	int _layer;
 	float _alphaVal;
 public:
-	inline bool HasAlpha() { return _hasAlpha; }
+	inline bool HasAlpha() 
+	{
+		return _hasAlpha; 
+	}
 
+	inline bool HasAdjustableAlpha()
+	{
+		return _hasAdjustableAlpha;
+	}
+
+	inline bool IsFadingOut()
+	{
+		return _isFadingOut;
+	}
+
+	inline bool IsFlickering()
+	{
+		return _isFlickering;
+	}
 
 	void EnableAlpha(bool isAlpha)
 	{

@@ -23,7 +23,7 @@
     <ProjectGuid>{87AACDF0-2D7E-405C-9D17-3303C4045C9A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MiracleEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -229,6 +229,7 @@
     <ClInclude Include="Src\Engine\SystemAnimation\Animation.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\AnimationSystem.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\Frame.h" />
+    <ClInclude Include="Src\Engine\SystemAudio\AudioEngine.h" />
     <ClInclude Include="Src\Engine\SystemAudio\AudioSystem.h" />
     <ClInclude Include="Src\Engine\SystemAudio\Sound.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundEnum.h" />
@@ -659,6 +660,7 @@
     <ClCompile Include="Src\Engine\SystemAnimation\Animation.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\AnimationSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\Frame.cpp" />
+    <ClCompile Include="Src\Engine\SystemAudio\AudioEngine.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\AudioSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\Sound.cpp" />
     <ClCompile Include="Src\Engine\SystemCamera\CameraSystem.cpp" />
