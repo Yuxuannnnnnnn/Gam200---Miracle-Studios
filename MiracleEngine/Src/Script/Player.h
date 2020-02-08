@@ -48,10 +48,6 @@ private:
 	TransformComponent* _muzzleTransfrom;
 	AnimationComponent* _muzzleAnimation;
 
-	Vec3 _muzzlePos;
-	Vec3 _muzzlePos2;
-	Vec3 _muzzleScale;
-
 	TransformComponent* _objTransfrom;
 
 	IScript2* _shieldSkill;

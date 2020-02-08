@@ -40,39 +40,6 @@ void Player::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("FirerateWall") && document["FirerateWall"].IsDouble())
 		_firerateWall = document["FirerateWall"].GetDouble();
-
-	if (document.HasMember("MuzzlePosition") && document["MuzzlePosition"].IsArray())
-	{
-		if (document["MuzzlePosition"][0].IsFloat() && document["MuzzlePosition"][1].IsFloat())	//Check the array values
-			_muzzlePos = Vector3{ document["MuzzlePosition"][0].GetFloat(), document["MuzzlePosition"][1].GetFloat(), 1.f };
-
-		if (document["MuzzlePosition"].Size() == 3)
-		{
-			_muzzlePos.SetZ(document["MuzzlePosition"][2].GetFloat());
-		}
-	}
-
-	if (document.HasMember("MuzzlePosition2") && document["MuzzlePosition2"].IsArray())
-	{
-		if (document["MuzzlePosition2"][0].IsFloat() && document["MuzzlePosition2"][1].IsFloat())	//Check the array values
-			_muzzlePos2 = Vector3{ document["MuzzlePosition2"][0].GetFloat(), document["MuzzlePosition2"][1].GetFloat(), 1.f };
-
-		if (document["MuzzlePosition2"].Size() == 3)
-		{
-			_muzzlePos2.SetZ(document["MuzzlePosition2"][2].GetFloat());
-		}
-	}
-
-	if (document.HasMember("MuzzleScale") && document["MuzzleScale"].IsArray())
-	{
-		if (document["MuzzleScale"][0].IsFloat() && document["MuzzleScale"][1].IsFloat())	//Check the array values
-			_muzzleScale = Vector3{ document["MuzzleScale"][0].GetFloat(), document["MuzzleScale"][1].GetFloat(), 1.f };
-
-		if (document["MuzzleScale"].Size() == 3)
-		{
-			_muzzleScale.SetZ(document["MuzzleScale"][2].GetFloat());
-		}
-	}
 }
 
 void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -187,9 +154,6 @@ Player::Player() :
 	_animState{ 0 }, _animStatePrev{ 0 },
 	_muzzleTransfrom{ nullptr },
 	_muzzleAnimation{ nullptr },
-	_muzzlePos{},
-	_muzzlePos2{},
-	_muzzleScale{ },
 	_animTime{ -1.0 },
 	_objTransfrom{ nullptr },
 	_healthBar{ nullptr }
@@ -207,14 +171,14 @@ void Player::Init()
 	{
 		_muzzleTransfrom = (TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform);
 		_muzzleAnimation = (AnimationComponent*)it.second->GetComponent(ComponentId::CT_Animation);
-		break;;
+		break;
 	}
 
 	MyLinkFactory.SaveNewLinkID(999, GetParentId());
 	_objTransfrom = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 
 	if(_muzzleAnimation)
-		_muzzleAnimation->SetEnable(false);
+		_muzzleAnimation->SetAnimationPlaying(false);
 
 	// find Camera
 	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
@@ -244,17 +208,7 @@ void Player::Update(double dt)
 		_animTime -= dt;
 
 		if (_animTime <= 0)
-		{
-			float mag = (_muzzlePos2 - _muzzlePos).Length();
-			Vec3 temp = _objTransfrom->GetPositionA() - _muzzleTransfrom->GetPositionA();
-			_muzzleTransfrom->SetPositionA(_muzzleTransfrom->GetPositionA() - temp.Normalize() * mag);
-
-			 temp = _muzzleTransfrom->GetScaleA();
-			_muzzleTransfrom->SetScaleA(_muzzleScale);
-			_muzzleScale = temp;
-			
-			_muzzleAnimation->SetEnable(false);
-		}
+			_muzzleAnimation->SetAnimationPlaying(false);
 	}
 
 
@@ -559,6 +513,7 @@ void Player::UpdateShield(double dt)
 	//}
 	//else //_shieldOff
 	//{
+	//{
 		// cooldown countdown
 		_timerShieldActivateCooldown -= dt;
 	
@@ -586,17 +541,6 @@ void Player::WeaponShoot()
 	{
 		if(!_muzzleAnimation->GetEnable())
 			_muzzleAnimation->SetEnable(true);
-
-		if (_animTime < 0)
-		{
-			float mag = (_muzzlePos2 - _muzzlePos).Length();
-			Vec3 temp = _objTransfrom->GetPositionA() - _muzzleTransfrom->GetPositionA();
-			_muzzleTransfrom->SetPositionA(_muzzleTransfrom->GetPositionA() + temp.Normalize() * mag);
-
-			 temp = _muzzleTransfrom->GetScaleA();
-			_muzzleTransfrom->SetScaleA(_muzzleScale);
-			_muzzleScale = temp;
-		}
 
 		_muzzleAnimation->SetCurrentAnimOnce("Shoot");
 		_animTime = _muzzleAnimation->GetMaxFrame() * _muzzleAnimation->GetTimeDelay();
