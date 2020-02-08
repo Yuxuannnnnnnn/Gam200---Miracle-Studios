@@ -8,8 +8,7 @@ Turret::Turret() :
 	_state{ (unsigned)AiState::IDLE },
 	_timerAttack{ 0.0 }, _timeAttackCooldown{ 3.0 },
 	_deployTime{ 0.5 }, _shooting{ false },
-	_animState{ 1 }, _animStatePrev{ 1 },
-	_transform{nullptr}
+	_animState{ 1 }, _animStatePrev{ 1 }
 	
 {
 	_attackRangeShoot = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
@@ -32,13 +31,6 @@ void Turret::Init()
 	}
 
 	_turretBase->SetEnable(false);
-
-
-	_transform = ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform));
-
-	Vec3 temp = _transform->GetScaleA();
-	_transform->SetScaleA(_deployScale);
-	_deployScale = temp;
 
 	// set Deploy animation and set the animation's speed
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Deploy");
@@ -73,9 +65,8 @@ void Turret::Update(double dt)
 
 		if (_deployTime <= 0.0)
 		{
-			Vec3 temp = _transform->GetScaleA();
-			_transform->SetScaleA(_deployScale);
-			_deployScale = temp;
+			((TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform))->SetScaleA(_deployScale);
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
 			_turretBase->SetEnable(true);
 		}
 
