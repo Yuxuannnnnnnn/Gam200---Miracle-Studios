@@ -17,6 +17,7 @@ class Enemy;
 class Bullet : public IScript2
 {
 private:
+	bool _init, _justCollided;
 	double _lifeTime;
 	int _bulletType;
 	double _bulletSpeed;
@@ -30,6 +31,14 @@ public:
 
 	int StringToInt(std::string& in);
 	std::string IntToString(int bulletType);
+
+
+	void Init()
+	{
+		_init = true;
+		if (_bulletType == 1)
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(false);
+	}
 
 	void Update(double dt);
 

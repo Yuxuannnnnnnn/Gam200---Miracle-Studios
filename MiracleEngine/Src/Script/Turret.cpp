@@ -36,6 +36,9 @@ void Turret::Init()
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Deploy");
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
 		_deployTime / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() );
+
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("Construct");
 	// _target = player
 	for (auto idPair : _engineSystems._factory->getObjectlist())
 	{
@@ -226,6 +229,9 @@ void Turret::ShootTarget()
 		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotationA(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 50000);
+
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("Shoot");
 	}
 	else
 		_shooting = false;

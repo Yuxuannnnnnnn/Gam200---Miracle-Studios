@@ -307,11 +307,11 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		RenderObject renderobject;
 
-		if (graphicComp->IsFadingOut())
+		if (graphicComp->IsFadingOut() && !(MyFactory.GetCurrentScene().compare( "truelevel1")))
 		{
 #ifdef LEVELEDITOR
 
-			if (MyImguiSystem._editorMode)
+			if (!MyImguiSystem._editorMode)
 #endif
 			{
 				graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);

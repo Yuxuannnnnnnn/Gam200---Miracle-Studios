@@ -576,8 +576,7 @@ void Player::WeaponSwitch()
 
 void Player::WeaponShoot()
 {
-	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-	audcom->PlaySFX("Shoot");
+
 
 	// 'snap' weapon selection to lowest or highest value
 	_weaponActive < 1 ? _weaponActive = 1 : _weaponActive;
@@ -634,6 +633,9 @@ void Player::WeaponShoot_Pistol()
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	AddForwardForce(bullet->Get_uID(), 70000.0 * 2.f);
+
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("Shoot");
 }
 void Player::WeaponShoot_Shotgun()
 {
@@ -654,6 +656,9 @@ void Player::WeaponShoot_Shotgun()
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot+0.2f);
 	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
+
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("Shoot");
 }
 void Player::WeaponShoot_RPG()
 {
@@ -665,6 +670,9 @@ void Player::WeaponShoot_RPG()
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	AddForwardForce(bullet->Get_uID(), 70000);
+
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("Shoot");
 }
 
 

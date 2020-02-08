@@ -872,6 +872,15 @@ void Factory::ReInitScene()
 		it.second->Init();
 	}
 
+	for (auto& it : GetComponentMap(Graphic))
+	{
+		if (!it.second)
+			continue;
+		it.second->Init();
+	}
+
+
+
 	MyCameraSystem.Init();
 	MyLogicSystem.Init();
 }
