@@ -708,13 +708,13 @@ void Player::DamagePlayer(int dmg)
 		return;
 	else
 	{
-		if (!_healthBar)
-		{
-			std::string temp = "HealthController";
-			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		}
-
-		((HealthController*)_healthBar)->DecreaseHealth(dmg);
+		//if (!_healthBar)
+		//{
+		//	std::string temp = "HealthController";
+		//	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		//}
+		//
+		//((HealthController*)_healthBar)->DecreaseHealth(dmg);
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 		audcom->PlaySFX("GetHit");
 
@@ -722,7 +722,7 @@ void Player::DamagePlayer(int dmg)
 	}
 }
 
-void Player::OnTrigger2DEnter(Collider2D* other)
+void Player::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (!otherType.compare("BulletE"))
@@ -733,23 +733,29 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	{
 		DamagePlayer(2);
 	}
+}
+
+void Player::OnTrigger2DEnter(Collider2D* other)
+{
+	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+
 	if (!otherType.compare("PickUps_Health"))
 	{
 
 		if (_god)
 			return;
 
-		if (!_healthBar)
-		{
-			std::string temp = "HealthController";
-			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		}
-		((HealthController*)_healthBar)->IncreaseHealth(2);
+		//if (!_healthBar)
+		//{
+		//	std::string temp = "HealthController";
+		//	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		//}
+		//((HealthController*)_healthBar)->IncreaseHealth(2);
 		_health += 2;
 		
 		if (_health > _healthMax)
 			_health = _healthMax;
-		//other->GetParentPtr()->SetDestory();
+		other->GetParentPtr()->SetDestory();
 	}
 	if (!otherType.compare("PickUps_Ammo"))
 	{

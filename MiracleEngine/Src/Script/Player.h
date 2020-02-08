@@ -92,4 +92,5 @@ public:
 	void DamagePlayer(int dmg = 1);
 
 	void OnTrigger2DEnter(Collider2D* other);
+	void OnCollision2DTrigger(Collider2D* other);
 };
