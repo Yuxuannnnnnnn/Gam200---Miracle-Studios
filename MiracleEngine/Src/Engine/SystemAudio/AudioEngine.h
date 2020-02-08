@@ -3,6 +3,9 @@
 #include "../Dep/fmod/inc/fmod.h"
 #include "../Dep/fmod/inc/fmod_errors.h"
 #include "../Dep/fmod/inc/fmod.hpp"
+#include <string>
+#include <vector>
+#include <map>
 
 struct AudioVector3
 {
@@ -22,6 +25,14 @@ class AudioEngine
 public:
     AudioEngine();
     ~AudioEngine();
+
+    FMOD_VECTOR VectorToFmod(const AudioVector3& vPosition);
+
+    float dbToVolume(float dB);
+    float VolumeTodB(float volume);
+
+    bool IsPlaying(int nChannelId) const;
+    bool IsEventPlaying(const std::string& strEventName) const;
 
     void Init();
 
@@ -59,6 +70,6 @@ private:
     FMOD::ChannelGroup* bgmMasterChannel_;
 
     FMOD::Channel* channel_;
-    std::map<std::pair<std::string, AudioCategory>, FMOD::Sound*> library_;
+    std::map<std::pair<std::string, AudioCategory>, FMOD::Sound*> _soundMap;
     
 };

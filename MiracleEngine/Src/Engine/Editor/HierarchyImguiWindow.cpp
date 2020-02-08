@@ -48,6 +48,15 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 		MyFactory.WindowsDialogSaveLevel();
 	}
 
+	ImGui::Spacing();
+
+	string3 = "Refresh Scene ";
+	if (ImGui::Button(string3.c_str()))
+	{
+		PopUpBoxImguiWindow::RefreshSceneWarning* type = new PopUpBoxImguiWindow::RefreshSceneWarning{};
+		MyPopUpBox.SetPopUpBox < PopUpBoxImguiWindow::RefreshSceneWarning>(type);
+	}
+
 	ShowGameObjects();				//Show Every GameObject in the GameObjectList
 }
 

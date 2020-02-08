@@ -9,19 +9,16 @@ AudioEngine::AudioEngine()
     bgmMasterChannel_{ nullptr },
     channel_{ nullptr }
 {
-   
-    //pAudioEngine = this;
 }
+   
 
 AudioEngine::~AudioEngine()
 {
     FMOD_RESULT result;
 
-    for (std::pair<const std::pair<std::string, AudioCategory>, FMOD::Sound*>& elem : library_)
+    for (std::pair<const std::pair<std::string, AudioCategory>, FMOD::Sound*>& elem : _soundMap)
     {
         result = elem.second->release();
-
-        //AssertIfFail((!(result != FMOD_OK)), std::string("FMOD::RELEASE sound " + elem.first.first + " failed").c_str());
 
         if (result != FMOD_OK)
         {
@@ -31,8 +28,6 @@ AudioEngine::~AudioEngine()
 
     result = sfxMasterChannel_->release();
 
-    //AssertIfFail((!(result != FMOD_OK)), "FMOD::RELEASE sfx master channel failed");
-
     if (result != FMOD_OK)
     {
         std::cout << "FMOD::RELEASE SFX Master Channel failed" << std::endl;
@@ -40,7 +35,6 @@ AudioEngine::~AudioEngine()
 
     result = bgmMasterChannel_->release();
 
-    //AssertIfFail((!(result != FMOD_OK)), "FMOD::RELEASE bgm master channel failed");
 
     if (result != FMOD_OK)
     {
@@ -49,7 +43,6 @@ AudioEngine::~AudioEngine()
 
     result = fmodSystem_->release();
 
-    //AssertIfFail((!(result != FMOD_OK)), "FMOD::RELEASE system failed");
 
     if (result != FMOD_OK)
     {
@@ -110,8 +103,23 @@ void AudioEngine::Init()
 
 }
 
+float AudioEngine::dbToVolume(float dB)
+{
+    return powf(10.0f, 0.05f * dB);
+}
 
+float AudioEngine::VolumeTodB(float volume)
+{
+    return 20.0f * log10f(volume);
+}
 
+FMOD_VECTOR AudioEngine::VectorToFmod(const AudioVector3& vPosition) {
+    FMOD_VECTOR fVec;
+    fVec.x = vPosition._x;
+    fVec.y = vPosition._y;
+    fVec.z = vPosition._z;
+    return fVec;
+}
 
     //std::vector<AudioListener*>::iterator itr = audioListener_.begin();
 
@@ -135,20 +143,23 @@ void AudioEngine::Init()
 
 
 
+
+
+
 FMOD::Channel* AudioEngine::PlaySFX(const std::string& sound, AudioCategory categ, bool isLooping)
 {
     std::pair<std::string, AudioCategory> selectedAudio = std::make_pair(sound, categ);
 
     if (isLooping)
     {
-        library_[selectedAudio]->setMode(FMOD_LOOP_NORMAL);
+        _soundMap[selectedAudio]->setMode(FMOD_LOOP_NORMAL);
     }
     else
     {
-        library_[selectedAudio]->setMode(FMOD_LOOP_OFF);
+        _soundMap[selectedAudio]->setMode(FMOD_LOOP_OFF);
     }
 
-    fmodSystem_->playSound(library_[selectedAudio], sfxMasterChannel_, true, &channel_);
+    fmodSystem_->playSound(_soundMap[selectedAudio], sfxMasterChannel_, true, &channel_);
 
     return channel_;
 }
@@ -159,14 +170,14 @@ FMOD::Channel* AudioEngine::PlayBGM(const std::string& sound, AudioCategory cate
 
     if (isLooping)
     {
-        library_[selectedAudio]->setMode(FMOD_LOOP_NORMAL);
+        _soundMap[selectedAudio]->setMode(FMOD_LOOP_NORMAL);
     }
     else
     {
-        library_[selectedAudio]->setMode(FMOD_LOOP_OFF);
+        _soundMap[selectedAudio]->setMode(FMOD_LOOP_OFF);
     }
 
-    fmodSystem_->playSound(library_[selectedAudio], bgmMasterChannel_, true, &channel_);
+    fmodSystem_->playSound(_soundMap[selectedAudio], bgmMasterChannel_, true, &channel_);
 
     return channel_;
 }

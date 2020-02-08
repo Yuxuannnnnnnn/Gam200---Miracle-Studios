@@ -7,17 +7,19 @@
   "Position": [ 133.33349609375, 1772.2227783203126, 1.0 ],
   "Scale": [ 544.1040649414063, 544.1040649414063, 1.0 ],
   "Rotate": 0.0,
+
   "LogicComponent": true,
   "Script2Id": [ "Spawner" ],
   "Script2Data": [
     {
       "Health": 10,
       "SpawnType": 1,
-      "SpawnCooldown": 2.0,
+      "SpawnCooldown": 4.0,
       "LightDuration": 0.5,
-      "SpawnAmount": 10
+      "SpawnAmount": 100
     }
   ],
+
   "GraphicsComponent": true,
   "G.FileName": "Spawner_Platform_unlit.png",
   "G.Shader": "",

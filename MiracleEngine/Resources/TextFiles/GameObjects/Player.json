@@ -1,10 +1,10 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "Player",
-  "Name": "Player",
+  "ObjectType": "player",
+  "Name": "player",
   "LinkUId": 999,
   "TransformComponent": true,
-  "Position": [ 154.2581329345703,-1809.2265625,1.0 ],
+  "Position": [ 0, 0 ,1.0 ],
   "Scale": [ 180.0,180.0,1.0 ],
   "Rotate": 0.0,
 

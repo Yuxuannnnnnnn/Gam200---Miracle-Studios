@@ -163,9 +163,14 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 
 void Bullet::OnCollision2DTrigger(Collider2D* other )
 {
-	GetParentPtr()->SetDestory();
-if (_bulletType == 1)
-	BulletCollisionTurret(other);
+	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+	if (!otherType.compare("PlayerShield"))
+		;
+	else
+		GetParentPtr()->SetDestory();
+
+	if (_bulletType == 1)
+		BulletCollisionTurret(other);
 
 	//switch (_bulletType)
 	//{
