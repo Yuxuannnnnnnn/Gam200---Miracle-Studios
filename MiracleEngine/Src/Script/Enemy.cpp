@@ -67,12 +67,21 @@ void Enemy::Update(double dt)
 // death logic
 	if (_timerDeath)
 	{
+		if (_timerDeath > 0 && ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+		{
+			if ( ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetCurrentFrame() ==
+				(((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() - 1) )
+			{
+				((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
+			}
+		}
 		// if animation finish playing
 		if (_timerDeath > 0 && !((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
 		{
-			GetParentPtr()->SetEnable(false);
-			//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
-			//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
+			//GetParentPtr()->SetEnable(false);
+		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
+		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
 			ChancePickUps();
 			GetParentPtr()->SetDestory();
 		}
@@ -117,23 +126,11 @@ void Enemy::Update(double dt)
 			_stunned = false;
 			_animState = _animStatePrev = 1;
 		}
-		return;
+		else
+			return;
 	}
 
-// charging duration logic
-	if (_enemyType == 1 && _health > 0 && _charging)
-	{
-		if (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-		{
-			_chaseTimer -= dt;
-		}
-		else
-		{
-			_chaseTimer = _chaseDuration;
-			_charging = false;
-			SetStunned();
-		}
-	}
+
 
 	_timerAttack -= dt;
 	_timerPathing -= dt;
@@ -177,6 +174,21 @@ void Enemy::Update(double dt)
 	}
 	else
 		_animStatePrev = _animState;
+
+	// charging duration logic
+	if (_enemyType == 1 && _health > 0 && _charging)
+	{
+		if (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+		{
+			_chaseTimer -= dt;
+		}
+		else
+		{
+			_chaseTimer = _chaseDuration;
+			_charging = false;
+			SetStunned();
+		}
+	}
 }
 
 void Enemy::AttackRangeMelee()
@@ -402,8 +414,7 @@ void Enemy::MoveNode(bool start)
 				moveVec = Vector3(
 					(nextNextNode->GetPosition()._x - GetPosition()._x),
 					(nextNextNode->GetPosition()._y - GetPosition()._y),
-					0
-				);
+					0);
 				_nextNode = nextNextNode;
 				//_path = EngineSystems::GetInstance()._aiSystem->PathFinding(GetPosition(), GetDestinationPos());
 				_path.erase(_path.begin());
@@ -451,7 +462,7 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 	{
 		_health--;
 		SetStunned();
-		AddForwardForce(GetParentId(), 8000);
+		AddForwardForce(GetParentId(), -150000);
 	}
 	if (otherType.compare("Player") == 0)
 	{
