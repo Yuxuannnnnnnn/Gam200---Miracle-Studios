@@ -15,7 +15,7 @@
 
 
 
-bool IsAnimationPlaying()
+bool AnimationComponent::IsAnimationPlaying()
 {
 	return _animationPlaying;
 }
