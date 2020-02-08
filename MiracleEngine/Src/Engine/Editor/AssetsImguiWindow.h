@@ -60,7 +60,14 @@ class AssetsImguiWindow: public IBaseImguiWindow
 	SubFolder HP_and_Progress_Bar{ "HP_and_Progress_Bar" };
 
 
+	std::string selectedGameObject;
+
 public:
+
+	void SetSelectedObj(std::string name)
+	{
+		selectedGameObject = name;
+	}
 
 	//NamePath GetVertexShaderFiles()
 	//{

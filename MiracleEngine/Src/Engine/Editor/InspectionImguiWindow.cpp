@@ -15,7 +15,7 @@ InspectionImguiWindow::InspectionImguiWindow(bool open, ImGuiWindowFlags flags)
 
 void InspectionImguiWindow::Update()
 {
-	if (MyFactory.CheckObjOrignialPointer(_inspectObj))
+	if (int checkProtoOrObj = MyFactory.CheckObjOrignialPointer(_inspectObj))
 	{
 		if (MyInputSystem.KeyDown(KeyCode::KEYB_DELETE))
 		{
@@ -90,6 +90,34 @@ void InspectionImguiWindow::Update()
 			ImGui::Spacing();
 			ImGui::Spacing();
 
+
+			IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (_inspectObj->GetComponent(ComponentId::CT_Identity));
+
+			std::string string1 = "Clone " + IdCom->GetName();
+			if (ImGui::Button(string1.c_str()))
+			{
+				GameObject* newGameobject = MyFactory.CloneGameObject(_inspectObj);	//Clone GameObject
+				if (checkProtoOrObj == 2) //if the object is a prototype, reset the position to the origin point
+				{
+					if (TransformComponent * tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
+						tmp->SetPos({ 0,0,1 });
+				}
+
+				InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+				MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+				MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+				MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
+
+			}
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+			ImGui::Spacing();
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+			ImGui::Spacing();
+			ImGui::Spacing();
 
 
 			if (_inspectObj->Get_uID() <= 1000)
