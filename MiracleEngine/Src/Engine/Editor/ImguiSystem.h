@@ -49,3 +49,5 @@ public:
 #define MyPopUpBox (*(dynamic_cast<PopUpBoxImguiWindow *>(MyImguiSystem.GetWindow("PopUpBox"))))
 #define MyInspectionWindow (*(dynamic_cast<InspectionImguiWindow *>(MyImguiSystem.GetWindow("Inspector"))))
 #define MyAnimationWindow (*(dynamic_cast<AnimationImguiWindow *>(MyImguiSystem.GetWindow("Animation"))))
+#define MyHierarchyWindow (*(dynamic_cast<HierarchyImguiWindow *>(MyImguiSystem.GetWindow("Hierarchy"))))
+#define MyAssetsWindow (*(dynamic_cast<AssetsImguiWindow *>(MyImguiSystem.GetWindow("Assets"))))

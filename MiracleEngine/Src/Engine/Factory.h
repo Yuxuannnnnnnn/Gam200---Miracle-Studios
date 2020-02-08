@@ -51,7 +51,7 @@ public:
 
 	////////////////////////////////////////////////////////////////////////
 
-	bool CheckObjOrignialPointer(GameObject* obj);
+	int CheckObjOrignialPointer(GameObject* obj);
 
 	std::unordered_map<size_t, GameObject*>& getObjectlist();
 

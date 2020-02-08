@@ -107,12 +107,12 @@ GameObject* Factory::GetObjectWithId(size_t id)
 	return _gameObjectIdMap[id];
 }
 
-bool Factory::CheckObjOrignialPointer(GameObject* obj)
+int Factory::CheckObjOrignialPointer(GameObject* obj)
 {
 	for (auto& pair : _gameObjectIdMap)
 	{
 		if (pair.second == obj)
-			return true;
+			return 1;
 	}
 
 
@@ -120,10 +120,10 @@ bool Factory::CheckObjOrignialPointer(GameObject* obj)
 	for (auto& pair : prototypeList)
 	{
 		if (pair.second == obj)
-			return true;
+			return 2;
 	}
 	
-	return false;
+	return 0;
 }
 
 std::unordered_map<size_t, GameObject*>& Factory::getObjectlist()

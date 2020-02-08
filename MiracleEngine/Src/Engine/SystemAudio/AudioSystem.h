@@ -7,6 +7,7 @@
 #include "../Dep/fmod/inc/fmod_errors.h"
 #include "../Dep/fmod/inc/fmod.hpp"
 #include "GameObject/Components/AudioComponent.h"
+#include "AudioEngine.h"
 
 #include "SoundEnum.h"
 

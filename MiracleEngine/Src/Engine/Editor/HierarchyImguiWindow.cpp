@@ -138,7 +138,18 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 		std::string string1 = "Clone##" + string;
 		if (ImGui::Button(string1.c_str()))
 		{
-			MyFactory.CloneGameObject(gameObject);
+			GameObject* temp = MyFactory.CloneGameObject(gameObject);
+			InspectionImguiWindow::InspectGameObject(temp);	//Inspect cloned object
+			MyImGuizmoManager.SetPickObjectUId(temp->Get_uID());	//gizmo the cloned object
+
+
+			IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (temp->GetComponent(ComponentId::CT_Identity));	
+			std::string ObjectTypeID = IdCom->GetName(); //Get Object Type of each GameObject
+			std::string string = std::to_string(IdCom->GetParentId()) + " " + ObjectTypeID; // "Object Type + Object unique number" string
+
+			selectedObj = string; //highlight the cloned object
+			isObjectSelected = true;
+
 		}
 
 

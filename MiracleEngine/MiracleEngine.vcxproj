@@ -229,6 +229,7 @@
     <ClInclude Include="Src\Engine\SystemAnimation\Animation.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\AnimationSystem.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\Frame.h" />
+    <ClInclude Include="Src\Engine\SystemAudio\AudioEngine.h" />
     <ClInclude Include="Src\Engine\SystemAudio\AudioSystem.h" />
     <ClInclude Include="Src\Engine\SystemAudio\Sound.h" />
     <ClInclude Include="Src\Engine\SystemAudio\SoundEnum.h" />
@@ -659,6 +660,7 @@
     <ClCompile Include="Src\Engine\SystemAnimation\Animation.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\AnimationSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAnimation\Frame.cpp" />
+    <ClCompile Include="Src\Engine\SystemAudio\AudioEngine.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\AudioSystem.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\Sound.cpp" />
     <ClCompile Include="Src\Engine\SystemCamera\CameraSystem.cpp" />
