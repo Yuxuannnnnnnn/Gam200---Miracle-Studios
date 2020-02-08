@@ -137,7 +137,7 @@ void EntrancePortal::Update(double dt)
 			_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 		}
 
-		if (((Player*)_playerScript)->GetProgressLevel() >= _progressCount)
+		if (_KillCount >= _progressCount)
 			OpenPortal();
 	}
 }
@@ -154,7 +154,7 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 	{
 		std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 		if (!otherType.compare("player"))
-			MyFactory.ChangeScene("VictoryScene");
+			MyFactory.ChangeScene(_nextScene);
 	}
 }
 

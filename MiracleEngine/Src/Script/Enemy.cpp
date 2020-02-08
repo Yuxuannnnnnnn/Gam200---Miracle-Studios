@@ -2,6 +2,7 @@
 #include "Script/Enemy.h"
 #include <cstdlib>
 #include <ctime>
+#include "EntrancePortal.h"
 
 Enemy::Enemy() :
 	_init{ false },
@@ -83,6 +84,9 @@ void Enemy::Update(double dt)
 			((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
 			ChancePickUps();
+
+			std::string temp = "EntrancePortal";
+			((EntrancePortal*)MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(1239)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]])->IncreaseKillCount(1);
 			GetParentPtr()->SetDestory();
 		}
 		return;
