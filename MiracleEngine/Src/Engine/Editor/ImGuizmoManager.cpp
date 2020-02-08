@@ -146,7 +146,7 @@ void ImGuizmoManager::Update()
 
 			float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 			ImGuizmo::DecomposeMatrixToComponents(objectMatrix, matrixTranslation, matrixRotation, matrixScale);
-			transform->SetPos(Vec3{ matrixTranslation[0],matrixTranslation[1], 1.f } / windowSizeOffset);
+			transform->SetPivot(Vec3{ matrixTranslation[0],matrixTranslation[1], 1.f } / windowSizeOffset);
 			transform->SetScale(Vec3{ matrixScale[0] ,matrixScale[1], 1.f } / windowSizeOffset);
 			transform->SetRotate(DegToRad(matrixRotation[2]));
 			//ImGuizmo::RecomposeMatrixFromComponents(transform->GetPos().m, m, transform->GetScale().m, objectMatrix);

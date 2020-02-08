@@ -9,6 +9,9 @@
 class PhysicsSystem final
 {
 	std::vector<Collider2D*> _allEnableColliders; // frame based
+
+	bool _drawLines;
+	bool _enableCollider;
 public:
 	PhysicsSystem();
 	~PhysicsSystem() {}
@@ -23,6 +26,11 @@ public:
 	static void AddForwardForce(size_t uId, float force);
 	static void UpdateColliderData(Collider2D* collider);
 
+	void SetDrawLine(bool t);
+	bool GetDrawLine() const;
+
+	void SetColliderMode(bool t);
+	bool GetColliderMode() const;
 public:
 	// changes
 	CollisionMap _collisionMap;

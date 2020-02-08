@@ -157,9 +157,7 @@ void Engine::Update()
 		MyAnimationSystem.Update(dt);
 		MyGraphicsSystem.Update(dt);
 		MyParticleSystem.Draw();
-
-		//if(MyImguiSystem._editorMode)
-			MyPhysicsSystem.Draw();
+		MyPhysicsSystem.Draw();
 
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
 
