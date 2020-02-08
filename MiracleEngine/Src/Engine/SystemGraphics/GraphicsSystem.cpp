@@ -143,6 +143,10 @@ void GraphicsSystem::Update(double dt)
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 
+		if (renderobj._hasAdjustableAlpha)
+		{
+			//renderobj._pShader->SetUniform1f("u_Alpha", renderobj._alpha);
+		}
 		/*if (renderobj._alpha < 0.95f)
 		{
 			glDisable(GL_ALPHA_TEST);
@@ -250,6 +254,15 @@ void GraphicsSystem::UpdateRenderObjectList()
 		else
 		{
 			renderobject._hasAlpha = false;
+		}
+
+		if (graphicComp->HasAdjustableAlpha())
+		{
+			renderobject._hasAdjustableAlpha = true;
+		}
+		else
+		{
+			renderobject._hasAdjustableAlpha = false;
 		}
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
