@@ -157,6 +157,8 @@ void Enemy::Update(double dt)
 			}
 			if (_animState == 2) // charging
 			{
+				AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+				audcom->PlaySFX("charging");
 				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(true);
 				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Move");
 				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
@@ -165,6 +167,7 @@ void Enemy::Update(double dt)
 		}
 		if (_enemyType == 2) // shooter
 		{
+
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
 			//if (_animState == 1) // moving
 			//	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
@@ -230,6 +233,9 @@ void Enemy::AttackRangeShoot()
 		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 70000);
+
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("shoot");
 	}
 }
 void Enemy::CheckState()

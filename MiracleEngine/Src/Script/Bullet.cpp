@@ -3,6 +3,9 @@
 #include "Script/Enemy.h"
 #include "Script/Player.h"
 
+
+
+
 void Bullet::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("Lifetime") && document["Lifetime"].IsDouble())	//Checks if the variable exists in .Json file
@@ -41,7 +44,9 @@ void Bullet::Inspect()
 	ImGui::Spacing();
 }
 
-Bullet::Bullet() : _lifeTime{ 0.0 }, _bulletType{ 0 }, _bulletSpeed{ 0.0 }{}
+Bullet::Bullet() : _lifeTime{ 0.0 }, _bulletType{ 0 }, _bulletSpeed{ 0.0 }, _init{ false },
+_justCollided{ false }
+{}
 
 Bullet* Bullet::Clone()
 {
@@ -81,6 +86,16 @@ std::string Bullet::IntToString(int bulletType)
 
 void Bullet::Update(double dt)
 {
+	if (!_init)
+		Init();
+	
+	if (_bulletType == 1)
+		if (_justCollided && !((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+		{
+			GetParentPtr()->SetDestory();
+		}
+
+
 	if (_lifeTime > 0.0f)
 		_lifeTime -= dt;
 
@@ -161,16 +176,29 @@ void Bullet::BulletCollisionEnemy(Collider2D* other)
 	}
 }
 
-void Bullet::OnCollision2DTrigger(Collider2D* other )
+void Bullet::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (!otherType.compare("PlayerShield"))
 		;
 	else
-		GetParentPtr()->SetDestory();
+	{
+		_justCollided = true;
+		if (_bulletType == 1)
+		{
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Explosion");
+			((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->SetScaleA({300, 300, 1});
+			((RigidBody2DComponent*)this->GetSibilingComponent(ComponentId::CT_RigidBody2D))->SetEnable(false);
+			((Collider2D*)this->GetSibilingComponent(ComponentId::CT_CircleCollider2D))->SetEnable(false);
+		}
+		else
+			GetParentPtr()->SetDestory();
 
-	if (_bulletType == 1)
-		BulletCollisionTurret(other);
+
+	}
+
+	//if (_bulletType == 1)
+	//	BulletCollisionTurret(other);
 
 	//switch (_bulletType)
 	//{

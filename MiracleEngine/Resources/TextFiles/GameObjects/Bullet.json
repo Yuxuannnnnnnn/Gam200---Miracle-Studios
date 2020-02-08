@@ -7,23 +7,34 @@
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 60.0, 60.0, 1.0 ],
   "Rotate": 0.0,
-
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
   "LogicComponent": true,
-  "ScriptId": [],
   "Script2Id": [ "Bullet" ],
   "Script2Data": [
     {
       "Lifetime": 3.0,
       "BulletType": "BulletPlayer",
-      "BulletSpeed": 1.0
+      "BulletSpeed": 0.5
     }
   ],
-
   "GraphicsComponent": true,
   "G.FileName": "Bullet.png",
   "G.Shader": "",
   "G.Layer": 20,
   "_hasAlpha": true,
+  "_hasAdjustableAlpha": false,
+  "_alphaVal": 1.0,
+  "_isFadingOut": false,
+  "_isFlickering": false,
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json",
+      "TimeDelay": 0.019999999552965165,
+      "AnimationName": "Explosion"
+    }
+  ],
+  "StartAnim": "Explosion",
   "RigidBody2DComponent": true,
   "Mass": 1.0,
   "Friction": 0.0,
@@ -33,6 +44,5 @@
   "ColliderTag": 2,
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-  "Collider2D.C.Radius": 9.191
-
+  "Collider2D.C.Radius": 9.190999984741211
 }

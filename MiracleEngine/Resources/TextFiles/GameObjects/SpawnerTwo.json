@@ -15,7 +15,7 @@
       "SpawnType": 2,
       "SpawnCooldown": 2.5,
       "LightDuration": 0.5,
-      "SpawnAmount": 100
+      "SpawnAmount": 15
     }
   ],
   "GraphicsComponent": true,

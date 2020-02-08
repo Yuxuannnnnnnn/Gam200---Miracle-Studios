@@ -37,6 +37,13 @@ private:
 	float u1, v1;
 
 public:
+
+	void Init()
+	{
+		_alphaVal = 1.0f;
+	}
+
+
 	inline bool HasAlpha() 
 	{
 		return _hasAlpha; 
