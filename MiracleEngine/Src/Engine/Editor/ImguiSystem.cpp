@@ -73,35 +73,33 @@ void ImguiSystem::UpdateFrame()
 		//
 		//	ImGui::EndMenu();
 		//}
-		if(ImGui::BeginMenu("Editor Settings  "))
+		if (ImGui::BeginMenu("Editor Settings  "))
 		{
-			if (ImGui::BeginMenu("Editor Mode  "))
+			if (_editorMode && ImGui::MenuItem("Editor Mode : ON "))
 			{
-				if (ImGui::MenuItem("ON  "))
-				{
-					_editorMode = true;
-				}
-				if (ImGui::MenuItem("OFF  "))
-				{
-					MyFactory.ReInitScene();
-					_editorMode = false;
-				}
-				ImGui::EndMenu();
+				MyFactory.ReInitScene();
+				_editorMode = false;
 			}
+			else if (!_editorMode && ImGui::MenuItem("Editor Mode : OFF "))
+				_editorMode = true;
+
 			//ImGui::Separator();
 
-			if (ImGui::BeginMenu("FullScreen  "))
-			{
-				if (ImGui::MenuItem("ON  "))
-				{
-					EngineSystems::GetInstance()._windowSystem->getWindow().SetFullscreenWindowMode();
-				}
-				if (ImGui::MenuItem("OFF  "))
-				{
-					EngineSystems::GetInstance()._windowSystem->getWindow().SetNonFullScreenWindowMode();
-				}
-				ImGui::EndMenu();
-			}
+			if (_window.GetFullscreen() && ImGui::MenuItem("FullScreen Mode : ON "))
+				EngineSystems::GetInstance()._windowSystem->getWindow().SetNonFullScreenWindowMode();
+			else if (!_window.GetFullscreen() && ImGui::MenuItem("FullScreen Mode : OFF "))
+				EngineSystems::GetInstance()._windowSystem->getWindow().SetFullscreenWindowMode();
+
+			if (MyPhysicsSystem.GetDrawLine() && ImGui::MenuItem("Draw Line Mode : ON "))
+				MyPhysicsSystem.SetDrawLine(false);
+			else if (!MyPhysicsSystem.GetDrawLine() && ImGui::MenuItem("Draw Line Mode : OFF "))
+				MyPhysicsSystem.SetDrawLine(true);
+
+			if (MyPhysicsSystem.GetColliderMode() && ImGui::MenuItem("Collider Mode : ON "))
+				MyPhysicsSystem.SetColliderMode(false);
+			else if (!MyPhysicsSystem.GetColliderMode() && ImGui::MenuItem("Collider Mode : OFF "))
+				MyPhysicsSystem.SetColliderMode(true);
+
 			ImGui::EndMenu();
 		}
 

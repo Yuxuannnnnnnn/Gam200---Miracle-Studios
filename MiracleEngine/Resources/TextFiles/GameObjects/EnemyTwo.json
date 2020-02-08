@@ -6,7 +6,7 @@
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
-  "Scale": [ 150.0,75.0,1.0 ],
+  "Scale": [ 500.0,500.0,1.0 ],
   "Rotate": 0.0,
 
   "GraphicsComponent": true,

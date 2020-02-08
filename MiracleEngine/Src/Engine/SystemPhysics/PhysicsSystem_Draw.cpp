@@ -1,6 +1,16 @@
 #include "PrecompiledHeaders.h"
 #include "PhysicsSystem.h"
 
+void PhysicsSystem::SetDrawLine(bool t)
+{
+	_drawLines = t;
+}
+
+bool PhysicsSystem::GetDrawLine() const
+{
+	return _drawLines;
+}
+
 void PhysicsSystem::AllColliderDraw()
 {
 	AllColliderDataUpdate();

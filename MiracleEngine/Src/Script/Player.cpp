@@ -212,6 +212,9 @@ void Player::Init()
 	MyLinkFactory.SaveNewLinkID(999, GetParentId());
 	_objTransfrom = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 
+	if(_muzzleAnimation)
+		_muzzleAnimation->SetEnable(false);
+
 	// find Camera
 	//std::unordered_map<size_t, GameObject*> temp = EngineSystems::GetInstance()._gameObjectFactory->getObjectlist();
 
@@ -249,6 +252,7 @@ void Player::Update(double dt)
 			_muzzleTransfrom->SetScaleA(_muzzleScale);
 			_muzzleScale = temp;
 			
+			_muzzleAnimation->SetEnable(false);
 		}
 	}
 

@@ -336,7 +336,6 @@ void Window::CheckFullScreenToggle()
 			GetWindowRect(mainHWND, &rect);
 			_windowWidth = rect.right + rect.left;
 			_windowHeight = rect.bottom + rect.top - 20;
-			_fullScreen = true;
 
 			MyEventHandler.ChangedWindowSize();
 		}
@@ -344,7 +343,6 @@ void Window::CheckFullScreenToggle()
 		{
 			_windowWidth = _initWindowWidth;
 			_windowHeight = _initWindowHeight;
-			_fullScreen = false;
 
 			MyEventHandler.ChangedWindowSize();
 		}
@@ -449,6 +447,11 @@ float Window::GetWindowWidthRatio() const
 float Window::GetWindowHeightRatio() const
 {
 	return 1.f; //_windowHeight / _initWindowHeight;
+}
+
+bool Window::GetFullscreen() const
+{
+	return _fullScreen;
 }
 
 
