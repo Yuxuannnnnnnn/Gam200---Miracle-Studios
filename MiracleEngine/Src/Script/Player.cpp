@@ -568,6 +568,9 @@ void Player::WeaponSwitch()
 
 void Player::WeaponShoot()
 {
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("Shoot");
+
 	// 'snap' weapon selection to lowest or highest value
 	_weaponActive < 1 ? _weaponActive = 1 : _weaponActive;
 	_weaponActive > 3 ? _weaponActive = 3 : _weaponActive;
@@ -696,7 +699,12 @@ void Player::DamagePlayer(int dmg)
 	if (_shieldOn)
 		return;
 	else
+	{
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("GetHit");
+
 		_health -= dmg;
+	}
 }
 
 void Player::OnTrigger2DEnter(Collider2D* other)
