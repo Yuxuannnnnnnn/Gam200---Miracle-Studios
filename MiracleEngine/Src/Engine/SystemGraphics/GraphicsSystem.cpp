@@ -340,7 +340,16 @@ void GraphicsSystem::UpdateRenderObjectList()
 		}
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
-		renderobject._alpha = graphicComp->GetAlpha();
+
+		if (graphicComp->IsFlickering())
+		{
+			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			renderobject._alpha = r;
+		}
+		else
+		{
+			renderobject._alpha = graphicComp->GetAlpha();
+		}
 		// check for if obj have animation
 
 		if (animComp && animComp->IsAnimationPlaying())
