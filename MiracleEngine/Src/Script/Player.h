@@ -48,10 +48,6 @@ private:
 	TransformComponent* _muzzleTransfrom;
 	AnimationComponent* _muzzleAnimation;
 
-	Vec3 _muzzlePos;
-	Vec3 _muzzlePos2;
-	Vec3 _muzzleScale;
-
 	TransformComponent* _objTransfrom;
 
 	IScript2* _shieldSkill;
@@ -92,4 +88,5 @@ public:
 	void DamagePlayer(int dmg = 1);
 
 	void OnTrigger2DEnter(Collider2D* other);
+	void OnCollision2DTrigger(Collider2D* other);
 };
