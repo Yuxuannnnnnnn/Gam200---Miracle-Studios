@@ -341,9 +341,9 @@ void Enemy::FSM()
 void Enemy::ChancePickUps()
 {
 	std::srand((unsigned)std::time(0));
-	int Yaya = 1 + std::rand() % 8;
+	int Yaya = 1 + std::rand() % 10;
 
-	if (Yaya == 4) // health
+	if (Yaya <= 2) // health 30%drop
 	{
 		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Health"]);
 		// set bullet position & rotation as same as 'parent' obj
@@ -352,7 +352,7 @@ void Enemy::ChancePickUps()
 		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	}
-	else if (Yaya == 8) // ammo
+	else if (Yaya == 3 || Yaya == 4) // ammo 20%drop
 	{
 		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
 		// set bullet position & rotation as same as 'parent' obj
@@ -476,9 +476,10 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 		SetStunned();
 		AddForwardForce(GetParentId(), -150000);
 	}
-	if (otherType.compare("Player") == 0)
+	if (otherType.compare("Player") == 0 || otherType.compare("player") == 0)
 	{
 		_stunActivate = true;
 		_timerAttack = _timerAttackCooldown;
+		AddForwardForce(GetParentId(), -150000);
 	}
 }
