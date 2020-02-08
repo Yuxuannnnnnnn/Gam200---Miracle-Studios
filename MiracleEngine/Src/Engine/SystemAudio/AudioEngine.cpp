@@ -17,7 +17,7 @@ AudioEngine::~AudioEngine()
 {
     FMOD_RESULT result;
 
-    for (std::pair<const std::pair<std::string, AudioCategory>, FMOD::Sound*>& elem : library_)
+    for (std::pair<const std::pair<std::string, AudioCategory>, FMOD::Sound*>& elem : _soundMap)
     {
         result = elem.second->release();
 
@@ -141,14 +141,14 @@ FMOD::Channel* AudioEngine::PlaySFX(const std::string& sound, AudioCategory cate
 
     if (isLooping)
     {
-        library_[selectedAudio]->setMode(FMOD_LOOP_NORMAL);
+        _soundMap[selectedAudio]->setMode(FMOD_LOOP_NORMAL);
     }
     else
     {
-        library_[selectedAudio]->setMode(FMOD_LOOP_OFF);
+        _soundMap[selectedAudio]->setMode(FMOD_LOOP_OFF);
     }
 
-    fmodSystem_->playSound(library_[selectedAudio], sfxMasterChannel_, true, &channel_);
+    fmodSystem_->playSound(_soundMap[selectedAudio], sfxMasterChannel_, true, &channel_);
 
     return channel_;
 }
@@ -159,14 +159,14 @@ FMOD::Channel* AudioEngine::PlayBGM(const std::string& sound, AudioCategory cate
 
     if (isLooping)
     {
-        library_[selectedAudio]->setMode(FMOD_LOOP_NORMAL);
+        _soundMap[selectedAudio]->setMode(FMOD_LOOP_NORMAL);
     }
     else
     {
-        library_[selectedAudio]->setMode(FMOD_LOOP_OFF);
+        _soundMap[selectedAudio]->setMode(FMOD_LOOP_OFF);
     }
 
-    fmodSystem_->playSound(library_[selectedAudio], bgmMasterChannel_, true, &channel_);
+    fmodSystem_->playSound(_soundMap[selectedAudio], bgmMasterChannel_, true, &channel_);
 
     return channel_;
 }

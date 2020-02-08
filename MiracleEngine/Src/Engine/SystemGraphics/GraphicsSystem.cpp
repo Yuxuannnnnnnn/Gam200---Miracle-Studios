@@ -36,6 +36,11 @@ void GraphicsSystem::Update(double dt)
 	{
 		if (renderobj._hasAlpha)
 			continue;
+
+		if (renderobj._hasAdjustableAlpha &&
+			abs(1.0f - renderobj._alpha) > 0.01f)
+			continue;
+
 		renderobj._pShader->Select();
 
 		if (renderobj._pTexture)
@@ -44,9 +49,6 @@ void GraphicsSystem::Update(double dt)
 		{
 			continue;
 		}
-
-		
-
 
 		if (renderobj._isAnimated)
 		{
@@ -94,6 +96,12 @@ void GraphicsSystem::Update(double dt)
 	{
 		if (!(renderobj._hasAlpha))
 			continue;
+
+		if (renderobj._hasAdjustableAlpha &&
+			abs(1.0f - renderobj._alpha) < 0.01f)
+			continue;
+
+
 		renderobj._pShader->Select();
 
 		if (renderobj._pTexture)
@@ -102,9 +110,6 @@ void GraphicsSystem::Update(double dt)
 		{
 			continue;
 		}
-
-
-
 
 		if (renderobj._isAnimated)
 		{

@@ -59,6 +59,6 @@ private:
     FMOD::ChannelGroup* bgmMasterChannel_;
 
     FMOD::Channel* channel_;
-    std::map<std::pair<std::string, AudioCategory>, FMOD::Sound*> library_;
+    std::map<std::pair<std::string, AudioCategory>, FMOD::Sound*> _soundMap;
     
 };
