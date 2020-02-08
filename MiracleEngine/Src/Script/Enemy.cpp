@@ -80,8 +80,8 @@ void Enemy::Update(double dt)
 		if (_timerDeath > 0 && !((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
 		{
 			//GetParentPtr()->SetEnable(false);
-		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
-		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
+			((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
 			ChancePickUps();
 			GetParentPtr()->SetDestory();
 		}
@@ -459,6 +459,12 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (otherType.compare("Bullet") == 0)
+	{
+		_health--;
+		SetStunned();
+		AddForwardForce(GetParentId(), -150000);
+	}
+	if (otherType.compare("BulletT") == 0)
 	{
 		_health--;
 		SetStunned();

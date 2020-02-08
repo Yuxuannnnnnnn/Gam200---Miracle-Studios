@@ -7,7 +7,7 @@
 	"ClonableObjects": [
 		{
 			"IdentityComponent": true,
-			"ObjectType": "player",
+			"ObjectType": "Player",
 			"TransformComponent": true,
 			"Position": [ 0.0, 0.0, 1.0 ],
 			"Scale": [ 199.99998474121095, 199.9999237060547, 1.0 ],
