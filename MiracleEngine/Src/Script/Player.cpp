@@ -460,6 +460,11 @@ void Player::UpdateInput()
 			// set bullet position & rotation as same as 'parent' obj
 			((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
 				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + aimVector.Normalized() * 100.f);
+
+			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableAlpha(true);
+			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableAdjustableAlpha(true);
+			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableFadingOut(true);
+
 		}
 	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
@@ -568,6 +573,9 @@ void Player::WeaponSwitch()
 
 void Player::WeaponShoot()
 {
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("Shoot");
+
 	// 'snap' weapon selection to lowest or highest value
 	_weaponActive < 1 ? _weaponActive = 1 : _weaponActive;
 	_weaponActive > 3 ? _weaponActive = 3 : _weaponActive;
@@ -696,7 +704,12 @@ void Player::DamagePlayer(int dmg)
 	if (_shieldOn)
 		return;
 	else
+	{
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("GetHit");
+
 		_health -= dmg;
+	}
 }
 
 void Player::OnTrigger2DEnter(Collider2D* other)

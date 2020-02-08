@@ -57,6 +57,16 @@ public:
 		return _isFlickering;
 	}
 
+	void EnableFadingOut(bool isFading)
+	{
+		_isFadingOut = isFading;
+	}
+
+	void EnableAdjustableAlpha(bool isAlpha)
+	{
+		_hasAdjustableAlpha = isAlpha;
+	}
+
 	void EnableAlpha(bool isAlpha)
 	{
 		_hasAlpha = isAlpha;
