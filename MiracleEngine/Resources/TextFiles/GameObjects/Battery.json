@@ -1,1 +1,20 @@
-{"IdentityComponent":true,"ObjectType":"Battery","Name":"none","BoxCollider2DComponent":true,"ColliderTypeId":1,"ColliderTag":6,"ColliderTrigger":false,"Collider2D.B.Center":[0.0,0.0,1.0],"Collider2D.B.Scale":[125.0,40.0,1.0],"Collider2D.B.Angle":0.0,"TransformComponent":true,"Position":[-375.9991455078125,-259.6346435546875,1.0],"Scale":[200.0,50.0,1.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"Battery_rusted.png","G.Shader":"DefaultShader","G.Layer":1}
+{
+  "IdentityComponent": true,
+  "ObjectType": "Battery",
+  "Name": "none",
+  "BoxCollider2DComponent": true,
+  "ColliderTypeId": 1,
+  "ColliderTag": 6,
+  "ColliderTrigger": false,
+  "Collider2D.B.Center": [ 0.0, 0.0, 1.0 ],
+  "Collider2D.B.Scale": [ 125.0, 40.0, 1.0 ],
+  "Collider2D.B.Angle": 0.0,
+  "TransformComponent": true,
+  "Position": [ -375.9991455078125, -259.6346435546875, 1.0 ],
+  "Scale": [ 200.0, 50.0, 1.0 ],
+  "Rotate": 0.0,
+  "GraphicsComponent": true,
+  "G.FileName": "Battery_rusted.png",
+  "G.Shader": "DefaultShader",
+  "G.Layer": 1
+}

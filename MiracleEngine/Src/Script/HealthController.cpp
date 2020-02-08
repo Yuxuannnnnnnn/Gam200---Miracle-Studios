@@ -185,7 +185,7 @@ void HealthController::Init()
 
 void HealthController::Update(double dt)
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_O))
+	/*if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_O))
 		DecreaseHealth();
 
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_I))
@@ -193,7 +193,7 @@ void HealthController::Update(double dt)
 
 
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_U))
-		IncreaseEXP();
+		IncreaseEXP();*/
 
 }
 

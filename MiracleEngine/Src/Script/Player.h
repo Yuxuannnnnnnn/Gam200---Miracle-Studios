@@ -55,6 +55,7 @@ private:
 	TransformComponent* _objTransfrom;
 
 	IScript2* _shieldSkill;
+	IScript2* _healthBar;
 
 public:
 	void SerialiseComponent(Serialiser& document) ;

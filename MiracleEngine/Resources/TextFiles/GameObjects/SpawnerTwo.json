@@ -13,9 +13,9 @@
     {
       "Health": 10,
       "SpawnType": 2,
-      "SpawnCooldown": 2.0,
+      "SpawnCooldown": 2.5,
       "LightDuration": 0.5,
-      "SpawnAmount": 10
+      "SpawnAmount": 100
     }
   ],
   "GraphicsComponent": true,

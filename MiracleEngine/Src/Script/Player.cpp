@@ -1,7 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "Player.h"
 #include "ShieldSkill.h"
-
+#include "HealthController.h"
 
 void Player::SerialiseComponent(Serialiser& document)
 {
@@ -163,7 +163,7 @@ Player::Player() :
 	_timerShield{ 0 }, _timerShieldDuration{ 0 },
 	_health{ 30 }, _healthMax{ 30 },
 	_progress{ 0 }, _progressMax{ 30 },
-	_progressLevel{0},
+	_progressLevel{ 0 },
 
 	_timerGodSwitch{ 0 }, _timerGodSwitchDelay{ 0.5 },
 	_shieldOn{ false },
@@ -191,7 +191,8 @@ Player::Player() :
 	_muzzlePos2{},
 	_muzzleScale{ },
 	_animTime{ -1.0 },
-	_objTransfrom{ nullptr }
+	_objTransfrom{ nullptr },
+	_healthBar{ nullptr }
 {
 }
 
@@ -336,6 +337,9 @@ void Player::UpdateUI()
 
 void Player::UpdateInput()
 {
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_O))
+		DamagePlayer(1);
+
  //OTHERS
 	//if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu
 	//	_InputStyle = INGAME_PAUSE_ESCAPE;
@@ -572,6 +576,9 @@ void Player::WeaponSwitch()
 
 void Player::WeaponShoot()
 {
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("Shoot");
+
 	// 'snap' weapon selection to lowest or highest value
 	_weaponActive < 1 ? _weaponActive = 1 : _weaponActive;
 	_weaponActive > 3 ? _weaponActive = 3 : _weaponActive;
@@ -697,10 +704,22 @@ int Player::GetProgressLevel() const
 
 void Player::DamagePlayer(int dmg)
 {
-	if (_shieldOn)
+	if (_shieldOn || _god)
 		return;
 	else
+	{
+		if (!_healthBar)
+		{
+			std::string temp = "HealthController";
+			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		}
+
+		((HealthController*)_healthBar)->DecreaseHealth(dmg);
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("GetHit");
+
 		_health -= dmg;
+	}
 }
 
 void Player::OnTrigger2DEnter(Collider2D* other)
@@ -716,10 +735,21 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	}
 	if (!otherType.compare("PickUps_Health"))
 	{
+
+		if (_god)
+			return;
+
+		if (!_healthBar)
+		{
+			std::string temp = "HealthController";
+			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		}
+		((HealthController*)_healthBar)->IncreaseHealth(2);
 		_health += 2;
+		
 		if (_health > _healthMax)
 			_health = _healthMax;
-		other->GetParentPtr()->SetDestory();
+		//other->GetParentPtr()->SetDestory();
 	}
 	if (!otherType.compare("PickUps_Ammo"))
 	{
