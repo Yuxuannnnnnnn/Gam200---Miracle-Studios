@@ -32,7 +32,7 @@
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 4,
-  "ColliderTrigger": true,
+  "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
   "Collider2D.C.Radius": 9.191
 }
