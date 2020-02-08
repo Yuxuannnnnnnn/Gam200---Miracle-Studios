@@ -37,9 +37,9 @@ void GraphicsSystem::Update(double dt)
 		if (renderobj._hasAlpha)
 			continue;
 
-		if (renderobj._hasAdjustableAlpha &&
+		/*if (renderobj._hasAdjustableAlpha &&
 			abs(1.0f - renderobj._alpha) > 0.01f)
-			continue;
+			continue;*/
 
 		renderobj._pShader->Select();
 
@@ -97,9 +97,9 @@ void GraphicsSystem::Update(double dt)
 		if (!(renderobj._hasAlpha))
 			continue;
 
-		if (renderobj._hasAdjustableAlpha &&
+		/*if (renderobj._hasAdjustableAlpha &&
 			abs(1.0f - renderobj._alpha) < 0.01f)
-			continue;
+			continue;*/
 
 
 		renderobj._pShader->Select();
