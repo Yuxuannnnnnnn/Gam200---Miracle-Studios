@@ -262,7 +262,7 @@ GraphicsSystem::~GraphicsSystem()
 
 void GraphicsSystem::ResizeGraphics(float width, float height)
 {
-	_proj = glm::ortho(-width / 2.f, width / 2.f, -height / 2.f, height / 2.f, -30.0f, 30.0f);
+	_proj = glm::ortho(-width / 2.f, width / 2.f, -height / 2.f, height / 2.f, -150.0f, 150.0f);
 	glViewport(0, 0, width, height);
 }
 

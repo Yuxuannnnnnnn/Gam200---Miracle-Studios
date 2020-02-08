@@ -83,7 +83,7 @@ bool FontRenderer::load(std::string path)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glm::mat4 projection = glm::ortho(-640.0f, 640.0f, -512.0f, 512.0f, -15.0f, 15.0f);
+	glm::mat4 projection = glm::ortho(-640.0f, 640.0f, -512.0f, 512.0f, -150.0f, 150.0f);
 	_shader->Select();
 	glUniformMatrix4fv(glGetUniformLocation(_shader->_id, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
