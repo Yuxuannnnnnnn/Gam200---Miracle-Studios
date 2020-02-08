@@ -9,9 +9,8 @@ AudioEngine::AudioEngine()
     bgmMasterChannel_{ nullptr },
     channel_{ nullptr }
 {
-   
-    //pAudioEngine = this;
 }
+   
 
 AudioEngine::~AudioEngine()
 {
@@ -21,8 +20,6 @@ AudioEngine::~AudioEngine()
     {
         result = elem.second->release();
 
-        //AssertIfFail((!(result != FMOD_OK)), std::string("FMOD::RELEASE sound " + elem.first.first + " failed").c_str());
-
         if (result != FMOD_OK)
         {
             std::cout << "FMOD::RELEASE SOUND " + elem.first.first + " failed" << std::endl;
@@ -31,8 +28,6 @@ AudioEngine::~AudioEngine()
 
     result = sfxMasterChannel_->release();
 
-    //AssertIfFail((!(result != FMOD_OK)), "FMOD::RELEASE sfx master channel failed");
-
     if (result != FMOD_OK)
     {
         std::cout << "FMOD::RELEASE SFX Master Channel failed" << std::endl;
@@ -40,7 +35,6 @@ AudioEngine::~AudioEngine()
 
     result = bgmMasterChannel_->release();
 
-    //AssertIfFail((!(result != FMOD_OK)), "FMOD::RELEASE bgm master channel failed");
 
     if (result != FMOD_OK)
     {
@@ -49,7 +43,6 @@ AudioEngine::~AudioEngine()
 
     result = fmodSystem_->release();
 
-    //AssertIfFail((!(result != FMOD_OK)), "FMOD::RELEASE system failed");
 
     if (result != FMOD_OK)
     {
@@ -110,8 +103,23 @@ void AudioEngine::Init()
 
 }
 
+float AudioEngine::dbToVolume(float dB)
+{
+    return powf(10.0f, 0.05f * dB);
+}
 
+float AudioEngine::VolumeTodB(float volume)
+{
+    return 20.0f * log10f(volume);
+}
 
+FMOD_VECTOR AudioEngine::VectorToFmod(const AudioVector3& vPosition) {
+    FMOD_VECTOR fVec;
+    fVec.x = vPosition._x;
+    fVec.y = vPosition._y;
+    fVec.z = vPosition._z;
+    return fVec;
+}
 
     //std::vector<AudioListener*>::iterator itr = audioListener_.begin();
 
@@ -130,6 +138,9 @@ void AudioEngine::Init()
 
     //fmodSystem_->update();
     //audioSource_.Update();
+
+
+
 
 
 

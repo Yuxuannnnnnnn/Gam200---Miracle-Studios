@@ -15,7 +15,7 @@
       "Firerate": 2,
       "AttackRangeShoot": 4,
       "DeployTime": 2.0,
-      "DeployScale": [ 100.0, 100.0, 1.0 ]
+      "DeployScale": [ 80.0, 140.0, 1.0 ]
     }
   ],
 

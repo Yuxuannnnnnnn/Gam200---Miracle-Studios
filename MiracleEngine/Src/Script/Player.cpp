@@ -460,6 +460,11 @@ void Player::UpdateInput()
 			// set bullet position & rotation as same as 'parent' obj
 			((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
 				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + aimVector.Normalized() * 100.f);
+
+			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableAlpha(true);
+			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableAdjustableAlpha(true);
+			((GraphicComponent*)turret->GetComponent(ComponentId::CT_Graphic))->EnableFadingOut(true);
+
 		}
 	}
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
