@@ -58,3 +58,52 @@ void PopUpBoxImguiWindow::SaveSceneWarning::check(PopUpBoxImguiWindow* box)
 		box->SetWindowTrue();
 
 }
+
+void PopUpBoxImguiWindow::RefreshSceneWarning::Warn(PopUpBoxImguiWindow * box)
+{
+	//"There are some changes made to the Level. "
+	ImGui::Text("Do you want to save this Level before refreshing the level?");
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
+	if (ImGui::Button("Yes"))
+	{
+		if (MyFactory.GetCurrentScene().empty())
+		{
+			MyFactory.WindowsDialogSaveLevel();
+		}
+		else
+		{
+			MyFactory.De_SerialiseLevel(MyResourceSystem.GeScenePath(MyFactory.GetCurrentScene()));
+		}
+
+		box->SetWindowFalse();
+		MyFactory.ChangeScene(MyFactory.GetCurrentScene()); //Refresh the scene
+
+		//Pop up box that mentions that scene is saved.
+	}
+	ImGui::Indent(500);
+	ImGui::SameLine();
+
+	if (ImGui::Button("No"))
+	{
+		box->SetWindowFalse();
+		MyFactory.ChangeScene("Restart");
+	}
+
+	ImGui::Indent(500);
+	ImGui::SameLine();
+	if (ImGui::Button("Cancel"))
+	{
+		box->SetWindowFalse();
+	}
+
+}
+
+void PopUpBoxImguiWindow::RefreshSceneWarning::check(PopUpBoxImguiWindow * box)
+{
+	box->SetWindowTrue();
+}

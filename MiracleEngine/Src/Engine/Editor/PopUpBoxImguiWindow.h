@@ -33,6 +33,22 @@ public:
 		void check(PopUpBoxImguiWindow* box) override;
 
 	};
+
+	class RefreshSceneWarning : public Warning
+	{
+		//static std::string Name;
+
+	public:
+
+		RefreshSceneWarning()
+		{
+		}
+
+		void Warn(PopUpBoxImguiWindow* box) override;
+
+		void check(PopUpBoxImguiWindow* box) override;
+
+	};
 	//std::string SaveSceneWarning::Name{ "SaveSceneWarning" };
 
 
