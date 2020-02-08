@@ -81,7 +81,7 @@ void GraphicsSystem::Update(double dt)
 		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
-
+		renderobj._pShader->SetUniform1f("u_Alpha", 1.0f);
 		/*if (renderobj._alpha < 0.95f)
 		{
 			glDisable(GL_ALPHA_TEST);
@@ -97,6 +97,66 @@ void GraphicsSystem::Update(double dt)
 		if (!(renderobj._hasAlpha))
 			continue;
 
+		if (renderobj._hasAdjustableAlpha)
+			continue;
+
+
+		renderobj._pShader->Select();
+
+		if (renderobj._pTexture)
+			renderobj._pTexture->Select();
+		else
+		{
+			continue;
+		}
+
+		if (renderobj._isAnimated)
+		{
+			if (renderingAnim != ANIMATED)
+			{
+				renderobj._pMesh->Select();
+				renderingAnim = ANIMATED;
+			}
+
+			float u0 = renderobj._uv.u0;
+			float v0 = renderobj._uv.v0;
+			float u1 = renderobj._uv.u1;
+			float v1 = renderobj._uv.v1;
+			GLfloat _positions[] =
+			{
+				-0.5f, -0.5f, 0.0f, u0, v0, // 0     // bottom left
+				 0.5f, -0.5f, 0.0f, u1, v0, // 1     // bottom right
+				 0.5f,  0.5f, 0.0f, u1, v1, // 2     // top right
+				-0.5f,  0.5f, 0.0f, u0, v1  // 3     // top left
+			};
+			renderobj._pMesh->GetBuffer()->FillDynamicBuffer(_positions, 4 * 5 * sizeof(GLfloat));
+		}
+		else
+		{
+			if (renderingAnim != STATIC)
+			{
+				renderobj._pMesh->Select();
+				renderingAnim = STATIC;
+			}
+		}
+		glm::mat4 mvp = _proj * _view * renderobj._transform;
+		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
+
+		renderobj._pShader->SetUniform1f("u_Alpha", 1.0f);
+		/*if (renderobj._alpha < 0.95f)
+		{
+			glDisable(GL_ALPHA_TEST);
+			renderobj._pShader->SetUniform1f("u_Alpha", renderobj._alpha);
+		}*/
+		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
+		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
+
+	for (const auto& renderobj : _renderObjects)
+	{
+		if (!renderobj._hasAdjustableAlpha)
+			continue;
 		/*if (renderobj._hasAdjustableAlpha &&
 			abs(1.0f - renderobj._alpha) < 0.01f)
 			continue;*/
@@ -143,10 +203,9 @@ void GraphicsSystem::Update(double dt)
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
 
-		if (renderobj._hasAdjustableAlpha)
-		{
-			//renderobj._pShader->SetUniform1f("u_Alpha", renderobj._alpha);
-		}
+
+		renderobj._pShader->SetUniform1f("u_Alpha", renderobj._alpha);
+	
 		/*if (renderobj._alpha < 0.95f)
 		{
 			glDisable(GL_ALPHA_TEST);
@@ -155,6 +214,7 @@ void GraphicsSystem::Update(double dt)
 		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_ALPHA, GL_DST_ALPHA);
 		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		renderobj._pShader->SetUniform1f("u_Alpha", 1.0f);
 	}
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
@@ -247,6 +307,13 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		RenderObject renderobject;
 
+		if (graphicComp->IsFadingOut())
+		{
+			graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
+			renderobject._hasAdjustableAlpha = true;
+			
+		}
+
 		if (graphicComp->HasAlpha())
 		{
 			renderobject._hasAlpha = true;
@@ -259,6 +326,8 @@ void GraphicsSystem::UpdateRenderObjectList()
 		if (graphicComp->HasAdjustableAlpha())
 		{
 			renderobject._hasAdjustableAlpha = true;
+			renderobject._hasAlpha = true;
+
 		}
 		else
 		{

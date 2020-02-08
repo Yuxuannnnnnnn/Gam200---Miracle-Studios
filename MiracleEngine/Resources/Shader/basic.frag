@@ -15,6 +15,6 @@ void main()
 	if(texColor.a < 0.1)
 		discard;
 	color = texColor;
-	if(u_Alpha > 0.5)
-	  color.a = u_Alpha;
+
+	color.a = color.a * u_Alpha;
 };
