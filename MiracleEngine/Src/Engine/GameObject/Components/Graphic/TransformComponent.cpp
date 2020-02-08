@@ -112,7 +112,7 @@ void TransformComponent::SetRotate(const float& in)
 {
 	float temp = in - _rotationAngle;
 
-	/*if (this->GetParentPtr()->GetChild())
+	if (this->GetParentPtr()->GetChild())
 	{
 		for (auto& it : this->GetParentPtr()->GetChildList())
 		{
@@ -121,9 +121,7 @@ void TransformComponent::SetRotate(const float& in)
 			if (!child)
 				continue;
 
-			Vec3 pivot = _pos + _pivotPoint;
-			pivot._z = 1.f;
-			Vec3 diff = child->_pos - pivot;
+			Vec3 diff = child->_pos - _pos;
 			float mag = diff.Length();
 			float deg = atan2(diff._y, diff._x) + temp;
 
@@ -135,9 +133,9 @@ void TransformComponent::SetRotate(const float& in)
 
 			child->MoveRotate(temp);
 		}
-	}*/
+	}
 
-	Vec3 diff = _pos - _pivotPoint;
+	/*Vec3 diff = _pos - _pivotPoint;
 	float mag = diff.Length();
 	float deg = atan2(diff._y, diff._x) + temp;
 
@@ -146,14 +144,14 @@ void TransformComponent::SetRotate(const float& in)
 	temp2 -= diff;
 
 
-	MovePos(temp2);
+	MovePos(temp2);*/
 	_rotationAngle = in;
 }
 
 float* TransformComponent::GetModel()
 {
 	// calculate model matrix = TRS
-	Mtx44 translate = Mtx44::CreateTranslation(GetPivot());
+	Mtx44 translate = Mtx44::CreateTranslation(GetPos());
 	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(GetScale());
 
 	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
