@@ -309,9 +309,14 @@ void GraphicsSystem::UpdateRenderObjectList()
 
 		if (graphicComp->IsFadingOut())
 		{
-			graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
-			renderobject._hasAdjustableAlpha = true;
-			
+#ifdef LEVELEDITOR
+
+			if (MyImguiSystem._editorMode)
+#endif
+			{
+				graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
+				renderobject._hasAdjustableAlpha = true;
+			}
 		}
 
 		if (graphicComp->HasAlpha())
