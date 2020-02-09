@@ -193,6 +193,8 @@ void Player::Init()
 			break;
 		}
 	}
+
+	_timerShieldActivateCooldown = 0;
 }
 
 void Player::Update(double dt)

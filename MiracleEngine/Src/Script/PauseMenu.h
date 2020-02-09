@@ -16,6 +16,7 @@ public:
 	void Inspect();
 
 	PauseMenu();
+	~PauseMenu();
 	PauseMenu* Clone();
 
 	virtual void Init() override;

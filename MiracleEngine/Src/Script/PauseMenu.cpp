@@ -56,6 +56,11 @@ PauseMenu::PauseMenu() : _init{false}
 {
 }
 
+PauseMenu::~PauseMenu()
+{
+	MyInputSystem._pause = false;
+}
+
 PauseMenu* PauseMenu::Clone()
 {
 	return new PauseMenu(*this);

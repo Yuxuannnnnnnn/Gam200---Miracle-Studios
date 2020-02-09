@@ -1,7 +1,7 @@
 {"IdentityComponent":true,"ObjectType":"MouseCursor",
 "Name":"MouseCursor","LinkUId":0,"TransformComponent":true,
 "Position":[0.0,0.0,1.0],"Scale":[40.0,40.0,1.0],"Rotate":0.0,
-"UIComponent":true,"UI.FileName":"Mouse_cursor.png","UI.Layer":20,
+"UIComponent":true,"UI.FileName":"Mouse_cursor.png","UI.Layer":120,
 "LogicComponent":true,  "Script2Id": [ "MouseCursor" ],
   "Script2Data": [{
   "M.SpinSpeed": 1.5
