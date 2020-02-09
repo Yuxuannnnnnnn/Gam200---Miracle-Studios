@@ -11,6 +11,7 @@
 #include "Script/ButtonController.h"
 #include "Script/HealthController.h"
 #include "Script/ShieldSkill.h"
+#include "Script/HitEffect.h"
 #include "Script/MouseCursor.h"
 #include "Script/EntrancePortal.h"
 #include "Script/PauseMenu.h"

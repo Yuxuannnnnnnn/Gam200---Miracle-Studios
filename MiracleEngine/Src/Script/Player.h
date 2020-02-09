@@ -51,6 +51,7 @@ private:
 	TransformComponent* _objTransfrom;
 
 	IScript2* _shieldSkill;
+	IScript2* _hitEffect;
 	IScript2* _healthBar;
 	IScript2* _pauseMenu;
 public:

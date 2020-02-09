@@ -1,0 +1,33 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "HitEffect",
+  "Name": "PlayerHitEffect",
+  "LinkUId": 667,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 200.0, 200.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "GraphicsComponent": true,
+  "G.FileName": "catjump.png",
+  "G.Shader": "",
+  "G.Layer": 17,
+  "_hasAlpha": true,
+  "_hasAdjustableAlpha": false,
+  "_alphaVal": 1.0,
+  "_isFadingOut": false,
+  "_isFlickering": false,
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Script2Id": [ "HitEffect" ],
+  "Script2Data": [ {} ],
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Electricity_Body_SpriteSpriteSheetData.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Hit"
+    }
+  ],
+  "StartAnim": "Hit"
+}

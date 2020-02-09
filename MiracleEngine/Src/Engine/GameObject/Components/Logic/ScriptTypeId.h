@@ -11,6 +11,7 @@ enum class ScriptType {
 	SCRIPT_ButtonController, 
 	SCRIPT_HealthController,
 	SCRIPT_ShieldSkill,
+	SCRIPT_HitEffect,
 	SCRIPT_MouseCursor,
 	SCRIPT_EntrancePortal,
 	SCRIPT_PauseMenu,
@@ -32,6 +33,7 @@ inline const char* ToScriptName(ScriptType type)
 	case ScriptType::SCRIPT_ButtonController:	return "ButtonController";
 	case ScriptType::SCRIPT_HealthController:	return "HealthController";
 	case ScriptType::SCRIPT_ShieldSkill:	return "ShieldSkill";
+	case ScriptType::SCRIPT_HitEffect:	return "HitEffect";
 	case ScriptType::SCRIPT_MouseCursor:	return "MouseCursor";
 	case ScriptType::SCRIPT_EntrancePortal:	return "EntrancePortal";
 	case ScriptType::SCRIPT_PauseMenu:	return "PauseMenu";
@@ -63,6 +65,8 @@ inline ScriptType ToScriptId(std::string& name)
 		return ScriptType::SCRIPT_HealthController;
 	if (name.compare("ShieldSkill") == 0)
 		return ScriptType::SCRIPT_ShieldSkill;
+	if (name.compare("HitEffect") == 0)
+		return ScriptType::SCRIPT_HitEffect;
 	if (name.compare("MouseCursor") == 0)
 		return ScriptType::SCRIPT_MouseCursor;
 	if (name.compare("EntrancePortal") == 0)

@@ -133,6 +133,7 @@
     <ClCompile Include="Src\Script\PauseMenu.cpp" />
     <ClCompile Include="Src\Engine\SystemAudio\AudioEngine.cpp" />
     <ClCompile Include="Src\Script\RegisterLink.cpp" />
+    <ClCompile Include="Src\Script\HitEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -578,6 +579,7 @@
     <ClInclude Include="Src\Script\PauseMenu.h" />
     <ClInclude Include="Src\Engine\SystemAudio\AudioEngine.h" />
     <ClInclude Include="Src\Script\RegisterLink.h" />
+    <ClInclude Include="Src\Script\HitEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

@@ -602,6 +602,7 @@
     <ClInclude Include="Src\Script\EntrancePortal.h" />
     <ClInclude Include="Src\Script\Explosion.h" />
     <ClInclude Include="Src\Script\HealthController.h" />
+    <ClInclude Include="Src\Script\HitEffect.h" />
     <ClInclude Include="Src\Script\MouseCursor.h" />
     <ClInclude Include="Src\Script\PauseMenu.h" />
     <ClInclude Include="Src\Script\PickUps.h" />
@@ -785,6 +786,7 @@
     <ClCompile Include="Src\Script\EntrancePortal.cpp" />
     <ClCompile Include="Src\Script\Explosion.cpp" />
     <ClCompile Include="Src\Script\HealthController.cpp" />
+    <ClCompile Include="Src\Script\HitEffect.cpp" />
     <ClCompile Include="Src\Script\MouseCursor.cpp" />
     <ClCompile Include="Src\Script\PauseMenu.cpp" />
     <ClCompile Include="Src\Script\PickUps.cpp" />

@@ -1,6 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "Player.h"
 #include "ShieldSkill.h"
+#include "HitEffect.h"
 #include "HealthController.h"
 #include "PauseMenu.h"
 
@@ -681,6 +682,10 @@ void Player::DamagePlayer(int dmg)
 		audcom->PlaySFX("GetHit");
 
 		_health -= dmg;
+
+		//std::string temp = "HitEffect";
+		//_hitEffect = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(667)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		//((HitEffect*)_shieldSkill)->PlayHit();
 	}
 }
 

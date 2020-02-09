@@ -102,6 +102,7 @@ void Enemy::Update(double dt)
 	if (_deathStart)
 	{
 		_deathStart = false;
+		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(true);
 		return;
