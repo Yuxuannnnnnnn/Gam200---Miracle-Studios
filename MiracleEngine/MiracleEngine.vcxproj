@@ -48,7 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -606,6 +606,7 @@
     <ClInclude Include="Src\Script\PauseMenu.h" />
     <ClInclude Include="Src\Script\PickUps.h" />
     <ClInclude Include="Src\Script\Player.h" />
+    <ClInclude Include="Src\Script\RegisterLink.h" />
     <ClInclude Include="Src\Script\ShieldSkill.h" />
     <ClInclude Include="Src\Script\Spawner.h" />
     <ClInclude Include="Src\Script\Turret.h" />
@@ -788,6 +789,7 @@
     <ClCompile Include="Src\Script\PauseMenu.cpp" />
     <ClCompile Include="Src\Script\PickUps.cpp" />
     <ClCompile Include="Src\Script\Player.cpp" />
+    <ClCompile Include="Src\Script\RegisterLink.cpp" />
     <ClCompile Include="Src\Script\ShieldSkill.cpp" />
     <ClCompile Include="Src\Script\Spawner.cpp" />
     <ClCompile Include="Src\Script\Turret.cpp" />
@@ -960,6 +962,7 @@
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
     <None Include="Resources\TextFiles\GameObjects\Font.json" />
     <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
+    <None Include="Resources\TextFiles\GameObjects\PaseMenu.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Ammo.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Health.json" />
     <None Include="Resources\TextFiles\GameObjects\player.json" />

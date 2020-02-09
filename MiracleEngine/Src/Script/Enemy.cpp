@@ -63,6 +63,9 @@ void Enemy::Init()
 }
 void Enemy::Update(double dt)
 {
+	if (!dt)
+		return;
+
 	if (!_init)
 		Init();
 // death logic

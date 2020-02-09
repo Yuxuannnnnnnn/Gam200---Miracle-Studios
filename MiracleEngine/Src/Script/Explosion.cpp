@@ -44,6 +44,9 @@ void Explosion::Inspect()
 
 void Explosion::Update(double dt)
 {
+	if (!dt)
+		return;
+
 	if (!_init)
 	{
 		_init = true;

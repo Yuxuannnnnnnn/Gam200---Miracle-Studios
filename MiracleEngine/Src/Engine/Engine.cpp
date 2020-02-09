@@ -98,52 +98,57 @@ void Engine::Update()
 
 		if (!MyImguiSystem._editorMode)
 		{
-			if (fixedDt)
+			if (!MyInputSystem._pause)
 			{
-				while (accumlatedframes)
+
+				if (fixedDt)
 				{
-					// Logic
+					while (accumlatedframes)
+					{
+
+						// Logic
+						MyFrameRateController.StartTimeCounter();
+						MyLogicSystem.Update(fixedDt);
+						MyAiSystem.Update(fixedDt);
+						MyParticleSystem.Update(fixedDt);
+						MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
+
+
+						//physics
+						MyFrameRateController.StartTimeCounter();
+						MyPhysicsSystem.Update(fixedDt);
+						MyEventHandler.BroadcastCollisionEvents();
+						MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
+
+
+						--accumlatedframes;
+					}
+				}
+				else
+				{
+
+
 					MyFrameRateController.StartTimeCounter();
-					MyLogicSystem.Update(fixedDt);
-					MyAiSystem.Update(fixedDt);
-					MyParticleSystem.Update(fixedDt);
+					MyLogicSystem.Update(dt);
+					MyAiSystem.Update(dt);
+					MyParticleSystem.Update(dt);
 					MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
+
 
 					//physics
 					MyFrameRateController.StartTimeCounter();
-					MyPhysicsSystem.Update(fixedDt);
+					MyPhysicsSystem.Update(dt);
 					MyEventHandler.BroadcastCollisionEvents();
 					MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
 
-					--accumlatedframes;
+
 				}
 			}
 			else
 			{
 				MyFrameRateController.StartTimeCounter();
-				MyInputSystem.Update(MyWindowsSystem.getWindow());
-				MyCameraSystem.Update();
-				MyPerformanceUsage.InputFrameTime += MyFrameRateController.EndTimeCounter();
-
-
-				if (!MyImguiSystem._editorMode)
-				{
-					MyFrameRateController.StartTimeCounter();
-					MyEventHandler.BroadcastInputEvents();
-					MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
-				}
-
-				MyFrameRateController.StartTimeCounter();
-				MyLogicSystem.Update(dt);
-				MyAiSystem.Update(dt);
-				MyParticleSystem.Update(dt);
+				MyLogicSystem.Update(0.0);
 				MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
-
-				//physics
-				MyFrameRateController.StartTimeCounter();
-				MyPhysicsSystem.Update(dt);
-				MyEventHandler.BroadcastCollisionEvents();
-				MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
 			}
 
 			// Audio
@@ -154,7 +159,8 @@ void Engine::Update()
 
 		// Graphics
 		MyFrameRateController.StartTimeCounter();
-		MyAnimationSystem.Update(dt);
+		if (!MyInputSystem._pause)
+			MyAnimationSystem.Update(dt);
 		MyGraphicsSystem.Update(dt);
 		MyParticleSystem.Draw();
 		MyPhysicsSystem.Draw();

@@ -129,7 +129,7 @@ public:
 		ImGui::InputInt("RenderLayer", &_layer);
 		if (_layer > 10)
 			_layer = 10;
-		else if (_layer < 10)
+		else if (_layer < 0)
 			_layer = 0;
 
 		_layer += 100;

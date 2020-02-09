@@ -38,6 +38,9 @@ void ShieldSkill::Init()
 
 void ShieldSkill::Update(double dt)
 {
+	if (!dt)
+		return;
+
 	if (!_init)
 	{
 		Init();

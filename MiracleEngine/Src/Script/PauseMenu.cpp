@@ -4,7 +4,7 @@
 void PauseMenu::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("P.NumOfObject") && document["P.NumOfObject"].IsInt())	//Checks if the variable exists in .Json file
-		_numOfObject = document["H.MaxHealth"].GetInt();
+		_numOfObject = document["P.NumOfObject"].GetInt();
 
 	if (document.HasMember("P.ObjectID") && document["P.ObjectID"].IsArray())	//Checks if the variable exists in .Json file
 		for (unsigned i = 0; i < document["P.ObjectID"].Size(); i++)
@@ -52,7 +52,7 @@ void PauseMenu::Inspect()
 	}
 }
 
-PauseMenu::PauseMenu()
+PauseMenu::PauseMenu() : _init{false}
 {
 }
 
@@ -63,16 +63,30 @@ PauseMenu* PauseMenu::Clone()
 
 void PauseMenu::Init()
 {
+	_object.clear();
+
+	MyLinkFactory.SaveNewLinkID(1275, GetParentId());
+
 	for (unsigned i = 0; i < _objectLinkID.size(); i++)
 		_object.push_back(MyLinkFactory.GetLinkIDObject(_objectLinkID[i]));
+
+	for (unsigned i = 0; i < _object.size(); i++)
+		_object[i]->SetEnable(false);
 }
 
 void PauseMenu::Update(double dt)
 {
+	if (!_init)
+	{
+		Init();
+		_init = true;
+	}
 }
 
 void PauseMenu::EnablePauseMenu(bool t)
 {
 	for (unsigned i = 0; i < _object.size(); i++)
 		_object[i]->SetEnable(t);
+
+	MyInputSystem._pause = t;
 }

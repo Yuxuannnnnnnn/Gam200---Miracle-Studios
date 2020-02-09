@@ -52,7 +52,7 @@ private:
 
 	IScript2* _shieldSkill;
 	IScript2* _healthBar;
-
+	IScript2* _pauseMenu;
 public:
 	void SerialiseComponent(Serialiser& document) ;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;

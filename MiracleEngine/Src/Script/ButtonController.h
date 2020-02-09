@@ -24,6 +24,8 @@ class ButtonController : public IScript2
 {
 private:
 	int _currScene;
+
+	IScript2* _pauseMenu;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);

@@ -95,6 +95,9 @@ void  Bullet::Init()
 
 void Bullet::Update(double dt)
 {
+	if (!dt)
+		return;
+
 	if (!_init)
 		Init();
 	

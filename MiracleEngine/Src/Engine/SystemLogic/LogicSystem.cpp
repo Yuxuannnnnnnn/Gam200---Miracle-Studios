@@ -14,6 +14,7 @@
 #include "Script/MouseCursor.h"
 #include "Script/EntrancePortal.h"
 #include "Script/PauseMenu.h"
+#include "Script/RegisterLink.h"
 
 
 LogicSystem::~LogicSystem()
@@ -32,19 +33,24 @@ LogicSystem::~LogicSystem()
 void LogicSystem::Init() {
 	enableScript2 = bUseOldScripting;
 
-	RegisterScript(Player);
-	RegisterScript(Enemy);
-	RegisterScript(Bullet);
-	RegisterScript(Turret);
-	RegisterScript(Spawner);
-	RegisterScript(Explosion);
-	RegisterScript(PickUps);
-	RegisterScript(ButtonController);
-	RegisterScript(HealthController);
-	RegisterScript(ShieldSkill);
-	RegisterScript(MouseCursor);
-	RegisterScript(EntrancePortal);
-	RegisterScript(PauseMenu);
+	if (!_resgister)
+	{
+		_resgister = true;
+		RegisterScript(Player);
+		RegisterScript(Enemy);
+		RegisterScript(Bullet);
+		RegisterScript(Turret);
+		RegisterScript(Spawner);
+		RegisterScript(Explosion);
+		RegisterScript(PickUps);
+		RegisterScript(ButtonController);
+		RegisterScript(HealthController);
+		RegisterScript(ShieldSkill);
+		RegisterScript(MouseCursor);
+		RegisterScript(EntrancePortal);
+		RegisterScript(PauseMenu);
+		RegisterScript(RegisterLink);
+	}
 
 	for (auto& itr : GetComponentMap(Logic)) {
 

@@ -1,5 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "ButtonController.h"
+#include "PauseMenu.h"
 
 void ButtonController::SerialiseComponent(Serialiser& document)
 {
@@ -60,7 +61,7 @@ void ButtonController::Inspect()
 }
 
 ButtonController::ButtonController() :
-	_currScene{0}
+	_currScene{ 0 }, _pauseMenu{nullptr}
 {
 }
 
@@ -77,35 +78,46 @@ void ButtonController::Update(double dt)
 {
 	(void)dt;
 
-	switch (_currScene)
+	if (_input->ButtonTrigger(10)) // start
+		MyFactory.ChangeScene("truelevel1");
+	else if (_input->ButtonTrigger(11)) // options
+		MyFactory.ChangeScene("OptionPage");
+	else if (_input->ButtonTrigger(12)) // instructions
+		MyFactory.ChangeScene("instructionPage");
+	else if (_input->ButtonTrigger(13)) // leaderboard
+		MyFactory.ChangeScene("LeaderBoardPage");
+	else if (_input->ButtonTrigger(15)) // credits
+		MyFactory.ChangeScene("CreditPage");
+	else if (_input->ButtonTrigger(16)) // quit
+		MyFactory.ChangeScene("Quit");
+	else if (_input->ButtonTrigger(30)) // return to menu
+		MyFactory.ChangeScene("MainMenu");
+	else if (_input->ButtonTrigger(60))
 	{
-	case (int)SceneTag::MAINMENU:
-	{
-		if (_input->ButtonTrigger(10)) // start
-			MyFactory.ChangeScene("truelevel1");
-		else if (_input->ButtonTrigger(11)) // options
-			MyFactory.ChangeScene("OptionPage");
-		else if (_input->ButtonTrigger(12)) // instructions
-			MyFactory.ChangeScene("instructionPage");
-		else if (_input->ButtonTrigger(13)) // leaderboard
-			MyFactory.ChangeScene("LeaderBoardPage");
-		else if (_input->ButtonTrigger(15)) // credits
-			MyFactory.ChangeScene("CreditPage");
-		else if (_input->ButtonTrigger(16)) // quit
-			MyFactory.ChangeScene("Quit");
-		else if (_input->ButtonTrigger(30)) // return to menu
-			MyFactory.ChangeScene("MainMenu");
+		if (!_pauseMenu)
+		{
+			std::string temp = "PauseMenu";
+			_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		}
 
-		break;
+		((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
 	}
-	case (int)SceneTag::POPUPSCENE:
-	{
-		if (_input->ButtonTrigger(30)) // return to menu
-			MyFactory.ChangeScene("MainMenu");
-		break;
-	}
-	default:
-		break;
-	}
+	//switch (_currScene)
+	//{
+	//case (int)SceneTag::MAINMENU:
+	//{
+	//	
+
+	//	break;
+	//}
+	//case (int)SceneTag::POPUPSCENE:
+	//{
+	//	if (_input->ButtonTrigger(30)) // return to menu
+	//		MyFactory.ChangeScene("MainMenu");
+	//	break;
+	//}
+	//default:
+	//	break;
+	//}
 
 }

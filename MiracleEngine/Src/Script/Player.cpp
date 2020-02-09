@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "ShieldSkill.h"
 #include "HealthController.h"
+#include "PauseMenu.h"
 
 void Player::SerialiseComponent(Serialiser& document)
 {
@@ -156,7 +157,8 @@ Player::Player() :
 	_muzzleAnimation{ nullptr },
 	_animTime{ -1.0 },
 	_objTransfrom{ nullptr },
-	_healthBar{ nullptr }
+	_healthBar{ nullptr },
+	_pauseMenu{ nullptr }
 {
 }
 
@@ -195,6 +197,9 @@ void Player::Init()
 
 void Player::Update(double dt)
 {
+	if (!dt)
+		return;
+
 	if (!_init)
 	{
 		Init();
@@ -291,8 +296,16 @@ void Player::UpdateUI()
 
 void Player::UpdateInput()
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_O))
-		DamagePlayer(1);
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_P))
+	{
+		if (!_pauseMenu)
+		{
+			std::string temp = "PauseMenu";
+			_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		}
+
+		((PauseMenu*)_pauseMenu)->EnablePauseMenu(true);
+	}
 
  //OTHERS
 	//if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu

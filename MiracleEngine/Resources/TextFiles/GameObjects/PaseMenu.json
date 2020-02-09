@@ -1,0 +1,21 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "PaseMenu",
+  "Name": "PaseMenu",
+  "LinkUId": 1275,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Script2Id": [ "PauseMenu" ],
+  "Script2Data": [
+    {
+      "P.NumOfObject": 3,
+      "P.ObjectID": [ 1821, 1822, 1823 ]
+    }
+  ]
+}

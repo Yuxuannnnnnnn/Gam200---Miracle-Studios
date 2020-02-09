@@ -12,7 +12,7 @@ public:
 	//std::unordered_map<size_t, LogicComponent*> _ListLogicComponents;
 	bool bUseOldScripting = false;
 
-	LogicSystem() : _scriptUId{ 0 }, enableScript2{ false } {}
+	LogicSystem() : _scriptUId{ 0 }, enableScript2{ false }, _resgister{false} {}
 	~LogicSystem();
 	LogicSystem(const LogicSystem& rhs) = delete;
 	LogicSystem& operator=(const LogicSystem& rhs) = delete;
@@ -36,6 +36,7 @@ private:
 	std::unordered_map<std::string, ScriptCreator*> _scriptTypeMap;
 
 	bool enableScript2;
+	bool _resgister;
 public:
 	void AddScriptCreator(std::string scriptName, ScriptCreator* scriptCreator);
 

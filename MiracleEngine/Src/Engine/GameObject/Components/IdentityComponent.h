@@ -149,6 +149,11 @@ public:
 		_ObjectType = ObjectType;
 	}
 
+	int GetLinkID()
+	{
+		return _linkUId;
+	}
+
 	IdentityComponent* CloneComponent() { return new IdentityComponent(*this); }
 };
 
