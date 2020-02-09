@@ -95,7 +95,7 @@ void  Bullet::Init()
 
 void Bullet::Update(double dt)
 {
-	if (!dt)
+	if (dt < 0)
 		return;
 
 	if (!_init)
@@ -114,7 +114,7 @@ void Bullet::Update(double dt)
 	if (_lifeTime < 0.0f && _lifeTime != -666.f)
 		GetParentPtr()->SetDestory();
 
-	if (_body && _body->_velocity.SquaredLength() < 1.f)
+	if (_body && _body->_appliedForce == Vec3::Vec3Zero && _body->_velocity.SquaredLength() < 0.005f)
 		GetParentPtr()->SetDestory();
 }
 

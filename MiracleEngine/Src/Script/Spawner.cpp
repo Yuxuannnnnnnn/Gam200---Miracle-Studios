@@ -27,7 +27,7 @@ void Spawner::Init()
 
 void Spawner::Update(double dt)
 {
-	if (!dt)
+	if (dt < 0)
 		return;
 
 	if (!_init)

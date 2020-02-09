@@ -199,7 +199,7 @@ void Player::Init()
 
 void Player::Update(double dt)
 {
-	if (!dt)
+	if(dt < 0)
 		return;
 
 	if (!_init)
@@ -413,9 +413,8 @@ void Player::UpdateInput()
 				_shieldSkill = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(666)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 			}
 
-
-			_shieldOn = true;
 			((ShieldSkill*)_shieldSkill)->ActionShield(_timerShieldDuration);
+			_shieldOn = true;
 			_timerShieldActivateCooldown = _timerShieldDuration + _timerShieldCooldown;
 		}
 	

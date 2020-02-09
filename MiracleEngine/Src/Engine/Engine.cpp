@@ -129,17 +129,8 @@ void Engine::Update()
 					else
 					{
 						MyFrameRateController.StartTimeCounter();
-						MyLogicSystem.Update(dt);
-						MyAiSystem.Update(dt);
-						MyParticleSystem.Update(dt);
+						MyLogicSystem.Update(0.0);
 						MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
-
-
-						//physics
-						MyFrameRateController.StartTimeCounter();
-						MyPhysicsSystem.Update(dt);
-						MyEventHandler.BroadcastCollisionEvents();
-						MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
 					}
 				}
 				else
@@ -165,7 +156,7 @@ void Engine::Update()
 			else
 			{
 				MyFrameRateController.StartTimeCounter();
-				MyLogicSystem.Update(0.0);
+				MyLogicSystem.Update(-10.0);
 				MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
 			}
 

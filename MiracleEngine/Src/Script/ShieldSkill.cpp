@@ -34,18 +34,18 @@ void ShieldSkill::Init()
 	_obj = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 	_animation = (AnimationComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Animation);
 	GetParentPtr()->SetEnable(false);
+	_init = true;
 }
 
 void ShieldSkill::Update(double dt)
 {
-	if (!dt)
+	if (dt < 0)
 		return;
 
 	if (!_init)
 	{
 		Init();
 		_init = true;
-		return;
 		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Character_BodyFloat_sprite.png");
 	}
 
@@ -79,6 +79,7 @@ void ShieldSkill::ActionShield(double skilltimer)
 {
 	GetParentPtr()->SetEnable(true);
 	_timer = skilltimer;
+	_animTimer = -1.f;
 	_animation->SetCurrentAnim("On");
 
 	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));

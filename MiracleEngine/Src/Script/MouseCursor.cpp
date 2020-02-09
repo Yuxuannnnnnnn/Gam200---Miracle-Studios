@@ -45,8 +45,9 @@ void MouseCursor::Init()
 void MouseCursor::Update(double dt)
 {
 	_transform->SetPos(_input->GetMouseScreenPos());
-	if (dt)
-		_transform->SetRotate(_transform->GetRotate() + dt * _spinSpeed);
-	else
+	
+	if (dt < 0)
 		_transform->SetRotate(_transform->GetRotate() + 0.016 * _spinSpeed);
+	else
+		_transform->SetRotate(_transform->GetRotate() + dt * _spinSpeed);
 }

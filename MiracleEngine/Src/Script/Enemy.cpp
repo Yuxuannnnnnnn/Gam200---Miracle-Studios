@@ -63,7 +63,7 @@ void Enemy::Init()
 }
 void Enemy::Update(double dt)
 {
-	if (!dt)
+	if (dt < 0)
 		return;
 
 	if (!_init)

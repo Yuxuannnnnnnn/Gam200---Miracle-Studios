@@ -56,7 +56,7 @@ void Turret::Init()
 
 void Turret::Update(double dt)
 {
-	if (!dt)
+	if (dt < 0)
 		return;
 
 	if (!_init)

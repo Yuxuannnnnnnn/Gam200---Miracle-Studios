@@ -21,39 +21,39 @@
   "ScriptId": [],
   "Script2Id": [ "ShieldSkill" ],
   "Script2Data": [ {} ],
-      "AudioComponent": true,
-      "SFXList": [
-        {
-          "SFXName": "Activate",
-          "fileName": "Shield.wav",
-          "volume": 0.13600000739097596,
-          "NumOfloops": 0
-        },
-        {
-          "SFXName": "ShieldBreak",
-          "fileName": "Shield2.wav",
-          "volume": 0.19099999964237214,
-          "NumOfloops": 0
-        }
-      ],
-      "AnimationComponent": true,
-      "AnimationTypes": [
-        {
-          "AnimationType": "PlayerShieldBreak_SpriteSheetData.json",
-          "TimeDelay": 0.10000000149011612,
-          "AnimationName": "Off"
-        },
-        {
-          "AnimationType": "PlayerShield_SpriteSheetData.json",
-          "TimeDelay": 0.10000000149011612,
-          "AnimationName": "On"
-        }
-      ],
-      "StartAnim": "On",
-      "CircleCollider2DComponent": false,
-      "ColliderTypeId": 2,
-      "ColliderTag": 1,
-      "ColliderTrigger": false,
-      "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-      "Collider2D.C.Radius": 90.0
+  "AudioComponent": true,
+  "SFXList": [
+    {
+      "SFXName": "Activate",
+      "fileName": "Shield.wav",
+      "volume": 0.13600000739097596,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "ShieldBreak",
+      "fileName": "Shield2.wav",
+      "volume": 0.19099999964237214,
+      "NumOfloops": 0
     }
+  ],
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "PlayerShieldBreak_SpriteSheetData.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Off"
+    },
+    {
+      "AnimationType": "PlayerShield_SpriteSheetData.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "On"
+    }
+  ],
+  "StartAnim": "On",
+  "CircleCollider2DComponent": true,
+  "ColliderTypeId": 2,
+  "ColliderTag": 1,
+  "ColliderTrigger": false,
+  "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
+  "Collider2D.C.Radius": 90.0
+}

@@ -36,7 +36,7 @@ void PickUps::Inspect()
 
 void PickUps::Update(double dt)
 {
-	if (!dt)
+	if(dt < 0)
 		return;
 
 	if (_lifeTime != -666.f)

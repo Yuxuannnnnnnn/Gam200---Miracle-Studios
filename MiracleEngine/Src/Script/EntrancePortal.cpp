@@ -122,7 +122,7 @@ void EntrancePortal::Init()
 
 void EntrancePortal::Update(double dt)
 {
-	if (!dt)
+	if (dt < 0)
 		return;
 
 	if (!_init)
