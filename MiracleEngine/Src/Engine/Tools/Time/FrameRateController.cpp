@@ -81,9 +81,6 @@ double FrameRateController::UpdateFrameTime()
 			accumulatedTime -= LockedFPS;
 			currentNumberOfSteps++;
 		}
-
-		if(!currentNumberOfSteps)
-			currentNumberOfSteps = 1;
 	}
 	
 

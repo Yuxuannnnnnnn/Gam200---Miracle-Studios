@@ -103,25 +103,43 @@ void Engine::Update()
 
 				if (fixedDt)
 				{
-					while (accumlatedframes)
+					if (accumlatedframes)
 					{
+						while (accumlatedframes)
+						{
 
-						// Logic
+							// Logic
+							MyFrameRateController.StartTimeCounter();
+							MyLogicSystem.Update(fixedDt);
+							MyAiSystem.Update(fixedDt);
+							MyParticleSystem.Update(fixedDt);
+							MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
+
+
+							//physics
+							MyFrameRateController.StartTimeCounter();
+							MyPhysicsSystem.Update(fixedDt);
+							MyEventHandler.BroadcastCollisionEvents();
+							MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
+
+
+							--accumlatedframes;
+						}
+					}
+					else
+					{
 						MyFrameRateController.StartTimeCounter();
-						MyLogicSystem.Update(fixedDt);
-						MyAiSystem.Update(fixedDt);
-						MyParticleSystem.Update(fixedDt);
+						MyLogicSystem.Update(dt);
+						MyAiSystem.Update(dt);
+						MyParticleSystem.Update(dt);
 						MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
 
 
 						//physics
 						MyFrameRateController.StartTimeCounter();
-						MyPhysicsSystem.Update(fixedDt);
+						MyPhysicsSystem.Update(dt);
 						MyEventHandler.BroadcastCollisionEvents();
 						MyPerformanceUsage.PhysicFrameTime += MyFrameRateController.EndTimeCounter();
-
-
-						--accumlatedframes;
 					}
 				}
 				else
