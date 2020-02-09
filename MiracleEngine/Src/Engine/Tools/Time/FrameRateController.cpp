@@ -82,6 +82,8 @@ double FrameRateController::UpdateFrameTime()
 			currentNumberOfSteps++;
 		}
 
+		if(!currentNumberOfSteps)
+			currentNumberOfSteps = 1;
 	}
 	
 
