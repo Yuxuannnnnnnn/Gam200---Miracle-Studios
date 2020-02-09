@@ -84,6 +84,15 @@ std::string Bullet::IntToString(int bulletType)
 	}
 }
 
+void  Bullet::Init()
+{
+	_init = true;
+	if (_bulletType == 1)
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(false);
+
+	_body = (RigidBody2DComponent*)GetParentPtr()->GetComponent(ComponentId::CT_RigidBody2D);
+}
+
 void Bullet::Update(double dt)
 {
 	if (!_init)
@@ -100,6 +109,9 @@ void Bullet::Update(double dt)
 		_lifeTime -= dt;
 
 	if (_lifeTime < 0.0f && _lifeTime != -666.f)
+		GetParentPtr()->SetDestory();
+
+	if (_body && _body->_velocity.SquaredLength() < 1.f)
 		GetParentPtr()->SetDestory();
 }
 

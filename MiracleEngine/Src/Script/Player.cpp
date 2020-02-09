@@ -652,7 +652,7 @@ int Player::GetProgressLevel() const
 
 void Player::DamagePlayer(int dmg)
 {
-	if (_shieldOn || _god)
+	if (_god)
 		return;
 	else
 	{

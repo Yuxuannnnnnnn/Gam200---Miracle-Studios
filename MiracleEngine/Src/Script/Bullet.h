@@ -21,6 +21,8 @@ private:
 	double _lifeTime;
 	int _bulletType;
 	double _bulletSpeed;
+
+	RigidBody2DComponent* _body;
 public:
 	void SerialiseComponent(Serialiser& document) ;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;
@@ -33,13 +35,7 @@ public:
 	std::string IntToString(int bulletType);
 
 
-	void Init()
-	{
-		_init = true;
-		if (_bulletType == 1)
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(false);
-	}
-
+	virtual void Init() override;
 	void Update(double dt);
 
 	void BulletCollisionPlayer(Collider2D* other);

@@ -7,7 +7,7 @@
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 500.0, 450.0, 1.0 ],
   "Rotate": 0.0,
-  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "PivotPosition": [ 0.0, -20.0, 1.0 ],
   "LogicComponent": true,
   "ScriptId": [],
   "Script2Id": [ "Enemy" ],
@@ -70,5 +70,5 @@
   "ColliderTag": 3,
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-  "Collider2D.C.Radius": 75.0
+  "Collider2D.C.Radius": 65.0
 }

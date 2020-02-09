@@ -170,7 +170,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 		if (!transform || !object)
 			return;
 
-		Vector3 globalPos = transform->GetPos() + object->_center;
+		Vector3 globalPos = transform->GetPivot() + object->_center;
 
 		object->_data = BEdge{ globalPos + object->_start,  globalPos + object->_end };
 		break;
@@ -183,7 +183,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 		if (!transform || !object)
 			return;
 
-		Vector3 globalPos = transform->GetPos() + object->_center;
+		Vector3 globalPos = transform->GetPivot() + object->_center;
 
 		object->_data = BoundingPolygon::CreateBoxPolygon(globalPos,
 			object->_scale,
@@ -198,7 +198,7 @@ void PhysicsSystem::UpdateColliderData(Collider2D* collider)
 		if (!transform || !object)
 			return;
 
-		Vector3 globalPos = transform->GetPos() + object->_center;
+		Vector3 globalPos = transform->GetPivot() + object->_center;
 
 		object->_data = BCircle{ globalPos ,object->_radius };
 		break;
