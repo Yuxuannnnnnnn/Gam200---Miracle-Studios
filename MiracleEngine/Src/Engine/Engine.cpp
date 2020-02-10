@@ -50,7 +50,7 @@ void Engine::Init()
 
 void Engine::Update()
 {
-	MyFactory.ChangeScene("MainMenu");
+	MyFactory.ChangeScene("SchoolSplashScreen");
 
 	while (MyFactory.GetCurrentScene().compare("Quit"))	//GameState Logic Starts here
 	{

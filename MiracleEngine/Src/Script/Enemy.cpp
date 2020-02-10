@@ -364,8 +364,8 @@ void Enemy::ChancePickUps()
 	{
 		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPositionA(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPositionA());
+		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	}

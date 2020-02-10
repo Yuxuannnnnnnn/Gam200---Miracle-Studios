@@ -212,6 +212,11 @@ void InputSystem::InterruptCheck()
 		MyFactory.ChangeScene("Quit");
 	}
 
+	if (KeyDown(KEYB_0))
+	{
+		MyFactory.ChangeScene("SchoolSplashScreen");
+	}
+
 	//bool temp2 = false;
 	//if (KeyHold((KeyCode)18) || KeyDown((KeyCode)18))
 	//{

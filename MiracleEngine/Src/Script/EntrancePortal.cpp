@@ -143,12 +143,23 @@ void EntrancePortal::Update(double dt)
 		if (_KillCount >= _progressCount)
 			OpenPortal();
 	}
+	else
+		_popUpPos->SetPos(Vec3{ _player->GetPos()._x, _player->GetPos()._y + 300, 1.f});
 }
 
 void EntrancePortal::OpenPortal()
 {
 	_clear = true;
 	_graphicComponent->SetFileName(_openPortalFileName);
+
+	if (!_popUp)
+	{
+		_player = (TransformComponent*)(MyLinkFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform));
+		_popUp = MyLinkFactory.GetLinkIDObject(9542);
+		_popUpPos = (TransformComponent*)_popUp->GetComponent(ComponentId::CT_Transform);
+	}
+
+	_popUp->SetEnable(true);
 }
 
 void EntrancePortal::OnTrigger2DEnter(Collider2D* other)

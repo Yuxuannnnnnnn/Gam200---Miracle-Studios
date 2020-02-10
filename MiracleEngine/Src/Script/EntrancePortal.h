@@ -14,6 +14,10 @@ class EntrancePortal : public IScript2
 	GraphicComponent* _graphicComponent;
 	IScript2* _playerScript;
 
+	GameObject* _popUp;
+	TransformComponent* _player;
+	TransformComponent* _popUpPos;
+
 	bool _init;
 
 	int _KillCount;

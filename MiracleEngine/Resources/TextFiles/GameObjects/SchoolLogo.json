@@ -1,0 +1,29 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "SchoolLogo",
+  "Name": "SchoolLogo",
+  "LinkUId": 0,
+  "TransformComponent": true,
+  "Position": [ 1.0, 0.0, 1.0 ],
+  "Scale": [ 1344.4488525390626, 400.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ -1.0, 0.0, 0.0 ],
+  "GraphicsComponent": true,
+  "G.FileName": "DigiPen_Singapore_WEB_WHITE.png",
+  "G.Shader": "",
+  "G.Layer": 1,
+  "_hasAlpha": true,
+  "_hasAdjustableAlpha": true,
+  "_alphaVal": 1.0,
+  "_isFadingOut": true,
+  "_isFlickering": false,
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Script2Id": [ "SplashScreen" ],
+  "Script2Data": [
+    {
+      "SS.ScreenDuration" :  3.0
+    }
+  ]
+
+}

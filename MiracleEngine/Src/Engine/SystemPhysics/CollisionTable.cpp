@@ -4,7 +4,7 @@
 CollisionTable::CollisionTable()
 {
 	// PLAYER
-	std::unordered_set<ColliderTag> row_player { ColliderTag::ENEMY, ColliderTag::BUILDING,ColliderTag::DESTORYABLE_BUILDING,ColliderTag::BULLET_E,ColliderTag::PICK_UPS,ColliderTag::EDGES };
+	std::unordered_set<ColliderTag> row_player { ColliderTag::ENEMY, ColliderTag::BUILDING,ColliderTag::DESTORYABLE_BUILDING,ColliderTag::BULLET_E,ColliderTag::PICK_UPS,ColliderTag::EDGES,ColliderTag::SPAWNER };
 	_table.insert(ROW(ColliderTag::PLAYER, row_player));
 
 	// BULLET

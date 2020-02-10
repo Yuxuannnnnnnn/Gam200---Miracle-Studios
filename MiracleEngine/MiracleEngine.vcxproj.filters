@@ -134,6 +134,7 @@
     <ClCompile Include="Src\Engine\SystemAudio\AudioEngine.cpp" />
     <ClCompile Include="Src\Script\RegisterLink.cpp" />
     <ClCompile Include="Src\Script\HitEffect.cpp" />
+    <ClCompile Include="Src\Script\SplashScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -580,6 +581,7 @@
     <ClInclude Include="Src\Engine\SystemAudio\AudioEngine.h" />
     <ClInclude Include="Src\Script\RegisterLink.h" />
     <ClInclude Include="Src\Script\HitEffect.h" />
+    <ClInclude Include="Src\Script\SplashScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -764,6 +766,9 @@
     <None Include="Resources\TextFiles\Scenes\Scenes\level2.json" />
     <None Include="Resources\TextFiles\GameObjects\UiTest.json" />
     <None Include="Resources\TextFiles\GameObjects\PaseMenu.json" />
+    <None Include="Resources\TextFiles\GameObjects\PortalText.json" />
+    <None Include="Resources\TextFiles\GameObjects\SchoolLogo.json" />
+    <None Include="Resources\TextFiles\Scenes\Scenes\SchoolSplashScreen.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />

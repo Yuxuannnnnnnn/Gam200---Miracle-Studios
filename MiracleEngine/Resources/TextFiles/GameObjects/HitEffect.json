@@ -25,5 +25,9 @@
       "AnimationName": "Hit"
     }
   ],
-  "StartAnim": "Hit"
+  "StartAnim": "Hit",
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Script2Id": [ "HitEffect" ],
+  "Script2Data": [ {} ]
 }

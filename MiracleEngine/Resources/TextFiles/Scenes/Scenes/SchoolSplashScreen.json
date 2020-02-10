@@ -1,0 +1,13 @@
+{
+  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\SchoolLogo.json" ],
+  "TexturesFilesPaths": [ "./Resources/Image\\DigiPen_Singapore_WEB_WHITE.png" ],
+  "ShaderFilesPaths": [],
+  "AnimationDataFilesPaths": [],
+  "FontFilesPath": [],
+  "ClonableObjects": [
+    {
+      "IdentityComponent": true,
+      "ObjectType": "SchoolLogo"
+    }
+  ],
+  "NonClonableObjects":[]}
