@@ -19,8 +19,8 @@
   "Script2Id": [ "Player" ],
   "Script2Data": [
     {
-      "ShieldDuration": 1.0,
-      "ShieldCooldown": 0.0,
+      "ShieldDuration": 5.0,
+      "ShieldCooldown": 5.0,
       "Health": 10,
       "WeaponActive": 1,
       "AmmoRpg": 0,

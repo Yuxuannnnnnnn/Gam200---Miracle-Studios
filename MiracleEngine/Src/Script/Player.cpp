@@ -196,6 +196,7 @@ void Player::Init()
 	}
 
 	_timerShieldActivateCooldown = 0;
+	MyAudioSystem.PlayBGM("Level1", 1.0f);
 }
 
 void Player::Update(double dt)
@@ -299,6 +300,9 @@ void Player::UpdateUI()
 
 void Player::UpdateInput()
 {
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_8))
+		((TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform))->SetPos(Vec3{ 0.f,0.f,1.f });
+
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_P))
 	{
 		if (!_pauseMenu)
@@ -331,9 +335,6 @@ void Player::UpdateInput()
 	float spd = 3.f * 10000; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
 	{
-
-		MyAudioSystem.PlayBGM("Level1", 1.0f);
-
 		_moving = true;
 		AddForce(GetParentId(), Vector3(0, 1, 0), spd);
 	}

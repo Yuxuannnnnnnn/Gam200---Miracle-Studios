@@ -50,8 +50,7 @@ void Enemy::Init()
 		if ( ( ((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01")==0 ||
 			((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
 			((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0) &&
-			(((LogicComponent*)itr.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)) &&
-			!itr.second->GetDestory() )
+			(((LogicComponent*)itr.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)))
 		{
 			_target = itr.second;
 			break;
@@ -484,7 +483,7 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 		SetStunned();
 		AddForwardForce(GetParentId(), -150000);
 	}
-	if (otherType.compare("Player") == 0 || otherType.compare("player") == 0)
+	if (otherType.compare("Player") == 0 || otherType.compare("player") == 0 || otherType.compare("PlayerShield") == 0)
 	{
 		_stunActivate = true;
 		_timerAttack = _timerAttackCooldown;

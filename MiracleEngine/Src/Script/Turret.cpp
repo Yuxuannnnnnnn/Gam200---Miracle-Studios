@@ -227,9 +227,9 @@ void Turret::ShootTarget()
 			// spawn bullet
 		GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletT"]);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPositionA(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPositionA());
-		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotationA(
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
+			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 50000);
 
