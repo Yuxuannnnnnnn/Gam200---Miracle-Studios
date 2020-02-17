@@ -192,9 +192,9 @@ public:
 
 
 
-	const std::map<std::string, timeDelay>& GetAnimationDataFileList() const
+	const std::map<AnimationName, AnimationFile>& GetAnimationDataFileList() const
 	{
-		return _animations;
+		return animationFileNameList;
 	}
 
 

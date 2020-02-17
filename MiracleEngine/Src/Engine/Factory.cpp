@@ -528,18 +528,18 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 	for (auto& IdAnimPair : GetComponentMap(Animation))
 	{
-		const std::map<std::string, float>& AnimFileList = ((AnimationComponent*)IdAnimPair.second)->GetAnimationDataFileList();
+		const std::map<std::string, std::string>& AnimFileList = ((AnimationComponent*)IdAnimPair.second)->GetAnimationDataFileList();
 
 		for (auto& animFile : AnimFileList)
 		{
 			bool add = true;
 
-			if (MyResourceSystem.GetAnimationResource(animFile.first))
+			if (MyResourceSystem.GetAnimationResource(animFile.second))
 			{
 				// AnimationResourcePathList does not have the aniamation yet 
 				for (auto& string : AnimationResourcePathList)
 				{
-					if (!string.first.compare(animFile.first))
+					if (!string.second.compare(animFile.second))
 					{
 						add = false;
 						break;
@@ -548,9 +548,9 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 				if (add)
 				{
-					std::string FilePath = MyResourceSystem.GetAnimationResourcePath(animFile.first);
+					std::string FilePath = MyResourceSystem.GetAnimationResourcePath(animFile.second);
 					if(!FilePath.empty())
-						AnimationResourcePathList.insert(std::pair<std::string, std::string>(animFile.first, FilePath));
+						AnimationResourcePathList.insert(std::pair<std::string, std::string>(animFile.second, FilePath));
 				}
 			}
 		}
