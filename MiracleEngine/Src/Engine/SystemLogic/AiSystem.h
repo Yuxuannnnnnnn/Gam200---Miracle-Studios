@@ -18,7 +18,7 @@ private:
 	bool _solid;	// to prevent usage of node
 	bool _visited;	// use for BFS algorithm
 	bool _closed; // Astar
-	size_t _nodeId;
+	int _nodeId;
 	Vector3 _position;	// position of Node in  World
 // Node pointers
 	Node* _PtrNodeUp;
@@ -27,13 +27,18 @@ private:
 	Node* _PtrNodeRight;
 	Node* _PtrNodePrev;
 public:
+	GameObject* _NodeObj;
+
 	size_t _f, _g, _h; // size_t cause using Vector3.SquaredLength
 
-	Node(bool solid, size_t id, Vector3 pos);
+	Node(bool solid, int id, Vector3 pos);
+	~Node();
 	void SetNodeAdjacent(Node* up, Node* down, Node* left, Node* right);
 	bool GetSolid();
-	size_t GetNodeId();
+	void SetSolid(bool in);
+	int GetNodeId();
 	Vector3 GetPosition();
+	void SetPosition(Vector3 pos);
 	bool GetVisited();
 	void SetVisited(bool in);
 	bool GetClosed();
@@ -51,30 +56,30 @@ public:
 class AISystem
 {
 private:
-	// all GO with AI components
-	//std::unordered_map < size_t, AiComponent* >& _aimap; // get from factory
-
 	bool init;
 
-	double _timer{ 0 };
-	double _timeCooldown{ 0.1 };
+	double _timer, _timeCooldown;
 
-	// hard coded tilemap
-	std::unordered_map < size_t, Node* > _tileNodeMap;
-	size_t** _tilemapInput;
-	size_t _mapHeight, _mapWidth, _mapTileSize;
+	int _mapHeight, _mapWidth, _mapTileSize;
+	std::unordered_map < int, Node* > _tileNodeMap; // <NodeId, NodePtr>
+	int** _tilemapInput; // 2dArray of the NodeMap in ID form
 
 public:
+	void SerialiseComponent(Serialiser& document);
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator);
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator);
+	void Inspect();
+
 	AISystem();
 	~AISystem() = default;
 	AISystem(const AISystem& rhs) = delete;
 	AISystem& operator=(const AISystem& rhs) = delete;
 
 // GetSet
-	void SetTimeElapsed(size_t time);
-	std::unordered_map < size_t, Node* > GetTileMap();
-	void SetTileMap(std::unordered_map < size_t, Node* > map);
-	size_t GetMapTileSize();
+	std::unordered_map < int, Node* > GetTileMap();
+	void SetTileMap(std::unordered_map < int, Node* > map);
+	int GetMapTileSize();
 	void SetInit();
 
 // InUpEx
@@ -83,9 +88,12 @@ public:
 	void Exit();
 
 // Create a node map from _tilemap
+	void CreateNodeMap(int w, int h, int sz);
+	void SetNodeMapOffset(int x, int y);
+
 	void CreateNodeMap(); // sets up _tilemap with Nodes with their UpDownLeftRight Node*
 	void CreateNodeMapFromTileComp();
-
+	void ToggleNodeSolidity(float x, float y); // when picked a Node, call this function
 // PathFinding
 	//std::vector<Node*> PathFinding(Vector3& _curr, Vector3& _dest);
 	std::vector<Node*> PathFindingOld(Vector3 curr, Vector3 dest); // testing, once done use line above

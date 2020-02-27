@@ -4,7 +4,7 @@
 /////////////////////////
 // NODE stuff
 
-Node::Node(bool solid, size_t id, Vector3 pos) :
+Node::Node(bool solid, int id, Vector3 pos) :
 	_solid{ solid },
 	_visited{ false },
 	_closed{ false },
@@ -15,10 +15,19 @@ Node::Node(bool solid, size_t id, Vector3 pos) :
 	_PtrNodeLeft{ nullptr },
 	_PtrNodeRight{ nullptr },
 	_PtrNodePrev{ nullptr },
+	_NodeObj{ nullptr },
 	_f{ 0 },
 	_g{ 0 },
 	_h{ 0 }
-{}
+{
+	_NodeObj = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Node"]);
+	((TransformComponent*)_NodeObj->GetComponent(ComponentId::CT_Transform))->SetPos(_position);
+}
+
+Node::~Node()
+{
+	_NodeObj->SetDestory();
+}
 
 void Node::SetNodeAdjacent(Node* up, Node* down, Node* left, Node* right)
 {
@@ -32,13 +41,22 @@ bool Node::GetSolid()
 {
 	return _solid;
 }
-size_t Node::GetNodeId()
+void Node::SetSolid(bool in)
+{
+	_solid = in;
+}
+int Node::GetNodeId()
 {
 	return _nodeId;
 }
 Vector3 Node::GetPosition()
 {
 	return _position;
+}
+void Node::SetPosition(Vector3 pos)
+{
+	_position = pos;
+	((TransformComponent*)_NodeObj->GetComponent(ComponentId::CT_Transform))->SetPos(_position);
 }
 bool Node::GetVisited()
 {
@@ -87,7 +105,43 @@ void Node::SetPrev(Node* prev)
 /////////////////////////
 // AISystem stuff
 
-AISystem::AISystem()
+void AISystem::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("MapHeight") && document["MapHeight"].IsInt())
+		_mapHeight = document["MapHeight"].GetInt();
+	if (document.HasMember("MapWidth") && document["MapWidth"].IsInt())
+		_mapWidth = document["MapWidth"].GetInt();
+	if (document.HasMember("MapTileSize") && document["MapTileSize"].IsInt())
+		_mapTileSize = document["MapTileSize"].GetInt();
+
+	// will need to get
+	//	- the map
+	//	- nodemap offset
+	//	-	
+
+	CreateNodeMapFromTileComp();
+}
+void AISystem::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+
+}
+void AISystem::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+
+}
+void AISystem::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+
+}
+void AISystem::Inspect()
+{
+
+}
+
+AISystem::AISystem() :
+	_timer{ 0 }, _timeCooldown{ 0 },
+	_mapHeight{ 0 }, _mapWidth{ 0 }, _mapTileSize{ 0 },
+	_tilemapInput{nullptr}
 {
 	init = false;
 
@@ -95,15 +149,15 @@ AISystem::AISystem()
 
 // GetSet
 
-std::unordered_map < size_t, Node* > AISystem::GetTileMap()
+std::unordered_map < int, Node* > AISystem::GetTileMap()
 {
 	return _tileNodeMap;
 }
-void AISystem::SetTileMap(std::unordered_map < size_t, Node* > map)
+void AISystem::SetTileMap(std::unordered_map < int, Node* > map)
 {
 	_tileNodeMap = map;
 }
-size_t AISystem::GetMapTileSize()
+int AISystem::GetMapTileSize()
 {
 	return _mapTileSize;
 }
@@ -141,9 +195,107 @@ void AISystem::Exit()
 {
 }
 
+
+void AISystem::CreateNodeMap(int w, int h, int sz)
+{
+	if (w < 0 || h < 0 || sz < 0)
+	{
+		std::cout << "WARNING: New map Width||Height||Size < 0\n";
+		return;
+	}
+
+	// free existing _tileNodeMap, _tilemapInput
+	for (auto map : _tileNodeMap)
+		delete map.second;
+	_tileNodeMap.clear();
+
+	for (unsigned i = 0; i < _mapWidth; ++i)
+		delete _tilemapInput[i];
+	delete _tilemapInput;
+
+	// create blank _tilemapInput
+	int currNode = 0, currId = 0;
+	Node *nodePtr, * up, * down, * left, * right;
+	_tilemapInput = new int * [h]; //mem alloc height
+	for (unsigned y = 0; y < h; ++y)
+	{
+		_tilemapInput[y] = new int[w]; //mem alloc width
+		for (unsigned x = 0; x < w; ++x)
+		{
+			_tilemapInput[y][x] = currId;
+			_tileNodeMap[currId] = new Node(false, currId, Vector3(x * sz, y * sz, 1)); // set Node pos;
+			currId;
+		}
+	}
+	currId = 0;
+	// set UpDownLeftRight for new _tileNodeMap;
+	for (int y = 0; y < (int)_mapHeight; ++y)
+		for (int x = 0; x < (int)_mapWidth; ++x)
+		{
+			currNode = _tilemapInput[y][x];
+			// Left
+			if (x > 0)
+			{
+				currId = _tilemapInput[y][x - 1]; // add left ptr
+				left = _tileNodeMap[currId];
+				if (DEBUGOUTPUT) std::cout << "L " << currId << " ";
+			}
+			else
+				left = nullptr; // put nullptr
+		// Right
+			if (x < (int)_mapWidth - 1)
+			{
+				currId = _tilemapInput[y][x + 1];
+				right = _tileNodeMap[currId];
+				if (DEBUGOUTPUT) std::cout << "R " << currId << " ";
+			}
+			else
+				right = nullptr;
+			// Up
+			if (y > 0)
+			{
+				currId = _tilemapInput[y - 1][x];
+				up = _tileNodeMap[currId];
+				if (DEBUGOUTPUT) std::cout << "U " << currId << " ";
+			}
+			else
+				up = nullptr;
+			// Down
+			if (y < (int)_mapHeight - 1)
+			{
+				currId = _tilemapInput[y + 1][x];
+				down = _tileNodeMap[currId];
+				if (DEBUGOUTPUT) std::cout << "D " << currId << " ";
+			}
+			else
+				down = nullptr;
+			// Set Adjacent Nodes
+			if (DEBUGOUTPUT) std::cout << std::endl;
+			_tileNodeMap[currNode]->SetNodeAdjacent(up, down, left, right);
+		}
+
+}
+
+void AISystem::SetNodeMapOffset(int xOff, int yOff)
+{
+	// run through all nodes in _tileNodeMap and shift by the x,y offset
+	Node* nodePtr = nullptr;
+	unsigned currId = 0;
+	for (int y = 0; y < (int)_mapHeight; ++y)
+		for (int x = 0; x < (int)_mapWidth; ++x)
+		{
+			nodePtr = _tileNodeMap[currId++];
+			nodePtr->SetPosition(
+				Vector3(
+					nodePtr->GetPosition().GetX() + xOff,
+					nodePtr->GetPosition().GetY() + yOff,
+					1) );
+		}
+}
+
 void AISystem::CreateNodeMap()
 {
-	size_t id = 0; // id for Node's id
+	int id = 0; // id for Node's id
 	Node* tempNode = nullptr;
 	bool solid = false;
 	GameObject* tempGo;
@@ -173,7 +325,7 @@ void AISystem::CreateNodeMap()
 			bool spawner3 = _tilemapInput[y][x] == 4 ? true : false;
 			tempNode = new Node(solid, id, tempVec);
 			//_tileNodeMap[id] = tempNode;
-			_tileNodeMap.insert(std::pair<size_t, Node*>(id, tempNode));
+			_tileNodeMap.insert(std::pair<int, Node*>(id, tempNode));
 			// Assign id to the current _tileNodeMap[][]
 			_tilemapInput[y][x] = id++; //increment the id
 			// create WALL object from factory
@@ -184,7 +336,7 @@ void AISystem::CreateNodeMap()
 				((TransformComponent*)tempGo->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 				
 				MyPhysicsSystem._collisionMap.AddNewTile(y, x, MapTile{ TileType::HARD_WALL, tempGo->Get_uID() });
-				//std::cout << id;
+				if (DEBUGOUTPUT) std::cout << id;
 			}
 			else if (spawner)
 			{	// create spawner if tileMapInput[][] == 2
@@ -192,7 +344,7 @@ void AISystem::CreateNodeMap()
 				spawner = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Spawner"]);
 				((TransformComponent*)spawner->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 				
-				//std::cout << "*";
+				if (DEBUGOUTPUT) std::cout << "*";
 			}
 			else if (spawner2)
 			{	// create spawner if tileMapInput[][] == 3
@@ -200,7 +352,7 @@ void AISystem::CreateNodeMap()
 				spawner = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["SpawnerTwo"]);
 				((TransformComponent*)spawner->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 				
-				//std::cout << "*";
+				if (DEBUGOUTPUT) std::cout << "*";
 			}
 			else if (spawner3)
 			{	// create spawner if tileMapInput[][] == 4
@@ -208,7 +360,7 @@ void AISystem::CreateNodeMap()
 				spawner = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["SpawnerThree"]);
 				((TransformComponent*)spawner->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 
-				//std::cout << "*";
+				if (DEBUGOUTPUT) std::cout << "*";
 			}
 			else
 			{	// create wall only if solid
@@ -216,14 +368,14 @@ void AISystem::CreateNodeMap()
 				//tempGo->Set_typeId(TypeIdGO::FLOOR);
 				((TransformComponent*)tempGo->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
 				
-				//std::cout << "*";
+				if (DEBUGOUTPUT) std::cout << "*";
 			}
-			//std::cout << " ";
+			if (DEBUGOUTPUT) std::cout << " ";
 		}
-		//std::cout << std::endl;
+		if (DEBUGOUTPUT) std::cout << std::endl;
 	}
 
-	size_t currNode = 0;
+	int currNode = 0;
 	Node* up, * down, * left, * right;
 	// link the Node's updownleftfight
 	for (int y = 0; y < (int)_mapHeight; ++y)
@@ -235,7 +387,7 @@ void AISystem::CreateNodeMap()
 			{
 				id = _tilemapInput[y][x - 1]; // add left ptr
 				left = _tileNodeMap[id];
-				//std::cout << "L " << id << " ";
+				if (DEBUGOUTPUT) std::cout << "L " << id << " ";
 			}
 			else
 				left = nullptr; // put nullptr
@@ -244,7 +396,7 @@ void AISystem::CreateNodeMap()
 			{
 				id = _tilemapInput[y][x + 1];
 				right = _tileNodeMap[id];
-				//std::cout << "R " << id << " ";
+				if (DEBUGOUTPUT) std::cout << "R " << id << " ";
 			}
 			else
 				right = nullptr;
@@ -253,7 +405,7 @@ void AISystem::CreateNodeMap()
 			{
 				id = _tilemapInput[y - 1][x];
 				up = _tileNodeMap[id];
-				//std::cout << "U " << id << " ";
+				if (DEBUGOUTPUT) std::cout << "U " << id << " ";
 			}
 			else
 				up = nullptr;
@@ -262,25 +414,26 @@ void AISystem::CreateNodeMap()
 			{
 				id = _tilemapInput[y + 1][x];
 				down = _tileNodeMap[id];
-				//std::cout << "D " << id << " ";
+				if (DEBUGOUTPUT) std::cout << "D " << id << " ";
 			}
 			else
 				down = nullptr;
 			// Set Adjacent Nodes
-				//std::cout << std::endl;
+			if (DEBUGOUTPUT) std::cout << std::endl;
 			_tileNodeMap[currNode]->SetNodeAdjacent(up, down, left, right);
 		}
 	// Print the _tilemapInput
-	//for (int y = 0; y < (int)_mapHeight; ++y)
-	//{
-	//	for (int x = 0; x < (int)_mapWidth; ++x)
-	//	{
-	//		std::cout << _tilemapInput[y][x] << "\t";
-	//	}
-	//	std::cout << std::endl;
-	//}
+	if (DEBUGOUTPUT)
+		for (int y = 0; y < (int)_mapHeight; ++y)
+		{
+			for (int x = 0; x < (int)_mapWidth; ++x)
+			{
+				std::cout << _tilemapInput[y][x] << "\t";
+			}
+			std::cout << std::endl;
+		}
 	
-	size_t tilesize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	int tilesize = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ 0.0f * tilesize, 0.0f * tilesize,1 }, { 900,900,1 }, 4.0f);
 	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -7.0f * tilesize, 5.0f * tilesize,1 }, { 500,500,1 }, 2.0f);
 	//EngineSystems::GetInstance()._graphicsSystem->DrawRockyTile({ -10.0f * tilesize, -8.0f * tilesize,1 }, { 1200,900,1 }, 3.0f);
@@ -347,7 +500,6 @@ void AISystem::CreateNodeMap()
 
 }
 
-
 void AISystem::CreateNodeMapFromTileComp()
 {
 	std::string** temp = nullptr; // get the string map from tilecomponent
@@ -365,11 +517,11 @@ void AISystem::CreateNodeMapFromTileComp()
 	}
 
 	// build the empty AI map
-	_tilemapInput = new size_t * [_mapHeight];
+	_tilemapInput = new int* [_mapHeight];
 	for (unsigned i = 0; i < _mapWidth; ++i)
-		_tilemapInput[i] = new size_t[_mapWidth];
+		_tilemapInput[i] = new int[_mapWidth];
 
-	size_t id = 0; // id for Node's id
+	int id = 0; // id for Node's id
 	Node* tempNode = nullptr;
 	bool solid = false;
 	GameObject* tempGo = nullptr;
@@ -394,7 +546,7 @@ void AISystem::CreateNodeMapFromTileComp()
 		//	solid = _tilemapInput[y][x] == 1 ? true : false; // need 'palette' to determine solidty
 			// create node
 			tempNode = new Node(solid, id, tempVec);
-			_tileNodeMap.insert(std::pair<size_t, Node*>(id, tempNode));
+			_tileNodeMap.insert(std::pair<int, Node*>(id, tempNode));
 			//*((temp + (y*width)) + x) = id++; // idk if the ptr arithmatic is correct // ((ptr + (jumpToRow)) + rowOffset)
 
 			GameObject* tempGO = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Floor"]);
@@ -403,7 +555,7 @@ void AISystem::CreateNodeMapFromTileComp()
 		}
 	}
 
-	size_t currNode = 0;
+	int currNode = 0;
 	Node* up, * down, * left, * right;
 	// link the Node's updownleftfight
 		//for (int y = 0; y < height; ++y)
@@ -502,12 +654,23 @@ void AISystem::CreateNodeMapFromTileComp()
 
 }
 
+void AISystem::ToggleNodeSolidity(float x, float y)
+{
+	Node* nodePtr = nullptr;
+	// based on x,y get the right node
+		//ImGuizmoManager::Update()
+			//if (Collision::CollisionCheck(pickingBox, pos))
+	nodePtr = nullptr;
+	// toggle node _solid
+	nodePtr->SetSolid(!nodePtr->GetSolid());
+}
+
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
 std::vector<Node*> AISystem::PathFindingOld(Vector3 curr, Vector3 dest)
 {
 	std::queue<Node*> listVisited;
 	float x, y;
-	size_t nodeIdStart, nodeIdDest;
+	int nodeIdStart, nodeIdDest;
 	std::vector<Node*> tempVec, finalVec;
 	// start node, end node // based on closest postiion, set the start(obj.pos()) and end (target.pos())
 				//formula ( (x % _mapTileSize) + _mapTileSize/2 )
@@ -607,7 +770,7 @@ std::vector<Node*> AISystem::PathFindingOld(Vector3 curr, Vector3 dest)
 							//std::cout << std::endl;
 
 	// after BFS done, reset _tileMap Node.visited to false
-	std::unordered_map < size_t, Node* >::iterator itrMap = _tileNodeMap.begin();
+	auto itrMap = _tileNodeMap.begin();
 	while (itrMap != _tileNodeMap.end())
 	{
 		if (itrMap->second)
@@ -625,25 +788,13 @@ std::vector<Node*> AISystem::PathFindingOld(Vector3 curr, Vector3 dest)
 	// TODO: BFS Implementation
 }
 
-void Node::CalcFGH(Vector3 _start, Vector3 _dest)
-{
-	Vector3 temp;
-	// dist from _curr to _start
-	temp = _start - _position;
-	_g = (size_t)temp.SquaredLength();
-	// dist from _curr to _start
-	temp = _dest - _position;
-	_h = (size_t)temp.SquaredLength();
-	// F
-	_f = _g + _h;
-}
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
 std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 {
 	bool testSkip = false; // seems to fix the random crashing
 
 	float x, y;
-	size_t nodeIdStart, nodeIdDest;
+	int nodeIdStart, nodeIdDest;
 	std::vector<Node*> tempVec, finalVec;
 	std::list<Node*> queOpen;
 
@@ -817,7 +968,7 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 			std::cout << std::endl;
 	}
 // after A* done, reset _tileMap Node.Closed to false
-	std::unordered_map < size_t, Node* >::iterator itrMap = _tileNodeMap.begin();
+	auto itrMap = _tileNodeMap.begin();
 	while (itrMap != _tileNodeMap.end())
 	{
 		if (itrMap->second)
@@ -830,5 +981,17 @@ std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 	return finalVec;
 }
 
+void Node::CalcFGH(Vector3 _start, Vector3 _dest)
+{
+	Vector3 temp;
+	// dist from _curr to _start
+	temp = _start - _position;
+	_g = (size_t)temp.SquaredLength();
+	// dist from _curr to _start
+	temp = _dest - _position;
+	_h = (size_t)temp.SquaredLength();
+	// F
+	_f = _g + _h;
+}
 // AISystem stuff
 /////////////////////////

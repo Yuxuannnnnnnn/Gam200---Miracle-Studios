@@ -73,12 +73,12 @@ void AiComponent::Exit()
 
 }
 
-Vector3& AiComponent::GetDestinationPos()
+Vector3 AiComponent::GetDestinationPos()
 {
 	return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPos();
 }
 
-Vector3& AiComponent::GetPosition()
+Vector3 AiComponent::GetPosition()
 {
 	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPos();
 }

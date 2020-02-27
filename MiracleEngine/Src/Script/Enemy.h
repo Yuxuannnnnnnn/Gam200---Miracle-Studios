@@ -69,13 +69,13 @@ public:
 		}
 		if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsDouble())
 		{
-			_attackRangeShoot = document["AttackRangeShoot"].GetDouble();
+			_attackRangeShoot = (int)document["AttackRangeShoot"].GetDouble();
 			_attackRangeShoot *= 100;
 			_attackRangeShoot *= _attackRangeShoot;
 		}
 		if (document.HasMember("AttackRangeMelee") && document["AttackRangeMelee"].IsDouble())
 		{
-			_attackRangeMelee = document["AttackRangeMelee"].GetDouble();
+			_attackRangeMelee = (int)document["AttackRangeMelee"].GetDouble();
 			_attackRangeMelee *= 100;
 			_attackRangeMelee *= _attackRangeMelee;
 		}
@@ -113,8 +113,8 @@ public:
 	void FSM();
 	void ChancePickUps();
 // Logic - Pathfinding
-	Vector3& GetDestinationPos();	// _target's position
-	Vector3& GetPosition();			// _parent's / self position
+	Vector3 GetDestinationPos();	// _target's position
+	Vector3 GetPosition();			// _parent's / self position
 	std::vector<Node*>& GetPath();
 	void Move();
 	void MoveNode(bool start = false); // Move using path (toward _destination)

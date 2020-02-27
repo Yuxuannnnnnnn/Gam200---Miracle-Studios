@@ -24,12 +24,12 @@ Turret* Turret::Clone()
 
 void Turret::Init()
 {
+	_init = true;
 	for (auto& it : GetParentPtr()->GetChildList())
 	{
 		_turretBase = it.second;
 		break;;
 	}
-
 	_turretBase->SetEnable(false);
 
 	// set Deploy animation and set the animation's speed
@@ -60,10 +60,7 @@ void Turret::Update(double dt)
 		return;
 
 	if (!_init)
-	{
 		Init();
-		_init = true;
-	}
 
 	if (_deployTime > 0)
 	{
@@ -78,8 +75,9 @@ void Turret::Update(double dt)
 
 		return; // force turret to just play animation while "deploying"
 	}
-		
-	if (_health <= 0)
+	
+	_aliveTime -= dt;
+	if (_health <= 0 || _aliveTime <= 0)
 		GetParentPtr()->SetDestory();
 
 	_timerAttack -= dt;

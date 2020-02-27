@@ -26,7 +26,7 @@ class TileMapComponent: public IComponent
 
 
 public:
-	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilemap{ nullptr } {};
+	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilesize{ 0 }, _tilemap{ nullptr } {};
 	TileMapComponent(const TileMapComponent& copy) = default;
 
 	std::string ComponentName() const override
