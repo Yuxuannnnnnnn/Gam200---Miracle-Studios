@@ -5,25 +5,22 @@
 
 class TileMapComponent: public IComponent
 {
-	typedef std::string PaletteType;
+	typedef std::string Image;
 		
-	PaletteType** _tilemap;
-	std::unordered_map<size_t, std::string> palette;
+	//PaletteType** _tilemap;
 
+	int _height, _width; //Results in the total number of tiles in the tilemap.
 
+	Image onImage; //Image shows when tile is selected
 
-	int _height, _width;
+	std::vector<int> selectedTiles; 
 
+	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
+						//Everytime Scaling changes, tilesize is recalculated.
 
-	Vector3 _tilesize; //x, y 
+	bool turnOnTileMap; //Bool to activate drawing in GraphicSystem to draw tiles.
 
-	std::string onImage;
-	std::string offImage;
-
-
-
-
-
+	//Array of nodes. 
 
 public:
 	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilesize{ 0 }, _tilemap{ nullptr } {};
