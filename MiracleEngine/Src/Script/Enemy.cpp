@@ -370,12 +370,14 @@ void Enemy::ChancePickUps()
 	}
 }
 
-Vector3& Enemy::GetDestinationPos()
+Vector3 Enemy::GetDestinationPos()
 {
 	if (_target)
 		return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA();
+	else
+		return Vector3();
 }
-Vector3& Enemy::GetPosition()
+Vector3 Enemy::GetPosition()
 {
 	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA();
 }

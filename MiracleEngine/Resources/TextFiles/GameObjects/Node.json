@@ -1,0 +1,15 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "Node",
+  "Name": "Node",
+  "LinkUId": 0,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 50.0, 50.0, 1.0 ],
+  "Rotate": 0.0,
+  "GraphicsComponent": true,
+  "G.FileName": "Red_Plasma_circle.png",
+  "G.Shader": "",
+  "G.Layer": 10,
+  "_hasAlpha": false
+}

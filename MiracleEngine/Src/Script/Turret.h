@@ -14,11 +14,10 @@ private:
 	GameObject* _target;
 	size_t _targetUid;
 	int _state;
-	double _timerAttack;
-	double _timeAttackCooldown;	
+	double _timerAttack, _timeAttackCooldown;	
 	int _attackRangeShoot; // currently set to 1*_mapTileSize
 // Logic Data - Animation
-	double _deployTime;
+	double _deployTime, _aliveTime;
 	bool _shooting;
 	int _animState, _animStatePrev; // 1==StartIdle, 2==StartShoot
 
@@ -45,6 +44,9 @@ public:
 
 		if (document.HasMember("DeployScale") && document["DeployScale"].IsDouble())
 			_deployTime = (document["DeployScale"].GetDouble());
+
+		if (document.HasMember("AliveTime") && document["AliveTime"].IsDouble())
+			_aliveTime = (document["AliveTime"].GetDouble());
 
 		if (document.HasMember("DeployScale") && document["DeployScale"].IsArray())
 		{
@@ -75,6 +77,7 @@ public:
 			_attackRangeShoot /= _attackRangeShoot;
 			object.AddMember("AttackRangeShoot", _attackRangeShoot, prototypeDoc.Allocator());
 			object.AddMember("DeployTime", _deployTime, prototypeDoc.Allocator());
+			object.AddMember("AliveTime", _aliveTime, prototypeDoc.Allocator());
 			value.PushBack(object, prototypeDoc.Allocator());
 		}
 	}
@@ -96,6 +99,7 @@ public:
 			_attackRangeShoot /= _attackRangeShoot;
 			object.AddMember("AttackRangeShoot", _attackRangeShoot, allocator);
 			object.AddMember("DeployTime", _deployTime, allocator);
+			object.AddMember("AliveTime", _aliveTime, allocator);
 			value.PushBack(object, allocator);
 		}
 	}
@@ -118,6 +122,7 @@ public:
 			_attackRangeShoot /= _attackRangeShoot;
 			object.AddMember("AttackRangeShoot", _attackRangeShoot, allocator);
 			object.AddMember("DeployTime", _deployTime, allocator);
+			object.AddMember("AliveTime", _aliveTime, allocator);
 			doc.PushBack(object, allocator);
 		}
 	}
@@ -132,6 +137,8 @@ public:
 		ImGui::InputInt("AttackRange Shoot ", &_attackRangeShoot);
 		ImGui::Spacing();
 		ImGui::InputDouble("DeployTime ", &_deployTime);
+		ImGui::Spacing();
+		ImGui::InputDouble("AliveTime ", &_aliveTime);
 		ImGui::Spacing();
 
 		ImGui::Spacing();

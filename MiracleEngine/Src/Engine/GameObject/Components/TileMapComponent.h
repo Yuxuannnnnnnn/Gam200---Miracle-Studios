@@ -14,7 +14,7 @@ class TileMapComponent: public IComponent
 	std::unordered_map<size_t, std::string> palette;
 
 public:
-	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilemap{ nullptr } {};
+	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilesize{ 0 }, _tilemap{ nullptr } {};
 	TileMapComponent(const TileMapComponent& copy) = default;
 
 	std::string ComponentName() const override
