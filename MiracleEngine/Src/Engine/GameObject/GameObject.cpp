@@ -115,11 +115,18 @@ void GameObject::Serialise(Serialiser& document)
 
 	for (int i = 0; i < (int)ComponentId::CT_Count; i++)
 	{
-		if (document.HasMember(ToString((ComponentId)i)))
+		if (document.HasMember(ToString((ComponentId)i)) && !document[ToString((ComponentId)i)].IsNull())
 		{
 			//AddComponent already has a checkComponent(), will return existing component if have
 			component = AddComponent((ComponentId)i);
 			component->SerialiseComponent(document);
+		}
+		else
+		{
+			if (GetComponent((ComponentId)i))
+			{
+				RemoveComponent((ComponentId)i);
+			}
 		}
 	}
 

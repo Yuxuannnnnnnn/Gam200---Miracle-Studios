@@ -8,10 +8,22 @@ class TileMapComponent: public IComponent
 	typedef std::string PaletteType;
 		
 	PaletteType** _tilemap;
-
-	int _height, _width, _tilesize;
-
 	std::unordered_map<size_t, std::string> palette;
+
+
+
+	int _height, _width;
+
+
+	Vector3 _tilesize; //x, y 
+
+	std::string onImage;
+	std::string offImage;
+
+
+
+
+
 
 public:
 	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilemap{ nullptr } {};
