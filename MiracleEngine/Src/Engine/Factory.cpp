@@ -374,6 +374,9 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 	DeSerialiser SceneFile(filename);
 
+
+
+//------------------------------------------------------------------------------------------------------
 	//Deserialise Prototypes Resource
 	//- Check through the Identity Components of all Objects
 	//- The ObjectType in the IdentityComponent will be used to save a Prototype
@@ -653,6 +656,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	}
 	SceneFile.AddMember("FontFilesPath", FontFilePaths);
 
+//-------------------------------------------------------------------------------------------------------------------------
 
 
 	rapidjson::Value clonableObjects;
@@ -683,12 +687,27 @@ void Factory::De_SerialiseLevel(std::string filename)
 		{
 
 			std::unordered_map <ComponentId, IComponent* >& comList = _gameObjectIdMap[id]->GetComponentList();
+			std::unordered_map <ComponentId, IComponent* >& protoComList = proObj->GetComponentList();
+
+
+			for (auto& protoComPair : protoComList)
+			{
+				//If the clonable object does not have a certain component from the Prototype.
+				if (comList.find(protoComPair.first) == comList.end())
+				{
+					rapidjson::Value value;
+					value.SetNull();
+					obj.AddMember(rapidjson::StringRef(ToString(protoComPair.first)), value, SceneFile.GetAllocator());
+				}
+			}
 
 			for (auto& IdComPair : comList)
 			{
 				IComponent* protoCom = proObj->GetComponent(IdComPair.first);
 				IdComPair.second->DeserialiseComponentSceneFile(protoCom, obj, SceneFile.GetAllocator());
 			}
+
+
 			clonableObjects.PushBack(obj, SceneFile.Allocator());
 
 		}
@@ -719,6 +738,8 @@ void Factory::De_SerialiseLevel(std::string filename)
 	//Returns false if scene already exists
 	MyResourceSystem.AddNewScene(std::pair < std::string, std::string>(file, filename));
 	SceneFile.ProduceJsonFile();
+	_currentScene = file;
+
 
 }
 

@@ -74,6 +74,7 @@ void PopUpBoxImguiWindow::RefreshSceneWarning::Warn(PopUpBoxImguiWindow * box)
 		if (MyFactory.GetCurrentScene().empty())
 		{
 			MyFactory.WindowsDialogSaveLevel();
+
 		}
 		else
 		{
@@ -81,7 +82,7 @@ void PopUpBoxImguiWindow::RefreshSceneWarning::Warn(PopUpBoxImguiWindow * box)
 		}
 
 		box->SetWindowFalse();
-		MyFactory.ChangeScene(MyFactory.GetCurrentScene()); //Refresh the scene
+		MyFactory.ChangeScene("Restart"); //Refresh the scene
 
 		//Pop up box that mentions that scene is saved.
 	}

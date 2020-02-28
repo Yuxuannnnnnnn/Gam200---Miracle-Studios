@@ -94,8 +94,6 @@
     <ClCompile Include="Src\Engine\Editor\SpriteSheetCutterImguiWindow.cpp" />
     <ClCompile Include="Src\Engine\Tools\Resource\IResourceInfo.cpp" />
     <ClCompile Include="Src\Engine\Tools\Resource\ResourceSystem.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\ParticleComponent.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\ParticleSystemComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\UIComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\ICollider2D.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\BoundingBox.cpp" />
@@ -546,8 +544,6 @@
     <ClInclude Include="Src\Engine\Tools\Resource\ResourceSystem.h" />
     <ClInclude Include="Src\Engine\GameObject\ComponentCreator.h" />
     <ClInclude Include="Src\Engine\GameObject\ComponentTypeId.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\ParticleComponent.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\ParticleSystemComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\UIComponent.h" />
     <ClInclude Include="Src\Engine\ISystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />

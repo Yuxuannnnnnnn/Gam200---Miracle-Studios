@@ -207,6 +207,14 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::SliderFloat2("Slider Pos X, Y", tempPos.m, -1000, 1000);
 
+	if (tempPos != _pos)
+	{
+		if (GetSibilingComponent(ComponentId::CT_TileMap))
+		{
+			//Reset array of nodes position. 
+		}
+	}
+
 	SetPos(tempPos);
 
 	ImGui::Spacing();
