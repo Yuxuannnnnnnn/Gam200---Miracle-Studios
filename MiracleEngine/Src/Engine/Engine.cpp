@@ -26,8 +26,8 @@ void Engine::Init()
 	RegisterComponent(DataHealth);
 	_engineSystems._scriptSystem->Create_Scripts(); // fill up _ScriptsAll
 
-	RegisterComponent(Particle);
-	RegisterComponent(ParticleSystem);
+	//RegisterComponent(Particle);
+	//RegisterComponent(ParticleSystem);
 	RegisterComponent(UI);
 	
 	MyLogicSystem.bUseOldScripting = true; // set TRUE to use C++ scripting

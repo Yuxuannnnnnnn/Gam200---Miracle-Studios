@@ -67,7 +67,7 @@ class TileMapComponent: public IComponent
 	int** _tilemapInput; // 2dArray of the NodeMap in ID form
 
 public:
-	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilesize{ 0 }, _tilemap{ nullptr } {};
+	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilesize{ 0 }, _tilemapInput{ nullptr } {};
 	TileMapComponent(const TileMapComponent& copy) = default;
 
 	std::string ComponentName() const override
@@ -91,19 +91,19 @@ public:
 			value.SetInt(_width);
 			tileMapObject.AddMember("Width", value, levelDoc.Allocator());
 
-			value.SetArray();
-			{
-				for (auto& palettePair : palette)
-				{
-					rapidjson::Value ArrayPair;
-					ArrayPair.SetArray();
-					ArrayPair.PushBack(rapidjson::Value(palettePair.first).Move(), levelDoc.Allocator());
-					ArrayPair.PushBack(rapidjson::StringRef(palettePair.second.c_str()), levelDoc.Allocator());
+			//value.SetArray();
+			//{
+			//	for (auto& palettePair : palette)
+			//	{
+			//		rapidjson::Value ArrayPair;
+			//		ArrayPair.SetArray();
+			//		ArrayPair.PushBack(rapidjson::Value(palettePair.first).Move(), levelDoc.Allocator());
+			//		ArrayPair.PushBack(rapidjson::StringRef(palettePair.second.c_str()), levelDoc.Allocator());
 
-					value.PushBack(ArrayPair, levelDoc.Allocator());
-				}
-				tileMapObject.AddMember("Palette", value, levelDoc.Allocator());
-			}
+			//		value.PushBack(ArrayPair, levelDoc.Allocator());
+			//	}
+			//	tileMapObject.AddMember("Palette", value, levelDoc.Allocator());
+			//}
 
 			value.SetArray();
 			{
@@ -111,7 +111,7 @@ public:
 				{
 					for (size_t width = 0; width < _width; width++)
 					{
-						value.PushBack(rapidjson::StringRef(_tilemap[height][width].c_str()), levelDoc.Allocator());
+						//value.PushBack(rapidjson::StringRef(_tilemap[height][width].c_str()), levelDoc.Allocator());
 					}
 				}
 				tileMapObject.AddMember("TileMap", value, levelDoc.Allocator());
@@ -131,8 +131,6 @@ public:
 		ImGui::InputInt("height ", &_height);
 		ImGui::Spacing();
 		ImGui::InputInt("width ", &_width);
-		ImGui::Spacing();
-		ImGui::InputInt("tilesize ", &_tilesize);
 	}
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override { return; }
 
@@ -141,28 +139,26 @@ public:
 		return new TileMapComponent(*this);
 	}
 
-	PaletteType** GetTileMap()
-	{
-		return _tilemap;
-	}
-
-	std::unordered_map<size_t, std::string> GetPalette()
-	{
-		return palette;
-	}
-
-	int GetHeight()
-	{
-		return _height;
-	}
-	int GetWidth()
-	{
-		return _width;
-	}
-	int GetTileSize()
-	{
-		return _tilesize;
-	}
+	//PaletteType** GetTileMap()
+	//{
+	//	return _tilemap;
+	//}
+	//std::unordered_map<size_t, std::string> GetPalette()
+	//{
+	//	return palette;
+	//}
+	//int GetHeight()
+	//{
+	//	return _height;
+	//}
+	//int GetWidth()
+	//{
+	//	return _width;
+	//}
+	//int GetTileSize()
+	//{
+	//	return _tilesize;
+	//}
 
 	void CreateNodeMap(int w, int h);
 	void EditNodeMap(Vector3 offset, Vector3 scaleset, int newHeight, int newWidth);

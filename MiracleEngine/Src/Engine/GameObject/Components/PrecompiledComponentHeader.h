@@ -25,5 +25,5 @@
 #include "GameObject/Components/IdentityComponent.h"
 #include "GameObject/Components/TileMapComponent.h"
 
-#include "GameObject/Components/ParticleComponent.h"
-#include "GameObject/Components/ParticleSystemComponent.h"
+//#include "GameObject/Components/ParticleComponent.h"
+//#include "GameObject/Components/ParticleSystemComponent.h"

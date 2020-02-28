@@ -18,7 +18,7 @@ void AISystem::SerialiseComponent(Serialiser& document)
 	//	- nodemap offset
 	//	-	
 
-	CreateNodeMapFromTileComp();
+	//CreateNodeMapFromTileComp();
 }
 void AISystem::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
@@ -409,159 +409,159 @@ void AISystem::CreateNodeMap()
 
 }
 
-void AISystem::CreateNodeMapFromTileComp()
-{
-	std::string** temp = nullptr; // get the string map from tilecomponent
-	if (GetComponentMap(TileMap).begin() == GetComponentMap(TileMap).end())
-		return;
-
-	for (auto it : GetComponentMap(TileMap))
-	{
-		TileMapComponent* tile = (TileMapComponent*)(it.second);
-
-		_mapHeight = tile->GetHeight();
-		_mapWidth = tile->GetWidth();
-		_mapTileSize = tile->GetTileSize();
-		temp = tile->GetTileMap();
-	}
-
-	// build the empty AI map
-	_tilemapInput = new int* [_mapHeight];
-	for (unsigned i = 0; i < _mapWidth; ++i)
-		_tilemapInput[i] = new int[_mapWidth];
-
-	int id = 0; // id for Node's id
-	Node* tempNode = nullptr;
-	bool solid = false;
-	GameObject* tempGo = nullptr;
-	Vector3 tempVec;
-	Vector3 tempVecOrigin;
-	// offset the map's origin	// pos.x = ( totalMap.x/2 + offset for tile's node ) // _tileMapInput[y][x]
-	float originX = -((_mapTileSize * _mapWidth) * 0.5f);
-	float originY = -((_mapTileSize * _mapHeight) * 0.5f);
-	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
-
-	for (int y = 0; y < _mapHeight; ++y)
-	{
-		for (int x = 0; x < _mapWidth; ++x)
-		{
-			tempVec = Vector3(
-				tempVecOrigin._x + (x * _mapTileSize), // map grows rightwards
-				tempVecOrigin._y + (y * _mapTileSize), // map grows upwards
-				0 );
-			// check solidity
-		//	std::string tempStr = **(tilemap + (height * width + width));
-			// if tempStr compared w/ palette == solid, set solid = true
-		//	solid = _tilemapInput[y][x] == 1 ? true : false; // need 'palette' to determine solidty
-			// create node
-			tempNode = new Node(solid, id, tempVec);
-			_tileNodeMap.insert(std::pair<int, Node*>(id, tempNode));
-			//*((temp + (y*width)) + x) = id++; // idk if the ptr arithmatic is correct // ((ptr + (jumpToRow)) + rowOffset)
-
-			GameObject* tempGO = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Floor"]);
-			((TransformComponent*)tempGO->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
-
-		}
-	}
-
-	int currNode = 0;
-	Node* up, * down, * left, * right;
-	// link the Node's updownleftfight
-		//for (int y = 0; y < height; ++y)
-		//	for (int x = 0; x < width; ++x)
-		//	{
-		//		currNode = _tilemapInput[y][x];
-		//		// Left
-		//		if (x > 0)
-		//		{
-		//			id = _tilemapInput[y][x - 1]; // add left ptr
-		//			left = _tileNodeMap[id];
-		//			//std::cout << "L " << id << " ";
-		//		}
-		//		else
-		//			left = nullptr; // put nullptr
-		//	// Right
-		//		if (x < (int)_mapWidth - 1)
-		//		{
-		//			id = _tilemapInput[y][x + 1];
-		//			right = _tileNodeMap[id];
-		//			//std::cout << "R " << id << " ";
-		//		}
-		//		else
-		//			right = nullptr;
-		//		// Up
-		//		if (y > 0)
-		//		{
-		//			id = _tilemapInput[y - 1][x];
-		//			up = _tileNodeMap[id];
-		//			//std::cout << "U " << id << " ";
-		//		}
-		//		else
-		//			up = nullptr;
-		//		// Down
-		//		if (y < (int)_mapHeight - 1)
-		//		{
-		//			id = _tilemapInput[y + 1][x];
-		//			down = _tileNodeMap[id];
-		//			//std::cout << "D " << id << " ";
-		//		}
-		//		else
-		//			down = nullptr;
-		//		// Set Adjacent Nodes
-		//			//std::cout << std::endl;
-		//		_tileNodeMap[currNode]->SetNodeAdjacent(up, down, left, right);
-		//	}
-	// Print the _tilemapInput
-	//for (int y = 0; y < (int)_mapHeight; ++y)
-	//{
-	//	for (int x = 0; x < (int)_mapWidth; ++x)
-	//	{
-	//		std::cout << _tilemapInput[y][x] << "\t";
-	//	}
-	//	std::cout << std::endl;
-	//}
-
-
-
-	//GameObject* obj = MyFactory.
-	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
-	//TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
-	//Vector3 position(0, (MAP_HEIGHT - 1) * MAP_SIZE / 2, 1);
-	//com->SetPos(position);
-	//Vector3 scale(MAP_WIDTH * MAP_SIZE, 0, 0);
-	//com->SetScale(scale);
-	//com->SetRotate(((const float)PI));
-
-
-	//obj = MyFactory.
-	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
-	//Vector3 position1(0, -((MAP_HEIGHT + 1) * MAP_SIZE / 2), 1);
-	//com->SetPos(position1);
-	//Vector3 scale1(MAP_WIDTH * MAP_SIZE, 0, 0);
-	//com->SetScale(scale1);
-	//com->SetRotate(0.f);
-
-	//obj = MyFactory.
-	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
-	//Vector3 position2(-((MAP_WIDTH + 1) * MAP_SIZE / 2), 0, 1);
-	//com->SetPos(position2);
-	//Vector3 scale2(0, MAP_HEIGHT * MAP_SIZE, 0);
-	//com->SetScale(scale2);
-	//com->SetRotate(-((const float)(PI / 2)));
-
-	//obj = MyFactory.
-	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
-	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
-	//Vector3 position3((MAP_WIDTH - 1) * MAP_SIZE / 2, 0, 1);
-	//com->SetPos(position3);
-	//Vector3 scale3(0, MAP_HEIGHT * MAP_SIZE, 0);
-	//com->SetScale(scale3);
-	//com->SetRotate(((const float)PI / 2));
-
-
-}
+//void AISystem::CreateNodeMapFromTileComp()
+//{
+//	std::string** temp = nullptr; // get the string map from tilecomponent
+//	if (GetComponentMap(TileMap).begin() == GetComponentMap(TileMap).end())
+//		return;
+//
+//	for (auto it : GetComponentMap(TileMap))
+//	{
+//		TileMapComponent* tile = (TileMapComponent*)(it.second);
+//
+//		_mapHeight = tile->GetHeight();
+//		_mapWidth = tile->GetWidth();
+//		_mapTileSize = tile->GetTileSize();
+//		temp = tile->GetTileMap();
+//	}
+//
+//	// build the empty AI map
+//	_tilemapInput = new int* [_mapHeight];
+//	for (unsigned i = 0; i < _mapWidth; ++i)
+//		_tilemapInput[i] = new int[_mapWidth];
+//
+//	int id = 0; // id for Node's id
+//	Node* tempNode = nullptr;
+//	bool solid = false;
+//	GameObject* tempGo = nullptr;
+//	Vector3 tempVec;
+//	Vector3 tempVecOrigin;
+//	// offset the map's origin	// pos.x = ( totalMap.x/2 + offset for tile's node ) // _tileMapInput[y][x]
+//	float originX = -((_mapTileSize * _mapWidth) * 0.5f);
+//	float originY = -((_mapTileSize * _mapHeight) * 0.5f);
+//	tempVecOrigin = Vector3((float)originX, (float)originY, 0);
+//
+//	for (int y = 0; y < _mapHeight; ++y)
+//	{
+//		for (int x = 0; x < _mapWidth; ++x)
+//		{
+//			tempVec = Vector3(
+//				tempVecOrigin._x + (x * _mapTileSize), // map grows rightwards
+//				tempVecOrigin._y + (y * _mapTileSize), // map grows upwards
+//				0 );
+//			// check solidity
+//		//	std::string tempStr = **(tilemap + (height * width + width));
+//			// if tempStr compared w/ palette == solid, set solid = true
+//		//	solid = _tilemapInput[y][x] == 1 ? true : false; // need 'palette' to determine solidty
+//			// create node
+//			tempNode = new Node(solid, id, tempVec);
+//			_tileNodeMap.insert(std::pair<int, Node*>(id, tempNode));
+//			//*((temp + (y*width)) + x) = id++; // idk if the ptr arithmatic is correct // ((ptr + (jumpToRow)) + rowOffset)
+//
+//			GameObject* tempGO = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Floor"]);
+//			((TransformComponent*)tempGO->GetComponent(ComponentId::CT_Transform))->SetPos(tempVec);
+//
+//		}
+//	}
+//
+//	int currNode = 0;
+//	Node* up, * down, * left, * right;
+//	// link the Node's updownleftfight
+//		//for (int y = 0; y < height; ++y)
+//		//	for (int x = 0; x < width; ++x)
+//		//	{
+//		//		currNode = _tilemapInput[y][x];
+//		//		// Left
+//		//		if (x > 0)
+//		//		{
+//		//			id = _tilemapInput[y][x - 1]; // add left ptr
+//		//			left = _tileNodeMap[id];
+//		//			//std::cout << "L " << id << " ";
+//		//		}
+//		//		else
+//		//			left = nullptr; // put nullptr
+//		//	// Right
+//		//		if (x < (int)_mapWidth - 1)
+//		//		{
+//		//			id = _tilemapInput[y][x + 1];
+//		//			right = _tileNodeMap[id];
+//		//			//std::cout << "R " << id << " ";
+//		//		}
+//		//		else
+//		//			right = nullptr;
+//		//		// Up
+//		//		if (y > 0)
+//		//		{
+//		//			id = _tilemapInput[y - 1][x];
+//		//			up = _tileNodeMap[id];
+//		//			//std::cout << "U " << id << " ";
+//		//		}
+//		//		else
+//		//			up = nullptr;
+//		//		// Down
+//		//		if (y < (int)_mapHeight - 1)
+//		//		{
+//		//			id = _tilemapInput[y + 1][x];
+//		//			down = _tileNodeMap[id];
+//		//			//std::cout << "D " << id << " ";
+//		//		}
+//		//		else
+//		//			down = nullptr;
+//		//		// Set Adjacent Nodes
+//		//			//std::cout << std::endl;
+//		//		_tileNodeMap[currNode]->SetNodeAdjacent(up, down, left, right);
+//		//	}
+//	// Print the _tilemapInput
+//	//for (int y = 0; y < (int)_mapHeight; ++y)
+//	//{
+//	//	for (int x = 0; x < (int)_mapWidth; ++x)
+//	//	{
+//	//		std::cout << _tilemapInput[y][x] << "\t";
+//	//	}
+//	//	std::cout << std::endl;
+//	//}
+//
+//
+//
+//	//GameObject* obj = MyFactory.
+//	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+//	//TransformComponent* com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
+//	//Vector3 position(0, (MAP_HEIGHT - 1) * MAP_SIZE / 2, 1);
+//	//com->SetPos(position);
+//	//Vector3 scale(MAP_WIDTH * MAP_SIZE, 0, 0);
+//	//com->SetScale(scale);
+//	//com->SetRotate(((const float)PI));
+//
+//
+//	//obj = MyFactory.
+//	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+//	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
+//	//Vector3 position1(0, -((MAP_HEIGHT + 1) * MAP_SIZE / 2), 1);
+//	//com->SetPos(position1);
+//	//Vector3 scale1(MAP_WIDTH * MAP_SIZE, 0, 0);
+//	//com->SetScale(scale1);
+//	//com->SetRotate(0.f);
+//
+//	//obj = MyFactory.
+//	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+//	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
+//	//Vector3 position2(-((MAP_WIDTH + 1) * MAP_SIZE / 2), 0, 1);
+//	//com->SetPos(position2);
+//	//Vector3 scale2(0, MAP_HEIGHT * MAP_SIZE, 0);
+//	//com->SetScale(scale2);
+//	//com->SetRotate(-((const float)(PI / 2)));
+//
+//	//obj = MyFactory.
+//	//	CloneGameObject(MyResourceSystem.GetPrototypeMap()["MapEdge"]);
+//	//com = dynamic_cast<TransformComponent*> (obj->GetComponent(ComponentId::CT_Transform));
+//	//Vector3 position3((MAP_WIDTH - 1) * MAP_SIZE / 2, 0, 1);
+//	//com->SetPos(position3);
+//	//Vector3 scale3(0, MAP_HEIGHT * MAP_SIZE, 0);
+//	//com->SetScale(scale3);
+//	//com->SetRotate(((const float)PI / 2));
+//
+//
+//}
 
 
 //std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
@@ -687,7 +687,6 @@ std::vector<Node*> AISystem::PathFindingOld(Vector3 curr, Vector3 dest)
 	// TODO: BFS Implementation
 }
 
-//std::vector<Node*> AISystem::PathFinding(Vector3& _curr, Vector3& _dest)
 std::vector<Node*> AISystem::PathFinding(Vector3 curr, Vector3 dest)
 {
 	bool testSkip = false; // seems to fix the random crashing

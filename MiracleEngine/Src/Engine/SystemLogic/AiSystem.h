@@ -55,7 +55,8 @@ public:
 	void ToggleNodeSolidity(float x, float y); // when picked a Node, call this function
 
 	void CreateNodeMap(); // sets up _tilemap with Nodes with their UpDownLeftRight Node*
-	void CreateNodeMapFromTileComp();
+	//void CreateNodeMapFromTileComp();
+
 // PathFinding
 	//std::vector<Node*> PathFinding(Vector3& _curr, Vector3& _dest);
 	std::vector<Node*> PathFindingOld(Vector3 curr, Vector3 dest); // testing, once done use line above
