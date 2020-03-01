@@ -104,7 +104,7 @@ void Node::SetPrev(Node* prev)
 /////////////////////////
 // AISystem stuff
 
-void TileMapComponent::CreateNodeMap(int width, int height)
+/*void TileMapComponent::CreateNodeMap(int width, int height)
 {
 	if (width < 0 || height < 0)
 	{
@@ -181,8 +181,9 @@ void TileMapComponent::CreateNodeMap(int width, int height)
 			if (DEBUGOUTPUT) std::cout << std::endl;
 			_tileNodeMap[currNode]->SetNodeAdjacent(up, down, left, right);
 		}
-}
+}*/
 
+//Used in Constructor of TileMapComponent, No need to Reinit during GamePlay
 void TileMapComponent::CreateNodeMap(int width, int height, Vector3 offset, Vector3 scaleset)
 {
 	if (width < 0 || height < 0)
@@ -265,6 +266,8 @@ void TileMapComponent::CreateNodeMap(int width, int height, Vector3 offset, Vect
 		}
 }
 
+
+//If Scale is changed
 void TileMapComponent::ResizeNodeMap(Vector3 offset, Vector3 scaleset)
 {
 	// run through all nodes in _tileNodeMap and shift by the x,y offset
@@ -282,6 +285,7 @@ void TileMapComponent::ResizeNodeMap(Vector3 offset, Vector3 scaleset)
 		}
 }
 
+//If Height and Width is changed
 void TileMapComponent::EditNodeMap(int newHeight, int newWidth, Vector3 offset, Vector3 scaleset)
 {
 	if (newHeight < 0 || newWidth < 0)
@@ -366,6 +370,7 @@ void TileMapComponent::EditNodeMap(int newHeight, int newWidth, Vector3 offset, 
 	}
 }
 
+//Not completed - For Picking on the TileMap Editor
 void TileMapComponent::ToggleNodeSolidity(float x, float y)
 {
 	Node* nodePtr = nullptr;
@@ -375,40 +380,21 @@ void TileMapComponent::ToggleNodeSolidity(float x, float y)
 	nodePtr = nullptr;
 	// toggle node _solid
 	nodePtr->SetSolid(!nodePtr->GetSolid());
-}
+
+
+
+
+
+	Vector3  pos = MyInputSystem.GetMouseWorldPos();
+
+	BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
+		Vec3{ transform->GetScale()._x, transform->GetScale()._y },
+		transform->GetRotate());
+
+	if (Collision::CollisionCheck(pickingBox, pos))
+	{
+	}
 
 // AISystem stuff
 /////////////////////////
 
-void TileMapComponent::SerialiseComponent(Serialiser& document)
-{
-	if (document.HasMember("Width") && document["Width"].IsInt())
-		_mapWidth = document["Width"].GetInt();
-
-	if (document.HasMember("Height") && document["Width"].IsInt())
-		_mapHeight = document["Height"].GetInt();
-
-	//if (document.HasMember("Palette"))
-	//{
-	//	for (unsigned i = 0; i < document["Palette"].Size(); i++)
-	//	{
-	//		palette[document["Palette"][i][0].GetInt()] = document["Palette"][i][1].GetString();
-	//	}
-	//}
-
-	//if (document.HasMember("Palette"))
-	//{
-	//	_tilemap = new PaletteType * [_height];
-
-	//	for (int height = 0; height < _height; height++)
-	//	{
-	//		_tilemap[height] = new PaletteType[_width];
-
-	//		for (int width = 0; width < _width; width++)
-	//		{
-	//			_tilemap[height][width] = palette[document["TileMap"][height * width + width].GetInt()];
-	//		}
-	//	}
-	//}
-
-}

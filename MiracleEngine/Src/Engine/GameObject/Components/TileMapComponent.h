@@ -15,7 +15,7 @@ private:
 	Node* _PtrNodeRight;
 	Node* _PtrNodePrev;
 public:
-	GameObject* _NodeObj;
+	//GameObject* _NodeObj;
 
 	size_t _f, _g, _h; // size_t cause using Vector3.SquaredLength
 
@@ -49,15 +49,24 @@ class TileMapComponent: public IComponent
 
 	std::vector<int> selectedTiles; 
 
+//For Editor
 	bool turnOnTileMap; //Bool to activate drawing in GraphicSystem to draw tiles.
 
 	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
 					//Everytime Scaling changes, tilesize is recalculated.
 	int _mapHeight, _mapWidth; // TODO : replace with the one YX gonna push 
-	std::unordered_map < int, Node* > _tileNodeMap; // <NodeId, NodePtr>
-	int** _tilemapInput; // 2dArray of the NodeMap in ID form
+
+
+
+	typedef int tileNumber;
+	std::unordered_map < tileNumber, Node* > _tileNodeMap; // <NodeId, NodePtr>
+
+	tileNumber** _tilemapInput; // 2dArray of the NodeMap in ID form
+
 
 public:
+
+
 	TileMapComponent() : _mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr } {};
 	TileMapComponent(const TileMapComponent& copy) = default;
 
@@ -65,7 +74,45 @@ public:
 	{
 		return "TileMapComponent";
 	}
-	void SerialiseComponent(Serialiser& document) override;
+
+
+	void SerialiseComponent(Serialiser& document) override
+	{
+
+		
+		if (document.HasMember("Width") && document["Width"].IsInt())
+			_mapWidth = document["Width"].GetInt();
+
+		if (document.HasMember("Height") && document["Width"].IsInt())
+			_mapHeight = document["Height"].GetInt();
+
+		//if (document.HasMember("Palette"))
+		//{
+		//	for (unsigned i = 0; i < document["Palette"].Size(); i++)
+		//	{
+		//		palette[document["Palette"][i][0].GetInt()] = document["Palette"][i][1].GetString();
+		//	}
+		//}
+
+		//if (document.HasMember("Palette"))
+		//{
+		//	_tilemap = new PaletteType * [_height];
+
+		//	for (int height = 0; height < _height; height++)
+		//	{
+		//		_tilemap[height] = new PaletteType[_width];
+
+		//		for (int width = 0; width < _width; width++)
+		//		{
+		//			_tilemap[height][width] = palette[document["TileMap"][height * width + width].GetInt()];
+		//		}
+		//	}
+		//}
+
+
+		//CreateNodeMap(_mapWidth, _mapHeight, ...);
+	}
+
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
 
@@ -113,11 +160,7 @@ public:
 		levelDoc["AllTileMaps"].PushBack(tileMapObject, levelDoc.Allocator());
 	}
 	void Inspect() override
-	{
-		//Add Palette button - when pressed new palette button will appear
-		//Imgui::buttons for each palette type - when pressed, palette texture will appear, and can snap to position on screen 
-
-		//Remove Palette button - must have textbox to remove all such tile
+	{ 
 		ImGui::Spacing();
 		ImGui::InputInt("Height ", &_mapHeight);
 		ImGui::Spacing();
@@ -151,7 +194,7 @@ public:
 	//	return _tilesize;
 	//}
 
-	void CreateNodeMap(int width, int height);
+	//void CreateNodeMap(int width, int height);
 	void CreateNodeMap(int width, int height, Vector3 offset, Vector3 scaleset);
 	void ResizeNodeMap(Vector3 offset, Vector3 scaleset);
 	void EditNodeMap(int newHeight, int newWidth, Vector3 offset, Vector3 scaleset);
