@@ -15,8 +15,6 @@ private:
 	Node* _PtrNodeRight;
 	Node* _PtrNodePrev;
 public:
-	GameObject* _NodeObj;
-
 	size_t _f, _g, _h; // size_t cause using Vector3.SquaredLength
 
 	Node(bool solid, int id, Vector3 pos);
@@ -50,7 +48,7 @@ class TileMapComponent: public IComponent
 	std::vector<int> selectedTiles; 
 
 	bool turnOnTileMap; //Bool to activate drawing in GraphicSystem to draw tiles.
-
+	Vector3 _mapCenterOffset; // the map's local center offset from bottom left, use this when calculating offset
 	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
 					//Everytime Scaling changes, tilesize is recalculated.
 	int _mapHeight, _mapWidth; // TODO : replace with the one YX gonna push 
@@ -151,10 +149,18 @@ public:
 	//	return _tilesize;
 	//}
 
-	void CreateNodeMap(int width, int height);
-	void CreateNodeMap(int width, int height, Vector3 offset, Vector3 scaleset);
-	void ResizeNodeMap(Vector3 offset, Vector3 scaleset);
-	void EditNodeMap(int newHeight, int newWidth, Vector3 offset, Vector3 scaleset);
+	void CalcTileSize();
+	void CalcOffset();
+
+	// remove the offset, cause that is just calculated during map build, and map resize
+	void SerialNodeMap();
+	void DeserialNodeMap();
+	void DeleteNodeMap();
+
+	void ResizeNodeMap(Vector3 newScale);
+	void EditNodeMap(int newHeight, int newWidth);
 	void ToggleNodeSolidity(float x, float y);
+
+	// have serial in serial out 
 };
 

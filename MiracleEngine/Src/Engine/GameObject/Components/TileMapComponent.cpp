@@ -15,17 +15,13 @@ Node::Node(bool solid, int id, Vector3 pos) :
 	_PtrNodeLeft{ nullptr },
 	_PtrNodeRight{ nullptr },
 	_PtrNodePrev{ nullptr },
-	_NodeObj{ nullptr },
 	_f{ 0 },
 	_g{ 0 },
 	_h{ 0 }
 {
-	_NodeObj = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Node"]);
-	((TransformComponent*)_NodeObj->GetComponent(ComponentId::CT_Transform))->SetPos(_position);
 }
 Node::~Node()
 {
-	_NodeObj->SetDestory();
 }
 
 void Node::SetNodeAdjacent(Node* up, Node* down, Node* left, Node* right)
@@ -55,7 +51,6 @@ Vector3 Node::GetPosition()
 void Node::SetPosition(Vector3 pos)
 {
 	_position = pos;
-	((TransformComponent*)_NodeObj->GetComponent(ComponentId::CT_Transform))->SetPos(_position);
 }
 bool Node::GetVisited()
 {
@@ -104,117 +99,55 @@ void Node::SetPrev(Node* prev)
 /////////////////////////
 // AISystem stuff
 
-void TileMapComponent::CreateNodeMap(int width, int height)
+void TileMapComponent::CalcTileSize()
 {
-	if (width < 0 || height < 0)
+	if (_mapWidth < 0 || _mapHeight < 0)
 	{
-		std::cout << "WARNING: New map Width||Height||Size < 0\n";
+		std::cout << "WARNING: Map Width||Height < 0\n";
 		return;
 	}
 
-	// free existing _tileNodeMap, _tilemapInput
-	for (auto map : _tileNodeMap)
-		delete map.second;
-	_tileNodeMap.clear();
-
-	for (unsigned i = 0; i < _mapWidth; ++i)
-		delete _tilemapInput[i];
-	delete _tilemapInput;
-
-	// create blank _tilemapInput
-	int currNode = 0, currId = 0;
-	Node* up = nullptr, * down = nullptr, * left = nullptr, * right = nullptr;
-	_tilemapInput = new int* [height]; //mem alloc height
-	for (unsigned y = 0; y < height; ++y)
-	{
-		_tilemapInput[y] = new int[width]; //mem alloc width
-		for (unsigned x = 0; x < width; ++x)
-		{
-			_tilemapInput[y][x] = currId;
-			_tileNodeMap[currId] = new Node(false, currId, Vector3(x * _tilesize._x, y * _tilesize._y, 1)); // set Node pos;
-			currId++;
-		}
-	}
-	currId = 0;
-	// set UpDownLeftRight for new _tileNodeMap;
-	for (int y = 0; y < (int)_mapHeight; ++y)
-		for (int x = 0; x < (int)_mapWidth; ++x)
-		{
-			currNode = _tilemapInput[y][x];
-			// Left
-			if (x > 0)
-			{
-				currId = _tilemapInput[y][x - 1]; // add left ptr
-				left = _tileNodeMap[currId];
-				if (DEBUGOUTPUT) std::cout << "L " << currId << " ";
-			}
-			else
-				left = nullptr; // put nullptr
-		// Right
-			if (x < (int)_mapWidth - 1)
-			{
-				currId = _tilemapInput[y][x + 1];
-				right = _tileNodeMap[currId];
-				if (DEBUGOUTPUT) std::cout << "R " << currId << " ";
-			}
-			else
-				right = nullptr;
-			// Up
-			if (y > 0)
-			{
-				currId = _tilemapInput[y - 1][x];
-				up = _tileNodeMap[currId];
-				if (DEBUGOUTPUT) std::cout << "U " << currId << " ";
-			}
-			else
-				up = nullptr;
-			// Down
-			if (y < (int)_mapHeight - 1)
-			{
-				currId = _tilemapInput[y + 1][x];
-				down = _tileNodeMap[currId];
-				if (DEBUGOUTPUT) std::cout << "D " << currId << " ";
-			}
-			else
-				down = nullptr;
-			// Set Adjacent Nodes
-			if (DEBUGOUTPUT) std::cout << std::endl;
-			_tileNodeMap[currNode]->SetNodeAdjacent(up, down, left, right);
-		}
+	Vector3 scale = ((TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform))->GetScaleA();
+	_tilesize.SetX(scale._x / _mapWidth);
+	_tilesize.SetY(scale._y / _mapHeight);
 }
 
-void TileMapComponent::CreateNodeMap(int width, int height, Vector3 offset, Vector3 scaleset)
+void TileMapComponent::CalcOffset()
 {
-	if (width < 0 || height < 0)
+	_mapCenterOffset = Vector3(
+		static_cast<float>(((_tilesize._x * _mapWidth) / 2)),
+		static_cast<float>(((_tilesize._y * _mapHeight) / 2)),
+		1);
+	//tempVecOrigin = Vector3((float)originX, (float)originY, 0);
+	//tempVec = Vector3(
+	//	tempVecOrigin._x + (x * _mapTileSize), // map grows rightwards
+	//	tempVecOrigin._y + (y * _mapTileSize), // map grows upwards
+	//	0);
+}
+
+void TileMapComponent::SerialNodeMap()
+{
+	if (_mapWidth < 0 || _mapHeight < 0)
 	{
 		std::cout << "WARNING: New map Width||Height||Size < 0\n";
 		return;
 	}
-
-	// free existing _tileNodeMap, _tilemapInput
-	for (auto map : _tileNodeMap)
-		delete map.second;
-	_tileNodeMap.clear();
-
-	for (unsigned i = 0; i < _mapWidth; ++i)
-		delete _tilemapInput[i];
-	delete _tilemapInput;
-
+	CalcTileSize();
+	CalcOffset();
 	// create blank _tilemapInput
 	int currNode = 0, currId = 0;
 	Node* up = nullptr, * down = nullptr, * left = nullptr, * right = nullptr;
-	_tilemapInput = new int* [height]; //mem alloc height
-	for (unsigned y = 0; y < height; ++y)
+	for (unsigned y = 0; y < _mapHeight; ++y)
 	{
-		_tilemapInput[y] = new int[width]; //mem alloc width
-		for (unsigned x = 0; x < width; ++x)
+		for (unsigned x = 0; x < _mapWidth; ++x)
 		{
-			_tilemapInput[y][x] = currId;
-			_tileNodeMap[currId] = new Node(false, currId, Vector3(
-				x * _tilesize._x + offset._x + scaleset._x * x,
-				y * _tilesize._y + offset._y + scaleset._y * y,
+			bool solid = _tilemapInput[y][x] == 1 ? true : false;
+			// pos + mapOffset + tile scaling
+			_tileNodeMap[currId] = new Node(solid, currId, Vector3(
+				x * _tilesize._x + _mapCenterOffset._x + _tilesize._x * x,
+				y * _tilesize._y + _mapCenterOffset._y + _tilesize._y * y,
 				1)); // set Node pos;
-			currId++;
+			_tilemapInput[y][x] = currId++; // overwrite the info
 		}
 	}
 	currId = 0;
@@ -265,7 +198,36 @@ void TileMapComponent::CreateNodeMap(int width, int height, Vector3 offset, Vect
 		}
 }
 
-void TileMapComponent::ResizeNodeMap(Vector3 offset, Vector3 scaleset)
+void TileMapComponent::DeserialNodeMap()
+{
+	int currNodeId = 0;
+	Node* currNodePtr = nullptr;
+	// run through _tileNodeMap and overwrite _tilemapInput[][]
+	for (int y = 0; y < (int)_mapHeight; ++y)
+		for (int x = 0; x < (int)_mapWidth; ++x)
+		{
+			currNodePtr = _tileNodeMap[currNodeId++];
+			_tilemapInput[y][x] = currNodePtr->GetSolid();
+		}
+	DeleteNodeMap();
+}
+void TileMapComponent::DeleteNodeMap()
+{
+	// free existing _tileNodeMap, _tilemapInput
+	for (auto map : _tileNodeMap)
+		delete map.second;
+	_tileNodeMap.clear();
+
+	for (unsigned i = 0; i < _mapWidth; ++i)
+		delete _tilemapInput[i];
+	delete _tilemapInput;
+
+	// set map related values to 0
+	_mapHeight = _mapWidth = 0;
+	_tilesize = Vector3(0, 0, 0);
+}
+
+void TileMapComponent::ResizeNodeMap(Vector3 newScale)
 {
 	// run through all nodes in _tileNodeMap and shift by the x,y offset
 	Node* nodePtr = nullptr;
@@ -276,13 +238,13 @@ void TileMapComponent::ResizeNodeMap(Vector3 offset, Vector3 scaleset)
 			nodePtr = _tileNodeMap[currId++];
 			nodePtr->SetPosition(
 				Vector3(
-					nodePtr->GetPosition().GetX() + offset._x + scaleset._x * x,
-					nodePtr->GetPosition().GetY() + offset._y + scaleset._y * y,
+					nodePtr->GetPosition().GetX() + _mapCenterOffset._x + newScale._x * x,
+					nodePtr->GetPosition().GetY() + _mapCenterOffset._y + newScale._y * y,
 					1));
 		}
 }
 
-void TileMapComponent::EditNodeMap(int newHeight, int newWidth, Vector3 offset, Vector3 scaleset)
+void TileMapComponent::EditNodeMap(int newHeight, int newWidth)
 {
 	if (newHeight < 0 || newWidth < 0)
 	{
@@ -301,6 +263,10 @@ void TileMapComponent::EditNodeMap(int newHeight, int newWidth, Vector3 offset, 
 			delete _tilemapInput[i];
 		delete _tilemapInput;
 
+		_mapHeight = newHeight;
+		_mapWidth = newWidth;
+		CalcTileSize();
+		CalcOffset();
 		// create blank _tilemapInput
 		int currNode = 0, currId = 0;
 		Node* up = nullptr, * down = nullptr, * left = nullptr, * right = nullptr;
@@ -311,8 +277,8 @@ void TileMapComponent::EditNodeMap(int newHeight, int newWidth, Vector3 offset, 
 			for (unsigned x = 0; x < _mapWidth; ++x)
 			{
 				_tileNodeMap[currId] = new Node(false, currId, Vector3(
-					x * _tilesize._x + offset._x + scaleset._x * x,
-					y * _tilesize._y + offset._y + scaleset._y * y,
+					x * _tilesize._x + _mapCenterOffset._x + _tilesize._x * x,
+					y * _tilesize._y + _mapCenterOffset._y + _tilesize._y * y,
 					1)); // set Node pos;
 				currId++;
 			}
