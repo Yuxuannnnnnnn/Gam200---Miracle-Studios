@@ -44,30 +44,21 @@ public:
 class TileMapComponent: public IComponent
 {
 	typedef std::string Image;
-		
 	//PaletteType** _tilemap;
-
-	int _height, _width; //Results in the total number of tiles in the tilemap.
-
 	Image onImage; //Image shows when tile is selected
 
 	std::vector<int> selectedTiles; 
 
-	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
-						//Everytime Scaling changes, tilesize is recalculated.
-
 	bool turnOnTileMap; //Bool to activate drawing in GraphicSystem to draw tiles.
 
-	//Array of nodes. 
-
-	Vector3 _tileSize; // TODO : replace with the one YX gonna push
-
-	int _mapHeight, _mapWidth, _mapTileSize; // TODO : replace with the one YX gonna push 
+	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
+					//Everytime Scaling changes, tilesize is recalculated.
+	int _mapHeight, _mapWidth; // TODO : replace with the one YX gonna push 
 	std::unordered_map < int, Node* > _tileNodeMap; // <NodeId, NodePtr>
 	int** _tilemapInput; // 2dArray of the NodeMap in ID form
 
 public:
-	TileMapComponent() : _height{ 0 }, _width{ 0 }, _tilesize{ 0 }, _tilemapInput{ nullptr } {};
+	TileMapComponent() : _mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr } {};
 	TileMapComponent(const TileMapComponent& copy) = default;
 
 	std::string ComponentName() const override
@@ -85,10 +76,10 @@ public:
 		tileMapObject.SetObject();
 		{
 			rapidjson::Value value;
-			value.SetInt(_height);
+			value.SetInt(_mapHeight);
 			tileMapObject.AddMember("Height", value, levelDoc.Allocator());
 
-			value.SetInt(_width);
+			value.SetInt(_mapWidth);
 			tileMapObject.AddMember("Width", value, levelDoc.Allocator());
 
 			//value.SetArray();
@@ -107,9 +98,9 @@ public:
 
 			value.SetArray();
 			{
-				for (size_t height = 0; height < _height; height++)
+				for (size_t height = 0; height < _mapHeight; height++)
 				{
-					for (size_t width = 0; width < _width; width++)
+					for (size_t width = 0; width < _mapWidth; width++)
 					{
 						//value.PushBack(rapidjson::StringRef(_tilemap[height][width].c_str()), levelDoc.Allocator());
 					}
@@ -128,9 +119,9 @@ public:
 
 		//Remove Palette button - must have textbox to remove all such tile
 		ImGui::Spacing();
-		ImGui::InputInt("height ", &_height);
+		ImGui::InputInt("Height ", &_mapHeight);
 		ImGui::Spacing();
-		ImGui::InputInt("width ", &_width);
+		ImGui::InputInt("Width ", &_mapWidth);
 	}
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override { return; }
 
@@ -160,9 +151,10 @@ public:
 	//	return _tilesize;
 	//}
 
-	void CreateNodeMap(int w, int h);
-	void EditNodeMap(Vector3 offset, Vector3 scaleset, int newHeight, int newWidth);
-	void EditNodeMap(Vector3 offset, Vector3 scaleset);
+	void CreateNodeMap(int width, int height);
+	void CreateNodeMap(int width, int height, Vector3 offset, Vector3 scaleset);
+	void ResizeNodeMap(Vector3 offset, Vector3 scaleset);
+	void EditNodeMap(int newHeight, int newWidth, Vector3 offset, Vector3 scaleset);
 	void ToggleNodeSolidity(float x, float y);
 };
 
