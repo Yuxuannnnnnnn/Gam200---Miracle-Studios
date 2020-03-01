@@ -172,12 +172,12 @@ HealthController* HealthController::Clone()
 void HealthController::Init()
 {
 	for (unsigned i = 0; i < _hpBatteryLinkID.size(); i++)
-		_hpBattery.push_back(MyLinkFactory.GetLinkIDObject(_hpBatteryLinkID[i]));
+		_hpBattery.push_back(MyFactory.GetLinkIDObject(_hpBatteryLinkID[i]));
 
 	for (unsigned i = 0; i < _hpBattery.size(); i++)
 		_hpBatteryGraphic.push_back((UIComponent*)_hpBattery[i]->GetComponent(ComponentId::CT_UI));
 
-	_progressBar = (TransformComponent*)MyLinkFactory.GetLinkIDObject(_progressBarLinkID)->GetComponent(ComponentId::CT_Transform);
+	_progressBar = (TransformComponent*)MyFactory.GetLinkIDObject(_progressBarLinkID)->GetComponent(ComponentId::CT_Transform);
 
 	_currHealth = _maxHealth;
 	_currColor = 3;

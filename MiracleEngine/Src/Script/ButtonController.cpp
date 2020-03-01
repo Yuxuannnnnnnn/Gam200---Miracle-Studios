@@ -97,7 +97,7 @@ void ButtonController::Update(double dt)
 		if (!_pauseMenu)
 		{
 			std::string temp = "PauseMenu";
-			_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+			_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 		}
 
 		((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);

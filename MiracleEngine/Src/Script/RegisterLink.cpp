@@ -24,7 +24,7 @@ RegisterLink* RegisterLink::Clone()
 
 void RegisterLink::Init()
 {
-	MyLinkFactory.SaveNewLinkID(((IdentityComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Identity))->GetLinkID(), GetParentId());
+	MyFactory.SaveNewLinkID(((IdentityComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Identity))->GetLinkID(), GetParentId());
 }
 
 void RegisterLink::Update(double dt)

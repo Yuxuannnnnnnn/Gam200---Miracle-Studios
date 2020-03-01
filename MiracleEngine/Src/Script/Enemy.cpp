@@ -88,7 +88,7 @@ void Enemy::Update(double dt)
 			ChancePickUps();
 
 			std::string temp = "EntrancePortal";
-			((EntrancePortal*)MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(1239)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]])->IncreaseKillCount(1);
+			((EntrancePortal*)MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1239)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]])->IncreaseKillCount(1);
 			GetParentPtr()->SetDestory();
 		}
 		return;

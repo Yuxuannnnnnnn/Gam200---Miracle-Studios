@@ -177,7 +177,7 @@ void Player::Init()
 		break;
 	}
 
-	MyLinkFactory.SaveNewLinkID(999, GetParentId());
+	MyFactory.SaveNewLinkID(999, GetParentId());
 	_objTransfrom = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 
 	if(_muzzleAnimation)
@@ -308,7 +308,7 @@ void Player::UpdateInput()
 		if (!_pauseMenu)
 		{
 			std::string temp = "PauseMenu";
-			_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+			_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 		}
 
 		((PauseMenu*)_pauseMenu)->EnablePauseMenu(true);
@@ -412,7 +412,7 @@ void Player::UpdateInput()
 			if (!_shieldSkill)
 			{
 				std::string temp = "ShieldSkill";
-				_shieldSkill = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(666)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+				_shieldSkill = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(666)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 			}
 
 			((ShieldSkill*)_shieldSkill)->ActionShield(_timerShieldDuration);
@@ -675,7 +675,7 @@ void Player::DamagePlayer(int dmg)
 		if (!_healthBar)
 		{
 			std::string temp = "HealthController";
-			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 		}
 		
 		((HealthController*)_healthBar)->DecreaseHealth(dmg);
@@ -717,7 +717,7 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		if (!_healthBar)
 		{
 			std::string temp = "HealthController";
-			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 		}
 		((HealthController*)_healthBar)->IncreaseHealth(2);
 		_health += 2;

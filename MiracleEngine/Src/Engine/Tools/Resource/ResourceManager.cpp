@@ -379,7 +379,5 @@ void ResourceManager::ClearAllResources()
 	_mainContainer._fontCharacterMaps.clear();
 
 	if (!_editerMode)
-	{
 		MyResourceSystem.ClearAllResources();
-	}
 }
