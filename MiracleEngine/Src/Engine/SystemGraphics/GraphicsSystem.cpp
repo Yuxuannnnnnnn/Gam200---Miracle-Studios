@@ -10,7 +10,14 @@ bool compare(RenderObject a, RenderObject b)
 void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
-
+	DebugRenderer::GetInstance().DrawLine(0, 0, 200, 100);
+	DebugRenderer::GetInstance().DrawBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
+	DebugRenderer::GetInstance().FillBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
+	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 200,0,0 }, glm::vec3{ 100,100,0 });
+	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,0,0 }, glm::vec3{ 100,100,0 });
+	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,200,0 }, glm::vec3{ 100,100,0 });
+	_fontRenderer->Draw();
+	DebugRenderer::GetInstance().BatchDrawDebugLine();
 	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
 	glAlphaFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -219,6 +226,7 @@ void GraphicsSystem::Update(double dt)
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
+
 	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
 
 	EndScene();
@@ -253,6 +261,17 @@ GraphicsSystem::GraphicsSystem()
 	{
 		_shader = MyResourceSystem.GetShaderResource(temp);
 	}
+
+
+	std::string temp2 = "arial";
+
+	_fontRenderer = MyResourceSystem.GetFontResource(temp2);
+
+	if (!_fontRenderer && MyResourceSystem.AddNewFontResource({ temp2,"Resources/Fonts/arial.ttf" }))
+	{
+		_fontRenderer = MyResourceSystem.GetFontResource(temp2);
+	}
+
 }
 
 GraphicsSystem::~GraphicsSystem()
@@ -314,8 +333,11 @@ void GraphicsSystem::UpdateRenderObjectList()
 			if (!MyImguiSystem._editorMode)
 #endif
 			{
-				graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
-				renderobject._hasAdjustableAlpha = true;
+				if (graphicComp->GetAlpha() > 0.001f);
+				{
+					graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
+					renderobject._hasAdjustableAlpha = true;
+				}
 			}
 		}
 
@@ -408,7 +430,11 @@ void GraphicsSystem::UpdateRenderObjectList()
 		_renderObjects.push_back(renderobject);
 
 	}
+	
+//#ifdef LEVELEDITOR
 
+	
+//#endif
 }
 
 
