@@ -123,7 +123,6 @@
     <ClCompile Include="Src\Engine\SystemPhysics\Collision_Dynamic.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\Collision_Response.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\Collision_OldCode.cpp" />
-    <ClCompile Include="Src\Engine\LinkingFactory.cpp" />
     <ClCompile Include="Src\Script\HealthController.cpp" />
     <ClCompile Include="Src\Script\ShieldSkill.cpp" />
     <ClCompile Include="Src\Script\MouseCursor.cpp" />
@@ -568,7 +567,6 @@
     <ClInclude Include="Src\Engine\Editor\AnimationImguiWindow.h" />
     <ClInclude Include="Src\Script\PickUps.h" />
     <ClInclude Include="Src\Script\Boss.h" />
-    <ClInclude Include="Src\Engine\LinkingFactory.h" />
     <ClInclude Include="Src\Script\HealthController.h" />
     <ClInclude Include="Src\Script\ShieldSkill.h" />
     <ClInclude Include="Src\Script\MouseCursor.h" />

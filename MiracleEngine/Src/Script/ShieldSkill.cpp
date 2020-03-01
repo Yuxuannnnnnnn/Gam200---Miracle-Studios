@@ -30,7 +30,7 @@ ShieldSkill* ShieldSkill::Clone()
 
 void ShieldSkill::Init()
 {
-	MyLinkFactory.SaveNewLinkID(666, GetParentId());
+	MyFactory.SaveNewLinkID(666, GetParentId());
 	_obj = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 	_animation = (AnimationComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Animation);
 	GetParentPtr()->SetEnable(false);
@@ -50,7 +50,7 @@ void ShieldSkill::Update(double dt)
 	}
 
 	if (!_player)
-		_player = (TransformComponent*)MyLinkFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform);
+		_player = (TransformComponent*)MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform);
 
 	_obj->SetPos(_player->GetPos());
 	_obj->SetRotate(_player->GetRotate());

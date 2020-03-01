@@ -30,7 +30,7 @@ std::string IdentityComponent::ComponentName() const
 void IdentityComponent::Init()
 {
 	if (_linkUId)
-		MyLinkFactory.SaveNewLinkID(_linkUId, GetParentId());
+		MyFactory.SaveNewLinkID(_linkUId, GetParentId());
 }
 
 void IdentityComponent::Inspect()
@@ -60,7 +60,7 @@ void IdentityComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::Spacing();
 	if (ImGui::Button("Save Link ID"))
-		MyLinkFactory.SaveNewLinkID(_linkUId, GetParentId());
+		MyFactory.SaveNewLinkID(_linkUId, GetParentId());
 	ImGui::Spacing();
 }
 

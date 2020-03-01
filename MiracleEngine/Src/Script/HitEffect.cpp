@@ -28,7 +28,7 @@ HitEffect* HitEffect::Clone()
 
 void HitEffect::Init()
 {
-	MyLinkFactory.SaveNewLinkID(667, GetParentId());
+	MyFactory.SaveNewLinkID(667, GetParentId());
 	_obj = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 	_animation = (AnimationComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Animation);
 	GetParentPtr()->SetEnable(false);
@@ -47,7 +47,7 @@ void HitEffect::Update(double dt)
 	}
 
 	if (!_player)
-		_player = (TransformComponent*)MyLinkFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform);
+		_player = (TransformComponent*)MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform);
 
 	_obj->SetPos(_player->GetPos());
 	_obj->SetRotate(_player->GetRotate());

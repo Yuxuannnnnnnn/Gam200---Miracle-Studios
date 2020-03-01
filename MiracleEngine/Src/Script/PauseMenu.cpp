@@ -70,10 +70,10 @@ void PauseMenu::Init()
 {
 	_object.clear();
 
-	MyLinkFactory.SaveNewLinkID(1275, GetParentId());
+	MyFactory.SaveNewLinkID(1275, GetParentId());
 
 	for (unsigned i = 0; i < _objectLinkID.size(); i++)
-		_object.push_back(MyLinkFactory.GetLinkIDObject(_objectLinkID[i]));
+		_object.push_back(MyFactory.GetLinkIDObject(_objectLinkID[i]));
 
 	for (unsigned i = 0; i < _object.size(); i++)
 		_object[i]->SetEnable(false);

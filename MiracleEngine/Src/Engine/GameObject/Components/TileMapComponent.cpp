@@ -208,16 +208,16 @@ void TileMapComponent::EditNodeMap(Vector3 offset, Vector3 scaleset, int newHeig
 		_tilemapInput = new int* [_mapHeight]; //mem alloc height
 		for (unsigned y = 0; y < _mapHeight; ++y)
 		{
-			_tilemapInput[y] = new int[_mapWidth]; //mem alloc width
-			for (unsigned x = 0; x < _mapWidth; ++x)
-			{
-				_tilemapInput[y][x] = currId;
-				_tileNodeMap[currId] = new Node(false, currId, Vector3(
-					nodePtr->GetPosition().GetX() + offset._x + scaleset._x * x,
-					nodePtr->GetPosition().GetY() + offset._y + scaleset._y * y,
-					1));
-				currId;
-			}
+			//_tilemapInput[y] = new int[_mapWidth]; //mem alloc width
+			//for (unsigned x = 0; x < _mapWidth; ++x)
+			//{
+			//	_tilemapInput[y][x] = currId;
+			//	_tileNodeMap[currId] = new Node(false, currId, Vector3(
+			//		nodePtr->GetPosition().GetX() + offset._x + scaleset._x * x,
+			//		nodePtr->GetPosition().GetY() + offset._y + scaleset._y * y,
+			//		1));
+			//	currId;
+			//}
 		}
 		currId = 0;
 		// set UpDownLeftRight for new _tileNodeMap;

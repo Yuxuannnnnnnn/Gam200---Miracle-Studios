@@ -7,19 +7,11 @@
 class Engine
 {
 public:
-
-	Engine(HINSTANCE hInstance, int nCmdShow) 	
-	{
-		_engineSystems.Init(hInstance, nCmdShow);
-	}
+	Engine(HINSTANCE hInstance, int nCmdShow);
 
 	void Init();
 	void Update();
 	int Exit();
-
-
-public:
-
 };
 
 #endif

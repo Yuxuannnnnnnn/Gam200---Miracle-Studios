@@ -35,40 +35,15 @@
 #include "Factory.h"
 #include "GlobalContainer.h"
 
-
-#include "GameObject/Components/Graphic/AnimationComponent.h"
-#include "GameObject/Components/Graphic/CameraComponent.h"
-#include "GameObject/Components/Graphic/FontComponent.h"
-#include "GameObject/Components/Graphic/GraphicComponent.h"
-#include "GameObject/Components/Graphic/TransformComponent.h"
-
-#include "GameObject/Components/Logic/AiComponent.h"
-#include "GameObject/Components/Logic/DataComponent.h"
-#include "GameObject/Components/Logic/IScript.h"
-#include "GameObject/Components/Logic/LogicComponent.h"
-
-#include "GameObject/Components/Physic/BoxCollider2DComponent.h"
-#include "GameObject/Components/Physic/CircleCollider2DComponent.h"
-#include "GameObject/Components/Physic/EdgeCollider2DComponent.h"
-#include "GameObject/Components/Physic/ICollider2D.h"
-#include "GameObject/Components/Physic/RigidBody2DComponent.h"
-
-#include "GameObject/Components/AudioComponent.h"
-#include "GameObject/Components/ButtonComponent.h"
-#include "GameObject/Components/IdentityComponent.h"
-#include "GameObject/Components/PrecompiledComponentHeader.h"
-#include "GameObject/Components/TileMapComponent.h"
-
 #include "GameObject/ComponentManager.h"
-#include "GameObject/GameObject.h"
+#include "GameObject/Components/PrecompiledComponentHeader.h"
+
 #include "GameObject/IAllocator.h"
 #include "GameObject/IComponent.h"
 
 #include "SystemAnimation/Animation.h"
-#include "SystemAnimation/AnimationSystem.h"
 #include "SystemAnimation/Frame.h"
 
-#include "SystemAudio/AudioSystem.h"
 #include "SystemAudio/Sound.h"
 #include "SystemAudio/SoundEnum.h"
 
@@ -80,7 +55,6 @@
 #include "SystemGraphics/Elementbuffer.h"
 #include "SystemGraphics/FontRenderer.h"
 #include "SystemGraphics/FrameBuffer.h"
-#include "SystemGraphics/GraphicsSystem.h"
 #include "SystemGraphics/InstancedRenderer.h"
 #include "SystemGraphics/QuadMesh.h"
 #include "SystemGraphics/Shader.h"
@@ -90,19 +64,12 @@
 #include "SystemGraphics/VertexArray.h"
 #include "SystemGraphics/VertexBuffer.h"
 
-#include "SystemInput/InputSystem.h"
 #include "SystemInput/KeyCode.h"
-
-#include "SystemLogic/AiSystem.h"
-#include "SystemLogic/LogicSystem.h"
-#include "SystemLogic/ScriptSystem/ScriptSystem.h"
-//#include "SystemLogic/ScriptSystem/LuaScriptTest.h"
 
 #include "SystemPhysics/Collision.h"
 #include "SystemPhysics/CollisionMap.h"
 #include "SystemPhysics/CollisionTable.h"
 #include "SystemPhysics/IForce.h"
-#include "SystemPhysics/PhysicsSystem.h"
 
 #include "SystemWindows/Console.h"
 #include "SystemWindows/ScreenSize.h"
@@ -129,6 +96,5 @@
 #include "Tools/Resource/ResourceManager.h"
 #include "Tools/Time/FrameRateController.h"
 #include "Tools/Resource/ResourceSystem.h"
-
 
 #endif
