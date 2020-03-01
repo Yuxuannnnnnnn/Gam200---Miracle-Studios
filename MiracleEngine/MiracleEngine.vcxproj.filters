@@ -471,8 +471,6 @@
     <ClInclude Include="Src\Engine\GameObject\Components\TileMapComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\ComponentManager.h" />
     <ClInclude Include="Src\Engine\GameObject\GameObject.h" />
-    <ClInclude Include="Src\Engine\GameObject\IAllocator.h" />
-    <ClInclude Include="Src\Engine\GameObject\IAllocator.hpp" />
     <ClInclude Include="Src\Engine\GameObject\IComponent.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\Animation.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\AnimationSystem.h" />
@@ -544,7 +542,6 @@
     <ClInclude Include="Src\Engine\GameObject\ComponentCreator.h" />
     <ClInclude Include="Src\Engine\GameObject\ComponentTypeId.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\UIComponent.h" />
-    <ClInclude Include="Src\Engine\ISystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.h" />
     <ClInclude Include="Src\Engine\SystemParticle\ParticleSystem.h" />
