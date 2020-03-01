@@ -58,6 +58,7 @@ private:
 	QuadMesh _q2{ 0.0f, 0.0f, 0.5f, 0.5f };
 	Shader* _shader;
 
+	FontRenderer* _fontRenderer;
 	RENDERCURRENT renderingAnim;
 };
 

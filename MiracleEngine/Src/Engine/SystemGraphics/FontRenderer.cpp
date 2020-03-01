@@ -54,13 +54,14 @@ void FontRenderer::RenderText(Shader& shader, std::string text, GLfloat x, GLflo
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
 		// Update content of VBO memory
 		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // Be sure to use glBufferSubData and not glBufferData
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		// Render quad
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-		x += (ch.Advance >> 6)* scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+		// Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+		x += (ch.Advance >> 6)* scale; 
 	}
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
