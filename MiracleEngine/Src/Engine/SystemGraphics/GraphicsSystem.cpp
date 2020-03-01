@@ -333,8 +333,11 @@ void GraphicsSystem::UpdateRenderObjectList()
 			if (!MyImguiSystem._editorMode)
 #endif
 			{
-				graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
-				renderobject._hasAdjustableAlpha = true;
+				if (graphicComp->GetAlpha() > 0.001f);
+				{
+					graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
+					renderobject._hasAdjustableAlpha = true;
+				}
 			}
 		}
 
