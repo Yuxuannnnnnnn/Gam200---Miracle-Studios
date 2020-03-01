@@ -32,10 +32,32 @@ public:
 
 	void DrawLine(float x1, float y1, float x2, float y2);
 	void DrawCircle(float x, float y, float radius);
-
+	
+	// drawBox using center and scale
 	void DrawBox(const glm::vec3& center, const glm::vec3& scale);
+	
+	// drawBox using 4 point
+	void DrawBox(const glm::vec3& topleft, const glm::vec3& topright,
+		const glm::vec3& botleft, const glm::vec3& botright);
+
+	// drawBox using AABB
+	void DrawBox(const glm::vec3& botleft, const glm::vec3& topright, bool aabb);
+
+	// fillbox default red color
 	void FillBox(const glm::vec3& center, const glm::vec3& scale);
-	void FillBox(const glm::vec3& center, const glm::vec3& scale, const glm::vec3& color);
+
+	void FillBox(const glm::vec3& topleft, const glm::vec3& topright,
+		const glm::vec3& botleft, const glm::vec3& botright);
+
+	void FillBox(const glm::vec3& botleft, const glm::vec3& topright, bool aabb);
+
+	// fillbox user specify color 
+	void FillBox(const glm::vec3& center, const glm::vec3& scale, const glm::vec4& color);
+
+	void FillBox(const glm::vec3& topleft, const glm::vec3& topright,
+		const glm::vec3& botleft, const glm::vec3& botright, const glm::vec4& color);
+
+	void FillBox(const glm::vec3& botleft, const glm::vec3& topright, bool aabb, const glm::vec4& color);
 
 	void DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize);
 

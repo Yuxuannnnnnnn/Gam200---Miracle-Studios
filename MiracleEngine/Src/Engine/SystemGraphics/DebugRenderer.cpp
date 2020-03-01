@@ -225,6 +225,33 @@ void DebugRenderer::DrawBox(const glm::vec3& center, const glm::vec3& scale)
 	SubmitDebugLine(botleft, botright);
 }
 
+void DebugRenderer::DrawBox(const glm::vec3& topleft, const glm::vec3& topright, const glm::vec3& botleft, const glm::vec3& botright)
+{
+	SubmitDebugLine(topleft, topright);
+	SubmitDebugLine(topleft, botleft);
+	SubmitDebugLine(topright, botright);
+	SubmitDebugLine(botleft, botright);
+}
+
+void DebugRenderer::DrawBox(const glm::vec3& botleft, const glm::vec3& topright, bool aabb)
+{
+	aabb;
+	glm::vec3 topleft;
+	glm::vec3 botright;
+
+	topleft.x = botleft.x;
+	topleft.y = topright.y;
+
+	botright.x = topright.x;
+	botright.y = botleft.y;
+
+	SubmitDebugLine(topleft, topright);
+	SubmitDebugLine(topleft, botleft);
+	SubmitDebugLine(topright, botright);
+	SubmitDebugLine(botleft, botright);
+}
+
+
 void DebugRenderer::FillBox(const glm::vec3& center, const glm::vec3& scale)
 {
 	_quadmesh.Select();
@@ -235,14 +262,50 @@ void DebugRenderer::FillBox(const glm::vec3& center, const glm::vec3& scale)
 
 	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m) * model;
 
-	_shader->SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+	_shader->SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 0.2f);
 
 	_shader->SetUniformMat4f("u_MVP", mvp);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
-void DebugRenderer::FillBox(const glm::vec3& center, const glm::vec3& scale, const glm::vec3& color)
+void DebugRenderer::FillBox(const glm::vec3& topleft, const glm::vec3& topright, const glm::vec3& botleft, const glm::vec3& botright)
+{
+	glm::vec3 center;
+	center.x = (topright.x - topleft.x) / 2;
+	center.y = (topright.y - botleft.y) / 2;
+	
+	glm::vec3 scale;
+	scale.x = topright.x - topleft.x;
+	scale.y = topright.y - botleft.y;
+
+	FillBox(center, scale);
+}
+
+void DebugRenderer::FillBox(const glm::vec3& botleft, const glm::vec3& topright, bool aabb)
+{
+	aabb;
+	glm::vec3 topleft;
+	glm::vec3 botright;
+
+	topleft.x = botleft.x;
+	topleft.y = topright.y;
+
+	botright.x = topright.x;
+	botright.y = botleft.y;
+
+	glm::vec3 center;
+	center.x = (topright.x - topleft.x) / 2;
+	center.y = (topright.y - botleft.y) / 2;
+
+	glm::vec3 scale;
+	scale.x = topright.x - topleft.x;
+	scale.y = topright.y - botleft.y;
+
+	FillBox(center, scale);
+}
+
+void DebugRenderer::FillBox(const glm::vec3& center, const glm::vec3& scale, const glm::vec4& color)
 {
 	_quadmesh.Select();
 	glm::mat4 translate = glm::translate(glm::mat4(1.0f), center);
@@ -252,11 +315,48 @@ void DebugRenderer::FillBox(const glm::vec3& center, const glm::vec3& scale, con
 
 	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m) * model;
 
-	_shader->SetUniform4f("u_Color", color.r, color.g, color.b, 1.0f);
+	_shader->SetUniform4f("u_Color", color.r, color.g, color.b, color.a);
 
 	_shader->SetUniformMat4f("u_MVP", mvp);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
+void DebugRenderer::FillBox(const glm::vec3& topleft, const glm::vec3& topright, const glm::vec3& botleft, 
+	const glm::vec3& botright, const glm::vec4& color)
+{
+	glm::vec3 center;
+	center.x = (topright.x - topleft.x) / 2;
+	center.y = (topright.y - botleft.y) / 2;
+
+	glm::vec3 scale;
+	scale.x = topright.x - topleft.x;
+	scale.y = topright.y - botleft.y;
+
+	FillBox(center, scale, color);
+}
+
+void DebugRenderer::FillBox(const glm::vec3& botleft, const glm::vec3& topright, bool aabb, const glm::vec4& color)
+{
+	aabb;
+	glm::vec3 topleft;
+	glm::vec3 botright;
+
+	topleft.x = botleft.x;
+	topleft.y = topright.y;
+
+	botright.x = topright.x;
+	botright.y = botleft.y;
+
+	glm::vec3 center;
+	center.x = (topright.x - topleft.x) / 2;
+	center.y = (topright.y - botleft.y) / 2;
+
+	glm::vec3 scale;
+	scale.x = topright.x - topleft.x;
+	scale.y = topright.y - botleft.y;
+
+	FillBox(center, scale, color);
 }
 
 void DebugRenderer::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)

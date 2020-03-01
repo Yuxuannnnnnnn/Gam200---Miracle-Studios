@@ -10,13 +10,13 @@ bool compare(RenderObject a, RenderObject b)
 void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
-	//DebugRenderer::GetInstance().DrawLine(0, 0, 200, 100);
-	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
-	//DebugRenderer::GetInstance().FillBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
+	DebugRenderer::GetInstance().DrawLine(0, 0, 200, 100);
+	DebugRenderer::GetInstance().DrawBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
+	DebugRenderer::GetInstance().FillBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
 	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 200,0,0 }, glm::vec3{ 100,100,0 });
 	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,0,0 }, glm::vec3{ 100,100,0 });
 	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,200,0 }, glm::vec3{ 100,100,0 });
-	//_fontRenderer->Draw();
+	_fontRenderer->Draw();
 	DebugRenderer::GetInstance().BatchDrawDebugLine();
 	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
