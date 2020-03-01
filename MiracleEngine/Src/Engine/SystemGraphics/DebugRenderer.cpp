@@ -6,7 +6,7 @@
 void DebugRenderer::CalculateProjMatrix(int windowWidth, int windowHeight)
 {
 	_proj = glm::ortho(-(float)windowWidth / 2, (float)windowWidth / 2,
-		-(float)windowHeight / 2, (float)windowHeight / 2, -15.0f, 15.0f);
+		-(float)windowHeight / 2, (float)windowHeight / 2, -150.0f, 150.0f);
 
 }
 DebugRenderer::DebugRenderer()
@@ -69,7 +69,7 @@ void DebugRenderer::Init()
 	}
 
 	_proj = glm::ortho(-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowWidth() / 2,
-		-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, -15.0f, 15.0f);
+		-(float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, (float)EngineSystems::GetInstance()._windowSystem->getWindow().GetWindowHeight() / 2, -150.0f, 150.0f);
 }
 
 void DebugRenderer::Update()
@@ -122,37 +122,43 @@ void DebugRenderer::DrawLine(float x1, float y1, float x2, float y2)
 
 
 
+void DebugRenderer::SubmitDebugLine(glm::vec3 p1, glm::vec3 p2)
+{
+	SubmitDebugLine(p1.x, p1.y, p2.x, p2.y);
+}
+
 void DebugRenderer::SubmitDebugLine(float x1, float y1, float x2, float y2)
 {
-	
+
 	//GLfloat verts[6] = {
 	//1.0f, 1.0f, 0.0f,
 	//0.0f, 0.0f, 0.0f
 	//};
 	//
 
-	//// initial vertex application side
-	//glm::vec4 vertex1{ x1, y1, 14, 0 };
-	//glm::vec4 vertex2{ x2, y2, 14, 0 };
+	// initial vertex application side
+	glm::vec4 vertex1{ x1, y1, 14, 0 };
+	glm::vec4 vertex2{ x2, y2, 14, 0 };
 
 
-	//// calculate MVP
-	//glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 12));
-	////glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2 - x1, y2 - y1, 0)) * glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 0.0f, 0.0f));
-	////glm::mat4 mvp = _proj /*EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix()*/;
+	//calculate MVP
+	glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 12));
 
+	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2 - x1, y2 - y1, 0));
 
-	//// apply MVP to vertex
-	//glm::vec4 vertex1 = mvp * vertex1;
-	//glm::vec4 vertex2 = mvp * vertex2;
+	/*vertex1 = model * vertex1;
+	vertex2 = model * vertex2;*/
+	/*glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x1, y1, 10));
+	glm::mat4 model = trans * glm::scale(glm::mat4(1.0f), glm::vec3(x2 - x1, y2 - y1, 0)) * glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m) * model;*/
 
-	//_debugBatchRenderer.vert.push_back(vertex1.x);
-	//_debugBatchRenderer.vert.push_back(vertex1.y);
-	//_debugBatchRenderer.vert.push_back(vertex1.z);
+	_debugBatchRenderer.vert.push_back(vertex1.x);
+	_debugBatchRenderer.vert.push_back(vertex1.y);
+	_debugBatchRenderer.vert.push_back(vertex1.z);
 
-	//_debugBatchRenderer.vert.push_back(vertex2.x);
-	//_debugBatchRenderer.vert.push_back(vertex2.y);
-	//_debugBatchRenderer.vert.push_back(vertex2.z);
+	_debugBatchRenderer.vert.push_back(vertex2.x);
+	_debugBatchRenderer.vert.push_back(vertex2.y);
+	_debugBatchRenderer.vert.push_back(vertex2.z);
 }
 
 void DebugRenderer::BatchDrawDebugLine()
@@ -173,18 +179,21 @@ void DebugRenderer::BatchDrawDebugLine()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	
 
-	//glm::mat4 view = EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix();
-	glm::mat4 mvp = _proj /** view*/;
-	
+
+	glm::mat4 view = glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m);
+	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m);
+
 	int location = glGetUniformLocation(_batchshader->_id, "u_Color");
 	glUniform4f(location, 0.0f, 1.0f, 0.0f, 1.0f);
 
 	location = glGetUniformLocation(_shader->_id, "u_MVP");
 	glUniformMatrix4fv(location, 1, GL_FALSE, &mvp[0][0]);
 
-	glDrawArrays(GL_LINES, 0, _debugBatchRenderer.vert.size() / 3);
+	auto size = _debugBatchRenderer.vert.size() / 3;
+
+	glDrawArrays(GL_LINES, 0, (GLsizei)size);
+
 
 	// clear buffer every loop
 	_debugBatchRenderer.vert.clear();
@@ -192,24 +201,82 @@ void DebugRenderer::BatchDrawDebugLine()
 
 
 
+void DebugRenderer::DrawBox(const glm::vec3& center, const glm::vec3& scale)
+{
+	glm::vec3 topleft;
+	glm::vec3 topright;
+	glm::vec3 botleft;
+	glm::vec3 botright;
+
+	topleft.x = (center.x - scale.x) / 2;
+	topleft.y = (center.y + scale.y) / 2;
+
+	topright.x = (center.x + scale.x) / 2;
+	topright.y = (center.y + scale.y) / 2;
+
+	botleft.x = (center.x - scale.x) / 2;
+	botleft.y = (center.y - scale.y) / 2;
+
+	botright.x = (center.x + scale.x) / 2;
+	botright.y = (center.y - scale.y) / 2;
+	SubmitDebugLine(topleft, topright);
+	SubmitDebugLine(topleft, botleft);
+	SubmitDebugLine(topright, botright);
+	SubmitDebugLine(botleft, botright);
+}
+
+void DebugRenderer::FillBox(const glm::vec3& center, const glm::vec3& scale)
+{
+	_quadmesh.Select();
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), center);
+	//glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transformComponent->GetRotate(), glm::vec3(0, 0, 1));
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		scale);
+
+	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m) * model;
+
+	_shader->SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+
+	_shader->SetUniformMat4f("u_MVP", mvp);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
+void DebugRenderer::FillBox(const glm::vec3& center, const glm::vec3& scale, const glm::vec3& color)
+{
+	_quadmesh.Select();
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), center);
+	//glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), transformComponent->GetRotate(), glm::vec3(0, 0, 1));
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f),
+		scale);
+
+	glm::mat4 mvp = _proj * glm::make_mat4(Matrix4x4::CreateTranspose(MyCameraSystem.GetCamMatrix()).m) * model;
+
+	_shader->SetUniform4f("u_Color", color.r, color.g, color.b, 1.0f);
+
+	_shader->SetUniformMat4f("u_MVP", mvp);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
 void DebugRenderer::DrawWireFrameQuad(int xpos, int ypos, int xsize, int ysize)
 {
-	//_quadmesh.Select();
+	_quadmesh.Select();
 
 
-	//_shader->Select();
+	_shader->Select();
 
-	//glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 12));
-	//glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
-	//glm::mat4 model = translate * EngineSystems::GetInstance()._graphicsSystem->GetCamera().GetCamMatrix() * glm::scale(glm::mat4(1.0f), glm::vec3(xsize, ysize, 1.0f));
+	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, 12));
+	glm::mat4 rotate = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0, 0, 1));
+	glm::mat4 model = translate * glm::scale(glm::mat4(1.0f), glm::vec3(xsize, ysize, 1.0f));
 
-	//glm::mat4 mvp = _proj * model;
+	glm::mat4 mvp = _proj * model;
 
-	//_shader->SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
-	//_shader->SetUniformMat4f("u_MVP", mvp);
+	_shader->SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+	_shader->SetUniformMat4f("u_MVP", mvp);
 
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	//// this one encapsulate into another class
-	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	// this one encapsulate into another class
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
