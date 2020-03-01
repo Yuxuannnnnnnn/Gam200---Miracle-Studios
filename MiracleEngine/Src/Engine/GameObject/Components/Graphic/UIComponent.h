@@ -9,7 +9,20 @@ private:
 	std::string _fileName;
 	//unsigned int _textureID;
 
+	
+	// has alpha from PNG
+	bool _hasAlpha;
+
+	// has alpha adjustable in programming
+	bool _hasAdjustableAlpha; //when the button is ticked, _alphaVal is taken into account
+	float _alphaVal;	//alpha value is between 0 to 1
+
+	bool _isFadingOut; //if box is checked, the object will slowly fade out
+	bool _isFlickering;//if box is checked, the objecy will randomly flicker on and off
+
 	int _layer;
+
+
 
 public:
 

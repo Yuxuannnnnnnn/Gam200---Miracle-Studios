@@ -10,13 +10,19 @@ bool compare(RenderObject a, RenderObject b)
 void GraphicsSystem::Update(double dt)
 {
 	BeginScene();
+	
+	// debug renderer test
+	
 	//DebugRenderer::GetInstance().DrawLine(0, 0, 200, 100);
 	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
 	//DebugRenderer::GetInstance().FillBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
-	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 200,0,0 }, glm::vec3{ 100,100,0 });
-	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,0,0 }, glm::vec3{ 100,100,0 });
-	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,200,0 }, glm::vec3{ 100,100,0 });
+	////DebugRenderer::GetInstance().DrawBox(glm::vec3{ 200,0,0 }, glm::vec3{ 100,100,0 });
+	////DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,0,0 }, glm::vec3{ 100,100,0 });
+	////DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,200,0 }, glm::vec3{ 100,100,0 });
 	//_fontRenderer->Draw();
+
+
+
 	DebugRenderer::GetInstance().BatchDrawDebugLine();
 	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
@@ -223,9 +229,24 @@ void GraphicsSystem::Update(double dt)
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		renderobj._pShader->SetUniform1f("u_Alpha", 1.0f);
 	}
+
+
+	// update UI and font
+
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
+	// render font
+	/*for (auto fontpair : GetComponentMap(Font))
+	{
+		if (!fontpair.second->GetEnable())
+			continue;
+
+		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[fontpair.first];
+
+		if (!transformComp)
+			continue;
+	}*/
 
 	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
 
@@ -263,11 +284,11 @@ GraphicsSystem::GraphicsSystem()
 	}
 
 
-	std::string temp2 = "arial";
+	std::string temp2 = "sector_017";
 
 	_fontRenderer = MyResourceSystem.GetFontResource(temp2);
 
-	if (!_fontRenderer && MyResourceSystem.AddNewFontResource({ temp2,"Resources/Fonts/arial.ttf" }))
+	if (!_fontRenderer && MyResourceSystem.AddNewFontResource({ temp2,"Resources/Fonts/sector_017.ttf" }))
 	{
 		_fontRenderer = MyResourceSystem.GetFontResource(temp2);
 	}
@@ -333,8 +354,11 @@ void GraphicsSystem::UpdateRenderObjectList()
 			if (!MyImguiSystem._editorMode)
 #endif
 			{
-				graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
-				renderobject._hasAdjustableAlpha = true;
+				if (graphicComp->GetAlpha() > 0.001f);
+				{
+					graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
+					renderobject._hasAdjustableAlpha = true;
+				}
 			}
 		}
 
@@ -371,7 +395,7 @@ void GraphicsSystem::UpdateRenderObjectList()
 		}
 		// check for if obj have animation
 
-		if (animComp && animComp->IsAnimationPlaying())
+		if (animComp && animComp->IsAnimationPlaying() && animComp->GetEnable())
 		{
 			// get animation from resource manager
 			Animation* currAnim = animComp->GetAnimationResource();
