@@ -43,20 +43,12 @@ public:
 
 class TileMapComponent: public IComponent
 {
-	typedef std::string Image;
-	//PaletteType** _tilemap;
-	Image onImage; //Image shows when tile is selected
-
-	std::vector<int> selectedTiles; 
-
 //For Editor
 	bool turnOnTileMap; //Bool to activate drawing in GraphicSystem to draw tiles.
 
 	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
 					//Everytime Scaling changes, tilesize is recalculated.
-	int _mapHeight, _mapWidth; // TODO : replace with the one YX gonna push 
-
-
+	int _mapHeight, _mapWidth; 
 
 	typedef int tileNumber;
 	std::unordered_map < tileNumber, Node* > _tileNodeMap; // <NodeId, NodePtr>
@@ -67,7 +59,11 @@ class TileMapComponent: public IComponent
 public:
 
 
-	TileMapComponent() : _mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr } {};
+	TileMapComponent() : 
+		_mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr }, _tilesize{ 0, 0, 0 }, turnOnTileMap{ false }, _tileNodeMap{}
+	{}
+
+
 	TileMapComponent(const TileMapComponent& copy) = default;
 
 	std::string ComponentName() const override
@@ -78,45 +74,37 @@ public:
 
 	void SerialiseComponent(Serialiser& document) override
 	{
-
-		
 		if (document.HasMember("Width") && document["Width"].IsInt())
 			_mapWidth = document["Width"].GetInt();
 
-		if (document.HasMember("Height") && document["Width"].IsInt())
+		if (document.HasMember("Height") && document["Height"].IsInt())
 			_mapHeight = document["Height"].GetInt();
 
-		//if (document.HasMember("Palette"))
-		//{
-		//	for (unsigned i = 0; i < document["Palette"].Size(); i++)
-		//	{
-		//		palette[document["Palette"][i][0].GetInt()] = document["Palette"][i][1].GetString();
-		//	}
-		//}
 
-		//if (document.HasMember("Palette"))
-		//{
-		//	_tilemap = new PaletteType * [_height];
+		if (document.HasMember("TileMap"))
+		{
+			_tilemapInput = new tileNumber * [_mapHeight];
 
-		//	for (int height = 0; height < _height; height++)
-		//	{
-		//		_tilemap[height] = new PaletteType[_width];
+			for (int height = 0; height < _mapHeight; height++)
+			{
+				_tilemapInput[height] = new tileNumber[_mapWidth];
 
-		//		for (int width = 0; width < _width; width++)
-		//		{
-		//			_tilemap[height][width] = palette[document["TileMap"][height * width + width].GetInt()];
-		//		}
-		//	}
-		//}
+				for (int width = 0; width < _mapWidth; width++)
+				{
+					_tilemapInput[height][width] = document["TileMap"][height * width + width].GetInt();
+				}
+			}
+		}
 
-
-		//CreateNodeMap(_mapWidth, _mapHeight, ...);
+		CreateNodeMap(_mapWidth, _mapHeight, );
 	}
 
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
 
 	}
+
+
 	void DeSerialiseComponent_LevelFile(DeSerialiser& levelDoc) 
 	{
 		rapidjson::Value tileMapObject;
@@ -159,6 +147,11 @@ public:
 
 		levelDoc["AllTileMaps"].PushBack(tileMapObject, levelDoc.Allocator());
 	}
+
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override 
+	{ return; }
+
+
 	void Inspect() override
 	{ 
 		ImGui::Spacing();
@@ -166,7 +159,6 @@ public:
 		ImGui::Spacing();
 		ImGui::InputInt("Width ", &_mapWidth);
 	}
-	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override { return; }
 
 	TileMapComponent* CloneComponent()
 	{
