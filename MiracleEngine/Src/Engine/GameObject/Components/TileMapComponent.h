@@ -15,7 +15,6 @@ private:
 	Node* _PtrNodeRight;
 	Node* _PtrNodePrev;
 public:
-	GameObject* _NodeObj;
 
 	size_t _f, _g, _h; // size_t cause using Vector3.SquaredLength
 
@@ -43,33 +42,68 @@ public:
 
 class TileMapComponent: public IComponent
 {
-	typedef std::string Image;
-	//PaletteType** _tilemap;
-	Image onImage; //Image shows when tile is selected
-
-	std::vector<int> selectedTiles; 
-
+//For Editor
 	bool turnOnTileMap; //Bool to activate drawing in GraphicSystem to draw tiles.
-
+	Vector3 _mapCenterOffset; // the map's local center offset from bottom left, use this when calculating offset
 	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
 					//Everytime Scaling changes, tilesize is recalculated.
-	int _mapHeight, _mapWidth; // TODO : replace with the one YX gonna push 
-	std::unordered_map < int, Node* > _tileNodeMap; // <NodeId, NodePtr>
-	int** _tilemapInput; // 2dArray of the NodeMap in ID form
+	int _mapHeight, _mapWidth; 
+
+	typedef int tileNumber;
+	std::unordered_map < tileNumber, Node* > _tileNodeMap; // <NodeId, NodePtr>
+
+	tileNumber** _tilemapInput; // 2dArray of the NodeMap in ID form
+
 
 public:
-	TileMapComponent() : _mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr } {};
+
+
+	TileMapComponent() : 
+		_mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr }, _tilesize{ 0, 0, 0 }, turnOnTileMap{ false }, _tileNodeMap{}
+	{}
+
+
 	TileMapComponent(const TileMapComponent& copy) = default;
 
 	std::string ComponentName() const override
 	{
 		return "TileMapComponent";
 	}
-	void SerialiseComponent(Serialiser& document) override;
+
+
+	void SerialiseComponent(Serialiser& document) override
+	{
+		if (document.HasMember("Width") && document["Width"].IsInt())
+			_mapWidth = document["Width"].GetInt();
+
+		if (document.HasMember("Height") && document["Height"].IsInt())
+			_mapHeight = document["Height"].GetInt();
+
+
+		if (document.HasMember("TileMap"))
+		{
+			_tilemapInput = new tileNumber * [_mapHeight];
+
+			for (int height = 0; height < _mapHeight; height++)
+			{
+				_tilemapInput[height] = new tileNumber[_mapWidth];
+
+				for (int width = 0; width < _mapWidth; width++)
+				{
+					_tilemapInput[height][width] = document["TileMap"][height * width + width].GetInt();
+				}
+			}
+		}
+
+		CreateNodeMap(_mapWidth, _mapHeight, );
+	}
+
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
 
 	}
+
+
 	void DeSerialiseComponent_LevelFile(DeSerialiser& levelDoc) 
 	{
 		rapidjson::Value tileMapObject;
@@ -112,18 +146,18 @@ public:
 
 		levelDoc["AllTileMaps"].PushBack(tileMapObject, levelDoc.Allocator());
 	}
-	void Inspect() override
-	{
-		//Add Palette button - when pressed new palette button will appear
-		//Imgui::buttons for each palette type - when pressed, palette texture will appear, and can snap to position on screen 
 
-		//Remove Palette button - must have textbox to remove all such tile
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override 
+	{ return; }
+
+
+	void Inspect() override
+	{ 
 		ImGui::Spacing();
 		ImGui::InputInt("Height ", &_mapHeight);
 		ImGui::Spacing();
 		ImGui::InputInt("Width ", &_mapWidth);
 	}
-	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override { return; }
 
 	TileMapComponent* CloneComponent()
 	{
@@ -151,10 +185,19 @@ public:
 	//	return _tilesize;
 	//}
 
-	void CreateNodeMap(int width, int height);
-	void CreateNodeMap(int width, int height, Vector3 offset, Vector3 scaleset);
-	void ResizeNodeMap(Vector3 offset, Vector3 scaleset);
-	void EditNodeMap(int newHeight, int newWidth, Vector3 offset, Vector3 scaleset);
+
+	void CalcTileSize();
+	void CalcOffset();
+
+	// remove the offset, cause that is just calculated during map build, and map resize
+	void SerialNodeMap();
+	void DeserialNodeMap();
+	void DeleteNodeMap();
+
+	void ResizeNodeMap(Vector3 newScale);
+	void EditNodeMap(int newHeight, int newWidth);
 	void ToggleNodeSolidity(float x, float y);
+
+	// have serial in serial out 
 };
 
