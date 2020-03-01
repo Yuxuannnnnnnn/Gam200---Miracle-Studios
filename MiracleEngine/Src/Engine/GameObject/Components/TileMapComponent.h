@@ -54,7 +54,6 @@ class TileMapComponent: public IComponent
 
 	tileNumber** _tilemapInput; // 2dArray of the NodeMap in ID form
 
-
 public:
 
 
@@ -73,11 +72,11 @@ public:
 
 	void SerialiseComponent(Serialiser& document) override
 	{
-		if (document.HasMember("Width") && document["Width"].IsInt())
-			_mapWidth = document["Width"].GetInt();
+		if (document.HasMember("MapWidth") && document["MapWidth"].IsInt())
+			_mapWidth = document["MapWidth"].GetInt();
 
-		if (document.HasMember("Height") && document["Height"].IsInt())
-			_mapHeight = document["Height"].GetInt();
+		if (document.HasMember("MapHeight") && document["MapHeight"].IsInt())
+			_mapHeight = document["MapHeight"].GetInt();
 
 
 		if (document.HasMember("TileMap"))
@@ -95,68 +94,143 @@ public:
 			}
 		}
 
-		CreateNodeMap(_mapWidth, _mapHeight, );
+		SerialNodeMap();
 	}
+
+
 
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
+		rapidjson::Value value;
+
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("TileMapComponent", value);
+
+		value.SetInt(_mapHeight);
+		prototypeDoc.AddMember("MapHeight", value);
+
+		value.SetInt(_mapWidth);
+		prototypeDoc.AddMember("MapWidth", value);
+
+		value.SetArray();
+		{
+			for (size_t height = 0; height < _mapHeight; height++)
+			{
+				for (size_t width = 0; width < _mapWidth; width++)
+				{
+					value.PushBack(rapidjson::Value(_tilemapInput[height][width]).Move(), prototypeDoc.GetAllocator());
+				}
+			}
+			prototypeDoc.AddMember("TileMap", value);
+		}
 
 	}
 
-
-	void DeSerialiseComponent_LevelFile(DeSerialiser& levelDoc) 
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
-		rapidjson::Value tileMapObject;
-		tileMapObject.SetObject();
+		rapidjson::Value value;
+
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("TileMapComponent", value, allocator);
+
+		//value.SetInt(_typeIdGraphic);
+		//prototypeDoc.AddMember("G.TypeId", value);
+		value.SetInt(_mapHeight);
+		prototypeDoc.AddMember("MapHeight", value, allocator);
+
+		value.SetInt(_mapWidth);
+		prototypeDoc.AddMember("MapWidth", value, allocator);
+
+		value.SetArray();
 		{
-			rapidjson::Value value;
-			value.SetInt(_mapHeight);
-			tileMapObject.AddMember("Height", value, levelDoc.Allocator());
+			for (size_t height = 0; height < _mapHeight; height++)
+			{
+				for (size_t width = 0; width < _mapWidth; width++)
+				{
+					value.PushBack(rapidjson::Value(_tilemapInput[height][width]).Move(), allocator);
+				}
+			}
+			prototypeDoc.AddMember("TileMap", value, allocator);
+		}
+	}
 
-			value.SetInt(_mapWidth);
-			tileMapObject.AddMember("Width", value, levelDoc.Allocator());
 
-			//value.SetArray();
-			//{
-			//	for (auto& palettePair : palette)
-			//	{
-			//		rapidjson::Value ArrayPair;
-			//		ArrayPair.SetArray();
-			//		ArrayPair.PushBack(rapidjson::Value(palettePair.first).Move(), levelDoc.Allocator());
-			//		ArrayPair.PushBack(rapidjson::StringRef(palettePair.second.c_str()), levelDoc.Allocator());
 
-			//		value.PushBack(ArrayPair, levelDoc.Allocator());
-			//	}
-			//	tileMapObject.AddMember("Palette", value, levelDoc.Allocator());
-			//}
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override
+	{
+		TileMapComponent* tileMapComponent = dynamic_cast<TileMapComponent*>(protoCom);
 
-			value.SetArray();
+		if (!tileMapComponent)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
+		rapidjson::Value enable;
+		rapidjson::Value mapHeight;
+		rapidjson::Value mapWidth;
+
+
+		bool addComponentIntoSceneFile = false;
+
+		if (tileMapComponent->GetEnable() != this->GetEnable())
+		{
+			addComponentIntoSceneFile = true;
+			enable.SetBool(GetEnable());
+		}
+
+		if (tileMapComponent->_mapHeight != this->_mapHeight)
+		{
+			addComponentIntoSceneFile = true;
+			mapHeight.SetBool(_mapHeight);
+		}
+
+		if (tileMapComponent->_mapWidth != this->_mapWidth)
+		{
+			addComponentIntoSceneFile = true;
+			mapWidth.SetBool(_mapWidth);
+		}
+
+		//if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+		{
+			if (!enable.IsNull())
+				value.AddMember("TileMapComponent", enable, allocator);
+			else
+				value.AddMember("TileMapComponent", tileMapComponent->GetEnable(), allocator);
+
+			if (!mapHeight.IsNull())	//if rapidjson::value container is not empty
+			{
+				value.AddMember("MapHeight", mapHeight, allocator);
+			}
+
+			if (!mapWidth.IsNull())	//if rapidjson::value container is not empty
+			{
+				value.AddMember("MapWidth", mapWidth, allocator);
+			}
+
+			DeserialNodeMap();
+
+			rapidjson::Value tilemap;
+			tilemap.SetArray();
 			{
 				for (size_t height = 0; height < _mapHeight; height++)
 				{
 					for (size_t width = 0; width < _mapWidth; width++)
 					{
-						//value.PushBack(rapidjson::StringRef(_tilemap[height][width].c_str()), levelDoc.Allocator());
+						value.PushBack(rapidjson::Value(_tilemapInput[height][width]).Move(), allocator);
 					}
 				}
-				tileMapObject.AddMember("TileMap", value, levelDoc.Allocator());
+				value.AddMember("TileMap", tilemap, allocator);
 			}
 		}
-
-
-		levelDoc["AllTileMaps"].PushBack(tileMapObject, levelDoc.Allocator());
 	}
 
-	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override 
-	{ return; }
 
+	void Inspect() override;
 
-	void Inspect() override
-	{ 
-		ImGui::Spacing();
-		ImGui::InputInt("Height ", &_mapHeight);
-		ImGui::Spacing();
-		ImGui::InputInt("Width ", &_mapWidth);
+	bool GetTurnOnTileMap()
+	{
+		return turnOnTileMap;
 	}
 
 	TileMapComponent* CloneComponent()

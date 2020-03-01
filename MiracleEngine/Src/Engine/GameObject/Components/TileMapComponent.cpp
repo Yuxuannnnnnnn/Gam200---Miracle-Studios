@@ -339,31 +339,97 @@ void TileMapComponent::EditNodeMap(int newHeight, int newWidth)
 }
 
 //Not completed - For Picking on the TileMap Editor
-void TileMapComponent::ToggleNodeSolidity(float x, float y)
-{
-	Node* nodePtr = nullptr;
-	// based on x,y get the right node
-		//ImGuizmoManager::Update()
-			//if (Collision::CollisionCheck(pickingBox, pos))
-	nodePtr = nullptr;
-	// toggle node _solid
-	nodePtr->SetSolid(!nodePtr->GetSolid());
-
-
-
-
-
-	Vector3  pos = MyInputSystem.GetMouseWorldPos();
-
-	BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ transform->GetPos()._x,transform->GetPos()._y, 1.f },
-		Vec3{ transform->GetScale()._x, transform->GetScale()._y },
-		transform->GetRotate());
-
-	if (Collision::CollisionCheck(pickingBox, pos))
-	{
-	}
-}
+//void TileMapComponent::ToggleNodeSolidity(float x, float y)
+//{
+//	Node* nodePtr = nullptr;
+//	// based on x,y get the right node
+//		//ImGuizmoManager::Update()
+//			//if (Collision::CollisionCheck(pickingBox, pos))
+//	// toggle node _solid
+//	nodePtr->SetSolid(!nodePtr->GetSolid());
+//
+//}
 
 // AISystem stuff
 /////////////////////////
 
+
+//Function to edit NodeMap when the position in transform position is edited.
+
+void TileMapComponent::Inspect()
+{
+	ImGui::Spacing();
+	ImGui::Spacing();
+
+	if (ImGui::InputInt("Height ", &_mapHeight))
+	{
+		EditNodeMap(_mapHeight, _mapWidth);
+	}
+
+	ImGui::Spacing();
+	ImGui::Spacing();
+	if (ImGui::InputInt("Width ", &_mapWidth))
+	{
+		EditNodeMap(_mapHeight, _mapWidth);
+	}
+
+	ImGui::Spacing();
+	ImGui::Spacing();
+	if (!turnOnTileMap) //If false
+	{
+		if (ImGui::Button("Turn ON TileMapEditor "))
+		{
+			turnOnTileMap = true;
+			MyInspectionWindow.SetTileMapEditor(true);
+		}
+	}
+	else if (turnOnTileMap) // if true
+	{
+		 if (ImGui::Button("Turn OFF TileMapEditor"))
+		 {
+			 turnOnTileMap = false;
+			 MyInspectionWindow.SetTileMapEditor(false);
+		 }
+	}
+
+
+	if (turnOnTileMap) //If the TileMapEditor is turn on in the TileMapComponent Editor
+	{
+		Vector3  pos = MyInputSystem.GetMouseWorldPos();
+
+		//Check Picking Collision for every single tile
+		for (auto& tile : _tileNodeMap)
+		{
+			//Draw every Tile
+			DebugRenderer::GetInstance().DrawBox(glm::vec3{ tile.second->GetPosition()._x, tile.second->GetPosition()._y, 0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 });
+
+			TransformComponent * transform = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
+
+			//Create a picking Box for each tile, position, tilesize and rotation
+			BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ tile.second->GetPosition()._x,tile.second->GetPosition()._y, 1.0f },
+				Vec3{ _tilesize._x, _tilesize._y },
+				transform->GetRotate());
+
+			//If there is collision
+			if (Collision::CollisionCheck(pickingBox, pos))
+			{
+				if (MyInputSystem.KeyDown(MOUSE_RBUTTON))	//If the tile is selcted
+				{
+					tile.second->SetSolid(!tile.second->GetSolid());
+				}
+				else										// If just Hovering over the box
+				{
+					DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(),0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 }, glm::vec4{ 1, 0, 0, 0.3f });
+				}
+			}
+
+			if (tile.second->GetSolid())
+			{
+				DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(),0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 }, glm::vec4{ 1, 0, 0, 0.7f });
+			}
+
+		}
+	}
+
+
+}

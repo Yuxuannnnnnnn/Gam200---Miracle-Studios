@@ -176,7 +176,7 @@ void Engine::Update()
 
 		MyFrameRateController.StartTimeCounter();
 
-		if (MyImguiSystem._editorMode)
+		if (MyImguiSystem._editorMode && !MyInspectionWindow.GetTileMapEditor())
 			MyImGuizmoManager.Update();
 
 		MyImguiSystem.Render();  //Renders Imgui Windows - All Imgui windows should be created before this line

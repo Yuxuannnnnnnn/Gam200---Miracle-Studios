@@ -209,9 +209,11 @@ void TransformComponent::Inspect()
 
 	if (tempPos != _pos)
 	{
-		if (GetSibilingComponent(ComponentId::CT_TileMap))
+		if (TileMapComponent * TMCom = (TileMapComponent *)(GetSibilingComponent(ComponentId::CT_TileMap)))
 		{
 			//Reset array of nodes position. 
+			//TMCom->CalcOffset();
+
 		}
 	}
 
@@ -227,6 +229,15 @@ void TransformComponent::Inspect()
 	ImGui::InputFloat2("Input Scale X, Y", tempScale.m);
 	ImGui::Spacing();
 	ImGui::SliderFloat2("Slider Scale X, Y", tempScale.m, 1, 500);
+
+	if (tempScale != _scale)
+	{
+		if (TileMapComponent * TMCom = (TileMapComponent *)(GetSibilingComponent(ComponentId::CT_TileMap)))
+		{
+			//Reset array of nodes position. 
+			//TMCom->CalcTileSize();
+		}
+	}
 
 	SetScale(tempScale);
 
