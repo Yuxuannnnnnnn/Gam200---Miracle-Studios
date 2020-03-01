@@ -26,8 +26,6 @@
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\FontComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\GraphicComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\TransformComponent.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\Logic\AiComponent.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\LogicComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.cpp" />
@@ -132,6 +130,7 @@
     <ClCompile Include="Src\Script\RegisterLink.cpp" />
     <ClCompile Include="Src\Script\HitEffect.cpp" />
     <ClCompile Include="Src\Script\SplashScreen.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -455,8 +454,6 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\FontComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\GraphicComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\TransformComponent.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\Logic\AiComponent.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\LogicComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.h" />
@@ -573,6 +570,7 @@
     <ClInclude Include="Src\Script\RegisterLink.h" />
     <ClInclude Include="Src\Script\HitEffect.h" />
     <ClInclude Include="Src\Script\SplashScreen.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

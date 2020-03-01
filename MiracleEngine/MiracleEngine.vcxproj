@@ -202,7 +202,6 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\TransformComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\UIComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\IdentityComponent.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\Logic\AiComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript2.h" />
@@ -638,7 +637,6 @@
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\TransformComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\UIComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\IdentityComponent.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\Logic\AiComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript2.cpp" />
