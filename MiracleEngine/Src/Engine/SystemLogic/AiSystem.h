@@ -7,60 +7,37 @@
 static bool displayDebug = false;
 
 class GameObject;	// forward declare from GameObject, need TypeId::WALL
-class AiComponent; // forward decalre from AiComp, cause AiComp need to be accessed
-
-#define MAP_SIZE 100
-#define MAP_HEIGHT 30
-#define MAP_WIDTH 40
-
+//class AiComponent; // forward decalre from AiComp, cause AiComp need to be accessed
 class Node;
+
+//#define MAP_SIZE 100
+//#define MAP_HEIGHT 30
+//#define MAP_WIDTH 40
+
 
 class AISystem
 {
 private:
-	bool init;
-
+	bool _init;
 	double _timer, _timeCooldown;
-
-	int _mapHeight, _mapWidth, _mapTileSize;
-	std::unordered_map < int, Node* > _tileNodeMap; // <NodeId, NodePtr>
-	int** _tilemapInput; // 2dArray of the NodeMap in ID form
+	GameObject* NodeMap;
 
 public:
-	void SerialiseComponent(Serialiser& document);
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
-	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator);
-	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator);
-	void Inspect();
-
 	AISystem();
 	~AISystem() = default;
 	AISystem(const AISystem& rhs) = delete;
 	AISystem& operator=(const AISystem& rhs) = delete;
-
-// GetSet
-	std::unordered_map < int, Node* > GetTileMap();
-	void SetTileMap(std::unordered_map < int, Node* > map);
-	int GetMapTileSize();
-	void SetInit();
 
 // InUpEx
 	void Init(); // make sure GOFac serial gives the _tilemap
 	void Update(double dt);
 	void Exit();
 
-// Create a node map from _tilemap
-	void CreateNodeMap(int w, int h, int sz);
-	void SetNodeMapOffset(int x, int y);
-	void ToggleNodeSolidity(float x, float y); // when picked a Node, call this function
-
-	void CreateNodeMap(); // sets up _tilemap with Nodes with their UpDownLeftRight Node*
-	//void CreateNodeMapFromTileComp();
-
 // PathFinding
+	std::vector<Node*> PathFinding(Vector3 curr, Vector3 dest); // GO will call this function
+
 	//std::vector<Node*> PathFinding(Vector3& _curr, Vector3& _dest);
 	std::vector<Node*> PathFindingOld(Vector3 curr, Vector3 dest); // testing, once done use line above
-	std::vector<Node*> PathFinding(Vector3 curr, Vector3 dest);
 };
 
 #endif

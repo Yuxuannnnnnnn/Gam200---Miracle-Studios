@@ -53,7 +53,8 @@ class TileMapComponent: public IComponent
 					//Everytime Scaling changes, tilesize is recalculated.
 	int _mapHeight, _mapWidth; // TODO : replace with the one YX gonna push 
 	std::unordered_map < int, Node* > _tileNodeMap; // <NodeId, NodePtr>
-	int** _tilemapInput; // 2dArray of the NodeMap in ID form
+	int** _tilemapId; // 2dArray of the NodeMap in ID form
+	int** _tilemapInput; // 2dArray of node solidity
 
 public:
 	TileMapComponent() : _mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr } {};
@@ -152,7 +153,6 @@ public:
 	void CalcTileSize();
 	void CalcOffset();
 
-	// remove the offset, cause that is just calculated during map build, and map resize
 	void SerialNodeMap();
 	void DeserialNodeMap();
 	void DeleteNodeMap();
@@ -160,7 +160,5 @@ public:
 	void ResizeNodeMap(Vector3 newScale);
 	void EditNodeMap(int newHeight, int newWidth);
 	void ToggleNodeSolidity(float x, float y);
-
-	// have serial in serial out 
 };
 
