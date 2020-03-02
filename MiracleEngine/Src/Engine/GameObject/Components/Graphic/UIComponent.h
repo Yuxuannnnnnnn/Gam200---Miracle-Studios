@@ -11,7 +11,7 @@ private:
 
 	
 	// has alpha from PNG
-	bool _hasAlpha;
+	bool _hasAlpha{false};
 
 	// has alpha adjustable in programming
 	bool _hasAdjustableAlpha; //when the button is ticked, _alphaVal is taken into account
@@ -43,6 +43,11 @@ public:
 		{
 			_layer = (document["UI.Layer"].GetInt());
 		}
+
+		if (document.HasMember("UI.HasAlpha") && document["UI.HasAlpha"].IsBool())	//Checks if the variable exists in .Json file
+		{
+			_hasAlpha = (document["UI.HasAlpha"].GetBool());
+		}
 	}
 
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
@@ -57,6 +62,9 @@ public:
 
 		value.SetInt(_layer);
 		prototypeDoc.AddMember("UI.Layer", value);
+
+		value.SetBool(_hasAlpha);
+		prototypeDoc.AddMember("UI.HasAlpha", value);
 	}
 
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -72,6 +80,9 @@ public:
 
 		value.SetInt(_layer);
 		prototypeDoc.AddMember("UI.Layer", value, allocator);
+
+		value.SetBool(_hasAlpha);
+		prototypeDoc.AddMember("UI.HasAlpha", value, allocator);
 	}
 
 
@@ -90,6 +101,7 @@ public:
 		rapidjson::Value enable;
 		rapidjson::Value filename;
 		rapidjson::Value layer;
+		rapidjson::Value HasAlpha;
 
 		if (protoIdentityCom->GetEnable() != this->GetEnable())
 		{
@@ -108,6 +120,12 @@ public:
 		{
 			addComponentIntoSceneFile = true;
 			layer.SetInt(_layer);
+		}		
+		
+		if (protoIdentityCom->_hasAlpha != _hasAlpha)
+		{
+			addComponentIntoSceneFile = true;
+			HasAlpha.SetBool(_hasAlpha);
 		}
 
 		if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
@@ -125,6 +143,11 @@ public:
 			if (!layer.IsNull())
 			{
 				value.AddMember("UI.Layer", layer, allocator);
+			}
+
+			if (!HasAlpha.IsNull())
+			{
+				value.AddMember("UI.HasAlpha", HasAlpha, allocator);
 			}
 		}
 	}
@@ -192,6 +215,13 @@ public:
 		{
 			//puts(buf);
 		}
+
+
+		ImGui::Spacing();
+		ImGui::Spacing();
+
+
+		ImGui::Checkbox("Has Alpha", &_hasAlpha);
 	}
 
 

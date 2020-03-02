@@ -103,7 +103,7 @@ public:
 
 			if (!fontType.IsNull())	//if rapidjson::value container is not empty
 			{
-				value.AddMember("FontId", fontType, allocator);
+				value.AddMember("FontType", fontType, allocator);
 			}
 
 			if (!fontString.IsNull())
