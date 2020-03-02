@@ -11,7 +11,7 @@ Turret::Turret() :
 	_animState{ 1 }, _animStatePrev{ 1 }
 	
 {
-	_attackRangeShoot = EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
+	_attackRangeShoot = 100;// EngineSystems::GetInstance()._aiSystem->GetMapTileSize();
 	_attackRangeShoot *= 5; // 5 tileSize
 	_attackRangeShoot *= _attackRangeShoot; // pow(2)
 }

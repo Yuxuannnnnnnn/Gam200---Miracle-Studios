@@ -143,7 +143,6 @@ void Engine::Update()
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
 
 		MyFrameRateController.StartTimeCounter();
-=
 		if (MyImguiSystem._editorMode && !MyInspectionWindow.GetTileMapEditor())
 		{
 			MyImGuizmoManager.Update();
