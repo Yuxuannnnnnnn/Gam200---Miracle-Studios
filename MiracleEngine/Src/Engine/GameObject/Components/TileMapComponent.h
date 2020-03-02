@@ -47,14 +47,12 @@ class TileMapComponent: public IComponent
 	Vector3 _mapCenterOffset; // the map's local center offset from bottom left, use this when calculating offset
 	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
 					//Everytime Scaling changes, tilesize is recalculated.
-
 	int _mapHeight, _mapWidth; 
 
 	typedef int tileNumber;
 	std::unordered_map < tileNumber, Node* > _tileNodeMap; // <NodeId, NodePtr>
 
-	tileNumber** _tilemapId; // 2dArray of the NodeMap in ID form
-	tileNumber** _tilemapInput; // 2dArray of node solidity
+	tileNumber** _tilemapInput; // 2dArray of the NodeMap in ID form
 
 public:
 
@@ -265,6 +263,7 @@ public:
 	void CalcTileSize();
 	void CalcOffset();
 
+	// remove the offset, cause that is just calculated during map build, and map resize
 	void SerialNodeMap();
 	void DeserialNodeMap();
 	void DeleteNodeMap();
@@ -272,5 +271,7 @@ public:
 	void ResizeNodeMap(Vector3 newScale);
 	void EditNodeMap(int newHeight, int newWidth);
 	void ToggleNodeSolidity(float x, float y);
+
+	// have serial in serial out 
 };
 

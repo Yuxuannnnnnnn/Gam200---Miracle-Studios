@@ -8,6 +8,8 @@
   "Scale": [ 500.0, 450.0, 1.0 ],
   "Rotate": 0.0,
   "PivotPosition": [ 0.0, -20.0, 1.0 ],
+
+
   "LogicComponent": true,
   "ScriptId": [],
   "Script2Id": [ "Enemy" ],
@@ -23,6 +25,8 @@
       "ChaseDuration": 2.0
     }
   ],
+
+
   "GraphicsComponent": true,
   "G.FileName": "Enemies_charging.png",
   "G.Shader": "",

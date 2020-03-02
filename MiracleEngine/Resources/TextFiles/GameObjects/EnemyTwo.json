@@ -17,10 +17,9 @@
   "_hasAlpha": true,
 
   "LogicComponent": true,
-  "ScriptId": [],
-  "Script2Id": [ "Enemy" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Enemy",
       "Health": 2,
       "EnemyType": 2,
       "StunDuration": 1.0,

@@ -22,17 +22,29 @@ void Bullet::SerialiseComponent(Serialiser& document)
 		_bulletSpeed = (document["BulletSpeed"].GetDouble());
 	}
 }
+
 void Bullet::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
 
 	value.SetDouble(_lifeTime);
 	prototypeDoc.AddMember("Lifetime", value);
-	value.SetInt(_bulletType);
+
+	value.SetString(rapidjson::StringRef(IntToString(_bulletType).c_str()));
 	prototypeDoc.AddMember("BulletType", value);
+
 	value.SetDouble(_bulletSpeed);
 	prototypeDoc.AddMember("BulletSpeed", value);
 }
+
+void Bullet::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void Bullet::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void Bullet::Inspect()
 {
 	ImGui::Spacing();
