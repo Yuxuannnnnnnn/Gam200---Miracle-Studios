@@ -137,7 +137,7 @@ void EntrancePortal::Update(double dt)
 		if (!_playerScript)
 		{
 			std::string temp = "Player";
-			_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyLinkFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+			_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 		}
 
 		if (_KillCount >= _progressCount)
@@ -154,8 +154,8 @@ void EntrancePortal::OpenPortal()
 
 	if (!_popUp)
 	{
-		_player = (TransformComponent*)(MyLinkFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform));
-		_popUp = MyLinkFactory.GetLinkIDObject(9542);
+		_player = (TransformComponent*)(MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform));
+		_popUp = MyFactory.GetLinkIDObject(9542);
 		_popUpPos = (TransformComponent*)_popUp->GetComponent(ComponentId::CT_Transform);
 	}
 

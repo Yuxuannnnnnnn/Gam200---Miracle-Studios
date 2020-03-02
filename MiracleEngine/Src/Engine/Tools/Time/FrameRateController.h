@@ -43,8 +43,6 @@ public:
 	double GetLockedDt() const;
 
 private:
-
-private:
 	unsigned long long TotalTime;
 	long long accumulatedTime;
 

@@ -15,6 +15,7 @@ private:
 	Node* _PtrNodeRight;
 	Node* _PtrNodePrev;
 public:
+
 	size_t _f, _g, _h; // size_t cause using Vector3.SquaredLength
 
 	Node(bool solid, int id, Vector3 pos);
@@ -41,88 +42,198 @@ public:
 
 class TileMapComponent: public IComponent
 {
-	typedef std::string Image;
-	//PaletteType** _tilemap;
-	Image onImage; //Image shows when tile is selected
-
-	std::vector<int> selectedTiles; 
-
+//For Editor
 	bool turnOnTileMap; //Bool to activate drawing in GraphicSystem to draw tiles.
 	Vector3 _mapCenterOffset; // the map's local center offset from bottom left, use this when calculating offset
 	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
 					//Everytime Scaling changes, tilesize is recalculated.
-	int _mapHeight, _mapWidth; // TODO : replace with the one YX gonna push 
-	std::unordered_map < int, Node* > _tileNodeMap; // <NodeId, NodePtr>
-	int** _tilemapId; // 2dArray of the NodeMap in ID form
-	int** _tilemapInput; // 2dArray of node solidity
+
+	int _mapHeight, _mapWidth; 
+
+	typedef int tileNumber;
+	std::unordered_map < tileNumber, Node* > _tileNodeMap; // <NodeId, NodePtr>
+
+	tileNumber** _tilemapId; // 2dArray of the NodeMap in ID form
+	tileNumber** _tilemapInput; // 2dArray of node solidity
 
 public:
-	TileMapComponent() : _mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr } {};
+
+
+	TileMapComponent() : 
+		_mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr }, _tilesize{ 0, 0, 0 }, turnOnTileMap{ false }, _tileNodeMap{}
+	{}
+
+
 	TileMapComponent(const TileMapComponent& copy) = default;
 
 	std::string ComponentName() const override
 	{
 		return "TileMapComponent";
 	}
-	void SerialiseComponent(Serialiser& document) override;
+
+
+	void SerialiseComponent(Serialiser& document) override
+	{
+		if (document.HasMember("MapWidth") && document["MapWidth"].IsInt())
+			_mapWidth = document["MapWidth"].GetInt();
+
+		if (document.HasMember("MapHeight") && document["MapHeight"].IsInt())
+			_mapHeight = document["MapHeight"].GetInt();
+
+
+		if (document.HasMember("TileMap"))
+		{
+			_tilemapInput = new tileNumber * [_mapHeight];
+
+			for (int height = 0; height < _mapHeight; height++)
+			{
+				_tilemapInput[height] = new tileNumber[_mapWidth];
+
+				for (int width = 0; width < _mapWidth; width++)
+				{
+					_tilemapInput[height][width] = document["TileMap"][height * width + width].GetInt();
+				}
+			}
+		}
+
+		SerialNodeMap();
+	}
+
+
+
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
+		rapidjson::Value value;
+
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("TileMapComponent", value);
+
+		value.SetInt(_mapHeight);
+		prototypeDoc.AddMember("MapHeight", value);
+
+		value.SetInt(_mapWidth);
+		prototypeDoc.AddMember("MapWidth", value);
+
+		value.SetArray();
+		{
+			for (size_t height = 0; height < _mapHeight; height++)
+			{
+				for (size_t width = 0; width < _mapWidth; width++)
+				{
+					value.PushBack(rapidjson::Value(_tilemapInput[height][width]).Move(), prototypeDoc.GetAllocator());
+				}
+			}
+			prototypeDoc.AddMember("TileMap", value);
+		}
 
 	}
-	void DeSerialiseComponent_LevelFile(DeSerialiser& levelDoc) 
+
+	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 	{
-		rapidjson::Value tileMapObject;
-		tileMapObject.SetObject();
+		rapidjson::Value value;
+
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("TileMapComponent", value, allocator);
+
+		//value.SetInt(_typeIdGraphic);
+		//prototypeDoc.AddMember("G.TypeId", value);
+		value.SetInt(_mapHeight);
+		prototypeDoc.AddMember("MapHeight", value, allocator);
+
+		value.SetInt(_mapWidth);
+		prototypeDoc.AddMember("MapWidth", value, allocator);
+
+		value.SetArray();
 		{
-			rapidjson::Value value;
-			value.SetInt(_mapHeight);
-			tileMapObject.AddMember("Height", value, levelDoc.Allocator());
+			for (size_t height = 0; height < _mapHeight; height++)
+			{
+				for (size_t width = 0; width < _mapWidth; width++)
+				{
+					value.PushBack(rapidjson::Value(_tilemapInput[height][width]).Move(), allocator);
+				}
+			}
+			prototypeDoc.AddMember("TileMap", value, allocator);
+		}
+	}
 
-			value.SetInt(_mapWidth);
-			tileMapObject.AddMember("Width", value, levelDoc.Allocator());
 
-			//value.SetArray();
-			//{
-			//	for (auto& palettePair : palette)
-			//	{
-			//		rapidjson::Value ArrayPair;
-			//		ArrayPair.SetArray();
-			//		ArrayPair.PushBack(rapidjson::Value(palettePair.first).Move(), levelDoc.Allocator());
-			//		ArrayPair.PushBack(rapidjson::StringRef(palettePair.second.c_str()), levelDoc.Allocator());
 
-			//		value.PushBack(ArrayPair, levelDoc.Allocator());
-			//	}
-			//	tileMapObject.AddMember("Palette", value, levelDoc.Allocator());
-			//}
+	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override
+	{
+		TileMapComponent* tileMapComponent = dynamic_cast<TileMapComponent*>(protoCom);
 
-			value.SetArray();
+		if (!tileMapComponent)
+		{
+			DeSerialiseComponent(value, allocator);
+			return;
+		}
+
+		rapidjson::Value enable;
+		rapidjson::Value mapHeight;
+		rapidjson::Value mapWidth;
+
+
+		bool addComponentIntoSceneFile = false;
+
+		if (tileMapComponent->GetEnable() != this->GetEnable())
+		{
+			addComponentIntoSceneFile = true;
+			enable.SetBool(GetEnable());
+		}
+
+		if (tileMapComponent->_mapHeight != this->_mapHeight)
+		{
+			addComponentIntoSceneFile = true;
+			mapHeight.SetBool(_mapHeight);
+		}
+
+		if (tileMapComponent->_mapWidth != this->_mapWidth)
+		{
+			addComponentIntoSceneFile = true;
+			mapWidth.SetBool(_mapWidth);
+		}
+
+		//if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+		{
+			if (!enable.IsNull())
+				value.AddMember("TileMapComponent", enable, allocator);
+			else
+				value.AddMember("TileMapComponent", tileMapComponent->GetEnable(), allocator);
+
+			if (!mapHeight.IsNull())	//if rapidjson::value container is not empty
+			{
+				value.AddMember("MapHeight", mapHeight, allocator);
+			}
+
+			if (!mapWidth.IsNull())	//if rapidjson::value container is not empty
+			{
+				value.AddMember("MapWidth", mapWidth, allocator);
+			}
+
+			DeserialNodeMap();
+
+			rapidjson::Value tilemap;
+			tilemap.SetArray();
 			{
 				for (size_t height = 0; height < _mapHeight; height++)
 				{
 					for (size_t width = 0; width < _mapWidth; width++)
 					{
-						//value.PushBack(rapidjson::StringRef(_tilemap[height][width].c_str()), levelDoc.Allocator());
+						value.PushBack(rapidjson::Value(_tilemapInput[height][width]).Move(), allocator);
 					}
 				}
-				tileMapObject.AddMember("TileMap", value, levelDoc.Allocator());
+				value.AddMember("TileMap", tilemap, allocator);
 			}
 		}
-
-
-		levelDoc["AllTileMaps"].PushBack(tileMapObject, levelDoc.Allocator());
 	}
-	void Inspect() override
+
+
+	void Inspect() override;
+
+	bool GetTurnOnTileMap()
 	{
-		//Add Palette button - when pressed new palette button will appear
-		//Imgui::buttons for each palette type - when pressed, palette texture will appear, and can snap to position on screen 
-
-		//Remove Palette button - must have textbox to remove all such tile
-		ImGui::Spacing();
-		ImGui::InputInt("Height ", &_mapHeight);
-		ImGui::Spacing();
-		ImGui::InputInt("Width ", &_mapWidth);
+		return turnOnTileMap;
 	}
-	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override { return; }
 
 	TileMapComponent* CloneComponent()
 	{
@@ -149,6 +260,7 @@ public:
 	//{
 	//	return _tilesize;
 	//}
+
 
 	void CalcTileSize();
 	void CalcOffset();

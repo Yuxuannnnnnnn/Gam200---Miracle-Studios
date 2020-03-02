@@ -15,11 +15,6 @@ Factory::~Factory()
 	_componentMap.clear();
 }
 
-GameObject* Factory::BuildAndSerialize(const std::string& filename)
-{
-	(void)filename;
-	return nullptr;
-}
 
 GameObject* Factory::CloneGameObject(GameObject* gameobject)
 {
@@ -970,4 +965,23 @@ void Factory::SetNewScene()
 std::unordered_map<std::string, ComponentCreator*>& Factory::GetComponentList()
 {
 	return _componentMap;
+}
+
+void Factory::SaveNewLinkID(int Id, size_t objectUId)
+{
+	_objectLinkMap.insert({ Id,objectUId });
+}
+
+GameObject* Factory::GetLinkIDObject(int Id)
+{
+	if (!Id)
+		return nullptr;
+
+	if (_objectLinkMap.find(Id) == _objectLinkMap.end())
+		return nullptr;
+
+	if (MyFactory.getObjectlist().find(_objectLinkMap[Id]) == MyFactory.getObjectlist().end())
+		return nullptr;
+
+	return MyFactory.getObjectlist()[_objectLinkMap[Id]];
 }

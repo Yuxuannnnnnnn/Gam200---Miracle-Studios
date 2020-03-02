@@ -26,8 +26,6 @@
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\FontComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\GraphicComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Graphic\TransformComponent.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\Logic\AiComponent.cpp" />
-    <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\IScript.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\LogicComponent.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.cpp" />
@@ -123,7 +121,6 @@
     <ClCompile Include="Src\Engine\SystemPhysics\Collision_Dynamic.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\Collision_Response.cpp" />
     <ClCompile Include="Src\Engine\SystemPhysics\Collision_OldCode.cpp" />
-    <ClCompile Include="Src\Engine\LinkingFactory.cpp" />
     <ClCompile Include="Src\Script\HealthController.cpp" />
     <ClCompile Include="Src\Script\ShieldSkill.cpp" />
     <ClCompile Include="Src\Script\MouseCursor.cpp" />
@@ -133,6 +130,7 @@
     <ClCompile Include="Src\Script\RegisterLink.cpp" />
     <ClCompile Include="Src\Script\HitEffect.cpp" />
     <ClCompile Include="Src\Script\SplashScreen.cpp" />
+    <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -456,8 +454,6 @@
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\FontComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\GraphicComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\TransformComponent.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\Logic\AiComponent.h" />
-    <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\IScript.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\LogicComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Physic\BoxCollider2DComponent.h" />
@@ -472,8 +468,6 @@
     <ClInclude Include="Src\Engine\GameObject\Components\TileMapComponent.h" />
     <ClInclude Include="Src\Engine\GameObject\ComponentManager.h" />
     <ClInclude Include="Src\Engine\GameObject\GameObject.h" />
-    <ClInclude Include="Src\Engine\GameObject\IAllocator.h" />
-    <ClInclude Include="Src\Engine\GameObject\IAllocator.hpp" />
     <ClInclude Include="Src\Engine\GameObject\IComponent.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\Animation.h" />
     <ClInclude Include="Src\Engine\SystemAnimation\AnimationSystem.h" />
@@ -545,7 +539,6 @@
     <ClInclude Include="Src\Engine\GameObject\ComponentCreator.h" />
     <ClInclude Include="Src\Engine\GameObject\ComponentTypeId.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Graphic\UIComponent.h" />
-    <ClInclude Include="Src\Engine\ISystem.h" />
     <ClInclude Include="Src\Engine\SystemPhysics\BoundingBox.h" />
     <ClInclude Include="Src\Engine\SystemLogic\ScriptSystem\LuaScriptTest.h" />
     <ClInclude Include="Src\Engine\SystemParticle\ParticleSystem.h" />
@@ -568,7 +561,6 @@
     <ClInclude Include="Src\Engine\Editor\AnimationImguiWindow.h" />
     <ClInclude Include="Src\Script\PickUps.h" />
     <ClInclude Include="Src\Script\Boss.h" />
-    <ClInclude Include="Src\Engine\LinkingFactory.h" />
     <ClInclude Include="Src\Script\HealthController.h" />
     <ClInclude Include="Src\Script\ShieldSkill.h" />
     <ClInclude Include="Src\Script\MouseCursor.h" />
@@ -578,6 +570,7 @@
     <ClInclude Include="Src\Script\RegisterLink.h" />
     <ClInclude Include="Src\Script\HitEffect.h" />
     <ClInclude Include="Src\Script\SplashScreen.h" />
+    <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />

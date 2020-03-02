@@ -210,6 +210,30 @@ void InspectionImguiWindow::Update()
 	}
 
 }
+
+
+void InspectionImguiWindow::SetTileMapEditor(bool set)
+{
+	if (set) //If true
+	{
+		TileMapEditor = set; //set to True
+	}
+	else
+	{
+		TileMapEditor = set; //Set to false
+
+		for (auto& tilemap : GetComponentMap(TileMap))
+		{
+			TileMapComponent * TMCom = (TileMapComponent *)(tilemap.second);
+			if (TMCom->GetTurnOnTileMap()) //If true
+			{
+				TileMapEditor = true;
+			}
+		}
+	}
+}
+
+
 void InspectionImguiWindow::InspectGameObject(GameObject* inspectObj)
 {
 	_componentSelected = 0;
