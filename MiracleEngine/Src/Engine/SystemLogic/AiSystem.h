@@ -20,8 +20,13 @@ class AISystem
 private:
 	bool _init;
 	double _timer, _timeCooldown;
-	GameObject* NodeMap;
-
+	GameObject* NodeMapGO;
+	size_t NodeMapGOId;
+private: // copy of values taken from NodeMapGO
+	Vector3 _mapTileSize;
+	int _mapHeight,_mapWidth;
+	int** _tilemapId;
+	std::unordered_map < int, Node* > _tileNodeMap;
 public:
 	AISystem();
 	~AISystem() = default;
@@ -34,6 +39,7 @@ public:
 	void Exit();
 
 // PathFinding
+	void UpdateNodeMapGO(); // call this when NodeMap is changed
 	std::vector<Node*> PathFinding(Vector3 curr, Vector3 dest); // GO will call this function
 
 	//std::vector<Node*> PathFinding(Vector3& _curr, Vector3& _dest);

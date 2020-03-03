@@ -463,3 +463,34 @@ void TileMapComponent::Inspect()
 
 
 }
+
+
+
+void TileMapComponent::SetMapHeight(int in)
+{
+	_mapHeight = in;
+}
+int TileMapComponent::GetMapHeight()
+{
+	return _mapHeight;
+}
+void TileMapComponent::SetMapWidth(int in)
+{
+	_mapWidth = in;
+}
+int TileMapComponent::GetMapWidth()
+{
+	return _mapWidth;
+}
+Vector3 TileMapComponent::GetTilesize()
+{
+	return _tilesize;
+}
+int** TileMapComponent::GetTilemapId()
+{
+	return _tilemapId;
+}
+std::unordered_map < int, Node* > TileMapComponent::GetNodeMap()
+{
+	return _tileNodeMap;
+}

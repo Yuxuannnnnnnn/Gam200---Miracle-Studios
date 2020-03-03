@@ -272,5 +272,14 @@ public:
 	void ResizeNodeMap(Vector3 newScale);
 	void EditNodeMap(int newHeight, int newWidth);
 	void ToggleNodeSolidity(float x, float y);
+
+// GetSet
+	void SetMapHeight(int in);
+	int GetMapHeight();
+	void SetMapWidth(int in);
+	int GetMapWidth();
+	Vector3 GetTilesize();
+	int** GetTilemapId();
+	std::unordered_map < int, Node* > GetNodeMap();
 };
 
