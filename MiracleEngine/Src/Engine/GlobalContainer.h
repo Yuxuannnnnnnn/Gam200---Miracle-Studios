@@ -82,7 +82,7 @@ public:
 		_imGuizmoManager = new ImGuizmoManager();
 		_imguiSystem = new ImguiSystem(_windowSystem->getWindow());
 
-		_resourceManager = new ResourceManager(false);
+		_resourceManager = new ResourceManager(true);
 #else
 		_resourceManager = new ResourceManager();
 #endif

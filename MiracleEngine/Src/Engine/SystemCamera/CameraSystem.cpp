@@ -234,6 +234,14 @@ const Vector3& CameraSystem::GetMainCameraPos() const
 
 void CameraSystem::FindMainCamera()
 {
+	if (_mainCameraUId)
+	{
+		CameraComponent* obj = (CameraComponent*)GetComponentMap(Camera)[_mainCameraUId];
+
+		if (obj && obj->GetEnable())
+			return;
+	}
+
 	for (auto& it : GetComponentMap(Camera))
 	{
 		if (!it.second)

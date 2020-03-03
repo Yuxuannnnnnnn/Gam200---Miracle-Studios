@@ -5,8 +5,7 @@ IComponent::IComponent()
 	:
 	_ParentPtr{ nullptr },
 	_ParentId{ 0 },
-	_enable{ true },
-	_init{ false }
+	_enable{ true }
 {}
 
 

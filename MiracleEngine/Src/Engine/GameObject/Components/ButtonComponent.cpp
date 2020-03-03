@@ -29,6 +29,15 @@ void ButtonComponent::Init()
 {
 	_transform = (TransformComponent*)GetComponentMap(Transform)[GetParentId()];
 	_graphic = (UIComponent*)GetComponentMap(UI)[this->GetParentId()];
+
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewAudioResource({ _hoveredAudioFileName, MyResourceSystem.GetSoundResourcePath(_hoveredAudioFileName) });
+	MyResourceManager.AddNewAudioResource({ _pressedAudioFileName, MyResourceSystem.GetSoundResourcePath(_pressedAudioFileName) });
+
+	MyResourceManager.AddNewTexture2DResource({ _normalFileName, MyResourceSystem.GetTexture2DResourcePath(_normalFileName) });
+	MyResourceManager.AddNewTexture2DResource({ _hoveredFileName, MyResourceSystem.GetTexture2DResourcePath(_hoveredFileName) });
+	MyResourceManager.AddNewTexture2DResource({ _pressedFileName, MyResourceSystem.GetTexture2DResourcePath(_pressedFileName) });
+#endif // LEVELEDITOR
 }
 
 void ButtonComponent::Inspect()

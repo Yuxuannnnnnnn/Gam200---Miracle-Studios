@@ -8,6 +8,7 @@
   "Scale": [ 60.0, 60.0, 1.0 ],
   "Rotate": 0.0,
   "PivotPosition": [ 0.0, 0.0, 0.0 ],
+
   "LogicComponent": true,
   "Script2Id": [ "Bullet" ],
   "Script2Data": [
@@ -17,6 +18,7 @@
       "BulletSpeed": 0.5
     }
   ],
+
   "GraphicsComponent": true,
   "G.FileName": "Bullet.png",
   "G.Shader": "",

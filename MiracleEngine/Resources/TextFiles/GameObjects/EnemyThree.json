@@ -1,1 +1,26 @@
-{"IdentityComponent":true,"ObjectType":"EnemyThree","Name":"none","TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"Enemies_charging.png","G.Shader":"","G.Layer":1,"AnimationComponent":true,"AnimationTypes":[{"AnimationType":"EnemyThree_Charge.json","TimeDelay":0.0,"AnimationName":"ChargeAtack"},{"AnimationType":"EnemyThree_Explode.json","TimeDelay":0.0,"AnimationName":"Death"}],"StartAnim":""}
+{
+  "IdentityComponent": true,
+  "ObjectType": "EnemyThree",
+  "Name": "none",
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Rotate": 0.0,
+  "GraphicsComponent": true,
+  "G.FileName": "Enemies_charging.png",
+  "G.Shader": "",
+  "G.Layer": 1,
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "EnemyThree_Charge.json",
+      "TimeDelay": 0.0,
+      "AnimationName": "ChargeAtack"
+    },
+    {
+      "AnimationType": "EnemyThree_Explode.json",
+      "TimeDelay": 0.0,
+      "AnimationName": "Death"
+    }
+  ],
+  "StartAnim":""}

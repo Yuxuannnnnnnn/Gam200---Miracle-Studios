@@ -18,7 +18,7 @@ public:
 
 	void Update(float dt); ///Update the factory, destroying dead objects.
 	
-	void ReInitScene();
+	void InitScene();
 	void UpdateScene();
 	void ChangeScene(const std::string& scene);
 
@@ -28,8 +28,7 @@ public:
 
 	void SerialiseLevel(std::string FileName);		//Read LevelText and Instantiate GObj //Level is read when NextGameState is In-GameState
 
-	void DeleteLevel();								//Level is Deleted when out of In-GameState
-	void DeleteLevelNotPrefab();
+	void ClearLevel();				
 	void De_SerialiseLevel(std::string filename);
 	void WindowsDialogSaveLevel();
 

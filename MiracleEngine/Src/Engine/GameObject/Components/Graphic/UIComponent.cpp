@@ -27,3 +27,9 @@ std::string UIComponent::ComponentName() const
 	return "UI Component";
 }
 
+void UIComponent::Init()
+{
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewTexture2DResource({ _fileName, MyResourceSystem.GetTexture2DResourcePath(_fileName) });
+#endif // LEVELEDITOR
+}

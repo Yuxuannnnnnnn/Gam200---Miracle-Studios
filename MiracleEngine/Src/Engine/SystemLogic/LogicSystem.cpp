@@ -133,6 +133,18 @@ std::unordered_map<size_t, IScript2*>& LogicSystem::GetScriptList()
 	return _scriptList;
 }
 
+
+IScript2* LogicSystem::getScriptPtr(size_t uID)
+{
+	if (_scriptList.find(uID) != _scriptList.end())
+	{
+		return _scriptList[uID];
+	}
+
+	return nullptr;
+}
+
+
 std::unordered_map<std::string, ScriptCreator*>& LogicSystem::GetScriptTypeMap()
 {
 	return _scriptTypeMap;

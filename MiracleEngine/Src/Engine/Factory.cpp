@@ -8,10 +8,11 @@ Factory::Factory() :
 
 Factory::~Factory()
 {
+	ClearLevel();
+
 	//Delete all component creators
 	for (auto& itr : _componentMap)
 		delete itr.second;
-
 	_componentMap.clear();
 }
 
@@ -765,20 +766,19 @@ void Factory::WindowsDialogSaveLevel()
 	}
 }
 
-void Factory::DeleteLevel()
-{
-	MyResourceManager.ClearAllResources();
-
-	DeleteLevelNotPrefab();
-}
-
-void Factory::DeleteLevelNotPrefab()
+void Factory::ClearLevel()
 {
 	for (auto it : _gameObjectIdMap)
 		delete it.second;
 	_gameObjectIdMap.clear();
 
+	_objectsToBeDeleted.clear();
+
+	_objectLinkMap.clear();
+
 	MyComponentManger.ClearAllComponents();
+
+	MyResourceManager.ClearAllResources();
 }
 
 //For GamePlay 
@@ -854,48 +854,58 @@ void Factory::UpdateScene()
 	_prevScene = _currentScene;
 	_lastGameObjectId = 0;
 
-#ifdef LEVELEDITOR //for Level editor Mode
-	MyFactory.DeleteLevelNotPrefab();
-	MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
 
+	MyFactory.ClearLevel();
+
+#ifdef LEVELEDITOR //for Level editor Mode
+	MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
 #else	//for GamePlay mode
-	MyFactory.DeleteLevel();
 	MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
 #endif
 
-	ReInitScene();
+	InitScene();
 }
 
-void Factory::ReInitScene()
+void Factory::InitScene()
 {
-	for (auto& it : GetComponentMap(Transform))
-	{
-		if (!it.second)
-			continue;
-
-		it.second->Init();
-	}
 	for (auto& it : GetComponentMap(Identity))
-	{
-		if (!it.second)
-			continue;
 		it.second->Init();
-	}
-	for (auto& it : GetComponentMap(Button))
-	{
-		if (!it.second)
-			continue;
+
+	for (auto& it : GetComponentMap(Transform))
 		it.second->Init();
-	}
 
 	for (auto& it : GetComponentMap(Graphic))
-	{
-		if (!it.second)
-			continue;
 		it.second->Init();
-	}
 
+	for (auto& it : GetComponentMap(Animation))
+		it.second->Init();
 
+	for (auto& it : GetComponentMap(Camera))
+		it.second->Init();
+
+	for (auto& it : GetComponentMap(Font)) // not done
+		it.second->Init();
+
+	/*for (auto& it : GetComponentMap(RigidBody2D))
+		it.second->Init();
+
+	for (auto& it : GetComponentMap(CircleCollider2D))
+		it.second->Init();
+
+	for (auto& it : GetComponentMap(BoxCollider2D))
+		it.second->Init();
+
+	for (auto& it : GetComponentMap(EdgeCollider2D))
+		it.second->Init();*/
+
+	for (auto& it : GetComponentMap(Audio))
+		it.second->Init();
+
+	for (auto& it : GetComponentMap(Button))
+		it.second->Init();
+
+	for (auto& it : GetComponentMap(UI))
+		it.second->Init();
 
 	MyCameraSystem.Init();
 	MyLogicSystem.Init();
@@ -959,7 +969,7 @@ void Factory::SetNewScene()
 {
 	_lastGameObjectId = 0;
 	_currentScene = "";
-	DeleteLevelNotPrefab();
+	MyFactory.ClearLevel();
 }
 
 std::unordered_map<std::string, ComponentCreator*>& Factory::GetComponentList()

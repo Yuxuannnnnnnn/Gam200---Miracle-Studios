@@ -5,6 +5,8 @@
 
 LogicComponent::LogicComponent()
 {};
+
+
 LogicComponent::~LogicComponent()
 {
 	// delete IScript2
@@ -37,83 +39,122 @@ std::string LogicComponent::ComponentName() const
 
 void LogicComponent::SerialiseComponent(Serialiser& document)
 {
-	if (document.HasMember("ScriptId") && document["ScriptId"].IsArray())	//Checks if the variable exists in .Json file
-		for (unsigned i = 0; i < document["ScriptId"].Size(); i++)
-		{
-			if (document["ScriptId"][i].IsString())
-			{
-				std::string str = (document["ScriptId"][i].GetString());
-				AddScript(str);
-			}
-		}
+	//if (document.HasMember("ScriptId") && document["ScriptId"].IsArray())	//Checks if the variable exists in .Json file
+	//	for (unsigned i = 0; i < document["ScriptId"].Size(); i++)
+	//	{
+	//		if (document["ScriptId"][i].IsString())
+	//		{
+	//			std::string str = (document["ScriptId"][i].GetString());
+	//			AddScript(str);
+	//		}
+	//	}
 
-	if (document.HasMember("Script2Id") && document["Script2Id"].IsArray() &&
-		document.HasMember("Script2Data") && document["Script2Data"].IsArray())	//Checks if the variable exists in .Json file
-		for (unsigned i = 0; i < document["Script2Id"].Size(); i++)
-		{
-			if (document["Script2Id"][i].IsString())
-			{
-				IScript2* script = AddScript2(document["Script2Id"][i].GetString());
+	if (document.HasMember("LogicComponent") && document["LogicComponent"].IsBool())
+		SetEnable(document["LogicComponent"].GetBool());
 
-				Serialiser datafile(document["Script2Data"][i]);
-				script->SerialiseComponent(datafile);
-			}
+	if (document.HasMember("Scripts") && document["Scripts"].IsArray())
+		for (unsigned i = 0; i < document["Scripts"].Size(); i++)
+		{
+			Serialiser datafile(document["Scripts"][i]);
+			IScript2* script = AddScript2(datafile["Script2Id"].GetString()); //Add Script to the GameOject
+
+			script->SerialiseComponent(datafile); //Serialise data to script , Iscript will serialise the type
 		}
 }
 
+//For Prototypes
 void LogicComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 	rapidjson::Value value;
 
-	value.SetBool(true);
-	prototypeDoc.AddMember("LogicComponent", rapidjson::Value(true));
+	value.SetBool(GetEnable());
+	prototypeDoc.AddMember("LogicComponent", value);
 
-	for (auto script2id : ((LogicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScriptContianer())
-		for (auto script2ptrs : _engineSystems._logicSystem->GetScriptList(GetParentId()))
-			script2ptrs->DeSerialiseComponent(prototypeDoc);
 
 	value.SetArray();
-	for (auto& scriptPair : _ScriptIds)
+	for (auto& script : _scriptContianer) //For every Script in this Object
 	{
-		//value.PushBack(rapidjson::Value(scriptPair.first).Move(), prototypeDoc.Allocator());
-	}
+		rapidjson::Value Object;
+		Object.SetObject();
 
-	prototypeDoc.AddMember("ScriptId", value);
+		IScript2* script2ptrs = MyLogicSystem.getScriptPtr(script.second);
+		script2ptrs->DeSerialiseComponent(Object, prototypeDoc.GetAllocator()); //Sent in an array and an allocator
+																		//Add Each Scriptdata as an object in the array
+																				//Scripts do not need to have the original Deserialise function
+		value.PushBack(Object, prototypeDoc.GetAllocator());
+	}
+	prototypeDoc.AddMember("Scripts", value);
 }
 
+//For nonclonables
 void LogicComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
 	rapidjson::Value value;
 
-	value.SetBool(true);
-	prototypeDoc.AddMember("LogicComponent", rapidjson::Value(true), allocator);
+	value.SetBool(GetEnable());
+	prototypeDoc.AddMember("LogicComponent", value, allocator);
 
-	for (auto script2id : ((LogicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScriptContianer())
-		for (auto script2ptrs : _engineSystems._logicSystem->GetScriptList(GetParentId()))
-			script2ptrs->DeSerialiseComponent(prototypeDoc, allocator);
 
 	value.SetArray();
-	for (auto& scriptPair : _ScriptIds)
+	for (auto& script : _scriptContianer) //For every Script in this Object
 	{
-		//value.PushBack(rapidjson::Value(scriptPair.first).Move(), prototypeDoc.Allocator());
-	}
+		rapidjson::Value Object;
+		Object.SetObject();
 
-	prototypeDoc.AddMember("ScriptId", value, allocator);
+		IScript2* script2ptrs = MyLogicSystem.getScriptPtr(script.second);
+		script2ptrs->DeSerialiseComponent(Object, allocator); //Sent in an array and an allocator
+																		//Add Each Scriptdata as an object in the array
+																				//Scripts do not need to have the original Deserialise function
+		value.PushBack(Object, allocator);
+	}																		
+
+
+	prototypeDoc.AddMember("Scripts", value, allocator);
 }
 
+//For clonables
 void LogicComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
 	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
 
-	if (!protoLogicCom)
+	if (!protoLogicCom) //If there is no such component in the prototype Object
 	{
 		DeSerialiseComponent(value, allocator);
 		return;
 	}
 
-	for (auto script2id : ((LogicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScriptContianer())
-		for (auto script2ptrs : _engineSystems._logicSystem->GetScriptList(GetParentId()))
-			script2ptrs->DeserialiseComponentSceneFile(protoCom, value, allocator);
+	rapidjson::Value enable;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (protoLogicCom->GetEnable() != this->GetEnable())
+	{
+		addComponentIntoSceneFile = true;
+		enable.SetBool(GetEnable());
+	}
+
+	if (!enable.IsNull())
+		value.AddMember("LogicComponent", enable, allocator);
+	else
+		value.AddMember("LogicComponent", protoLogicCom->GetEnable(), allocator);
+
+
+	rapidjson::Value Array;
+	Array.SetArray();
+
+	for (auto script : _scriptContianer)
+	{
+		rapidjson::Value Object;
+		Object.SetObject();
+
+		IScript2* script2ptrs = MyLogicSystem.getScriptPtr(script.second);
+
+		script2ptrs->DeserialiseComponentSceneFile(protoCom, Object, allocator); //Compare data for each script between prototype and this object
+		Array.PushBack(Object, allocator);
+	}
+
+	value.AddMember("Scripts", Array, allocator);
+
 }
 
 void LogicComponent::Inspect()
