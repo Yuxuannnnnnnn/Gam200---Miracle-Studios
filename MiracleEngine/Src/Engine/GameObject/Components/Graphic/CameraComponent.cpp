@@ -59,3 +59,108 @@ void CameraComponent::SetMainCamera(bool main)
 			_isCurrentCamera = false;
 	}
 }
+
+void CameraComponent::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("CameraComponent") && document["CameraComponent"].IsBool())
+		SetEnable(document["CameraComponent"].GetBool());
+
+	if (document.HasMember("isCurrentCamera"))
+	{
+		_isCurrentCamera = document["isCurrentCamera"].GetBool();
+
+		SetMainCamera(_isCurrentCamera);
+	}
+
+	if (document.HasMember("cameraZoom"))
+	{
+		_cameraZoom = document["cameraZoom"].GetFloat();
+	}
+}
+
+void CameraComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	value.SetBool(GetEnable());
+	prototypeDoc.AddMember("CameraComponent", value);
+
+	value.SetBool(true);
+	prototypeDoc.AddMember("isCurrentCamera", rapidjson::Value(true));
+
+	value.SetFloat(_cameraZoom);
+	prototypeDoc.AddMember("cameraZoom", value);
+}
+
+
+void CameraComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	rapidjson::Value value;
+
+	value.SetBool(GetEnable());
+	prototypeDoc.AddMember("CameraComponent", value, allocator);
+
+	value.SetBool(true);
+	prototypeDoc.AddMember("isCurrentCamera", rapidjson::Value(true), allocator);
+
+	value.SetFloat(_cameraZoom);
+	prototypeDoc.AddMember("cameraZoom", value, allocator);
+}
+
+
+void CameraComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	//value.AddMember("CameraComponent", rapidjson::Value(true), allocator);
+	CameraComponent* protoTransformCom = dynamic_cast<CameraComponent*>(protoCom);
+
+	if (!protoTransformCom)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+
+	bool addComponentIntoSceneFile = false;
+
+	rapidjson::Value enable;
+	rapidjson::Value currentCamera;
+	rapidjson::Value cameraZoom;
+
+	if (protoTransformCom->GetEnable() != this->GetEnable())
+	{
+		addComponentIntoSceneFile = true;
+		enable.SetBool(GetEnable());
+	}
+
+	if (protoTransformCom->_isCurrentCamera != _isCurrentCamera)
+	{
+		currentCamera.SetBool(_isCurrentCamera);
+		addComponentIntoSceneFile = true;
+
+	}
+
+	if (protoTransformCom->_cameraZoom != _cameraZoom)
+	{
+		cameraZoom.SetFloat(_cameraZoom);
+		addComponentIntoSceneFile = true;
+	}
+
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		if (!enable.IsNull())
+			value.AddMember("CameraComponent", enable, allocator);
+		else
+			value.AddMember("CameraComponent", protoTransformCom->GetEnable(), allocator);
+
+		if (!currentCamera.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("Position", currentCamera, allocator);
+		}
+
+		if (!cameraZoom.IsNull())
+		{
+			value.AddMember("cameraZoom", cameraZoom, allocator);
+		}
+	}
+}

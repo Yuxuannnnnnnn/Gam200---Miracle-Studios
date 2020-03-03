@@ -388,4 +388,267 @@ std::string AnimationComponent::ComponentName() const
 }
 
 
+void AnimationComponent::SetAnimationPlaying(bool set)
+{
+	_animationPlaying = set;
+}
 
+//Updates currentTimeDelay, as delay reaches 0, change to another frame
+//When reaches max frame, frame start from 0 again.
+void AnimationComponent::UpdateTimeDelay(float dt)
+{
+	_currentTimeDelay -= dt;
+	if (_currentTimeDelay < 0.0f)
+	{
+		_currentTimeDelay = _timeDelay;
+		_currFrame = _currFrame + 1;
+
+		if (_currFrame > _maxFrame)
+			_currFrame = 0;
+	}
+}
+
+
+// get current playing animation
+std::string& AnimationComponent::GetCurrAnim()
+{
+	return _currentAnim;
+}
+
+Texture2D* AnimationComponent::GetCurrentTexture()
+{
+	if (!_currentAnim.empty())	//If currentAnimation is not empty
+		return _currAnimationResource->GetSpriteSheet();
+	return nullptr;
+}
+
+Animation* AnimationComponent::GetAnimationResource()
+{
+	return _currAnimationResource;
+}
+
+void  AnimationComponent::SetStartFrame()
+{
+	_currFrame = 0;
+}
+
+void  AnimationComponent::SetMaxFrame(int maxFrame)
+{
+	_maxFrame = maxFrame;
+}
+
+void  AnimationComponent::ResetCurrTimeDelay()
+{
+	_currentTimeDelay = _timeDelay;
+}
+
+void  AnimationComponent::SetTimeDelay(std::string AnimationName)
+{
+	if (_animations.find(AnimationName) != _animations.end())
+	{
+		_timeDelay = _animations[AnimationName];
+		return;
+	}
+
+	return;
+	throw std::exception{ "Does not have AnimationType" };
+}
+
+void  AnimationComponent::setCurrentAnimation(std::string AnimationName)
+{
+	if (animationFileNameList.find(AnimationName) != animationFileNameList.end())
+	{
+		_currentAnim = animationFileNameList[AnimationName];
+		return;
+	}
+
+	return;
+	throw std::exception{ "Does not have AnimationType" };
+}
+
+void  AnimationComponent::SetAnimationResource()
+{
+	_currAnimationResource = MyResourceSystem.GetAnimationResource(_currentAnim);
+}
+
+const std::map<AnimationComponent::AnimationName, AnimationComponent::AnimationFile>& AnimationComponent::GetAnimationDataFileList() const
+{
+	return animationFileNameList;
+}
+
+void  AnimationComponent::SerialiseComponent(Serialiser& document)
+{
+	//if (document.HasMember("Type") && document["Type"].IsString())
+	//{
+	//	_type = document["Type"].GetString();
+	//}
+
+	_animations.clear();
+	animationFileNameList.clear();
+
+	if (document.HasMember("AnimationComponent") && document["AnimationComponent"].IsBool())
+		SetEnable(document["AnimationComponent"].GetBool());
+
+	if (document.HasMember("AnimationTypes"))
+	{
+		for (int i = 0; i < document["AnimationTypes"].Size(); i++)
+		{
+			//if (std::find(_animations.begin(), _animations.end(), document["AnimationTypes"][i].GetString()) == _animations.end())
+			//{
+			Serialiser datafile(document["AnimationTypes"][i]);
+
+			_animations.insert(std::pair<AnimationName, timeDelay>(datafile["AnimationName"].GetString(), datafile["TimeDelay"].GetFloat()));
+			animationFileNameList.insert(std::pair<AnimationName, AnimationFile>(datafile["AnimationName"].GetString(), datafile["AnimationType"].GetString()));
+			//}
+		}
+	}
+
+	if (document.HasMember("StartAnim"))
+	{
+		_startingAnim = document["StartAnim"].GetString();
+		SetCurrentAnim(_startingAnim);
+	}
+
+	//_currAnimation = MyResourceManager.GetAnimationResource(_startingAnim);
+}
+
+
+void  AnimationComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	rapidjson::Value value;
+
+	if (!animationFileNameList.empty())
+	{
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("AnimationComponent", value);
+
+
+		value.SetArray();
+		{
+			rapidjson::Value object;
+			for (auto& anim : _animations)
+			{
+				object.SetObject();
+				object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), prototypeDoc.Allocator());
+				object.AddMember("TimeDelay", rapidjson::Value(anim.second), prototypeDoc.Allocator());
+				object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), prototypeDoc.Allocator());
+
+				value.PushBack(object, prototypeDoc.Allocator());
+			}
+			prototypeDoc.AddMember("AnimationTypes", value);
+		}
+
+		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+		prototypeDoc.AddMember("StartAnim", value);
+	}
+
+
+}
+
+
+void  AnimationComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	rapidjson::Value value;
+
+
+	if (!animationFileNameList.empty())
+	{
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("AnimationComponent", value, allocator);
+
+
+		value.SetArray();
+		{
+			rapidjson::Value object;
+			for (auto& anim : _animations)
+			{
+				object.SetObject();
+				object.AddMember("AnimationType", rapidjson::StringRef(animationFileNameList[anim.first].c_str()), allocator);
+				object.AddMember("TimeDelay", rapidjson::Value(anim.second), allocator);
+				object.AddMember("AnimationName", rapidjson::StringRef(anim.first.c_str()), allocator);
+
+
+				value.PushBack(object, allocator);
+			}
+			prototypeDoc.AddMember("AnimationTypes", value, allocator);
+		}
+
+		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
+		prototypeDoc.AddMember("StartAnim", value, allocator);
+	}
+}
+
+void  AnimationComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	AnimationComponent* protoAnimCom = dynamic_cast<AnimationComponent*>(protoCom);
+
+	if (!protoAnimCom)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+
+	bool addComponentIntoSceneFile = false;
+	rapidjson::Value enable;
+	rapidjson::Value animationsList;
+	animationsList.SetArray();
+
+	if (protoAnimCom->GetEnable() != this->GetEnable())
+	{
+		addComponentIntoSceneFile = true;
+		enable.SetBool(GetEnable());
+	}
+
+	for (auto& anim : _animations)
+	{
+		//Search Prototype for animation file, if dont have then add. OR if time delay is different then add the pair
+		//if (protoAnimCom->_animations.find(anim.first) == protoAnimCom->_animations.end() || protoAnimCom->_animations[anim.first] != anim.second)
+		//{
+		addComponentIntoSceneFile = true;
+		rapidjson::Value Obj;
+		Obj.SetObject();
+
+		rapidjson::Value strVal;
+
+		strVal.SetString(animationFileNameList[anim.first].c_str(), animationFileNameList[anim.first].length(), allocator);
+		Obj.AddMember("AnimationType", strVal, allocator);
+
+		strVal.SetFloat(anim.second);
+		Obj.AddMember("TimeDelay", strVal, allocator);
+
+		strVal.SetString(anim.first.c_str(), anim.first.length(), allocator);
+		Obj.AddMember("AnimationName", strVal, allocator);
+
+		animationsList.PushBack(Obj, allocator);
+		//}
+	}
+
+	rapidjson::Value startingAnim;
+
+	if (protoAnimCom->_startingAnim.compare(_startingAnim) && !_startingAnim.empty())	//If audiofile of Object is diff from prototype
+	{
+		addComponentIntoSceneFile = true;
+		startingAnim.SetString(_startingAnim.c_str(), _startingAnim.length(), allocator);
+	}
+
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		if (!enable.IsNull())
+			value.AddMember("AnimationComponent", enable, allocator);
+		else
+			value.AddMember("AnimationComponent", protoAnimCom->GetEnable(), allocator);
+
+
+		if (!animationsList.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("AnimationTypes", animationsList, allocator);
+		}
+
+		if (!startingAnim.IsNull())
+		{
+			value.AddMember("StartAnim", startingAnim, allocator);
+		}
+	}
+}
