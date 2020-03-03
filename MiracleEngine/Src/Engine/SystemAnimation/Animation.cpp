@@ -32,7 +32,8 @@ bool Animation::load(const std::string& path)	//Serialise
 	if (file.HasMember("SpriteSheetName"))
 	{
 		strncpy(spriteSheetName, file["SpriteSheetName"].GetString(), 128);
-		spriteSheet = MyResourceSystem.GetTexture2DResource(spriteSheetName);
+		MyResourceManager.AddNewTexture2DResource({ spriteSheetName,MyResourceSystem.GetTexture2DResourcePath(spriteSheetName) });
+		spriteSheet = MyResourceManager.GetTexture2DResource(spriteSheetName);
 	}
 	NumOfFrames = file["NoofFrames"].GetInt();
 
@@ -80,6 +81,8 @@ void Animation::unload()
 	(*frame).clear();
 
 	delete frame;
+
+	delete spriteSheetName;
 }
 
 Frame* Animation::GetCurrFrame(int currentFrame)

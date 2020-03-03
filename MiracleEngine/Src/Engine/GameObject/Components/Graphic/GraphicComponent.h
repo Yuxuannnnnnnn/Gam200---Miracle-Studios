@@ -31,8 +31,6 @@ private:
 
 	int _layer;
 
-
-
 	float u0, v0;
 	float u1, v1;
 

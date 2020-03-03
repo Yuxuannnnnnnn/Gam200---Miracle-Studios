@@ -53,9 +53,9 @@ public:
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator);
 	//SceneFile Sent in must be Document[ClonableObjects][objectfile or i]
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator);
-
-
 	void Inspect() override;
+
+	void Init() override;
 
 	AudioComponent();
 	~AudioComponent() = default;

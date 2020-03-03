@@ -22,6 +22,8 @@ public:
 
 	virtual void Inspect() override;
 
+	void Init() override;
+
 
 	CameraComponent* CloneComponent() { return new CameraComponent(*this); }
 

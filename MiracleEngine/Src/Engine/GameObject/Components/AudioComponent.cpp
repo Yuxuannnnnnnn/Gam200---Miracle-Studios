@@ -832,3 +832,14 @@ void AudioComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 		}
 	}
 }
+
+void AudioComponent::Init()
+{
+#ifdef LEVELEDITOR
+	for (auto& it : SFXList)
+		MyResourceManager.AddNewAudioResource({ std::get<0>(it.second), MyResourceSystem.GetSoundResourcePath(std::get<0>(it.second)) });
+
+	for (auto& it : BackgroundSoundList)
+		MyResourceManager.AddNewLoopAudioResource({ std::get<0>(it.second), MyResourceSystem.GetLoopSoundResourcePath(std::get<0>(it.second)) });
+#endif // LEVELEDITOR
+}

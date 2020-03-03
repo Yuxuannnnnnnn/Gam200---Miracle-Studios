@@ -164,3 +164,9 @@ void CameraComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidj
 		}
 	}
 }
+
+void CameraComponent::Init()
+{
+	if (_isCurrentCamera && GetEnable())
+		MyCameraSystem.SetMainCamera(GetParentId());
+}

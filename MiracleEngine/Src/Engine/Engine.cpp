@@ -198,8 +198,7 @@ void Engine::Update()
 //-------------------------------------------------------------------------------------------------------------
 	}
 
-	MyFactory.DeleteLevel();
-	MyFactory.Update(0.0);
+	MyFactory.ClearLevel();
 }
 
 int Engine::Exit()
