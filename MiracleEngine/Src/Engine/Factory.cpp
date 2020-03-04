@@ -908,6 +908,7 @@ void Factory::InitScene()
 		it.second->Init();
 
 	MyCameraSystem.Init();
+	MyGraphicsSystem.Init();
 	MyLogicSystem.Init();
 }
 
