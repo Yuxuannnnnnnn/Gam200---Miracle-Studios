@@ -275,6 +275,16 @@ void GraphicsSystem::Init()
 	std::string temp = "DefaultShader";
 	std::string temp2 = "sector_017";
 
+	_shader = MyResourceManager.GetShaderResource(temp);
+	_fontRenderer = MyResourceManager.GetFontResource(temp2);
+}
+
+void GraphicsSystem::LoadResource()
+{
+	// temp
+	std::string temp = "DefaultShader";
+	std::string temp2 = "sector_017";
+
 #ifdef LEVELEDITOR
 	MyResourceManager.AddNewShaderResource({ temp,{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" } });
 	MyResourceManager.AddNewFontResource({ temp2,"Resources/Fonts/sector_017.ttf" });

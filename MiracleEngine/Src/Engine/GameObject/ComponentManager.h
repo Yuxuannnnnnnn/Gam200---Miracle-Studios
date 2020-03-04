@@ -12,6 +12,8 @@ public:
 	ComponentManager();
 	~ComponentManager();
 
+	void RegisterAllComponent();
+
 	void AddNewComponentContainer(ComponentId tpyeId);
 
 	std::unordered_map<size_t, IComponent*>* GetComponentContainer(ComponentId tpyeId);

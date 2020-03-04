@@ -32,38 +32,41 @@ LogicSystem::~LogicSystem()
 	_scriptList.clear();
 }
 
+LogicSystem::LogicSystem() :
+	_scriptUId{ 0 },
+	enableScript2{ false },
+	_resgister{ false }
+{
+}
+
+void LogicSystem::RegisterAllScript()
+{
+	RegisterScript(Player);
+	RegisterScript(Enemy);
+	RegisterScript(Bullet);
+	RegisterScript(Turret);
+	RegisterScript(Spawner);
+	RegisterScript(Explosion);
+	RegisterScript(PickUps);
+	RegisterScript(ButtonController);
+	RegisterScript(HealthController);
+	RegisterScript(ShieldSkill);
+	RegisterScript(MouseCursor);
+	RegisterScript(EntrancePortal);
+	RegisterScript(PauseMenu);
+	RegisterScript(RegisterLink);
+	RegisterScript(HitEffect);
+	RegisterScript(SplashScreen);
+}
+
 void LogicSystem::Init() {
 	enableScript2 = bUseOldScripting;
 
-	if (!_resgister)
+	for (auto& itr : GetComponentMap(Logic)) 
 	{
-		_resgister = true;
-		RegisterScript(Player);
-		RegisterScript(Enemy);
-		RegisterScript(Bullet);
-		RegisterScript(Turret);
-		RegisterScript(Spawner);
-		RegisterScript(Explosion);
-		RegisterScript(PickUps);
-		RegisterScript(ButtonController);
-		RegisterScript(HealthController);
-		RegisterScript(ShieldSkill);
-		RegisterScript(MouseCursor);
-		RegisterScript(EntrancePortal);
-		RegisterScript(PauseMenu);
-		RegisterScript(RegisterLink);
-		RegisterScript(HitEffect);
-		RegisterScript(SplashScreen);
-	}
-
-	for (auto& itr : GetComponentMap(Logic)) {
-
 		LogicComponent* obj = (LogicComponent*)itr.second;
 
-		if (!obj)
-			continue;
-
-		if (enableScript2)
+		if (obj && enableScript2)
 		{
 			for (auto& itr : obj->GetScriptContianer())
 			{
@@ -74,9 +77,26 @@ void LogicSystem::Init() {
 
 	}
 
-
 	//ScriptSystem.Init();
 }
+
+void LogicSystem::LoadResource()
+{
+	for (auto& itr : GetComponentMap(Logic))
+	{
+		LogicComponent* obj = (LogicComponent*)itr.second;
+
+		if (obj && enableScript2)
+		{
+			for (auto& itr : obj->GetScriptContianer())
+			{
+				_scriptList[itr.second]->LoadResource();
+			}
+		}
+	}
+}
+
+
 void LogicSystem::Update(double dt) {
 	for (auto& itr : GetComponentMap(Logic)) {
 

@@ -44,6 +44,7 @@ public:
 	virtual ~ButtonComponent() = default;
 	
 	virtual void Init() override;
+	virtual void LoadResource() override;
 
 	ButtonComponent& operator=(const ButtonComponent& rhs) = delete;
 

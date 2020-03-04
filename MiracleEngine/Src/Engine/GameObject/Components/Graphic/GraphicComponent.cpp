@@ -336,7 +336,10 @@ void GraphicComponent::Inspect()
 void  GraphicComponent::Init()
 {
 	_alphaVal = 1.0f;
+}
 
+void  GraphicComponent::LoadResource()
+{
 #ifdef LEVELEDITOR
 	MyResourceManager.AddNewTexture2DResource({ _fileName, MyResourceSystem.GetTexture2DResourcePath(_fileName) });
 	MyResourceManager.AddNewShaderResource({ _shader, MyResourceSystem.GetShaderResourcePath(_shader) });

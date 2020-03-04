@@ -29,7 +29,10 @@ void ButtonComponent::Init()
 {
 	_transform = (TransformComponent*)GetComponentMap(Transform)[GetParentId()];
 	_graphic = (UIComponent*)GetComponentMap(UI)[this->GetParentId()];
+}
 
+void ButtonComponent::LoadResource()
+{
 #ifdef LEVELEDITOR
 	MyResourceManager.AddNewAudioResource({ _hoveredAudioFileName, MyResourceSystem.GetSoundResourcePath(_hoveredAudioFileName) });
 	MyResourceManager.AddNewAudioResource({ _pressedAudioFileName, MyResourceSystem.GetSoundResourcePath(_pressedAudioFileName) });

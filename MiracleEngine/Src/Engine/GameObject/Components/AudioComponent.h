@@ -60,6 +60,7 @@ public:
 	void Inspect() override;
 
 	void Init() override;
+	virtual void LoadResource() override;
 
 	AudioComponent();
 	~AudioComponent() = default;

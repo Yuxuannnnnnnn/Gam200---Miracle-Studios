@@ -19,6 +19,7 @@ private:
 public:
 
 	virtual void Init() override;
+	virtual void LoadResource() override;
 
 	std::string ComponentName() const override;
 	void SerialiseComponent(Serialiser& document) override;

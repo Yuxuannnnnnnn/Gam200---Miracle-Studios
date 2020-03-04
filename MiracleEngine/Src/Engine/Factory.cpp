@@ -373,287 +373,131 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 
 //------------------------------------------------------------------------------------------------------
-	//Deserialise Prototypes Resource
-	//- Check through the Identity Components of all Objects
-	//- The ObjectType in the IdentityComponent will be used to save a Prototype
-	//= Get the Prototype file Path from the PrototypeList
+
+	MyResourceManager.ClearAllResources();
+	LoadSceneResource(); // reload all resource into resource manager
+
 
 	typedef std::map<std::string, std::string> NamePath;
-	NamePath PrototypeResourcePathList;
-	rapidjson::Value PrototypesFilePaths;
-	PrototypesFilePaths.SetArray();
+	typedef std::unordered_map<std::string, std::pair<std::string, std::string>> NamePairMap;
 
-
-	for (auto& IdComPair : GetComponentMap(Identity))
+	//Deserialise Prototypes Resource
 	{
-		std::string ObjType = ((IdentityComponent*)IdComPair.second)->ObjectType();
-		//ObjType += ".json";
-		//Object exists in PrototypeAssetList - Save in ClonableObjects list
-		bool add = true;
+		NamePath PrototypeResourcePathList = MyResourceManager.GetPrototypeList();
+		rapidjson::Value PrototypesFilePaths;
+		PrototypesFilePaths.SetArray();
 
-		if (MyResourceSystem.GetPrototypeResource(ObjType))
+		for (auto& prototypeName : PrototypeResourcePathList)
 		{
-			// PrototypeResourceList does not have the prototype yet 
-			for(auto& string: PrototypeResourcePathList)
-			{
-				if (!string.first.compare(ObjType))
-				{
-					add = false;
-					break;
-				}
-			}
-
-			if (add)
-			{
-				std::string FilePath = MyResourceSystem.GetPrototypeResourcePath(ObjType);
-				if (!FilePath.empty())
-				{
-					PrototypeResourcePathList.insert(std::pair<std::string, std::string>(ObjType, FilePath));
-				}
-			}
-
+			rapidjson::Value strVal;
+			strVal.SetString(prototypeName.second.c_str(), prototypeName.second.length(), SceneFile.Allocator());
+			PrototypesFilePaths.PushBack(strVal, SceneFile.Allocator());
 		}
+		//After Going thru the GameObjects list, the PrototypesFilePaths list is finalised
+		SceneFile.AddMember("PrototypesFilePaths", PrototypesFilePaths);
 	}
 
-	for (auto& prototypeName : PrototypeResourcePathList)
+	//Deserialise Textures
 	{
-		rapidjson::Value strVal;
-		strVal.SetString(prototypeName.second.c_str(), prototypeName.second.length(), SceneFile.Allocator());
-		PrototypesFilePaths.PushBack(strVal, SceneFile.Allocator());
+		NamePath TextureResourcePathList = MyResourceManager.GetTexture2DList();
+		rapidjson::Value TextureFilePaths;
+		TextureFilePaths.SetArray();
+
+		for (auto& TextureName : TextureResourcePathList)
+		{
+			rapidjson::Value strVal;
+			strVal.SetString(TextureName.second.c_str(), TextureName.second.length(), SceneFile.Allocator());
+			TextureFilePaths.PushBack(strVal, SceneFile.Allocator());
+		}
+		SceneFile.AddMember("TexturesFilesPaths", TextureFilePaths);
 	}
-	//After Going thru the GameObjects list, the PrototypesFilePaths list is finalised
-	SceneFile.AddMember("PrototypesFilePaths", PrototypesFilePaths);
-
-
 
 	//Deserialise ShaderTypes
-	//- check through the Graphic Component for the Shader Name used
-	//- Get File Path of both the vertex and fragment Shader Used
-
-	//Deserialise Texture Resource
-	//- Check through all the graphic Component for the texture File Name
-	//- Get the File path of the textures from the Resource Manager
-
-	NamePath TextureResourcePathList;
-	rapidjson::Value TextureFilePaths;
-	TextureFilePaths.SetArray();
-
-	NamePath ShaderResourcePathList;
-	rapidjson::Value ShaderFilePaths;
-	ShaderFilePaths.SetArray();
-
-	for (auto& IdGrapPair : GetComponentMap(Graphic))
 	{
+		NamePairMap ShaderResourcePathList = MyResourceManager.GetShaderList();
+		rapidjson::Value ShaderFilePaths;
+		ShaderFilePaths.SetArray();
 
-		bool add = true;
-
-		std::string TextureFile = ((GraphicComponent*)IdGrapPair.second)->GetFileName();
-
-		if (MyResourceSystem.GetTexture2DResource(TextureFile))
+		for (auto& ShaderName : ShaderResourcePathList)
 		{
-			// TextureResourcePathList does not have the texture yet 
-			for (auto& string : TextureResourcePathList)
-			{
-				if (!string.first.compare(TextureFile))
-				{
-					add = false;
-					break;
-				}
-			}
+			rapidjson::Value shader;
+			shader.SetArray();
+			rapidjson::Value strVal;
 
-			if (add)
-			{
-				std::string FilePath = MyResourceSystem.GetTexture2DResourcePath(TextureFile);
-				if (!FilePath.empty())
-				{
-					TextureResourcePathList.insert(std::pair<std::string, std::string>(TextureFile, FilePath));
-				}
-			}
+			strVal.SetString(ShaderName.first.c_str(), ShaderName.first.length(), SceneFile.Allocator());
+			shader.PushBack(strVal, SceneFile.Allocator());
+			strVal.SetString(ShaderName.second.first.c_str(), ShaderName.second.first.length(), SceneFile.Allocator());
+			shader.PushBack(strVal, SceneFile.Allocator());
+			strVal.SetString(ShaderName.second.second.c_str(), ShaderName.second.second.length(), SceneFile.Allocator());
+			shader.PushBack(strVal, SceneFile.Allocator());
+
+			ShaderFilePaths.PushBack(shader, SceneFile.Allocator());
 		}
-
-		add = true;
-
-		std::string ShaderFile = ((GraphicComponent*)IdGrapPair.second)->GetShaderType();
-
-		if (MyResourceSystem.GetShaderResource(ShaderFile))
-		{
-			// ShaderResourcePathList does not have the shader yet 
-			for (auto& string : ShaderResourcePathList)
-			{
-				if (!string.first.compare(ShaderFile))
-				{
-					add = false;
-					break;
-				}
-			}
-
-			if (add)
-			{
-				VertFrag vertfrag = MyResourceSystem.GetShaderResourcePath(ShaderFile);
-				if (!vertfrag.first.empty())
-				{
-					ShaderResourcePathList.insert(std::pair<std::string, std::string>(ShaderFile, vertfrag.second));
-					ShaderResourcePathList.insert(std::pair<std::string, std::string>(ShaderFile, vertfrag.first));
-				}
-			}
-		}
+		SceneFile.AddMember("ShaderFilesPaths", ShaderFilePaths);
 	}
-
-	for (auto& TextureName : TextureResourcePathList)
-	{
-		rapidjson::Value strVal;
-		strVal.SetString(TextureName.second.c_str(), TextureName.second.length(), SceneFile.Allocator());
-		TextureFilePaths.PushBack(strVal, SceneFile.Allocator());
-	}
-	SceneFile.AddMember("TexturesFilesPaths", TextureFilePaths);
-
-	for (auto& ShaderName : ShaderResourcePathList)
-	{
-		rapidjson::Value strVal;
-		strVal.SetString(ShaderName.second.c_str(), ShaderName.second.length(), SceneFile.Allocator());
-		ShaderFilePaths.PushBack(strVal, SceneFile.Allocator());
-	}
-	SceneFile.AddMember("ShaderFilesPaths", ShaderFilePaths);
-
-
 
 	//Deserialise AnimationDataFile
-	//- Check through all the animation components for the animationdatafile names
-	//- Get file Path of the animationDataFile from the Resource Manager
-
-	NamePath AnimationResourcePathList;
-	rapidjson::Value AnimationFilePaths;
-	AnimationFilePaths.SetArray();
-
-	for (auto& IdAnimPair : GetComponentMap(Animation))
 	{
-		const std::map<std::string, std::string>& AnimFileList = ((AnimationComponent*)IdAnimPair.second)->GetAnimationDataFileList();
+		NamePath AnimationResourcePathList = MyResourceManager.GetAnimationList();
+		rapidjson::Value AnimationFilePaths;
+		AnimationFilePaths.SetArray();
 
-		for (auto& animFile : AnimFileList)
+		for (auto& AnimName : AnimationResourcePathList)
 		{
-			bool add = true;
-
-			if (MyResourceSystem.GetAnimationResource(animFile.second))
-			{
-				// AnimationResourcePathList does not have the aniamation yet 
-				for (auto& string : AnimationResourcePathList)
-				{
-					if (!string.second.compare(animFile.second))
-					{
-						add = false;
-						break;
-					}
-				}
-
-				if (add)
-				{
-					std::string FilePath = MyResourceSystem.GetAnimationResourcePath(animFile.second);
-					if(!FilePath.empty())
-						AnimationResourcePathList.insert(std::pair<std::string, std::string>(animFile.second, FilePath));
-				}
-			}
+			rapidjson::Value strVal;
+			strVal.SetString(AnimName.second.c_str(), AnimName.second.length(), SceneFile.Allocator());
+			AnimationFilePaths.PushBack(strVal, SceneFile.Allocator());
 		}
+		SceneFile.AddMember("AnimationDataFilesPaths", AnimationFilePaths);
 	}
 
-	for (auto& AnimName : AnimationResourcePathList)
+
+	//Deserialise AudioFiles - SFX
 	{
-		rapidjson::Value strVal;
-		strVal.SetString(AnimName.second.c_str(), AnimName.second.length(), SceneFile.Allocator());
-		AnimationFilePaths.PushBack(strVal, SceneFile.Allocator());
+		NamePath AudioResourcePathList = MyResourceManager.GetSoundList();
+		rapidjson::Value AudioFilePaths;
+		AudioFilePaths.SetArray();
+
+		for (auto& AudioName : AudioResourcePathList)
+		{
+			rapidjson::Value strVal;
+			strVal.SetString(AudioName.second.c_str(), AudioName.second.length(), SceneFile.Allocator());
+			AudioFilePaths.PushBack(strVal, SceneFile.Allocator());
+		}
+		SceneFile.AddMember("AudioSFXFilesPaths", AudioFilePaths);
 	}
-	SceneFile.AddMember("AnimationDataFilesPaths", AnimationFilePaths);
 
+	//Deserialise AudioFiles - BGM
+	{
+		NamePath AudioResourcePathList = MyResourceManager.GetLoopSoundList();
+		rapidjson::Value AudioFilePaths;
+		AudioFilePaths.SetArray();
 
-
-	//Deserialise AudioFiles
-	//- Check throught the AudioComponents to get audio file name
-	//- Get the File path of the audiofile from the Resource Manager
-
-	//NamePath AudioResourcePathList;
-	//rapidjson::Value AudioFilePaths;
-	//AudioFilePaths.SetArray();
-	//
-	//for (auto& IdAudioPair : GetComponentMap(Audio))
-	//{
-	//	std::string audioFile = ((AudioComponent*)IdAudioPair.second)->GetFileName();
-	//
-	//	bool add = true;
-	//
-	//	if (MyResourceSystem.GetSoundResource(audioFile))
-	//	{
-	//		// AudioResourcePathList does not have the audio yet 
-	//		for (auto& string : AudioResourcePathList)
-	//		{
-	//			if (!string.first.compare(audioFile))
-	//			{
-	//				add = false;
-	//				break;
-	//			}
-	//		}
-	//
-	//		if (add)
-	//		{
-	//			std::string FilePath = MyResourceSystem.GetSoundResourcePath(audioFile);
-	//			if (!FilePath.empty())
-	//				AudioResourcePathList.insert(std::pair<std::string, std::string>(audioFile, FilePath));
-	//		}
-	//
-	//	}
-	//}
-
-	//for (auto& AudioName : AudioResourcePathList)
-	//{
-	//	rapidjson::Value strVal;
-	//	strVal.SetString(AudioName.second.c_str(), AudioName.second.length(), SceneFile.Allocator());
-	//	AudioFilePaths.PushBack(strVal, SceneFile.Allocator());
-	//}
-	//SceneFile.AddMember("AudioFilesPaths", AudioFilePaths);
-
+		for (auto& AudioName : AudioResourcePathList)
+		{
+			rapidjson::Value strVal;
+			strVal.SetString(AudioName.second.c_str(), AudioName.second.length(), SceneFile.Allocator());
+			AudioFilePaths.PushBack(strVal, SceneFile.Allocator());
+		}
+		SceneFile.AddMember("AudioBGMFilesPaths", AudioFilePaths);
+	}
 
 
 	//Deserialise Font Used
-	//- Check throught the Font Component for the font type used
-	//- Get the File path of the Fontfile from the Resource Manager
-	NamePath FontResourcePathList;
-	rapidjson::Value FontFilePaths;
-	FontFilePaths.SetArray();
-
-	for (auto& IdFontPair : GetComponentMap(Font))
 	{
-		std::string fontFile = ((FontComponent*)IdFontPair.second)->GetFontType();
+		NamePath FontResourcePathList = MyResourceManager.GetFontList();
+		rapidjson::Value FontFilePaths;
+		FontFilePaths.SetArray();
 
-		bool add = true;
-
-		if (MyResourceSystem.GetFontResource(fontFile))
+		for (auto& FontName : FontResourcePathList)
 		{
-			// AudioResourcePathList does not have the audio yet 
-			for (auto& string : FontResourcePathList)
-			{
-				if (!string.first.compare(fontFile))
-				{
-					add = false;
-					break;
-				}
-			}
-
-			if (add)
-			{
-				std::string FilePath = MyResourceSystem.GetFontResourcePath(fontFile);
-				FontResourcePathList.insert(std::pair<std::string, std::string>(fontFile, FilePath));
-			}
+			rapidjson::Value strVal;
+			strVal.SetString(FontName.second.c_str(), FontName.second.length(), SceneFile.Allocator());
+			FontFilePaths.PushBack(strVal, SceneFile.Allocator());
 		}
+		SceneFile.AddMember("FontFilesPath", FontFilePaths);
 	}
-
-	for (auto& FontName : FontResourcePathList)
-	{
-		rapidjson::Value strVal;
-		strVal.SetString(FontName.second.c_str(), FontName.second.length(), SceneFile.Allocator());
-		FontFilePaths.PushBack(strVal, SceneFile.Allocator());
-	}
-	SceneFile.AddMember("FontFilesPath", FontFilePaths);
-
 //-------------------------------------------------------------------------------------------------------------------------
-
 
 	rapidjson::Value clonableObjects;
 	clonableObjects.SetArray();
@@ -805,7 +649,7 @@ void Factory::ClearLevel()
 
 void Factory::SerialiseAllPrefabAssets(std::unordered_map<std::string, std::string>& list)
 {
-	MyResourceSystem.AddPrototypeResourceList(list);
+	MyResourceManager.AddPrototypeResourceList(list);
 
 	////Serialise all Prototypesu8
 	//for (auto& nameFile : MyResourceSystem.GetPrototypeList())
@@ -856,12 +700,7 @@ void Factory::UpdateScene()
 
 
 	MyFactory.ClearLevel();
-
-#ifdef LEVELEDITOR //for Level editor Mode
 	MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
-#else	//for GamePlay mode
-	MyFactory.SerialiseLevel(MyResourceManager.GetSceneList()[_currentScene]);
-#endif
 
 	InitScene();
 }
@@ -869,24 +708,30 @@ void Factory::UpdateScene()
 void Factory::InitScene()
 {
 	for (auto& it : GetComponentMap(Identity))
-		it.second->Init();
+		if(it.first != 0)
+			it.second->Init();
 
 	for (auto& it : GetComponentMap(Transform))
-		it.second->Init();
+		if (it.first != 0)
+			it.second->Init();
 
 	for (auto& it : GetComponentMap(Graphic))
-		it.second->Init();
+		if (it.first != 0)
+			it.second->Init();
 
 	for (auto& it : GetComponentMap(Animation))
-		it.second->Init();
+		if (it.first != 0)
+			it.second->Init();
 
 	for (auto& it : GetComponentMap(Camera))
-		it.second->Init();
+		if (it.first != 0)
+			it.second->Init();
 
 	for (auto& it : GetComponentMap(Font)) // not done
-		it.second->Init();
+		if (it.first != 0)
+			it.second->Init();
 
-	/*for (auto& it : GetComponentMap(RigidBody2D))
+	for (auto& it : GetComponentMap(RigidBody2D))
 		it.second->Init();
 
 	for (auto& it : GetComponentMap(CircleCollider2D))
@@ -896,21 +741,80 @@ void Factory::InitScene()
 		it.second->Init();
 
 	for (auto& it : GetComponentMap(EdgeCollider2D))
-		it.second->Init();*/
+		it.second->Init();
 
 	for (auto& it : GetComponentMap(Audio))
-		it.second->Init();
+		if (it.first != 0)
+			it.second->Init();
 
 	for (auto& it : GetComponentMap(Button))
-		it.second->Init();
+		if (it.first != 0)
+			it.second->Init();
 
 	for (auto& it : GetComponentMap(UI))
-		it.second->Init();
+		if (it.first != 0)
+			it.second->Init();
 
 	MyCameraSystem.Init();
 	MyGraphicsSystem.Init();
 	MyLogicSystem.Init();
 }
+
+void Factory::LoadSceneResource()
+{
+	for (auto& it : GetComponentMap(Identity))
+		if (it.first != 0)
+			it.second->LoadResource();
+
+	/*for (auto& it : GetComponentMap(Transform))
+		if (it.first != 0)
+			it.second->Init();*/
+
+	for (auto& it : GetComponentMap(Graphic))
+		if (it.first != 0)
+			it.second->LoadResource();
+
+	for (auto& it : GetComponentMap(Animation))
+		if (it.first != 0)
+			it.second->LoadResource();
+
+	/*for (auto& it : GetComponentMap(Camera))
+		if (it.first != 0)
+			it.second->LoadResource();*/
+
+	for (auto& it : GetComponentMap(Font)) // not done
+		if (it.first != 0)
+			it.second->LoadResource();
+
+	/*for (auto& it : GetComponentMap(RigidBody2D))
+		it.second->LoadResource();
+
+	for (auto& it : GetComponentMap(CircleCollider2D))
+		it.second->LoadResource();
+
+	for (auto& it : GetComponentMap(BoxCollider2D))
+		it.second->LoadResource();
+
+	for (auto& it : GetComponentMap(EdgeCollider2D))
+		it.second->LoadResource();*/
+
+	for (auto& it : GetComponentMap(Audio))
+		if (it.first != 0)
+			it.second->LoadResource();
+
+	for (auto& it : GetComponentMap(Button))
+		if (it.first != 0)
+			it.second->LoadResource();
+
+	for (auto& it : GetComponentMap(UI))
+		if (it.first != 0)
+			it.second->LoadResource();
+
+	MyGraphicsSystem.LoadResource();
+	MyLogicSystem.LoadResource();
+}
+
+
 
 void Factory::ChangeScene(const std::string& scene)
 {
@@ -941,7 +845,7 @@ void Factory::ChangeScene(const std::string& scene)
 }
 
 //For GamePlay 
-void Factory::SerialiseScenes(Serialiser GameSceneFile)
+std::string Factory::SerialiseScenes(Serialiser& GameSceneFile)
 {
 	if (GameSceneFile.HasMember("GameScenes"))
 	{
@@ -953,6 +857,11 @@ void Factory::SerialiseScenes(Serialiser GameSceneFile)
 			MyResourceManager.AddNewScene(std::pair<std::string, std::string>(fileName, filePath));
 		}
 	}
+
+	if (GameSceneFile.HasMember("StartingScenes") && GameSceneFile["StartingScenes"].IsString())
+		return GameSceneFile["StartingScenes"].GetString();
+
+	return "Quit";
 }
 
 //For Level Editor

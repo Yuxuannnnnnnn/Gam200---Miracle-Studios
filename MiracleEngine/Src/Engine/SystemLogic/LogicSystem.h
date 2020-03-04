@@ -12,13 +12,17 @@ public:
 	//std::unordered_map<size_t, LogicComponent*> _ListLogicComponents;
 	bool bUseOldScripting = false;
 
-	LogicSystem() : _scriptUId{ 0 }, enableScript2{ false }, _resgister{false} {}
+	LogicSystem();
 	~LogicSystem();
 	LogicSystem(const LogicSystem& rhs) = delete;
 	LogicSystem& operator=(const LogicSystem& rhs) = delete;
 
 	void Init();
 	void Update(double dt);
+
+	void LoadResource();
+
+	void RegisterAllScript();
 
 	//void Update(double dt);
 

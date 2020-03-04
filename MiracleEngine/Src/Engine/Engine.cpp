@@ -7,25 +7,8 @@ Engine::Engine(HINSTANCE hInstance, int nCmdShow)
 {
 	_engineSystems.Init(hInstance, nCmdShow);
 
-	RegisterComponent(Identity);
-	RegisterComponent(Transform);
-	RegisterComponent(Graphic);
-	RegisterComponent(Animation);
-	RegisterComponent(Camera);
-	RegisterComponent(Font);
-	RegisterComponent(RigidBody2D);
-	RegisterComponent(CircleCollider2D);
-	RegisterComponent(BoxCollider2D);
-	RegisterComponent(EdgeCollider2D);
-	RegisterComponent(Logic);
-	RegisterComponent(Audio);
-	RegisterComponent(Button);
-	RegisterComponent(TileMap);
-	RegisterComponent(DataMove);		// DataComponents
-	RegisterComponent(DataTransform);
-	RegisterComponent(DataPlayer);
-	RegisterComponent(DataHealth);
-	RegisterComponent(UI);
+	MyComponentManger.RegisterAllComponent();
+	MyLogicSystem.RegisterAllScript();
 }
 
 
@@ -46,7 +29,7 @@ void Engine::Init()
 	DebugRenderer::GetInstance().Init();
 	MyFactory.ChangeScene("SchoolSplashScreen");
 #else
-	MyFactory.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json"));
+	MyFactory.ChangeScene(MyFactory.SerialiseScenes(Serialiser("./Resources/TextFiles/Scenes/GameScenes/GameScenes.json")));
 #endif
 }
 
@@ -128,6 +111,8 @@ void Engine::Update()
 				MyFrameRateController.StartTimeCounter();
 				MyLogicSystem.Update(-10.0);
 				MyPerformanceUsage.LogicFrameTime += MyFrameRateController.EndTimeCounter();
+
+				
 			}
 
 			MyFrameRateController.StartTimeCounter();
@@ -193,6 +178,7 @@ void Engine::Update()
 
 		MyGraphicsSystem.Update(dt);
 #endif
+
 		MyFactory.Update(dt);
 		::SwapBuffers(MyWindowsSystem.getWindow().get_m_windowDC()); 		// swap double buffer at the end
 //-------------------------------------------------------------------------------------------------------------
