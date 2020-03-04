@@ -237,6 +237,7 @@ public:
 	}
 
 	virtual void Init() override;
+	virtual void LoadResource() override;
 
 	UIComponent* CloneComponent() { return new UIComponent(*this); }
 };

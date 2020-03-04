@@ -835,6 +835,11 @@ void AudioComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 
 void AudioComponent::Init()
 {
+
+}
+
+void AudioComponent::LoadResource()
+{
 #ifdef LEVELEDITOR
 	for (auto& it : SFXList)
 		MyResourceManager.AddNewAudioResource({ std::get<0>(it.second), MyResourceSystem.GetSoundResourcePath(std::get<0>(it.second)) });

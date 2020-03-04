@@ -655,6 +655,10 @@ void  AnimationComponent::DeserialiseComponentSceneFile(IComponent* protoCom, ra
 
 void AnimationComponent::Init()
 {
+}
+
+void AnimationComponent::LoadResource()
+{
 #ifdef LEVELEDITOR
 	for (auto& it : animationFileNameList)
 		MyResourceManager.AddNewAnimationResource({ it.second, MyResourceSystem.GetAnimationResourcePath(it.second) });

@@ -269,31 +269,35 @@ void GraphicsSystem::EndScene()
 	_renderObjects.clear();
 }
 
+void GraphicsSystem::Init()
+{
+	// temp
+	std::string temp = "DefaultShader";
+	std::string temp2 = "sector_017";
+
+	_shader = MyResourceManager.GetShaderResource(temp);
+	_fontRenderer = MyResourceManager.GetFontResource(temp2);
+}
+
+void GraphicsSystem::LoadResource()
+{
+	// temp
+	std::string temp = "DefaultShader";
+	std::string temp2 = "sector_017";
+
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewShaderResource({ temp,{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" } });
+	MyResourceManager.AddNewFontResource({ temp2,"Resources/Fonts/sector_017.ttf" });
+#endif // LEVELEDITOR
+
+	_shader = MyResourceManager.GetShaderResource(temp);
+	_fontRenderer = MyResourceManager.GetFontResource(temp2);
+}
+
 GraphicsSystem::GraphicsSystem()
 {
 	glEnable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
-
-	// temp
-	std::string temp = "DefaultShader";
-
-	_shader = MyResourceSystem.GetShaderResource(temp);
-
-	if (!_shader && MyResourceSystem.AddNewShaderResource({ temp,{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" } }))
-	{
-		_shader = MyResourceSystem.GetShaderResource(temp);
-	}
-
-
-	std::string temp2 = "sector_017";
-
-	_fontRenderer = MyResourceSystem.GetFontResource(temp2);
-
-	if (!_fontRenderer && MyResourceSystem.AddNewFontResource({ temp2,"Resources/Fonts/sector_017.ttf" }))
-	{
-		_fontRenderer = MyResourceSystem.GetFontResource(temp2);
-	}
-
 }
 
 GraphicsSystem::~GraphicsSystem()

@@ -40,6 +40,8 @@ public:
 
 	virtual void Init() {}
 	virtual void Update(double dt) = 0;
+	virtual void LoadResource() {}
+
 
 	void SetParentPtr(GameObject* parent);
 	GameObject* GetParentPtr() const;

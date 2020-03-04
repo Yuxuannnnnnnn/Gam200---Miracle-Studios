@@ -17,6 +17,30 @@ ComponentManager::~ComponentManager()
 	_componentContainers.clear();
 }
 
+void ComponentManager::RegisterAllComponent()
+{
+	RegisterComponent(Identity);
+	RegisterComponent(Transform);
+	RegisterComponent(Graphic);
+	RegisterComponent(Animation);
+	RegisterComponent(Camera);
+	RegisterComponent(Font);
+	RegisterComponent(RigidBody2D);
+	RegisterComponent(CircleCollider2D);
+	RegisterComponent(BoxCollider2D);
+	RegisterComponent(EdgeCollider2D);
+	RegisterComponent(Logic);
+	RegisterComponent(Audio);
+	RegisterComponent(Button);
+	RegisterComponent(TileMap);
+	RegisterComponent(DataMove);		// DataComponents
+	RegisterComponent(DataTransform);
+	RegisterComponent(DataPlayer);
+	RegisterComponent(DataHealth);
+	RegisterComponent(UI);
+
+}
+
 void ComponentManager::AddNewComponentContainer(ComponentId tpyeId)
 {
 	_componentContainers[tpyeId] = new std::unordered_map<size_t, IComponent*>;

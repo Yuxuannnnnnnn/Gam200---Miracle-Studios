@@ -33,6 +33,15 @@ void IdentityComponent::Init()
 		MyFactory.SaveNewLinkID(_linkUId, GetParentId());
 }
 
+void IdentityComponent::LoadResource()
+{
+#ifdef LEVELEDITOR
+	if (MyResourceSystem.GetPrototypeResource(_ObjectType))
+		MyResourceManager.AddNewPrototypeResource({ _ObjectType , MyResourceSystem.GetPrototypeResourcePath(_ObjectType) });
+#endif // LEVELEDITOR
+}
+
+
 
 const std::string& IdentityComponent::GetName() const
 {

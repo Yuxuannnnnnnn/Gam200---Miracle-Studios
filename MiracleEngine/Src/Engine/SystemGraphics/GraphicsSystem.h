@@ -38,6 +38,8 @@ public:
 
 	Matrix4x4& GetProjection();
 
+	void Init();
+	void LoadResource();
 private:
 	void BeginScene();
 	void EndScene();

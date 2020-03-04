@@ -37,6 +37,7 @@ private:
 public:
 
 	void Init();
+	virtual void LoadResource() override;
 
 	inline bool HasAlpha() {return _hasAlpha;}
 	inline bool HasAdjustableAlpha(){return _hasAdjustableAlpha;}

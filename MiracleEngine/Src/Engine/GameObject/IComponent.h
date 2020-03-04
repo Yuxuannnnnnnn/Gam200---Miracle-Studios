@@ -22,6 +22,7 @@ public:
 	virtual ~IComponent() = default;	//virtual destructor to delete deerived Components
 
 	virtual void Init() {}
+	virtual void LoadResource() {}
 
 //Interface functions to be implemented by Derived Classes
 	virtual std::string ComponentName() const = 0; //Every Comoponent has a ComponentName function

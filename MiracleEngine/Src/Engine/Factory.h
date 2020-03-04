@@ -22,6 +22,8 @@ public:
 	void UpdateScene();
 	void ChangeScene(const std::string& scene);
 
+	void LoadSceneResource();
+
 	const std::string& GetCurrentScene();
 	
 	void SetNewScene(); //For Level Editor
@@ -32,11 +34,8 @@ public:
 	void De_SerialiseLevel(std::string filename);
 	void WindowsDialogSaveLevel();
 
-	void SerialiseScenes(Serialiser GameSceneFile); //For GamePlay 
+	std::string SerialiseScenes(Serialiser& GameSceneFile); //For GamePlay 
 	void LoadAllSceneAssets(std::unordered_map<std::string, std::string>& GameSceneFile); //For Level Editor
-
-	//void SerialPrefabObjects(Serialiser& Level); //Gameplay mode
-	void SerialiseAllPrefabAssets(std::unordered_map<std::string, std::string>& list); //LevelEditor mode
 
 	void AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath);
 

@@ -136,6 +136,7 @@ public:
 	std::string ComponentName() const override;
 
 	void Init() override;
+	virtual void LoadResource() override;
 
 //Editor or Serialisation
 	//void AddAnimation(std::string animationType)

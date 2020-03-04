@@ -466,10 +466,13 @@ void EventHandler::ChangedWindowSize()
 
 void EventHandler::BroadcastNewWindowSize(float width, float height)
 {
+#ifdef LEVELEDITOR
 	MyImGuizmoManager.SetWindowSize(width, height);
+	DebugRenderer::GetInstance().CalculateProjMatrix(width, height);
+#endif
 	MyInputSystem.SetWindowSize(width, height);
 	MyGraphicsSystem.ResizeGraphics(width, height);
-	DebugRenderer::GetInstance().CalculateProjMatrix(width, height);
+	
 
 	_changedSize = false;
 }
