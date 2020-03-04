@@ -62,6 +62,22 @@
   "isCurrentCamera": true,
   "cameraZoom": 1.0,
 
+  "AudioComponent": true,
+  "SFXList": [
+    {
+      "SFXName": "GetHit",
+      "fileName": "PlayerDamaged.wav",
+      "volume": 0.07699999958276749,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "Shoot",
+      "fileName": "PlayerShoot.wav",
+      "volume": 0.09200000017881394,
+      "NumOfloops": 0
+    }
+  ],
+
   "HaveChild": true,
   "ChildObjects": [
     {
