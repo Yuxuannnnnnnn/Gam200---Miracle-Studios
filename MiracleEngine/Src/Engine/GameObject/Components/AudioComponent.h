@@ -49,7 +49,7 @@ public:
 
 	std::string ComponentName() const override;
 
-	void Inspect() override;
+	//void Inspect() override;
 	
 
 	void SerialiseComponent(Serialiser& document) override;

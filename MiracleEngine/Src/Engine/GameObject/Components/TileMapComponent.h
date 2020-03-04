@@ -47,15 +47,15 @@ class TileMapComponent: public IComponent
 	Vector3 _mapCenterOffset; // the map's local center offset from bottom left, use this when calculating offset
 	Vector3 _tilesize; //x, y //tilesize will be calculated from scale in transformComponent.
 					//Everytime Scaling changes, tilesize is recalculated.
-	int _mapHeight, _mapWidth; 
+	int _mapHeight, _mapWidth;
 
 	typedef int tileNumber;
 	std::unordered_map < tileNumber, Node* > _tileNodeMap; // <NodeId, NodePtr>
 
-	tileNumber** _tilemapInput; // 2dArray of the NodeMap in ID form
+	tileNumber** _tilemapId; // 2dArray of the NodeMap in ID form
+	tileNumber** _tilemapInput; // 2dArray of node solidity
 
 public:
-
 
 	TileMapComponent() : 
 		_mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr }, _tilesize{ 0, 0, 0 }, turnOnTileMap{ false }, _tileNodeMap{}

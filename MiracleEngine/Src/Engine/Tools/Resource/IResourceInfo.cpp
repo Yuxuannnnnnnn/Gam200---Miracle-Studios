@@ -56,7 +56,7 @@ GameObject* IResourceStructure::GetPrototypeResource(const std::string& name)
 	return nullptr;
 }
 
-std::string& IResourceStructure::GetTexture2DResourcePath(const std::string& name)
+std::string IResourceStructure::GetTexture2DResourcePath(const std::string& name)
 {
 	if (_mainContainer._Texture2DList.find(name) != _mainContainer._Texture2DList.end())
 		return _mainContainer._Texture2DList[name];
@@ -66,7 +66,7 @@ std::string& IResourceStructure::GetTexture2DResourcePath(const std::string& nam
 	return temp;
 }
 
-std::pair<std::string, std::string>& IResourceStructure::GetShaderResourcePath(const std::string& name)
+std::pair<std::string, std::string> IResourceStructure::GetShaderResourcePath(const std::string& name)
 {
 	if (_mainContainer._ShaderList.find(name) != _mainContainer._ShaderList.end())
 		return _mainContainer._ShaderList[name];
@@ -76,7 +76,7 @@ std::pair<std::string, std::string>& IResourceStructure::GetShaderResourcePath(c
 	return temp;
 }
 
-std::string& IResourceStructure::GetFontResourcePath(const std::string& name)
+std::string IResourceStructure::GetFontResourcePath(const std::string& name)
 {
 	if (_mainContainer._FontList.find(name) != _mainContainer._FontList.end())
 		return _mainContainer._FontList[name];
@@ -86,7 +86,7 @@ std::string& IResourceStructure::GetFontResourcePath(const std::string& name)
 	return temp;
 }
 
-std::string& IResourceStructure::GetSoundResourcePath(const std::string& name)
+std::string IResourceStructure::GetSoundResourcePath(const std::string& name)
 {
 	if (_mainContainer._AudioList.find(name) != _mainContainer._AudioList.end())
 		return _mainContainer._AudioList[name];
@@ -95,7 +95,7 @@ std::string& IResourceStructure::GetSoundResourcePath(const std::string& name)
 
 	return temp;
 }
-std::string& IResourceStructure::GetLoopSoundResourcePath(const std::string& name)
+std::string IResourceStructure::GetLoopSoundResourcePath(const std::string& name)
 {
 	if (_mainContainer._LoopAudioList.find(name) != _mainContainer._LoopAudioList.end())
 		return _mainContainer._LoopAudioList[name];
@@ -106,7 +106,7 @@ std::string& IResourceStructure::GetLoopSoundResourcePath(const std::string& nam
 }
 
 
-std::string& IResourceStructure::GetAnimationResourcePath(const std::string& name)
+std::string IResourceStructure::GetAnimationResourcePath(const std::string& name)
 {
 	if (_mainContainer._AnimationList.find(name) != _mainContainer._AnimationList.end())
 		return _mainContainer._AnimationList[name];
@@ -116,7 +116,7 @@ std::string& IResourceStructure::GetAnimationResourcePath(const std::string& nam
 	return temp;
 }
 
-std::string& IResourceStructure::GetPrototypeResourcePath(const std::string& name)
+std::string IResourceStructure::GetPrototypeResourcePath(const std::string& name)
 {
 	if (_mainContainer._PrototypeList.find(name) != _mainContainer._PrototypeList.end())
 		return _mainContainer._PrototypeList[name];
@@ -126,7 +126,7 @@ std::string& IResourceStructure::GetPrototypeResourcePath(const std::string& nam
 	return temp;
 }
 
-std::string& IResourceStructure::GeScenePath(const std::string& name)
+std::string IResourceStructure::GeScenePath(const std::string& name)
 {
 	if (_mainContainer._SceneList.find(name) != _mainContainer._SceneList.end())
 		return _mainContainer._SceneList[name];

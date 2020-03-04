@@ -4,6 +4,82 @@
 #ifndef BOSS_H
 #define	BOSS_H
 
+/*
+	check what values needed for serialisation
+		DONT do serialisation, wait for YX to fin, then follow the standard
+	check animations & sounds, need follow animation methods in Enemy.h.cpp
+	check if need ParentChild.
+
+private:
+
+// vals that need serialisation
+	int health, healthMax, healthHalf, healthQuart; // Half&Quart dont need serial
+	double bulletROF, laserCharge, laserShootDuration;
+	double attackDuration, attack related timings;
+	float rotation speed;
+// non-serail vals
+	bool _init;
+	int rand;
+	GameObject* Player;
+
+public:
+	
+
+	void Init()
+	{
+		// find player
+		// set the max, half, quart HP vals
+		_init = true;
+	}
+	void UPDATE()
+	{
+		if (_init)
+			Init();
+
+		if(Health is less than 50%)
+			HalfAtk();
+		else if(Health is less than 25%)
+			QuartAtk();
+		else
+		{
+			// default shooting
+			// spin and shoot
+		}
+	}
+
+
+	LookAtPlayer()
+	SpinAround()
+	ShootBullet() // should just be shoot in direction Boss is facing
+	ShootLaser() // will need multiple phases within ShootLaser
+		// look at player whie charging
+		// once charged flash the line of laser, then shoot laser
+		// double chargeTime, flashTime, 
+	RandNormalAtk() {
+		// call random function to see which Attack to use
+	}
+	FirstAttack() {
+		for(int i = 0; i < 25; i++)
+			ShootBullet();
+	}
+	SecondAttack() {
+		SpinAround()
+		for(int i = 0; i < 25; i++)
+			ShootBullet();
+	}
+	void FirstSpecialAttack() {				// whats this?
+		check number of attacks made;
+		if(number of attacks exceed 4)
+			use special attack;
+	}
+	HalfAtk() { ShootLaser() }
+	QuartAtk() { FirstSpecialAttack () }
+
+
+
+*/
+
+
 //enum class BossStates {
 //	DEAD = 0,
 //

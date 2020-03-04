@@ -488,8 +488,7 @@ Vector3 TileMapComponent::GetTilesize()
 }
 int** TileMapComponent::GetTilemapId()
 {
-	return nullptr;
-	//return _tilemapId;
+	return _tilemapId;
 }
 std::unordered_map < int, Node* > TileMapComponent::GetNodeMap()
 {
