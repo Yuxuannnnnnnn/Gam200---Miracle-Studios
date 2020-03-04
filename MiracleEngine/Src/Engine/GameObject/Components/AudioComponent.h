@@ -148,8 +148,8 @@ public:
 		rapidjson::Value value;
 
 
-			value.SetBool(GetEnable());
-			prototypeDoc.AddMember("AudioComponent", value, allocator);
+		value.SetBool(GetEnable());
+		prototypeDoc.AddMember("AudioComponent", value, allocator);
 
 		if (!SFXList.empty())	//If the object has the component but no sound is added to the list, do not deserialise
 		{

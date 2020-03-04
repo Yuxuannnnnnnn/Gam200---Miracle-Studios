@@ -11,6 +11,14 @@ void SplashScreen::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 }
 
+void SplashScreen::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void SplashScreen::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void SplashScreen::Inspect()
 {
 }

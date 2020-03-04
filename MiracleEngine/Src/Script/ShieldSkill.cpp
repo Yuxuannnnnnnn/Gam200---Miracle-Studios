@@ -9,6 +9,14 @@ void ShieldSkill::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 }
 
+void ShieldSkill::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void ShieldSkill::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void ShieldSkill::Inspect()
 {
 }

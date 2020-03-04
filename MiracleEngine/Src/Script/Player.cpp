@@ -87,6 +87,14 @@ void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 //	value.Clear();
 }
 
+void Player::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void Player::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void Player::Inspect()
 {
 // Logic Data - General

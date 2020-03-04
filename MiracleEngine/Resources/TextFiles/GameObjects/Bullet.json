@@ -10,9 +10,9 @@
   "PivotPosition": [ 0.0, 0.0, 0.0 ],
 
   "LogicComponent": true,
-  "Script2Id": [ "Bullet" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Bullet",
       "Lifetime": 3.0,
       "BulletType": "BulletPlayer",
       "BulletSpeed": 0.5

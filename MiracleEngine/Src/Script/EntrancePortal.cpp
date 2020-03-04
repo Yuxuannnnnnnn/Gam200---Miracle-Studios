@@ -18,21 +18,119 @@ void EntrancePortal::SerialiseComponent(Serialiser& document)
 	
 }
 
+//No need this function
 void EntrancePortal::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	//rapidjson::Value value;
+	//
+	//value.SetString(rapidjson::StringRef(_openPortalFileName.c_str()));
+	//prototypeDoc.AddMember("E.OpenEntranceFileName", value);
+	//
+	//value.SetString(rapidjson::StringRef(_closePortalFileName.c_str()));
+	//prototypeDoc.AddMember("E.CloseEntranceFileName", value);
+	//
+	//value.SetString(rapidjson::StringRef(_nextScene.c_str()));
+	//prototypeDoc.AddMember("E.NextScene", value);
+	//
+	//value.SetInt(_progressCount);
+	//prototypeDoc.AddMember("E.ProgressCount", value);
+}
+
+void EntrancePortal::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
 	rapidjson::Value value;
 
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
 	value.SetString(rapidjson::StringRef(_openPortalFileName.c_str()));
-	prototypeDoc.AddMember("E.OpenEntranceFileName", value);
+	prototypeDoc.AddMember("E.OpenEntranceFileName", value, allocator);
 
 	value.SetString(rapidjson::StringRef(_closePortalFileName.c_str()));
-	prototypeDoc.AddMember("E.CloseEntranceFileName", value);
-
-	value.SetString(rapidjson::StringRef(_nextScene.c_str()));
-	prototypeDoc.AddMember("E.NextScene", value);
+	prototypeDoc.AddMember("E.CloseEntranceFileName", value, allocator);
 
 	value.SetInt(_progressCount);
-	prototypeDoc.AddMember("E.ProgressCount", value);
+	prototypeDoc.AddMember("E.ProgressCount", value, allocator);
+
+	value.SetString(rapidjson::StringRef(_nextScene.c_str()));
+	prototypeDoc.AddMember("E.NextScene", value, allocator);
+}
+
+void EntrancePortal::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
+
+	EntrancePortal* script = (EntrancePortal*)(MyLogicSystem.getScriptPtr(UId));
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value OpenEntranceFileName;
+	rapidjson::Value CloseEntranceFileName;
+	rapidjson::Value ProgressCount;
+	rapidjson::Value NextScene;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_openPortalFileName.compare(_openPortalFileName))
+	{
+		addComponentIntoSceneFile = true;
+		OpenEntranceFileName.SetString(rapidjson::StringRef(_openPortalFileName.c_str()));
+	}
+
+	if (script->_closePortalFileName.compare(_closePortalFileName))
+	{
+		addComponentIntoSceneFile = true;
+		CloseEntranceFileName.SetString(rapidjson::StringRef(_closePortalFileName.c_str()));
+	}
+
+	if (script->_progressCount != _progressCount)
+	{
+		addComponentIntoSceneFile = true;
+		ProgressCount.SetInt(_progressCount);
+	}
+
+	if (script->_nextScene.compare(_nextScene))
+	{
+		addComponentIntoSceneFile = true;
+		NextScene.SetString(rapidjson::StringRef(_nextScene.c_str()));
+	}
+
+
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+
+		if (!OpenEntranceFileName.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("E.OpenEntranceFileName", OpenEntranceFileName, allocator);
+		}
+
+		if (!CloseEntranceFileName.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("E.CloseEntranceFileName", CloseEntranceFileName, allocator);
+		}
+
+		if (!ProgressCount.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("E.ProgressCount", ProgressCount, allocator);
+		}
+
+		if (!NextScene.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("E.NextScene", NextScene, allocator);
+		}
+	}
 }
 
 void EntrancePortal::Inspect()

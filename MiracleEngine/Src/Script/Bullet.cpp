@@ -23,26 +23,104 @@ void Bullet::SerialiseComponent(Serialiser& document)
 	}
 }
 
+//This function is not needed for scripts
 void Bullet::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	//rapidjson::Value value;
+	//
+	//value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	//prototypeDoc.AddMember("Script2Id", value);
+	//
+	//value.SetDouble(_lifeTime);
+	//prototypeDoc.AddMember("Lifetime", value);
+	//
+	//value.SetString(rapidjson::StringRef(IntToString(_bulletType).c_str()));
+	//prototypeDoc.AddMember("BulletType", value);
+	//
+	//value.SetDouble(_bulletSpeed);
+	//prototypeDoc.AddMember("BulletSpeed", value);
+}
+
+//For nonclonables Or Prototypes
+void Bullet::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
 	rapidjson::Value value;
 
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
 	value.SetDouble(_lifeTime);
-	prototypeDoc.AddMember("Lifetime", value);
+	prototypeDoc.AddMember("Lifetime", value, allocator);
 
 	value.SetString(rapidjson::StringRef(IntToString(_bulletType).c_str()));
-	prototypeDoc.AddMember("BulletType", value);
+	prototypeDoc.AddMember("BulletType", value, allocator);
 
 	value.SetDouble(_bulletSpeed);
-	prototypeDoc.AddMember("BulletSpeed", value);
-}
-
-void Bullet::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
-{
+	prototypeDoc.AddMember("BulletSpeed", value, allocator);
 }
 
 void Bullet::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
+
+	Bullet* script = (Bullet*)(MyLogicSystem.getScriptPtr(UId));
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value lifetime;
+	rapidjson::Value BulletType;
+	rapidjson::Value BulletSpeed;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_lifeTime != _lifeTime)
+	{
+		addComponentIntoSceneFile = true;
+		lifetime.SetDouble(_lifeTime);
+	}
+
+	if (script->_bulletType != _bulletType)
+	{
+		addComponentIntoSceneFile = true;
+		BulletType.SetString(rapidjson::StringRef(IntToString(_bulletType).c_str()));
+	}
+
+	if (script->_bulletSpeed != _bulletSpeed)
+	{
+		addComponentIntoSceneFile = true;
+		BulletSpeed.SetDouble(_bulletSpeed);
+	}
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+		
+		if (!lifetime.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("Lifetime", lifetime, allocator);
+		}
+		
+		if (!BulletType.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("BulletType", BulletType, allocator);
+		}
+		
+		if (!BulletSpeed.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("BulletSpeed", BulletSpeed, allocator);
+		}
+	}
+
 }
 
 void Bullet::Inspect()

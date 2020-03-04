@@ -29,33 +29,43 @@ void HealthController::SerialiseComponent(Serialiser& document)
 		_redHealthFileName = document["H.RedFileName"].GetString();
 }
 
+//No Need this function 
 void HealthController::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+
+}
+
+void HealthController::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
 	rapidjson::Value value;
 
 	value.SetInt(_maxHealth);
-	prototypeDoc.AddMember("H.MaxHealth", value);
+	prototypeDoc.AddMember("H.MaxHealth", value, allocator);
 
 	value.SetInt(_progressBarLinkID);
-	prototypeDoc.AddMember("H.ProgressLinkID", value);
+	prototypeDoc.AddMember("H.ProgressLinkID", value, allocator);
 
 	value.SetFloat(_maxProgressScale);
-	prototypeDoc.AddMember("H.ProgressScale", value);
+	prototypeDoc.AddMember("H.ProgressScale", value, allocator);
 
 	value.SetArray();
 	for (unsigned i = 0; i < _hpBatteryLinkID.size(); i++)
-		value.PushBack(rapidjson::Value(_hpBatteryLinkID[i]).Move(), prototypeDoc.Allocator());
+		value.PushBack(rapidjson::Value(_hpBatteryLinkID[i]).Move(), allocator);
 
-	prototypeDoc.AddMember("H.HealthLinkID", value);
+	prototypeDoc.AddMember("H.HealthLinkID", value, allocator);
 
 	value.SetString(rapidjson::StringRef(_greenHealthFileName.c_str()));
-	prototypeDoc.AddMember("H.GreenFileName", value);
+	prototypeDoc.AddMember("H.GreenFileName", value, allocator);
 
 	value.SetString(rapidjson::StringRef(_orangeHealthFileName.c_str()));
-	prototypeDoc.AddMember("H.OrangeFileName", value);
+	prototypeDoc.AddMember("H.OrangeFileName", value, allocator);
 
 	value.SetString(rapidjson::StringRef(_redHealthFileName.c_str()));
-	prototypeDoc.AddMember("H.RedFileName", value);
+	prototypeDoc.AddMember("H.RedFileName", value, allocator);
+}
+
+void HealthController::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
 }
 
 void HealthController::Inspect()

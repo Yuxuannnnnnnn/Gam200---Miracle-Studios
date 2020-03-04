@@ -21,16 +21,85 @@ void Explosion::SerialiseComponent(Serialiser& document)
 		_radius = (document["Radius"].GetInt());
 	}
 }
+
+//No Need this Function
 void Explosion::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	//rapidjson::Value value;
+	//
+	//value.SetDouble(_lifeTime);
+	//prototypeDoc.AddMember("Lifetime", value);
+	//value.Clear();
+	//value.SetInt(_radius);
+	//prototypeDoc.AddMember("Radius", value);
+	//value.Clear();
+}
+
+void Explosion::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
 	rapidjson::Value value;
 
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
 	value.SetDouble(_lifeTime);
-	prototypeDoc.AddMember("Lifetime", value);
-	value.Clear();
+	prototypeDoc.AddMember("Lifetime", value, allocator);
+
 	value.SetInt(_radius);
-	prototypeDoc.AddMember("Radius", value);
-	value.Clear();
+	prototypeDoc.AddMember("Radius", value, allocator);
+}
+
+void Explosion::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
+
+	Explosion* script = (Explosion*)(MyLogicSystem.getScriptPtr(UId));
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value Lifetime;
+	rapidjson::Value Radius;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_lifeTime != _lifeTime)
+	{
+		addComponentIntoSceneFile = true;
+		Lifetime.SetDouble(_lifeTime);
+	}
+
+
+	if (script->_radius != _radius)
+	{
+		addComponentIntoSceneFile = true;
+		Radius.SetInt(_radius);
+	}
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+
+		if (!Lifetime.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("Lifetime", Lifetime, allocator);
+		}
+
+		if (!Radius.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("Radius", Radius, allocator);
+		}
+
+	}
 }
 
 void Explosion::Inspect()

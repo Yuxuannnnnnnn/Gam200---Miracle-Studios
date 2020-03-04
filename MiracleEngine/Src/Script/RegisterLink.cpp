@@ -9,6 +9,14 @@ void RegisterLink::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 }
 
+void RegisterLink::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void RegisterLink::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void RegisterLink::Inspect()
 {
 }

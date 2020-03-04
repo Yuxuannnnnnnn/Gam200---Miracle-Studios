@@ -1,1 +1,14 @@
-{"IdentityComponent":true,"ObjectType":"EntranceToLevel2","Name":"EntranceToLevel2","LinkUId":0,"TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"EntranceTo_Level2.png","G.Shader":"","G.Layer":1,"_hasAlpha":false}
+{
+	"IdentityComponent": true,
+	"ObjectType": "EntranceToLevel2",
+	"Name": "EntranceToLevel2",
+	"LinkUId": 0,
+	"TransformComponent": true,
+	"Position": [ 0.0, 0.0, 1.0 ],
+	"Scale": [ 100.0, 100.0, 1.0 ],
+	"Rotate": 0.0,
+	"GraphicsComponent": true,
+	"G.FileName": "EntranceTo_Level2.png",
+	"G.Shader": "",
+	"G.Layer": 1,
+	"_hasAlpha":false}

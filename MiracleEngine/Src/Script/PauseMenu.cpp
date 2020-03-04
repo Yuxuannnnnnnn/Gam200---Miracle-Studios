@@ -28,6 +28,14 @@ void PauseMenu::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	prototypeDoc.AddMember("P.ObjectID", value);
 }
 
+void PauseMenu::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void PauseMenu::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void PauseMenu::Inspect()
 {
 	ImGui::Spacing();

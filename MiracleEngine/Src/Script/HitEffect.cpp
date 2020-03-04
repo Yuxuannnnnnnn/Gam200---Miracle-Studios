@@ -9,6 +9,14 @@ void HitEffect::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 }
 
+void HitEffect::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void HitEffect::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void HitEffect::Inspect()
 {
 }

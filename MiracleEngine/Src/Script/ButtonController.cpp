@@ -10,12 +10,68 @@ void ButtonController::SerialiseComponent(Serialiser& document)
 
 void ButtonController::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
+	//rapidjson::Value value;
+	//
+	//value.SetInt(_currScene);
+	//prototypeDoc.AddMember("B.SceneTag", value);
+}
+
+//For nonclonables Or Prototypes
+void ButtonController::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
 	rapidjson::Value value;
 
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
 	value.SetInt(_currScene);
-	prototypeDoc.AddMember("B.SceneTag", value);
-	value.Clear();
+	prototypeDoc.AddMember("B.SceneTag", value, allocator);
+
 }
+
+void ButtonController::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
+
+	ButtonController* script = (ButtonController*)(MyLogicSystem.getScriptPtr(UId));
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value currScene;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_currScene != _currScene)
+	{
+		addComponentIntoSceneFile = true;
+		currScene.SetInt(_currScene);
+	}
+
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+
+		if (!currScene.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("B.SceneTag", currScene, allocator);
+		}
+
+	}
+
+}
+
+
 
 void ButtonController::Inspect()
 {

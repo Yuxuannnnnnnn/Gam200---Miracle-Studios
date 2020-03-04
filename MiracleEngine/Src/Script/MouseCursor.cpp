@@ -17,6 +17,14 @@ void MouseCursor::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 }
 
+void MouseCursor::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void MouseCursor::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void MouseCursor::Inspect()
 {
 	ImGui::Spacing();

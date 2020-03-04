@@ -25,6 +25,14 @@ void PickUps::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 }
 
+void PickUps::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
+void PickUps::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+}
+
 void PickUps::Inspect()
 {
 	ImGui::Spacing();
