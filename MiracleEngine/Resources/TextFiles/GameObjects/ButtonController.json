@@ -12,6 +12,5 @@
   "Scripts":[ {
     "Script2Id": "ButtonController",
     "B.SceneTag": 1
-  },
-  ]
+  }  ]
 }
