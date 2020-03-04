@@ -262,100 +262,41 @@ bool ResourceManager::AddNewScene(const NamePath& list)
 
 Texture2D* ResourceManager::GetTexture2DResource(const std::string& name)
 {
-	if (_editerMode)
-	{
-		if (_mainContainer._Texture2DMap.find(name) != _mainContainer._Texture2DMap.end())
-			return _mainContainer._Texture2DMap[name];
-
-		return nullptr;
-	}
-
 	return MyResourceSystem.GetTexture2DResource(name);
 }
 
 Shader* ResourceManager::GetShaderResource(const std::string& name)
 {
-	if (_editerMode)
-	{
-		if (_mainContainer._ShaderMap.find(name) != _mainContainer._ShaderMap.end())
-			return _mainContainer._ShaderMap[name];
-
-		return nullptr;
-	}
-
 	return MyResourceSystem.GetShaderResource(name);
 }
 
 FontRenderer* ResourceManager::GetFontResource(const std::string& name)
 {
-	if (_editerMode)
-	{
-		if (_mainContainer._FontMap.find(name) != _mainContainer._FontMap.end())
-			return _mainContainer._FontMap[name];
-
-		return nullptr;
-	}
-
 	return MyResourceSystem.GetFontResource(name);
 }
 
 Sound* ResourceManager::GetSoundResource(const std::string& name)
 {
-	if (_editerMode)
-	{
-		if (_mainContainer._AudioMap.find(name) != _mainContainer._AudioMap.end())
-			return _mainContainer._AudioMap[name];
-
-		return nullptr;
-	}
-
 	return MyResourceSystem.GetSoundResource(name);
 }
 
 Sound* ResourceManager::GetLoopSoundResource(const std::string& name)
 {
-	if (_editerMode)
-	{
-		if (_mainContainer._LoopAudioMap.find(name) != _mainContainer._LoopAudioMap.end())
-			return _mainContainer._LoopAudioMap[name];
-
-		return nullptr;
-	}
-
 	return MyResourceSystem.GetLoopSoundResource(name);
 }
 
 Animation* ResourceManager::GetAnimationResource(const std::string& name)
 {
-	if (_editerMode)
-	{
-		if (_mainContainer._AnimationMap.find(name) != _mainContainer._AnimationMap.end())
-			return _mainContainer._AnimationMap[name];
-
-		return nullptr;
-	}
-
 	return MyResourceSystem.GetAnimationResource(name);
 }
 
 GameObject* ResourceManager::GetPrototypeResource(const std::string& name)
 {
-	if (_editerMode)
-	{
-		if (_mainContainer._PrototypeMap.find(name) != _mainContainer._PrototypeMap.end())
-			return _mainContainer._PrototypeMap[name];
-
-		return nullptr;
-	}
-
 	return MyResourceSystem.GetPrototypeResource(name);
 }
 
 FontCharacterMap& ResourceManager::GetFontCharacterMap()
 {
-	if (_editerMode)
-		return _mainContainer._fontCharacterMaps;
-
 	return MyResourceSystem.GetFontCharacterMap();
 }
 

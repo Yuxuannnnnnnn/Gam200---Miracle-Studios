@@ -11,9 +11,9 @@
 
   "LogicComponent": true,
   "ScriptId": [],
-  "Script2Id": [ "PauseMenu" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "PauseMenu",
       "P.NumOfObject": 3,
       "P.ObjectID": [ 1821, 1822, 1823 ]
     }

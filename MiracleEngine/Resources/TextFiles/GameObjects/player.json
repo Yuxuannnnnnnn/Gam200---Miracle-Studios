@@ -16,9 +16,9 @@
 
   "LogicComponent": true,
   "ScriptId": [],
-  "Script2Id": [ "Player" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Player",
       "ShieldDuration": 5.0,
       "ShieldCooldown": 5.0,
       "Health": 10,

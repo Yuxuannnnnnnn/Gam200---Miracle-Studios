@@ -15,9 +15,9 @@
   "ScriptId": [ "ScriptMove" ],
   "PlayerData": [ { "Health": 10 } ],
 
-  "Script2Id": [ "Player" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Player",
       "Health": 10,
       "WeaponActive": 1,
       "AmmoRpg": 0,
@@ -41,5 +41,5 @@
   "ColliderTrigger": false,
   "CameraComponent": true,
   "isCurrentCamera": true,
-  "cameraZoom":1.0
+  "cameraZoom": 1.0
 }

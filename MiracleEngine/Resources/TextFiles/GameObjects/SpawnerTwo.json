@@ -8,9 +8,9 @@
   "Scale": [ 544.1040649414063, 544.1040649414063, 1.0 ],
   "Rotate": 0.0,
   "LogicComponent": true,
-  "Script2Id": [ "Spawner" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Spawner",
       "Health": 10,
       "SpawnType": 2,
       "SpawnCooldown": 2.5,

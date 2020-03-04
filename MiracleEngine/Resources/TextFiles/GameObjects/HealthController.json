@@ -9,9 +9,9 @@
   "Rotate": 0.0,
   "LogicComponent": true,
   "ScriptId": [],
-  "Script2Id": [ "HealthController" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "HealthController",
       "H.GreenFileName": "HP_Bar_green.png",
       "H.OrangeFileName": "HP_Bar_orange.png",
       "H.RedFileName": "HP_Bar_red.png",

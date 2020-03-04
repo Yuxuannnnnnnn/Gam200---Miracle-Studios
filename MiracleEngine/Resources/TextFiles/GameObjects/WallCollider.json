@@ -1,1 +1,15 @@
-{"BoxCollider2DComponent":true,"ColliderTypeId":1,"ColliderTag":0,"ColliderTrigger":true,"Collider2D.B.Center":[0.0,0.0,1.0],"Collider2D.B.Scale":[1.0,1.0,1.0],"Collider2D.B.Angle":0.0,"IdentityComponent":true,"ObjectType":"WallCollider","Name":"none","TransformComponent":true,"Position":[0.0,0.0,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0}
+{
+  "BoxCollider2DComponent": true,
+  "ColliderTypeId": 1,
+  "ColliderTag": 0,
+  "ColliderTrigger": true,
+  "Collider2D.B.Center": [ 0.0, 0.0, 1.0 ],
+  "Collider2D.B.Scale": [ 1.0, 1.0, 1.0 ],
+  "Collider2D.B.Angle": 0.0,
+  "IdentityComponent": true,
+  "ObjectType": "WallCollider",
+  "Name": "none",
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Rotate":0.0}

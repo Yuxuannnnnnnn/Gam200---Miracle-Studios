@@ -12,9 +12,9 @@
 
   "LogicComponent": true,
   "ScriptId": [],
-  "Script2Id": [ "Enemy" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Enemy",
       "Health": 3,
       "EnemyType": 1,
       "StunDuration": 1.0,
