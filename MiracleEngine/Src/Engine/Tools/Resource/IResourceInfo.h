@@ -97,14 +97,14 @@ public:
 	virtual Animation* GetAnimationResource(const std::string& name);
 	virtual GameObject* GetPrototypeResource(const std::string& name);
 
-	std::string&						 GetTexture2DResourcePath(const std::string& name);
-	std::pair<std::string, std::string>& GetShaderResourcePath(const std::string& name);
-	std::string&						 GetFontResourcePath(const std::string& name);
-	std::string&						 GetSoundResourcePath(const std::string& name);
-	std::string&						 GetLoopSoundResourcePath(const std::string& name);
-	std::string&						 GetAnimationResourcePath(const std::string& name);
-	std::string&						 GetPrototypeResourcePath(const std::string& name);
-	std::string&						 GeScenePath(const std::string& name);
+	std::string						 GetTexture2DResourcePath(const std::string& name);
+	std::pair<std::string, std::string> GetShaderResourcePath(const std::string& name);
+	std::string						 GetFontResourcePath(const std::string& name);
+	std::string						 GetSoundResourcePath(const std::string& name);
+	std::string						 GetLoopSoundResourcePath(const std::string& name);
+	std::string						 GetAnimationResourcePath(const std::string& name);
+	std::string						 GetPrototypeResourcePath(const std::string& name);
+	std::string						 GeScenePath(const std::string& name);
 
 	NamePathMap& GetTexture2DList();
 	NamePairMap& GetShaderList();

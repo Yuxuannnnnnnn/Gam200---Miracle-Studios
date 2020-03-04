@@ -32,7 +32,10 @@ bool Animation::load(const std::string& path)	//Serialise
 	if (file.HasMember("SpriteSheetName"))
 	{
 		strncpy(spriteSheetName, file["SpriteSheetName"].GetString(), 128);
-		MyResourceManager.AddNewTexture2DResource({ spriteSheetName,MyResourceSystem.GetTexture2DResourcePath(spriteSheetName) });
+#ifdef LEVELEDITOR
+		std::string temp{ spriteSheetName };
+		MyResourceManager.AddNewTexture2DResource({ temp,MyResourceSystem.GetTexture2DResourcePath(temp) });
+#endif // LEVELEDITOR
 		spriteSheet = MyResourceManager.GetTexture2DResource(spriteSheetName);
 	}
 	NumOfFrames = file["NoofFrames"].GetInt();
