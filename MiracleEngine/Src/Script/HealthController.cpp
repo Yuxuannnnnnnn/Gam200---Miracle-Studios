@@ -39,6 +39,9 @@ void HealthController::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapi
 {
 	rapidjson::Value value;
 
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
 	value.SetInt(_maxHealth);
 	prototypeDoc.AddMember("H.MaxHealth", value, allocator);
 
@@ -66,6 +69,114 @@ void HealthController::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapi
 
 void HealthController::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
+
+	HealthController* script = (HealthController*)(MyLogicSystem.getScriptPtr(UId));
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value MaxHealth;
+	rapidjson::Value ProgressLinkID;
+	rapidjson::Value ProgressScale;
+	rapidjson::Value HealthLinkID;
+	rapidjson::Value GreenFileName;
+	rapidjson::Value OrangeFileName;
+	rapidjson::Value RedFileName;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_maxHealth != _maxHealth)
+	{
+		addComponentIntoSceneFile = true;
+		MaxHealth.SetInt(_maxHealth);
+	}	
+	
+	if (script->_progressBarLinkID != _progressBarLinkID)
+	{
+		addComponentIntoSceneFile = true;
+		ProgressLinkID.SetInt(_progressBarLinkID);
+	}	
+	
+	if (script->_maxProgressScale != _maxProgressScale)
+	{
+		addComponentIntoSceneFile = true;
+		ProgressScale.SetFloat(_maxProgressScale);
+	}
+
+
+	addComponentIntoSceneFile = true;
+	HealthLinkID.SetArray();
+	for (unsigned i = 0; i < _hpBatteryLinkID.size(); i++)
+		HealthLinkID.PushBack(rapidjson::Value(_hpBatteryLinkID[i]).Move(), allocator);
+
+
+	if (script->_greenHealthFileName.compare(_greenHealthFileName))
+	{
+		addComponentIntoSceneFile = true;
+		GreenFileName.SetString(rapidjson::StringRef((_greenHealthFileName).c_str()));
+	}		
+	
+	if (script->_orangeHealthFileName.compare(_orangeHealthFileName))
+	{
+		addComponentIntoSceneFile = true;
+		OrangeFileName.SetString(rapidjson::StringRef((_orangeHealthFileName).c_str()));
+	}		
+	
+	if (script->_redHealthFileName.compare(_redHealthFileName))
+	{
+		addComponentIntoSceneFile = true;
+		RedFileName.SetString(rapidjson::StringRef((_redHealthFileName).c_str()));
+	}	
+
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+		if (!MaxHealth.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("H.MaxHealth", MaxHealth, allocator);
+		}
+
+		if (!ProgressLinkID.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("H.ProgressLinkID", ProgressLinkID, allocator);
+		}
+
+		if (!ProgressScale.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("H.ProgressScale", ProgressScale, allocator);
+		}		
+		
+		if (!HealthLinkID.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("H.HealthLinkID", HealthLinkID, allocator);
+		}		
+		
+		if (!GreenFileName.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("H.GreenFileName", GreenFileName, allocator);
+		}		
+		
+		if (!OrangeFileName.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("H.OrangeFileName", OrangeFileName, allocator);
+		}		
+		
+		if (!RedFileName.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("H.RedFileName", RedFileName, allocator);
+		}
+	}
 }
 
 void HealthController::Inspect()

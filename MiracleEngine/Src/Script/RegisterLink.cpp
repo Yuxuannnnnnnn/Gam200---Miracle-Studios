@@ -3,6 +3,7 @@
 
 void RegisterLink::SerialiseComponent(Serialiser& document)
 {
+
 }
 
 void RegisterLink::DeSerialiseComponent(DeSerialiser& prototypeDoc)

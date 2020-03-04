@@ -44,6 +44,7 @@ void Player::SerialiseComponent(Serialiser& document)
 		_firerateWall = document["FirerateWall"].GetDouble();
 }
 
+//Function Not needed for scripts
 void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
 //	rapidjson::Value value;
@@ -89,10 +90,224 @@ void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 void Player::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	rapidjson::Value value;
+
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
+	value.SetDouble(_timerShield);
+	prototypeDoc.AddMember("ShieldDuration", value, allocator);
+
+	value.SetDouble(_timerShieldCooldown);
+	prototypeDoc.AddMember("ShieldCooldown", value, allocator);
+
+	value.SetInt(_healthMax);
+	prototypeDoc.AddMember("Health", value, allocator);
+
+	value.SetInt(_weaponActive);
+	prototypeDoc.AddMember("WeaponActive", value, allocator);
+
+
+	value.SetInt(_ammoRpg);
+	prototypeDoc.AddMember("AmmoRpg", value, allocator);
+
+	value.SetInt(_ammoTurret);
+	prototypeDoc.AddMember("AmmoTurret", value, allocator);
+
+	value.SetInt(_ammoWall);
+	prototypeDoc.AddMember("AmmoWall", value, allocator);
+	
+
+
+	value.SetDouble(_fireratePistol);
+	prototypeDoc.AddMember("FireratePistol", value, allocator);
+
+	value.SetDouble(_firerateShotgun);
+	prototypeDoc.AddMember("FirerateShotgun", value, allocator);
+
+	value.SetDouble(_firerateRPG);
+	prototypeDoc.AddMember("FirerateRpg", value, allocator);
+
+	value.SetDouble(_firerateTurret);
+	prototypeDoc.AddMember("FirerateTurret", value, allocator);
+
+	value.SetDouble(_firerateWall);
+	prototypeDoc.AddMember("FirerateWall", value, allocator);
+
+
 }
 
 void Player::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
+
+	Player* script = (Player*)(MyLogicSystem.getScriptPtr(UId));
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value ShieldDuration;
+	rapidjson::Value ShieldCooldown;
+
+	rapidjson::Value Health;
+	rapidjson::Value WeaponActive;
+	rapidjson::Value AmmoRpg;
+	rapidjson::Value AmmoTurret;	
+	rapidjson::Value AmmoWall;
+
+	rapidjson::Value FireratePistol;
+	rapidjson::Value FirerateShotgun;	
+	rapidjson::Value FirerateRpg;
+	rapidjson::Value FirerateTurret;
+	rapidjson::Value FirerateWall;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_timerShield != _timerShield)
+	{
+		addComponentIntoSceneFile = true;
+		ShieldDuration.SetDouble(_timerShield);
+	}	
+	
+	if (script->_timerShieldCooldown != _timerShieldCooldown)
+	{
+		addComponentIntoSceneFile = true;
+		ShieldCooldown.SetDouble(_timerShieldCooldown);
+	}
+
+	if (script->_healthMax != _healthMax)
+	{
+		addComponentIntoSceneFile = true;
+		Health.SetInt(_healthMax);
+	}
+
+	if (script->_weaponActive != _weaponActive)
+	{
+		addComponentIntoSceneFile = true;
+		WeaponActive.SetInt(_weaponActive);
+	}
+
+	if (script->_ammoRpg != _ammoRpg)
+	{
+		addComponentIntoSceneFile = true;
+		AmmoRpg.SetInt(_ammoRpg);
+	}
+
+	if (script->_ammoTurret != _ammoTurret)
+	{
+		addComponentIntoSceneFile = true;
+		AmmoTurret.SetInt(_ammoTurret);
+	}
+
+	if (script->_ammoWall != _ammoWall)
+	{
+		addComponentIntoSceneFile = true;
+		AmmoWall.SetInt(_ammoWall);
+	}
+
+	if (script->_fireratePistol != _fireratePistol)
+	{
+		addComponentIntoSceneFile = true;
+		FireratePistol.SetDouble(_fireratePistol);
+	}
+
+	if (script->_firerateShotgun != _firerateShotgun)
+	{
+		addComponentIntoSceneFile = true;
+		FirerateShotgun.SetDouble(_firerateShotgun);
+	}
+
+	if (script->_firerateRPG != _firerateRPG)
+	{
+		addComponentIntoSceneFile = true;
+		FirerateRpg.SetDouble(_firerateRPG);
+	}
+
+	if (script->_firerateTurret != _firerateTurret)
+	{
+		addComponentIntoSceneFile = true;
+		FirerateTurret.SetDouble(_firerateTurret);
+	}
+
+	if (script->_firerateWall != _firerateWall)
+	{
+		addComponentIntoSceneFile = true;
+		FirerateWall.SetDouble(_firerateWall);
+	}
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+		if (!ShieldDuration.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("ShieldDuration", ShieldDuration, allocator);
+		}
+
+		if (!ShieldCooldown.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("ShieldCooldown", ShieldCooldown, allocator);
+		}
+
+		if (!Health.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("Health", Health, allocator);
+		}
+
+		if (!WeaponActive.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("WeaponActive", WeaponActive, allocator);
+		}
+
+		if (!AmmoRpg.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("AmmoRpg", AmmoRpg, allocator);
+		}
+
+		if (!AmmoTurret.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("AmmoTurret", AmmoTurret, allocator);
+		}
+
+		if (!AmmoWall.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("AmmoWall", AmmoWall, allocator);
+		}
+
+		if (!FireratePistol.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("FireratePistol", FireratePistol, allocator);
+		}
+
+		if (!FirerateShotgun.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("FirerateShotgun", FirerateShotgun, allocator);
+		}
+
+		if (!FirerateRpg.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("FirerateRpg", FirerateRpg, allocator);
+		}
+
+		if (!FirerateTurret.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("FirerateTurret", FirerateTurret, allocator);
+		}
+
+		if (!FirerateWall.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("FirerateWall", FirerateWall, allocator);
+		}
+	}
 }
 
 void Player::Inspect()

@@ -17,10 +17,11 @@
   "_alphaVal": 1.0,
   "_isFadingOut": false,
   "_isFlickering": false,
+
   "LogicComponent": true,
-  "Script2Id": [ "Turret" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Turret",
       "Health": 10,
       "Firerate": 2,
       "AttackRangeShoot": 4,
@@ -29,7 +30,7 @@
       "DeployScale": [ 80.0, 140.0, 1.0 ]
     }
   ],
-  "ScriptId": [],
+
   "AnimationComponent": true,
   "AnimationTypes": [
     {

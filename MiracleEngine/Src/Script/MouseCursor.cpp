@@ -7,22 +7,64 @@ void MouseCursor::SerialiseComponent(Serialiser& document)
 		_spinSpeed = document["M.SpinSpeed"].GetFloat();
 
 }
-
+//Function not needed for scripts
 void MouseCursor::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
-	rapidjson::Value value;
-
-	value.SetInt(_spinSpeed);
-	prototypeDoc.AddMember("M.SpinSpeed", value);
+	//rapidjson::Value value;
+	//
+	//value.SetInt(_spinSpeed);
+	//prototypeDoc.AddMember("M.SpinSpeed", value);
 
 }
 
 void MouseCursor::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	rapidjson::Value value;
+
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
+	value.SetFloat(_spinSpeed);
+	prototypeDoc.AddMember("M.SpinSpeed", value, allocator);
 }
 
 void MouseCursor::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
+
+	MouseCursor* script = (MouseCursor*)(MyLogicSystem.getScriptPtr(UId));
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value SpinSpeed;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_spinSpeed != _spinSpeed)
+	{
+		addComponentIntoSceneFile = true;
+		SpinSpeed.SetFloat(_spinSpeed);
+	}
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+
+		if (!SpinSpeed.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("M.SpinSpeed", SpinSpeed, allocator);
+		}
+	}
 }
 
 void MouseCursor::Inspect()

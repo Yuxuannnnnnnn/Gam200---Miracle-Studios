@@ -14,26 +14,87 @@ void PauseMenu::SerialiseComponent(Serialiser& document)
 		}
 }
 
+//Function Not needed for scripts
 void PauseMenu::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
-	rapidjson::Value value;
-
-	value.SetInt(_numOfObject);
-	prototypeDoc.AddMember("P.NumOfObject", value);
-
-	value.SetArray();
-	for (unsigned i = 0; i < _objectLinkID.size(); i++)
-		value.PushBack(rapidjson::Value(_objectLinkID[i]).Move(), prototypeDoc.Allocator());
-
-	prototypeDoc.AddMember("P.ObjectID", value);
+	//rapidjson::Value value;
+	//
+	//value.SetInt(_numOfObject);
+	//prototypeDoc.AddMember("P.NumOfObject", value);
+	//
+	//value.SetArray();
+	//for (unsigned i = 0; i < _objectLinkID.size(); i++)
+	//	value.PushBack(rapidjson::Value(_objectLinkID[i]).Move(), prototypeDoc.Allocator());
+	//
+	//prototypeDoc.AddMember("P.ObjectID", value);
 }
 
 void PauseMenu::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	rapidjson::Value value;
+
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
+	value.SetInt(_numOfObject);
+	prototypeDoc.AddMember("P.NumOfObject", value, allocator);
+
+	value.SetArray();
+	for (unsigned i = 0; i < _objectLinkID.size(); i++)
+		value.PushBack(rapidjson::Value(_objectLinkID[i]).Move(), allocator);
+
+	prototypeDoc.AddMember("P.ObjectID", value, allocator);
 }
 
 void PauseMenu::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
+
+	PauseMenu* script = (PauseMenu*)(MyLogicSystem.getScriptPtr(UId));
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value NumOfObject;
+	rapidjson::Value ObjectID;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_numOfObject != _numOfObject)
+	{
+		addComponentIntoSceneFile = true;
+		NumOfObject.SetInt(_numOfObject);
+	}
+
+	addComponentIntoSceneFile = true;
+	ObjectID.SetArray();
+	for (unsigned i = 0; i < _objectLinkID.size(); i++)
+		ObjectID.PushBack(rapidjson::Value(_objectLinkID[i]).Move(), allocator);
+
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+
+		if (!NumOfObject.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("P.NumOfObject", NumOfObject, allocator);
+		}
+
+		if (!ObjectID.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("P.ObjectID", ObjectID, allocator);
+		}
+	}
 }
 
 void PauseMenu::Inspect()
