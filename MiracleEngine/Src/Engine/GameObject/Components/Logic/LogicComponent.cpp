@@ -56,9 +56,12 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 		for (unsigned i = 0; i < document["Scripts"].Size(); i++)
 		{
 			Serialiser datafile(document["Scripts"][i]);
-			IScript2* script = AddScript2(datafile["Script2Id"].GetString()); //Add Script to the GameOject
+			if (datafile.HasMember("Script2Id"))
+			{
+				IScript2* script = AddScript2(datafile["Script2Id"].GetString()); //Add Script to the GameOject
 
-			script->SerialiseComponent(datafile); //Serialise data to script , Iscript will serialise the type
+				script->SerialiseComponent(datafile); //Serialise data to script , Iscript will serialise the type
+			}
 		}
 }
 
