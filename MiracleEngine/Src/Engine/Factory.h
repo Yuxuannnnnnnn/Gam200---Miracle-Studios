@@ -37,9 +37,6 @@ public:
 	std::string SerialiseScenes(Serialiser& GameSceneFile); //For GamePlay 
 	void LoadAllSceneAssets(std::unordered_map<std::string, std::string>& GameSceneFile); //For Level Editor
 
-	//void SerialPrefabObjects(Serialiser& Level); //Gameplay mode
-	void SerialiseAllPrefabAssets(std::unordered_map<std::string, std::string>& list); //LevelEditor mode
-
 	void AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath);
 
 	void SaveNewLinkID(int Id, size_t objectUId);

@@ -137,110 +137,118 @@ void Factory::SerialiseLevel(std::string FileName)
 		//Player components
 
 #ifndef LEVELEDITOR
-//Serialise Prototypes
-	//EngineSystems::GetInstance()._prefabFactory->SerialPrefabObjects(Level);
-
+	
 	typedef std::map<std::string, std::string> NamePath;
-	NamePath ResourceList;
-
 	typedef std::unordered_map<std::string, std::string> unNamePath;
-	unNamePath ResourceList1;
+	typedef std::unordered_map<std::string, std::pair<std::string, std::string>> NamePairMap;
 
+	//Serialise Prototypes
 	if (Level.HasMember("PrototypesFilePaths"))
 	{
+		unNamePath PrototypesResourceList;
+
 		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["PrototypesFilePaths"][i].GetString();
-			size_t namesize = filePath.find_last_of(".json") - 4 - filePath.find_last_of("\\/");
+			size_t namesize = filePath.find_last_of(".json") - 5 - filePath.find_last_of("\\/");
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
-			ResourceList1.insert(std::pair<std::string, std::string>(fileName, filePath));
+			PrototypesResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		MyFactory.SerialiseAllPrefabAssets(ResourceList1);
-		ResourceList1.clear();
+		MyResourceManager.AddPrototypeResourceList(PrototypesResourceList);
 	}
 
 
-	//Serialise Resources
+	//Serialise Texture
 	if (Level.HasMember("TexturesFilesPaths"))
 	{
+		NamePath TextureResourceList;
+
 		for (unsigned i = 0; i < Level["TexturesFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["TexturesFilesPaths"][i].GetString();
 			//size_t namesize = filePath.find_last_of(".png") - 4 - filePath.find_last_of("\\/");
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+			TextureResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		MyResourceSystem.AddTexture2DResourceList(ResourceList);
-		ResourceList.clear();
+		MyResourceManager.AddTexture2DResourceList(TextureResourceList);
 	}
+
+	//Serialise Shader
+	if (Level.HasMember("ShaderFilesPaths"))
+	{
+		NamePairMap ShaderResourceList;
+
+		for (unsigned i = 0; i < Level["ShaderFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		{
+			std::string fileName = Level["ShaderFilesPaths"][i][0].GetString();
+			std::string fileVert = Level["ShaderFilesPaths"][i][1].GetString();
+			std::string fileFrag = Level["ShaderFilesPaths"][i][2].GetString();
+
+			ShaderResourceList.insert({ fileName , {fileVert, fileFrag} });
+		}
+		MyResourceManager.AddShaderResourceList(ShaderResourceList);
+	}
+
+	//Serialise Animation
 	if (Level.HasMember("AnimationDataFilesPaths"))
 	{
+		NamePath AnimationResourceList;
+
 		for (unsigned i = 0; i < Level["AnimationDataFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["AnimationDataFilesPaths"][i].GetString();
 			//size_t namesize = filePath.find_last_of(".json") - 5 - filePath.find_last_of("\\/");
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+			AnimationResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		MyResourceSystem.AddAnimationResourceList(ResourceList);
-		ResourceList.clear();
+		MyResourceManager.AddAnimationResourceList(AnimationResourceList);
 	}
-	if (Level.HasMember("AudioFilesPaths"))
+
+	//Serialise Audio - SFX
+	if (Level.HasMember("AudioSFXFilesPaths"))
 	{
-		for (unsigned i = 0; i < Level["AudioFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		NamePath AudioResourceList;
+
+		for (unsigned i = 0; i < Level["AudioSFXFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
-			std::string filePath = Level["AudioFilesPaths"][i].GetString();
+			std::string filePath = Level["AudioSFXFilesPaths"][i].GetString();
 			//size_t namesize = filePath.find_last_of(".ogg") - 4 - filePath.find_last_of("\\/");
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
 			//std::cout << "FileName" << fileName << std::endl;
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+			AudioResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		MyResourceSystem.AddAudioResourceList(ResourceList);
-		ResourceList.clear();
+		MyResourceManager.AddAudioResourceList(AudioResourceList);
 	}
 
-	typedef std::pair<std::string, std::string> VertFrag;
-	std::unordered_map<std::string, VertFrag> ShaderResource;
-
-	VertFrag vertFrag;
-
-	if (Level.HasMember("ShaderFilesPaths"))
+	//Serialise Audio - BGM
+	if (Level.HasMember("AudioBGMFilesPaths"))
 	{
-		for (unsigned i = 0; i < Level["ShaderFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
+		NamePath AudioResourceList;
+
+		for (unsigned i = 0; i < Level["AudioBGMFilesPaths"].Size(); i++)	//Loop through the Serialisation Array
 		{
-			std::string filePath = Level["ShaderFilesPaths"][i].GetString();
-			std::string fileName = "";
-			if (filePath.find(".vert") != std::string::npos)
-			{
-				size_t namesize = filePath.find_last_of(".vert") - 5 - filePath.find_last_of("\\/");
-				fileName = filePath.substr(filePath.find_last_of("\\/") + 1, namesize);
-				vertFrag.first = filePath;
-				ShaderResource.insert(std::pair<std::string, VertFrag>(fileName, vertFrag));
-			}
-			else if (filePath.find(".frag") != std::string::npos)
-			{
-				//size_t namesize = filePath.find_last_of(".frag") - 5 - filePath.find_last_of("\\/");
-				//fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
-				vertFrag.second = filePath;
-			}
+			std::string filePath = Level["AudioBGMFilesPaths"][i].GetString();
+			//size_t namesize = filePath.find_last_of(".ogg") - 4 - filePath.find_last_of("\\/");
+			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
+			//std::cout << "FileName" << fileName << std::endl;
+			AudioResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		MyResourceSystem.AddShaderResourceList(ShaderResource);
-		ShaderResource.clear();
+		MyResourceManager.AddLoopAudioResourceList(AudioResourceList);
 	}
 
-
-
+	//Serialise Font
 	if (Level.HasMember("FontFilesPath"))
 	{
+		NamePath FontResourceList;
+
 		for (unsigned i = 0; i < Level["FontFilesPath"].Size(); i++)	//Loop through the Serialisation Array
 		{
 			std::string filePath = Level["FontFilesPath"][i].GetString();
 			//size_t namesize = filePath.find_last_of(".ttf") - 4 - filePath.find_last_of("\\/");
 			std::string fileName = filePath.substr(filePath.find_last_of("\\/") + 1);
-			ResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
+			FontResourceList.insert(std::pair<std::string, std::string>(fileName, filePath));
 		}
-		MyResourceSystem.AddFontResourceList(ResourceList);
-		ResourceList.clear();
+		MyResourceManager.AddFontResourceList(FontResourceList);
 	}
 #endif
 
@@ -281,7 +289,7 @@ void Factory::SerialiseLevel(std::string FileName)
 
 			std::string name = datafile["ObjectType"].GetString();
 			//name += ".json";
-			GameObject* tmp2 = MyResourceSystem.GetPrototypeResource(name);
+			GameObject* tmp2 = MyResourceManager.GetPrototypeResource(name);
 			GameObject* tmp = CloneGameObject(tmp2);
 
 			tmp->Serialise(datafile);
@@ -625,45 +633,6 @@ void Factory::ClearLevel()
 	MyResourceManager.ClearAllResources();
 }
 
-//For GamePlay 
-//void Factory::SerialPrefabObjects(Serialiser& Level)
-//{
-//	if (Level.HasMember("PrototypesFilePaths"))
-//	{
-//		for (unsigned i = 0; i < Level["PrototypesFilePaths"].Size(); i++)	//Loop through the Serialisation Array
-//		{
-//			std::string path = Level["PrototypesFilePaths"][i].GetString();
-//			GameObject* temp = new GameObject(0);
-//			temp->Serialise(path);	//Serialise a gameobject with the string
-//
-//			std::string typeId = (dynamic_cast<IdentityComponent*>(temp->GetComponent(ComponentId::IDENTITY_COMPONENT)))->ObjectType();
-//			//insert into the prototype list
-//			_prototypeNameMap.insert(std::pair <std::string, GameObject*>(typeId, temp));
-//
-//			_prototypeFileList.insert(std::pair<std::string, std::string>(typeId, path));
-//			//temp->Set_typeId((TypeIdGO)typeId); //Set GameObjectType inside GameObject
-//
-//		}
-//	}
-//}
-
-void Factory::SerialiseAllPrefabAssets(std::unordered_map<std::string, std::string>& list)
-{
-	MyResourceManager.AddPrototypeResourceList(list);
-
-	////Serialise all Prototypesu8
-	//for (auto& nameFile : MyResourceSystem.GetPrototypeList())
-	//{
-	//	GameObject* temp = new GameObject();
-	//	Serialiser FilePath(nameFile.second);
-
-	//	temp->Serialise(FilePath);	//Serialise a gameobject with fileName
-
-	//	//insert into the prototype list
-	//	MyResourceSystem.GetPrototypeMap().insert(std::pair <std::string, GameObject*>(nameFile.first, temp));
-	//}
-}
-
 void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath)
 {
 	//if (filePath.find("Resources"))
@@ -827,11 +796,7 @@ void Factory::ChangeScene(const std::string& scene)
 		return;
 	}
 
-#ifdef LEVELEDITOR //for Level editor Mode
 	if (MyResourceSystem.GetSceneList().find(scene) != MyResourceSystem.GetSceneList().end())
-#else	//for GamePlay mode
-	if (MyResourceManager.GetSceneList().find(scene) != MyResourceManager.GetSceneList().end())
-#endif
 	{
 		_currentScene = scene;
 		return;

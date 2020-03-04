@@ -208,7 +208,7 @@ void AssetsImguiWindow::Init()
 			ResourceList1.insert(std::pair<std::string, std::string>(fileName, path));
 		}
 
-		MyFactory.SerialiseAllPrefabAssets(ResourceList1);
+		MyResourceSystem.AddPrototypeResourceList(ResourceList1);
 		ResourceList1.clear();
 	}
 
