@@ -265,9 +265,6 @@ void TransformComponent::MoveRotate(TransformComponent* parent, const float& in)
 
 void TransformComponent::Init()
 {
-	if (_init)
-		return;
-
 	if (GetParentPtr()->GetChild())
 		for (auto& it : GetParentPtr()->GetChildList())
 			it.second->GetComponent(ComponentId::CT_Transform)->Init();
@@ -278,7 +275,6 @@ void TransformComponent::Init()
 	_pivotPoint._z = 1.f;
 
 	SetRotate(_localRotationAngle);
-	_init = true;
 }
 
 void TransformComponent::SerialiseComponent(Serialiser& document)

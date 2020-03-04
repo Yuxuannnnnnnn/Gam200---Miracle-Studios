@@ -21,6 +21,7 @@ ResourceManager::ResourceManager(bool editer) :
 
 ResourceManager::~ResourceManager()
 {
+	_mainContainer._SceneList.clear();
 	ClearAllResources();
 }
 void ResourceManager::AddTexture2DResourceList(const NamePathMap& list)

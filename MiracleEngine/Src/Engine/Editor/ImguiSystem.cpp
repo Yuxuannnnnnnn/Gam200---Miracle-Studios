@@ -77,7 +77,7 @@ void ImguiSystem::UpdateFrame()
 		{
 			if (_editorMode && ImGui::MenuItem("Editor Mode : ON "))
 			{
-				MyFactory.ReInitScene();
+				//MyFactory.InitScene();
 				_editorMode = false;
 			}
 			else if (!_editorMode && ImGui::MenuItem("Editor Mode : OFF "))

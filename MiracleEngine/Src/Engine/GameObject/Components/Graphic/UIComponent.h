@@ -236,6 +236,8 @@ public:
 		return _layer;
 	}
 
+	virtual void Init() override;
+
 	UIComponent* CloneComponent() { return new UIComponent(*this); }
 };
 

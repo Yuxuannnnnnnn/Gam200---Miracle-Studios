@@ -24,9 +24,9 @@ public:
 	void SerialiseComponent(Serialiser& document) override;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override;
 	void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator);
-
-	void Inspect() override;
 	void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator) override;
+	
+	void Inspect() override;
 
 	void Init();
 	void Update(double dt);

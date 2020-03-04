@@ -7,6 +7,7 @@ ResourceSystem::ResourceSystem()
 
 ResourceSystem::~ResourceSystem()
 {
+	_mainContainer._SceneList.clear();
 	ClearAllResources();
 }
 
@@ -247,7 +248,6 @@ void ResourceSystem::ClearAllResources()
 	_mainContainer._LoopAudioList.clear();
 	_mainContainer._AnimationList.clear();
 	_mainContainer._PrototypeList.clear();
-	_mainContainer._SceneList.clear();
 
 	_mainContainer._fontCharacterMaps.clear();
 }
