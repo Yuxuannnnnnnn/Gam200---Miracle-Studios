@@ -49,8 +49,9 @@ void TransformComponent::SetPivot(const Vector3& in)
 			child->MovePos(temp);
 		}
 	}
-
+	
 	_pos += temp;
+
 	_pivotPoint = in;
 }
 

@@ -51,9 +51,11 @@ class TileMapComponent: public IComponent
 
 	typedef int tileNumber;
 	std::unordered_map < tileNumber, Node* > _tileNodeMap; // <NodeId, NodePtr>
-
 	tileNumber** _tilemapId; // 2dArray of the NodeMap in ID form
-	tileNumber** _tilemapInput; // 2dArray of node solidity
+
+	int** _tilemapInput; // 2dArray of node solidity //For Serialisation and Deserialisation
+
+	TransformComponent* transCom;
 
 public:
 
@@ -81,11 +83,13 @@ public:
 
 		if (document.HasMember("TileMap"))
 		{
-			_tilemapInput = new tileNumber * [_mapHeight];
+			_tilemapInput = new int * [_mapHeight];
+			_tilemapId = new tileNumber * [_mapHeight];
 
 			for (int height = 0; height < _mapHeight; height++)
 			{
-				_tilemapInput[height] = new tileNumber[_mapWidth];
+				_tilemapInput[height] = new int[_mapWidth];
+				_tilemapId[height] = new tileNumber[_mapWidth];
 
 				for (int width = 0; width < _mapWidth; width++)
 				{
@@ -93,6 +97,7 @@ public:
 				}
 			}
 		}
+		transCom = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
 
 		SerialNodeMap();
 	}
@@ -208,7 +213,7 @@ public:
 				value.AddMember("MapWidth", mapWidth, allocator);
 			}
 
-			DeserialNodeMap();
+			//DeserialNodeMap();
 
 			rapidjson::Value tilemap;
 			tilemap.SetArray();
@@ -265,12 +270,12 @@ public:
 
 	// remove the offset, cause that is just calculated during map build, and map resize
 	void SerialNodeMap();
-	void DeserialNodeMap();
+	//void DeserialNodeMap();
 	void DeleteNodeMap();
 
-	void ResizeNodeMap(Vector3 newScale);
+	void ResizeNodeMap();
 	void EditNodeMap(int newHeight, int newWidth);
-	void ToggleNodeSolidity(float x, float y);
+	//void ToggleNodeSolidity(float x, float y);
 
 // GetSet
 	void SetMapHeight(int in);

@@ -1,1 +1,19 @@
-{"IdentityComponent":true,"ObjectType":"Building2","Name":"none","BoxCollider2DComponent":true,"ColliderTypeId":1,"ColliderTag":6,"ColliderTrigger":false,"Collider2D.B.Center":[0.0,0.0,1.0],"Collider2D.B.Scale":[425.0,345.0,1.0],"Collider2D.B.Angle":0.0,"TransformComponent":true,"Position":[-1418.4207763671876,1502.9295654296876,1.0],"Scale":[600.0,600.0,1.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"Building_2_Rusted_400.png","G.Shader":"","G.Layer":1}
+{
+  "IdentityComponent": true,
+  "ObjectType": "Building2",
+  "Name": "none",
+  "BoxCollider2DComponent": true,
+  "ColliderTypeId": 1,
+  "ColliderTag": 6,
+  "ColliderTrigger": false,
+  "Collider2D.B.Center": [ 0.0, 0.0, 1.0 ],
+  "Collider2D.B.Scale": [ 425.0, 345.0, 1.0 ],
+  "Collider2D.B.Angle": 0.0,
+  "TransformComponent": true,
+  "Position": [ -1418.4207763671876, 1502.9295654296876, 1.0 ],
+  "Scale": [ 600.0, 600.0, 1.0 ],
+  "Rotate": 0.0,
+  "GraphicsComponent": true,
+  "G.FileName": "Building_2_Rusted_400.png",
+  "G.Shader": "",
+  "G.Layer":1}
