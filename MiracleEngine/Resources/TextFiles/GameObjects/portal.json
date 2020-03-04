@@ -13,9 +13,9 @@
 
 "LogicComponent": true,
   "ScriptId": [],
-  "Script2Id": [ "EntrancePortal" ],
-  "Script2Data": [
+  "Scripts": [
 		{
+			"Script2Id": "EntrancePortal",
 			"E.OpenEntranceFileName": "EntranceTo_Level2.png",
 			"E.CloseEntranceFileName": "EntranceTo_Level2_close.png",
 			"E.ProgressCount": 10,

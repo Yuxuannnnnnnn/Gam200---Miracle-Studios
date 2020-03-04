@@ -17,10 +17,15 @@
   "_alphaVal": 1.0,
   "_isFadingOut": false,
   "_isFlickering": false,
+
   "LogicComponent": true,
   "ScriptId": [],
-  "Script2Id": [ "ShieldSkill" ],
-  "Script2Data": [ {} ],
+  "Scripts": [
+    {
+      "Script2Id": "ShieldSkill"
+    }
+  ],
+
   "AudioComponent": true,
   "SFXList": [
     {
@@ -36,6 +41,7 @@
       "NumOfloops": 0
     }
   ],
+
   "AnimationComponent": true,
   "AnimationTypes": [
     {

@@ -35,9 +35,9 @@
   "StartAnim": "boom",
 
   "LogicComponent": true,
-  "Script2Id": [ "Explosion" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Explosion",
       "Lifetime": 0.3,
       "Radius": 100
     }

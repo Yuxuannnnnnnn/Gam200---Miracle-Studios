@@ -28,6 +28,9 @@
   "StartAnim": "Hit",
   "LogicComponent": true,
   "ScriptId": [],
-  "Script2Id": [ "HitEffect" ],
-  "Script2Data": [ {} ]
+  "Scripts": [
+    {
+      "Script2Id": "HitEffect"
+    }
+  ]
 }

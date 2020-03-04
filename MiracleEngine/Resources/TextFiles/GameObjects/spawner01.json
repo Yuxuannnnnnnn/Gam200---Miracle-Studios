@@ -1,1 +1,13 @@
-{"IdentityComponent":true,"ObjectType":"spawner01","Name":"none","TransformComponent":true,"Position":[0.0,0.0],"Scale":[100.0,100.0],"Rotate":0.0,"GraphicsComponent":true,"G.FileName":"Spawner_Platform_lit.png","G.Shader":""}
+{
+  "IdentityComponent": true,
+  "ObjectType": "spawner01",
+  "Name": "none",
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0 ],
+  "Scale": [ 100.0, 100.0 ],
+  "Rotate": 0.0,
+  "GraphicsComponent": true,
+  "G.FileName": "Spawner_Platform_lit.png",
+  "G.Shader": ""
+
+}

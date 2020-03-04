@@ -19,6 +19,7 @@
       "AnimationName": "Shoot"
     }
   ],
+
   "StartAnim": "Shoot",
   "RigidBody2DComponent": true,
   "Mass": 10.0,
