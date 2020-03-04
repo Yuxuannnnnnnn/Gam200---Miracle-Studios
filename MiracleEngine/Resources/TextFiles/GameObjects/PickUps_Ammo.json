@@ -14,19 +14,15 @@
   "G.Layer": 15,
   "_hasAlpha": true,
 
-  "CircleColliderComponent": true,
-  "ColliderTypeId": 2,
-  "ColliderTag": 8,
-  "ColliderTrigger": true,
-
   "LogicComponent": true,
-  "Script2Id": [ "PickUps" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "PickUps",
       "Lifetime": 5.0,
       "PickUps_Type": 2
     }
   ],
+
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 5,

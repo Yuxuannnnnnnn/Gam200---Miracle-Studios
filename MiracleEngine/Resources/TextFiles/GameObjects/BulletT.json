@@ -15,9 +15,9 @@
   "_hasAlpha": true,
 
   "LogicComponent": true,
-  "Script2Id": [ "Bullet" ],
-  "Script2Data": [
+  "Scripts": [
     {
+      "Script2Id": "Bullet",
       "Lifetime": 3.0,
       "BulletType": "BulletTurret",
       "BulletSpeed": 1.0
