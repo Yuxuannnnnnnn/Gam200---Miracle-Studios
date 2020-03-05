@@ -21,8 +21,8 @@ private:
 	int health, healthMax, healthHalf, healthQuart; // Half&Quart dont need serial
 	double idleTimer, idleDuration; // after every attack, rest for this long
 
-	int bulletFireAmount, bulletFireAmountMax;
-	double bulletROF; // shoot bullet related stuff
+	int ammo, ammoMax;
+	double bulletTimer, bulletROF; // shoot bullet related stuff
 	float rotationspeed;
 
 	double laserChargeTimer, laserChargeDuration; // laser charge
@@ -34,7 +34,6 @@ private:
 
 // non-serail vals
 	bool _init, _deathStart;
-	double _timerDeath;
 	Boss_State _state, _statePrev;
 	int playerId;
 	GameObject* playerPtr;
@@ -52,9 +51,11 @@ public:
 	void Idle();
 	void Death();
 	void SpinAround();
+	void ShootBullet();
 	void LookAtPlayer();
-	void ShootBullet() {}// should just be shoot in direction Boss is facing
-	void ShootLaser() {} // will need multiple phases within ShootLaser
+	void LaserCharge();
+	void LaserShoot();
+		// will need multiple phases within LaserShoot
 		// look at player whie charging
 		// once charged flash the line of laser, then shoot laser
 		// double chargeTime, flashTime, 
@@ -72,7 +73,7 @@ public:
 	void FirstSpecialAttack() {
 		// rapid fire laser
 	}
-	void HalfAtk() { ShootLaser(); }
+	void HalfAtk() { LaserShoot(); }
 	void QuartAtk() { FirstSpecialAttack(); }
 
 
