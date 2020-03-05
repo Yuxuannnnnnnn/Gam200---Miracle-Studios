@@ -6,6 +6,13 @@ Factory::Factory() :
 {
 }
 
+void Factory::Init()
+{
+#ifdef LEVELEDITOR
+	MyResourceSystem.AddNewScene({ "BackUp", "./Resources/TextFiles/Window/BackUp.json" });
+#endif
+}
+
 Factory::~Factory()
 {
 	ClearLevel();
@@ -812,6 +819,20 @@ void Factory::ChangeScene(const std::string& scene)
 	}
 	//if (scene.compare("Level1") == 0)
 	//	EngineSystems::GetInstance()._aiSystem->CreateNodeMapFromTileComp();
+}
+
+void Factory::SaveBackUpScene()
+{
+	_currEditerScene = _currentScene;
+	_currentScene = "BackUp";
+	_prevScene = _currentScene;
+
+	MyFactory.De_SerialiseLevel(MyResourceSystem.GeScenePath(_currentScene));
+}
+
+void Factory::LoadBackUpScene()
+{
+	_currentScene = _currEditerScene;
 }
 
 //For GamePlay 

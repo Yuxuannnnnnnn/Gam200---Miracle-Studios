@@ -16,11 +16,15 @@ public:
 	Factory(const Factory& rhs) = delete;
 	Factory& operator= (const Factory& rhs) = delete;
 
+	void Init();
 	void Update(float dt); ///Update the factory, destroying dead objects.
 	
 	void InitScene();
 	void UpdateScene();
 	void ChangeScene(const std::string& scene);
+
+	void SaveBackUpScene(); //For Level Editor when start play scene
+	void LoadBackUpScene(); //For Level Editor when end play scene
 
 	void LoadSceneResource();
 
@@ -82,6 +86,8 @@ private:
 
 	std::string _prevScene;
 	std::string _currentScene;
+
+	std::string _currEditerScene;
 
 	unsigned _lastGameObjectId; ///Used to incrementally generate unique id's.
 };

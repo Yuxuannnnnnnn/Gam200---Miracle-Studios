@@ -16,6 +16,8 @@ void Engine::Init()
 {
 	MyEventHandler.ChangedWindowSize();
 
+	MyFactory.Init();
+
 	MyLogicSystem.bUseOldScripting = true; // set TRUE to use C++ scripting
 	MyLogicSystem.Init();
 
