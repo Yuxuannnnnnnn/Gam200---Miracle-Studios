@@ -25,6 +25,11 @@ private:
 
 
 public:
+	bool HasAlpha() const;
+	bool HasAdjustableAlpha() const;
+	bool IsFadingOut() const;
+	bool IsFlickering() const;
+	float GetValue() const;
 
 	const std::string& GetFileName() const;
 	void SetFileName(const std::string& filename);
