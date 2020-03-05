@@ -1,6 +1,31 @@
 #include "PrecompiledHeaders.h"
 
 
+bool UIComponent::HasAlpha() const
+{
+	return _hasAlpha;
+}
+
+bool UIComponent::HasAdjustableAlpha() const
+{
+	return _hasAdjustableAlpha;
+}
+
+bool UIComponent::IsFadingOut() const
+{
+	return _isFadingOut;
+}
+
+bool UIComponent::IsFlickering() const
+{
+	return _isFlickering;
+}
+
+float UIComponent::GetValue() const
+{
+	return _alphaVal;
+}
+
 const std::string& UIComponent::GetFileName() const
 {
 	return _fileName;

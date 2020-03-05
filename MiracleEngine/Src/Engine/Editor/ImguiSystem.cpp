@@ -77,12 +77,14 @@ void ImguiSystem::UpdateFrame()
 		{
 			if (_editorMode && ImGui::MenuItem("Editor Mode : ON "))
 			{
-				//MyFactory.InitScene();
+				MyFactory.SaveBackUpScene();
 				_editorMode = false;
 			}
 			else if (!_editorMode && ImGui::MenuItem("Editor Mode : OFF "))
+			{
+				MyFactory.LoadBackUpScene();
 				_editorMode = true;
-
+			}
 			//ImGui::Separator();
 
 			if (_window.GetFullscreen() && ImGui::MenuItem("FullScreen Mode : ON "))
