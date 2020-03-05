@@ -511,8 +511,10 @@ void TileMapComponent::Inspect()
 		//Check Picking Collision for every single tile
 		for (auto& tile : _tileNodeMap)
 		{
-			//Draw every Tile
-			DebugRenderer::GetInstance().DrawBox(glm::vec3{ tile.second->GetPosition()._x, tile.second->GetPosition()._y, 0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 });
+			//Draw every Tile                                       // x center                     y center
+			DebugRenderer::GetInstance().DrawBox(glm::vec3{ tile.second->GetPosition()._x, tile.second->GetPosition()._y, 0 },
+				   // x y scale
+				glm::vec3{ _tilesize._x, _tilesize._y,0 });
 
 			std::cout << tile.second->GetPosition() << ", " << _tilesize << std::endl;
 
