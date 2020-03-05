@@ -34,8 +34,7 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 		}
 		else
 		{
-			const std::string& scenePath = MyResourceSystem.GeScenePath(MyFactory.GetCurrentScene());
-			MyFactory.De_SerialiseLevel(scenePath);
+			MyFactory.De_SerialiseLevel(MyResourceSystem.GeScenePath(MyFactory.GetCurrentScene()));
 		}
 
 	}

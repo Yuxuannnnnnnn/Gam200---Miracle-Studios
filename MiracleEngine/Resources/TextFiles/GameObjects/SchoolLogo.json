@@ -16,14 +16,5 @@
   "_hasAdjustableAlpha": true,
   "_alphaVal": 1.0,
   "_isFadingOut": true,
-  "_isFlickering": false,
-  "LogicComponent": true,
-  "ScriptId": [],
-  "Script2Id": [ "SplashScreen" ],
-  "Script2Data": [
-    {
-      "SS.ScreenDuration" :  3.0
-    }
-  ]
-
+  "_isFlickering": false
 }

@@ -378,8 +378,8 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 	//if (filename.find("Resources"))
 	//{
-	std::string fileName = filename.substr(filename.find_last_of("\\") + 1);
-	filename = "./Resources/TextFiles/Scenes/Scenes\\" + fileName;
+	/*std::string fileName = filename.substr(filename.find_last_of("\\") + 1);
+	filename = "./Resources/TextFiles/Scenes/Scenes\\" + fileName;*/
 	//}
 
 
@@ -586,7 +586,7 @@ void Factory::De_SerialiseLevel(std::string filename)
 	SceneFile.AddMember("NonClonableObjects", nonClonableObjects);
 
 
-	size_t namesize = filename.find_last_of(".json") - 5 - filename.find_last_of("\\");
+	size_t namesize = filename.find_last_of(".json") - 5 - filename.find_last_of("\\/");
 	std::string file = filename.substr(filename.find_last_of("\\/") + 1, namesize);
 
 
@@ -621,7 +621,11 @@ void Factory::WindowsDialogSaveLevel()
 	if (GetSaveFileName(&ofn)) //If the user specifies a file nameand clicks the OK buttonand the function is successful, the return value is nonzero.
 	{
 		std::cout << ofn.lpstrFile;
-		De_SerialiseLevel(ofn.lpstrFile);
+
+		std::string fileName = ofn.lpstrFile;	
+		fileName = fileName.substr(fileName.find_last_of("\\") + 1);
+		fileName = "./Resources/TextFiles/Scenes/Scenes\\" + fileName;
+		De_SerialiseLevel(fileName);
 	}
 }
 
