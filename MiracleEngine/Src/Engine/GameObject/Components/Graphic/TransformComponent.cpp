@@ -49,6 +49,14 @@ void TransformComponent::SetPivot(const Vector3& in)
 			child->MovePos(temp);
 		}
 	}
+
+	if (temp != Vector3{0,0,0})
+	{
+		if (TileMapComponent* tilemap = (TileMapComponent*)(GetSibilingComponent(ComponentId::CT_TileMap)))
+		{
+			tilemap->ResizeNodeMap();
+		}
+	}
 	
 	_pos += temp;
 
@@ -73,6 +81,13 @@ void TransformComponent::SetPos(const Vector3& in)
 		}
 	}
 
+	if (in != _pos)
+	{
+		if (TileMapComponent* tilemap = (TileMapComponent*)(GetSibilingComponent(ComponentId::CT_TileMap)))
+		{
+			tilemap->ResizeNodeMap();
+		}
+	}
 	
 
 	_pivotPoint = _pivotPoint - _pos;
@@ -99,6 +114,14 @@ void TransformComponent::SetScale(const Vector3& in)
 				continue;
 
 			child->MoveScale(temp);
+		}
+	}
+
+	if (in != _scale)
+	{
+		if (TileMapComponent* tilemap = (TileMapComponent*)(GetSibilingComponent(ComponentId::CT_TileMap)))
+		{
+			tilemap->ResizeNodeMap();
 		}
 	}
 

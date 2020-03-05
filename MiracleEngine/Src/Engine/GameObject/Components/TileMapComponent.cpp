@@ -120,16 +120,16 @@ void TileMapComponent::CalcTileSize()
 	}
 
 	Vector3 scale = ((TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform))->GetScaleA();
-	_tilesize.SetX(scale._x / _mapWidth);
-	_tilesize.SetY(scale._y / _mapHeight);
+	_tilesize.SetX(scale._x / (float)(_mapWidth));
+	_tilesize.SetY(scale._y / (float)(_mapHeight));
 }
 
 //Calculate OffSet of tileMap from the Center of TileMap Object
 void TileMapComponent::CalcOffset()
 {
 	_mapCenterOffset = Vector3(
-		static_cast<float>(((_tilesize._x * _mapWidth) / 2)),
-		static_cast<float>(((_tilesize._y * _mapHeight) / 2)),
+		static_cast<float>(((_tilesize._x * _mapWidth) / 2.0f)),
+		static_cast<float>(((_tilesize._y * _mapHeight) / 2.0f)),
 		1);
 	//tempVecOrigin = Vector3((float)originX, (float)originY, 0);
 	//tempVec = Vector3(
@@ -152,6 +152,7 @@ void TileMapComponent::SerialNodeMap()
 	int currNode = 0, currId = 0;
 	Node* up = nullptr, * down = nullptr, * left = nullptr, * right = nullptr;
 
+	TransformComponent* transCom = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
 	Vector3 TileMapCenterPosition = transCom->GetPositionA();
 
 	for (unsigned y = 0; y < _mapHeight; ++y)
@@ -161,8 +162,8 @@ void TileMapComponent::SerialNodeMap()
 			bool solid = _tilemapInput[y][x] == 1 ? true : false;
 
 			//center of tileMap - mapcenteroffset + tilesize * y + tilesize/2
-			Vector3 position = Vector3(TileMapCenterPosition.GetX() - _mapCenterOffset.GetX() + (_tilesize.GetX() * (float)(x) + _tilesize.GetX()/2.0f),
-				TileMapCenterPosition.GetY() - _mapCenterOffset.GetY() + (_tilesize.GetY() * (float)(y)+_tilesize.GetY() / 2.0f),
+			Vector3 position = Vector3(TileMapCenterPosition.GetX() - _mapCenterOffset.GetX() + (_tilesize.GetX() * (float)(x) /*+ (_tilesize.GetX()/2.0f)*/),
+				TileMapCenterPosition.GetY() - _mapCenterOffset.GetY() + (_tilesize.GetY() * (float)(y)/*+ (_tilesize.GetY() / 2.0f)*/),
 				1);
 
 			_tileNodeMap[currId] = new Node(solid, currId, position); // set Node pos;
@@ -295,6 +296,7 @@ void TileMapComponent::ResizeNodeMap()
 	//	}
 	unsigned currId = 0;
 
+	TransformComponent* transCom = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
 	Vector3 TileMapCenterPosition = transCom->GetPositionA();
 
 	for (unsigned y = 0; y < _mapHeight; ++y)
@@ -302,8 +304,8 @@ void TileMapComponent::ResizeNodeMap()
 		for (unsigned x = 0; x < _mapWidth; ++x)
 		{
 			//center of tileMap - mapcenteroffset + tilesize * y + tilesize/2
-			_tileNodeMap[currId]->SetPosition(Vector3(TileMapCenterPosition.GetX() - _mapCenterOffset.GetX() + (_tilesize.GetX() * (float)(x)+_tilesize.GetX() / 2.0f),
-				TileMapCenterPosition.GetY() - _mapCenterOffset.GetY() + (_tilesize.GetY() * (float)(y)+_tilesize.GetY() / 2.0f),
+			_tileNodeMap[currId]->SetPosition(Vector3(TileMapCenterPosition.GetX() - _mapCenterOffset.GetX() + (_tilesize.GetX() * (float)(x) +(_tilesize.GetX() / 2.0f)),
+				TileMapCenterPosition.GetY() - _mapCenterOffset.GetY() + (_tilesize.GetY() * (float)(y)+(_tilesize.GetY() / 2.0f)),
 				1));
 			currId++;
 		}
@@ -313,16 +315,12 @@ void TileMapComponent::ResizeNodeMap()
 //If Height and Width is changed - All Node will return back to nonsolidity
 void TileMapComponent::EditNodeMap(int newHeight, int newWidth)
 {
+
 	if (newHeight <= 0 || newWidth <= 0)
 	{
 		std::cout << "WARNING: New map Width||Height <= 0.\n";
-		return;
-	}
-	// if got change in number of nodes, remake the map
-	if ((newHeight != _mapHeight) || (newWidth != _mapWidth))
-	{
 
-		if (_mapHeight != 0 && _mapWidth != 0)
+		if (_mapHeight != 0 && _mapWidth != 0) //if previous height and width is 0
 		{
 
 			// free existing _tileNodeMap, _tilemapId
@@ -339,6 +337,36 @@ void TileMapComponent::EditNodeMap(int newHeight, int newWidth)
 			delete _tilemapInput;
 
 		}
+
+		_mapHeight = newHeight;
+		_mapWidth = newWidth;
+		return;
+	}
+	// if got change in number of nodes, remake the map
+	if ((newHeight != _mapHeight) || (newWidth != _mapWidth ))
+	{
+
+		if (_mapHeight != 0 && _mapWidth != 0) //if previous height and width is 0
+		{
+
+			// free existing _tileNodeMap, _tilemapId
+			for (auto& map : _tileNodeMap)
+				delete map.second;
+			_tileNodeMap.clear();
+
+			for (unsigned i = 0; i < _mapHeight; ++i)
+			{
+				delete _tilemapId[i];
+				delete _tilemapInput[i];
+			}
+			delete _tilemapId;
+			delete _tilemapInput;
+
+		}
+
+		_mapHeight = newHeight;
+		_mapWidth = newWidth;
+
 		CalcTileSize();
 		CalcOffset();
 
@@ -346,6 +374,7 @@ void TileMapComponent::EditNodeMap(int newHeight, int newWidth)
 		int currNode = 0, currId = 0;
 		Node* up = nullptr, * down = nullptr, * left = nullptr, * right = nullptr;
 
+		TransformComponent* transCom = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
 		Vector3 TileMapCenterPosition = transCom->GetPositionA();
 
 		_tilemapInput = new int* [_mapHeight];
@@ -359,8 +388,8 @@ void TileMapComponent::EditNodeMap(int newHeight, int newWidth)
 			for (unsigned x = 0; x < _mapWidth; ++x)
 			{
 				//center of tileMap - mapcenteroffset + tilesize * y + tilesize/2
-				Vector3 position = Vector3(TileMapCenterPosition.GetX() - _mapCenterOffset.GetX() + (_tilesize.GetX() * (float)(x)+_tilesize.GetX() / 2.0f),
-					TileMapCenterPosition.GetY() - _mapCenterOffset.GetY() + (_tilesize.GetY() * (float)(y)+_tilesize.GetY() / 2.0f),
+				Vector3 position = Vector3(TileMapCenterPosition.GetX() - _mapCenterOffset.GetX() + (_tilesize.GetX() * (float)(x) + (_tilesize.GetX() / 2.0f)),
+					TileMapCenterPosition.GetY() - _mapCenterOffset.GetY() + (_tilesize.GetY() * (float)(y)+ (_tilesize.GetY() / 2.0f)),
 					1);
 
 				_tileNodeMap[currId] = new Node(false, currId, position); // set Node pos;
@@ -464,7 +493,7 @@ void TileMapComponent::Inspect()
 		if (ImGui::InputInt("Height ", &height))
 		{
 			EditNodeMap(height, _mapWidth);
-			_mapHeight = height;
+
 		}
 
 		ImGui::Spacing();
@@ -472,7 +501,6 @@ void TileMapComponent::Inspect()
 		if (ImGui::InputInt("Width ", &width))
 		{
 			EditNodeMap(_mapHeight, width);
-			_mapWidth = width;
 		}
 
 		ImGui::Spacing();
@@ -485,6 +513,8 @@ void TileMapComponent::Inspect()
 		{
 			//Draw every Tile
 			DebugRenderer::GetInstance().DrawBox(glm::vec3{ tile.second->GetPosition()._x, tile.second->GetPosition()._y, 0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 });
+
+			std::cout << tile.second->GetPosition() << ", " << _tilesize << std::endl;
 
 			TransformComponent * transform = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
 
@@ -508,7 +538,7 @@ void TileMapComponent::Inspect()
 
 			if (tile.second->GetSolid())
 			{
-				DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(),0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 }, glm::vec4{ 1, 0, 0, 0.7f });
+				//DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(),0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 }, glm::vec4{ 1, 0, 0, 0.7f });
 			}
 
 		}

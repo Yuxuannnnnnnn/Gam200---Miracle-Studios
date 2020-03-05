@@ -55,13 +55,20 @@ class TileMapComponent: public IComponent
 
 	int** _tilemapInput; // 2dArray of node solidity //For Serialisation and Deserialisation
 
-	TransformComponent* transCom;
+	//TransformComponent* transCom;
 
 public:
 
 	TileMapComponent() : 
 		_mapHeight{ 0 }, _mapWidth{ 0 }, _tilemapInput{ nullptr }, _tilesize{ 0, 0, 0 }, turnOnTileMap{ false }, _tileNodeMap{}
-	{}
+	{
+		//if(GetParentPtr())
+	}
+
+	void Init() override
+	{
+		//transCom = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
+	}
 
 
 	TileMapComponent(const TileMapComponent& copy) = default;
@@ -97,9 +104,7 @@ public:
 				}
 			}
 		}
-		transCom = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
 
-		SerialNodeMap();
 	}
 
 
