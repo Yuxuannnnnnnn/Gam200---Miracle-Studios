@@ -16,6 +16,12 @@ UIRenderer::UIRenderer()
 
 void UIRenderer::Update(std::unordered_map<size_t, IComponent*> uiMap, const glm::mat4& proj)
 {
+	// fill up UI container _renderUI
+
+	// draw no UI first
+
+	// alpha one draw back to front
+
 	// no alpha value
 	for (const auto& uiCompPair : uiMap)
 	{

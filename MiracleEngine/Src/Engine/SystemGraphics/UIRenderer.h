@@ -32,4 +32,6 @@ public:
 private:
 	UIMesh _uiMesh;
 	Shader* _uiShader;
+
+	std::vector<RenderUI> _renderUI;
 };
