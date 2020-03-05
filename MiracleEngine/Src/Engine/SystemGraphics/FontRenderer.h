@@ -32,8 +32,6 @@ public:
 	bool load(std::string path);
 	void unload();
 
-
-
 	size_t GetCharacterMapId() const;
 	
 

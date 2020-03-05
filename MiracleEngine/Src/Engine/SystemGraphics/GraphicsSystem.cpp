@@ -20,11 +20,30 @@ void GraphicsSystem::Update(double dt)
 	////DebugRenderer::GetInstance().DrawBox(glm::vec3{ 200,0,0 }, glm::vec3{ 100,100,0 });
 	////DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,0,0 }, glm::vec3{ 100,100,0 });
 	////DebugRenderer::GetInstance().DrawBox(glm::vec3{ 400,200,0 }, glm::vec3{ 100,100,0 });
+
 	//_fontRenderer->Draw();
+	// test draw font
 
+	// loop through every font component
+	for (auto fontpair : GetComponentMap(Font))
+	{
+		// check if it is enabled
+		if (!fontpair.second->GetEnable())
+			continue;
 
+		// get the trasnform component from the object
+		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[fontpair.first];
+		FontComponent* fontComp = (FontComponent*)GetComponentMap(Font)[fontpair.first];
+		if (!transformComp)
+			continue;
+
+		// draw the font
+		_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(), 
+			transformComp->GetPos().GetY());
+	}
 
 	DebugRenderer::GetInstance().BatchDrawDebugLine();
+
 	std::sort(_renderObjects.begin(), _renderObjects.end(), compare);
 
 	glAlphaFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -46,6 +65,7 @@ void GraphicsSystem::Update(double dt)
 	renderingAnim = RENDERNONE;
 
 	// Render gameobject in world space
+	//normal rendering, no alpha
 	for (const auto& renderobj : _renderObjects)
 	{
 		if (renderobj._hasAlpha)
@@ -55,6 +75,7 @@ void GraphicsSystem::Update(double dt)
 			abs(1.0f - renderobj._alpha) > 0.01f)
 			continue;*/
 
+		
 		renderobj._pShader->Select();
 
 		if (renderobj._pTexture)
@@ -237,17 +258,8 @@ void GraphicsSystem::Update(double dt)
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
-	// render font
-	/*for (auto fontpair : GetComponentMap(Font))
-	{
-		if (!fontpair.second->GetEnable())
-			continue;
-
-		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[fontpair.first];
-
-		if (!transformComp)
-			continue;
-	}*/
+	
+	
 
 	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
 

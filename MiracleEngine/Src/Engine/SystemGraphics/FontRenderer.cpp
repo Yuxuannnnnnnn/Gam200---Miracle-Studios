@@ -180,6 +180,8 @@ void FontRenderer::unload()
 	MyResourceSystem.GetFontCharacterMap().erase(_characterMapId);
 }
 
+
+
 size_t FontRenderer::GetCharacterMapId() const
 {
 
