@@ -298,7 +298,7 @@ void HealthController::Init()
 	for (unsigned i = 0; i < _hpBattery.size(); i++)
 		_hpBatteryGraphic.push_back((UIComponent*)_hpBattery[i]->GetComponent(ComponentId::CT_UI));
 
-	_progressBar = (TransformComponent*)MyFactory.GetLinkIDObject(_progressBarLinkID)->GetComponent(ComponentId::CT_Transform);
+	//_progressBar = (TransformComponent*)MyFactory.GetLinkIDObject(_progressBarLinkID)->GetComponent(ComponentId::CT_Transform);
 
 	_currHealth = _maxHealth;
 	_currColor = 3;
@@ -403,5 +403,5 @@ void HealthController::IncreaseEXP(float exp)
 
 void HealthController::UpdateProgressBar()
 {
-	_progressBar->SetScale(Vec3{ _progressPercent * _maxProgressScale, _progressBar->GetScale()._y, 1.f });
+	//_progressBar->SetScale(Vec3{ _progressPercent * _maxProgressScale, _progressBar->GetScale()._y, 1.f });
 }

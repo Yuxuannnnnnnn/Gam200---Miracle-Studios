@@ -208,17 +208,17 @@ void DebugRenderer::DrawBox(const glm::vec3& center, const glm::vec3& scale)
 	glm::vec3 botleft;
 	glm::vec3 botright;
 
-	topleft.x = (center.x - scale.x) / 2;
-	topleft.y = (center.y + scale.y) / 2;
+	topleft.x = center.x - scale.x / 2;
+	topleft.y = center.y + scale.y / 2;
 
-	topright.x = (center.x + scale.x) / 2;
-	topright.y = (center.y + scale.y) / 2;
+	topright.x = center.x + scale.x / 2;
+	topright.y = center.y + scale.y / 2;
 
-	botleft.x = (center.x - scale.x) / 2;
-	botleft.y = (center.y - scale.y) / 2;
+	botleft.x = center.x - scale.x / 2;
+	botleft.y = center.y - scale.y / 2;
 
-	botright.x = (center.x + scale.x) / 2;
-	botright.y = (center.y - scale.y) / 2;
+	botright.x = center.x + scale.x / 2;
+	botright.y = center.y - scale.y / 2;
 	SubmitDebugLine(topleft, topright);
 	SubmitDebugLine(topleft, botleft);
 	SubmitDebugLine(topright, botright);

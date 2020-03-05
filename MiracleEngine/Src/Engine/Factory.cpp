@@ -735,6 +735,11 @@ void Factory::InitScene()
 		if (it.first != 0)
 			it.second->Init();
 
+	for (auto& it : GetComponentMap(TileMap))
+		if (it.first != 0)
+			it.second->Init();
+
+
 	MyCameraSystem.Init();
 	MyGraphicsSystem.Init();
 	MyLogicSystem.Init();
