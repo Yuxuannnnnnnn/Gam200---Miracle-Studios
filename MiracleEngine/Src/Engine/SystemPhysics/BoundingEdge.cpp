@@ -21,6 +21,7 @@ BoundingEdge::BoundingEdge(const Vector3& start, const Vector3& end, const Vecto
 	_normalVec.Normalize();
 
 	Vec3 vec = origin - start;
+	vec.SetZ(0.f);
 	_orthoDistance = vec.AbsDot(_normalVec);
 }
 

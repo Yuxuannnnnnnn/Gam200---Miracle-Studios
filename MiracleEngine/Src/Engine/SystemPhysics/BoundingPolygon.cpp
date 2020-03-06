@@ -60,7 +60,7 @@ BoundingPolygon::BoundingPolygon(Vector3* points, int numPoints) :
 	}
 
 	for (int i = 0; i < numPoints; ++i)
-		_ptrEdgeArray[i] = BEdge{ _pointArray[i] , _pointArray[(i + 1) % _numPoints] };
+		_ptrEdgeArray[i] = BEdge{ _pointArray[i] , _pointArray[(i + 1) % _numPoints], _AABB._BC._center };
 }
 
 BoundingPolygon::~BoundingPolygon()
