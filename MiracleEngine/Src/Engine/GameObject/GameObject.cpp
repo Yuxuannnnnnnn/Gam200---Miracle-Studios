@@ -250,7 +250,7 @@ GameObject* GameObject::Clone(size_t uid)
 	{
 		for (auto& it : _childObjects)
 		{
-			GameObject* newChildObject = it.second->Clone(MyFactory.GetNextGameObjectUId());
+			GameObject* newChildObject = MyFactory.CloneChildGameObject(it.second);
 			newChildObject->SetParent(newGameObject);
 
 			newGameObject->AddChildObject(newChildObject);
@@ -298,8 +298,6 @@ std::unordered_map<size_t, GameObject*>& GameObject::GetChildList()
 
 void GameObject::AddChildObject(GameObject* child)
 {
-	//Check if object is in the list in the Factory.
-
 	if (!child)
 		return;
 
