@@ -30,6 +30,24 @@ float Vec3Distance_LinetoPoint(Vector3 P, Vector3 Q, Vector3 R)
 	return R.Distance(S);
 }
 
+bool Vec3D_InLineRange(Vector3 P, Vector3 Q, Vector3 R)
+{
+	Vector3 v = Q - P;
+	Vector3 w = R - P;
+
+	float c1 = w.Dot(v);
+
+	if (c1 <= 0)
+		return false;
+
+	float c2 = v.Dot(v);
+
+	if (c2 <= c1)
+		return false;
+
+	return true;
+}
+
 
 float RadToDeg(float& rad)
 {
