@@ -57,6 +57,9 @@ public:
 	GameObject* CreateEmptyChildGameObject();
 
 	GameObject* CloneGameObject(GameObject* gameobject); ///Create initialize and Id a GOC from the data file.
+	GameObject* CloneChildGameObject(GameObject* gameobject);
+	int CheckObjOrignialChildPointer(GameObject* obj, GameObject* original);
+
 
 	size_t GetNextGameObjectUId();
 

@@ -250,7 +250,7 @@ GameObject* GameObject::Clone(size_t uid)
 	{
 		for (auto& it : _childObjects)
 		{
-			GameObject* newChildObject = it.second->Clone(MyFactory.GetNextGameObjectUId());
+			GameObject* newChildObject = MyFactory.CloneChildGameObject(it.second);
 			newChildObject->SetParent(newGameObject);
 
 			newGameObject->AddChildObject(newChildObject);

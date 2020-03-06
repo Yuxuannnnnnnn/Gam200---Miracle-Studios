@@ -15,6 +15,8 @@
 class HierarchyImguiWindow : public IBaseImguiWindow
 {
 	static bool isObjectSelected;
+
+	//static bool isChildSelected;
 	static std::string selectedObj;
 
 public:
@@ -25,6 +27,8 @@ public:
 
 	void Update() override; //Content for every frame
 
+
+	void InspectChildObjects(GameObject* gameObject, int layer);
 
 	void ShowGameObjects(); //Show Every GameObject in the GameObjectList
 	//void ShowGameObjectComponents(std::unordered_map < unsigned, IComponent* > ComponentList); //Show every Component of a GameObject
@@ -39,11 +43,12 @@ public:
 	void SetisObjectSelected(bool set)
 	{
 		isObjectSelected = set;
+		//isChildSelected = set;
 	}
 
 	bool GetObjIsSelected()
 	{
-		return isObjectSelected;
+		return (isObjectSelected /*|| isChildSelected*/);
 	}
 
 	static void SetSelectedObj(GameObject * ObjName)

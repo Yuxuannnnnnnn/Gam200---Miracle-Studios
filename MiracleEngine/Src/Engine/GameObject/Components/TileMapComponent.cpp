@@ -534,13 +534,13 @@ void TileMapComponent::Inspect()
 				}
 				else										// If just Hovering over the box
 				{
-					DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(),0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 }, glm::vec4{ 1, 0, 0, 0.3f });
+					DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(), 0}, glm::vec3{ _tilesize._x, _tilesize._y, 0}, glm::vec4{ 1, 0, 0, 0.3f });
 				}
 			}
 
 			if (tile.second->GetSolid())
 			{
-				//DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(),0 }, glm::vec3{ _tilesize._x, _tilesize._y,0 }, glm::vec4{ 1, 0, 0, 0.7f });
+				DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(), 0}, glm::vec3{ _tilesize._x, _tilesize._y, 0});
 			}
 
 		}
