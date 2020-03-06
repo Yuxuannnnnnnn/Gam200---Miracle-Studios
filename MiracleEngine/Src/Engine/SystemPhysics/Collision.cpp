@@ -70,7 +70,7 @@ void BoxVsBoxCollisionUpdate(Collider2D* boxA, Collider2D* boxB, double dt)
 	// box dynaimc check
 		// dynamic response
 
-	if (Collision::CollisionCheck(BoxA->_data, BoxB->_data))
+	if (Collision::CollisionCheck(BoxA->_data, BoxB->_data) || BoxVsBoxIntersection(BoxA, BoxB, data))
 	{
 		std::cout << "box static check" << std::endl;
 
@@ -104,13 +104,13 @@ void BoxVsBoxCollisionUpdate(Collider2D* boxA, Collider2D* boxB, double dt)
 		EventHandler::GetInstance().AddCollided2DEvent(BoxA, BoxB);
 		EventHandler::GetInstance().AddCollided2DEvent(BoxB, BoxA);
 	}
-	else if (BoxVsBoxIntersection(BoxA, BoxB, data))
+	/*else if (BoxVsBoxIntersection(BoxA, BoxB, data))
 	{
 		std::cout << "box dynaimc check" << std::endl;
 
 		EventHandler::GetInstance().AddCollided2DEvent(BoxA, BoxB);
 		EventHandler::GetInstance().AddCollided2DEvent(BoxB, BoxA);
-	}
+	}*/
 }
 
 void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, double dt)
@@ -135,6 +135,9 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 	CollisionData data;
 	RigidBody2DComponent* rigidbodyA = nullptr;
 	RigidBody2DComponent* rigidbodyB = nullptr;
+
+	TransformComponent* transformA = dynamic_cast<TransformComponent*>(CircleA->GetSibilingComponent(ComponentId::CT_Transform));
+	TransformComponent* transformB = dynamic_cast<TransformComponent*>(CircleB->GetSibilingComponent(ComponentId::CT_Transform));;
 
 	if (CircleA->_attachedRigidboy)
 	{
@@ -180,16 +183,19 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 	// circle dynaimc check
 		// dynamic response
 
-	if (Collision::CollisionCheck(CircleA->_data, CircleB->_data))
+	if (Collision::CollisionCheck(CircleA->_data, CircleB->_data) || CircleVsCircleIntersection(CircleA, CircleB, data))
 	{
 		std::cout << "circle static check" << std::endl;
+		EventHandler::GetInstance().AddCollided2DEvent(CircleA, CircleB);
+		EventHandler::GetInstance().AddCollided2DEvent(CircleB, CircleA);
+
 		if (rigidbodyA && rigidbodyB)
 		{
 			if (rigidbodyA->_static && rigidbodyB->_static)
 				return; // redundant
 			else if (rigidbodyA->_static)
 			{
-				// move only box b
+				// move only circle b
 				Vec3 vec = data.posNextB - data.posNextA;
 				float distance = vec.Length();
 
@@ -199,13 +205,18 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 				Vec3 dir = vec.Normalized();
 				float totalradius = CircleA->_data._radius + CircleB->_data._radius;
 
-				Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+				Vec3 newPos = transformB->GetPos() + (dir * (totalradius - distance));
+				transformB->SetPos(newPos);
 
-				rigidbodyB->_velocity = newVec;
+				rigidbodyB->_velocity = dir;
+
+				/*Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+
+				rigidbodyB->_velocity = newVec;*/
 			}
 			else if (rigidbodyB->_static)
 			{
-				// move only box A
+				// move only circle A
 				Vec3 vec = data.posNextA - data.posNextB;
 				float distance = vec.Length();
 
@@ -215,9 +226,16 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 				Vec3 dir = vec.Normalized();
 				float totalradius = CircleB->_data._radius + CircleA->_data._radius;
 
-				Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+				Vec3 newPos = transformA->GetPos() + (dir * (totalradius - distance));
+				transformA->SetPos(newPos);
 
-				rigidbodyA->_velocity = newVec;
+				rigidbodyA->_velocity = dir;
+
+				//rigidbodyA->_velocity = dir;
+
+				/*Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+
+				rigidbodyA->_velocity = newVec;*/
 			}
 			else
 			{
@@ -230,7 +248,7 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 				Vec3 dir = vec.Normalized();
 				float totalradius = CircleA->_data._radius + CircleB->_data._radius;
 
-				Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+				Vec3 newVec = (dir * (totalradius - distance)) / (float)dt;
 
 				rigidbodyB->_velocity = newVec * 0.5f;
 				rigidbodyA->_velocity = -newVec * 0.5f;
@@ -238,7 +256,7 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 		}
 		else if (rigidbodyA && !rigidbodyA->_static)
 		{
-			// move only box A
+			// move only circle A
 			Vec3 vec = data.posNextA - data.posNextB;
 			float distance = vec.Length();
 
@@ -248,13 +266,20 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 			Vec3 dir = vec.Normalized();
 			float totalradius = CircleB->_data._radius + CircleA->_data._radius;
 
-			Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+			Vec3 newPos = transformA->GetPos() + (dir * (totalradius - distance));
+			transformA->SetPos(newPos);
 
-			rigidbodyA->_velocity = newVec;
+			rigidbodyA->_velocity = dir;
+
+			//rigidbodyA->_velocity = dir;
+
+			/*Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+
+			rigidbodyA->_velocity = newVec;*/
 		}
 		else if (rigidbodyB && !rigidbodyB->_static)
 		{
-			// move only box b
+			// move only circle b
 			Vec3 vec = data.posNextB - data.posNextA;
 			float distance = vec.Length();
 
@@ -264,67 +289,76 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 			Vec3 dir = vec.Normalized();
 			float totalradius = CircleA->_data._radius + CircleB->_data._radius;
 
-			Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+			Vec3 newPos = transformB->GetPos() + (dir * (totalradius - distance));
+			transformB->SetPos(newPos);
 
-			rigidbodyB->_velocity = newVec;
+			rigidbodyB->_velocity = dir;
+
+			//rigidbodyB->_velocity = dir;
+
+			/*Vec3 newVec = (dir * totalradius - vec) / (float)dt;
+
+			rigidbodyB->_velocity = newVec;*/
 		}
 		else
 			return; // redundant
 
-		EventHandler::GetInstance().AddCollided2DEvent(CircleA, CircleB);
-		EventHandler::GetInstance().AddCollided2DEvent(CircleB, CircleA);
+		
 	}
-	else if (CircleVsCircleIntersection(CircleA, CircleB, data))
-	{
-		std::cout << "circle dynaimc check" << std::endl;
+	//else if ()
+	//{
+	//	std::cout << "circle dynaimc check" << std::endl;
 
 
-		data.normal = data.interPtA - data.interPtB;
-		data.normal._z = 0.f;
-		data.normal.Normalize();
+	//	//data.normal = data.interPtA - data.interPtB;
+	//	//data.normal._z = 0.f;
+	//	//data.normal.Normalize();
 
-		data.reflectedVecA = data.velA;
-		data.reflectedVecB = data.velB;
+	//	//data.reflectedVecA = data.velA;
+	//	//data.reflectedVecB = data.velB;
 
-		CircleVsCircleResponse(data);
+	//	//CircleVsCircleResponse(data);
 
 
-		if (rigidbodyA && rigidbodyB)
-		{
-			if (rigidbodyA->_static && rigidbodyB->_static)
-				return; // redundant
-			else if (rigidbodyA->_static)
-			{
-				// move only box b
-				rigidbodyB->_velocity = data.reflectedVecB * rigidbodyB->_velocity.Length();
-			}
-			else if (rigidbodyB->_static)
-			{
-				// move only box A
-				rigidbodyA->_velocity = data.reflectedVecA * rigidbodyA->_velocity.Length();
-			}
-			else
-			{
-				rigidbodyB->_velocity = data.reflectedVecB * rigidbodyB->_velocity.Length();
-				rigidbodyA->_velocity = data.reflectedVecA * rigidbodyA->_velocity.Length();
-			}
-		}
-		else if (rigidbodyA)
-		{
-			// move only box A
-			rigidbodyA->_velocity = data.reflectedVecA * rigidbodyA->_velocity.Length();
-		}
-		else if (rigidbodyB)
-		{
-			// move only box b
-			rigidbodyB->_velocity = data.reflectedVecB * rigidbodyB->_velocity.Length();
-		}
-		else
-			return; // redundant
+	//	//if (rigidbodyA && rigidbodyB)
+	//	//{
+	//	//	if (rigidbodyA->_static && rigidbodyB->_static)
+	//	//		return; // redundant
+	//	//	else if (rigidbodyA->_static)
+	//	//	{
+	//	//		// move only box b
 
-		EventHandler::GetInstance().AddCollided2DEvent(CircleA, CircleB);
-		EventHandler::GetInstance().AddCollided2DEvent(CircleB, CircleA);
-	}
+
+
+	//	//		rigidbodyB->_velocity = data.reflectedVecB * rigidbodyB->_velocity.Length();
+	//	//	}
+	//	//	else if (rigidbodyB->_static)
+	//	//	{
+	//	//		// move only box A
+	//	//		rigidbodyA->_velocity = data.reflectedVecA * rigidbodyA->_velocity.Length();
+	//	//	}
+	//	//	else
+	//	//	{
+	//	//		rigidbodyB->_velocity = data.reflectedVecB * rigidbodyB->_velocity.Length();
+	//	//		rigidbodyA->_velocity = data.reflectedVecA * rigidbodyA->_velocity.Length();
+	//	//	}
+	//	//}
+	//	//else if (rigidbodyA)
+	//	//{
+	//	//	// move only box A
+	//	//	rigidbodyA->_velocity = data.reflectedVecA * rigidbodyA->_velocity.Length();
+	//	//}
+	//	//else if (rigidbodyB)
+	//	//{
+	//	//	// move only box b
+	//	//	rigidbodyB->_velocity = data.reflectedVecB * rigidbodyB->_velocity.Length();
+	//	//}
+	//	//else
+	//	//	return; // redundant
+
+	//	EventHandler::GetInstance().AddCollided2DEvent(CircleA, CircleB);
+	//	EventHandler::GetInstance().AddCollided2DEvent(CircleB, CircleA);
+	//}
 }
 
 void CircleVsBoxCollisionUpdate(Collider2D* circle, Collider2D* box, double dt)
@@ -398,7 +432,7 @@ void CircleVsBoxCollisionUpdate(Collider2D* circle, Collider2D* box, double dt)
 	// circle box dynaimc check
 		// dynamic response
 
-	if (Collision::CollisionCheck(Box->_data, Circle->_data))
+	if (Collision::CollisionCheck(Box->_data, Circle->_data) || CircleVsBoxIntersection(Circle, Box, data))
 	{
 		std::cout << "circle box static check" << std::endl;
 
@@ -432,24 +466,28 @@ void CircleVsBoxCollisionUpdate(Collider2D* circle, Collider2D* box, double dt)
 		}
 
 
-		Vec3 normal = newBox._ptrEdgeArray[edgeNum]._normalVec;
+		Vec3 normal = Box->_data._ptrEdgeArray[edgeNum]._normalVec;
 
-		Vec3 panc = newBox._AABB._BC._center - Circle->_data._center;
-		float relfDis = newBox._ptrEdgeArray[edgeNum]._orthoDistance - panc.AbsDot(normal);
+		Vec3 panc = Box->_data._AABB._BC._center - Circle->_data._center;
+		float relfDis = (Box->_data._ptrEdgeArray[edgeNum]._orthoDistance + Circle->_data._radius) - panc.AbsDot(normal);
 
-		Vec3 reflcVec = normal * relfDis;
+		Vec3 newPos = transformA->GetPos() + (normal * relfDis);
+		transformA->SetPos(newPos);
 
-		rigidbodyA->SetVelocity(reflcVec);
+		rigidbodyA->_velocity = normal;
 
+		//Vec3 reflcVec = normal * relfDis;
+
+	/*	rigidbodyA->SetVelocity(reflcVec);*/
 
 		EventHandler::GetInstance().AddCollided2DEvent(Circle, Box);
 		EventHandler::GetInstance().AddCollided2DEvent(Box, Circle);
 
 	}
-	else if (CircleVsBoxIntersection(Circle, Box, data))
+	/*else if (CircleVsBoxIntersection(Circle, Box, data))
 	{
 		std::cout << "circle box dynaimc check" << std::endl;
-	}
+	}*/
 }
 
 void CircleVsEdgeCollisionUpdate(Collider2D* circle, Collider2D* edge, double dt)
@@ -503,7 +541,7 @@ void CircleVsEdgeCollisionUpdate(Collider2D* circle, Collider2D* edge, double dt
 	// circle edge dynaimc check
 		// dynamic response
 
-	if (Collision::BEdgeVSBCircle(Edge->_data, Circle->_data))
+	if (Collision::BEdgeVSBCircle(Edge->_data, Circle->_data) || CircleVsEdgeIntersection(Circle, Edge, data))
 	{
 		std::cout << "circle edge static check" << std::endl;
 
@@ -518,14 +556,27 @@ void CircleVsEdgeCollisionUpdate(Collider2D* circle, Collider2D* edge, double dt
 		Vector3 dir = Circle->_data._center - Edge->_data._centerPoint;
 
 		if (Edge->_data._normalVec.Dot(dir) > 0)
-			rigidbodyA->_velocity = penc * Edge->_data._normalVec / (float)dt;
+		{
+			Vec3 newPos = transformA->GetPos() +(penc * Edge->_data._normalVec);
+			transformA->SetPos(newPos);
+
+			rigidbodyA->_velocity = Edge->_data._normalVec;
+			//rigidbodyA->_velocity = penc * Edge->_data._normalVec / (float)dt;
+		}
 		else
-			rigidbodyA->_velocity = -penc * Edge->_data._normalVec / (float)dt;
+		{
+			Vec3 newPos = transformA->GetPos() - (penc * Edge->_data._normalVec);
+			transformA->SetPos(newPos);
+
+			rigidbodyA->_velocity = -Edge->_data._normalVec;
+			//rigidbodyA->_velocity = -penc * Edge->_data._normalVec / (float)dt;
+		}
+			
 
 		EventHandler::GetInstance().AddCollided2DEvent(Circle, Edge);
 		EventHandler::GetInstance().AddCollided2DEvent(Edge, Circle);
 	}
-	else if (CircleVsEdgeIntersection(Circle, Edge, data))
+	/*else if (CircleVsEdgeIntersection(Circle, Edge, data))
 	{
 		std::cout << "circle edge dynaimc check" << std::endl;
 
@@ -538,7 +589,7 @@ void CircleVsEdgeCollisionUpdate(Collider2D* circle, Collider2D* edge, double dt
 
 		EventHandler::GetInstance().AddCollided2DEvent(Circle, Edge);
 		EventHandler::GetInstance().AddCollided2DEvent(Edge, Circle);
-	}	
+	}	*/
 }
 
 void BoxVsEdgeCollisionUpdate(Collider2D* box, Collider2D* edge, double dt)
@@ -554,7 +605,7 @@ void BoxVsEdgeCollisionUpdate(Collider2D* box, Collider2D* edge, double dt)
 		if (Collision::BEdgeVSBPolygon(Edge->_data, Box->_data))
 		{
 			EventHandler::GetInstance().AddTriggered2DEvent(Box, Edge);
-				EventHandler::GetInstance().AddTriggered2DEvent(Edge, Box);
+			EventHandler::GetInstance().AddTriggered2DEvent(Edge, Box);
 		}
 
 		return;
@@ -592,7 +643,7 @@ void BoxVsEdgeCollisionUpdate(Collider2D* box, Collider2D* edge, double dt)
 	// box edge dynaimc check
 		// dynamic response
 
-	if (Collision::BEdgeVSBPolygon(Edge->_data, Box->_data))
+	if (Collision::BEdgeVSBPolygon(Edge->_data, Box->_data) || BoxVsEdgeIntersection(Box, Edge, data))
 	{
 		std::cout << "box edge static check" << std::endl;
 
@@ -614,17 +665,29 @@ void BoxVsEdgeCollisionUpdate(Collider2D* box, Collider2D* edge, double dt)
 		Vector3 dir = Box->_data._AABB._BC._center - Edge->_data._centerPoint;
 
 		if (Edge->_data._normalVec.Dot(dir) > 0)
-			rigidbodyA->_velocity = -penc * Edge->_data._normalVec / (float)dt;
+		{
+			Vec3 newPos = transformA->GetPos() + (penc * Edge->_data._normalVec);
+			transformA->SetPos(newPos);
+
+			rigidbodyA->_velocity = Edge->_data._normalVec;
+			//rigidbodyA->_velocity = penc * Edge->_data._normalVec / (float)dt;
+		}
 		else
-			rigidbodyA->_velocity = penc * Edge->_data._normalVec / (float)dt;
+		{
+			Vec3 newPos = transformA->GetPos() - (penc * Edge->_data._normalVec);
+			transformA->SetPos(newPos);
+
+			rigidbodyA->_velocity = -Edge->_data._normalVec;
+			//rigidbodyA->_velocity = -penc * Edge->_data._normalVec / (float)dt;
+		}
 
 		EventHandler::GetInstance().AddCollided2DEvent(Box, Edge);
 		EventHandler::GetInstance().AddCollided2DEvent(Edge, Box);
 	}
-	else if (BoxVsEdgeIntersection(Box, Edge, data))
+	/*else if (BoxVsEdgeIntersection(Box, Edge, data))
 	{
 		std::cout << "box edge dynaimc check" << std::endl;
-	}
+	}*/
 }
 
 
