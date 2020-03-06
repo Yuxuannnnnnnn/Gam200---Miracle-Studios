@@ -298,6 +298,8 @@ std::unordered_map<size_t, GameObject*>& GameObject::GetChildList()
 
 void GameObject::AddChildObject(GameObject* child)
 {
+	//Check if object is in the list in the Factory.
+
 	if (!child)
 		return;
 
