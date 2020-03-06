@@ -1,28 +1,86 @@
 {
   "IdentityComponent": true,
-  "Name": "none",
   "ObjectType": "Boss",
-
+  "Name": "Boss1",
+  "LinkUId": 0,
   "TransformComponent": true,
-  "Position": [ 0.0, 0.0 ],
-  "Scale": [ 200.0, 200.0 ],
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 750.0, 750.0, 1.0 ],
   "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 1.0 ],
+
+
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Scripts": [
+    {
+      "Script2Id": "Boss",
+      "Health": 50,
+      "IdleDuration": 1.0,
+      "AmmoPerSpin": 25,
+      "ShootROF": 3.0,
+      "BulletSpeed": 3.0,
+      "RotationSpeed": 0.1,
+      "ChargeDuration": 3.0,
+      "FlashDuration": 0.5,
+      "LaserAliveDuration": 1.0,
+      "RapidFireNumOfShots": 5,
+      "RapidFireChargeSpeedUp": 2.0
+    }
+  ],
+
 
   "GraphicsComponent": true,
-  "G.TypeId": 0,
-  "G.FileName": "EnemyAttack.png",
-
-  "RigidBodyComponent": true,
+  "G.FileName": "Enemies_charging.png",
+  "G.Shader": "",
+  "G.Layer": 20,
+  "_hasAlpha": true,
+  "_hasAdjustableAlpha": false,
+  "_alphaVal": 1.0,
+  "_isFadingOut": false,
+  "_isFlickering": false,
+  "AudioComponent": true,
+  "SFXList": [
+    {
+      "SFXName": "charging",
+      "fileName": "ChargingSound.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "shoot",
+      "fileName": "EnemyShoot.wav",
+      "volume": 0.14000000059604646,
+      "NumOfloops": 0
+    }
+  ],
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Charger_enemy_sprite.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Death"
+    },
+    {
+      "AnimationType": "Charging_enemies2_sprite.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Move"
+    },
+    {
+      "AnimationType": "Charging_enemies2_sprite.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "ChargingLaser"
+    }
+  ],
+  "StartAnim": "Move",
+  "RigidBody2DComponent": true,
   "Mass": 5.0,
-  "Friction": 0.1,
+  "Friction": 0.10000000149011612,
   "Static": false,
-
-  "CircleColliderComponent": true,
+  "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 3,
   "ColliderTrigger": false,
-
-  "AudioComponent": true,
-  "A.TypeId": 0,
-  "A.FileName": "audio_enemy.ogg"
+  "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
+  "Collider2D.C.Radius": 100.0
 }
