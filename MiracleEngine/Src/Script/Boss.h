@@ -8,6 +8,11 @@ class Node; // forward declare
 
 /*
 
+// set render layer of BOSS above bullet
+// bullet shooting @ the 4 diagonal corners
+// death will have mutliple sprite sheets,
+	will need to do the way that will play 1 anim after another
+
 Do above half heath shoot laser, then under half spin shoot.
 	if ok then try 100-75 normal laser, 75-50||40 rapid shot, remaining spint shoot with critical health anims
 
@@ -16,7 +21,7 @@ Init()
 When start laser charge
 	Boss_Idle_sprite --> Boss_Laser_Charge_up_sprite
 Once laser charged & now shoot laser
-	Boss_Laser_Charge_up_sprite --> Laser_Blasting_small(body single frame) OR freeze to last frame of prev anim
+	Boss_Laser_Charge_up_sprite --> freeze last frame of prev anim
 		+ Laser_Blast_Sprite (actual laser)
 Once shoot laser finish & return to IDLE
 	Laser_Blasting_small(body single frame) --> Boss_Laser_after_shoot_transform_back_sprite --> Boss_Idle_sprite
@@ -37,8 +42,9 @@ enum class Boss_State {
 	NONE = 0,
 	STARTUP,
 	IDLE,
-	IDLE_RAGE,
 	IDLE_END,
+	IDLE_RAGE,
+	IDLE_RAGE_END,
 	TRANSFORMING,
 	TRANSFORMING_END,
 	DEATH,
@@ -66,14 +72,20 @@ private:
 	int laserRapidFireNumOfShots, rapidFireShotCount;
 	double laserRapidChargeSpeedUp;
 
-	bool 	_laserChargeStart, _laserFlashStart, _laserShootStart;
-	bool _init, _deathStart;
-	int _state, _statePrev;
+
+	int _state, _statePrev, _stateNext;
+	bool _laserChargeStart, _laserFlashStart, _laserShootStart;
+	bool _init, _transformStart, _healthHalfStart, _deathStart;
 
 	GameObject* playerPtr, *subObj;
 	int playerId;
 	double _dt;
 
+	// AnimNames for when calling particualr animations
+	std::vector<std::string>::iterator _AnimChainItr;
+	std::vector<std::string> _StartUp = { "","","" };
+	std::vector<std::string> _Idle = { "","","" };
+	std::vector<std::string> _IdleRage = { "","","" };
 public:
 	Boss();
 	~Boss();
@@ -84,16 +96,21 @@ public:
 
 	void UpdateState();
 	void RunState();
+	
+	void PlayAnimChain(std::vector<std::string>& in);
+	bool PlayAnimChainNext(std::vector<std::string>& idleAnim, std::vector<std::string>::iterator animChainItr);
 
 	void StartUp();
 	void Idle();
+	void IdleRage();
 	void Death();
 	void SpinAround();
 	void ShootBullet();
 	void LookAtPlayer();
 	void LaserCharge(double speedUp = 1.0);
 	void LaserShoot();
-
+	void Transform();
+	
 	void OnCollision2DTrigger(Collider2D* other);
 
 	void SerialiseComponent(Serialiser& document);
