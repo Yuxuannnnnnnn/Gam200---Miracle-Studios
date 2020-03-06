@@ -50,17 +50,19 @@ void TransformComponent::SetPivot(const Vector3& in)
 		}
 	}
 
-	if (temp != Vector3{0,0,0})
+
+	
+	_pos += temp;
+
+	_pivotPoint = in;
+
+	if (temp != Vector3{ 0,0,0 })
 	{
 		if (TileMapComponent* tilemap = (TileMapComponent*)(GetSibilingComponent(ComponentId::CT_TileMap)))
 		{
 			tilemap->ResizeNodeMap();
 		}
 	}
-	
-	_pos += temp;
-
-	_pivotPoint = in;
 }
 
 void TransformComponent::SetPos(const Vector3& in)
@@ -81,18 +83,22 @@ void TransformComponent::SetPos(const Vector3& in)
 		}
 	}
 
-	if (in != _pos)
+
+	Vector3  OldPosition = _pos;
+
+
+	_pivotPoint = _pivotPoint - _pos;
+	_pos = in;
+	_pivotPoint = _pos + _pivotPoint;
+
+
+	if (OldPosition != _pos)
 	{
 		if (TileMapComponent* tilemap = (TileMapComponent*)(GetSibilingComponent(ComponentId::CT_TileMap)))
 		{
 			tilemap->ResizeNodeMap();
 		}
 	}
-	
-
-	_pivotPoint = _pivotPoint - _pos;
-	_pos = in;
-	_pivotPoint = _pos + _pivotPoint;
 }
 
 Vector3 TransformComponent::GetScale()
@@ -117,7 +123,13 @@ void TransformComponent::SetScale(const Vector3& in)
 		}
 	}
 
-	if (in != _scale)
+	Vector3  OldScale = _scale;
+
+
+	_scale = in;
+
+
+	if (OldScale != _scale)
 	{
 		if (TileMapComponent* tilemap = (TileMapComponent*)(GetSibilingComponent(ComponentId::CT_TileMap)))
 		{
@@ -125,7 +137,8 @@ void TransformComponent::SetScale(const Vector3& in)
 		}
 	}
 
-	_scale = in;
+
+
 }
 
 float& TransformComponent::GetRotate()
@@ -236,14 +249,14 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::SliderFloat2("Slider Scale X, Y", tempScale.m, 1, 500);
 
-	if (tempScale != _scale)
-	{
-		if (TileMapComponent * TMCom = (TileMapComponent *)(GetSibilingComponent(ComponentId::CT_TileMap)))
-		{
-			//Reset array of nodes position. 
-			//TMCom->CalcTileSize();
-		}
-	}
+	//if (tempScale != _scale)
+	//{
+	//	if (TileMapComponent * TMCom = (TileMapComponent *)(GetSibilingComponent(ComponentId::CT_TileMap)))
+	//	{
+	//		//Reset array of nodes position. 
+	//		//TMCom->CalcTileSize();
+	//	}
+	//}
 
 	SetScale(tempScale);
 

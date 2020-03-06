@@ -24,7 +24,7 @@ private:
 
 	GameObject* _parentObject;
 	
-	std::unordered_map<size_t, GameObject*> _childObjects;
+	std::unordered_map<size_t, GameObject*> _childObjects; //LIst of ChildObjects that the ParentObject has
 	///////////////////////////////////////////////
 
 	Map_ComponentList _ComponentList; // Component List
