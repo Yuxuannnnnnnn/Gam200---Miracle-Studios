@@ -37,7 +37,7 @@ private:
 
 	bool 	_laserChargeStart, _laserFlashStart, _laserShootStart;
 	bool _init, _deathStart;
-	Boss_State _state, _statePrev;
+	int _state, _statePrev;
 
 	GameObject* playerPtr, *subObj;
 	int playerId;
