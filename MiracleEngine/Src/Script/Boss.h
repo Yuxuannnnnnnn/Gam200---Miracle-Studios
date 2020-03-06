@@ -18,7 +18,7 @@ enum class Boss_State {
 	LASER_SHOOT,
 };
 
-class Boss : public IScript												// NOTE NOTE NOTE NOTE -- THIS ISNT DONE AT ALL, WILL SETTLE THIS AFTER I DO THE LOGIC CHANGES :BRANDON
+class Boss : public IScript2
 {
 private:
 // Logic Data - General
