@@ -22,7 +22,7 @@ Boss::Boss() :
 
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },
 	_init{ false }, _deathStart{ false },
-	_state{ Boss_State::IDLE }, _statePrev{ Boss_State::IDLE },
+	_state{ (int)Boss_State::IDLE }, _statePrev{ (int)Boss_State::IDLE },
 	playerId{ 0 }, playerPtr{ nullptr }, _dt{ 0.0 }
 {
 }
@@ -70,27 +70,27 @@ void Boss::Update(double dt)
 void Boss::UpdateState()
 {
 	// states should update NOT upwhen when !IDLE_END
-	if (_state != Boss_State::IDLE_END)
+	if (_state != (int)Boss_State::IDLE_END)
 		return;
 	// check death
-	if (health < 0 && _state != Boss_State::DEATH)
+	if (health < 0 && _state != (int)Boss_State::DEATH)
 	{
-		_state = Boss_State::DEATH;
+		_state = (int)Boss_State::DEATH;
 		_deathStart = true;
 		return;
 	}
 	// select attack method
 	if (health < healthHalf)
 	{
-		_state = Boss_State::LASER_CHARGE;
+		_state = (int)Boss_State::LASER_CHARGE;
 	}
 	else if (health < healthQuart)
 	{
-		_state = Boss_State::LASER_CHARGE_RAPID;
+		_state = (int)Boss_State::LASER_CHARGE_RAPID;
 	}
 	else
 	{
-		_state = Boss_State::SPIN_SHOOTBULLET;
+		_state = (int)Boss_State::SPIN_SHOOTBULLET;
 	}
 	return;
 }
@@ -99,24 +99,24 @@ void Boss::RunState()
 {
 	switch (_state)
 	{
-	case Boss_State::IDLE:
+	case (int)Boss_State::IDLE:
 		Idle();
 		break;
-	case Boss_State::DEATH:
+	case (int)Boss_State::DEATH:
 		Death();
 		break;
-	case Boss_State::SPIN_SHOOTBULLET:
+	case (int)Boss_State::SPIN_SHOOTBULLET:
 		SpinAround();
 		ShootBullet();
 		break;
-	case Boss_State::LASER_CHARGE:
+	case (int)Boss_State::LASER_CHARGE:
 		LookAtPlayer();
 		LaserCharge();
 		break;
-	case Boss_State::LASER_SHOOT:
+	case (int)Boss_State::LASER_SHOOT:
 		LaserShoot();
 		break;
-	case Boss_State::LASER_CHARGE_RAPID:
+	case (int)Boss_State::LASER_CHARGE_RAPID:
 		LookAtPlayer();
 		LaserCharge(laserRapidChargeSpeedUp);
 		break;
@@ -138,7 +138,7 @@ void Boss::Idle()
 		// reset timer
 		idleTimer = idleDuration;
 		// set to Idle_End
-		_state = _statePrev = Boss_State::IDLE_END;
+		_state = _statePrev = (int)Boss_State::IDLE_END;
 	}
 }
 
@@ -200,7 +200,7 @@ void Boss::ShootBullet()
 	else
 	{
 		ammo = ammoMax;
-		_state = Boss_State::IDLE;
+		_state = (int)Boss_State::IDLE;
 	}
 }
 
@@ -224,7 +224,7 @@ void Boss::LookAtPlayer()
 
 void Boss::LaserCharge(double speedup)
 {
-	if (_statePrev == Boss_State::IDLE_END)
+	if (_statePrev == (int)Boss_State::IDLE_END)
 	{
 		_laserChargeStart = true;
 	}
@@ -244,15 +244,15 @@ void Boss::LaserCharge(double speedup)
 	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
 	{
 		laserChargeTimer = laserChargeDuration;
-		_state = Boss_State::LASER_SHOOT;
+		_state = (int)Boss_State::LASER_SHOOT;
 	}
 }
 
 void Boss::LaserShoot()
 {
 	// LaserShoot() SHOW FLASH
-	if (_statePrev == Boss_State::LASER_CHARGE ||
-		_statePrev == Boss_State::LASER_CHARGE_RAPID)
+	if (_statePrev == (int)Boss_State::LASER_CHARGE ||
+		_statePrev == (int)Boss_State::LASER_CHARGE_RAPID)
 	{
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Normal");
 		_laserShootStart = true;
@@ -299,21 +299,25 @@ void Boss::LaserShoot()
 		{
 			rapidFireShotCount--;
 			if (rapidFireShotCount > 0)
-				_state = Boss_State::LASER_CHARGE_RAPID;
+				_state = (int)Boss_State::LASER_CHARGE_RAPID;
 			else
 			{
 				rapidFireShotCount = laserRapidFireNumOfShots;
-				_state = Boss_State::IDLE;
+				_state = (int)Boss_State::IDLE;
 			}
 		}
 		else
-			_state = Boss_State::IDLE;
+			_state = (int)Boss_State::IDLE;
 	}
 }
 
 void Boss::OnCollision2DTrigger(Collider2D* other)
 {
-
+	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+	if (otherType.compare("Bullet") == 0)
+	{
+		health--;
+	}
 }
 
 void Boss::SerialiseComponent(Serialiser& document)
@@ -519,17 +523,37 @@ void Boss::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value&
 void Boss::Inspect()
 {
 	ImGui::Spacing();
+	ImGui::InputInt("Current State ", &_state);
+	ImGui::Spacing();
+	ImGui::Spacing();
 	ImGui::InputInt("Health ", &health);
 	ImGui::Spacing();
 	ImGui::InputInt("HealthMax ", &healthMax);
 	ImGui::Spacing();
 	ImGui::InputDouble("Idle Duration ", &idleDuration);
 	ImGui::Spacing();
-
+	ImGui::Spacing();
+	ImGui::InputInt("AmmoCurr ", &ammo);
+	ImGui::Spacing();
 	ImGui::InputInt("AmmoMax ", &ammoMax);
 	ImGui::Spacing();
-	ImGui::InputDouble("ShootROF ", &idleDuration);
+	ImGui::InputDouble("ShootROF ", &shootROF);
 	ImGui::Spacing();
-	ImGui::InputDouble("BulletSpeed ", &idleDuration);
+	ImGui::InputDouble("BulletSpeed ", &bulletSpeed);
+	ImGui::Spacing();
+	ImGui::InputFloat("Rotate Speed ", &rotationspeed);
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::InputDouble("Charge Duration ", &laserChargeDuration);
+	ImGui::Spacing();
+	ImGui::InputDouble("Flash Duration ", &laserFlashDuration);
+	ImGui::Spacing();
+	ImGui::InputDouble("Alive Duration ", &laserAliveDuration);
+	ImGui::Spacing();
+	ImGui::InputInt("Rapid Total Shots ", &laserRapidFireNumOfShots);
+	ImGui::Spacing();
+	ImGui::InputInt("Rapid Shot Counter ", &rapidFireShotCount);
+	ImGui::Spacing();
+	ImGui::InputDouble("Rapid Shot Charge Spd Mult ", &laserRapidChargeSpeedUp);
 	ImGui::Spacing();
 }
