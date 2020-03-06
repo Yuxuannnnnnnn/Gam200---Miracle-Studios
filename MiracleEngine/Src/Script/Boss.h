@@ -10,18 +10,22 @@ class Node; // forward declare
 
 Do above half heath shoot laser, then under half spin shoot.
 	if ok then try 100-75 normal laser, 75-50||40 rapid shot, remaining spint shoot with critical health anims
-
+	
 Init()
-	Boss_inactive_to_active_sprite --> Boss_Idle_sprite
+
+SND:: Plays the background music for the game --> MusicBGM1 OR MusicBGM2 (Your choice)
+	Boss_inactive_to_active_sprite --> Boss_Idle_sprite 
 When start laser charge
+SND:: Plays the charging sound effect --> Charging 
 	Boss_Idle_sprite --> Boss_Laser_Charge_up_sprite
 Once laser charged & now shoot laser
+SND:: Plays the laser shot sound effect --> LaserShot
 	Boss_Laser_Charge_up_sprite --> Laser_Blasting_small(body single frame) OR freeze to last frame of prev anim
-		+ Laser_Blast_Sprite (actual laser)
+		+ Laser_Blast_Sprite (actual laser) 
 Once shoot laser finish & return to IDLE
 	Laser_Blasting_small(body single frame) --> Boss_Laser_after_shoot_transform_back_sprite --> Boss_Idle_sprite
-
 On HP < 50, change from IDLE to IDLE_RAGE
+ SND:: Plays the sound effect for shooting bullets --> SingleShot
 	Boss_Idle_sprite --> Boss_Transform_into_rage_sprite --> Boss_Rage_idle_sprite
 When want to shoot bullet
 	Boss_Rage_idle_sprite --> Boss_rage_transform_to_shoot_style_sprite --> Boss_Shoot_style_sprite OR Boss_Shoot_style_low_HP_sprite
