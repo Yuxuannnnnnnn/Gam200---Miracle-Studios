@@ -15,6 +15,7 @@
   "Scripts": [
     {
       "Script2Id": "Boss",
+      "StartDuration": 3.0,
       "Health": 10,
       "IdleDuration": 2.0,
       "AmmoPerSpin": 25,

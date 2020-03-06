@@ -439,42 +439,75 @@ void CircleVsBoxCollisionUpdate(Collider2D* circle, Collider2D* box, double dt)
 		if (!rigidbodyA || rigidbodyA->_static)
 			return;
 
-		Vector3 newPoint0 = Box->_data._pointArray[0] + Box->_data._ptrEdgeArray[0]._normalVec * Circle->_data._radius + Box->_data._ptrEdgeArray[3]._normalVec * Circle->_data._radius;
-		Vector3 newPoint1 = Box->_data._pointArray[1] + Box->_data._ptrEdgeArray[1]._normalVec * Circle->_data._radius + Box->_data._ptrEdgeArray[2]._normalVec * Circle->_data._radius;
-		Vector3 newPoint2 = Box->_data._pointArray[2] + Box->_data._ptrEdgeArray[2]._normalVec * Circle->_data._radius + Box->_data._ptrEdgeArray[1]._normalVec * Circle->_data._radius;
-		Vector3 newPoint3 = Box->_data._pointArray[3] + Box->_data._ptrEdgeArray[3]._normalVec * Circle->_data._radius + Box->_data._ptrEdgeArray[0]._normalVec * Circle->_data._radius;
 
-		Vec3 newpoints[4] = { newPoint0 ,newPoint1 ,newPoint2 ,newPoint3 };
-
-		BPolygon newBox = BPolygon{ newpoints, 4 };
-
-		float t[4] = { 0.f,0.f ,0.f ,0.f };
+		bool boxOutcode = false;
+		float t[4] = { -1.f,-1.f ,-1.f ,-1.f };
 
 		for (unsigned i = 0; i < 4; ++i)
-			t[i] = Vec3Distance_LinetoPoint(newBox._ptrEdgeArray[i]._startPoint, newBox._ptrEdgeArray[i]._endPoint, Circle->_data._center);
-
-		float min = t[0];
-		unsigned edgeNum = 0;
-
-		for (unsigned i = 1; i < 4; ++i)
 		{
-			if (t[i] < min)
+			if (Vec3D_InLineRange(Box->_data._ptrEdgeArray[i]._startPoint, Box->_data._ptrEdgeArray[i]._endPoint, Circle->_data._center))
 			{
-				min = t[i];
-				edgeNum = i;
+				t[i] = (Circle->_data._center - Box->_data._ptrEdgeArray[i]._centerPoint).SquaredLength();
+				boxOutcode = true;
 			}
 		}
 
+		if (boxOutcode)
+		{
+			float min = std::numeric_limits<float>::max();
+			unsigned edgeNum = 0;
 
-		Vec3 normal = Box->_data._ptrEdgeArray[edgeNum]._normalVec;
+			for (unsigned i = 0; i < 4; ++i)
+			{
+				if (t[i] >= 0 && t[i] < min)
+				{
+					min = t[i];
+					edgeNum = i;
+				}
+			}
 
-		Vec3 panc = Box->_data._AABB._BC._center - Circle->_data._center;
-		float relfDis = (Box->_data._ptrEdgeArray[edgeNum]._orthoDistance + Circle->_data._radius) - panc.AbsDot(normal);
+			Vec3 normal = Box->_data._ptrEdgeArray[edgeNum]._normalVec;
 
-		Vec3 newPos = transformA->GetPos() + (normal * relfDis);
-		transformA->SetPos(newPos);
+			Vec3 panc = Box->_data._AABB._BC._center - Circle->_data._center;
+			float relfDis = (Box->_data._ptrEdgeArray[edgeNum]._orthoDistance + Circle->_data._radius) - panc.AbsDot(normal);
 
-		rigidbodyA->_velocity = normal;
+			Vec3 newPos = transformA->GetPos() + (normal * relfDis);
+			transformA->SetPos(newPos);
+
+			rigidbodyA->_velocity = normal;
+		}
+		else
+		{
+			for (unsigned i = 0; i < 4; ++i)
+			{
+				t[i] = (Circle->_data._center - Box->_data._pointArray[i]).SquaredLength();
+			}
+
+			float min = t[0];
+			unsigned edgePoint = 0;
+
+			for (unsigned i = 1; i < 4; ++i)
+			{
+				if (t[i] < min)
+				{
+					min = t[i];
+					edgePoint = i;
+				}
+			}
+
+			Vec3 vec = Circle->_data._center - Box->_data._pointArray[edgePoint];
+			float distance = vec.Length();
+
+			if (!distance)
+				return;
+
+			Vec3 dir = vec.Normalized();
+
+			Vec3 newPos = transformA->GetPos() + (dir * (Circle->_data._radius - distance));
+			transformA->SetPos(newPos);
+
+			rigidbodyA->_velocity = dir;
+		}
 
 		//Vec3 reflcVec = normal * relfDis;
 

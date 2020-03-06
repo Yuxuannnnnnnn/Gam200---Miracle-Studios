@@ -14,7 +14,6 @@ HierarchyImguiWindow::HierarchyImguiWindow(bool open, ImGuiWindowFlags flags)
 
 
 
-
 void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 {
 	std::string string1 = "New Scene ";
@@ -36,7 +35,6 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 		{
 			MyFactory.De_SerialiseLevel(MyResourceSystem.GeScenePath(MyFactory.GetCurrentScene()));
 		}
-
 	}
 
 
@@ -128,6 +126,7 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 
 
 		if (ImGui::Selectable(string.c_str(), selected, flags))
+		{
 			if (ImGui::IsMouseReleased(0))
 			{
 				InspectionImguiWindow::InspectGameObject(gameObject);
@@ -140,6 +139,8 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 				//ImGuiID id = ImGui::GetID(string.c_str());
 				//ImGui::GetStateStorage()->SetInt(id, 0);
 			}
+
+		}
 
 		ImGui::SameLine();
 
@@ -191,11 +192,123 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 			}
 		}
 		
+		InspectChildObjects(gameObject, 1);
 
 		i++;
 	}
 }
 
+
+void HierarchyImguiWindow::InspectChildObjects(GameObject* gameObject, int layer)
+{
+	std::string string = "ChildObjects##" + std::to_string(gameObject->Get_uID()) + std::to_string(layer);
+	
+	std::unordered_map<size_t, GameObject*>& childlist = gameObject->GetChildList();
+
+	if (!childlist.size())
+		return;
+
+
+	if (ImGui::TreeNode(string.c_str()))
+	{
+
+		for (auto& childobjects : childlist)
+		{
+			GameObject* gameObject = childobjects.second; //Get GameObject* from std::pair
+
+			size_t uID = gameObject->Get_uID();				//Get Unique Number of each GameObject
+
+			IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (gameObject->GetComponent(ComponentId::CT_Identity));
+
+			std::string ObjectTypeID = IdCom->GetName(); //Get Object Type of each GameObject
+			std::string string = std::to_string(IdCom->GetParentId()) + " " + ObjectTypeID; // "Object Type + Object unique number" string
+
+			static bool selected;
+
+			ImGuiSelectableFlags_ flags;
+
+			if (!string.compare(selectedObj))
+			{
+				if (isObjectSelected)
+					flags = ImGuiSelectableFlags_Disabled;
+				else
+				{
+					flags = ImGuiSelectableFlags_AllowDoubleClick;
+				}
+			}
+			else
+			{
+				flags = ImGuiSelectableFlags_AllowDoubleClick;
+			}
+
+			if (ImGui::Selectable(string.c_str(), selected, flags))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+					InspectionImguiWindow::InspectGameObject(gameObject);
+					//MyImGuizmoManager.SetPickObjectUId(uID);
+					selectedObj = string;
+					isObjectSelected = true;
+					//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+					//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+					//ImGui::TreePop();
+					//ImGuiID id = ImGui::GetID(string.c_str());
+					//ImGui::GetStateStorage()->SetInt(id, 0);
+				}
+
+
+			}
+
+			ImGui::SameLine();
+
+			std::string string1 = "Clone##" + string;
+			if (ImGui::Button(string1.c_str()))
+			{
+				GameObject* temp = MyFactory.CloneChildGameObject(gameObject);
+				InspectionImguiWindow::InspectGameObject(temp);	//Inspect cloned object
+				//MyImGuizmoManager.SetPickObjectUId(temp->Get_uID());	//gizmo the cloned object
+
+
+				IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (temp->GetComponent(ComponentId::CT_Identity));
+				std::string ObjectTypeID = IdCom->GetName(); //Get Object Type of each GameObject
+				std::string string = std::to_string(IdCom->GetParentId()) + " " + ObjectTypeID; // "Object Type + Object unique number" string
+
+				selectedObj = string; //highlight the cloned object
+				isObjectSelected = true;
+
+			}
+
+
+			ImGui::SameLine();
+			std::string deleteString = "Delete## " + string;
+			if (ImGui::Button(deleteString.c_str()))
+			{
+				gameObject->SetDestory();
+				//InspectionImguiWindow::InspectGameObject(gameObject);
+				//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+				//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+				//ImGui::TreePop();
+				//ImGuiID id = ImGui::GetID(string.c_str());
+				//ImGui::GetStateStorage()->SetInt(id, 0);
+			}
+
+			ImGui::SameLine();
+			std::string EnableCom = "##" + std::to_string(uID);
+			bool enable = gameObject->GetEnable();
+			if (ImGui::Checkbox(EnableCom.c_str(), &enable))
+			{
+				gameObject->SetEnable(enable);
+			}
+
+			layer++;
+			InspectChildObjects(gameObject, layer);
+		}
+
+
+
+		ImGui::TreePop();
+	}
+}
 
 
 //void HierarchyImguiWindow::ShowGameObjectComponents(

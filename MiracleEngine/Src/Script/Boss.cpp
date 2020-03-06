@@ -19,16 +19,18 @@ Boss::Boss() :
 	laserRapidFireNumOfShots{ 0 }, rapidFireShotCount{ 0 },
 	laserRapidChargeSpeedUp{ 0.0 },
 
+	_state{ (int)Boss_State::STARTUP }, _statePrev{ (int)Boss_State::STARTUP }, _stateNext{ (int)Boss_State::STARTUP },
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },
-	_init{ false }, _deathStart{ false },
-	_state{ (int)Boss_State::IDLE }, _statePrev{ (int)Boss_State::IDLE },
-	playerId{ 0 }, playerPtr{ nullptr }, _dt{ 0.0 }
+	_init{ false }, _transformStart{ false }, _healthHalfStart{ false }, _deathStart{ false },
+
+	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 }
 {
 }
 
 Boss::~Boss()
 {
-
+	if (subObj)
+		subObj->SetDestory();
 }
 
 Boss* Boss::Clone()
@@ -38,8 +40,6 @@ Boss* Boss::Clone()
 
 void Boss::Init()
 {
-	// TODO : Add in BulletPrototype & Laser for shooting
-
 	for (auto itr : _engineSystems._factory->getObjectlist())
 	{
 		if ((((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
@@ -54,7 +54,6 @@ void Boss::Init()
 	}
 	healthHalf = healthMax / 2;
 	healthQuart = healthMax / 4;
-	// if got starting anim, follow the DeathAnim style and let it loop within Init() until it is done
 
 	_init = true;
 }
@@ -67,10 +66,25 @@ void Boss::Update(double dt)
 	RunState();
 }
 
+void Boss::PlayAnimChain(std::vector<std::string>& in)
+{
+	// set _AnimChainItr to the
+}
+bool Boss::PlayAnimChainNext(std::vector<std::string>& idleAnim, std::vector<std::string>::iterator animChainItr)
+{
+	// if have more anim to play // check if ++_AnimChainItr == idleAnim.end()
+	//		set _AnimChainItr to next
+	//		return true if still have animation to play
+	// else return false
+	return false;
+}
+
 void Boss::UpdateState()
 {
-	// states should update NOT upwhen when !IDLE_END
+	// states should update NOT upwhen when !IDLE_END || stillTransforming
 	if (_state != (int)Boss_State::IDLE_END)
+		return;
+	if (_state == (int)Boss_State::TRANSFORMING)
 		return;
 	// check death
 	if (health < 0 && _state != (int)Boss_State::DEATH)
@@ -82,7 +96,7 @@ void Boss::UpdateState()
 	// select attack method
 	if (health < healthHalf)
 	{
-		_state = (int)Boss_State::LASER_CHARGE;
+		_state = (int)Boss_State::IDLE_RAGE;
 	}
 	else if (health < healthQuart)
 	{
@@ -99,8 +113,17 @@ void Boss::RunState()
 {
 	switch (_state)
 	{
+	case (int)Boss_State::STARTUP:
+		StartUp();
+		break;
+	case (int)Boss_State::TRANSFORMING:
+		Transform();
+		break;
 	case (int)Boss_State::IDLE:
 		Idle();
+		break;
+	case (int)Boss_State::IDLE_RAGE:
+		IdleRage();
 		break;
 	case (int)Boss_State::DEATH:
 		Death();
@@ -125,32 +148,51 @@ void Boss::RunState()
 	}
 	if (_state != _statePrev)
 	{
-		if (DEBUGOUTPUT) std::cout << "DEBUG\t State Change from" << (int)_statePrev << " to " << (int)_state << "\n";
+		if (DEBUGOUTPUT) std::cout << "DEBUG:\t State Change from" << (int)_statePrev << " to " << (int)_state << "\n";
 		_statePrev = _state;
 	}
 }
 
 void Boss::StartUp()
 {
-	idleTimer -= _dt;
-	if (idleTimer < 0.0)
-	{
-		// reset timer
-		idleTimer = idleDuration;
-		// set to Idle_End
-		_state = _statePrev = (int)Boss_State::IDLE_END;
-	}
+	// on first call, call PlayAnimChain()
+	PlayAnimChain(_StartUp);
+	// on anim end, check if got somemore ani mto play, else go to next state
+	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+		if (!PlayAnimChainNext(_StartUp, _AnimChainItr))
+			_state = (int)Boss_State::IDLE;
 }
 
 void Boss::Idle()
 {
+	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+		_state = (int)Boss_State::IDLE;
+
+
 	idleTimer -= _dt;
 	if (idleTimer < 0.0)
 	{
-		// reset timer
 		idleTimer = idleDuration;
-		// set to Idle_End
 		_state = _statePrev = (int)Boss_State::IDLE_END;
+	}
+}
+void Boss::IdleRage()
+{
+	if (_statePrev == (int)Boss_State::IDLE_END)
+		_healthHalfStart = true;
+	if (_healthHalfStart)
+	{
+		_healthHalfStart = false;
+		_transformStart = true;
+		Transform();
+		return;
+	}
+
+	idleTimer -= _dt;
+	if (idleTimer < 0.0)
+	{
+		idleTimer = idleDuration;
+		_state = _statePrev = (int)Boss_State::IDLE_RAGE_END;
 	}
 }
 
@@ -259,15 +301,16 @@ void Boss::LaserCharge(double speedup)
 	if (_statePrev == (int)Boss_State::IDLE_END)
 	{
 		_laserChargeStart = true;
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("LaserCharge");
 	}
 	if (_laserChargeStart)
 	{
-		// play the charge aniamtion
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Charge");
 		// set anim speed
-		if (speedup != 1.0)
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
-			(laserChargeDuration / speedup) / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+			laserChargeDuration / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+	//	if (speedup != 1.0)
+	//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+	//		(laserChargeDuration / speedup) / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
 		_laserChargeStart = false;
 	}
 	else
@@ -343,6 +386,41 @@ void Boss::LaserShoot()
 	}
 }
 
+void Boss::Transform()
+{
+	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+	{
+		_state = _stateNext;
+	}
+
+	if (_state == (int)Boss_State::IDLE_RAGE)
+	{	// IDLE --> IDLE RAGE <><> Boss_Transform_into_rage_sprite
+		_transformStart = false;
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("TransformIdleToIdleRage");
+		_state = (int)Boss_State::TRANSFORMING;
+		_stateNext = (int)Boss_State::IDLE_RAGE;
+	}
+//	if (_state == (int)Boss_State::IDLE)
+//	{
+//		// after laser shot, transform back to IDLE
+//		//		Boss_Laser_after_shoot_transform_back_sprite
+//		_stateNext = (int)Boss_State::IDLE_RAGE;
+//	}
+//	if (_state == (int)Boss_State::IDLE)
+//	{
+//		// just before do SpinShoot
+//		//		Boss_rage_transform_to_shoot_style_sprite
+//		_stateNext = (int)Boss_State::IDLE_RAGE;
+//	}
+//	if (_state == (int)Boss_State::IDLE)
+//	{
+//		// just after SpinShoot
+//		//		Boss_rage_transform_to_shoot_style_sprite
+//		_stateNext = (int)Boss_State::IDLE_RAGE;
+//	}
+}
+
+
 void Boss::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
@@ -354,6 +432,8 @@ void Boss::OnCollision2DTrigger(Collider2D* other)
 
 void Boss::SerialiseComponent(Serialiser& document)
 {
+	if (document.HasMember("StartDuration") && document["IdleDuration"].IsDouble())
+		startUpTimer = (document["IdleDuration"].GetDouble());
 	if (document.HasMember("Health") && document["Health"].IsInt())
 		health = healthMax = (document["Health"].GetInt());
 	if (document.HasMember("IdleDuration") && document["IdleDuration"].IsDouble())

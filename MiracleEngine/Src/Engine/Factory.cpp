@@ -32,6 +32,16 @@ GameObject* Factory::CloneGameObject(GameObject* gameobject)
 	return clonedObject;
 }
 
+GameObject* Factory::CloneChildGameObject(GameObject* gameobject)
+{
+	GameObject* clonedObject = gameobject->Clone(++_lastGameObjectId);
+
+	GameObject* parentObject = gameobject->GetParent();
+	parentObject->AddChildObject(clonedObject);
+
+	return clonedObject;
+}
+
 
 
 void Factory::Destroy(GameObject* gameObject)
@@ -116,6 +126,11 @@ int Factory::CheckObjOrignialPointer(GameObject* obj)
 	{
 		if (pair.second == obj)
 			return 1;
+
+		if (CheckObjOrignialChildPointer(pair.second, obj))
+		{
+			return 3;
+		}
 	}
 
 
@@ -124,8 +139,29 @@ int Factory::CheckObjOrignialPointer(GameObject* obj)
 	{
 		if (pair.second == obj)
 			return 2;
+
+		if (CheckObjOrignialChildPointer(pair.second, obj))
+		{
+			return 3;
+		}
 	}
 	
+	return 0;
+}
+
+int Factory::CheckObjOrignialChildPointer(GameObject* obj, GameObject * original)
+{
+	std::unordered_map<size_t, GameObject*>& childlist = obj->GetChildList();
+	for (auto& child: childlist)
+	{
+		if (child.second == obj)
+			return 3;
+
+		if (CheckObjOrignialChildPointer(child.second, original))
+		{
+			return 3;
+		}
+	}
 	return 0;
 }
 
