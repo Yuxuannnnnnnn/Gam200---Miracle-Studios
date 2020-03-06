@@ -836,7 +836,10 @@ void Factory::SaveBackUpScene()
 
 void Factory::LoadBackUpScene()
 {
+	_currentScene = "Restart";
+	UpdateScene();
 	_currentScene = _currEditerScene;
+	_prevScene = _currentScene;
 }
 
 //For GamePlay 
