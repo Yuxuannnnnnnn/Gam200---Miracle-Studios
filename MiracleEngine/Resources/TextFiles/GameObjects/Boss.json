@@ -15,12 +15,12 @@
   "Scripts": [
     {
       "Script2Id": "Boss",
-      "Health": 50,
-      "IdleDuration": 1.0,
+      "Health": 10,
+      "IdleDuration": 2.0,
       "AmmoPerSpin": 25,
-      "ShootROF": 3.0,
+      "ShootROF": 0.1,
       "BulletSpeed": 3.0,
-      "RotationSpeed": 0.1,
+      "RotationSpeed": 0.7,
       "ChargeDuration": 3.0,
       "FlashDuration": 0.5,
       "LaserAliveDuration": 1.0,
@@ -57,22 +57,62 @@
   "AnimationComponent": true,
   "AnimationTypes": [
     {
-      "AnimationType": "Charger_enemy_sprite.json",
+      "AnimationType": "Boss_inactive_to_active.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "StartUp"
+    },
+    {
+      "AnimationType": "Boss_Idle.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Idle"
+    },
+    {
+      "AnimationType": "Boss_Laser_Charge_up.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "LaserCharge"
+    },
+    {
+      "AnimationType": "Boss_Laser_Charge_up.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "TransformLaserToIdle"
+    },
+    {
+      "AnimationType": "Boss_Transform_into_rage.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "TransformIdleToIdleRage"
+    },
+    {
+      "AnimationType": "Boss_Rage_idle.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "IdleRage"
+    },
+    {
+      "AnimationType": "Boss_Rage_idle_low_HP.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "IdleRageLowHP"
+    },
+    {
+      "AnimationType": "Boss_Shoot_style.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "ShootAnim"
+    },
+    {
+      "AnimationType": "Boss_Shoot_style_low_HP.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "ShootAnimLowHP"
+    },
+    {
+      "AnimationType": "Boss_Shoot_style_low_HP.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "TransformShootToIdleRage"
+    },
+    {
+      "AnimationType": "Boss_Shoot_style_Death.json",
       "TimeDelay": 0.10000000149011612,
       "AnimationName": "Death"
-    },
-    {
-      "AnimationType": "Charging_enemies2_sprite.json",
-      "TimeDelay": 0.10000000149011612,
-      "AnimationName": "Move"
-    },
-    {
-      "AnimationType": "Charging_enemies2_sprite.json",
-      "TimeDelay": 0.10000000149011612,
-      "AnimationName": "ChargingLaser"
     }
   ],
-  "StartAnim": "Move",
+  "StartAnim": "StartUp",
   "RigidBody2DComponent": true,
   "Mass": 5.0,
   "Friction": 0.10000000149011612,
