@@ -18,7 +18,7 @@ enum class Boss_State {
 	LASER_SHOOT,
 };
 
-class Boss : public IScript												// NOTE NOTE NOTE NOTE -- THIS ISNT DONE AT ALL, WILL SETTLE THIS AFTER I DO THE LOGIC CHANGES :BRANDON
+class Boss : public IScript2
 {
 private:
 // Logic Data - General
@@ -37,7 +37,7 @@ private:
 
 	bool 	_laserChargeStart, _laserFlashStart, _laserShootStart;
 	bool _init, _deathStart;
-	Boss_State _state, _statePrev;
+	int _state, _statePrev;
 
 	GameObject* playerPtr, *subObj;
 	int playerId;

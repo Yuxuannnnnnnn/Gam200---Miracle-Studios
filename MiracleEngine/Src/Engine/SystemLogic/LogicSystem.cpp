@@ -17,6 +17,7 @@
 #include "Script/PauseMenu.h"
 #include "Script/RegisterLink.h"
 #include "Script/SplashScreen.h"
+#include "Script/Boss.h"
 
 
 LogicSystem::~LogicSystem()
@@ -57,6 +58,7 @@ void LogicSystem::RegisterAllScript()
 	RegisterScript(RegisterLink);
 	RegisterScript(HitEffect);
 	RegisterScript(SplashScreen);
+	RegisterScript(Boss);
 }
 
 void LogicSystem::Init() {
