@@ -27,6 +27,10 @@ public:
 		return TileMapEditor;
 	}
 
+	GameObject* getInspectObj()
+	{
+		return _inspectObj;
+	}
 
 
 	static void InspectGameObject(GameObject* inspectObj);
