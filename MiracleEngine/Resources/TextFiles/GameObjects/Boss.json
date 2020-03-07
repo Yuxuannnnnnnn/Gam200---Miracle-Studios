@@ -121,6 +121,31 @@
       "AnimationType": "Boss_Rage_idle_death_sprite8.json",
       "TimeDelay": 0.10000000149011612,
       "AnimationName": "Death8"
+    },
+    {
+      "AnimationType": "Boss_Laser_Charge_up_sprite1.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Laser1"
+    },
+    {
+      "AnimationType": "Boss_Laser_Charge_up_sprite2.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Laser2"
+    },
+    {
+      "AnimationType": "Boss_Laser_Charge_up_sprite3.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Laser3"
+    },
+    {
+      "AnimationType": "Boss_Laser_Charge_up_sprite4.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Laser4"
+    },
+    {
+      "AnimationType": "Boss_Laser_Charge_up_sprite5.json",
+      "TimeDelay": 0.10000000149011612,
+      "AnimationName": "Laser5"
     }
 
   ],

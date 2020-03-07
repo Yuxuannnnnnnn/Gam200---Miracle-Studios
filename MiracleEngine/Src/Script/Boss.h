@@ -12,6 +12,7 @@ class Node; // forward declare
 // bullet shooting @ the 4 diagonal corners
 // death will have mutliple sprite sheets,
 	will need to do the way that will play 1 anim after another
+// boss will need a slow rotate to player, NOT snap to face player
 
 Do above half heath shoot laser, then under half spin shoot.
 	if ok then try 100-75 normal laser, 75-50||40 rapid shot, remaining spint shoot with critical health anims
@@ -91,14 +92,20 @@ private:
 	// AnimNames for when calling particualr animations
 	std::vector<std::string>::iterator _CurrAnimChainItr;
 	std::vector<std::string> _CurrAnimChain;
-	std::vector<std::string> _StartUp = {
+	std::vector<std::string> _StartUp = { // Boss_inactive_to_active_sprite
 		"StartUp1",
 		"StartUp2" };
-	std::vector<std::string> _Idle = {
+	std::vector<std::string> _Idle = { // Boss_Idle_sprite
 		"Idle1",
 		"Idle2",
 		"Idle3" };
-	std::vector<std::string> _Death = {
+	std::vector<std::string> _LaserCharge = { // Boss_Laser_Charge_up_sprite
+		"Laser1",
+		"Laser2",
+		"Laser3",
+		"Laser4",
+		"Laser5" };
+	std::vector<std::string> _Death1 = { // Boss_Rage_idle_death_sprite
 		"Death1",
 		"Death2",
 		"Death3",
@@ -120,6 +127,10 @@ public:
 	void RunState();
 	
 	bool PlayAnimChain(std::vector<std::string> animChain);
+	// need as ShaoX for the last frame of each sheet.
+	// need have an array of lastFrameSprites
+	// whenever PlayAnimChain change to next in chain, need set the next lastFrameSprites
+	// ((GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic))->SetFileName("Spawner_Platform_unlit.png");
 
 	void StartUp();
 	void Idle();

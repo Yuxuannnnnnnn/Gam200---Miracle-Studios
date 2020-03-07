@@ -154,6 +154,11 @@ void Boss::UpdateState()
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
 	{
+		_state = (int)Boss_State::LASER_CHARGE;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_4) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_4))
+	{
 		_state = (int)Boss_State::DEATH;
 		_deathStart = true;
 		return;
@@ -241,7 +246,10 @@ void Boss::StartUp()
 void Boss::Idle()
 {
 	if (!PlayAnimChain(_Idle))
+	{
 		_state = (int)Boss_State::IDLE;
+		PlayAnimChain(_Idle); // need call () again if looping
+	}
 
 	//if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
 	//	_state = (int)Boss_State::IDLE;
@@ -279,10 +287,10 @@ void Boss::Death()
 	{
 		_deathStart = false;
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
-		PlayAnimChain(_Death);
+		PlayAnimChain(_Death1);
 		return;
 	}
-	if (!PlayAnimChain(_Death))
+	if (!PlayAnimChain(_Death1))
 	{
 		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
@@ -368,29 +376,32 @@ void Boss::LookAtPlayer()
 
 void Boss::LaserCharge(double speedup)
 {
-	if (_statePrev == (int)Boss_State::IDLE_END)
-	{
-		_laserChargeStart = true;
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("LaserCharge");
-	}
-	if (_laserChargeStart)
-	{
-		// set anim speed
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
-			laserChargeDuration / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
-	//	if (speedup != 1.0)
-	//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
-	//		(laserChargeDuration / speedup) / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
-		_laserChargeStart = false;
-	}
-	else
-		laserChargeTimer -= _dt;
-	// on animation end, change state to FiringLaser
-	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-	{
-		laserChargeTimer = laserChargeDuration;
-		_state = (int)Boss_State::LASER_SHOOT;
-	}
+	if (!PlayAnimChain(_LaserCharge))
+		_state = (int)Boss_State::LASER_CHARGE;
+
+//	if (_statePrev == (int)Boss_State::IDLE_END)
+//	{
+//		_laserChargeStart = true;
+//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("LaserCharge");
+//	}
+//	if (_laserChargeStart)
+//	{
+//		// set anim speed
+//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+//			laserChargeDuration / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+//	//	if (speedup != 1.0)
+//	//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+//	//		(laserChargeDuration / speedup) / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+//		_laserChargeStart = false;
+//	}
+//	else
+//		laserChargeTimer -= _dt;
+//	// on animation end, change state to FiringLaser
+//	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+//	{
+//		laserChargeTimer = laserChargeDuration;
+//		_state = (int)Boss_State::LASER_SHOOT;
+//	}
 }
 
 void Boss::LaserShoot()
