@@ -24,6 +24,8 @@ public:
 
 	std::string folderName;
 
+	std::vector<Folder*> subFolder;//pointer to a subfolder folder which is newed.
+
 	Folder(std::string name)
 	{
 		folderName = name;
@@ -85,5 +87,7 @@ public:
 	void Init();
 
 	void Update() override;
+
+	void ShowPrototypeChildObjects(GameObject* gameObject, int layer);
 };
 

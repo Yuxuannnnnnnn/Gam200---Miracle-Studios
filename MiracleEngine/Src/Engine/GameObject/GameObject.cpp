@@ -239,8 +239,7 @@ GameObject* GameObject::Clone(size_t uid)
 
 		newGameObject->_ComponentList[it.first] = temp;
 
-
-		MyComponentManger.GetComponentContainer(it.first)->insert({ uid, temp });
+			MyComponentManger.GetComponentContainer(it.first)->insert({ uid, temp });
 	}
 
 	newGameObject->SetChild(_anyChild);
@@ -301,7 +300,10 @@ void GameObject::AddChildObject(GameObject* child)
 	if (!child)
 		return;
 
-	_childObjects[child->Get_uID()] = child;
+	//if (child->Get_uID())
+		_childObjects[child->Get_uID()] = child;
+	//else
+		//_childObjects[_childObjects.size()] = child;
 }
 
 void GameObject::RemoveChildObject(GameObject* child)

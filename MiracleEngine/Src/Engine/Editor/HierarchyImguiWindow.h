@@ -28,7 +28,7 @@ public:
 	void Update() override; //Content for every frame
 
 
-	void InspectChildObjects(GameObject* gameObject, int layer);
+	void ShowChildObjects(GameObject* gameObject, int layer);
 
 	void ShowGameObjects(); //Show Every GameObject in the GameObjectList
 	//void ShowGameObjectComponents(std::unordered_map < unsigned, IComponent* > ComponentList); //Show every Component of a GameObject

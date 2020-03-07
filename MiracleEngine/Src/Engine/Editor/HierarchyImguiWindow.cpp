@@ -54,6 +54,25 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 		MyPopUpBox.SetPopUpBox < PopUpBoxImguiWindow::RefreshSceneWarning>(type);
 	}
 
+	ImGui::SameLine();
+	//static std::string selectedGameObject;
+
+
+	std::string string4 = "Create New GamObject ";
+	if (ImGui::Button(string4.c_str()))
+	{
+		GameObject* newGameobject = MyFactory.CreateEmptyGameObject();//new GameObject();
+		newGameobject->AddComponent(ComponentId::CT_Identity);
+		newGameobject->AddComponent(ComponentId::CT_Transform);
+
+		InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect new GameObject
+		MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+		MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+
+	}
+
+	ImGui::Spacing();
+
 	ShowGameObjects();				//Show Every GameObject in the GameObjectList
 }
 
@@ -192,14 +211,14 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 			}
 		}
 		
-		InspectChildObjects(gameObject, 1);
+		ShowChildObjects(gameObject, 1);
 
 		i++;
 	}
 }
 
 
-void HierarchyImguiWindow::InspectChildObjects(GameObject* gameObject, int layer)
+void HierarchyImguiWindow::ShowChildObjects(GameObject* gameObject, int layer)
 {
 	std::string string = "ChildObjects##" + std::to_string(gameObject->Get_uID()) + std::to_string(layer);
 	
@@ -301,7 +320,7 @@ void HierarchyImguiWindow::InspectChildObjects(GameObject* gameObject, int layer
 			}
 
 			layer++;
-			InspectChildObjects(gameObject, layer);
+			ShowChildObjects(gameObject, layer);
 		}
 
 
