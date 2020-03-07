@@ -32,15 +32,24 @@ GameObject* Factory::CloneGameObject(GameObject* gameobject)
 	return clonedObject;
 }
 
+
+//Called by GameObject Clone() function
 GameObject* Factory::CloneChildGameObject(GameObject* gameobject)
 {
-	GameObject* clonedObject = gameobject->Clone(++_lastGameObjectId);
+	GameObject* clonedObject;
 
-	GameObject* parentObject = gameobject->GetParent();
-	parentObject->AddChildObject(clonedObject);
+	//if(gameobject->Get_uID())
+		clonedObject = gameobject->Clone(++_lastGameObjectId);
+	//else
+	//{
+		//clonedObject = gameobject->Clone(0);
+	//}
 
 	return clonedObject;
 }
+
+
+
 
 
 
@@ -154,7 +163,7 @@ int Factory::CheckObjOrignialChildPointer(GameObject* obj, GameObject * original
 	std::unordered_map<size_t, GameObject*>& childlist = obj->GetChildList();
 	for (auto& child: childlist)
 	{
-		if (child.second == obj)
+		if (child.second == original)
 			return 3;
 
 		if (CheckObjOrignialChildPointer(child.second, original))
@@ -164,6 +173,7 @@ int Factory::CheckObjOrignialChildPointer(GameObject* obj, GameObject * original
 	}
 	return 0;
 }
+
 
 std::unordered_map<size_t, GameObject*>& Factory::getObjectlist()
 {

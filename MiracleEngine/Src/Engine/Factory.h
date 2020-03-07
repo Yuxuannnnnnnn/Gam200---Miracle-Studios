@@ -60,7 +60,6 @@ public:
 	GameObject* CloneChildGameObject(GameObject* gameobject);
 	int CheckObjOrignialChildPointer(GameObject* obj, GameObject* original);
 
-
 	size_t GetNextGameObjectUId();
 
 	GameObject* GetObjectWithId(size_t id); ///Get the game object with given id. This function will return NULL if the object has been destroyed.

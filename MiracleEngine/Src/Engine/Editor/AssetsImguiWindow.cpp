@@ -276,31 +276,16 @@ void AssetsImguiWindow::Update()
 
 		if (ImGui::CollapsingHeader(string.c_str()))
 		{
-			ImGui::Spacing();
-			//static std::string selectedGameObject;
 
-
-			std::string string1 = "Create New GamObject ";
-			if (ImGui::Button(string1.c_str()))
-			{
-				GameObject* newGameobject = MyFactory.CreateEmptyGameObject();//new GameObject();
-				newGameobject->AddComponent(ComponentId::CT_Identity);
-				newGameobject->AddComponent(ComponentId::CT_Transform);
-
-				InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect new GameObject
-				MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
-				MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
-				selectedGameObject = "";
-
-			}
-			ImGui::Spacing();
-			ImGui::Separator();
+			//ImGui::Separator();
 			ImGui::Spacing();
 
 			int i = 0;
 
 			for (auto& ObjPair : PrototypeList)
 			{
+				ImGui::Spacing();
+
 				//std::string objName = std::to_string(i) + ". " + ObjPair.first;
 				//i++;
 				static bool selected;
@@ -365,8 +350,8 @@ void AssetsImguiWindow::Update()
 				//ImGuiID id = ImGui::GetID(string.c_str());
 				//ImGui::GetStateStorage()->SetInt(id, 0);
 
-				ImGui::Spacing();
 				i++;
+				ShowPrototypeChildObjects(ObjPair.second, 1);
 			}
 
 			//ImGui::TreePop();
@@ -1005,3 +990,108 @@ void AssetsImguiWindow::Update()
 	//ImGui::SetNextWindowPos(ImVec2(main_viewport_pos.x + 650, main_viewport_pos.y + 20), ImGuiCond_FirstUseEver);
 	//ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_Always);
 }
+
+void AssetsImguiWindow::ShowPrototypeChildObjects(GameObject* gameObject, int layer)
+{
+	std::string string = "ChildObjects##" + std::to_string(gameObject->Get_uID()) + std::to_string(layer);
+
+	std::unordered_map<size_t, GameObject*>& childlist = gameObject->GetChildList();
+
+	if (!childlist.size())
+		return;
+
+
+	if (ImGui::TreeNode(string.c_str()))
+	{
+		int i = 0;
+		for (auto& childobjects : childlist)
+		{
+			GameObject* gameObject = childobjects.second; //Get GameObject* from std::pair
+
+			static bool selected;
+			//std::string string = " - " + ObjPair.first;
+
+			std::string ObjType = ((IdentityComponent *)(gameObject->GetComponent(ComponentId::CT_Identity)))->ObjectType();
+
+			std::string string = std::to_string(i) + " " + ObjType; // "Object Type + Object unique number" string
+
+
+			ImGuiSelectableFlags_ flags;
+
+			HierarchyImguiWindow* HierarchyWindow = dynamic_cast<HierarchyImguiWindow*>(_engineSystems._imguiSystem->GetWindows()["Hierarchy"]);
+
+			if (!string.compare(selectedGameObject))
+			{
+				if (!HierarchyWindow->GetObjIsSelected())
+					flags = ImGuiSelectableFlags_Disabled;
+				else
+					flags = ImGuiSelectableFlags_AllowDoubleClick;
+			}
+			else
+			{
+				flags = ImGuiSelectableFlags_AllowDoubleClick;
+			}
+
+
+			if (ImGui::Selectable(string.c_str(), selected, flags))
+			{
+				if (ImGui::IsMouseReleased(0))
+				{
+					InspectionImguiWindow::InspectGameObject(gameObject);	//Inspect prototype object
+					selectedGameObject = string;							//set name of the selected object
+					HierarchyWindow->SetisObjectSelected(false);	//turn off the highlight of the hierarchy object
+																	//Switch to highlighting of prototype in Assets
+
+
+					//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+					//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+					//ImGui::TreePop();
+					//ImGuiID id = ImGui::GetID(string.c_str());
+					//ImGui::GetStateStorage()->SetInt(id, 0);
+				}
+			}
+
+			ImGui::SameLine();
+
+			std::string string1 = "Clone## " + ObjType;
+			if (ImGui::Button(string1.c_str()))
+			{
+				GameObject* newGameobject = MyFactory.CloneGameObject(gameObject);
+				if (TransformComponent* tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
+					tmp->SetPos({ 0,0,1 });
+
+				InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+				MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+				MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+				//selectedGameObject = string;							//set name of the selected object
+				//HierarchyWindow->SetisObjectSelected(false);	//turn off the highlight of the hierarchy object
+
+			}
+
+			//ImGui::SameLine();
+			//std::string deleteString = "Delete## " + string;
+			//if (ImGui::Button(deleteString.c_str()))
+			//{
+			//	gameObject->SetDestory();
+			//	
+			//
+			//	//InspectionImguiWindow::InspectGameObject(gameObject);
+			//	//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
+			//	//ShowGameObjectComponents(componentList);	//Show every Component of a GameObject
+			//	//ImGui::TreePop();
+			//	//ImGuiID id = ImGui::GetID(string.c_str());
+			//	//ImGui::GetStateStorage()->SetInt(id, 0);
+			//}
+
+			i++;
+			layer++;
+			ShowPrototypeChildObjects(gameObject, layer);
+		}
+
+
+
+		ImGui::TreePop();
+	}
+}
+
+
