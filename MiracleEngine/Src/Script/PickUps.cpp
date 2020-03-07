@@ -42,11 +42,7 @@ void PickUps::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::Me
 
 void PickUps::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	PickUps* script = (PickUps*)(MyLogicSystem.getScriptPtr(UId));
+	PickUps* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), PickUps);
 
 	if (!script)
 	{
@@ -98,6 +94,16 @@ void PickUps::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("Pickup Type ", &_pickupType);
 	ImGui::Spacing();
+}
+
+void PickUps::Init()
+{
+
+}
+
+void PickUps::LoadResource()
+{
+
 }
 
 void PickUps::Update(double dt)

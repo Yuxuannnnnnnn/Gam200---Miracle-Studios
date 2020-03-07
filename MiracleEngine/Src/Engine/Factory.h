@@ -72,6 +72,8 @@ public:
 	void Destroy(GameObject* gameObject); 	///Add a GOC to the destroy list for delayed destruction.
 	void DestroyAll(); 	///Destroy all the GOCs in the world. Used for final shutdown.
 
+	GameObject* CloneAndInitPrototype(std::string name);
+
 private:
 	///Map of component creator used for data driven composition
 	typedef std::unordered_map<std::string, ComponentCreator*> ComponentMapType;
@@ -95,6 +97,8 @@ private:
 	unsigned _lastGameObjectId; ///Used to incrementally generate unique id's.
 };
 
-#define AddEmptyComponent(type) MyFactory->CreateEmptyComponent( #type );
+#define AddEmptyComponent(type) MyFactory.CreateEmptyComponent( #type )
 
-#define GetLinkObject(linkID) MyFactory->GetLinkIDObject(linkID);
+#define GetLinkObject(linkID) MyFactory.GetLinkIDObject(linkID)
+
+#define CreateObject(name) MyFactory.CloneAndInitPrototype(name)

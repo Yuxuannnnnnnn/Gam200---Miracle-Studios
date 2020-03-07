@@ -31,11 +31,7 @@ void ButtonController::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapi
 
 void ButtonController::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	ButtonController* script = (ButtonController*)(MyLogicSystem.getScriptPtr(UId));
+	ButtonController* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), ButtonController);
 
 	if (!script)
 	{
@@ -78,42 +74,6 @@ void ButtonController::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("Current Scene ID ", &_currScene);
 	ImGui::Spacing();
-
-	//ImGui::Spacing();
-	//{
-	//	ImGui::Spacing();
-
-	//	static auto& TagList = MyPhysicsSystem._collisionTable.GetTagList();
-	//	std::vector<const char*> list;
-	//	list.push_back("Choose a Collider Tag ");
-	//	static const char* name = list[0];
-
-
-	//	int i = 1;
-	//	static int select = 0;
-	//	for (auto TagPair = TagList.begin(); TagPair != TagList.end(); TagPair++, i++)
-	//	{
-	//		const char* ptr = TagPair->first.c_str();
-	//		list.push_back(ptr);
-	//		if (TagPair->second == (size_t)_tag)
-	//			select = i;
-	//	}
-
-	//	if (ImGui::BeginCombo(" ", list[select], 0)) // The second parameter is the label previewed before opening the combo.
-	//	{
-	//		for (int n = 0; n < list.size(); n++)
-	//		{
-	//			bool is_selected = (name == list[n]);
-	//			if (ImGui::Selectable(list[n], is_selected))
-	//			{
-	//				_tag = TagList[list[n]];
-	//				select = n;
-	//			}
-
-	//		}
-	//		ImGui::EndCombo();
-	//	}
-	//}
 }
 
 ButtonController::ButtonController() :
@@ -128,52 +88,43 @@ ButtonController* ButtonController::Clone()
 
 void ButtonController::Init()
 {
+	if (_currScene == 2)
+	{
+		std::string temp = "PauseMenu";
+		_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+	}
+}
+
+void ButtonController::LoadResource()
+{
+
 }
 
 void ButtonController::Update(double dt)
 {
 	(void)dt;
 
-	if (_input->ButtonTrigger(10)) // start
-		MyFactory.ChangeScene("truelevel1");
-	else if (_input->ButtonTrigger(11)) // options
-		MyFactory.ChangeScene("OptionPage");
-	else if (_input->ButtonTrigger(12)) // instructions
-		MyFactory.ChangeScene("instructionPage");
-	else if (_input->ButtonTrigger(13)) // leaderboard
-		MyFactory.ChangeScene("LeaderBoardPage");
-	else if (_input->ButtonTrigger(15)) // credits
-		MyFactory.ChangeScene("CreditPage");
-	else if (_input->ButtonTrigger(16)) // quit
-		MyFactory.ChangeScene("Quit");
-	else if (_input->ButtonTrigger(30)) // return to menu
-		MyFactory.ChangeScene("MainMenu");
-	else if (_input->ButtonTrigger(60))
+	if (_currScene == 1)
 	{
-		if (!_pauseMenu)
-		{
-			std::string temp = "PauseMenu";
-			_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		}
-
-		((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
+		if (_input->ButtonTrigger(10)) // start
+			MyFactory.ChangeScene("truelevel1");
+		else if (_input->ButtonTrigger(11)) // options
+			MyFactory.ChangeScene("OptionPage");
+		else if (_input->ButtonTrigger(12)) // instructions
+			MyFactory.ChangeScene("instructionPage");
+		else if (_input->ButtonTrigger(13)) // leaderboard
+			MyFactory.ChangeScene("LeaderBoardPage");
+		else if (_input->ButtonTrigger(15)) // credits
+			MyFactory.ChangeScene("CreditPage");
+		else if (_input->ButtonTrigger(16)) // quit
+			MyFactory.ChangeScene("Quit");
 	}
-	//switch (_currScene)
-	//{
-	//case (int)SceneTag::MAINMENU:
-	//{
-	//	
+	else if(_currScene == 2)
+	{ 
+		if (_input->ButtonTrigger(60))
+			((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
+	}
 
-	//	break;
-	//}
-	//case (int)SceneTag::POPUPSCENE:
-	//{
-	//	if (_input->ButtonTrigger(30)) // return to menu
-	//		MyFactory.ChangeScene("MainMenu");
-	//	break;
-	//}
-	//default:
-	//	break;
-	//}
-
+	if (_input->ButtonTrigger(30)) // return to menu
+		MyFactory.ChangeScene("MainMenu");
 }

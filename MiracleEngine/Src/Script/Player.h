@@ -12,7 +12,6 @@ class Player : public IScript2
 private:
 // Logic Data - General
 	bool _god;
-	bool _init;
 	GameObject* _camera;
 	int _health, _healthMax;
 	int _progress, _progressMax;
@@ -69,6 +68,7 @@ public:
 	Player* Clone();
 
 	void Init();
+	void LoadResource();
 	void Update(double dt);
 
 	void UpdateShield(double dt);

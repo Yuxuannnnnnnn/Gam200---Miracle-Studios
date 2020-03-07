@@ -5,14 +5,13 @@
 class ShieldSkill : public IScript2
 {
 private:
-	bool _init;
-
 	double _timer;
 	double _animTimer;
 
 	AnimationComponent* _animation;
 	TransformComponent* _obj;
 	TransformComponent* _player;
+	AudioComponent* _audcom;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
@@ -26,7 +25,8 @@ public:
 	ShieldSkill();
 	ShieldSkill* Clone();
 
-	void Init() override;
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 
 	void ActionShield(double skilltimer);

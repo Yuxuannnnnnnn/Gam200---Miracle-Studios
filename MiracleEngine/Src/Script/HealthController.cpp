@@ -69,11 +69,7 @@ void HealthController::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapi
 
 void HealthController::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	HealthController* script = (HealthController*)(MyLogicSystem.getScriptPtr(UId));
+	HealthController* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), HealthController);
 
 	if (!script)
 	{
@@ -302,6 +298,15 @@ void HealthController::Init()
 
 	_currHealth = _maxHealth;
 	_currColor = 3;
+}
+
+void HealthController::LoadResource()
+{
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewTexture2DResource({ _greenHealthFileName, MyResourceSystem.GetTexture2DResourcePath(_greenHealthFileName) });
+	MyResourceManager.AddNewTexture2DResource({ _orangeHealthFileName, MyResourceSystem.GetTexture2DResourcePath(_orangeHealthFileName) });
+	MyResourceManager.AddNewTexture2DResource({ _redHealthFileName, MyResourceSystem.GetTexture2DResourcePath(_redHealthFileName) });
+#endif
 }
 
 void HealthController::Update(double dt)

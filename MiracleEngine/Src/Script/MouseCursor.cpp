@@ -30,11 +30,7 @@ void MouseCursor::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson
 
 void MouseCursor::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	MouseCursor* script = (MouseCursor*)(MyLogicSystem.getScriptPtr(UId));
+	MouseCursor* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), MouseCursor);
 
 	if (!script)
 	{
@@ -92,12 +88,17 @@ void MouseCursor::Init()
 	_transform = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 }
 
+void MouseCursor::LoadResource()
+{
+
+}
+
 void MouseCursor::Update(double dt)
 {
 	_transform->SetPos(_input->GetMouseScreenPos());
 	
 	if (dt < 0)
-		_transform->SetRotate(_transform->GetRotate() + 0.016 * _spinSpeed);
+		_transform->SetRotate(_transform->GetRotate() + MyFrameRateController.Getdt() * _spinSpeed);
 	else
 		_transform->SetRotate(_transform->GetRotate() + dt * _spinSpeed);
 }

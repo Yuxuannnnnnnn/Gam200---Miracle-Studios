@@ -5,12 +5,8 @@
 class SplashScreen : public IScript2
 {
 private:
-	bool _init;
-
 	double _ScreenDuration;
 	double _timer;
-
-	bool _once;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
@@ -24,7 +20,8 @@ public:
 	SplashScreen();
 	SplashScreen* Clone();
 
-	void Init() override;
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 };
 

@@ -18,8 +18,6 @@ class EntrancePortal : public IScript2
 	TransformComponent* _player;
 	TransformComponent* _popUpPos;
 
-	bool _init;
-
 	int _KillCount;
 public:
 
@@ -35,7 +33,8 @@ public:
 	EntrancePortal();
 	EntrancePortal* Clone();
 
-	virtual void Init() override;
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 
 	void OpenPortal();

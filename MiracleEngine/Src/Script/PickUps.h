@@ -28,6 +28,9 @@ public:
 	void Inspect();
 
 	PickUps* Clone();
+
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 };
 

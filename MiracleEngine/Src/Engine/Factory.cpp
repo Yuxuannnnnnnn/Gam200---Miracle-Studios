@@ -747,7 +747,7 @@ void Factory::InitScene()
 		if (it.first != 0)
 			it.second->Init();
 
-	for (auto& it : GetComponentMap(RigidBody2D))
+	/*for (auto& it : GetComponentMap(RigidBody2D))
 		it.second->Init();
 
 	for (auto& it : GetComponentMap(CircleCollider2D))
@@ -757,7 +757,7 @@ void Factory::InitScene()
 		it.second->Init();
 
 	for (auto& it : GetComponentMap(EdgeCollider2D))
-		it.second->Init();
+		it.second->Init();*/
 
 	for (auto& it : GetComponentMap(Audio))
 		if (it.first != 0)
@@ -831,6 +831,10 @@ void Factory::LoadSceneResource()
 		if (it.first != 0)
 			it.second->LoadResource();
 
+	//for (auto& it : GetComponentMap(TileMap))
+	//	if (it.first != 0)
+	//		it.second->LoadResource();
+
 	MyGraphicsSystem.LoadResource();
 	MyLogicSystem.LoadResource();
 }
@@ -839,6 +843,9 @@ void Factory::LoadSceneResource()
 
 void Factory::ChangeScene(const std::string& scene)
 {
+	if (_currentScene.compare(scene) == 0)
+		return;
+
 	_prevScene = _currentScene;
 
 	if (scene.compare("Quit") == 0 || scene.compare("quit") == 0 ||
@@ -938,4 +945,19 @@ GameObject* Factory::GetLinkIDObject(int Id)
 		return nullptr;
 
 	return MyFactory.getObjectlist()[_objectLinkMap[Id]];
+}
+
+GameObject* Factory::CloneAndInitPrototype(std::string name)
+{
+	GameObject* prototypeObj = MyResourceSystem.GetPrototypeMap()[name];
+
+	if (!prototypeObj)
+		return nullptr;
+
+	GameObject* obj = MyFactory.CloneGameObject(prototypeObj);
+
+	if (obj)
+		obj->Init();
+
+	return obj;
 }

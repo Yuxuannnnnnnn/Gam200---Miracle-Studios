@@ -15,7 +15,6 @@
 #include "Script/MouseCursor.h"
 #include "Script/EntrancePortal.h"
 #include "Script/PauseMenu.h"
-#include "Script/RegisterLink.h"
 #include "Script/SplashScreen.h"
 #include "Script/Boss.h"
 
@@ -55,7 +54,6 @@ void LogicSystem::RegisterAllScript()
 	RegisterScript(MouseCursor);
 	RegisterScript(EntrancePortal);
 	RegisterScript(PauseMenu);
-	RegisterScript(RegisterLink);
 	RegisterScript(HitEffect);
 	RegisterScript(SplashScreen);
 	RegisterScript(Boss);

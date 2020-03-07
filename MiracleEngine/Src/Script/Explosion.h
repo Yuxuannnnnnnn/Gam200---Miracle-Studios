@@ -9,7 +9,6 @@ class Enemy; // forward declare
 class Explosion : public IScript2
 {
 private:
-	bool _init;
 	double _lifeTime;
 	int _radius;
 public:
@@ -24,6 +23,8 @@ public:
 
 	void Inspect();
 
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 
 	void OnTrigger2DEnter(Collider2D* other);

@@ -26,6 +26,14 @@ GameObject::~GameObject()
 	_childObjects.clear();
 }
 
+void GameObject::Init()
+{
+	for (auto& it : _ComponentList)
+	{
+		it.second->Init();
+	}
+}
+
 
 //unsigned GameObject::GameObjectType() const
 //{

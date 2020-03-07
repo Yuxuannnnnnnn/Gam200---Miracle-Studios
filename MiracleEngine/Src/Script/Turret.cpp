@@ -2,7 +2,6 @@
 #include "Script/Turret.h"
 
 Turret::Turret() : 
-	_init{ false },
 	_health{ 1 }, _healthMax{ 1 },
 	_target{ nullptr }, _targetUid{ 0 },
 	_state{ (unsigned)AiState::IDLE },
@@ -24,28 +23,27 @@ Turret* Turret::Clone()
 
 void Turret::Init()
 {
-	_init = true;
 	for (auto& it : GetParentPtr()->GetChildList())
 	{
 		_turretBase = it.second;
 		break;;
 	}
+	_animState = 1;
 	_turretBase->SetEnable(false);
 
 	// set Deploy animation and set the animation's speed
-	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Deploy");
-	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
-		_deployTime / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() );
+	GetSibilingComponentObject(Animation)->SetCurrentAnimOnce("Deploy");
+	GetSibilingComponentObject(Animation)->SetTimeDelay(
+		_deployTime / GetSibilingComponentObject(Animation)->GetMaxFrame() );
 
-	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-	audcom->PlaySFX("Construct");
+	GetSibilingComponentObject(Audio)->PlaySFX("Construct");
 	// _target = player
 	for (auto idPair : _engineSystems._factory->getObjectlist())
 	{
-		if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
-			((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0 ||
-			((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
-			((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player01") == 0)
+		if (GetComponentObject(idPair.second, Identity)->ObjectType().compare("Player") == 0 ||
+			GetComponentObject(idPair.second, Identity)->ObjectType().compare("player") == 0 ||
+			GetComponentObject(idPair.second, Identity)->ObjectType().compare("Player01") == 0 ||
+			GetComponentObject(idPair.second, Identity)->ObjectType().compare("player01") == 0)
 		{
 			_target = idPair.second;
 			_targetUid = idPair.second->Get_uID();
@@ -54,13 +52,17 @@ void Turret::Init()
 	}
 }
 
+void Turret::LoadResource()
+{	
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewPrototypeResource({ "BulletT" , MyResourceSystem.GetPrototypeResourcePath("BulletT") });
+#endif
+}
+
 void Turret::Update(double dt)
 {
 	if (dt < 0)
 		return;
-
-	if (!_init)
-		Init();
 
 	if (_deployTime > 0)
 	{
@@ -68,8 +70,8 @@ void Turret::Update(double dt)
 
 		if (_deployTime <= 0.0)
 		{
-			((TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform))->SetScaleA(_deployScale);
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
+			GetSibilingComponentObject(Transform)->SetScaleA(_deployScale);
+			GetSibilingComponentObject(Animation)->SetEnable(false);
 			_turretBase->SetEnable(true);
 		}
 
@@ -84,10 +86,10 @@ void Turret::Update(double dt)
 	FSM();
 
 	// anim updating related logic
-	if (_init)
+	/*if (_init)
 		_animState = 1;
 	else
-		_animState = _shooting ? 2 : 3;
+		_animState = _shooting ? 2 : 3;*/
 	// setting animation state
 //	if (_animState != _animStatePrev)
 //	{
@@ -105,24 +107,24 @@ Vector3& Turret::GetDestinationPos()
 {
 	GameObject* exist = MyFactory.GetObjectWithId(_targetUid);
 	if (exist != nullptr)
-		return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA();
+		return GetComponentObject(_target, Transform)->GetPositionA();
 	else
 	{
 		for (auto idPair : _engineSystems._factory->getObjectlist())
 		{
-			if (((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
-				((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0 ||
-				((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
-				((IdentityComponent*)idPair.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player01") == 0)
+			if (GetComponentObject(idPair.second, Identity)->ObjectType().compare("Player") == 0 ||
+				GetComponentObject(idPair.second, Identity)->ObjectType().compare("player") == 0 ||
+				GetComponentObject(idPair.second, Identity)->ObjectType().compare("Player01") == 0 ||
+				GetComponentObject(idPair.second, Identity)->ObjectType().compare("player01") == 0)
 			{
 				_target = idPair.second;
 				_targetUid = idPair.second->Get_uID();
-				return ((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA();
+				return GetComponentObject(_target, Transform)->GetPositionA();
 				//break;
 			}
 		}
 	}
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA();
+	return GetSibilingComponentObject(Transform)->GetPositionA();
 
 	//if (!_target || _target->GetDestory()) // if not target, find player
 	//{
@@ -140,7 +142,7 @@ Vector3& Turret::GetDestinationPos()
 
 Vector3& Turret::GetPosition()
 {
-	return ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA();
+	return GetSibilingComponentObject(Transform)->GetPositionA();
 }
 
 void Turret::SearchTarget()
@@ -157,27 +159,27 @@ void Turret::SearchTarget()
 				continue;
 			// target searching
 			if (!it.second->GetDestory() && (
-				((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
-				((IdentityComponent*)it.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0
+				GetComponentObject(it.second, Identity)->ObjectType().compare("Enemy") == 0 ||
+				GetComponentObject(it.second, Identity)->ObjectType().compare("EnemyTwo") == 0
 				))
 			{
 				// if target == player, take first enemy, then continue normal search
-				if (((IdentityComponent*)exist->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
-					((IdentityComponent*)exist->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0 ||
-					((IdentityComponent*)exist->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
-					((IdentityComponent*)exist->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player01") == 0)
+				if (GetComponentObject(exist, Identity)->ObjectType().compare("Player") == 0 ||
+					GetComponentObject(exist, Identity)->ObjectType().compare("player") == 0 ||
+					GetComponentObject(exist, Identity)->ObjectType().compare("Player01") == 0 ||
+					GetComponentObject(exist, Identity)->ObjectType().compare("player01") == 0)
 				{
 					_target = it.second;
 					_targetUid = it.second->Get_uID();
 				}
 				// check distance of both objects
 				Vector3 distTarget(
-					(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA()._x - GetPosition()._x),
-					(((TransformComponent*)_target->GetComponent(ComponentId::CT_Transform))->GetPositionA()._y - GetPosition()._y),
+					(GetComponentObject(_target, Transform)->GetPositionA()._x - GetPosition()._x),
+					(GetComponentObject(_target, Transform)->GetPositionA()._y - GetPosition()._y),
 					0);
 				Vector3 distTemp(
-					(((TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform))->GetPositionA()._x - GetPosition()._x),
-					(((TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform))->GetPositionA()._y - GetPosition()._y),
+					(GetComponentObject(it.second, Transform)->GetPositionA()._x - GetPosition()._x),
+					(GetComponentObject(it.second, Transform)->GetPositionA()._y - GetPosition()._y),
 					0);
 				if (distTarget.SquaredLength() >= distTemp.SquaredLength())
 				{
@@ -194,17 +196,20 @@ void Turret::SearchTarget()
 		{
 			if (itr.second == nullptr)
 				continue;
-			if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Enemy") == 0 ||
-				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnemyTwo") == 0)
+
+			IdentityComponent* temp = GetComponentObject(itr.second, Identity);
+
+			if (temp->ObjectType().compare("Enemy") == 0 ||
+				temp->ObjectType().compare("EnemyTwo") == 0)
 			{
 				_targetUid = itr.second->Get_uID();
 				_target = itr.second;
 				return;
 			}
-			if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
-				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0 ||
-				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
-				((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player01") == 0)
+			if (temp->ObjectType().compare("Player") == 0 ||
+				temp->ObjectType().compare("player") == 0 ||
+				temp->ObjectType().compare("Player01") == 0 ||
+				temp->ObjectType().compare("player01") == 0)
 				tempGO = itr.second;
 		}
 		// target as player
@@ -223,16 +228,16 @@ void Turret::ShootTarget()
 		_timerAttack = _timeAttackCooldown;
 		//std::cout << "Fired!" << std::endl;
 			// spawn bullet
-		GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletT"]);
+		GameObject* bullet = CreateObject("BulletT");
+
+		TransformComponent* temp = GetComponentObject(bullet, Transform);
+		TransformComponent* myTransform = GetSibilingComponentObject(Transform);
 		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+		temp->SetPos(myTransform->GetPos());
+		temp->SetRotate(myTransform->GetRotate());
 		AddForwardForce(bullet->Get_uID(), 50000);
 
-		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-		audcom->PlaySFX("Shoot");
+		GetSibilingComponentObject(Audio)->PlaySFX("Shoot");
 	}
 	else
 		_shooting = false;
@@ -246,14 +251,14 @@ void Turret::RotateToTarget()
 	Vector3 compareVec = { 0, 1, 0 };
 	float dot = targetVec._x * compareVec._x + targetVec._y * compareVec._y;
 	float det = targetVec._x * compareVec._y - targetVec._y * compareVec._x;
-	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
+	GetSibilingComponentObject(Transform)->GetRotate() = -atan2(det, dot);
 }
 
 void Turret::FSM()
 {
 	SearchTarget();
 	// if no enemy
-	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*>(_target->GetComponent(ComponentId::CT_Identity));
+	IdentityComponent* IdCom = GetComponentObject(_target, Identity);
 	std::string id = IdCom->ObjectType();
 	if (id.compare("Player") == 0 ||
 		id.compare("player") == 0 || 
@@ -286,4 +291,214 @@ void Turret::FSM()
 	default:
 		break;
 	}
+}
+
+void Turret::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("Health") && document["Health"].IsInt())
+		_health = _healthMax = (document["Health"].GetInt());
+	if (document.HasMember("Firerate") && document["Firerate"].IsDouble())
+		_timeAttackCooldown = (document["Firerate"].GetDouble());
+
+	if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsInt())
+	{
+		_attackRangeShoot = document["AttackRangeShoot"].GetInt();
+		_attackRangeShoot *= 100;
+		_attackRangeShoot *= _attackRangeShoot;
+	}
+	if (document.HasMember("DeployTime") && document["DeployTime"].IsDouble())
+		_deployTime = (document["DeployTime"].GetDouble());
+
+	if (document.HasMember("AliveTime") && document["AliveTime"].IsDouble())
+		_aliveTime = (document["AliveTime"].GetDouble());
+
+	if (document.HasMember("DeployScale") && document["DeployScale"].IsArray())
+	{
+		if (document["DeployScale"][0].IsFloat() && document["DeployScale"][1].IsFloat())	//Check the array values
+			_deployScale = Vector3{ document["DeployScale"][0].GetFloat(), document["DeployScale"][1].GetFloat(), 1.f };
+
+		if (document["DeployScale"].Size() == 3)
+		{
+			_deployScale.SetZ(document["DeployScale"][2].GetFloat());
+		}
+	}
+}
+//Function Not Needed for scripts
+void Turret::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+	//rapidjson::Value value;
+	//
+	//value.SetBool(true);
+	//prototypeDoc.AddMember("Script2Id", value);
+	//
+	//value.SetArray();
+	//{
+	//	rapidjson::Value object;
+	//	object.SetObject();
+	//	object.AddMember("Health", _healthMax, prototypeDoc.Allocator());
+	//	object.AddMember("Firerate", _timeAttackCooldown, prototypeDoc.Allocator());
+	//	_attackRangeShoot /= 100;
+	//	_attackRangeShoot /= _attackRangeShoot;
+	//	object.AddMember("AttackRangeShoot", _attackRangeShoot, prototypeDoc.Allocator());
+	//	object.AddMember("DeployTime", _deployTime, prototypeDoc.Allocator());
+	//	object.AddMember("AliveTime", _aliveTime, prototypeDoc.Allocator());
+	//	value.PushBack(object, prototypeDoc.Allocator());
+	//}
+}
+
+void Turret::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	rapidjson::Value value;
+
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
+	value.SetInt(_healthMax);
+	prototypeDoc.AddMember("Health", value, allocator);
+
+	value.SetDouble(_timeAttackCooldown);
+	prototypeDoc.AddMember("Firerate", value, allocator);
+
+	int attackRangeShoot = sqrt(_attackRangeShoot) / 100.0;
+	value.SetInt(attackRangeShoot);
+	prototypeDoc.AddMember("AttackRangeShoot", value, allocator);
+
+	value.SetDouble(_deployTime);
+	prototypeDoc.AddMember("DeployTime", value, allocator);
+
+	value.SetDouble(_aliveTime);
+	prototypeDoc.AddMember("AliveTime", value, allocator);
+
+	value.SetArray();
+	{
+		for (unsigned i = 0; i < 3; i++)
+			value.PushBack(rapidjson::Value(_deployScale[i]).Move(), allocator);
+	}
+	prototypeDoc.AddMember("DeployScale", value, allocator);
+
+
+}
+
+
+void Turret::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	Turret* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), Turret);
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value Health;
+	rapidjson::Value Firerate;
+	rapidjson::Value AttackRangeShoot;
+	rapidjson::Value DeployTime;
+	rapidjson::Value AliveTime;
+	rapidjson::Value DeployScale;
+
+	bool addComponentIntoSceneFile = false;
+
+	if (script->_healthMax != _healthMax)
+	{
+		addComponentIntoSceneFile = true;
+		Health.SetInt(_healthMax);
+	}
+
+	if (script->_timeAttackCooldown != _timeAttackCooldown)
+	{
+		addComponentIntoSceneFile = true;
+		Firerate.SetDouble(_timeAttackCooldown);
+	}
+
+	if (script->_attackRangeShoot != _attackRangeShoot)
+	{
+		addComponentIntoSceneFile = true;
+		int attackRangeShoot = sqrt(_attackRangeShoot) / 100.0;
+		AttackRangeShoot.SetInt(attackRangeShoot);
+	}
+
+	if (script->_deployTime != _deployTime)
+	{
+		addComponentIntoSceneFile = true;
+		DeployTime.SetDouble(_deployTime);
+	}
+
+	if (script->_aliveTime != _aliveTime)
+	{
+		addComponentIntoSceneFile = true;
+		AliveTime.SetDouble(_aliveTime);
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (script->_deployScale[i] != _deployScale[i])
+		{
+			addComponentIntoSceneFile = true;
+			DeployScale.SetArray();
+			for (int i = 0; i < 3; i++)
+			{
+				DeployScale.PushBack(rapidjson::Value(_deployScale[i]).Move(), allocator);
+			}
+			break;
+		}
+	}
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+		if (!Health.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("Health", Health, allocator);
+		}
+
+		if (!Firerate.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("Firerate", Firerate, allocator);
+		}
+
+		if (!AttackRangeShoot.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("AttackRangeShoot", AttackRangeShoot, allocator);
+		}
+
+		if (!DeployTime.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("DeployTime", DeployTime, allocator);
+		}
+
+		if (!AliveTime.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("AliveTime", AliveTime, allocator);
+		}
+
+		if (!DeployScale.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("DeployScale", DeployScale, allocator);
+		}
+	}
+
+}
+
+void Turret::Inspect()
+{
+	ImGui::Spacing();
+	ImGui::InputInt("Health ", &_health);
+	ImGui::Spacing();
+	ImGui::InputDouble("Firerate ", &_timeAttackCooldown);
+	ImGui::Spacing();
+	ImGui::InputInt("AttackRange Shoot ", &_attackRangeShoot);
+	ImGui::Spacing();
+	ImGui::InputDouble("DeployTime ", &_deployTime);
+	ImGui::Spacing();
+	ImGui::InputDouble("AliveTime ", &_aliveTime);
+	ImGui::Spacing();
+
+	ImGui::Spacing();
+	ImGui::InputFloat2("DeployScale ", _deployScale.m);
+	ImGui::Spacing();
 }

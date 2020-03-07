@@ -25,12 +25,7 @@ void SplashScreen::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjso
 
 void SplashScreen::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	SplashScreen* script = (SplashScreen*)(MyLogicSystem.getScriptPtr(UId));
+	SplashScreen* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), SplashScreen);
 
 	if (!script)
 	{
@@ -67,7 +62,9 @@ void SplashScreen::Inspect()
 {
 }
 
-SplashScreen::SplashScreen() : _init{ false }, _ScreenDuration{ 0.0 }, _timer{ 0.0 }, _once{ false }
+SplashScreen::SplashScreen() :  
+	_ScreenDuration{ 0.0 },
+	_timer{ 0.0 }
 {
 }
 
@@ -79,22 +76,18 @@ SplashScreen* SplashScreen::Clone()
 void SplashScreen::Init()
 {
 	_timer = _ScreenDuration;
-	_once = false;
+}
+
+void SplashScreen::LoadResource()
+{
+
 }
 
 void SplashScreen::Update(double dt)
 {
-	if (!_init)
-	{
-		Init();
-		_init = true;
-	}
-
 	if (_timer > 0)
 		_timer -= dt;
-	else if(!_once)
-	{
+	else
 		MyFactory.ChangeScene("MainMenu");
-		_once = true;
-	}
+		
 }

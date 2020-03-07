@@ -5,8 +5,6 @@
 class HitEffect : public IScript2
 {
 private:
-	bool _init;
-
 	AnimationComponent* _animation;
 	TransformComponent* _obj;
 	TransformComponent* _player;
@@ -24,7 +22,8 @@ public:
 	HitEffect();
 	HitEffect* Clone();
 
-	void Init() override;
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 
 	void PlayHit();
