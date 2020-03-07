@@ -52,10 +52,10 @@ public:
 	void LoadResource();
 	void Update(double dt);
 // Logic - Behaviour
-	void AttackRangeMelee();
+	void AttackRangeMelee(double dt);
 	void AttackRangeShoot();
 	void CheckState();
-	void FSM();
+	void FSM(double dt);
 	void ChancePickUps();
 // Logic - Pathfinding
 	Vector3 GetDestinationPos();	// _target's position

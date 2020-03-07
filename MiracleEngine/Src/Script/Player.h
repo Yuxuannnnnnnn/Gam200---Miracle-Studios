@@ -78,7 +78,7 @@ public:
 	void WeaponShoot_Shotgun();
 	void WeaponShoot_RPG();
 	void UpdateCamera();
-	void UpdateInput();
+	void UpdateInput(double dt);
 	void UpdateUI();
 
 	int GetHealth();

@@ -76,15 +76,6 @@ void Enemy::Update(double dt)
 // death logic
 	if (_timerDeath)
 	{
-		if (_timerDeath > 0 && ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-		{
-			if ( ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetCurrentFrame() ==
-				(((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() - 1) )
-			{
-				((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
-				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
-			}
-		}
 		// if animation finish playing
 		if (_timerDeath > 0 && !((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
 		{
@@ -101,16 +92,16 @@ void Enemy::Update(double dt)
 	}
 	if (_health <= 0)
 	{
-		_deathStart = true;
 		_timerDeath += dt;
-	}
-	if (_deathStart)
-	{
-		_deathStart = false;
-		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(true);
-		return;
+
+		if (!_deathStart)
+		{
+			_deathStart = true;
+			GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(true);
+			GetSibilingComponentObject(RigidBody2D)->SetEnable(false);
+		}
 	}
 
 // stunned logic
@@ -151,7 +142,7 @@ void Enemy::Update(double dt)
 	if (_health > 0 && _target)
 	{
 		CheckState();
-		FSM();
+		FSM(dt);
 	}
 
 // anim updating related logic
@@ -207,7 +198,7 @@ void Enemy::Update(double dt)
 	}
 }
 
-void Enemy::AttackRangeMelee()
+void Enemy::AttackRangeMelee(double dt)
 {
 	_charging = true;
 	Vector3 moveVec(
@@ -219,7 +210,7 @@ void Enemy::AttackRangeMelee()
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
-	AddForwardForce(GetParentId(), 1000 * _chaseSpeed);
+	AddForwardForce(GetParentId(), 100000 * _chaseSpeed * dt);
 }
 void Enemy::AttackRangeShoot()
 {
@@ -275,7 +266,7 @@ void Enemy::CheckState()
 		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(1);
 	}
 }
-void Enemy::FSM()
+void Enemy::FSM(double dt)
 {
 	if (!_target) // if no target
 		_state = (unsigned)AiState::IDLE;
@@ -302,7 +293,7 @@ void Enemy::FSM()
 				//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
 				//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
 				//);
-		AddForwardForce(GetParentId(), 1000 * _moveSpeed);
+		AddForwardForce(GetParentId(), 100000 * _moveSpeed * dt);
 		//std::cout << "/t AI Move!!!\n";
 	// get pathfinding
 		//if (_timerPathing > 0)
@@ -335,7 +326,7 @@ void Enemy::FSM()
 				(GetDestinationPos()._y - GetPosition()._y),
 				0);
 			if (distVec.SquaredLength() < _attackRangeMelee)
-				AttackRangeMelee();
+				AttackRangeMelee(dt);
 		}
 		if (_enemyType == 2)
 		{

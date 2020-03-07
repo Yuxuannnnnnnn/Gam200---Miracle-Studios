@@ -460,7 +460,7 @@ void Player::Update(double dt)
 	_timerSwitch -= dt;
 	_timerGodSwitch -= dt;
 
-	UpdateInput();
+	UpdateInput(dt);
 	UpdateCamera();
 	UpdateUI();
 	UpdateShield(dt);
@@ -519,7 +519,7 @@ void Player::UpdateUI()
 	//EngineSystems::GetInstance()._graphicsSystem->SetProgressPercentage(static_cast<float>(_progress) / _progressMax);
 }
 
-void Player::UpdateInput()
+void Player::UpdateInput(double dt)
 {
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_8))
 		((TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform))->SetPos(Vec3{ 0.f,0.f,1.f });
@@ -547,7 +547,7 @@ void Player::UpdateInput()
 
 // MOVEMENT
 	_moving = false;
-	float spd = 3.f * 10000; // get spd
+	float spd = 30.f * 100000 * dt; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
 	{
 		_moving = true;
