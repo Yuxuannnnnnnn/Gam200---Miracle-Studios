@@ -63,6 +63,7 @@ class AssetsImguiWindow: public IBaseImguiWindow
 
 
 	std::string selectedGameObject;
+	GameObject* selectedGOPtr;
 
 public:
 
@@ -88,6 +89,6 @@ public:
 
 	void Update() override;
 
-	void ShowPrototypeChildObjects(GameObject* gameObject, int layer);
+	void ShowPrototypeChildObjects(GameObject* gameObject, int layer, int ID);
 };
 

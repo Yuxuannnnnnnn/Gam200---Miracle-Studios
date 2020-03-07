@@ -49,6 +49,19 @@ GameObject* Factory::CloneChildGameObject(GameObject* gameobject)
 }
 
 
+GameObject* Factory::CloneChildGameObjectPrototype(GameObject* gameobject)
+{
+	GameObject* clonedObject;
+
+	//if(gameobject->Get_uID())
+	clonedObject = gameobject->CloneChildPrototype();
+	//else
+	//{
+		//clonedObject = gameobject->Clone(0);
+	//}
+
+	return clonedObject;
+}
 
 
 
@@ -138,7 +151,7 @@ int Factory::CheckObjOrignialPointer(GameObject* obj)
 
 		if (CheckObjOrignialChildPointer(pair.second, obj))
 		{
-			return 3;
+			return 1;
 		}
 	}
 
@@ -151,7 +164,7 @@ int Factory::CheckObjOrignialPointer(GameObject* obj)
 
 		if (CheckObjOrignialChildPointer(pair.second, obj))
 		{
-			return 3;
+			return 2;
 		}
 	}
 	

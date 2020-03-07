@@ -60,6 +60,8 @@ public:
 	void RemoveComponent(ComponentId componentType);
 
 	void DestoryGameObject();
+	GameObject* CloneChildPrototype();
+
 
 
 	///////////////////////////////////////////////

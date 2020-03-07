@@ -93,21 +93,181 @@ void InspectionImguiWindow::Update()
 
 			IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (_inspectObj->GetComponent(ComponentId::CT_Identity));
 
-			std::string string1 = "Clone " + IdCom->GetName();
-			if (ImGui::Button(string1.c_str()))
+			std::string string1 = "Clone ";//+ IdCom->GetName();
+
+
+			if (_inspectObj->GetParent()) //If the Object is a child Object of a parent
 			{
-				GameObject* newGameobject = MyFactory.CloneGameObject(_inspectObj);	//Clone GameObject
-				if (checkProtoOrObj == 2) //if the object is a prototype, reset the position to the origin point
+				if (checkProtoOrObj == 1) //if the object is not a prototype
 				{
-					if (TransformComponent * tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
-						tmp->SetPos({ 0,0,1 });
+
+					std::string string2 = string1 + "As Top ParentObj";
+					std::string string3 = string1 + "As ChildObj";
+
+					if (ImGui::Button(string2.c_str()))
+					{
+						GameObject* newGameobject = MyFactory.CloneGameObject(_inspectObj);	//Clone GameObject
+
+						InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+						//MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+						MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+						MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
+
+					}
+
+					ImGui::SameLine();
+					ImGui::TextDisabled("(?)");
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+						ImGui::TextUnformatted("Clone into the Top Parent Layer");
+						ImGui::PopTextWrapPos();
+						ImGui::EndTooltip();
+					}
+
+					if (ImGui::Button(string3.c_str()))
+					{
+						GameObject* newGameobject = MyFactory.CloneChildGameObject(_inspectObj);	//Clone GameObject
+						_inspectObj->GetParent()->AddChildObject(newGameobject);
+						newGameobject->SetParent(_inspectObj->GetParent());
+
+						InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+						//MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+						MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+						MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
+
+					}
+
+
+					ImGui::SameLine();
+					ImGui::TextDisabled("(?)");
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+						ImGui::TextUnformatted("Clone into the Same Child Layer");
+						ImGui::PopTextWrapPos();
+						ImGui::EndTooltip();
+					}
+				}
+				else if (checkProtoOrObj == 2) // If Object is a prototype
+				{
+					std::string string2 = string1 + "As Top ParentObj";
+
+					if (ImGui::Button(string2.c_str()))
+					{
+						GameObject* newGameobject = MyFactory.CloneGameObject(_inspectObj);	//Clone GameObject
+
+						InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+						//MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+						MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+						MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
+
+					}
+
+					ImGui::SameLine();
+					ImGui::TextDisabled("(?)");
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+						ImGui::TextUnformatted("Clone into the Top Parent Layer in the Hierarchy List");
+						ImGui::PopTextWrapPos();
+						ImGui::EndTooltip();
+					}
+
+					std::string string3 = string1 + "As ChildObj";
+					
+					if (ImGui::Button(string3.c_str()))
+					{
+						GameObject* newGameobject = MyFactory.CloneChildGameObjectPrototype(_inspectObj);	//Clone GameObject
+						_inspectObj->GetParent()->AddChildObject(newGameobject);
+						newGameobject->SetParent(_inspectObj->GetParent());
+
+					
+						InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+						//MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+						//MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+						MyHierarchyWindow.SetisObjectSelected(false);	//turn off the highlight of the hierarchy object
+						
+						std::string ObjType = ((IdentityComponent*)newGameobject->GetComponent(ComponentId::CT_Identity))->ObjectType();
+						MyAssetsWindow.SetSelectedObj(ObjType); //turn off the highlight in the Assets Object
+					
+					}
+
+
+					ImGui::SameLine();
+					ImGui::TextDisabled("(?)");
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+						ImGui::TextUnformatted("Clone into the Same Child Layer in Prototype");
+						ImGui::PopTextWrapPos();
+						ImGui::EndTooltip();
+					}
+				}
+			}
+			else // If the Object does not have a parent
+			{
+				if (ImGui::Button(string1.c_str()))
+				{
+					GameObject* newGameobject = MyFactory.CloneGameObject(_inspectObj);	//Clone GameObject
+					if (checkProtoOrObj == 2) //if the object is a prototype, reset the position to the origin point
+					{
+						if (TransformComponent* tmp = dynamic_cast<TransformComponent*>(newGameobject->GetComponent(ComponentId::CT_Transform)))
+							tmp->SetPos({ 0,0,1 });
+					}
+
+					InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+					MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+					MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+					MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
+
 				}
 
-				InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
-				MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
-				MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
-				MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
+			}
 
+			static auto& prototypelist = MyResourceSystem.GetPrototypeMap();
+			std::vector<const char*> list(prototypelist.size());
+			//list[0] = "Choose a Texture ";
+
+			int i = 0;
+			for (auto prototypePair = prototypelist.begin(); prototypePair != prototypelist.end(); prototypePair++)
+			{
+				const char* ptr = prototypePair->first.c_str();
+
+				list[i] = ptr;
+
+				i++;
+			}
+
+			ComboFilterState s = { 0, 0 };
+
+			char buf[128];
+
+			ImGuiFunctions Function;
+			static bool op = false;
+			static bool* open = &op;
+
+
+			strncpy(buf, "Add Child Object     ", 20 + 1);
+
+			std::string fileName;
+
+			if (Function.ComboFilter("                  ##Select ChildObjects", buf, IM_ARRAYSIZE(buf), list, list.size(), s, fileName, open))
+			{
+			//	puts(buf);
+			//	GameObject* proto = MyResourceSystem.GetPrototypeResource(fileName);
+			//	GameObject* newGameobject = MyFactory.CloneChildGameObject(proto);	//Clone GameObject
+			//	_inspectObj->AddChildObject(newGameobject);
+			//	newGameobject->SetParent(_inspectObj);
+			//	
+			//	InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+			//	//MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+			//	MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+			//	MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
 			}
 
 			ImGui::Spacing();
@@ -120,7 +280,7 @@ void InspectionImguiWindow::Update()
 			ImGui::Spacing();
 
 
-			if (_inspectObj->Get_uID() <= 1000)
+			//if (_inspectObj->Get_uID() <= 1000)
 			{
 				//ImGui::SetWindowFontScale(1.1);
 				//ImGui::Indent(400.0f);
