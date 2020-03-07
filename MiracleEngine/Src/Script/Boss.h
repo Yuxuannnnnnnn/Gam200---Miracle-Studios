@@ -90,8 +90,22 @@ private:
 
 	// AnimNames for when calling particualr animations
 	std::vector<std::string>::iterator _AnimChainItr;
-	std::vector<std::string> _StartUp = { "","","" };
-	std::vector<std::string> _Idle = { "","","" };
+	std::vector<std::string> _StartUp = {
+		"Boss_inactive_to_active_sprite1",
+		"Boss_inactive_to_active_sprite1" };
+	std::vector<std::string> _Idle = {
+		"Boss_Idle_sprite1",
+		"Boss_Idle_sprite2",
+		"Boss_Idle_sprite3" };
+	std::vector<std::string> _Death = {
+		"Boss_Rage_idle_death_sprite1",
+		"Boss_Rage_idle_death_sprite2",
+		"Boss_Rage_idle_death_sprite3",
+		"Boss_Rage_idle_death_sprite4",
+		"Boss_Rage_idle_death_sprite5",
+		"Boss_Rage_idle_death_sprite6",
+		"Boss_Rage_idle_death_sprite7",
+		"Boss_Rage_idle_death_sprite8" };
 	std::vector<std::string> _IdleRage = { "","","" };
 public:
 	Boss();
