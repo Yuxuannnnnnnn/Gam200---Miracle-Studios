@@ -33,7 +33,7 @@ SND:: Plays the laser shot sound effect --> LaserShot
 Once shoot laser finish & return to IDLE
 	Laser_Blasting_small(body single frame) --> Boss_Laser_after_shoot_transform_back_sprite --> Boss_Idle_sprite
 On HP < 50, change from IDLE to IDLE_RAGE
- SND:: Plays the sound effect for shooting bullets --> SingleShot
+SND:: Plays the sound effect for shooting bullets --> SingleShot
 	Boss_Idle_sprite --> Boss_Transform_into_rage_sprite --> Boss_Rage_idle_sprite
 When want to shoot bullet
 	Boss_Rage_idle_sprite --> Boss_rage_transform_to_shoot_style_sprite --> Boss_Shoot_style_sprite OR Boss_Shoot_style_low_HP_sprite
@@ -105,6 +105,14 @@ private:
 		"Laser3",
 		"Laser4",
 		"Laser5" };
+	std::vector<std::string> _TransformLaserToIdle = { // Boss_Laser_after_shoot_transform_back_sprite
+		"TransformLaserToIdle1",
+		"TransformLaserToIdle2",
+		"TransformLaserToIdle3" };
+	std::vector<std::string> _TransformIdleToIdleRage = { // Boss_Laser_after_shoot_transform_back_sprite
+		"TransformIdleToIdleRage1",
+		"TransformIdleToIdleRage2",
+		"TransformIdleToIdleRage3" };
 	std::vector<std::string> _Death1 = { // Boss_Rage_idle_death_sprite
 		"Death1",
 		"Death2",
