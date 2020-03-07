@@ -58,11 +58,7 @@ void EntrancePortal::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidj
 
 void EntrancePortal::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	EntrancePortal* script = (EntrancePortal*)(MyLogicSystem.getScriptPtr(UId));
+	EntrancePortal* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), EntrancePortal);
 
 	if (!script)
 	{
@@ -216,6 +212,22 @@ void EntrancePortal::Init()
 {
 	_graphicComponent = (GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic);
 	_graphicComponent->SetFileName(_closePortalFileName);
+
+	GameObject* tempPlayer = MyFactory.GetLinkIDObject(999);
+	std::string temp = "Player";
+	_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(tempPlayer->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+	_player = (TransformComponent*)(tempPlayer->GetComponent(ComponentId::CT_Transform));
+
+	_popUp = MyFactory.GetLinkIDObject(9542);
+	_popUpPos = (TransformComponent*)_popUp->GetComponent(ComponentId::CT_Transform);
+}
+
+void EntrancePortal::LoadResource()
+{
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewTexture2DResource({ _closePortalFileName, MyResourceSystem.GetTexture2DResourcePath(_closePortalFileName) });
+	MyResourceManager.AddNewTexture2DResource({ _openPortalFileName, MyResourceSystem.GetTexture2DResourcePath(_openPortalFileName) });
+#endif
 }
 
 void EntrancePortal::Update(double dt)
@@ -223,21 +235,8 @@ void EntrancePortal::Update(double dt)
 	if (dt < 0)
 		return;
 
-	if (!_init)
-	{
-		Init();
-		_init = true;
-		return;
-	}
-
 	if (!_clear)
 	{
-		if (!_playerScript)
-		{
-			std::string temp = "Player";
-			_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		}
-
 		if (_KillCount >= _progressCount)
 			OpenPortal();
 	}
@@ -249,14 +248,6 @@ void EntrancePortal::OpenPortal()
 {
 	_clear = true;
 	_graphicComponent->SetFileName(_openPortalFileName);
-
-	if (!_popUp)
-	{
-		_player = (TransformComponent*)(MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform));
-		_popUp = MyFactory.GetLinkIDObject(9542);
-		_popUpPos = (TransformComponent*)_popUp->GetComponent(ComponentId::CT_Transform);
-	}
-
 	_popUp->SetEnable(true);
 }
 
@@ -265,6 +256,7 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 	if (_clear)
 	{
 		std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+
 		if (!otherType.compare("player"))
 			MyFactory.ChangeScene(_nextScene);
 	}

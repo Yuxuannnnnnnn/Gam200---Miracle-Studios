@@ -3,6 +3,45 @@
 #include <cstdlib>
 #include <ctime>
 
+/*
+
+// set render layer of BOSS above bullet
+// bullet shooting @ the 4 diagonal corners
+// death will have mutliple sprite sheets,
+	will need to do the way that will play 1 anim after another
+
+Do above half heath shoot laser, then under half spin shoot.
+	if ok then try 100-75 normal laser, 75-50||40 rapid shot, remaining spint shoot with critical health anims
+
+Init()
+
+SND:: Plays the background music for the game --> MusicBGM1 OR MusicBGM2 (Your choice)
+	Boss_inactive_to_active_sprite --> Boss_Idle_sprite
+When start laser charge
+SND:: Plays the charging sound effect --> Charging
+	Boss_Idle_sprite --> Boss_Laser_Charge_up_sprite
+Once laser charged & now shoot laser
+	Boss_Laser_Charge_up_sprite --> freeze last frame of prev anim
+		+ Laser_Blast_Sprite (actual laser)
+SND:: Plays the laser shot sound effect --> LaserShot
+	Boss_Laser_Charge_up_sprite --> Laser_Blasting_small(body single frame) OR freeze to last frame of prev anim
+		+ Laser_Blast_Sprite (actual laser)
+Once shoot laser finish & return to IDLE
+	Laser_Blasting_small(body single frame) --> Boss_Laser_after_shoot_transform_back_sprite --> Boss_Idle_sprite
+On HP < 50, change from IDLE to IDLE_RAGE
+ SND:: Plays the sound effect for shooting bullets --> SingleShot
+	Boss_Idle_sprite --> Boss_Transform_into_rage_sprite --> Boss_Rage_idle_sprite
+When want to shoot bullet
+	Boss_Rage_idle_sprite --> Boss_rage_transform_to_shoot_style_sprite --> Boss_Shoot_style_sprite OR Boss_Shoot_style_low_HP_sprite
+	While shooting, continue with the last anim from above
+Once shooting end
+	Boss_Shoot_style_sprite OR Boss_Shoot_style_low_HP_sprite --> Boss_shoot_style_transform_to_rage_sprite -->
+		Boss_Rage_idle_sprite OR Boss_Rage_idle_low_HP_sprite
+
+On DEATH depending on which mode its in, use the right death anim
+
+*/
+
 Boss::Boss() :
 	health{ 0 }, healthMax{ 0 }, healthHalf{ 0 }, healthQuart{ 0 },
 
@@ -54,33 +93,77 @@ void Boss::Init()
 	}
 	healthHalf = healthMax / 2;
 	healthQuart = healthMax / 4;
-
+	_CurrAnimChain = _StartUp;
+	_CurrAnimChainItr = _CurrAnimChain.begin();
+	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("StartUp1");
 	_init = true;
 }
 void Boss::Update(double dt)
 {
-	if (_init)
+	if (!_init)
 		Init();
 	_dt = dt;
 	UpdateState();
 	RunState();
 }
 
-void Boss::PlayAnimChain(std::vector<std::string>& in)
+bool Boss::PlayAnimChain(std::vector<std::string> animChain)
 {
-	// set _AnimChainItr to the
-}
-bool Boss::PlayAnimChainNext(std::vector<std::string>& idleAnim, std::vector<std::string>::iterator animChainItr)
-{
-	// if have more anim to play // check if ++_AnimChainItr == idleAnim.end()
-	//		set _AnimChainItr to next
-	//		return true if still have animation to play
-	// else return false
-	return false;
+	if (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+		return true;
+	else {
+		if (_CurrAnimChain == animChain) // check it is a new AnimChain
+		{
+			if (_CurrAnimChainItr == _CurrAnimChain.end()) // if PlayAnimChain need repeat animation
+			{
+				_CurrAnimChainItr = _CurrAnimChain.begin();
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce(*_CurrAnimChainItr);
+				return true;
+			}
+
+			if (++_CurrAnimChainItr != _CurrAnimChain.end()) // still got more in the chain
+			{
+				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce(*_CurrAnimChainItr);
+				return true;
+			}
+			else // end of chain
+				return false;
+		}
+		else // immediately chaing anim to new anim
+		{
+			_CurrAnimChain = animChain;
+			_CurrAnimChainItr = _CurrAnimChain.begin();
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce(*_CurrAnimChainItr);
+			return true;
+		}
+	}
 }
 
 void Boss::UpdateState()
 {
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_1))
+	{
+		_state = (int)Boss_State::STARTUP;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_2))
+	{
+		_state = (int)Boss_State::IDLE;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
+	{
+		_state = (int)Boss_State::LASER_CHARGE;
+	}
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_4) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_4))
+	{
+		_state = (int)Boss_State::DEATH;
+		_deathStart = true;
+		return;
+	}
+
 	// states should update NOT upwhen when !IDLE_END || stillTransforming
 	if (_state != (int)Boss_State::IDLE_END)
 		return;
@@ -155,26 +238,28 @@ void Boss::RunState()
 
 void Boss::StartUp()
 {
-	// on first call, call PlayAnimChain()
-	PlayAnimChain(_StartUp);
-	// on anim end, check if got somemore ani mto play, else go to next state
-	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-		if (!PlayAnimChainNext(_StartUp, _AnimChainItr))
-			_state = (int)Boss_State::IDLE;
+	// on anim end, check if got somemore anim to play, else go to next state
+	if (!PlayAnimChain(_StartUp))
+		_state = (int)Boss_State::STARTUP;
 }
 
 void Boss::Idle()
 {
-	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-		_state = (int)Boss_State::IDLE;
-
-
-	idleTimer -= _dt;
-	if (idleTimer < 0.0)
+	if (!PlayAnimChain(_Idle))
 	{
-		idleTimer = idleDuration;
-		_state = _statePrev = (int)Boss_State::IDLE_END;
+		_state = (int)Boss_State::IDLE;
+		PlayAnimChain(_Idle); // need call () again if looping
 	}
+
+	//if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+	//	_state = (int)Boss_State::IDLE;
+
+	//idleTimer -= _dt;
+	//if (idleTimer < 0.0)
+	//{
+	//	idleTimer = idleDuration;
+	//	_state = _statePrev = (int)Boss_State::IDLE_END;
+	//}
 }
 void Boss::IdleRage()
 {
@@ -202,24 +287,17 @@ void Boss::Death()
 	{
 		_deathStart = false;
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(true);
+		PlayAnimChain(_Death1);
 		return;
 	}
-	if (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+	if (!PlayAnimChain(_Death1))
 	{
-		if (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetCurrentFrame() ==
-			(((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() - 1))
-		{
-			((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
-			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
-		}
-	}
-	// if animation finish playing //if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-	else
-	{
+		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
 		GetParentPtr()->SetDestory();
 	}
+	// if animation finish playing //if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+
 	return;
 }
 
@@ -298,29 +376,32 @@ void Boss::LookAtPlayer()
 
 void Boss::LaserCharge(double speedup)
 {
-	if (_statePrev == (int)Boss_State::IDLE_END)
-	{
-		_laserChargeStart = true;
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("LaserCharge");
-	}
-	if (_laserChargeStart)
-	{
-		// set anim speed
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
-			laserChargeDuration / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
-	//	if (speedup != 1.0)
-	//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
-	//		(laserChargeDuration / speedup) / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
-		_laserChargeStart = false;
-	}
-	else
-		laserChargeTimer -= _dt;
-	// on animation end, change state to FiringLaser
-	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-	{
-		laserChargeTimer = laserChargeDuration;
-		_state = (int)Boss_State::LASER_SHOOT;
-	}
+	if (!PlayAnimChain(_LaserCharge))
+		_state = (int)Boss_State::LASER_CHARGE;
+
+//	if (_statePrev == (int)Boss_State::IDLE_END)
+//	{
+//		_laserChargeStart = true;
+//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("LaserCharge");
+//	}
+//	if (_laserChargeStart)
+//	{
+//		// set anim speed
+//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+//			laserChargeDuration / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+//	//	if (speedup != 1.0)
+//	//		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+//	//		(laserChargeDuration / speedup) / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame());
+//		_laserChargeStart = false;
+//	}
+//	else
+//		laserChargeTimer -= _dt;
+//	// on animation end, change state to FiringLaser
+//	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+//	{
+//		laserChargeTimer = laserChargeDuration;
+//		_state = (int)Boss_State::LASER_SHOOT;
+//	}
 }
 
 void Boss::LaserShoot()

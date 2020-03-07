@@ -2,7 +2,7 @@
 #include "Script/Explosion.h"
 #include "Script/Enemy.h"
 
-Explosion::Explosion() : _init{ false }, _lifeTime { -666.f }, _radius{ 0 }
+Explosion::Explosion(): _lifeTime{ -666.f }, _radius{ 0 }
 {}
 
 Explosion* Explosion::Clone()
@@ -51,11 +51,7 @@ void Explosion::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::
 
 void Explosion::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	Explosion* script = (Explosion*)(MyLogicSystem.getScriptPtr(UId));
+	Explosion* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), Explosion);
 
 	if (!script)
 	{
@@ -111,19 +107,23 @@ void Explosion::Inspect()
 	ImGui::Spacing();
 }
 
+void  Explosion::Init()
+{
+	//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("boom");
+	_lifeTime = ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay() * ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame();
+	//	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
+	//		_lifeTime / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() );
+}
+void  Explosion::LoadResource()
+{
+
+}
+
 void Explosion::Update(double dt)
 {
 	if (dt < 0)
 		return;
 
-	if (!_init)
-	{
-		_init = true;
-		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("boom");
-		_lifeTime = ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetTimeDelay() * ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame();
-	//	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetTimeDelay(
-	//		_lifeTime / ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() );
-	}
 	if (_lifeTime > 0.0f)
 		_lifeTime -= dt;
 

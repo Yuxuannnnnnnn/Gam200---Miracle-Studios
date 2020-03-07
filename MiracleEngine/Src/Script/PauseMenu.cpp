@@ -48,11 +48,7 @@ void PauseMenu::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::
 
 void PauseMenu::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	PauseMenu* script = (PauseMenu*)(MyLogicSystem.getScriptPtr(UId));
+	PauseMenu* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), PauseMenu);
 
 	if (!script)
 	{
@@ -121,7 +117,7 @@ void PauseMenu::Inspect()
 	}
 }
 
-PauseMenu::PauseMenu() : _init{false}
+PauseMenu::PauseMenu()
 {
 }
 
@@ -139,8 +135,6 @@ void PauseMenu::Init()
 {
 	_object.clear();
 
-	MyFactory.SaveNewLinkID(1275, GetParentId());
-
 	for (unsigned i = 0; i < _objectLinkID.size(); i++)
 		_object.push_back(MyFactory.GetLinkIDObject(_objectLinkID[i]));
 
@@ -148,13 +142,14 @@ void PauseMenu::Init()
 		_object[i]->SetEnable(false);
 }
 
+void PauseMenu::LoadResource()
+{
+
+}
+
 void PauseMenu::Update(double dt)
 {
-	if (!_init)
-	{
-		Init();
-		_init = true;
-	}
+	(void)dt;
 }
 
 void PauseMenu::EnablePauseMenu(bool t)

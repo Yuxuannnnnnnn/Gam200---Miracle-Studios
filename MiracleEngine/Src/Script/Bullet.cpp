@@ -61,11 +61,7 @@ void Bullet::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::Mem
 
 void Bullet::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	Bullet* script = (Bullet*)(MyLogicSystem.getScriptPtr(UId));
+	Bullet* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), Bullet);
 
 	if (!script)
 	{
@@ -134,8 +130,11 @@ void Bullet::Inspect()
 	ImGui::Spacing();
 }
 
-Bullet::Bullet() : _lifeTime{ 0.0 }, _bulletType{ 0 }, _bulletSpeed{ 0.0 }, _init{ false },
-_justCollided{ false }
+Bullet::Bullet() : 
+	_lifeTime{ 0.0 },
+	_bulletType{ 0 },
+	_bulletSpeed{ 0.0 },
+	_justCollided{ false }
 {}
 
 Bullet* Bullet::Clone()
@@ -176,20 +175,23 @@ std::string Bullet::IntToString(int bulletType)
 
 void  Bullet::Init()
 {
-	_init = true;
 	if (_bulletType == 1)
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(false);
 
 	_body = (RigidBody2DComponent*)GetParentPtr()->GetComponent(ComponentId::CT_RigidBody2D);
 }
 
+void Bullet::LoadResource()
+{
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewPrototypeResource({ "Explosion" , MyResourceSystem.GetPrototypeResourcePath("Explosion") });
+#endif
+}
+
 void Bullet::Update(double dt)
 {
 	if (dt < 0)
 		return;
-
-	if (!_init)
-		Init();
 	
 	if (_bulletType == 1)
 		if (_justCollided && !((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())

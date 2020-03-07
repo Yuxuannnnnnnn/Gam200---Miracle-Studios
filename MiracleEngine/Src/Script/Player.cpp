@@ -139,12 +139,7 @@ void Player::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::Mem
 
 void Player::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-
-	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
-
-	size_t UId = protoLogicCom->GetScriptContianer()[_type];
-
-	Player* script = (Player*)(MyLogicSystem.getScriptPtr(UId));
+	Player* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), Player);
 
 	if (!script)
 	{
@@ -350,7 +345,6 @@ void Player::Inspect()
 
 Player::Player() :
 	_god{ false },
-	_init{ false },
 	_camera{ nullptr },
 	_timerShield{ 0 }, _timerShieldDuration{ 0 },
 	_health{ 30 }, _healthMax{ 30 },
@@ -420,20 +414,24 @@ void Player::Init()
 
 	_timerShieldActivateCooldown = 0;
 	MyAudioSystem.PlayBGM("Level1", 1.0f);
+
+	_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
+}
+
+void Player::LoadResource()
+{
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewPrototypeResource({ "Bullet" , MyResourceSystem.GetPrototypeResourcePath("Bullet") });
+	MyResourceManager.AddNewPrototypeResource({ "BulletT" , MyResourceSystem.GetPrototypeResourcePath("BulletT") });
+	MyResourceManager.AddNewPrototypeResource({ "Turret" , MyResourceSystem.GetPrototypeResourcePath("Turret") });
+	MyResourceManager.AddNewPrototypeResource({ "Wall" , MyResourceSystem.GetPrototypeResourcePath("Wall") });
+#endif
 }
 
 void Player::Update(double dt)
 {
 	if(dt < 0)
 		return;
-
-	if (!_init)
-	{
-		Init();
-		_init = true;
-		return;
-		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Character_BodyFloat_sprite.png");
-	}
 
 	if (_animTime > 0)
 	{
@@ -462,7 +460,7 @@ void Player::Update(double dt)
 	_timerSwitch -= dt;
 	_timerGodSwitch -= dt;
 
-	UpdateInput();
+	UpdateInput(dt);
 	UpdateCamera();
 	UpdateUI();
 	UpdateShield(dt);
@@ -521,19 +519,13 @@ void Player::UpdateUI()
 	//EngineSystems::GetInstance()._graphicsSystem->SetProgressPercentage(static_cast<float>(_progress) / _progressMax);
 }
 
-void Player::UpdateInput()
+void Player::UpdateInput(double dt)
 {
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_8))
 		((TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform))->SetPos(Vec3{ 0.f,0.f,1.f });
 
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_P))
 	{
-		if (!_pauseMenu)
-		{
-			std::string temp = "PauseMenu";
-			_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		}
-
 		((PauseMenu*)_pauseMenu)->EnablePauseMenu(true);
 	}
 
@@ -555,7 +547,7 @@ void Player::UpdateInput()
 
 // MOVEMENT
 	_moving = false;
-	float spd = 3.f * 10000; // get spd
+	float spd = 30.f * 100000 * dt; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
 	{
 		_moving = true;
@@ -653,7 +645,7 @@ void Player::UpdateInput()
 		{
 			_timerDeploy = _firerateTurret; // reset timer to frWall
 			GameObject* turret = nullptr;
-			turret = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Turret"]);
+			turret = CreateObject("Turret");
 			// set bullet position & rotation as same as 'parent' obj
 			((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
 				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + aimVector.Normalized() * 100.f);
@@ -666,7 +658,7 @@ void Player::UpdateInput()
 		{
 			_timerDeploy = _firerateWall; // reset timer to frWall
 			GameObject* wall = nullptr;
-			wall = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Wall"]);
+			wall = CreateObject("Wall");
 			((TransformComponent*)wall->GetComponent(ComponentId::CT_Transform))->SetPos(
 				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 			((TransformComponent*)wall->GetComponent(ComponentId::CT_Transform))->SetRotate(
@@ -806,7 +798,7 @@ void Player::WeaponShoot()
 void Player::WeaponShoot_Pistol()
 {
 	_timerShoot = _fireratePistol; // cooldown
-	GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Bullet"]);
+	GameObject* bullet = CreateObject("Bullet");
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
@@ -823,15 +815,15 @@ void Player::WeaponShoot_Shotgun()
 	float rot = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate();
 	GameObject* bullet = nullptr;
 	// 3 bullets, 1 forward, 2 +- 0.2rad
-	bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Bullet"]);
+	bullet = CreateObject("Bullet");
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot);
 	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
-	bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Bullet"]);
+	bullet = CreateObject("Bullet");
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot-0.2f);
 	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
-	bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Bullet"]);
+	bullet = CreateObject("Bullet");
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot+0.2f);
 	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
@@ -843,7 +835,7 @@ void Player::WeaponShoot_RPG()
 {
 	--_ammoRpg;
 	_timerShoot = _firerateRPG; // cooldown
-	GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletT"]);
+	GameObject* bullet = CreateObject("BulletT");
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(

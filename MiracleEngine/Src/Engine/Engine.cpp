@@ -123,9 +123,15 @@ void Engine::Update()
 		}
 
 		MyFrameRateController.StartTimeCounter();
+
 		if (!MyInputSystem._pause)
 			MyAnimationSystem.Update(dt);
+
 		MyGraphicsSystem.Update(dt);
+
+		if (!MyInputSystem._pause)
+			MyAnimationSystem.UpdatePlayOnce();
+
 		MyPhysicsSystem.Draw();
 		MyPerformanceUsage.GraphicFrameTime += MyFrameRateController.EndTimeCounter();
 
@@ -179,6 +185,9 @@ void Engine::Update()
 			MyAnimationSystem.Update(dt);
 
 		MyGraphicsSystem.Update(dt);
+
+		if (!MyInputSystem._pause)
+			MyAnimationSystem.UpdatePlayOnce();
 #endif
 
 		MyFactory.Update(dt);

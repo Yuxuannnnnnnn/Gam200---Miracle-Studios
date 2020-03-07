@@ -190,8 +190,10 @@ void LogicComponent::Inspect()
 
 void LogicComponent::Init()
 {
-
+	for (auto& it : _scriptContianer)
+		MyLogicSystem.GetScriptList()[it.second]->Init();
 }
+
 void LogicComponent::Update(double dt)
 {
 	if (!_ScriptIds.empty())

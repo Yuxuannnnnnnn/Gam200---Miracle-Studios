@@ -27,7 +27,7 @@ ShieldSkill::ShieldSkill() :
 	_animation{ nullptr },
 	_obj{ nullptr },
 	_player{ nullptr },
-	_init{false}
+	_audcom{nullptr}
 {
 }
 
@@ -38,11 +38,16 @@ ShieldSkill* ShieldSkill::Clone()
 
 void ShieldSkill::Init()
 {
-	MyFactory.SaveNewLinkID(666, GetParentId());
-	_obj = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
-	_animation = (AnimationComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Animation);
+	_obj = GetSibilingComponentObject(Transform);
+	_animation = GetSibilingComponentObject(Animation);
+	_audcom = GetSibilingComponentObject(Audio);
+	_player = GetComponentObject(GetLinkObject(999), Transform);
 	GetParentPtr()->SetEnable(false);
-	_init = true;
+}
+
+void ShieldSkill::LoadResource()
+{
+
 }
 
 void ShieldSkill::Update(double dt)
@@ -50,26 +55,14 @@ void ShieldSkill::Update(double dt)
 	if (dt < 0)
 		return;
 
-	if (!_init)
-	{
-		Init();
-		_init = true;
-		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Character_BodyFloat_sprite.png");
-	}
-
-	if (!_player)
-		_player = (TransformComponent*)MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform);
-
 	_obj->SetPos(_player->GetPos());
 	_obj->SetRotate(_player->GetRotate());
 
 	if (_timer < 0 && _animTimer < 0)
 	{
 		_animation->SetCurrentAnimOnce("Off");
-		_animTimer = _animation->GetMaxFrame() * _animation->GetTimeDelay();
-
-		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-		audcom->PlaySFX("ShieldBreak");
+		_animTimer = (double)_animation->GetMaxFrame() * _animation->GetTimeDelay();
+		_audcom->PlaySFX("ShieldBreak");
 	}
 	else if (_animTimer > 0)
 	{
@@ -89,7 +82,5 @@ void ShieldSkill::ActionShield(double skilltimer)
 	_timer = skilltimer;
 	_animTimer = -1.f;
 	_animation->SetCurrentAnim("On");
-
-	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-	audcom->PlaySFX("Activate");
+	_audcom->PlaySFX("Activate");
 }

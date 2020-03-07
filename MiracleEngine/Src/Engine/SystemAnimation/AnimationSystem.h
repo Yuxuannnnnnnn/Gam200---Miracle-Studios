@@ -18,6 +18,9 @@ class AnimationSystem
 {
 public:
 	void Update(double dt);
+
+
+	void UpdatePlayOnce();
 	void Exit();
 };
 

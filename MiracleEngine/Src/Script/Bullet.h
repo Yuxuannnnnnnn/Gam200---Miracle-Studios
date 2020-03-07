@@ -17,7 +17,7 @@ class Enemy;
 class Bullet : public IScript2
 {
 private:
-	bool _init, _justCollided;
+	bool _justCollided;
 	double _lifeTime;
 	int _bulletType;
 	double _bulletSpeed;
@@ -40,7 +40,8 @@ public:
 	std::string IntToString(int bulletType);
 
 
-	virtual void Init() override;
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 
 	void BulletCollisionPlayer(Collider2D* other);

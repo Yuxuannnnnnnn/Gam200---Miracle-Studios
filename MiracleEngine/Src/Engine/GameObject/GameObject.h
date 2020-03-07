@@ -45,7 +45,7 @@ public:
 	//unsigned Get_typeId() const; // Return _typeId;
 	//void Set_typeId(TypeIdGO type);
 
-
+	void Init();
 
 	size_t Get_uID() const; // Return _uId
 
@@ -60,6 +60,8 @@ public:
 	void RemoveComponent(ComponentId componentType);
 
 	void DestoryGameObject();
+	GameObject* CloneChildPrototype();
+
 
 
 	///////////////////////////////////////////////
@@ -89,5 +91,5 @@ public:
 	void RemoveChildObject(GameObject* child);
 };
 
-
+#define GetComponentObject(parent, type) (dynamic_cast<type##Component*>(parent->GetComponent(ComponentId::CT_##type)))
 #endif

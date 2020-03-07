@@ -1,24 +1,6 @@
 #pragma once
 #include "GameObject/Components/Logic/IScript2.h"
 
-enum class SceneTag {
-	NONE = 0,
-	MAINMENU,
-	POPUPSCENE,
-
-	TOTAL_TAG
-};
-
-inline const char* ToString(SceneTag type) //Convert TypeIdComponent Enum to const char* - For Use only in Imgui
-{
-	switch (type)
-	{
-	case SceneTag::NONE:			return "NONE";
-	case SceneTag::MAINMENU:			return "MAIN MENU";
-
-	default:      return "[Unknown SceneTag]";
-	}
-}
 
 class ButtonController : public IScript2
 {
@@ -38,6 +20,7 @@ public:
 	ButtonController* Clone();
 
 	void Init();
+	void LoadResource();
 	void Update(double dt);
 };
 

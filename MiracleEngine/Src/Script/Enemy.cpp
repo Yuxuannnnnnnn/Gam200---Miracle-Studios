@@ -5,7 +5,6 @@
 #include "EntrancePortal.h"
 
 Enemy::Enemy() :
-	_init{ false },
 	_health{ 5 },
 	_enemyType{ (int)Enemy_Type::BASIC },
 
@@ -56,29 +55,27 @@ void Enemy::Init()
 			break;
 		}
 	}
-	_init = true;
 	_animState = 1;
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
 }
+
+void Enemy::LoadResource()
+{
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewPrototypeResource({ "BulletE" , MyResourceSystem.GetPrototypeResourcePath("BulletE") });
+	MyResourceManager.AddNewPrototypeResource({ "PickUps_Health" , MyResourceSystem.GetPrototypeResourcePath("PickUps_Health") });
+	MyResourceManager.AddNewPrototypeResource({ "PickUps_Ammo" , MyResourceSystem.GetPrototypeResourcePath("PickUps_Ammo") });
+#endif
+}
+
 void Enemy::Update(double dt)
 {
 	if (dt < 0)
 		return;
 
-	if (!_init)
-		Init();
 // death logic
 	if (_timerDeath)
 	{
-		if (_timerDeath > 0 && ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-		{
-			if ( ((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetCurrentFrame() ==
-				(((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->GetMaxFrame() - 1) )
-			{
-				((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
-				((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
-			}
-		}
 		// if animation finish playing
 		if (_timerDeath > 0 && !((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
 		{
@@ -95,16 +92,16 @@ void Enemy::Update(double dt)
 	}
 	if (_health <= 0)
 	{
-		_deathStart = true;
 		_timerDeath += dt;
-	}
-	if (_deathStart)
-	{
-		_deathStart = false;
-		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(true);
-		return;
+
+		if (!_deathStart)
+		{
+			_deathStart = true;
+			GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(true);
+			GetSibilingComponentObject(RigidBody2D)->SetEnable(false);
+		}
 	}
 
 // stunned logic
@@ -145,7 +142,7 @@ void Enemy::Update(double dt)
 	if (_health > 0 && _target)
 	{
 		CheckState();
-		FSM();
+		FSM(dt);
 	}
 
 // anim updating related logic
@@ -201,7 +198,7 @@ void Enemy::Update(double dt)
 	}
 }
 
-void Enemy::AttackRangeMelee()
+void Enemy::AttackRangeMelee(double dt)
 {
 	_charging = true;
 	Vector3 moveVec(
@@ -213,7 +210,7 @@ void Enemy::AttackRangeMelee()
 	float dot = moveVec._x * compareVec._x + moveVec._y * compareVec._y;
 	float det = moveVec._x * compareVec._y - moveVec._y * compareVec._x;
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate() = -atan2(det, dot);
-	AddForwardForce(GetParentId(), 1000 * _chaseSpeed);
+	AddForwardForce(GetParentId(), 100000 * _chaseSpeed * dt);
 }
 void Enemy::AttackRangeShoot()
 {
@@ -233,7 +230,7 @@ void Enemy::AttackRangeShoot()
 	{
 		_timerAttack = _timerAttackCooldown;
 		// spawn bullet
-		GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+		GameObject* bullet = CreateObject("BulletE");
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
@@ -269,7 +266,7 @@ void Enemy::CheckState()
 		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTextureState(1);
 	}
 }
-void Enemy::FSM()
+void Enemy::FSM(double dt)
 {
 	if (!_target) // if no target
 		_state = (unsigned)AiState::IDLE;
@@ -296,7 +293,7 @@ void Enemy::FSM()
 				//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetPos(
 				//	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + moveVec
 				//);
-		AddForwardForce(GetParentId(), 1000 * _moveSpeed);
+		AddForwardForce(GetParentId(), 100000 * _moveSpeed * dt);
 		//std::cout << "/t AI Move!!!\n";
 	// get pathfinding
 		//if (_timerPathing > 0)
@@ -329,7 +326,7 @@ void Enemy::FSM()
 				(GetDestinationPos()._y - GetPosition()._y),
 				0);
 			if (distVec.SquaredLength() < _attackRangeMelee)
-				AttackRangeMelee();
+				AttackRangeMelee(dt);
 		}
 		if (_enemyType == 2)
 		{
@@ -352,7 +349,7 @@ void Enemy::ChancePickUps()
 
 	if (Yaya <= 2) // health 30%drop
 	{
-		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Health"]);
+		GameObject* pickups = CreateObject("PickUps_Health");
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
@@ -361,7 +358,7 @@ void Enemy::ChancePickUps()
 	}
 	else if (Yaya == 3 || Yaya == 4) // ammo 20%drop
 	{
-		GameObject* pickups = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["PickUps_Ammo"]);
+		GameObject* pickups = CreateObject("PickUps_Ammo");
 		// set bullet position & rotation as same as 'parent' obj
 		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
@@ -491,4 +488,235 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 		_timerAttack = _timerAttackCooldown;
 		AddForwardForce(GetParentId(), -150000);
 	}
+}
+
+
+void Enemy::SerialiseComponent(Serialiser& document)
+{
+	if (document.HasMember("Health") && document["Health"].IsInt())
+	{
+		_health = (document["Health"].GetInt());
+	}
+	if (document.HasMember("EnemyType") && document["EnemyType"].IsInt())
+	{
+		_enemyType = (document["EnemyType"].GetInt());
+	}
+	if (document.HasMember("StunDuration") && document["StunDuration"].IsDouble())
+	{
+		_timerStunCooldown = (document["StunDuration"].GetDouble());
+	}
+	if (document.HasMember("MoveSpeed") && document["MoveSpeed"].IsDouble())
+	{
+		_moveSpeed = (document["MoveSpeed"].GetDouble());
+	}
+	if (document.HasMember("ChaseSpeed") && document["ChaseSpeed"].IsDouble())
+	{
+		_chaseSpeed = (document["ChaseSpeed"].GetDouble());
+	}
+	if (document.HasMember("ChaseDuration") && document["ChaseDuration"].IsDouble())
+	{
+		_chaseDuration = (document["ChaseDuration"].GetDouble());
+	}
+	if (document.HasMember("AttackRangeShoot") && document["AttackRangeShoot"].IsDouble())
+	{
+		_attackRangeShoot = (int)document["AttackRangeShoot"].GetDouble();
+		_attackRangeShoot *= 100;
+		_attackRangeShoot *= _attackRangeShoot;
+	}
+	if (document.HasMember("AttackRangeMelee") && document["AttackRangeMelee"].IsDouble())
+	{
+		_attackRangeMelee = (int)document["AttackRangeMelee"].GetDouble();
+		_attackRangeMelee *= 100;
+		_attackRangeMelee *= _attackRangeMelee;
+	}
+}
+//No Need this function
+void Enemy::DeSerialiseComponent(DeSerialiser& prototypeDoc)
+{
+}
+
+void Enemy::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	rapidjson::Value value;
+
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
+
+	value.SetInt(_health);
+	prototypeDoc.AddMember("Health", value, allocator);
+
+	value.SetInt(_enemyType);
+	prototypeDoc.AddMember("EnemyType", value, allocator);
+
+	value.SetDouble(_timerStunCooldown);
+	prototypeDoc.AddMember("StunDuration", value, allocator);
+
+	value.SetDouble(_moveSpeed);
+	prototypeDoc.AddMember("MoveSpeed", value, allocator);
+
+	value.SetDouble(_chaseSpeed);
+	prototypeDoc.AddMember("ChaseSpeed", value, allocator);
+
+	value.SetDouble(_chaseDuration);
+	prototypeDoc.AddMember("ChaseDuration", value, allocator);
+
+
+	double attackRangeShoot = sqrt(_attackRangeShoot) / 100.0;
+	value.SetDouble(attackRangeShoot);
+	prototypeDoc.AddMember("AttackRangeShoot", value, allocator);
+
+	double attackRangeMelee = sqrt(_attackRangeMelee) / 100.0;
+	value.SetDouble(attackRangeMelee);
+	prototypeDoc.AddMember("AttackRangeMelee", value, allocator);
+
+}
+
+void Enemy::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	Enemy* script = GetScriptByLogicComponent(dynamic_cast<LogicComponent*>(protoCom), Enemy);
+
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
+
+	rapidjson::Value Health;
+	rapidjson::Value EnemyType;
+	rapidjson::Value StunDuration;
+	rapidjson::Value MoveSpeed;
+	rapidjson::Value ChaseSpeed;
+	rapidjson::Value ChaseDuration;
+	rapidjson::Value AttackRangeShoot;
+	rapidjson::Value AttackRangeMelee;
+
+	bool addComponentIntoSceneFile = false;
+
+
+	if (script->_health != _health)
+	{
+		addComponentIntoSceneFile = true;
+		Health.SetInt(_health);
+	}
+
+	if (script->_enemyType != _enemyType)
+	{
+		addComponentIntoSceneFile = true;
+		EnemyType.SetInt(_enemyType);
+	}
+
+	if (script->_timerStunCooldown != _timerStunCooldown)
+	{
+		addComponentIntoSceneFile = true;
+		StunDuration.SetDouble(_timerStunCooldown);
+	}
+
+	if (script->_moveSpeed != _moveSpeed)
+	{
+		addComponentIntoSceneFile = true;
+		MoveSpeed.SetDouble(_moveSpeed);
+	}
+
+	if (script->_chaseSpeed != _chaseSpeed)
+	{
+		addComponentIntoSceneFile = true;
+		ChaseSpeed.SetDouble(_chaseSpeed);
+	}
+
+	if (script->_chaseDuration != _chaseDuration)
+	{
+		addComponentIntoSceneFile = true;
+		ChaseDuration.SetDouble(_chaseDuration);
+	}
+
+	if (script->_attackRangeShoot != _attackRangeShoot)
+	{
+		addComponentIntoSceneFile = true;
+
+		double attackRangeShoot = sqrt(_attackRangeShoot) / 100.0;
+		AttackRangeShoot.SetDouble(attackRangeShoot);
+	}
+
+	if (script->_attackRangeMelee != _attackRangeMelee)
+	{
+		addComponentIntoSceneFile = true;
+
+		double attackRangeMelee = sqrt(_attackRangeMelee) / 100.0;
+		AttackRangeMelee.SetDouble(attackRangeMelee);
+	}
+
+	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
+
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
+
+		if (!Health.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("Health", Health, allocator);
+		}
+
+		if (!EnemyType.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("EnemyType", EnemyType, allocator);
+		}
+
+		if (!StunDuration.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("StunDuration", StunDuration, allocator);
+		}
+
+
+		if (!MoveSpeed.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("MoveSpeed", MoveSpeed, allocator);
+		}
+
+
+		if (!ChaseSpeed.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("ChaseSpeed", ChaseSpeed, allocator);
+		}
+
+
+		if (!ChaseDuration.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("ChaseDuration", ChaseDuration, allocator);
+		}
+
+
+		if (!AttackRangeShoot.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("AttackRangeShoot", AttackRangeShoot, allocator);
+		}
+
+		if (!AttackRangeMelee.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("AttackRangeMelee", AttackRangeMelee, allocator);
+		}
+	}
+}
+
+
+
+void Enemy::Inspect()
+{
+	// health, type, stunDur, moveSpd, chaseSpd, atkRange, AtkMelee
+	ImGui::Spacing();
+	ImGui::InputInt("Health ", &_health);
+	ImGui::Spacing();
+	ImGui::InputInt("Enemy Type ", &_enemyType);
+	ImGui::Spacing();
+	ImGui::InputDouble("Stun Duration ", &_timerStunCooldown);
+	ImGui::Spacing();
+	ImGui::InputDouble("Move Speed ", &_moveSpeed);
+	ImGui::Spacing();
+	ImGui::InputDouble("Chase Speed ", &_chaseSpeed);
+	ImGui::Spacing();
+	ImGui::InputInt("Shoot Attack Range ", &_attackRangeShoot);
+	ImGui::Spacing();
+	ImGui::InputInt("Melee Attack Range ", &_attackRangeMelee);
+	ImGui::Spacing();
+
 }

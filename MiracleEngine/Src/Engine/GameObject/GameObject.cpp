@@ -26,6 +26,14 @@ GameObject::~GameObject()
 	_childObjects.clear();
 }
 
+void GameObject::Init()
+{
+	for (auto& it : _ComponentList)
+	{
+		it.second->Init();
+	}
+}
+
 
 //unsigned GameObject::GameObjectType() const
 //{
@@ -239,8 +247,8 @@ GameObject* GameObject::Clone(size_t uid)
 
 		newGameObject->_ComponentList[it.first] = temp;
 
-
-		MyComponentManger.GetComponentContainer(it.first)->insert({ uid, temp });
+		//if(uid)
+			MyComponentManger.GetComponentContainer(it.first)->insert({ uid, temp });
 	}
 
 	newGameObject->SetChild(_anyChild);
@@ -251,6 +259,44 @@ GameObject* GameObject::Clone(size_t uid)
 		for (auto& it : _childObjects)
 		{
 			GameObject* newChildObject = MyFactory.CloneChildGameObject(it.second);
+			newChildObject->SetParent(newGameObject);
+
+			newGameObject->AddChildObject(newChildObject);
+		}
+	}
+
+	return newGameObject;
+}
+
+GameObject* GameObject::CloneChildPrototype()
+{
+	GameObject* newGameObject = new GameObject();
+	newGameObject->_uId = 0;
+
+	for (auto& it : _ComponentList)
+	{
+		IComponent* temp = nullptr;
+		if (it.first == ComponentId::CT_Logic)
+			temp = ((LogicComponent*)it.second)->CloneComponent(newGameObject, this);
+		else
+		{
+			temp = it.second->CloneComponent();
+			temp->SetParentId(0);
+			temp->SetParentPtr(newGameObject);
+		}
+
+		newGameObject->_ComponentList[it.first] = temp;
+
+	}
+
+	newGameObject->SetChild(_anyChild);
+	newGameObject->SetIndependent(_independent);
+
+	if (_anyChild)
+	{
+		for (auto& it : _childObjects)
+		{
+			GameObject* newChildObject = MyFactory.CloneChildGameObjectPrototype(it.second);
 			newChildObject->SetParent(newGameObject);
 
 			newGameObject->AddChildObject(newChildObject);
@@ -301,7 +347,12 @@ void GameObject::AddChildObject(GameObject* child)
 	if (!child)
 		return;
 
-	_childObjects[child->Get_uID()] = child;
+	if (child->Get_uID())
+		_childObjects[child->Get_uID()] = child;
+	else
+		_childObjects[_childObjects.size()] = child;
+
+	_anyChild = true;
 }
 
 void GameObject::RemoveChildObject(GameObject* child)

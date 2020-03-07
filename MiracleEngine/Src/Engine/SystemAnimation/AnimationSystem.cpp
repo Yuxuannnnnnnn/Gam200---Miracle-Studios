@@ -10,15 +10,15 @@ void AnimationSystem::Update(double dt)
 
 		GC->UpdateTimeDelay(dt);
 		
-		if (GC->IsPlayingOnce()) //if animation is mentioned to play only once.
-		{
-			if (GC->GetCurrFrame() >= GC->GetMaxFrame()) //if curr frame is same as max frame
-			{
-				//GC->SetEnable(false); //Disable the animation component
-				GC->SetPlayingOnce(false); //set playing once to false
-				GC->SetAnimationPlaying(false); //turn off animation playing
-			}
-		}
+		//if (GC->IsPlayingOnce()) //if animation is mentioned to play only once.
+		//{
+		//	if (GC->GetCurrFrame() >= GC->GetMaxFrame()) //if curr frame is same as max frame
+		//	{
+		//		//GC->SetEnable(false); //Disable the animation component
+		//		GC->SetPlayingOnce(false); //set playing once to false
+		//		GC->SetAnimationPlaying(false); //turn off animation playing
+		//	}
+		//}
 	}
 	
 	/*if (MyInputSystem.KeyDown(KeyCode::KEYB_M))
@@ -53,6 +53,24 @@ void AnimationSystem::Update(double dt)
 	//}
 	// if  ___ ms > 10
 	// animation.update();
+}
+
+void AnimationSystem::UpdatePlayOnce()
+{
+	for (auto& animCompPair : GetComponentMap(Animation))
+	{
+		AnimationComponent* GC = (AnimationComponent*)animCompPair.second;
+
+		if (GC->IsPlayingOnce()) //if animation is mentioned to play only once.
+		{
+			if (GC->GetCurrFrame() >= GC->GetMaxFrame()) //if curr frame is same as max frame
+			{
+				//GC->SetEnable(false); //Disable the animation component
+				GC->SetPlayingOnce(false); //set playing once to false
+				GC->SetAnimationPlaying(false); //turn off animation playing
+			}
+		}
+	}
 }
 
 void AnimationSystem::Exit()

@@ -37,7 +37,8 @@ public:
 	HealthController();
 	HealthController* Clone();
 
-	virtual void Init() override;
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 
 	void DecreaseHealth(int hit = 1);

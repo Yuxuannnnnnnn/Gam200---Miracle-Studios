@@ -55,4 +55,5 @@ public:
 	void DestoryThis();
 };
 
+#define GetSibilingComponentObject(type) dynamic_cast<type##Component*>(GetSibilingComponent(ComponentId::CT_##type))
 #endif

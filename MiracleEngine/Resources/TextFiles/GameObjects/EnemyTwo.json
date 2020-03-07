@@ -25,7 +25,7 @@
       "StunDuration": 1.0,
       "AttackRangeShoot": 5.0,
       "AttackRangeMelee": 0.0,
-      "MoveSpeed": 3.0,
+      "MoveSpeed": 5.0,
       "ChaseSpeed": 0.0,
       "ChaseDuration": 2.0
     }
