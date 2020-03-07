@@ -65,6 +65,8 @@ public:
 	std::unordered_map<ScriptType, size_t>& GetScriptContianer();
 };
 
+#define GetSibilingScriptUId(type) GetSibilingComponentObject(Logic)->GetScript2Id(ScriptType::SCRIPT_##type)
+
 //public:
 //	Map_ScriptList _scriptList;
 //	bool _componentEnable;

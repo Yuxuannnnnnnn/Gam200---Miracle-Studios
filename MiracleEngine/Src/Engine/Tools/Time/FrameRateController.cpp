@@ -26,7 +26,8 @@ FrameRateController::FrameRateController(double FPS) :
 	FrameTime_Main{},
 	PrevTime_Sub{},
 	CurrTime_Sub{},
-	FrameTime_Sub{}
+	FrameTime_Sub{},
+	_dt{0.0}
 {
 	TotalTime = 0;
 
@@ -88,7 +89,9 @@ double FrameRateController::UpdateFrameTime()
 	
 	PrevTime_Main = Time::now();
 
-	return (double)deltaTime.count() / oneSecNs;
+	_dt = (double)deltaTime.count() / oneSecNs;
+
+	return _dt;
 }
 
 void FrameRateController::StartTimeCounter()
@@ -128,4 +131,9 @@ int FrameRateController::GetSteps() const
 double FrameRateController::GetLockedDt() const
 {
 	return (double)LockedFPS / oneSecNs;
+}
+
+double FrameRateController::Getdt() const
+{
+	return _dt;
 }

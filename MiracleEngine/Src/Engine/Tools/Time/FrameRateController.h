@@ -42,6 +42,8 @@ public:
 	int GetSteps() const;
 	double GetLockedDt() const;
 
+	double Getdt() const;
+
 private:
 	unsigned long long TotalTime;
 	long long accumulatedTime;
@@ -58,6 +60,8 @@ private:
 	TimePoint PrevTime_Sub;
 	TimePoint CurrTime_Sub;
 	ns FrameTime_Sub;
+
+	double _dt;
 };
 
 

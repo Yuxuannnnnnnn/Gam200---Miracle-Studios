@@ -57,4 +57,8 @@ public:
 
 };
 
+#define GetScriptByUId(UId, type) dynamic_cast<type*>(MyLogicSystem.getScriptPtr(UId))
+#define GetSibilingScriptObject(type) GetScriptByUId(GetSibilingScriptUId(type),type)
+#define GetScriptByLogicComponent(pointer, type) GetScriptByUId(pointer->GetScript2Id(ScriptType::SCRIPT_##type),type)
+
 #endif

@@ -600,7 +600,6 @@
     <ClInclude Include="Src\Script\PauseMenu.h" />
     <ClInclude Include="Src\Script\PickUps.h" />
     <ClInclude Include="Src\Script\Player.h" />
-    <ClInclude Include="Src\Script\RegisterLink.h" />
     <ClInclude Include="Src\Script\ShieldSkill.h" />
     <ClInclude Include="Src\Script\Spawner.h" />
     <ClInclude Include="Src\Script\SplashScreen.h" />
@@ -781,7 +780,6 @@
     <ClCompile Include="Src\Script\PauseMenu.cpp" />
     <ClCompile Include="Src\Script\PickUps.cpp" />
     <ClCompile Include="Src\Script\Player.cpp" />
-    <ClCompile Include="Src\Script\RegisterLink.cpp" />
     <ClCompile Include="Src\Script\ShieldSkill.cpp" />
     <ClCompile Include="Src\Script\Spawner.cpp" />
     <ClCompile Include="Src\Script\SplashScreen.cpp" />

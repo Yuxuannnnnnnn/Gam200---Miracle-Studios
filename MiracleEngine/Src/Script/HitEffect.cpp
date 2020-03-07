@@ -24,8 +24,7 @@ void HitEffect::Inspect()
 HitEffect::HitEffect() :
 	_animation{ nullptr },
 	_obj{ nullptr },
-	_player{ nullptr },
-	_init{false}
+	_player{ nullptr }
 {
 }
 
@@ -36,26 +35,21 @@ HitEffect* HitEffect::Clone()
 
 void HitEffect::Init()
 {
-	MyFactory.SaveNewLinkID(667, GetParentId());
 	_obj = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 	_animation = (AnimationComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Animation);
+	_player = (TransformComponent*)MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform);
 	GetParentPtr()->SetEnable(false);
-	_init = true;
+}
+
+void HitEffect::LoadResource()
+{
+
 }
 
 void HitEffect::Update(double dt)
 {
 	if (dt < 0)
 		return;
-
-	if (!_init)
-	{
-		Init();
-		_init = true;
-	}
-
-	if (!_player)
-		_player = (TransformComponent*)MyFactory.GetLinkIDObject(999)->GetComponent(ComponentId::CT_Transform);
 
 	_obj->SetPos(_player->GetPos());
 	_obj->SetRotate(_player->GetRotate());

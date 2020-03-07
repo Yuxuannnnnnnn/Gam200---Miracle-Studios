@@ -19,7 +19,8 @@ public:
 	MouseCursor();
 	MouseCursor* Clone();
 
-	virtual void Init() override;
+	void Init();
+	void LoadResource();
 	void Update(double dt);
 };
 
