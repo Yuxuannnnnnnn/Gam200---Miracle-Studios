@@ -60,7 +60,7 @@ void InspectionImguiWindow::Update()
 			//ImGui::Combo("Add Component", &item_current, items, (int)(ComponentId::COUNTCOMPONENT));
 
 			static const char* item_current = items[0];            // Here our selection is a single pointer stored outside the object.
-			if (ImGui::BeginCombo(" ", item_current, ImGuiComboFlags_NoArrowButton)) // The second parameter is the label previewed before opening the combo.
+			if (ImGui::BeginCombo(" ##Add Component", item_current, ImGuiComboFlags_NoArrowButton)) // The second parameter is the label previewed before opening the combo.
 			{
 				for (int n = 0; n < (int)(ComponentId::CT_Count) + 1; n++)
 				{
@@ -93,7 +93,7 @@ void InspectionImguiWindow::Update()
 
 			IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (_inspectObj->GetComponent(ComponentId::CT_Identity));
 
-			std::string string1 = "Clone ";//+ IdCom->GetName();
+			std::string string1 = "Clone";//+ IdCom->GetName();
 
 
 			if (_inspectObj->GetParent()) //If the Object is a child Object of a parent
@@ -125,6 +125,9 @@ void InspectionImguiWindow::Update()
 						ImGui::PopTextWrapPos();
 						ImGui::EndTooltip();
 					}
+
+					ImGui::Spacing();
+					ImGui::Spacing();
 
 					if (ImGui::Button(string3.c_str()))
 					{
@@ -177,6 +180,9 @@ void InspectionImguiWindow::Update()
 						ImGui::EndTooltip();
 					}
 
+					ImGui::Spacing();
+					ImGui::Spacing();
+
 					std::string string3 = string1 + "As ChildObj";
 					
 					if (ImGui::Button(string3.c_str()))
@@ -211,7 +217,8 @@ void InspectionImguiWindow::Update()
 			}
 			else // If the Object does not have a parent
 			{
-				if (ImGui::Button(string1.c_str()))
+				std::string string2 = string1 + "Object";
+				if (ImGui::Button(string2.c_str()))
 				{
 					GameObject* newGameobject = MyFactory.CloneGameObject(_inspectObj);	//Clone GameObject
 					if (checkProtoOrObj == 2) //if the object is a prototype, reset the position to the origin point
@@ -228,12 +235,16 @@ void InspectionImguiWindow::Update()
 				}
 
 			}
+			ImGui::Spacing();
+			ImGui::Spacing();
 
 			static auto& prototypelist = MyResourceSystem.GetPrototypeMap();
-			std::vector<const char*> list(prototypelist.size());
+			std::vector<const char*> list(prototypelist.size() + 1);
 			//list[0] = "Choose a Texture ";
 
 			int i = 0;
+			list[i] = "Add Child Object Type     \0";
+			i++;
 			for (auto prototypePair = prototypelist.begin(); prototypePair != prototypelist.end(); prototypePair++)
 			{
 				const char* ptr = prototypePair->first.c_str();
@@ -252,22 +263,51 @@ void InspectionImguiWindow::Update()
 			static bool* open = &op;
 
 
-			strncpy(buf, "Add Child Object     ", 20 + 1);
+			strncpy(buf, "Add Child Object Type    ", 26 + 1);
 
 			std::string fileName;
 
 			if (Function.ComboFilter("                  ##Select ChildObjects", buf, IM_ARRAYSIZE(buf), list, list.size(), s, fileName, open))
 			{
-			//	puts(buf);
-			//	GameObject* proto = MyResourceSystem.GetPrototypeResource(fileName);
-			//	GameObject* newGameobject = MyFactory.CloneChildGameObject(proto);	//Clone GameObject
-			//	_inspectObj->AddChildObject(newGameobject);
-			//	newGameobject->SetParent(_inspectObj);
-			//	
-			//	InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
-			//	//MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
-			//	MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
-			//	MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
+				//puts(buf);
+				GameObject* proto = MyResourceSystem.GetPrototypeResource(fileName);
+				if (proto)
+				{
+					if (checkProtoOrObj == 1) //if the object is not a prototype
+					{
+						GameObject* newGameobject = MyFactory.CloneChildGameObject(proto);	//Clone GameObject
+						_inspectObj->AddChildObject(newGameobject);
+						newGameobject->SetParent(_inspectObj);
+
+						InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+						//MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+						MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+						MyAssetsWindow.SetSelectedObj(""); //turn off the highlight in the Assets Object
+					}
+					else if (checkProtoOrObj == 2) //If object is prototype
+					{
+						GameObject* newGameobject = MyFactory.CloneChildGameObjectPrototype(_inspectObj);	//Clone GameObject
+						_inspectObj->AddChildObject(newGameobject);
+						newGameobject->SetParent(_inspectObj);
+
+
+						InspectionImguiWindow::InspectGameObject(newGameobject);	//Inspect cloned hierarchy object
+						//MyImGuizmoManager.SetPickObjectUId(newGameobject->Get_uID());	//gizmo the cloned object
+						//MyHierarchyWindow.SetSelectedObj(newGameobject);	//Highlight the new hierarchy object
+						MyHierarchyWindow.SetisObjectSelected(false);	//turn off the highlight of the hierarchy object
+
+						std::string ObjType = ((IdentityComponent*)newGameobject->GetComponent(ComponentId::CT_Identity))->ObjectType();
+						MyAssetsWindow.SetSelectedObj(ObjType); //turn off the highlight in the Assets Object
+
+					}
+				}
+			}
+
+			int ChildObjectID;
+			if(ImGui::InputInt("Add Child Object ID", &ChildObjectID, 1, 1000, ImGuiInputTextFlags_EnterReturnsTrue))
+			{
+				//Add from parent layer or other children layers
+				//Add object and remove the object from the other layer
 			}
 
 			ImGui::Spacing();

@@ -8,7 +8,7 @@ std::string HierarchyImguiWindow::selectedObj = "";
 
 
 HierarchyImguiWindow::HierarchyImguiWindow(bool open, ImGuiWindowFlags flags)
-	:IBaseImguiWindow("Hierarchy", 1, 515, 340, 570, open, flags)
+	:IBaseImguiWindow("Hierarchy", 1, 515, 340, 570, open, flags, ImGuiCond_Once)
 {
 }
 
@@ -226,7 +226,8 @@ void HierarchyImguiWindow::ShowChildObjects(GameObject* gameObject, int layer)
 
 	if (!childlist.size())
 		return;
-
+	ImGui::Spacing();
+	ImGui::SameLine(10);
 
 	if (ImGui::TreeNode(string.c_str()))
 	{

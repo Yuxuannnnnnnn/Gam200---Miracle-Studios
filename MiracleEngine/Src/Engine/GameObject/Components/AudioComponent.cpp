@@ -122,6 +122,8 @@ void AudioComponent::Inspect()
 	//std::get<0>(SFXList[soundName]
 
 	int a = 0;
+	AudioTypeList[a] = "Choose a Sound File here";
+	a++;
 	for (auto& audioPair : AudioList)
 	{
 		const char* ptr = audioPair.first.c_str();
@@ -175,7 +177,7 @@ void AudioComponent::Inspect()
 			{
 				buf.push_back(new char[128]);
 				strncpy(buf[i], "", 2);
-				openArray.push_back(new bool{ true });
+				openArray.push_back(new bool{ false });
 			}
 			if (DropDownBars.size() == i)
 			{
@@ -350,7 +352,7 @@ void AudioComponent::Inspect()
 			{
 				buf.push_back(new char[128]);
 				strncpy(buf[i], "", 2);
-				openArray.push_back(new bool{ true });
+				openArray.push_back(new bool{ false });
 			}
 			if (DropDownBars.size() == i)
 			{
