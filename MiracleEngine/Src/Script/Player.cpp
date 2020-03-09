@@ -415,7 +415,10 @@ void Player::Init()
 	_timerShieldActivateCooldown = 0;
 	MyAudioSystem.PlayBGM("Level1", 1.0f);
 
-	//_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
+	_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
+
+	std::string temp = "HealthController";
+	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 }
 
 void Player::LoadResource()
@@ -887,12 +890,6 @@ void Player::DamagePlayer(int dmg)
 		return;
 	else
 	{
-		if (!_healthBar)
-		{
-			std::string temp = "HealthController";
-			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		}
-		
 		((HealthController*)_healthBar)->DecreaseHealth(dmg);
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 		audcom->PlaySFX("GetHit");
@@ -929,11 +926,6 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		if (_god)
 			return;
 
-		if (!_healthBar)
-		{
-			std::string temp = "HealthController";
-			_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		}
 		((HealthController*)_healthBar)->IncreaseHealth(2);
 		_health += 2;
 		
