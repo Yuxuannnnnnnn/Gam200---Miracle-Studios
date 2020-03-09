@@ -141,23 +141,17 @@ bool Boss::PlayAnimChain(std::vector<std::string> animChain)
 
 void Boss::UpdateState()
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_1))
+	// single keypress to cycle all states
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
 	{
-		_state = (int)Boss_State::STARTUP;
+		_state = _state++;
+		if (_state > (int)Boss_State::COUNT)
+			_state = (int)Boss_State::STARTUP;
+		return;
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_2))
-	{
-		_state = (int)Boss_State::IDLE;
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
-	{
-		_state = (int)Boss_State::LASER_CHARGE;
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_4) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_4))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
 	{
 		_state = (int)Boss_State::DEATH;
 		_deathStart = true;
@@ -212,19 +206,13 @@ void Boss::RunState()
 		Death();
 		break;
 	case (int)Boss_State::SPIN_SHOOTBULLET:
-		SpinAround();
-		ShootBullet();
+		SpinShoot();
 		break;
 	case (int)Boss_State::LASER_CHARGE:
-		LookAtPlayer();
-		LaserCharge();
+		TrackAndChargeLaser();
 		break;
 	case (int)Boss_State::LASER_SHOOT:
 		LaserShoot();
-		break;
-	case (int)Boss_State::LASER_CHARGE_RAPID:
-		LookAtPlayer();
-		LaserCharge(laserRapidChargeSpeedUp);
 		break;
 	default:
 		break;
@@ -246,20 +234,9 @@ void Boss::StartUp()
 void Boss::Idle()
 {
 	if (!PlayAnimChain(_Idle))
-	{
-		_state = (int)Boss_State::IDLE;
-		PlayAnimChain(_Idle); // need call () again if looping
-	}
-
-	//if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-	//	_state = (int)Boss_State::IDLE;
-
-	//idleTimer -= _dt;
-	//if (idleTimer < 0.0)
-	//{
-	//	idleTimer = idleDuration;
-	//	_state = _statePrev = (int)Boss_State::IDLE_END;
-	//}
+		_state = (int)Boss_State::IDLE_END;
+//	else
+//		PlayAnimChain(_Idle);  // when looping, call playanimchain within the check
 }
 void Boss::IdleRage()
 {
@@ -287,10 +264,14 @@ void Boss::Death()
 	{
 		_deathStart = false;
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
-		PlayAnimChain(_Death1);
+
+		if (_statePrev == (int)Boss_State::SPIN_SHOOTBULLET)
+			PlayAnimChain(_DeathShooting);
+		else // if (_statePrev == (int)Boss_State::IDLE_RAGE || _statePrev == (int)Boss_State::IDLE_RAGE_END)
+			PlayAnimChain(_DeathIdle);
 		return;
 	}
-	if (!PlayAnimChain(_Death1))
+	if (!PlayAnimChain(_DeathIdle))
 	{
 		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
@@ -301,8 +282,18 @@ void Boss::Death()
 	return;
 }
 
+void Boss::SpinShoot()
+{
+	SpinAround();
+	ShootBullet();
+}
+
 void Boss::SpinAround()
 {
+	// do dot product, if +, then rotate right, else rotate left
+
+
+
 	// rotate = rotatespd * dt
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotationA(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotationA() + (rotationspeed * _dt)
@@ -336,6 +327,12 @@ void Boss::ShootBullet()
 	}
 }
 
+void Boss::TrackAndChargeLaser()
+{
+	LookAtPlayer();
+	LaserCharge();
+}
+
 void Boss::LookAtPlayer()
 {
 	for (auto itr : _engineSystems._factory->getObjectlist())
@@ -347,6 +344,11 @@ void Boss::LookAtPlayer()
 		{
 			playerPtr = itr.second;
 			playerId = itr.second->Get_uID();
+
+
+			// do dot product, if +, then rotate right, else rotate left
+
+
 
 			Vector3 dirVec = ((TransformComponent*)playerPtr->GetComponent(ComponentId::CT_Transform))->GetPositionA() -
 				((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA();
@@ -377,7 +379,7 @@ void Boss::LookAtPlayer()
 void Boss::LaserCharge(double speedup)
 {
 	if (!PlayAnimChain(_LaserCharge))
-		_state = (int)Boss_State::LASER_CHARGE;
+		_state = (int)Boss_State::LASER_SHOOT;
 
 //	if (_statePrev == (int)Boss_State::IDLE_END)
 //	{
@@ -444,7 +446,7 @@ void Boss::LaserShoot()
 	}
 	else
 		laserAliveTimer -= _dt;
-	// LaserShoot() COMPLETE
+	// LaserShoot() COMPLETE // _state=LASER_SHOOT_END cause need TRANSOFRM back to IDLE
 	if (laserAliveTimer < 0)
 	{
 		subObj->SetDestory(); // destroy "laser"
@@ -459,34 +461,38 @@ void Boss::LaserShoot()
 			else
 			{
 				rapidFireShotCount = laserRapidFireNumOfShots;
-				_state = (int)Boss_State::IDLE;
+				_state = (int)Boss_State::LASER_SHOOT_END;
+				_stateNext = (int)Boss_State::IDLE;
 			}
 		}
 		else
-			_state = (int)Boss_State::IDLE;
+		{
+			_state = (int)Boss_State::LASER_SHOOT_END;
+			_stateNext = (int)Boss_State::IDLE;
+		}
 	}
 }
 
 void Boss::Transform()
 {
-	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+	if (!PlayAnimChain(_CurrAnimChain))
 	{
 		_state = _stateNext;
+		return;
 	}
 
-	if (_state == (int)Boss_State::IDLE_RAGE)
-	{	// IDLE --> IDLE RAGE <><> Boss_Transform_into_rage_sprite
-		_transformStart = false;
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("TransformIdleToIdleRage");
+	if (_state == (int)Boss_State::LASER_SHOOT_END && 
+		_stateNext == (int)Boss_State::IDLE)
+	{	// LASER_SHOOT --> IDLE
+		PlayAnimChain(_TransformLaserToIdle);
 		_state = (int)Boss_State::TRANSFORMING;
-		_stateNext = (int)Boss_State::IDLE_RAGE;
 	}
-//	if (_state == (int)Boss_State::IDLE)
-//	{
-//		// after laser shot, transform back to IDLE
-//		//		Boss_Laser_after_shoot_transform_back_sprite
-//		_stateNext = (int)Boss_State::IDLE_RAGE;
-//	}
+	if (_state == (int)Boss_State::IDLE_END &&		
+		_stateNext == (int)Boss_State::IDLE_RAGE)
+	{	// IDLE --> IDLE RAGE
+		PlayAnimChain(_TransformLaserToIdle);
+		_state = (int)Boss_State::TRANSFORMING;
+	}
 //	if (_state == (int)Boss_State::IDLE)
 //	{
 //		// just before do SpinShoot

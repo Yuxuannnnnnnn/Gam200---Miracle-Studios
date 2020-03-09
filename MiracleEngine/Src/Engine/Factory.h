@@ -51,6 +51,10 @@ public:
 
 	int CheckObjOrignialPointer(GameObject* obj);
 
+	GameObject* GetObjOrignialPointer(size_t obj);
+	GameObject* GetObjOrignialChildPointer(GameObject* obj, size_t original);
+
+
 	///Create and Id a GOC at runtime. Used to dynamically build GOC.
 	///After components have been added call GOC->Initialize().
 	GameObject* CreateEmptyGameObject();

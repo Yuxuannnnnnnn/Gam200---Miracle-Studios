@@ -88,7 +88,7 @@ bool ImGuiFunctions::ComboFilter__DrawPopup(std::string comboName, ComboFilterSt
 			PushStyleColor(ImGuiCol_Border, ImVec4(1, 1, 0, 1));
 		}
 
-		//PushID(i);
+		PushID(i);
 		if (Selectable(ENTRIES[i], isIndexActive, ImGuiSelectableFlags_AllowDoubleClick)) {
 			// And item was clicked, notify the input
 			// callback so that it can modify the input buffer
@@ -101,7 +101,7 @@ bool ImGuiFunctions::ComboFilter__DrawPopup(std::string comboName, ComboFilterSt
 			state.activeIdx = i;
 			clicked = 1;
 		}
-		//PopID();
+		PopID();
 
 		if (isIndexActive) {
 			if (state.selectionChanged) {
