@@ -108,10 +108,13 @@ void GraphicComponent::Inspect()
 	ImGui::Spacing();
 
 	static auto& graphicList = MyResourceSystem.GetTexture2DList();
-	std::vector<const char*> list(graphicList.size());
+	std::vector<const char*> list(graphicList.size() + 1);
 	//list[0] = "Choose a Texture ";
 
 	int i = 0;
+
+	list[i] = "type text here...";
+	i++;
 	int select = 0;
 	for (auto graphicPair = graphicList.begin(); graphicPair != graphicList.end(); graphicPair++)
 	{

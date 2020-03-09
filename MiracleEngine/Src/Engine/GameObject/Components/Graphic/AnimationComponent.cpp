@@ -108,11 +108,12 @@ void AnimationComponent::SetCurrentAnimOnce(const std::string& AnimationName)
 	////Inspect list of animations - Add animations - remove animations - each animation with own time Delay
 
 	static std::unordered_map<std::string, Animation*>& animationList = MyResourceSystem.GetAnimationMap();
-	std::vector<const char*> AninmationTypeList(animationList.size());
-	//list[0] = "Choose a Texture ";
+	std::vector<const char*> AninmationTypeList(animationList.size() + 1);
 
 
 	int a = 0;
+	AninmationTypeList[a] = "Choose an Animation File here";
+	a++;
 	for (auto& animationGraphicPair : animationList)
 	{
 		const char* ptr = animationGraphicPair.first.c_str();
@@ -166,7 +167,7 @@ void AnimationComponent::SetCurrentAnimOnce(const std::string& AnimationName)
 		{
 			buf.push_back(new char[128]);
 			strncpy(buf[i], "", 2);
-			openArray.push_back(new bool{ true });
+			openArray.push_back(new bool{ false });
 		}
 		if (DropDownBars.size() == i)
 		{
