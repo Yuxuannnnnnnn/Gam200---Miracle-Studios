@@ -415,7 +415,7 @@ void Player::Init()
 	_timerShieldActivateCooldown = 0;
 	MyAudioSystem.PlayBGM("Level1", 1.0f);
 
-	_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
+	//_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
 }
 
 void Player::LoadResource()
