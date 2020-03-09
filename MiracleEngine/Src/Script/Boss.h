@@ -48,19 +48,27 @@ On DEATH depending on which mode its in, use the right death anim
 
 enum class Boss_State {
 	NONE = 0,
+	DEATH,
 	STARTUP,
+
 	IDLE,
 	IDLE_END,
+
 	IDLE_RAGE,
 	IDLE_RAGE_END,
+
 	TRANSFORMING,
 	TRANSFORMING_END,
-	DEATH,
 
 	SPIN_SHOOTBULLET,
+	SPIN_SHOOTBULLET_END,
 	LASER_CHARGE,
-	LASER_CHARGE_RAPID, // for now not used
 	LASER_SHOOT,
+	LASER_SHOOT_END,
+
+
+	LASER_CHARGE_RAPID, // for now not used
+	COUNT
 };
 
 class Boss : public IScript2
@@ -99,6 +107,14 @@ private:
 		"Idle1",
 		"Idle2",
 		"Idle3" };
+	std::vector<std::string> _IdleRage = { // Boss_Rage_idle_sprite
+		"IdleRage1",
+		"IdleRage2",
+		"IdleRage3" };
+	std::vector<std::string> _IdleRageLow = { // Boss_Rage_idle_low_HP_sprite
+		"IdleRage1Low",
+		"IdleRage2Low",
+		"IdleRage3Low" };
 	std::vector<std::string> _LaserCharge = { // Boss_Laser_Charge_up_sprite
 		"Laser1",
 		"Laser2",
@@ -113,16 +129,35 @@ private:
 		"TransformIdleToIdleRage1",
 		"TransformIdleToIdleRage2",
 		"TransformIdleToIdleRage3" };
-	std::vector<std::string> _Death1 = { // Boss_Rage_idle_death_sprite
-		"Death1",
-		"Death2",
-		"Death3",
-		"Death4",
-		"Death5",
-		"Death6",
-		"Death7",
-		"Death8" };
-	std::vector<std::string> _IdleRage = { "","","" };
+	std::vector<std::string> _TransformIdleRageToShoot = { // Boss_rage_transform_to_shoot_style_sprite 
+		"TransformIdleRageToShooting1",
+		"TransformIdleRageToShooting2"
+		};
+	std::vector<std::string> _TransformShootToIdleRage = { // Boss_shoot_style_transform_to_rage_sprite 
+		"TransformShootingToIdleRage1",
+		"TransformShootingToIdleRage2"
+		};
+	std::vector<std::string> _Shooting = { // Boss_Shoot_style_sprite
+		"Shooting" };
+	std::vector<std::string> _ShootingLowHP = { // Boss_Shoot_style_low_HP_sprite
+		"ShootingLowHP1",
+		"ShootingLowHP2" };
+	std::vector<std::string> _DeathIdle = { // Boss_Rage_idle_death_sprite
+		"DeathIdle1",
+		"DeathIdle2",
+		"DeathIdle3",
+		"DeathIdle4",
+		"DeathIdle5",
+		"DeathIdle6",
+		"DeathIdle7",
+		"DeathIdle8" };
+	std::vector<std::string> _DeathShooting = { // Boss_Shoot_style_Death_sprite
+		"DeathShooting1",
+		"DeathShootin2",
+		"DeathShootin3",
+		"DeathShootin4",
+		"DeathShootin5",
+		"DeathShootin6" };
 public:
 	Boss();
 	~Boss();
@@ -144,6 +179,7 @@ public:
 	void Idle();
 	void IdleRage();
 	void Death();
+	void SpinShoot();
 	void SpinAround();
 	void ShootBullet();
 	void LookAtPlayer();

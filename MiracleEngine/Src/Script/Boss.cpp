@@ -141,23 +141,17 @@ bool Boss::PlayAnimChain(std::vector<std::string> animChain)
 
 void Boss::UpdateState()
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_1))
+	// single keypress to cycle all states
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
 	{
-		_state = (int)Boss_State::STARTUP;
+		_state = _state++;
+		if (_state > (int)Boss_State::COUNT)
+			_state = (int)Boss_State::STARTUP;
+		return;
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_2))
-	{
-		_state = (int)Boss_State::IDLE;
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_3) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_3))
-	{
-		_state = (int)Boss_State::LASER_CHARGE;
-	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_4) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_4))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
 	{
 		_state = (int)Boss_State::DEATH;
 		_deathStart = true;
@@ -212,8 +206,7 @@ void Boss::RunState()
 		Death();
 		break;
 	case (int)Boss_State::SPIN_SHOOTBULLET:
-		SpinAround();
-		ShootBullet();
+		SpinShoot();
 		break;
 	case (int)Boss_State::LASER_CHARGE:
 		LookAtPlayer();
@@ -248,18 +241,8 @@ void Boss::Idle()
 	if (!PlayAnimChain(_Idle))
 	{
 		_state = (int)Boss_State::IDLE;
-		PlayAnimChain(_Idle); // need call () again if looping
+		PlayAnimChain(_Idle);  // when looping, call playanimchain within the check
 	}
-
-	//if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-	//	_state = (int)Boss_State::IDLE;
-
-	//idleTimer -= _dt;
-	//if (idleTimer < 0.0)
-	//{
-	//	idleTimer = idleDuration;
-	//	_state = _statePrev = (int)Boss_State::IDLE_END;
-	//}
 }
 void Boss::IdleRage()
 {
@@ -287,10 +270,14 @@ void Boss::Death()
 	{
 		_deathStart = false;
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
-		PlayAnimChain(_Death1);
+
+		if (_statePrev == (int)Boss_State::SPIN_SHOOTBULLET)
+			PlayAnimChain(_DeathShooting);
+		else // if (_statePrev == (int)Boss_State::IDLE_RAGE || _statePrev == (int)Boss_State::IDLE_RAGE_END)
+			PlayAnimChain(_DeathIdle);
 		return;
 	}
-	if (!PlayAnimChain(_Death1))
+	if (!PlayAnimChain(_DeathIdle))
 	{
 		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
@@ -301,8 +288,19 @@ void Boss::Death()
 	return;
 }
 
+void Boss::SpinShoot()
+{
+
+	SpinAround();
+	ShootBullet();
+}
+
 void Boss::SpinAround()
 {
+	// do dot product, if +, then rotate right, else rotate left
+
+
+
 	// rotate = rotatespd * dt
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotationA(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotationA() + (rotationspeed * _dt)
@@ -347,6 +345,11 @@ void Boss::LookAtPlayer()
 		{
 			playerPtr = itr.second;
 			playerId = itr.second->Get_uID();
+
+
+			// do dot product, if +, then rotate right, else rotate left
+
+
 
 			Vector3 dirVec = ((TransformComponent*)playerPtr->GetComponent(ComponentId::CT_Transform))->GetPositionA() -
 				((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA();
@@ -469,13 +472,11 @@ void Boss::LaserShoot()
 
 void Boss::Transform()
 {
-	if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
-	{
+	if (!PlayAnimChain(_CurrAnimChain))
 		_state = _stateNext;
-	}
 
 	if (_state == (int)Boss_State::IDLE_RAGE)
-	{	// IDLE --> IDLE RAGE <><> Boss_Transform_into_rage_sprite
+	{	// IDLE --> IDLE RAGE ==> Boss_Transform_into_rage_sprite
 		_transformStart = false;
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("TransformIdleToIdleRage");
 		_state = (int)Boss_State::TRANSFORMING;
