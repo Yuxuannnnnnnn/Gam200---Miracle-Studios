@@ -36,6 +36,8 @@ public:
 
 	void ClearLevel();				
 	void De_SerialiseLevel(std::string filename);
+	void DeSerialiseChild(GameObject* parent, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator);
+
 	void WindowsDialogSaveLevel();
 
 	std::string SerialiseScenes(Serialiser& GameSceneFile); //For GamePlay 
@@ -49,8 +51,6 @@ public:
 	std::unordered_map<std::string, ComponentCreator*>& GetComponentList();
 	std::unordered_map<size_t, GameObject*>& getObjectlist();
 
-	int CheckObjOrignialPointer(GameObject* obj);
-
 	///Create and Id a GOC at runtime. Used to dynamically build GOC.
 	///After components have been added call GOC->Initialize().
 	GameObject* CreateEmptyGameObject();
@@ -58,8 +58,9 @@ public:
 
 	GameObject* CloneGameObject(GameObject* gameobject); ///Create initialize and Id a GOC from the data file.
 	GameObject* CloneChildGameObject(GameObject* gameobject);
-	int CheckObjOrignialChildPointer(GameObject* obj, GameObject* original);
 	GameObject* CloneChildGameObjectPrototype(GameObject* gameobject);
+
+	void RemoveChildGameObject(size_t UId);
 
 	size_t GetNextGameObjectUId();
 
@@ -74,6 +75,11 @@ public:
 
 	GameObject* CloneAndInitPrototype(std::string name);
 
+	void SwapChildToParent(size_t UId);
+	void SwapParentToChild(size_t UId);
+
+	int CheckObjOrignialPointer(GameObject* obj);
+	int CheckObjOrignialChildPointer(GameObject* obj, GameObject* original);
 private:
 	///Map of component creator used for data driven composition
 	typedef std::unordered_map<std::string, ComponentCreator*> ComponentMapType;
@@ -82,6 +88,9 @@ private:
 	///Map of GameObject to their Ids used for safe referencing of game objects
 	typedef std::unordered_map<size_t, GameObject*> GameObjectIdMapType;
 	GameObjectIdMapType _gameObjectIdMap;
+	GameObjectIdMapType _childGameObjectIdMap;
+
+	std::unordered_set<size_t> _allExistGameObjectList;
 
 	///Objects to be deleted
 	std::unordered_set<GameObject*> _objectsToBeDeleted;

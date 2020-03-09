@@ -22,6 +22,7 @@ GameObject::~GameObject()
 	for (auto& it : _childObjects)
 	{
 		delete it.second;
+		MyFactory.RemoveChildGameObject(it.first);
 	}
 	_childObjects.clear();
 }
@@ -353,6 +354,9 @@ void GameObject::AddChildObject(GameObject* child)
 		_childObjects[_childObjects.size()] = child;
 
 	_anyChild = true;
+
+	child->_independent = false;
+	child->SetParent(this);
 }
 
 void GameObject::RemoveChildObject(GameObject* child)
@@ -362,4 +366,7 @@ void GameObject::RemoveChildObject(GameObject* child)
 
 	if (_childObjects.find(child->Get_uID()) != _childObjects.end())
 		_childObjects.erase(child->Get_uID());
+
+	if (_childObjects.size() == 0)
+		_anyChild = false;
 }
