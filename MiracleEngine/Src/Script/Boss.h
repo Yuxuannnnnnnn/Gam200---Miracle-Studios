@@ -50,21 +50,17 @@ enum class Boss_State {
 	NONE = 0,
 	DEATH,
 	STARTUP,
-
 	IDLE,
 	IDLE_END,
-
+	LASER_CHARGE,
+	LASER_SHOOT, // rmb this one got anim disable
+	LASER_SHOOT_END,
 	IDLE_RAGE,
 	IDLE_RAGE_END,
-
 	TRANSFORMING,
 	TRANSFORMING_END,
-
 	SPIN_SHOOTBULLET,
 	SPIN_SHOOTBULLET_END,
-	LASER_CHARGE,
-	LASER_SHOOT,
-	LASER_SHOOT_END,
 
 
 	LASER_CHARGE_RAPID, // for now not used
@@ -182,6 +178,7 @@ public:
 	void SpinShoot();
 	void SpinAround();
 	void ShootBullet();
+	void TrackAndChargeLaser();
 	void LookAtPlayer();
 	void LaserCharge(double speedUp = 1.0);
 	void LaserShoot();
