@@ -44,23 +44,32 @@ Once shooting end
 
 On DEATH depending on which mode its in, use the right death anim
 
+
+start up anim 2 not showing right one
+shoot idle not being played
+transform anims not playing
+
 */
 
 enum class Boss_State {
 	NONE = 0,
-	STARTUP,
-	IDLE,
-	IDLE_END,
-	IDLE_RAGE,
-	IDLE_RAGE_END,
-	TRANSFORMING,
-	TRANSFORMING_END,
 	DEATH,
+	STARTUP,
+	IDLE, //3
+	IDLE_END,
+	LASER_CHARGE,//5
+	LASER_SHOOT, // rmb this one got anim disable
+	LASER_SHOOT_END,
+	IDLE_RAGE, //8
+	IDLE_RAGE_END,
+	TRANSFORMING, //10
+	TRANSFORMING_END,
+	SPIN_SHOOTBULLET, //12
+	SPIN_SHOOTBULLET_END,
 
-	SPIN_SHOOTBULLET,
-	LASER_CHARGE,
+
 	LASER_CHARGE_RAPID, // for now not used
-	LASER_SHOOT,
+	COUNT
 };
 
 class Boss : public IScript2
@@ -83,7 +92,8 @@ private:
 
 	int _state, _statePrev, _stateNext;
 	bool _laserChargeStart, _laserFlashStart, _laserShootStart;
-	bool _init, _transformStart, _healthHalfStart, _deathStart;
+	bool _init, _healthHalfStart, _healthHalfEnd, _deathStart,
+		_transforming;
 
 	GameObject* playerPtr, *subObj;
 	int playerId;
@@ -91,7 +101,7 @@ private:
 
 	// AnimNames for when calling particualr animations
 	std::vector<std::string>::iterator _CurrAnimChainItr;
-	std::vector<std::string> _CurrAnimChain;
+	std::vector<std::string> _CurrAnimChain, _NextAnimChain;
 	std::vector<std::string> _StartUp = { // Boss_inactive_to_active_sprite
 		"StartUp1",
 		"StartUp2" };
@@ -99,6 +109,14 @@ private:
 		"Idle1",
 		"Idle2",
 		"Idle3" };
+	std::vector<std::string> _IdleRage = { // Boss_Rage_idle_sprite
+		"IdleRage1",
+		"IdleRage2",
+		"IdleRage3" };
+	std::vector<std::string> _IdleRageLow = { // Boss_Rage_idle_low_HP_sprite
+		"IdleRage1Low",
+		"IdleRage2Low",
+		"IdleRage3Low" };
 	std::vector<std::string> _LaserCharge = { // Boss_Laser_Charge_up_sprite
 		"Laser1",
 		"Laser2",
@@ -109,20 +127,39 @@ private:
 		"TransformLaserToIdle1",
 		"TransformLaserToIdle2",
 		"TransformLaserToIdle3" };
-	std::vector<std::string> _TransformIdleToIdleRage = { // Boss_Laser_after_shoot_transform_back_sprite
+	std::vector<std::string> _TransformIdleToIdleRage = { // Boss_Transform_into_rage_sprite2
 		"TransformIdleToIdleRage1",
 		"TransformIdleToIdleRage2",
 		"TransformIdleToIdleRage3" };
-	std::vector<std::string> _Death1 = { // Boss_Rage_idle_death_sprite
-		"Death1",
-		"Death2",
-		"Death3",
-		"Death4",
-		"Death5",
-		"Death6",
-		"Death7",
-		"Death8" };
-	std::vector<std::string> _IdleRage = { "","","" };
+	std::vector<std::string> _TransformIdleRageToShoot = { // Boss_rage_transform_to_shoot_style_sprite 
+		"TransformIdleRageToShooting1",
+		"TransformIdleRageToShooting2"
+		};
+	std::vector<std::string> _TransformShootToIdleRage = { // Boss_shoot_style_transform_to_rage_sprite 
+		"TransformShootingToIdleRage1",
+		"TransformShootingToIdleRage2"
+		};
+	std::vector<std::string> _Shooting = { // Boss_Shoot_style_sprite
+		"Shooting" };
+	std::vector<std::string> _ShootingLowHP = { // Boss_Shoot_style_low_HP_sprite
+		"ShootingLowHP1",
+		"ShootingLowHP2" };
+	std::vector<std::string> _DeathIdle = { // Boss_Rage_idle_death_sprite
+		"DeathIdle1",
+		"DeathIdle2",
+		"DeathIdle3",
+		"DeathIdle4",
+		"DeathIdle5",
+		"DeathIdle6",
+		"DeathIdle7",
+		"DeathIdle8" };
+	std::vector<std::string> _DeathShooting = { // Boss_Shoot_style_Death_sprite
+		"DeathShooting1",
+		"DeathShooting2",
+		"DeathShooting3",
+		"DeathShooting4",
+		"DeathShooting5",
+		"DeathShooting6" };
 public:
 	Boss();
 	~Boss();
@@ -134,7 +171,7 @@ public:
 	void UpdateState();
 	void RunState();
 	
-	bool PlayAnimChain(std::vector<std::string> animChain);
+	bool PlayAnimChain(std::vector<std::string> animChain, bool overwrite = false);
 	// need as ShaoX for the last frame of each sheet.
 	// need have an array of lastFrameSprites
 	// whenever PlayAnimChain change to next in chain, need set the next lastFrameSprites
@@ -144,8 +181,10 @@ public:
 	void Idle();
 	void IdleRage();
 	void Death();
+	void SpinShoot();
 	void SpinAround();
 	void ShootBullet();
+	void TrackAndChargeLaser();
 	void LookAtPlayer();
 	void LaserCharge(double speedUp = 1.0);
 	void LaserShoot();

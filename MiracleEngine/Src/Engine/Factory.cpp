@@ -197,6 +197,40 @@ int Factory::CheckObjOrignialChildPointer(GameObject* obj, GameObject * original
 	return 0;
 }
 
+GameObject* Factory::GetObjOrignialPointer(size_t obj)
+{
+	for (auto& pair : _gameObjectIdMap)
+	{
+		if (pair.first == obj)
+			return pair.second;
+
+		if (GetObjOrignialChildPointer(pair.second, obj))
+		{
+			return GetObjOrignialChildPointer(pair.second, obj);
+		}
+
+	}
+
+	return nullptr;
+}
+
+GameObject* Factory::GetObjOrignialChildPointer(GameObject * obj, size_t original)
+{
+	std::unordered_map<size_t, GameObject*>& childlist = obj->GetChildList();
+	for (auto& child : childlist)
+	{
+		if (child.first == original)
+			return child.second;
+
+		if (GetObjOrignialChildPointer(child.second, original))
+		{
+			return GetObjOrignialChildPointer(child.second, original);
+		}
+	}
+
+	return nullptr;
+}
+
 
 
 std::unordered_map<size_t, GameObject*>& Factory::getObjectlist()

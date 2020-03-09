@@ -93,7 +93,7 @@ void InspectionImguiWindow::Update()
 
 			IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (_inspectObj->GetComponent(ComponentId::CT_Identity));
 
-			std::string string1 = "Clone";//+ IdCom->GetName();
+			std::string string1 = "Clone ";//+ IdCom->GetName();
 
 
 			if (_inspectObj->GetParent()) //If the Object is a child Object of a parent
@@ -243,7 +243,7 @@ void InspectionImguiWindow::Update()
 			//list[0] = "Choose a Texture ";
 
 			int i = 0;
-			list[i] = "Add Child Object Type     \0";
+			list[i] = "Add Child Obj Type     \0";
 			i++;
 			for (auto prototypePair = prototypelist.begin(); prototypePair != prototypelist.end(); prototypePair++)
 			{
@@ -263,11 +263,11 @@ void InspectionImguiWindow::Update()
 			static bool* open = &op;
 
 
-			strncpy(buf, "Add Child Object Type    ", 26 + 1);
+			strncpy(buf, "Add Child Obj Type     ", 26 + 1);
 
 			std::string fileName;
 
-			if (Function.ComboFilter("                  ##Select ChildObjects", buf, IM_ARRAYSIZE(buf), list, list.size(), s, fileName, open))
+			if (Function.ComboFilter("                                    ##Select ChildObjects", buf, IM_ARRAYSIZE(buf), list, list.size(), s, fileName, open))
 			{
 				//puts(buf);
 				GameObject* proto = MyResourceSystem.GetPrototypeResource(fileName);
@@ -303,11 +303,64 @@ void InspectionImguiWindow::Update()
 				}
 			}
 
-			int ChildObjectID;
-			if(ImGui::InputInt("Add Child Object ID", &ChildObjectID, 1, 1000, ImGuiInputTextFlags_EnterReturnsTrue))
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			auto& ObjectList = MyFactory.getObjectlist();
+			std::vector<const char*> Objlist(ObjectList.size() + 1);
+			std::vector <std::string > ObjlistString(ObjectList.size() + 1);
+			//list[0] = "Choose a Texture ";
+
+			i = 0;
+			Objlist[i] = "Add Child Obj ID";
+			ObjlistString[i] = "Add Child Obj ID";
+			i++;
+			for (auto& ObjPair = ObjectList.begin(); ObjPair != ObjectList.end(); ObjPair++)
 			{
-				//Add from parent layer or other children layers
-				//Add object and remove the object from the other layer
+				ObjlistString[i] = std::to_string(ObjPair->first);
+				const char* ptr = ObjlistString[i].c_str();
+
+				Objlist[i] = ptr;
+
+				i++;
+			}
+
+			s = { 0, 0 };
+
+			//char buf[128];
+
+			//ImGuiFunctions Function;
+			static bool op1 = false;
+			static bool* open1 = &op;
+
+
+			strncpy(buf, "Add Child Obj ID", 26 + 1);
+
+			//std::string fileName;
+
+			if (Function.ComboFilter("                                    ##Select ChildObjects ID", buf, IM_ARRAYSIZE(buf), Objlist, Objlist.size(), s, fileName, open1))
+			{
+				std::string InspectObjID = std::to_string(_inspectObj->Get_uID());
+				
+				if (InspectObjID.compare(fileName.c_str())) //If the Id of the inspected Object is different from the chosen ID
+				{
+					//remove the child object from the parent obj
+					//Or remove the parent obj from the factory
+
+					GameObject * obj = MyFactory.GetObjOrignialPointer(std::stoi(fileName));
+
+					if (GameObject* Parent = obj->GetParent()) //If the object has a parent, referring to this object as a child object
+					{
+						Parent->RemoveChildObject(obj);
+					}
+					else
+					{
+						MyFactory.getObjectlist().erase(std::stoi(fileName));
+					}
+
+					_inspectObj->AddChildObject(obj);
+				}
 			}
 
 			ImGui::Spacing();
