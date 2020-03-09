@@ -248,7 +248,7 @@
       "AnimationName": "TransformIdleRageToShooting2"
     },
     {
-      "AnimationType": "Boss_shoot_style_transform_to_rage_sprite2.json",
+      "AnimationType": "Boss_shoot_style_transform_to_rage_sprite1.json",
       "TimeDelay": 0.10000000149011612,
       "AnimationName": "TransformShootingToIdleRage1"
     },
