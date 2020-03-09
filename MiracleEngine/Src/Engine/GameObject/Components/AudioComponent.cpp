@@ -110,7 +110,8 @@ void AudioComponent::Inspect()
 	ImGui::Spacing();
 
 	static std::unordered_map<std::string, Sound*>& AudioList = MyResourceSystem.GetSoundMap();
-	std::vector<const char*> AudioTypeList(AudioList.size());
+	AudioList.insert(std::pair<std::string, Sound*>("Choose a Sound File here", nullptr));
+	std::vector<const char*> AudioTypeList(AudioList.size() + 1);
 
 
 	//std::map<audioName, std::tuple<fileName, volume, NumOfloops>> SFXList;	//Add SoundEffects

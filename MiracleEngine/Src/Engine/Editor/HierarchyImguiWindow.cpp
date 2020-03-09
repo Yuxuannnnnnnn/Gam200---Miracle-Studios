@@ -226,8 +226,9 @@ void HierarchyImguiWindow::ShowChildObjects(GameObject* gameObject, int layer)
 
 	if (!childlist.size())
 		return;
+
 	ImGui::Spacing();
-	ImGui::SameLine(10);
+	ImGui::SameLine(20 * layer);
 
 	if (ImGui::TreeNode(string.c_str()))
 	{
