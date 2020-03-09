@@ -101,7 +101,7 @@ private:
 
 	// AnimNames for when calling particualr animations
 	std::vector<std::string>::iterator _CurrAnimChainItr;
-	std::vector<std::string> _CurrAnimChain;
+	std::vector<std::string> _CurrAnimChain, _NextAnimChain;
 	std::vector<std::string> _StartUp = { // Boss_inactive_to_active_sprite
 		"StartUp1",
 		"StartUp2" };

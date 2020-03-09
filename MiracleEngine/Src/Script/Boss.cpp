@@ -228,7 +228,39 @@ void Boss::RunState()
 	{
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t State Change from : " << (int)_statePrev << " to " << (int)_state << "\n";
 		_statePrev = _state;
+
+
+		switch (_state)
+		{
+		case (int)Boss_State::STARTUP:
+			StartUp();
+			break;
+		case (int)Boss_State::TRANSFORMING:
+			Transform();
+			break;
+		case (int)Boss_State::IDLE:
+			Idle();
+			break;
+		case (int)Boss_State::IDLE_RAGE:
+			IdleRage();
+			break;
+		case (int)Boss_State::DEATH:
+			Death();
+			break;
+		case (int)Boss_State::SPIN_SHOOTBULLET:
+			SpinShoot();
+			break;
+		case (int)Boss_State::LASER_CHARGE:
+			TrackAndChargeLaser();
+			break;
+		case (int)Boss_State::LASER_SHOOT:
+			LaserShoot();
+			break;
+		default:
+			break;
+		}
 	}
+	// by here the next anim needs to be called
 }
 
 void Boss::StartUp()
@@ -568,18 +600,45 @@ void Boss::Transform()
 		PlayAnimChain(_TransformShootToIdleRage, true);
 		_state = (int)Boss_State::TRANSFORMING;
 	}
-//	if (_state == (int)Boss_State::IDLE)
-//	{
-//		// just before do SpinShoot
-//		//		Boss_rage_transform_to_shoot_style_sprite
-//		_stateNext = (int)Boss_State::IDLE_RAGE;
-//	}
-//	if (_state == (int)Boss_State::IDLE)
-//	{
-//		// just after SpinShoot
-//		//		Boss_rage_transform_to_shoot_style_sprite
-//		_stateNext = (int)Boss_State::IDLE_RAGE;
-//	}
+
+
+// THIS NOT WORKING, BUT THE IDEA I NEED TO TRY SOMEMORE
+	//if (!PlayAnimChain(_CurrAnimChain))
+	//{
+	//	_state = _stateNext;
+	//	_statePrev = (int)Boss_State::TRANSFORMING_END;
+	//	_transforming = false;
+	//	PlayAnimChain(_NextAnimChain);
+	//	return;
+	//}
+	//if (_state == (int)Boss_State::LASER_SHOOT_END &&
+	//	_stateNext == (int)Boss_State::IDLE)
+	//{	// LASER_SHOOT --> IDLE
+	//	PlayAnimChain(_TransformLaserToIdle, true);
+	//	_state = (int)Boss_State::TRANSFORMING;
+	//	_NextAnimChain = _Idle;
+	//}
+	//if (_state == (int)Boss_State::IDLE_END &&
+	//	_stateNext == (int)Boss_State::IDLE_RAGE)
+	//{	// IDLE --> IDLE RAGE
+	//	PlayAnimChain(_TransformIdleToIdleRage, true);
+	//	_state = (int)Boss_State::TRANSFORMING;
+	//	_NextAnimChain = _IdleRage;
+	//}
+	//if (_state == (int)Boss_State::IDLE_RAGE_END &&
+	//	_stateNext == (int)Boss_State::SPIN_SHOOTBULLET)
+	//{	// IDLE_RAGE --> SHOOTING
+	//	PlayAnimChain(_TransformIdleRageToShoot, true);
+	//	_state = (int)Boss_State::TRANSFORMING;
+	//	_NextAnimChain = _Shooting;
+	//}
+	//if (_state == (int)Boss_State::SPIN_SHOOTBULLET_END &&
+	//	_stateNext == (int)Boss_State::IDLE_RAGE)
+	//{	// SHOOTING  --> IDLE_RAGE
+	//	PlayAnimChain(_TransformShootToIdleRage, true);
+	//	_state = (int)Boss_State::TRANSFORMING;
+	//	_NextAnimChain = _IdleRage;
+	//}
 }
 
 
