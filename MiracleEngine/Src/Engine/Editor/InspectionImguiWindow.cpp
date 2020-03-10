@@ -98,7 +98,7 @@ void InspectionImguiWindow::Update()
 
 			if (_inspectObj->GetParent()) //If the Object is a child Object of a parent
 			{
-				if (checkProtoOrObj == 1) //if the object is not a prototype
+				if (checkProtoOrObj == 1 || checkProtoOrObj == 3) //if the object is not a prototype
 				{
 
 					std::string string2 = string1 + "As Top ParentObj";
@@ -273,7 +273,7 @@ void InspectionImguiWindow::Update()
 				GameObject* proto = MyResourceSystem.GetPrototypeResource(fileName);
 				if (proto)
 				{
-					if (checkProtoOrObj == 1) //if the object is not a prototype
+					if (checkProtoOrObj == 1 || checkProtoOrObj == 3) //if the object is not a prototype
 					{
 						GameObject* newGameobject = MyFactory.CloneChildGameObject(proto);	//Clone GameObject
 						_inspectObj->AddChildObject(newGameobject);

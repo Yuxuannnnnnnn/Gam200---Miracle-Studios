@@ -60,7 +60,8 @@ Boss::Boss() :
 
 	_state{ (int)Boss_State::STARTUP }, _statePrev{ (int)Boss_State::STARTUP }, _stateNext{ (int)Boss_State::STARTUP },
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },
-	_init{ false }, _transformStart{ false }, _healthHalfStart{ false }, _deathStart{ false },
+	_init{ false }, _healthHalfStart{ false }, _healthHalfEnd{ false }, _deathStart{ false },
+	_transforming{ false },
 
 	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 }
 {
@@ -107,8 +108,16 @@ void Boss::Update(double dt)
 	RunState();
 }
 
-bool Boss::PlayAnimChain(std::vector<std::string> animChain)
+bool Boss::PlayAnimChain(std::vector<std::string> animChain, bool overwrite)
 {
+	if (overwrite)
+	{
+		_CurrAnimChain = animChain;
+		_CurrAnimChainItr = _CurrAnimChain.begin();
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce(*_CurrAnimChainItr);
+		return true;
+	}
+
 	if (((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
 		return true;
 	else {
@@ -141,49 +150,47 @@ bool Boss::PlayAnimChain(std::vector<std::string> animChain)
 
 void Boss::UpdateState()
 {
-	// single keypress to cycle all states
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
+
+	if ((EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0)||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0)))
 	{
-		_state = _state++;
-		if (_state > (int)Boss_State::COUNT)
-			_state = (int)Boss_State::STARTUP;
-		return;
+		health = -1;
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
+
+	// check death
+	if (health < 1 && _state != (int)Boss_State::DEATH)
 	{
+		_statePrev = _state;
 		_state = (int)Boss_State::DEATH;
 		_deathStart = true;
+		Death();
 		return;
 	}
 
-	// states should update NOT upwhen when !IDLE_END || stillTransforming
-	if (_state != (int)Boss_State::IDLE_END)
-		return;
-	if (_state == (int)Boss_State::TRANSFORMING)
-		return;
-	// check death
-	if (health < 0 && _state != (int)Boss_State::DEATH)
-	{
-		_state = (int)Boss_State::DEATH;
-		_deathStart = true;
-		return;
-	}
+	// force skip UpdateState() if Boss currently still in any of these states
+	if (_state == (int)Boss_State::STARTUP ||
+		_state == (int)Boss_State::IDLE ||
+		_state == (int)Boss_State::IDLE_RAGE ||
+		_state == (int)Boss_State::TRANSFORMING ||
+		_state == (int)Boss_State::DEATH
+		) return;
+
 	// select attack method
-	if (health < healthHalf)
+	if (health > healthHalf)
 	{
-		_state = (int)Boss_State::IDLE_RAGE;
-	}
-	else if (health < healthQuart)
-	{
-		_state = (int)Boss_State::LASER_CHARGE_RAPID;
+		// _state = (int)Boss_State::LASER_CHARGE_RAPID;
+		health = healthHalf - 1;
+		_state = _stateNext = (int)Boss_State::IDLE_RAGE;
 	}
 	else
 	{
+		if (!_healthHalfEnd) // if havent transform
+		{
+			_state == (int)Boss_State::IDLE_RAGE;
+			return;
+		}
 		_state = (int)Boss_State::SPIN_SHOOTBULLET;
 	}
-	return;
 }
 
 void Boss::RunState()
@@ -219,16 +226,48 @@ void Boss::RunState()
 	}
 	if (_state != _statePrev)
 	{
-		if (DEBUGOUTPUT) std::cout << "DEBUG:\t State Change from" << (int)_statePrev << " to " << (int)_state << "\n";
+		if (DEBUGOUTPUT) std::cout << "DEBUG:\t State Change from : " << (int)_statePrev << " to " << (int)_state << "\n";
 		_statePrev = _state;
+
+
+		switch (_state)
+		{
+		case (int)Boss_State::STARTUP:
+			StartUp();
+			break;
+		case (int)Boss_State::TRANSFORMING:
+			Transform();
+			break;
+		case (int)Boss_State::IDLE:
+			Idle();
+			break;
+		case (int)Boss_State::IDLE_RAGE:
+			IdleRage();
+			break;
+		case (int)Boss_State::DEATH:
+			Death();
+			break;
+		case (int)Boss_State::SPIN_SHOOTBULLET:
+			SpinShoot();
+			break;
+		case (int)Boss_State::LASER_CHARGE:
+			TrackAndChargeLaser();
+			break;
+		case (int)Boss_State::LASER_SHOOT:
+			LaserShoot();
+			break;
+		default:
+			break;
+		}
 	}
+	// by here the next anim needs to be called
 }
 
 void Boss::StartUp()
 {
 	// on anim end, check if got somemore anim to play, else go to next state
 	if (!PlayAnimChain(_StartUp))
-		_state = (int)Boss_State::STARTUP;
+		_state = (int)Boss_State::IDLE;
 }
 
 void Boss::Idle()
@@ -240,22 +279,30 @@ void Boss::Idle()
 }
 void Boss::IdleRage()
 {
-	if (_statePrev == (int)Boss_State::IDLE_END)
+	// if havent transform and now need to IDLE_RAGE
+	if (!_healthHalfEnd &&
+		_stateNext == (int)Boss_State::IDLE_RAGE)
 		_healthHalfStart = true;
 	if (_healthHalfStart)
 	{
 		_healthHalfStart = false;
-		_transformStart = true;
+		_healthHalfEnd = true;
+		_state = (int)Boss_State::IDLE_END;
+		_stateNext = (int)Boss_State::IDLE_RAGE;
 		Transform();
 		return;
 	}
 
-	idleTimer -= _dt;
-	if (idleTimer < 0.0)
-	{
-		idleTimer = idleDuration;
-		_state = _statePrev = (int)Boss_State::IDLE_RAGE_END;
-	}
+	if (!PlayAnimChain(_IdleRage))
+		_state = (int)Boss_State::IDLE_RAGE_END;
+
+// OLD TIMER METHOD
+//	idleTimer -= _dt;
+//	if (idleTimer < 0.0)
+//	{
+//		idleTimer = idleDuration;
+//		_state = _statePrev = (int)Boss_State::IDLE_RAGE_END;
+//	}
 }
 
 void Boss::Death()
@@ -265,13 +312,21 @@ void Boss::Death()
 		_deathStart = false;
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
 
-		if (_statePrev == (int)Boss_State::SPIN_SHOOTBULLET)
-			PlayAnimChain(_DeathShooting);
+		if (_stateNext == (int)Boss_State::SPIN_SHOOTBULLET ||
+			_statePrev == (int)Boss_State::SPIN_SHOOTBULLET ||
+			_statePrev == (int)Boss_State::SPIN_SHOOTBULLET_END)
+		{
+			if (DEBUGOUTPUT) std::cout << "DEBUG:\tDeathShooting.\n";
+			PlayAnimChain(_DeathShooting, true);
+		}
 		else // if (_statePrev == (int)Boss_State::IDLE_RAGE || _statePrev == (int)Boss_State::IDLE_RAGE_END)
-			PlayAnimChain(_DeathIdle);
+		{
+			if (DEBUGOUTPUT) std::cout << "DEBUG:\tDeathIdle.\n";
+			PlayAnimChain(_DeathIdle, true);
+		}
 		return;
 	}
-	if (!PlayAnimChain(_DeathIdle))
+	if (!PlayAnimChain(_CurrAnimChain))
 	{
 		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
@@ -282,24 +337,46 @@ void Boss::Death()
 	return;
 }
 
+//if (_state == (int)Boss_State::IDLE_RAGE_END &&
+//	_stateNext == (int)Boss_State::SPIN_SHOOTBULLET)
+//{	// IDLE_RAGE --> SHOOTING
+//	PlayAnimChain(_TransformIdleRageToShoot, true);
+//	_state = (int)Boss_State::TRANSFORMING;
+//}
+
 void Boss::SpinShoot()
-{
+{// TODO : Need do _TransformIdleRageToShoot before spin and shoot
+	// if havent transform and now need to SPINSHOOT
+	if (!_transforming &&
+		_statePrev == (int)Boss_State::IDLE_RAGE_END)
+	{
+		_state = (int)Boss_State::IDLE_RAGE_END;
+		_stateNext = (int)Boss_State::SPIN_SHOOTBULLET;
+		Transform();
+		return;
+	}
+
+	if (!PlayAnimChain(_Shooting))
+		PlayAnimChain(_Shooting);
 	SpinAround();
 	ShootBullet();
+	
+	// check if all ammo used, then transform back
+	if (_state == (int)Boss_State::SPIN_SHOOTBULLET_END)
+	{
+		_stateNext = (int)Boss_State::IDLE_RAGE;
+		Transform();
+		return;
+	}
 }
 
 void Boss::SpinAround()
 {
-	// do dot product, if +, then rotate right, else rotate left
-
-
-
 	// rotate = rotatespd * dt
 	((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotationA(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotationA() + (rotationspeed * _dt)
 	);
 }
-
 void Boss::ShootBullet()
 {
 	if (ammo)
@@ -308,12 +385,28 @@ void Boss::ShootBullet()
 		if (bulletTimer < 0)
 		{
 			bulletTimer = shootROF;
-			GameObject* bullet = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
-			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-			AddForwardForce(bullet->Get_uID(), 50000 * bulletSpeed);
+			GameObject* bullet = nullptr;
+			float rot = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate()
+				+ MY_PI/4;
+			Vector3 pos = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos();
+
+			bullet = CreateObject("BulletE");
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot += MY_PI/2);
+			AddForwardForce(bullet->Get_uID(), 70000 * bulletSpeed);
+			bullet = CreateObject("BulletE");
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot += MY_PI / 2);
+			AddForwardForce(bullet->Get_uID(), 70000 * bulletSpeed);
+			bullet = CreateObject("BulletE");
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot += MY_PI / 2);
+			AddForwardForce(bullet->Get_uID(), 70000 * bulletSpeed);
+			bullet = CreateObject("BulletE");
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
+			((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot += MY_PI / 2);
+			AddForwardForce(bullet->Get_uID(), 70000 * bulletSpeed);
+
 			ammo--;
 
 			//AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
@@ -323,7 +416,7 @@ void Boss::ShootBullet()
 	else
 	{
 		ammo = ammoMax;
-		_state = (int)Boss_State::IDLE;
+		_state = (int)Boss_State::SPIN_SHOOTBULLET_END;
 	}
 }
 
@@ -332,7 +425,6 @@ void Boss::TrackAndChargeLaser()
 	LookAtPlayer();
 	LaserCharge();
 }
-
 void Boss::LookAtPlayer()
 {
 	for (auto itr : _engineSystems._factory->getObjectlist())
@@ -375,7 +467,6 @@ void Boss::LookAtPlayer()
 		std::cout << "WARNING: Player is nullptr.\n";
 	}
 }
-
 void Boss::LaserCharge(double speedup)
 {
 	if (!PlayAnimChain(_LaserCharge))
@@ -405,7 +496,6 @@ void Boss::LaserCharge(double speedup)
 //		_state = (int)Boss_State::LASER_SHOOT;
 //	}
 }
-
 void Boss::LaserShoot()
 {
 	// LaserShoot() SHOW FLASH
@@ -475,36 +565,80 @@ void Boss::LaserShoot()
 
 void Boss::Transform()
 {
+	if (health < 1)
+		return;
+
 	if (!PlayAnimChain(_CurrAnimChain))
 	{
 		_state = _stateNext;
+		_statePrev = (int)Boss_State::TRANSFORMING_END;
+		_transforming = false;
 		return;
 	}
 
 	if (_state == (int)Boss_State::LASER_SHOOT_END && 
 		_stateNext == (int)Boss_State::IDLE)
 	{	// LASER_SHOOT --> IDLE
-		PlayAnimChain(_TransformLaserToIdle);
+		PlayAnimChain(_TransformLaserToIdle, true);
 		_state = (int)Boss_State::TRANSFORMING;
 	}
 	if (_state == (int)Boss_State::IDLE_END &&		
 		_stateNext == (int)Boss_State::IDLE_RAGE)
 	{	// IDLE --> IDLE RAGE
-		PlayAnimChain(_TransformLaserToIdle);
+		PlayAnimChain(_TransformIdleToIdleRage, true);
 		_state = (int)Boss_State::TRANSFORMING;
 	}
-//	if (_state == (int)Boss_State::IDLE)
-//	{
-//		// just before do SpinShoot
-//		//		Boss_rage_transform_to_shoot_style_sprite
-//		_stateNext = (int)Boss_State::IDLE_RAGE;
-//	}
-//	if (_state == (int)Boss_State::IDLE)
-//	{
-//		// just after SpinShoot
-//		//		Boss_rage_transform_to_shoot_style_sprite
-//		_stateNext = (int)Boss_State::IDLE_RAGE;
-//	}
+	if (_state == (int)Boss_State::IDLE_RAGE_END &&
+		_stateNext == (int)Boss_State::SPIN_SHOOTBULLET)
+	{	// IDLE_RAGE --> SHOOTING
+		PlayAnimChain(_TransformIdleRageToShoot, true);
+		_state = (int)Boss_State::TRANSFORMING;
+	}
+	if (_state == (int)Boss_State::SPIN_SHOOTBULLET_END &&
+		_stateNext == (int)Boss_State::IDLE_RAGE)
+	{	// SHOOTING  --> IDLE_RAGE
+		PlayAnimChain(_TransformShootToIdleRage, true);
+		_state = (int)Boss_State::TRANSFORMING;
+	}
+
+
+// THIS NOT WORKING, BUT THE IDEA I NEED TO TRY SOMEMORE
+	//if (!PlayAnimChain(_CurrAnimChain))
+	//{
+	//	_state = _stateNext;
+	//	_statePrev = (int)Boss_State::TRANSFORMING_END;
+	//	_transforming = false;
+	//	PlayAnimChain(_NextAnimChain);
+	//	return;
+	//}
+	//if (_state == (int)Boss_State::LASER_SHOOT_END &&
+	//	_stateNext == (int)Boss_State::IDLE)
+	//{	// LASER_SHOOT --> IDLE
+	//	PlayAnimChain(_TransformLaserToIdle, true);
+	//	_state = (int)Boss_State::TRANSFORMING;
+	//	_NextAnimChain = _Idle;
+	//}
+	//if (_state == (int)Boss_State::IDLE_END &&
+	//	_stateNext == (int)Boss_State::IDLE_RAGE)
+	//{	// IDLE --> IDLE RAGE
+	//	PlayAnimChain(_TransformIdleToIdleRage, true);
+	//	_state = (int)Boss_State::TRANSFORMING;
+	//	_NextAnimChain = _IdleRage;
+	//}
+	//if (_state == (int)Boss_State::IDLE_RAGE_END &&
+	//	_stateNext == (int)Boss_State::SPIN_SHOOTBULLET)
+	//{	// IDLE_RAGE --> SHOOTING
+	//	PlayAnimChain(_TransformIdleRageToShoot, true);
+	//	_state = (int)Boss_State::TRANSFORMING;
+	//	_NextAnimChain = _Shooting;
+	//}
+	//if (_state == (int)Boss_State::SPIN_SHOOTBULLET_END &&
+	//	_stateNext == (int)Boss_State::IDLE_RAGE)
+	//{	// SHOOTING  --> IDLE_RAGE
+	//	PlayAnimChain(_TransformShootToIdleRage, true);
+	//	_state = (int)Boss_State::TRANSFORMING;
+	//	_NextAnimChain = _IdleRage;
+	//}
 }
 
 

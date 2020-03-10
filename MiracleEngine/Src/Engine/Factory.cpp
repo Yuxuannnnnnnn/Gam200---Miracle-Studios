@@ -26,8 +26,12 @@ Factory::~Factory()
 
 GameObject* Factory::CloneGameObject(GameObject* gameobject)
 {
+	if (!gameobject)
+		return nullptr;
+
 	GameObject* clonedObject = gameobject->Clone(++_lastGameObjectId);
 	_gameObjectIdMap.insert({ clonedObject->Get_uID(),clonedObject });
+	_allExistGameObjectList.insert(clonedObject->Get_uID());
 
 	return clonedObject;
 }
@@ -36,35 +40,31 @@ GameObject* Factory::CloneGameObject(GameObject* gameobject)
 //Called by GameObject Clone() function
 GameObject* Factory::CloneChildGameObject(GameObject* gameobject)
 {
-	GameObject* clonedObject;
+	if (!gameobject)
+		return nullptr;
 
-	//if(gameobject->Get_uID())
-		clonedObject = gameobject->Clone(++_lastGameObjectId);
-	//else
-	//{
-		//clonedObject = gameobject->Clone(0);
-	//}
+	GameObject* clonedObject = gameobject->Clone(++_lastGameObjectId);
+	_childGameObjectIdMap.insert({ clonedObject->Get_uID(),clonedObject });
+	_allExistGameObjectList.insert(clonedObject->Get_uID());
 
 	return clonedObject;
 }
-
 
 GameObject* Factory::CloneChildGameObjectPrototype(GameObject* gameobject)
 {
-	GameObject* clonedObject;
+	if (!gameobject)
+		return nullptr;
 
-	//if(gameobject->Get_uID())
-	clonedObject = gameobject->CloneChildPrototype();
-	//else
-	//{
-		//clonedObject = gameobject->Clone(0);
-	//}
+	GameObject* clonedObject = gameobject->CloneChildPrototype();
 
 	return clonedObject;
 }
 
-
-
+void Factory::RemoveChildGameObject(size_t UId)
+{
+	_childGameObjectIdMap.erase(UId);
+	_allExistGameObjectList.erase(UId);
+}
 
 void Factory::Destroy(GameObject* gameObject)
 {
@@ -77,18 +77,26 @@ void Factory::Update(float dt)
 {
 	//Delete all objects in the _objectsToBeDeleted list 
 
-	std::unordered_set<GameObject*>::iterator it = _objectsToBeDeleted.begin();
-	for (; it != _objectsToBeDeleted.end(); ++it)
+	for (auto& it : _objectsToBeDeleted)
 	{
-		GameObject* gameObject = *it;
-		GameObjectIdMapType::iterator idItr = _gameObjectIdMap.find(gameObject->Get_uID());
-		//ErrorIf(idItr == _gameObjectIdMap.end(), "Object %d was double deleted or is bad memory.", gameObject->ObjectId);
-		if (idItr != _gameObjectIdMap.end())
+		size_t UId = it->Get_uID();
+		
+		if (_gameObjectIdMap.find(UId) != _gameObjectIdMap.end())
 		{
-			//Delete it and remove its entry in the Id map
-			delete gameObject;
-			_gameObjectIdMap.erase(idItr);
+			delete it;
+			_gameObjectIdMap.erase(UId);
+			_allExistGameObjectList.erase(UId);
 		}
+		else if (_childGameObjectIdMap.find(UId) != _childGameObjectIdMap.end())
+		{
+			if (_allExistGameObjectList.find(it->GetParent()->Get_uID()) != _allExistGameObjectList.end())
+				it->GetParent()->RemoveChildObject(it);
+
+			delete it;
+			_childGameObjectIdMap.erase(UId);
+			_allExistGameObjectList.erase(UId);
+		}
+
 	}
 	//All objects to be delete have been deleted
 	_objectsToBeDeleted.clear();
@@ -98,13 +106,16 @@ void Factory::DestroyAll()
 {
 	for (auto& it : _gameObjectIdMap)
 		_objectsToBeDeleted.insert(it.second);
+
+	for (auto& it : _childGameObjectIdMap)
+		_objectsToBeDeleted.insert(it.second);
 }
 
 GameObject* Factory::CreateEmptyGameObject()
 {
 	GameObject* gameObject = new GameObject(++_lastGameObjectId);
-
 	_gameObjectIdMap.insert({ gameObject->Get_uID(),gameObject });
+	_allExistGameObjectList.insert(gameObject->Get_uID());
 
 	return gameObject;
 }
@@ -112,6 +123,8 @@ GameObject* Factory::CreateEmptyGameObject()
 GameObject* Factory::CreateEmptyChildGameObject()
 {
 	GameObject* gameObject = new GameObject(++_lastGameObjectId);
+	_childGameObjectIdMap.insert({ gameObject->Get_uID(),gameObject });
+	_allExistGameObjectList.insert(gameObject->Get_uID());
 
 	return gameObject;
 }
@@ -149,10 +162,7 @@ int Factory::CheckObjOrignialPointer(GameObject* obj)
 		if (pair.second == obj)
 			return 1;
 
-		if (CheckObjOrignialChildPointer(pair.second, obj))
-		{
-			return 1;
-		}
+		return CheckObjOrignialChildPointer(pair.second, obj);
 	}
 
 
@@ -220,6 +230,7 @@ GameObject* Factory::GetObjOrignialChildPointer(GameObject * obj, size_t origina
 
 	return nullptr;
 }
+
 
 
 std::unordered_map<size_t, GameObject*>& Factory::getObjectlist()
@@ -615,26 +626,22 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 	for (auto& IdIdcomPair : GetComponentMap(Identity))
 	{
-		const size_t id = IdIdcomPair.first;
-		std::string ObjType = ((IdentityComponent*)IdIdcomPair.second)->ObjectType();
+		IdentityComponent* comp = dynamic_cast<IdentityComponent*>(IdIdcomPair.second);
 
+		std::unordered_map <ComponentId, IComponent* > comList;
+
+		if (comp->GetParentPtr()->GetIndependent())
+			comList = _gameObjectIdMap[IdIdcomPair.first]->GetComponentList();
+		else
+			comList = _childGameObjectIdMap[IdIdcomPair.first]->GetComponentList();
 
 		rapidjson::Value obj;
 		obj.SetObject();
-		GameObject* proObj = nullptr;
+		GameObject* proObj = MyResourceSystem.GetPrototypeResource(comp->ObjectType());
 		//Object exists in PrototypeAssetList - Save in ClonableObjects list
 
-		bool bo = ObjType.compare("PlayerMuzzle");
-
-
-		if (!bo)
-			continue;
-
-
-		if ((proObj = MyResourceSystem.GetPrototypeResource(ObjType)))
+		if (proObj)
 		{
-
-			std::unordered_map <ComponentId, IComponent* >& comList = _gameObjectIdMap[id]->GetComponentList();
 			std::unordered_map <ComponentId, IComponent* >& protoComList = proObj->GetComponentList();
 
 
@@ -661,7 +668,6 @@ void Factory::De_SerialiseLevel(std::string filename)
 		}
 		else  //Object does not exists in PrototypeAssetList - Save in NonClonableObjects list
 		{
-			std::unordered_map <ComponentId, IComponent* >& comList = _gameObjectIdMap[id]->GetComponentList();
 
 			for (auto& IdComPair : comList)
 			{
@@ -670,7 +676,6 @@ void Factory::De_SerialiseLevel(std::string filename)
 			}
 
 			nonClonableObjects.PushBack(obj, SceneFile.Allocator());
-
 		}
 	}
 
@@ -690,6 +695,13 @@ void Factory::De_SerialiseLevel(std::string filename)
 
 
 }
+
+
+void Factory::DeSerialiseChild(GameObject* parent, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+
+}
+
 
 void Factory::WindowsDialogSaveLevel()
 {
@@ -727,6 +739,12 @@ void Factory::ClearLevel()
 	for (auto it : _gameObjectIdMap)
 		delete it.second;
 	_gameObjectIdMap.clear();
+
+	for (auto it : _childGameObjectIdMap)
+		delete it.second;
+	_childGameObjectIdMap.clear();
+
+	_allExistGameObjectList.clear();
 
 	_objectsToBeDeleted.clear();
 
@@ -995,13 +1013,15 @@ GameObject* Factory::GetLinkIDObject(int Id)
 	if (!Id)
 		return nullptr;
 
-	if (_objectLinkMap.find(Id) == _objectLinkMap.end())
-		return nullptr;
+	if (_objectLinkMap.find(Id) != _objectLinkMap.end())
+	{
+		if (_gameObjectIdMap.find(_objectLinkMap[Id]) != _gameObjectIdMap.end())
+			return _gameObjectIdMap[_objectLinkMap[Id]];
+		else if (_childGameObjectIdMap.find(_objectLinkMap[Id]) != _childGameObjectIdMap.end())
+			return _childGameObjectIdMap[_objectLinkMap[Id]];
+	}
 
-	if (MyFactory.getObjectlist().find(_objectLinkMap[Id]) == MyFactory.getObjectlist().end())
-		return nullptr;
-
-	return MyFactory.getObjectlist()[_objectLinkMap[Id]];
+	return nullptr;
 }
 
 GameObject* Factory::CloneAndInitPrototype(std::string name)
@@ -1011,10 +1031,28 @@ GameObject* Factory::CloneAndInitPrototype(std::string name)
 	if (!prototypeObj)
 		return nullptr;
 
-	GameObject* obj = MyFactory.CloneGameObject(prototypeObj);
+	GameObject* obj = CloneGameObject(prototypeObj);
 
 	if (obj)
 		obj->Init();
 
 	return obj;
+}
+
+void Factory::SwapChildToParent(size_t UId)
+{
+	if (_childGameObjectIdMap.find(UId) == _childGameObjectIdMap.end())
+		return;
+
+	_gameObjectIdMap.insert({ UId, _childGameObjectIdMap[UId] });
+	_childGameObjectIdMap.erase(UId);
+}
+
+void Factory::SwapParentToChild(size_t UId)
+{
+	if (_gameObjectIdMap.find(UId) == _gameObjectIdMap.end())
+		return;
+
+	_childGameObjectIdMap.insert({ UId, _gameObjectIdMap[UId] });
+	_gameObjectIdMap.erase(UId);
 }
