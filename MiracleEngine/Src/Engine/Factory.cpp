@@ -162,7 +162,11 @@ int Factory::CheckObjOrignialPointer(GameObject* obj)
 		if (pair.second == obj)
 			return 1;
 
-		return CheckObjOrignialChildPointer(pair.second, obj);
+		if (CheckObjOrignialChildPointer(pair.second, obj))
+		{
+			return 3;
+		}
+
 	}
 
 
