@@ -415,10 +415,10 @@ void Player::Init()
 	_timerShieldActivateCooldown = 0;
 	MyAudioSystem.PlayBGM("Level1", 1.0f);
 
- 	//_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
+ 	_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
 
-	//std::string temp = "HealthController";
-	//_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+	std::string temp = "HealthController";
+	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 }
 
 void Player::LoadResource()

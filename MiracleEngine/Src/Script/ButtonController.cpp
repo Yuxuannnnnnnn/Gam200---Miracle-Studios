@@ -118,6 +118,8 @@ void ButtonController::Update(double dt)
 			MyFactory.ChangeScene("CreditPage");
 		else if (_input->ButtonTrigger(16)) // quit
 			MyFactory.ChangeScene("Quit");
+		else if (_input->ButtonTrigger(60))
+			((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
 	}
 	else if(_currScene == 2)
 	{ 
