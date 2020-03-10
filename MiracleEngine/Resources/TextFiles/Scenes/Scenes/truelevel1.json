@@ -2951,9 +2951,7 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "ButtonController",
-      "LogicComponent": true,
-      "Scripts": [ {} ]
+      "ObjectType": "ButtonController"
     },
     {
       "IdentityComponent": true,
