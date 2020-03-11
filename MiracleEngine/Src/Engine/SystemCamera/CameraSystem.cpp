@@ -135,7 +135,7 @@ float* CameraSystem::GetCamMatrix()
 	}
 	else
 	{
-		Mtx44 translate = Mtx44::CreateTranslation(Vec3{ -transform->GetPos()._x,-transform->GetPos()._y,1.f });
+		Mtx44 translate = Mtx44::CreateTranslation(Vec3{ -transform->GetPos()._x * camera->_cameraZoom,-transform->GetPos()._y * camera->_cameraZoom,1.f });
 		_cameraMatrix = translate * Mtx44::CreateRotationZ(0) * Mtx44::CreateScale(Vec3{ camera->_cameraZoom ,camera->_cameraZoom ,1.f });
 	}
 #endif

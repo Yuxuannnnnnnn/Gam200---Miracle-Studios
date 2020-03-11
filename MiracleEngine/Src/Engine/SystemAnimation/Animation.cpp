@@ -90,3 +90,11 @@ Frame* Animation::GetCurrFrame(int currentFrame)
 {
 	return (*frame)[currentFrame];
 }
+
+Texture2D* Animation::GetSpriteSheet()
+{
+	if (!spriteSheet)
+		spriteSheet = MyResourceManager.GetTexture2DResource(spriteSheetName);
+
+	return spriteSheet;
+}

@@ -893,7 +893,7 @@ void Boss::Inspect()
 	ImGui::Spacing();
 	ImGui::InputDouble("BulletSpeed ", &bulletSpeed);
 	ImGui::Spacing();
-	ImGui::InputDouble("Rotate Speed ", &rotationspeed);
+	ImGui::InputFloat("Rotate Speed ", &rotationspeed);
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::InputDouble("Charge Duration ", &laserChargeDuration);

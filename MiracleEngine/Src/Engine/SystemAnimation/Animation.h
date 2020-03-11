@@ -48,12 +48,7 @@ public:
 
 	inline int GetMaxFrame() const { return NumOfFrames - 1; }
 
-	Texture2D* GetSpriteSheet()
-	{
-		return spriteSheet;
-	}
-
-
+	Texture2D* GetSpriteSheet();
 };
 
 #endif
