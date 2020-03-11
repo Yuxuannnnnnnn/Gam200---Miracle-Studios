@@ -47,7 +47,7 @@ class AssetsImguiWindow: public IBaseImguiWindow
 	Folder Image{ "Image" };
 	Folder characterAnimation{ "characterAnimation" };
 	Folder EnemiesSpawner{ "EnemiesSpawner" };
-	Folder EnemyAI{"EnemyAI"};
+	Folder EnemyAI{"Enemy_AI"};
 	Folder EnvironmentAnimation{"EnvironmentAnimation"};
 	Folder PowersEffect{"PowersEffect"};
 

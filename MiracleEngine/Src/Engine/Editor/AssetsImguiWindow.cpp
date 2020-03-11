@@ -61,7 +61,7 @@ void AssetsImguiWindow::Init()
 
 	texturesPath.push_back("./Resources/Image/Character_Animation");
 	texturesPath.push_back("./Resources/Image/Enemies_Spawner");
-	texturesPath.push_back("./Resources/Image/Enemy(AI)");
+	texturesPath.push_back("./Resources/Image/Enemy_AI");
 	texturesPath.push_back("./Resources/Image/Environment_Animation");
 	texturesPath.push_back("./Resources/Image/Powers_effect");
 
