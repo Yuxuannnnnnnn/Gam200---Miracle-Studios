@@ -787,14 +787,6 @@ void Factory::DeSerialiseGameObject(GameObject* parent, rapidjson::Value& value,
 	}
 }
 
-
-
-void Factory::DeSerialiseChild(GameObject* parent, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
-{
-
-}
-
-
 void Factory::WindowsDialogSaveLevel()
 {
 	OPENFILENAME ofn = { sizeof ofn };
@@ -894,9 +886,13 @@ void Factory::InitScene()
 		if(it.first != 0)
 			it.second->Init();
 
-	for (auto& it : GetComponentMap(Transform))
-		if (it.first != 0)
-			it.second->Init();
+	for (auto& it : _gameObjectIdMap)
+	{
+		TransformComponent* obj = GetComponentObject(it.second, Transform);
+
+		if (obj)
+			obj->Init();
+	}
 
 	for (auto& it : GetComponentMap(Graphic))
 		if (it.first != 0)
