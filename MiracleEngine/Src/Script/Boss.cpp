@@ -672,12 +672,13 @@ void Boss::OnCollision2DTrigger(Collider2D* other)
 
 void Boss::SerialiseComponent(Serialiser& document)
 {
-	if (document.HasMember("StartDuration") && document["IdleDuration"].IsDouble())
-		startUpTimer = (document["IdleDuration"].GetDouble());
+	if (document.HasMember("StartDuration") && document["StartDuration"].IsDouble())
+		startUpTimer = (document["StartDuration"].GetDouble());
 	if (document.HasMember("Health") && document["Health"].IsInt())
 		health = healthMax = (document["Health"].GetInt());
 	if (document.HasMember("IdleDuration") && document["IdleDuration"].IsDouble())
 		idleTimer = idleDuration = (document["IdleDuration"].GetDouble());
+
 	if (document.HasMember("AmmoPerSpin") && document["AmmoPerSpin"].IsInt())
 		ammo = ammoMax = (document["AmmoPerSpin"].GetInt());
 	if (document.HasMember("ShootROF") && document["ShootROF"].IsDouble())
@@ -686,6 +687,7 @@ void Boss::SerialiseComponent(Serialiser& document)
 		bulletSpeed = (document["BulletSpeed"].GetDouble());
 	if (document.HasMember("RotationSpeed") && document["RotationSpeed"].IsDouble())
 		rotationspeed = (document["RotationSpeed"].GetDouble());
+
 	if (document.HasMember("ChargeDuration") && document["ChargeDuration"].IsDouble())
 		laserChargeTimer = laserChargeDuration = (document["ChargeDuration"].GetDouble());
 	if (document.HasMember("FlashDuration") && document["FlashDuration"].IsDouble())
@@ -703,169 +705,168 @@ void Boss::DeSerialiseComponent(DeSerialiser& prototypeDoc) {//not being used
 
 void Boss::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	//rapidjson::Value value;
+	rapidjson::Value value;
 
-	//value.SetString(rapidjson::StringRef(ToScriptName(_type)));
-	//prototypeDoc.AddMember("Script2Id", value, allocator);
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	prototypeDoc.AddMember("Script2Id", value, allocator);
 
-	//value.SetInt(_health);
-	//prototypeDoc.AddMember("Health", value, allocator);
+	value.SetDouble(startUpTimer);
+	prototypeDoc.AddMember("StartDuration", value, allocator);
+	value.SetInt(healthMax);
+	prototypeDoc.AddMember("Health", value, allocator);
+	value.SetDouble(idleDuration);
+	prototypeDoc.AddMember("IdleDuration", value, allocator);
 
-	//value.SetInt(_enemyType);
-	//prototypeDoc.AddMember("EnemyType", value, allocator);
+	value.SetInt(ammoMax);
+	prototypeDoc.AddMember("AmmoPerSpin", value, allocator);
+	value.SetDouble(shootROF);
+	prototypeDoc.AddMember("ShootROF", value, allocator);
+	value.SetDouble(bulletSpeed);
+	prototypeDoc.AddMember("BulletSpeed", value, allocator);
+	value.SetDouble(rotationspeed);
+	prototypeDoc.AddMember("RotationSpeed", value, allocator);
 
-	//value.SetDouble(_timerStunCooldown);
-	//prototypeDoc.AddMember("StunDuration", value, allocator);
+	value.SetDouble(laserChargeDuration);
+	prototypeDoc.AddMember("ChargeDuration", value, allocator);
+	value.SetDouble(laserFlashDuration);
+	prototypeDoc.AddMember("FlashDuration", value, allocator);
+	value.SetDouble(laserAliveDuration);
+	prototypeDoc.AddMember("LaserAliveDuration", value, allocator);
 
-	//value.SetDouble(_moveSpeed);
-	//prototypeDoc.AddMember("MoveSpeed", value, allocator);
-
-	//value.SetDouble(_chaseSpeed);
-	//prototypeDoc.AddMember("ChaseSpeed", value, allocator);
-
-	//value.SetDouble(_chaseDuration);
-	//prototypeDoc.AddMember("ChaseDuration", value, allocator);
-
-
-	//double attackRangeShoot = sqrt(_attackRangeShoot) / 100.0;
-	//value.SetDouble(attackRangeShoot);
-	//prototypeDoc.AddMember("AttackRangeShoot", value, allocator);
-
-	//double attackRangeMelee = sqrt(_attackRangeMelee) / 100.0;
-	//value.SetDouble(attackRangeMelee);
-	//prototypeDoc.AddMember("AttackRangeMelee", value, allocator);
-
+	value.SetInt(rapidFireShotCount);
+	prototypeDoc.AddMember("RapidFireNumOfShots", value, allocator);
+	value.SetDouble(laserRapidChargeSpeedUp);
+	prototypeDoc.AddMember("RapidFireChargeSpeedUp", value, allocator);
 }
 
 void Boss::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
-	//LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
+	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
 
-	//size_t UId = protoLogicCom->GetScriptContianer()[_type];
+	size_t UId = protoLogicCom->GetScriptContianer()[_type];
 
-	//Enemy* script = (Enemy*)(MyLogicSystem.getScriptPtr(UId));
+	Boss* script = (Boss*)(MyLogicSystem.getScriptPtr(UId));
 
-	//if (!script)
-	//{
-	//	DeSerialiseComponent(value, allocator);
-	//	return;
-	//}
+	if (!script)
+	{
+		DeSerialiseComponent(value, allocator);
+		return;
+	}
 
-	//rapidjson::Value Health;
-	//rapidjson::Value EnemyType;
-	//rapidjson::Value StunDuration;
-	//rapidjson::Value MoveSpeed;
-	//rapidjson::Value ChaseSpeed;
-	//rapidjson::Value ChaseDuration;
-	//rapidjson::Value AttackRangeShoot;
-	//rapidjson::Value AttackRangeMelee;
+	rapidjson::Value StartDuration;
+	rapidjson::Value Health;
+	rapidjson::Value IdleDuration;
 
-	//bool addComponentIntoSceneFile = false;
+	rapidjson::Value AmmoPerSpin;
+	rapidjson::Value ShootROF;
+	rapidjson::Value BulletSpeed;
+	rapidjson::Value RotationSpeed;
 
+	rapidjson::Value ChargeDuration;
+	rapidjson::Value FlashDuration;
+	rapidjson::Value LaserAliveDuration;
+	rapidjson::Value RapidFireNumOfShots;
+	rapidjson::Value RapidFireChargeSpeedUp;
 
-	//if (script->_health != _health)
-	//{
-	//	addComponentIntoSceneFile = true;
-	//	Health.SetInt(_health);
-	//}
+	bool addComponentIntoSceneFile = false;
 
-	//if (script->_enemyType != _enemyType)
-	//{
-	//	addComponentIntoSceneFile = true;
-	//	EnemyType.SetInt(_enemyType);
-	//}
+	if (script->startUpTimer != startUpTimer)
+	{
+		addComponentIntoSceneFile = true;
+		StartDuration.SetDouble(startUpTimer);
+	}
+	if (script->healthMax != healthMax)
+	{
+		addComponentIntoSceneFile = true;
+		Health.SetInt(healthMax);
+	}
+	if (script->idleTimer != idleTimer)
+	{
+		addComponentIntoSceneFile = true;
+		IdleDuration.SetDouble(idleTimer);
+	}
 
-	//if (script->_timerStunCooldown != _timerStunCooldown)
-	//{
-	//	addComponentIntoSceneFile = true;
-	//	StunDuration.SetDouble(_timerStunCooldown);
-	//}
+	if (script->ammoMax != ammoMax)
+	{
+		addComponentIntoSceneFile = true;
+		AmmoPerSpin.SetInt(ammoMax);
+	}
+	if (script->shootROF != shootROF)
+	{
+		addComponentIntoSceneFile = true;
+		ShootROF.SetDouble(shootROF);
+	}
+	if (script->bulletSpeed != bulletSpeed)
+	{
+		addComponentIntoSceneFile = true;
+		BulletSpeed.SetDouble(bulletSpeed);
+	}
+	if (script->rotationspeed != rotationspeed)
+	{
+		addComponentIntoSceneFile = true;
+		RotationSpeed.SetDouble(rotationspeed);
+	}
 
-	//if (script->_moveSpeed != _moveSpeed)
-	//{
-	//	addComponentIntoSceneFile = true;
-	//	MoveSpeed.SetDouble(_moveSpeed);
-	//}
+	if (script->laserChargeDuration != laserChargeDuration)
+	{
+		addComponentIntoSceneFile = true;
+		ChargeDuration.SetDouble(laserChargeDuration);
+	}
+	if (script->laserFlashDuration != laserFlashDuration)
+	{
+		addComponentIntoSceneFile = true;
+		FlashDuration.SetDouble(laserFlashDuration);
+	}
+	if (script->laserAliveDuration != laserAliveDuration)
+	{
+		addComponentIntoSceneFile = true;
+		LaserAliveDuration.SetDouble(laserAliveDuration);
+	}
+	if (script->laserRapidFireNumOfShots != laserRapidFireNumOfShots)
+	{
+		addComponentIntoSceneFile = true;
+		RapidFireNumOfShots.SetInt(laserRapidFireNumOfShots);
+	}
+	if (script->laserRapidChargeSpeedUp != laserRapidChargeSpeedUp)
+	{
+		addComponentIntoSceneFile = true;
+		RapidFireChargeSpeedUp.SetDouble(laserRapidChargeSpeedUp);
+	}
 
-	//if (script->_chaseSpeed != _chaseSpeed)
-	//{
-	//	addComponentIntoSceneFile = true;
-	//	ChaseSpeed.SetDouble(_chaseSpeed);
-	//}
+	if (addComponentIntoSceneFile)    //If anyone of component data of obj is different from Prototype
+	{
+		rapidjson::Value scriptName;
 
-	//if (script->_chaseDuration != _chaseDuration)
-	//{
-	//	addComponentIntoSceneFile = true;
-	//	ChaseDuration.SetDouble(_chaseDuration);
-	//}
+		scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
+		value.AddMember("Script2Id", scriptName, allocator);
 
-	//if (script->_attackRangeShoot != _attackRangeShoot)
-	//{
-	//	addComponentIntoSceneFile = true;
+		if (!StartDuration.IsNull())
+			value.AddMember("StartDuration", StartDuration, allocator);
+		if (!Health.IsNull())
+			value.AddMember("Health", Health, allocator);
+		if (!IdleDuration.IsNull())
+			value.AddMember("IdleDuration", IdleDuration, allocator);
 
-	//	double attackRangeShoot = sqrt(_attackRangeShoot) / 100.0;
-	//	AttackRangeShoot.SetDouble(attackRangeShoot);
-	//}
+		if (!AmmoPerSpin.IsNull())
+			value.AddMember("AmmoPerSpin", AmmoPerSpin, allocator);
+		if (!ShootROF.IsNull())
+			value.AddMember("ShootROF", ShootROF, allocator);
+		if (!BulletSpeed.IsNull())
+			value.AddMember("BulletSpeed", BulletSpeed, allocator);
+		if (!RotationSpeed.IsNull())
+			value.AddMember("RotationSpeed", RotationSpeed, allocator);
 
-	//if (script->_attackRangeMelee != _attackRangeMelee)
-	//{
-	//	addComponentIntoSceneFile = true;
-
-	//	double attackRangeMelee = sqrt(_attackRangeMelee) / 100.0;
-	//	AttackRangeMelee.SetDouble(attackRangeMelee);
-	//}
-
-	//if (addComponentIntoSceneFile)    //If anyone of component data of obj is different from Prototype
-	//{
-	//	rapidjson::Value scriptName;
-
-	//	scriptName.SetString(rapidjson::StringRef(ToScriptName(_type)));
-	//	value.AddMember("Script2Id", scriptName, allocator);
-
-	//	if (!Health.IsNull())    //if rapidjson::value container is not empty
-	//	{
-	//		value.AddMember("Health", Health, allocator);
-	//	}
-
-	//	if (!EnemyType.IsNull())    //if rapidjson::value container is not empty
-	//	{
-	//		value.AddMember("EnemyType", EnemyType, allocator);
-	//	}
-
-	//	if (!StunDuration.IsNull())    //if rapidjson::value container is not empty
-	//	{
-	//		value.AddMember("StunDuration", StunDuration, allocator);
-	//	}
-
-
-	//	if (!MoveSpeed.IsNull())    //if rapidjson::value container is not empty
-	//	{
-	//		value.AddMember("MoveSpeed", MoveSpeed, allocator);
-	//	}
-
-
-	//	if (!ChaseSpeed.IsNull())    //if rapidjson::value container is not empty
-	//	{
-	//		value.AddMember("ChaseSpeed", ChaseSpeed, allocator);
-	//	}
-
-
-	//	if (!ChaseDuration.IsNull())    //if rapidjson::value container is not empty
-	//	{
-	//		value.AddMember("ChaseDuration", ChaseDuration, allocator);
-	//	}
-
-
-	//	if (!AttackRangeShoot.IsNull())    //if rapidjson::value container is not empty
-	//	{
-	//		value.AddMember("AttackRangeShoot", AttackRangeShoot, allocator);
-	//	}
-
-	//	if (!AttackRangeMelee.IsNull())    //if rapidjson::value container is not empty
-	//	{
-	//		value.AddMember("AttackRangeMelee", AttackRangeMelee, allocator);
-	//	}
-	//}
+		if (!ChargeDuration.IsNull())
+			value.AddMember("ChargeDuration", ChargeDuration, allocator);
+		if (!FlashDuration.IsNull())
+			value.AddMember("FlashDuration", FlashDuration, allocator);
+		if (!LaserAliveDuration.IsNull())
+			value.AddMember("LaserAliveDuration", LaserAliveDuration, allocator);
+		if (!RapidFireNumOfShots.IsNull())
+			value.AddMember("RapidFireNumOfShots", RapidFireNumOfShots, allocator);
+		if (!RapidFireChargeSpeedUp.IsNull())
+			value.AddMember("RapidFireChargeSpeedUp", RapidFireChargeSpeedUp, allocator);
+	}
 }
 
 void Boss::Inspect()
@@ -889,7 +890,7 @@ void Boss::Inspect()
 	ImGui::Spacing();
 	ImGui::InputDouble("BulletSpeed ", &bulletSpeed);
 	ImGui::Spacing();
-	ImGui::InputFloat("Rotate Speed ", &rotationspeed);
+	ImGui::InputDouble("Rotate Speed ", &rotationspeed);
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::InputDouble("Charge Duration ", &laserChargeDuration);
