@@ -189,6 +189,7 @@ public:
 	void LaserCharge(double speedUp = 1.0);
 	void LaserShoot();
 	void Transform();
+	void TransformNextAnim();
 	
 	void OnCollision2DTrigger(Collider2D* other);
 

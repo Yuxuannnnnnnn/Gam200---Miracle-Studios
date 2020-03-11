@@ -259,6 +259,8 @@ void Boss::RunState()
 		default:
 			break;
 		}
+		if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())
+			TransformNextAnim();
 	}
 	// by here the next anim needs to be called
 }
@@ -563,6 +565,22 @@ void Boss::LaserShoot()
 	}
 }
 
+void Boss::TransformNextAnim()
+{
+	switch (_stateNext)
+	{
+	case (int)Boss_State::IDLE:
+		PlayAnimChain(_Idle, true);
+		break;
+	case (int)Boss_State::IDLE_RAGE:
+		PlayAnimChain(_IdleRage, true);
+		break;
+	case (int)Boss_State::SPIN_SHOOTBULLET:
+		PlayAnimChain(_Shooting, true);
+		break;
+	}
+}
+
 void Boss::Transform()
 {
 	if (health < 1)
@@ -573,6 +591,7 @@ void Boss::Transform()
 		_state = _stateNext;
 		_statePrev = (int)Boss_State::TRANSFORMING_END;
 		_transforming = false;
+//		TransformNextAnim();
 		return;
 	}
 
