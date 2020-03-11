@@ -84,8 +84,6 @@ void Animation::unload()
 	(*frame).clear();
 
 	delete frame;
-
-	delete spriteSheetName;
 }
 
 Frame* Animation::GetCurrFrame(int currentFrame)

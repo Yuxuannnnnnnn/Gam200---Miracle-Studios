@@ -127,7 +127,10 @@ void Engine::Update()
 		if (!MyInputSystem._pause)
 			MyAnimationSystem.Update(dt);
 
-		MyGraphicsSystem.Update(dt);
+		if (!MyInputSystem._pause)
+			MyGraphicsSystem.Update(dt);
+		else
+			MyGraphicsSystem.Update(-10.0);
 
 		if (!MyInputSystem._pause)
 			MyAnimationSystem.UpdatePlayOnce();
@@ -184,7 +187,10 @@ void Engine::Update()
 		if (!MyInputSystem._pause)
 			MyAnimationSystem.Update(dt);
 
-		MyGraphicsSystem.Update(dt);
+		if (!MyInputSystem._pause)
+			MyGraphicsSystem.Update(dt);
+		else
+			MyGraphicsSystem.Update(-10.0);
 
 		if (!MyInputSystem._pause)
 			MyAnimationSystem.UpdatePlayOnce();

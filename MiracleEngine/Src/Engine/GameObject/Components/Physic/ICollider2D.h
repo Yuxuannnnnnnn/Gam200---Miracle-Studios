@@ -33,6 +33,8 @@ public:
 
 	bool _attachedRigidboy;
 public:
+
+
 	Collider2D();
 	Collider2D(const Collider2D& rhs) = default;
 	virtual ~Collider2D() {}

@@ -46,6 +46,7 @@ public:
 	//void Set_typeId(TypeIdGO type);
 
 	void Init();
+	void LoadResource();
 
 	size_t Get_uID() const; // Return _uId
 

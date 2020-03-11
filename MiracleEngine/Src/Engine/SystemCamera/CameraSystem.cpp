@@ -171,7 +171,7 @@ Vector3 CameraSystem::GetCameraPos()
 	if (!obj)
 		return Vec3{ 0.f,0.f,1.f };
 
-	return obj->GetPos();
+	return Vec3{ -obj->GetPos()._x, -obj->GetPos()._y, 1.f };
 #endif
 }
 

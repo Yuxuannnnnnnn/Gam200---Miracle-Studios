@@ -2,6 +2,7 @@
 #include "Script/Boss.h"
 #include <cstdlib>
 #include <ctime>
+#include "Script/EntrancePortal.h"
 
 /*
 
@@ -330,6 +331,8 @@ void Boss::Death()
 	{
 		((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetEnable(false);
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
+		std::string temp = "EntrancePortal";
+		((EntrancePortal*)MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1239)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]])->IncreaseKillCount(999);
 		GetParentPtr()->SetDestory();
 	}
 	// if animation finish playing //if (!((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->IsAnimationPlaying())

@@ -15,7 +15,8 @@ void EntrancePortal::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("E.NextScene") && document["E.NextScene"].IsString())
 		_nextScene = document["E.NextScene"].GetString();
 
-	
+	if (document.HasMember("E.CurrScene") && document["E.CurrScene"].IsInt())
+		_level = document["E.CurrScene"].GetInt();
 }
 
 //No need this function
@@ -54,6 +55,9 @@ void EntrancePortal::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidj
 
 	value.SetString(rapidjson::StringRef(_nextScene.c_str()));
 	prototypeDoc.AddMember("E.NextScene", value, allocator);
+
+	value.SetInt(_level);
+	prototypeDoc.AddMember("E.CurrScene", value, allocator);
 }
 
 void EntrancePortal::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -210,16 +214,19 @@ EntrancePortal* EntrancePortal::Clone()
 
 void EntrancePortal::Init()
 {
-	_graphicComponent = (GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic);
-	_graphicComponent->SetFileName(_closePortalFileName);
+	if (_level == 1)
+	{
+		_graphicComponent = (GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic);
+		_graphicComponent->SetFileName(_closePortalFileName);
+		_popUp = MyFactory.GetLinkIDObject(9542);
+		_popUpPos = (TransformComponent*)_popUp->GetComponent(ComponentId::CT_Transform);
 
-	GameObject* tempPlayer = MyFactory.GetLinkIDObject(999);
-	std::string temp = "Player";
-	_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(tempPlayer->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-	_player = (TransformComponent*)(tempPlayer->GetComponent(ComponentId::CT_Transform));
+		GameObject* tempPlayer = MyFactory.GetLinkIDObject(999);
+		std::string temp = "Player";
+		_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(tempPlayer->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		_player = (TransformComponent*)(tempPlayer->GetComponent(ComponentId::CT_Transform));
+	}
 
-	_popUp = MyFactory.GetLinkIDObject(9542);
-	_popUpPos = (TransformComponent*)_popUp->GetComponent(ComponentId::CT_Transform);
 }
 
 void EntrancePortal::LoadResource()
@@ -235,13 +242,17 @@ void EntrancePortal::Update(double dt)
 	if (dt < 0)
 		return;
 
-	if (!_clear)
+	if (_level == 1)
 	{
-		if (_KillCount >= _progressCount)
-			OpenPortal();
+
+		if (!_clear)
+		{
+			if (_KillCount >= _progressCount)
+				OpenPortal();
+		}
+		else
+			_popUpPos->SetPos(Vec3{ _player->GetPos()._x, _player->GetPos()._y + 300, 1.f });
 	}
-	else
-		_popUpPos->SetPos(Vec3{ _player->GetPos()._x, _player->GetPos()._y + 300, 1.f});
 }
 
 void EntrancePortal::OpenPortal()
@@ -253,7 +264,17 @@ void EntrancePortal::OpenPortal()
 
 void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 {
-	if (_clear)
+	if (_level == 1)
+	{
+		if (_clear)
+		{
+			std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+
+			if (!otherType.compare("player"))
+				MyFactory.ChangeScene(_nextScene);
+		}
+	}
+	else if (_level == 2)
 	{
 		std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 
@@ -265,4 +286,7 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 void EntrancePortal::IncreaseKillCount(int kills)
 {
 	_KillCount += kills;
+
+	if (_level == 3 && kills == 999)
+		MyFactory.ChangeScene(_nextScene);
 }

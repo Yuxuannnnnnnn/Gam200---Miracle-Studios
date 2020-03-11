@@ -27,12 +27,11 @@ private:
 
 	// ID to select which spritesheet
 	int _textureID;
-
-	char spriteSheetName[128];
 	Texture2D* spriteSheet;
 
 
 public:
+	char spriteSheetName[128];
 	Animation();
 	void Select();
 

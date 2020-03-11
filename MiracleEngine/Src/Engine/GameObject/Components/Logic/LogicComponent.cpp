@@ -136,28 +136,32 @@ void LogicComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 		enable.SetBool(GetEnable());
 	}
 
-	if (!enable.IsNull())
-		value.AddMember("LogicComponent", enable, allocator);
-	else
-		value.AddMember("LogicComponent", protoLogicCom->GetEnable(), allocator);
-
-
-	rapidjson::Value Array;
-	Array.SetArray();
-
-	for (auto script : _scriptContianer)
+	if (addComponentIntoSceneFile)
 	{
-		rapidjson::Value Object;
-		Object.SetObject();
+		if (!enable.IsNull())
+			value.AddMember("LogicComponent", enable, allocator);
+		else
+			value.AddMember("LogicComponent", protoLogicCom->GetEnable(), allocator);
 
-		IScript2* script2ptrs = MyLogicSystem.getScriptPtr(script.second);
 
-		script2ptrs->DeserialiseComponentSceneFile(protoCom, Object, allocator); //Compare data for each script between prototype and this object
-		Array.PushBack(Object, allocator);
+		rapidjson::Value Array;
+		Array.SetArray();
+
+		for (auto script : _scriptContianer)
+		{
+			rapidjson::Value Object;
+			Object.SetObject();
+
+			IScript2* script2ptrs = MyLogicSystem.getScriptPtr(script.second);
+
+			script2ptrs->DeserialiseComponentSceneFile(protoCom, Object, allocator); //Compare data for each script between prototype and this object
+			Array.PushBack(Object, allocator);
+		}
+
+		value.AddMember("Scripts", Array, allocator);
+
+
 	}
-
-	value.AddMember("Scripts", Array, allocator);
-
 }
 
 void LogicComponent::Inspect()
@@ -192,6 +196,12 @@ void LogicComponent::Init()
 {
 	for (auto& it : _scriptContianer)
 		MyLogicSystem.GetScriptList()[it.second]->Init();
+}
+
+void LogicComponent::LoadResource()
+{
+	for (auto& it : _scriptContianer)
+		MyLogicSystem.GetScriptList()[it.second]->LoadResource();
 }
 
 void LogicComponent::Update(double dt)

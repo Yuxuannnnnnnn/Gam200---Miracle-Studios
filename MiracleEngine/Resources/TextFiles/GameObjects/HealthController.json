@@ -8,7 +8,6 @@
   "Scale": [ 100.0, 100.0, 1.0 ],
   "Rotate": 0.0,
   "LogicComponent": true,
-  "ScriptId": [],
   "Scripts": [
     {
       "Script2Id": "HealthController",

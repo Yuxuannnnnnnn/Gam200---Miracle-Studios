@@ -1000,6 +1000,9 @@ void Factory::LoadSceneResource()
 
 	MyGraphicsSystem.LoadResource();
 	MyLogicSystem.LoadResource();
+
+	for (auto& it : MyResourceManager.GetPrototypeMap())
+		it.second->LoadResource();
 }
 
 
@@ -1042,7 +1045,11 @@ void Factory::SaveBackUpScene()
 
 void Factory::LoadBackUpScene()
 {
-	_currentScene = "Restart";
+	if (!_currentScene.compare("BackUp"))
+		_currentScene = "Restart";
+	else
+		_currentScene = "BackUp";
+
 	UpdateScene();
 	_currentScene = _currEditerScene;
 	_prevScene = _currentScene;
