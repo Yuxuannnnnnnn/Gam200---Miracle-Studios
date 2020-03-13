@@ -442,7 +442,6 @@ void Factory::SerialiseLevel(std::string FileName)
 			else if (!_currentScene.compare("truelevel2"))
 			{
 				audcom->PlayBGM("level2");
-
 			}
 			else if (!_currentScene.compare("BossLevel"))
 			{
@@ -841,6 +840,8 @@ void Factory::ClearLevel()
 	MyComponentManger.ClearAllComponents();
 
 	MyResourceManager.ClearAllResources();
+
+	MyLogicSystem.ClearAllScripts();
 }
 
 void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath)

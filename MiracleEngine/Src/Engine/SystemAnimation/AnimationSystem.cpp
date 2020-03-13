@@ -6,6 +6,9 @@ void AnimationSystem::Update(double dt)
 	
 	for (auto& animCompPair : GetComponentMap(Animation))
 	{
+		if (!animCompPair.second->GetEnable())
+			continue;
+
 		AnimationComponent* GC = (AnimationComponent*)animCompPair.second;
 
 		GC->UpdateTimeDelay(dt);
@@ -59,6 +62,9 @@ void AnimationSystem::UpdatePlayOnce()
 {
 	for (auto& animCompPair : GetComponentMap(Animation))
 	{
+		if (!animCompPair.second->GetEnable())
+			continue;
+
 		AnimationComponent* GC = (AnimationComponent*)animCompPair.second;
 
 		if (GC->IsPlayingOnce()) //if animation is mentioned to play only once.

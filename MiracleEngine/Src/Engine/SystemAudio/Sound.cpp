@@ -11,7 +11,8 @@ Sound::Sound() :
 
 Sound::~Sound()
 {
-	FMOD_Sound_Release(_sound);
+	if(_sound)
+		FMOD_Sound_Release(_sound);
 }
 
 
@@ -37,5 +38,8 @@ bool Sound::load(std::string path, int loop)
 
 void Sound::unload()
 {
-	FMOD_Sound_Release(_sound);
+	if (_sound)
+		FMOD_Sound_Release(_sound);
+
+	_sound = nullptr;
 }

@@ -88,12 +88,12 @@ private:
 		laserAliveTimer, laserAliveDuration;
 	int laserRapidFireNumOfShots, rapidFireShotCount;
 	double laserRapidChargeSpeedUp;
-
+	double hitTintTimer, hitTintDuration;
 
 	int _state, _statePrev, _stateNext;
 	bool _laserChargeStart, _laserFlashStart, _laserShootStart;
 	bool _init, _healthHalfStart, _healthHalfEnd, _deathStart,
-		_transforming;
+		_transforming, _redTint, _justHit;
 
 	GameObject* playerPtr, *subObj;
 	int playerId;
@@ -134,6 +134,7 @@ public:
 	void LaserShoot();
 	void Transform();
 	void TransformNextAnim();
+	void HitTint();
 	
 	void OnCollision2DTrigger(Collider2D* other);
 
