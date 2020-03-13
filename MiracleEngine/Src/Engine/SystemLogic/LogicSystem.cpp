@@ -185,3 +185,15 @@ std::vector<IScript2*> LogicSystem::GetScriptList(size_t objUId)
 
 	return result;
 }
+
+void LogicSystem::ClearAllScripts()
+{
+#ifndef LEVELEDITOR
+	for (auto& itr : _scriptList)
+		delete itr.second;
+
+	_scriptList.clear();
+
+	_scriptUId = 0;
+#endif
+}

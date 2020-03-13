@@ -48,6 +48,9 @@ private:
 	//std::vector<std::string> _animations;
 
 //For Smart component Variables
+	bool _playAtCreation;
+	bool _loop;
+
 	bool _playOnce; 
 	bool _animationPlaying;
 	

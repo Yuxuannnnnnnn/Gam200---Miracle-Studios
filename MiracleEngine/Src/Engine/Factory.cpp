@@ -840,6 +840,8 @@ void Factory::ClearLevel()
 	MyComponentManger.ClearAllComponents();
 
 	MyResourceManager.ClearAllResources();
+
+	MyLogicSystem.ClearAllScripts();
 }
 
 void Factory::AddNewPrototypeAsset(GameObject* NewPrototype, std::string filePath)
