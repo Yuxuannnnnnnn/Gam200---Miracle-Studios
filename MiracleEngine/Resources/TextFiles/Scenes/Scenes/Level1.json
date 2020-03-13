@@ -4,7 +4,7 @@
 	"ShaderFilesPaths": [],
 	"AnimationDataFilesPaths": [],
 	"FontFilesPath": [],
-	"ClonableObjects": [
+	"Objects": [
 		{
 			"IdentityComponent": true,
 			"ObjectType": "Player",
@@ -13,7 +13,7 @@
 			"Scale": [ 199.99998474121095, 199.9999237060547, 1.0 ],
 			"Rotate": 0.0,
 			"GraphicsComponent": true,
-			
+
 			"G.FileName": "PlayerBullet.png",
 			"G.Layer": 3,
 			"AnimationComponent": true,
@@ -217,6 +217,5 @@
 			"Position": [ 27.615549087524415, 57.10841369628906, 1.0 ],
 			"Rotate": 0.7874771356582642
 		}
-	],
-	"NonClonableObjects": []
+	]
 }

@@ -4,7 +4,7 @@
   "ShaderFilesPaths": [],
   "AnimationDataFilesPaths": [],
   "FontFilesPath": [],
-  "ClonableObjects": [
+  "Objects": [
     {
       "IdentityComponent": true,
       "ObjectType": "none",
@@ -74,5 +74,5 @@
       "IdentityComponent": true,
       "ObjectType": "PaseMenu"
     }
-  ],
-  "NonClonableObjects":[]}
+  ]
+}

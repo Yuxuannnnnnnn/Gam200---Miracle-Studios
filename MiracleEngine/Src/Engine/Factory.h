@@ -51,6 +51,8 @@ public:
 	std::unordered_map<std::string, ComponentCreator*>& GetComponentList();
 	std::unordered_map<size_t, GameObject*>& getObjectlist();
 
+
+
 	GameObject* GetObjOrignialPointer(size_t obj);
 	GameObject* GetObjOrignialChildPointer(GameObject* obj, size_t original);
 

@@ -4,33 +4,6 @@
 
 
 
-
-
-glm::vec3 FontComponent::GetFontColor() const
-{
-	return glm::vec3{ _color[0], _color[1], _color[2]};
-}
-
-float FontComponent::GetDelayTime() const
-{
-	return _delayTime;
-}
-
-float FontComponent::IsStartDisplaying() const
-{
-	return _startDisplaying;
-}
-
-std::string FontComponent::ComponentName() const
-{
-	return "Font Component";
-}
-
-std::string& FontComponent::GetFontString()
-{
-	return _fontString;
-}
-
 void FontComponent::Inspect()
 {
 	static char buffer[300] = " ";
@@ -75,8 +48,106 @@ void FontComponent::Inspect()
 
 	ImGui::ColorEdit3("color", _color);
 
+	ImGui::Spacing();
+
 	ImGui::Checkbox("start text", &_startDisplaying);
+	ImGui::Checkbox("is delayed text", &_isDelayedText);
+
+	ImGui::Spacing();
 
 	ImGui::InputFloat("Delay time", &_delayTime);
 	//ImGui::SliderFloat(string.c_str(), &_alphaVal, 0, 1);
 }
+
+size_t FontComponent::GetFontCounter()
+{
+	return _fontCounter;
+}
+
+void FontComponent::SetFontCounter(size_t count)
+{
+	_fontCounter = count;
+}
+
+float FontComponent::GetCurrentDelayTime() const
+{
+	return _currentDelaytime;
+}
+
+void FontComponent::SetCurrentDelayTime(float time)
+{
+	_currentDelaytime = time;
+}
+
+void FontComponent::SetFontColor(const glm::vec3& color)
+{
+	_color[0] = color.r;
+	_color[1] = color.g;
+	_color[2] = color.b;
+}
+
+glm::vec3 FontComponent::GetFontColor() const
+{
+	return glm::vec3{ _color[0], _color[1], _color[2]};
+}
+
+float FontComponent::GetDelayTime() const
+{
+	return _delayTime;
+}
+
+void FontComponent::SetDelayTime(float time)
+{
+	_delayTime = time;
+}
+
+bool FontComponent::IsStartDisplaying() const
+{
+	return _startDisplaying;
+}
+
+void FontComponent::SetStartDisplaying(bool start)
+{
+	_startDisplaying = start;
+}
+
+bool FontComponent::IsDelayedText()
+{
+	return _isDelayedText;
+}
+
+void FontComponent::SetisDelayedText(bool text)
+{
+	_isDelayedText = text;
+}
+
+void FontComponent::SetText(const std::string& text)
+{
+	_fontString = text;
+}
+
+std::string FontComponent::GetText()
+{
+	return _fontString;
+}
+
+void FontComponent::SetFontType(const std::string& type)
+{
+	_fontType = type;
+}
+
+std::string FontComponent::GetType()
+{
+	return _fontType;
+}
+
+std::string FontComponent::ComponentName() const
+{
+	return "Font Component";
+}
+
+std::string& FontComponent::GetFontString()
+{
+	return _fontString;
+}
+

@@ -1,1 +1,35 @@
-{"PrototypesFilePaths":["./Resources/TextFiles/GameObjects\\none.json"],"TexturesFilesPaths":["./Resources/Image/Interface\\Back_to_menu_button_click.png"],"ShaderFilesPaths":[],"AnimationDataFilesPaths":[],"FontFilesPath":[],"ClonableObjects":[{"IdentityComponent":true,"ObjectType":"none","Name":"none","GraphicsComponent":false,"G.FileName":"Back_to_menu_button_click.png","G.Shader":"","G.Layer":1,"_hasAlpha":false,"_hasAdjustableAlpha":false,"_alphaVal":1.0,"_isFadingOut":false,"_isFlickering":false},{"IdentityComponent":true,"ObjectType":"none","Name":"none","TransformComponent":true,"Position":[-387.999267578125,165.48751831054688,1.0],"PivotPosition":[0.0,0.0,0.0],"UIComponent":true,"UI.FileName":"Back_to_menu_button_hover.png","UI.Layer":100,"UI.HasAlpha":false}],"NonClonableObjects":[]}
+{
+  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\none.json" ],
+  "TexturesFilesPaths": [ "./Resources/Image/Interface\\Back_to_menu_button_click.png" ],
+  "ShaderFilesPaths": [],
+  "AnimationDataFilesPaths": [],
+  "FontFilesPath": [],
+  "Objects": [
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "none",
+      "GraphicsComponent": false,
+      "G.FileName": "Back_to_menu_button_click.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": false,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "none",
+      "TransformComponent": true,
+      "Position": [ -387.999267578125, 165.48751831054688, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "UIComponent": true,
+      "UI.FileName": "Back_to_menu_button_hover.png",
+      "UI.Layer": 100,
+      "UI.HasAlpha": false
+    }
+  ]
+}
