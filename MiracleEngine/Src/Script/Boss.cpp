@@ -23,11 +23,12 @@ Boss::Boss() :
 
 	laserRapidFireNumOfShots{ 0 }, rapidFireShotCount{ 0 },
 	laserRapidChargeSpeedUp{ 0.0 },
+	hitTintTimer{ 0.0 }, hitTintDuration{ 0.5 },
 
 	_state{ (int)Boss_State::STARTUP }, _statePrev{ (int)Boss_State::STARTUP }, _stateNext{ (int)Boss_State::STARTUP },
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },
 	_init{ false }, _healthHalfStart{ false }, _healthHalfEnd{ false }, _deathStart{ false },
-	_transforming{ false },
+	_transforming{ false }, _redTint{ false }, _justHit{ false },
 
 	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 }
 {
@@ -135,6 +136,8 @@ void Boss::UpdateState()
 		Death();
 		return;
 	}
+
+	HitTint();
 
 	// force skip UpdateState() if Boss currently still in any of these states
 	if (_state == (int)Boss_State::STARTUP ||
@@ -559,6 +562,26 @@ void Boss::TransformNextAnim()
 	}
 }
 
+void Boss::HitTint()
+{
+	if (_justHit)
+	{
+		_justHit = false;
+		if (_redTint)
+			hitTintTimer = hitTintDuration;
+		else
+			; // set tint red
+	}
+	hitTintTimer -= _dt;
+	if (hitTintTimer > 0)
+		return;
+	else
+	{
+		_redTint = false;
+		; // set tint normal
+	}
+}
+
 void Boss::Transform()
 {
 	if (health < 1)
@@ -649,6 +672,8 @@ void Boss::OnCollision2DTrigger(Collider2D* other)
 	if (otherType.compare("Bullet") == 0)
 	{
 		health--;
+		GraphicComponent* temp = GetSibilingComponentObject(Graphic);
+		temp->SetTintColor(glm::vec4(0.1,0,0,0));
 	}
 }
 
