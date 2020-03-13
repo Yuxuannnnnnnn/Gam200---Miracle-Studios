@@ -65,6 +65,8 @@
     }
   ],
   "StartAnim": "Move",
+  "PlayAtCreation": true,
+  "PlayInitLoop": true,
   "RigidBody2DComponent": true,
   "Mass": 5.0,
   "Friction": 0.10000000149011612,
