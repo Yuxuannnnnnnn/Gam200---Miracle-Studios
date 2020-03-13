@@ -41,11 +41,11 @@ public:
 	void Init();
 	void LoadResource();
 private:
-	void BeginScene();
+	void BeginScene(double dt);
 	void EndScene();
 
 	void ClearSreen() const;
-	void UpdateRenderObjectList();                       // called begin of loop, fill up the render objects list
+	void UpdateRenderObjectList(double dt);                       // called begin of loop, fill up the render objects list
 
 	//DebugRenderer _debugRenderer;                      // render debug lines
 	UIRenderer _uiRenderer;                              // ui renderer for ui, font etc in screen space

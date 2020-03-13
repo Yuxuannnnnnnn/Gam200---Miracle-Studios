@@ -345,7 +345,7 @@ void  GraphicComponent::LoadResource()
 {
 #ifdef LEVELEDITOR
 	MyResourceManager.AddNewTexture2DResource({ _fileName, MyResourceSystem.GetTexture2DResourcePath(_fileName) });
-	MyResourceManager.AddNewShaderResource({ _shader, MyResourceSystem.GetShaderResourcePath(_shader) });
+	//MyResourceManager.AddNewShaderResource({ _shader, MyResourceSystem.GetShaderResourcePath(_shader) });
 #endif // LEVELEDITOR
 }
 

@@ -106,10 +106,29 @@ void HealthController::DeserialiseComponentSceneFile(IComponent* protoCom, rapid
 	}
 
 
-	addComponentIntoSceneFile = true;
-	HealthLinkID.SetArray();
-	for (unsigned i = 0; i < _hpBatteryLinkID.size(); i++)
-		HealthLinkID.PushBack(rapidjson::Value(_hpBatteryLinkID[i]).Move(), allocator);
+	bool changes = false;
+
+	if (script->_hpBatteryLinkID.size() == _hpBatteryLinkID.size())
+	{
+		for (int i = 0; i < _hpBatteryLinkID.size(); ++i)
+			if (script->_hpBatteryLinkID[i] != _hpBatteryLinkID[i])
+			{
+				changes = true;
+				break;
+			}
+	}
+	else
+		changes = true;
+
+	if (changes)
+	{
+		addComponentIntoSceneFile = true;
+		HealthLinkID.SetArray();
+		for (unsigned i = 0; i < _hpBatteryLinkID.size(); i++)
+			HealthLinkID.PushBack(rapidjson::Value(_hpBatteryLinkID[i]).Move(), allocator);
+	}
+
+	
 
 
 	if (script->_greenHealthFileName.compare(_greenHealthFileName))

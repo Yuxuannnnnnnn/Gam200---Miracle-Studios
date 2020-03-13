@@ -419,7 +419,12 @@ std::string& AnimationComponent::GetCurrAnim()
 Texture2D* AnimationComponent::GetCurrentTexture()
 {
 	if (!_currentAnim.empty())	//If currentAnimation is not empty
+	{
+		if(!_currAnimationResource)
+			_currAnimationResource = MyResourceManager.GetAnimationResource(_currentAnim);
+
 		return _currAnimationResource->GetSpriteSheet();
+	}	
 	return nullptr;
 }
 
@@ -469,7 +474,7 @@ void  AnimationComponent::setCurrentAnimation(std::string AnimationName)
 
 void  AnimationComponent::SetAnimationResource()
 {
-	_currAnimationResource = MyResourceSystem.GetAnimationResource(_currentAnim);
+	_currAnimationResource = MyResourceManager.GetAnimationResource(_currentAnim);
 }
 
 const std::map<AnimationComponent::AnimationName, AnimationComponent::AnimationFile>& AnimationComponent::GetAnimationDataFileList() const
@@ -662,6 +667,12 @@ void AnimationComponent::LoadResource()
 {
 #ifdef LEVELEDITOR
 	for (auto& it : animationFileNameList)
-		MyResourceManager.AddNewAnimationResource({ it.second, MyResourceSystem.GetAnimationResourcePath(it.second) });
+	{
+		if (MyResourceManager.AddNewAnimationResource({ it.second, MyResourceSystem.GetAnimationResourcePath(it.second) }))
+		{
+			Animation* temp = MyResourceManager.GetAnimationResource(it.second);
+			MyResourceManager.AddNewTexture2DResource({ temp->spriteSheetName, MyResourceSystem.GetTexture2DResourcePath(temp->spriteSheetName) });
+		}
+	}
 #endif // LEVELEDITOR
 }

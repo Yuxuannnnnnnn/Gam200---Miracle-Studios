@@ -1,7 +1,16 @@
 {
 	"GameScenes": [
 		"./Resources/TextFiles/Scenes/Scenes/SchoolSplashScreen.json",
-		"./Resources/TextFiles/Scenes/Scenes/MainMenu.json"
+		"./Resources/TextFiles/Scenes/Scenes/MainMenu.json",
+		"./Resources/TextFiles/Scenes/Scenes/OptionPage.json",
+		"./Resources/TextFiles/Scenes/Scenes/instructionPage.json",
+		"./Resources/TextFiles/Scenes/Scenes/LeaderBoardPage.json",
+		"./Resources/TextFiles/Scenes/Scenes/CreditPage.json",
+		"./Resources/TextFiles/Scenes/Scenes/truelevel1.json",
+		"./Resources/TextFiles/Scenes/Scenes/truelevel2.json",
+		"./Resources/TextFiles/Scenes/Scenes/BossLevel.json",
+		"./Resources/TextFiles/Scenes/Scenes/VictoryScene.json",
+		"./Resources/TextFiles/Scenes/Scenes/DefeatScene.json"
 	],
 
 	"StartingScenes": "SchoolSplashScreen"

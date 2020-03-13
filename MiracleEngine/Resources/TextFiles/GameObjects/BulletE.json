@@ -18,6 +18,17 @@
     }
   ],
 
+
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json",
+      "TimeDelay": 0.019999999552965165,
+      "AnimationName": "Explosion"
+    }
+  ],
+  "StartAnim": "Explosion",
+
   "GraphicsComponent": true,
   "G.TypeId": 0,
   "G.FileName": "Bullet_E.png",

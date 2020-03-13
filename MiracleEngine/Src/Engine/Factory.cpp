@@ -162,7 +162,11 @@ int Factory::CheckObjOrignialPointer(GameObject* obj)
 		if (pair.second == obj)
 			return 1;
 
-		return CheckObjOrignialChildPointer(pair.second, obj);
+		if (CheckObjOrignialChildPointer(pair.second, obj))
+		{
+			return 3;
+		}
+
 	}
 
 
@@ -694,14 +698,94 @@ void Factory::De_SerialiseLevel(std::string filename)
 	_currentScene = file;
 
 
+	// rapidjson::Value gameobjects;
+	// gameobjects.SetArray();
+
+	// for (auto& obj : _gameObjectIdMap)
+	// {
+		// rapidjson::Value gameobject;
+		// gameobject.SetObject();
+
+		// DeSerialiseGameObject(obj.second, gameobject, SceneFile.GetAllocator());
+
+		// gameobjects.PushBack(gameobject, SceneFile.Allocator());
+	// }
+
+	// SceneFile.AddMember("GameObjects", gameobjects);
+
+	// size_t namesize = filename.find_last_of(".json") - 5 - filename.find_last_of("\\/");
+	// std::string file = filename.substr(filename.find_last_of("\\/") + 1, namesize);
+
+
+	// //Returns false if scene already exists
+	// MyResourceSystem.AddNewScene(std::pair < std::string, std::string>(file, filename));
+	// SceneFile.ProduceJsonFile();
+	// _currentScene = file;
+
+
 }
 
 
-void Factory::DeSerialiseChild(GameObject* parent, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+void Factory::DeSerialiseGameObject(GameObject* parent, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	IdentityComponent* comp = GetComponentObject(parent, Identity);
+	GameObject* proObj = MyResourceSystem.GetPrototypeResource(comp->ObjectType());
 
+	std::unordered_map <ComponentId, IComponent* >& comList = parent->GetComponentList();
+
+	if (proObj)
+	{
+		value.AddMember("ClonableObjects", true, allocator);
+
+		std::unordered_map <ComponentId, IComponent* >& protoComList = proObj->GetComponentList();
+
+		for (auto& protoComPair : protoComList)
+		{
+			//If the clonable object does not have a certain component from the Prototype.
+			if (comList.find(protoComPair.first) == comList.end())
+			{
+				rapidjson::Value obj;
+				obj.SetNull();
+				value.AddMember(rapidjson::StringRef(ToString(protoComPair.first)), obj, allocator);
+			}
+		}
+
+		for (auto& IdComPair : comList)
+		{
+			IComponent* protoCom = proObj->GetComponent(IdComPair.first);
+			IdComPair.second->DeserialiseComponentSceneFile(protoCom, value, allocator);
+		}
+	}
+	else  //Object does not exists in PrototypeAssetList - Save in NonClonableObjects list
+	{
+
+		for (auto& IdComPair : comList)
+		{
+			//IComponent* protoCom = proObj->GetComponent(IdComPair.first);
+			IdComPair.second->DeSerialiseComponent(value, allocator);
+		}
+	}
+
+	if (parent->GetChild())
+	{
+		rapidjson::Value childData;
+		childData.SetArray();
+
+		std::unordered_map <size_t, GameObject* >& childList = parent->GetChildList();
+
+		for (auto& child : childList)
+		{
+			rapidjson::Value obj;
+			obj.SetObject();
+
+			DeSerialiseGameObject(child.second, obj, allocator);
+
+			childData.PushBack(obj, allocator);
+		}
+
+		value.AddMember("ObjectHasChilds", childData, allocator);
+	}
 }
-
 
 void Factory::WindowsDialogSaveLevel()
 {
@@ -802,9 +886,13 @@ void Factory::InitScene()
 		if(it.first != 0)
 			it.second->Init();
 
-	for (auto& it : GetComponentMap(Transform))
-		if (it.first != 0)
-			it.second->Init();
+	for (auto& it : _gameObjectIdMap)
+	{
+		TransformComponent* obj = GetComponentObject(it.second, Transform);
+
+		if (obj)
+			obj->Init();
+	}
 
 	for (auto& it : GetComponentMap(Graphic))
 		if (it.first != 0)
@@ -912,6 +1000,9 @@ void Factory::LoadSceneResource()
 
 	MyGraphicsSystem.LoadResource();
 	MyLogicSystem.LoadResource();
+
+	for (auto& it : MyResourceManager.GetPrototypeMap())
+		it.second->LoadResource();
 }
 
 
@@ -954,7 +1045,11 @@ void Factory::SaveBackUpScene()
 
 void Factory::LoadBackUpScene()
 {
-	_currentScene = "Restart";
+	if (!_currentScene.compare("BackUp"))
+		_currentScene = "Restart";
+	else
+		_currentScene = "BackUp";
+
 	UpdateScene();
 	_currentScene = _currEditerScene;
 	_prevScene = _currentScene;

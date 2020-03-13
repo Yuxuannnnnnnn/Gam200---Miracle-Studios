@@ -19,6 +19,9 @@ class EntrancePortal : public IScript2
 	TransformComponent* _popUpPos;
 
 	int _KillCount;
+
+	int _level;
+
 public:
 
 	void SerialiseComponent(Serialiser& document);

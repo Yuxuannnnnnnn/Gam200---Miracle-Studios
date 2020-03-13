@@ -175,7 +175,7 @@ std::string Bullet::IntToString(int bulletType)
 
 void  Bullet::Init()
 {
-	if (_bulletType == 1)
+	if (_bulletType == 1 || _bulletType == 3)
 		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(false);
 
 	_body = (RigidBody2DComponent*)GetParentPtr()->GetComponent(ComponentId::CT_RigidBody2D);
@@ -185,6 +185,7 @@ void Bullet::LoadResource()
 {
 #ifdef LEVELEDITOR
 	MyResourceManager.AddNewPrototypeResource({ "Explosion" , MyResourceSystem.GetPrototypeResourcePath("Explosion") });
+	MyResourceManager.AddNewTexture2DResource({ "Bullet.png" , MyResourceSystem.GetTexture2DResourcePath("Bullet.png") });
 #endif
 }
 
@@ -204,9 +205,6 @@ void Bullet::Update(double dt)
 		_lifeTime -= dt;
 
 	if (_lifeTime < 0.0f && _lifeTime != -666.f)
-		GetParentPtr()->SetDestory();
-
-	if (_body && _body->_appliedForce == Vec3::Vec3Zero && _body->_velocity.SquaredLength() < 0.005f)
 		GetParentPtr()->SetDestory();
 }
 
@@ -287,7 +285,12 @@ void Bullet::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (!otherType.compare("PlayerShield"))
-		;
+	{
+		_bulletType = 1;
+		GetSibilingComponentObject(Graphic)->SetFileName("Bullet.png");
+		GetSibilingComponentObject(CircleCollider2D)->_tag = (int)ColliderTag::BULLET;
+		AddForce(GetParentId(), _body->_velocity, 100000.f);
+	}
 	else
 	{
 		_justCollided = true;

@@ -119,12 +119,28 @@ void ButtonController::Update(double dt)
 		else if (_input->ButtonTrigger(16)) // quit
 			MyFactory.ChangeScene("Quit");
 		else if (_input->ButtonTrigger(60))
+		{
+			if (!_pauseMenu)
+			{
+				std::string temp = "PauseMenu";
+				_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+			}
+
+
 			((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
+		}
 	}
 	else if(_currScene == 2)
 	{ 
 		if (_input->ButtonTrigger(60))
+		{
+			if (!_pauseMenu)
+			{
+				std::string temp = "PauseMenu";
+				_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+			}
 			((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
+		}
 	}
 
 	if (_input->ButtonTrigger(30)) // return to menu

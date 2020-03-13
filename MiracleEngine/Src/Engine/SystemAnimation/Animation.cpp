@@ -84,11 +84,17 @@ void Animation::unload()
 	(*frame).clear();
 
 	delete frame;
-
-	delete spriteSheetName;
 }
 
 Frame* Animation::GetCurrFrame(int currentFrame)
 {
 	return (*frame)[currentFrame];
+}
+
+Texture2D* Animation::GetSpriteSheet()
+{
+	if (!spriteSheet)
+		spriteSheet = MyResourceManager.GetTexture2DResource(spriteSheetName);
+
+	return spriteSheet;
 }

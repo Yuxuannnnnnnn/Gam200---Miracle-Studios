@@ -35,6 +35,14 @@ void GameObject::Init()
 	}
 }
 
+void GameObject::LoadResource()
+{
+	for (auto& it : _ComponentList)
+	{
+		it.second->LoadResource();
+	}
+}
+
 
 //unsigned GameObject::GameObjectType() const
 //{
@@ -240,11 +248,10 @@ GameObject* GameObject::Clone(size_t uid)
 		if (it.first == ComponentId::CT_Logic)
 			temp = ((LogicComponent*)it.second)->CloneComponent(newGameObject, this);
 		else
-		{
 			temp = it.second->CloneComponent();
-			temp->SetParentId(uid);
-			temp->SetParentPtr(newGameObject);
-		}
+
+		temp->SetParentId(uid);
+		temp->SetParentPtr(newGameObject);
 
 		newGameObject->_ComponentList[it.first] = temp;
 

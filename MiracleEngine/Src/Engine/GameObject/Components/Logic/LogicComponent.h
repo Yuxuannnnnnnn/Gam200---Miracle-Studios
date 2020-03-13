@@ -29,6 +29,8 @@ public:
 	void Inspect() override;
 
 	void Init();
+	void LoadResource();
+
 	void Update(double dt);
 	void Exit();
 

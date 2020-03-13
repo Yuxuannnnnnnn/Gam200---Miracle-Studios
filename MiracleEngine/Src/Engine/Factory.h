@@ -36,7 +36,7 @@ public:
 
 	void ClearLevel();				
 	void De_SerialiseLevel(std::string filename);
-	void DeSerialiseChild(GameObject* parent, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator);
+	void DeSerialiseGameObject(GameObject* parent, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator);
 
 	void WindowsDialogSaveLevel();
 

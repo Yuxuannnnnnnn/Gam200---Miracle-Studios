@@ -27,12 +27,11 @@ private:
 
 	// ID to select which spritesheet
 	int _textureID;
-
-	char spriteSheetName[128];
 	Texture2D* spriteSheet;
 
 
 public:
+	char spriteSheetName[128];
 	Animation();
 	void Select();
 
@@ -49,12 +48,7 @@ public:
 
 	inline int GetMaxFrame() const { return NumOfFrames - 1; }
 
-	Texture2D* GetSpriteSheet()
-	{
-		return spriteSheet;
-	}
-
-
+	Texture2D* GetSpriteSheet();
 };
 
 #endif

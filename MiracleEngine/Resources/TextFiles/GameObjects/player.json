@@ -60,7 +60,7 @@
 
   "CameraComponent": true,
   "isCurrentCamera": true,
-  "cameraZoom": 1.0,
+  "cameraZoom": 0.8119999766349793,
 
   "AudioComponent": true,
   "SFXList": [

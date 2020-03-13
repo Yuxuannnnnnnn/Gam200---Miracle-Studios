@@ -9,7 +9,7 @@
   "Rotate": 0.0,
   "PivotPosition": [ 0.0, 0.0, 0.0 ],
   "GraphicsComponent": true,
-  "G.FileName": "catjump.png",
+  "G.FileName": "empty.png",
   "G.Shader": "",
   "G.Layer": 17,
   "_hasAlpha": true,

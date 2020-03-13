@@ -24,7 +24,7 @@
 #include "SystemWindows/WindowsSystem.h"
 #include "SystemWindows/Console.h"
 
-#define LEVELEDITOR	1
+//#define LEVELEDITOR	1
 #define DEBUGOUTPUT 0
 
 class EngineSystems final : public ISingleton<EngineSystems>

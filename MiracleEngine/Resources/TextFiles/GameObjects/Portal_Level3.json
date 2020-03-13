@@ -1,1 +1,31 @@
-{"IdentityComponent":true,"ObjectType":"Portal_Level3","Name":"ExittoL3","LinkUId":0,"TransformComponent":true,"Position":[-124.29127502441406,25.70868682861328,1.0],"Scale":[100.0,100.0,1.0],"Rotate":0.0,"PivotPosition":[0.0,0.0,0.0],"GraphicsComponent":true,"G.FileName":"Level3_Portal.png","G.Shader":"DefaultShader","G.Layer":5,"_hasAlpha":true,"_hasAdjustableAlpha":false,"_alphaVal":1.0,"_isFadingOut":false,"_isFlickering":false}
+{
+  "IdentityComponent": true,
+  "ObjectType": "Portal_Level3",
+  "Name": "ExittoL3",
+  "LinkUId": 1239,
+  "TransformComponent": true,
+  "Position": [ -124.29127502441406, 25.70868682861328, 1.0 ],
+  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "GraphicsComponent": true,
+  "G.FileName": "Level3_Portal.png",
+  "G.Shader": "DefaultShader",
+  "G.Layer": 5,
+  "_hasAlpha": true,
+  "_hasAdjustableAlpha": false,
+  "_alphaVal": 1.0,
+  "_isFadingOut": false,
+  "_isFlickering": false,
+
+  "LogicComponent": true,
+  "ScriptId": [],
+  "Scripts": [
+    {
+      "Script2Id": "EntrancePortal",
+      "E.CurrScene": 2,
+      "E.NextScene": "BossLevel"
+    }
+  ]
+
+}

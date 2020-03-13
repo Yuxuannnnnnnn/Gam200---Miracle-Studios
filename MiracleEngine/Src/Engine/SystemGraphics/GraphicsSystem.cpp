@@ -9,7 +9,7 @@ bool compare(RenderObject a, RenderObject b)
 
 void GraphicsSystem::Update(double dt)
 {
-	BeginScene();
+	BeginScene(dt);
 
 	
 	// debug renderer test
@@ -272,10 +272,10 @@ void GraphicsSystem::Update(double dt)
 	glDisable(GL_ALPHA_TEST);
 }
 
-void GraphicsSystem::BeginScene()
+void GraphicsSystem::BeginScene(double dt)
 {
 	_view = glm::make_mat4(Mtx44::CreateTranspose(MyCameraSystem.GetCamMatrix()).m);
-	UpdateRenderObjectList();
+	UpdateRenderObjectList(dt);
 	ClearSreen();
 }
 
@@ -333,7 +333,7 @@ void GraphicsSystem::ClearSreen() const
 }
 
 
-void GraphicsSystem::UpdateRenderObjectList()
+void GraphicsSystem::UpdateRenderObjectList(double dt)
 {
 
 	// update 
