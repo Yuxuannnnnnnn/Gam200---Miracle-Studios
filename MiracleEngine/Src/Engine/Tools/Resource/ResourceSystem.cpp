@@ -179,7 +179,7 @@ bool ResourceSystem::AddNewScene(const NamePath& list)
 
 void ResourceSystem::ClearAllResources()
 {
-	for (auto it : _mainContainer._Texture2DMap)
+	for (auto& it : _mainContainer._Texture2DMap)
 	{
 		//unload
 		it.second->unload();
@@ -187,7 +187,7 @@ void ResourceSystem::ClearAllResources()
 		_Texture2DAllocater.Free(it.second);
 	}
 
-	for (auto it : _mainContainer._ShaderMap)
+	for (auto& it : _mainContainer._ShaderMap)
 	{
 		//unload
 		it.second->unload();
@@ -195,7 +195,7 @@ void ResourceSystem::ClearAllResources()
 		_ShaderAllocater.Free(it.second);
 	}
 
-	for (auto it : _mainContainer._FontMap)
+	for (auto& it : _mainContainer._FontMap)
 	{
 		//unload
 		it.second->unload();
@@ -203,7 +203,7 @@ void ResourceSystem::ClearAllResources()
 		_FontAllocater.Free(it.second);
 	}
 
-	for (auto it : _mainContainer._AudioMap)
+	for (auto& it : _mainContainer._AudioMap)
 	{
 		//unload
 		it.second->unload();
@@ -211,7 +211,7 @@ void ResourceSystem::ClearAllResources()
 		_AudioAllocater.Free(it.second);
 	}
 
-	for (auto it : _mainContainer._LoopAudioMap)
+	for (auto& it : _mainContainer._LoopAudioMap)
 	{
 		//unload
 		it.second->unload();
@@ -219,7 +219,7 @@ void ResourceSystem::ClearAllResources()
 		_LoopAudioAllocater.Free(it.second);
 	}
 
-	for (auto it : _mainContainer._AnimationMap)
+	for (auto& it : _mainContainer._AnimationMap)
 	{
 		//unload
 		it.second->unload();
@@ -227,10 +227,10 @@ void ResourceSystem::ClearAllResources()
 		_AnimationAllocater.Free(it.second);
 	}
 
-	for (auto it : _mainContainer._PrototypeMap)
+	for (auto& it : _mainContainer._PrototypeMap)
 	{
 		//Destory Prototype gameobject
-		it.second->DestoryGameObject();
+		delete it.second;
 	}
 
 	_mainContainer._Texture2DMap.clear();
@@ -250,4 +250,10 @@ void ResourceSystem::ClearAllResources()
 	_mainContainer._PrototypeList.clear();
 
 	_mainContainer._fontCharacterMaps.clear();
+
+
+	for (auto& it : Texture2D::list)
+		delete it;
+
+	Texture2D::list.clear();
 }

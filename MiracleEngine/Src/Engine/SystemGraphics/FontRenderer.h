@@ -25,6 +25,7 @@ class FontRenderer
 {
 public:
 	FontRenderer() = default;
+	~FontRenderer();
 	void DrawFont(std::string& text, float xpos, float ypos, const glm::vec3& color = glm::vec3(0.2f, 0.8f, 0.2f));
 
 	void Draw();

@@ -368,7 +368,8 @@ void AnimationComponent::SetCurrentAnimOnce(const std::string& AnimationName)
 
 
 AnimationComponent::AnimationComponent(GameObject* parent, size_t uId, IComponent* component)
-	: IComponent(parent, uId), _currentAnim{ "" }, _startingAnim{ "" }, _playOnce{ false },/*_currAnimation{ nullptr },*/ _currFrame{ 0 }, _timeDelay{ 0.5f }, _currentTimeDelay{ 0.5f }, _maxFrame{ 6 }
+	: IComponent(parent, uId), _currentAnim{ "" }, _startingAnim{ "" }, _playOnce{ false },/*_currAnimation{ nullptr },*/ _currFrame{ 0 }, _timeDelay{ 0.5f }, _currentTimeDelay{ 0.5f }, _maxFrame{ 6 },
+	_playAtCreation{ true }, _loop{ false }
 {
 	if (component)
 	{
@@ -509,10 +510,20 @@ void  AnimationComponent::SerialiseComponent(Serialiser& document)
 		}
 	}
 
+	if (document.HasMember("PlayAtCreation"))
+	{
+		_playAtCreation = document["PlayAtCreation"].GetBool();
+	}
+
+	if (document.HasMember("PlayInitLoop"))
+	{
+		_loop = document["PlayInitLoop"].GetBool();
+	}
+
 	if (document.HasMember("StartAnim"))
 	{
 		_startingAnim = document["StartAnim"].GetString();
-		SetCurrentAnim(_startingAnim);
+		//SetCurrentAnim(_startingAnim);
 	}
 
 	//_currAnimation = MyResourceManager.GetAnimationResource(_startingAnim);
@@ -546,6 +557,13 @@ void  AnimationComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 
 		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
 		prototypeDoc.AddMember("StartAnim", value);
+
+
+		value.SetBool(_playAtCreation);
+		prototypeDoc.AddMember("PlayAtCreation", value);
+
+		value.SetBool(_loop);
+		prototypeDoc.AddMember("PlayInitLoop", value);
 	}
 
 
@@ -581,6 +599,12 @@ void  AnimationComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, r
 
 		value.SetString(rapidjson::StringRef(_startingAnim.c_str()));
 		prototypeDoc.AddMember("StartAnim", value, allocator);
+
+		value.SetBool(_playAtCreation);
+		prototypeDoc.AddMember("PlayAtCreation", value, allocator);
+
+		value.SetBool(_loop);
+		prototypeDoc.AddMember("PlayInitLoop", value, allocator);
 	}
 }
 
@@ -599,6 +623,9 @@ void  AnimationComponent::DeserialiseComponentSceneFile(IComponent* protoCom, ra
 	rapidjson::Value enable;
 	rapidjson::Value animationsList;
 	animationsList.SetArray();
+
+	rapidjson::Value playAtCreation;
+	rapidjson::Value loop;
 
 	if (protoAnimCom->GetEnable() != this->GetEnable())
 	{
@@ -638,6 +665,18 @@ void  AnimationComponent::DeserialiseComponentSceneFile(IComponent* protoCom, ra
 		startingAnim.SetString(_startingAnim.c_str(), _startingAnim.length(), allocator);
 	}
 
+	if (protoAnimCom->_playAtCreation != _playAtCreation)
+	{
+		addComponentIntoSceneFile = true;
+		playAtCreation.SetBool(_playAtCreation);
+	}
+
+	if (protoAnimCom->_loop != _loop)
+	{
+		addComponentIntoSceneFile = true;
+		loop.SetBool(_loop);
+	}
+
 
 	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
 	{
@@ -656,11 +695,28 @@ void  AnimationComponent::DeserialiseComponentSceneFile(IComponent* protoCom, ra
 		{
 			value.AddMember("StartAnim", startingAnim, allocator);
 		}
+
+		if (!playAtCreation.IsNull())
+		{
+			value.AddMember("PlayAtCreation", playAtCreation, allocator);
+		}
+
+		if (!loop.IsNull())
+		{
+			value.AddMember("PlayInitLoop", loop, allocator);
+		}
 	}
 }
 
 void AnimationComponent::Init()
 {
+	if (_playAtCreation)
+	{
+		if (_loop)
+			SetCurrentAnim(_startingAnim);
+		else
+			SetCurrentAnimOnce(_startingAnim);
+	}
 }
 
 void AnimationComponent::LoadResource()
