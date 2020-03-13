@@ -9,7 +9,7 @@ void Player::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("ShieldDuration") && document["ShieldDuration"].IsDouble())
 		_timerShield = _timerShieldDuration = document["ShieldDuration"].GetDouble();
-	
+
 	if (document.HasMember("ShieldCooldown") && document["ShieldCooldown"].IsDouble())
 		_timerShieldCooldown = document["ShieldCooldown"].GetDouble();
 
@@ -47,45 +47,45 @@ void Player::SerialiseComponent(Serialiser& document)
 //Function Not needed for scripts
 void Player::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
-//	rapidjson::Value value;
-//// Logic Data - General
-//	value.SetDouble(_timerShieldDuration);
-//	prototypeDoc.AddMember("ShieldDuration", value);
-//	value.Clear();
-//	value.SetDouble(_timerShieldCooldown);
-//	prototypeDoc.AddMember("ShieldCooldown", value);
-//	value.Clear();
-//	value.SetInt(_health);
-//	prototypeDoc.AddMember("Health", value);
-//	value.Clear();
-//	value.SetInt(_weaponActive);
-//	prototypeDoc.AddMember("WeaponActive", value);
-//	value.Clear();
-//// Logic Data - Weapons
-//	value.SetInt(_ammoRpg);
-//	prototypeDoc.AddMember("AmmoRpg", value);
-//	value.Clear();
-//	value.SetInt(_ammoTurret);
-//	prototypeDoc.AddMember("AmmoTurret", value);
-//	value.Clear();
-//	value.SetInt(_ammoWall);
-//	prototypeDoc.AddMember("AmmoWall", value);
-//	value.Clear();
-//	value.SetDouble(_fireratePistol);
-//	prototypeDoc.AddMember("FireratePistol", value);
-//	value.Clear();
-//	value.SetDouble(_firerateShotgun);
-//	prototypeDoc.AddMember("FirerateShotgun", value);
-//	value.Clear();
-//	value.SetDouble(_firerateRPG);
-//	prototypeDoc.AddMember("FirerateRpg", value);
-//	value.Clear();
-//	value.SetDouble(_firerateTurret);
-//	prototypeDoc.AddMember("FirerateTurret", value);
-//	value.Clear();
-//	value.SetDouble(_firerateWall);
-//	prototypeDoc.AddMember("FirerateWall", value);
-//	value.Clear();
+	//	rapidjson::Value value;
+	//// Logic Data - General
+	//	value.SetDouble(_timerShieldDuration);
+	//	prototypeDoc.AddMember("ShieldDuration", value);
+	//	value.Clear();
+	//	value.SetDouble(_timerShieldCooldown);
+	//	prototypeDoc.AddMember("ShieldCooldown", value);
+	//	value.Clear();
+	//	value.SetInt(_health);
+	//	prototypeDoc.AddMember("Health", value);
+	//	value.Clear();
+	//	value.SetInt(_weaponActive);
+	//	prototypeDoc.AddMember("WeaponActive", value);
+	//	value.Clear();
+	//// Logic Data - Weapons
+	//	value.SetInt(_ammoRpg);
+	//	prototypeDoc.AddMember("AmmoRpg", value);
+	//	value.Clear();
+	//	value.SetInt(_ammoTurret);
+	//	prototypeDoc.AddMember("AmmoTurret", value);
+	//	value.Clear();
+	//	value.SetInt(_ammoWall);
+	//	prototypeDoc.AddMember("AmmoWall", value);
+	//	value.Clear();
+	//	value.SetDouble(_fireratePistol);
+	//	prototypeDoc.AddMember("FireratePistol", value);
+	//	value.Clear();
+	//	value.SetDouble(_firerateShotgun);
+	//	prototypeDoc.AddMember("FirerateShotgun", value);
+	//	value.Clear();
+	//	value.SetDouble(_firerateRPG);
+	//	prototypeDoc.AddMember("FirerateRpg", value);
+	//	value.Clear();
+	//	value.SetDouble(_firerateTurret);
+	//	prototypeDoc.AddMember("FirerateTurret", value);
+	//	value.Clear();
+	//	value.SetDouble(_firerateWall);
+	//	prototypeDoc.AddMember("FirerateWall", value);
+	//	value.Clear();
 }
 
 void Player::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -116,7 +116,7 @@ void Player::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::Mem
 
 	value.SetInt(_ammoWall);
 	prototypeDoc.AddMember("AmmoWall", value, allocator);
-	
+
 
 
 	value.SetDouble(_fireratePistol);
@@ -153,11 +153,11 @@ void Player::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Valu
 	rapidjson::Value Health;
 	rapidjson::Value WeaponActive;
 	rapidjson::Value AmmoRpg;
-	rapidjson::Value AmmoTurret;	
+	rapidjson::Value AmmoTurret;
 	rapidjson::Value AmmoWall;
 
 	rapidjson::Value FireratePistol;
-	rapidjson::Value FirerateShotgun;	
+	rapidjson::Value FirerateShotgun;
 	rapidjson::Value FirerateRpg;
 	rapidjson::Value FirerateTurret;
 	rapidjson::Value FirerateWall;
@@ -168,8 +168,8 @@ void Player::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Valu
 	{
 		addComponentIntoSceneFile = true;
 		ShieldDuration.SetDouble(_timerShield);
-	}	
-	
+	}
+
 	if (script->_timerShieldCooldown != _timerShieldCooldown)
 	{
 		addComponentIntoSceneFile = true;
@@ -307,7 +307,7 @@ void Player::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Valu
 
 void Player::Inspect()
 {
-// Logic Data - General
+	// Logic Data - General
 	ImGui::Spacing();
 	ImGui::InputDouble("ShieldDuration ", &_timerShieldDuration);
 	ImGui::Spacing();
@@ -319,7 +319,7 @@ void Player::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("WeaponActive ", &_weaponActive);
 	ImGui::Spacing();
-// Logic Data - Weapons
+	// Logic Data - Weapons
 	ImGui::Spacing();
 	ImGui::InputInt("Ammo RPG ", &_ammoRpg);
 	ImGui::Spacing();
@@ -397,7 +397,7 @@ void Player::Init()
 	MyFactory.SaveNewLinkID(999, GetParentId());
 	_objTransfrom = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
 
-	if(_muzzleAnimation)
+	if (_muzzleAnimation)
 		_muzzleAnimation->SetAnimationPlaying(false);
 
 	// find Camera
@@ -415,7 +415,7 @@ void Player::Init()
 	_timerShieldActivateCooldown = 0;
 	MyAudioSystem.PlayBGM("Level1", 1.0f);
 
- 	_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
+	_pauseMenu = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1275), Logic), PauseMenu);
 
 	std::string temp = "HealthController";
 	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
@@ -433,7 +433,7 @@ void Player::LoadResource()
 
 void Player::Update(double dt)
 {
-	if(dt < 0)
+	if (dt < 0)
 		return;
 
 	if (_animTime > 0)
@@ -468,7 +468,7 @@ void Player::Update(double dt)
 	UpdateUI();
 	UpdateShield(dt);
 
-// anim updating related logic
+	// anim updating related logic
 	_animState = _moving ? 1 : 2;
 	//_animState = _shieldOn ? 4 : 3;
 // setting animation state
@@ -532,23 +532,23 @@ void Player::UpdateInput(double dt)
 		((PauseMenu*)_pauseMenu)->EnablePauseMenu(true);
 	}
 
- //OTHERS
-	//if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu
-	//	_InputStyle = INGAME_PAUSE_ESCAPE;
+	//OTHERS
+	   //if (input->KeyHold(KeyCode KEYB_ESCAPE)) // open pause menu
+	   //	_InputStyle = INGAME_PAUSE_ESCAPE;
 
-// SCALE
-	//Vector3 scaleVec = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetScale();
-	//if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_LEFT))
-	//	scaleVec._x -= 1;
-	//if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_RIGHT))
-	//	scaleVec._x += 1;
-	//if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_UP))
-	//	scaleVec._y += 1;
-	//if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_DOWN))
-	//	scaleVec._y -= 1;
-	//((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScale(scaleVec);
+   // SCALE
+	   //Vector3 scaleVec = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetScale();
+	   //if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_LEFT))
+	   //	scaleVec._x -= 1;
+	   //if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_RIGHT))
+	   //	scaleVec._x += 1;
+	   //if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_UP))
+	   //	scaleVec._y += 1;
+	   //if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_DOWN))
+	   //	scaleVec._y -= 1;
+	   //((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetScale(scaleVec);
 
-// MOVEMENT
+   // MOVEMENT
 	_moving = false;
 	float spd = 30.f * 100000 * dt; // get spd
 	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_W))
@@ -572,7 +572,7 @@ void Player::UpdateInput(double dt)
 		AddForce(GetParentId(), Vector3(0, -1, 0), spd);
 	}
 
-// MOUSE
+	// MOUSE
 	Vector3 aimVector = GetMousePos(); // use aimVector to determine direction player is facing
 	aimVector.SetZ(0.f);
 	Vector3 compareVec = { 0, 1, 0 };
@@ -585,8 +585,8 @@ void Player::UpdateInput(double dt)
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::MOUSE_LBUTTON))
 	{
 		WeaponShoot();
-		
-		
+		//((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetTintColor(glm::vec4{ 0.5, 0, 0, 0 });
+
 		/*GameObject* turret = nullptr;
 		turret = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["Turret"]);
 		((TransformComponent*)turret->GetComponent(ComponentId::CT_Transform))->SetPos(
@@ -616,7 +616,7 @@ void Player::UpdateInput(double dt)
 		// ANIM: play firing animation here
 		// ANIM NOTE: Shields are to be a seperate entitiy to the actual player
 		// so only the logic to set the anim of that obj is here
-		
+
 
 
 	}
@@ -637,10 +637,10 @@ void Player::UpdateInput(double dt)
 			_shieldOn = true;
 			_timerShieldActivateCooldown = _timerShieldDuration + _timerShieldCooldown;
 		}
-	
+
 	}
 
-// NUMBERS
+	// NUMBERS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_1))
 	{	// spawn TURRET
@@ -668,7 +668,7 @@ void Player::UpdateInput(double dt)
 				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		}
 	}
-// KEYS
+	// KEYS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
 	{
@@ -745,8 +745,8 @@ void Player::UpdateShield(double dt)
 	//{
 	//{
 		// cooldown countdown
-		_timerShieldActivateCooldown -= dt;
-	
+	_timerShieldActivateCooldown -= dt;
+
 }
 
 void Player::WeaponSwitch()
@@ -768,7 +768,7 @@ void Player::WeaponShoot()
 	_weaponActive > 3 ? _weaponActive = 3 : _weaponActive;
 	if (_timerShoot <= 0)
 	{
-		if(!_muzzleAnimation->GetEnable())
+		if (!_muzzleAnimation->GetEnable())
 			_muzzleAnimation->SetEnable(true);
 
 		_muzzleAnimation->SetCurrentAnimOnce("Shoot");
@@ -824,11 +824,11 @@ void Player::WeaponShoot_Shotgun()
 	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
 	bullet = CreateObject("Bullet");
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
-	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot-0.2f);
+	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot - 0.2f);
 	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
 	bullet = CreateObject("Bullet");
 	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetPos(pos);
-	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot+0.2f);
+	((TransformComponent*)bullet->GetComponent(ComponentId::CT_Transform))->SetRotate(rot + 0.2f);
 	AddForwardForce(bullet->Get_uID(), 70000 * 1.5f);
 
 	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
@@ -928,10 +928,10 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 
 		((HealthController*)_healthBar)->IncreaseHealth(2);
 		_health += 2;
-		
+
 		if (_health > _healthMax)
 			_health = _healthMax;
-		
+
 	}
 	if (!otherType.compare("PickUps_Ammo"))
 	{

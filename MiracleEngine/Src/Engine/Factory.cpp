@@ -444,6 +444,10 @@ void Factory::SerialiseLevel(std::string FileName)
 				audcom->PlayBGM("level2");
 
 			}
+			else if (!_currentScene.compare("BossLevel"))
+			{
+				audcom->PlayBGM("bosslevel");
+			}
 		}
 	}
 }
