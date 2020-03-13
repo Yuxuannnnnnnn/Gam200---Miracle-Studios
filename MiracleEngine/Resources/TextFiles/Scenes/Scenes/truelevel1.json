@@ -6227,7 +6227,34 @@
           "NumOfloops": 0
         }
       ],
-      "BackgroundSoundList": []
+      "BackgroundSoundList": [],
+      "HaveChild": true,
+      "ChildObjects": [
+        {
+          "IdentityComponent": true,
+          "ObjectType": "PlayerMuzzle",
+          "Name": "PlayerMuzzle",
+          "LinkUId": 555,
+          "TransformComponent": true,
+          "Position": [ 0.0, 15.0, 1.0 ],
+          "Scale": [ 150.0, 150.0, 1.0 ],
+          "Rotate": 0.0,
+          "GraphicsComponent": true,
+          "G.FileName": "Muzzle_Idle_2.png",
+          "G.Shader": "",
+          "G.Layer": 14,
+          "_hasAlpha": true,
+          "AnimationComponent": true,
+          "AnimationTypes": [
+            {
+              "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
+              "TimeDelay": 0.050,
+              "AnimationName": "Shoot"
+            }
+          ],
+          "StartAnim": "Shoot"
+        }
+      ]
     },
     {
       "RigidBody2DComponent": null,

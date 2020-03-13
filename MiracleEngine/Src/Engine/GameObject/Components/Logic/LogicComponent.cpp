@@ -53,13 +53,13 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 		SetEnable(document["LogicComponent"].GetBool());
 
 
-	for (auto& script: _scriptContianer)
-	{
-		delete MyLogicSystem.getScriptPtr(script.second);
-		MyLogicSystem.GetScriptList().erase(script.second);
-	}
-	 _scriptContianer.clear();
-	 _ScriptIds.clear();
+	//for (auto& script: _scriptContianer)
+	//{
+	//	delete MyLogicSystem.getScriptPtr(script.second);
+	//	MyLogicSystem.GetScriptList().erase(script.second);
+	//}
+	// _scriptContianer.clear();
+	// _ScriptIds.clear();
 
 
 	if (document.HasMember("Scripts") && document["Scripts"].IsArray())
@@ -69,10 +69,19 @@ void LogicComponent::SerialiseComponent(Serialiser& document)
 			if (datafile.HasMember("Script2Id"))
 			{
 				std::string name = datafile["Script2Id"].GetString();
-				//if (_scriptContianer.find(ToScriptId(name)) != _scriptContianer.end())
-				//{
-				//
-				//}
+
+				//not feasible if there are duplicate scripts in one object
+				//Temporary solution for scripts
+				if (_scriptContianer.find(ToScriptId(name)) != _scriptContianer.end()) //If LogicComponent already has the script
+				{
+					
+					size_t scriptID = _scriptContianer[ToScriptId(name)]; 
+					_scriptContianer.erase(ToScriptId(name));	//remove script from scriptContainer
+					delete MyLogicSystem.getScriptPtr(scriptID); //delete script ptr from logicSystem
+					MyLogicSystem.GetScriptList().erase(scriptID); //remove script pair from logicSystem
+				}
+
+
 				IScript2* script = AddScript2(datafile["Script2Id"].GetString()); //Add Script to the GameOject
 
 				script->SerialiseComponent(datafile); //Serialise data to script , Iscript will serialise the type
@@ -169,8 +178,8 @@ void LogicComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 
 			IScript2* script2ptrs = MyLogicSystem.getScriptPtr(script.second);
 
-			//script2ptrs->DeserialiseComponentSceneFile(protoCom, Object, allocator); //Compare data for each script between prototype and this object
-			script2ptrs->DeSerialiseComponent(Object, allocator);
+			script2ptrs->DeserialiseComponentSceneFile(protoCom, Object, allocator); //Compare data for each script between prototype and this object
+			//script2ptrs->DeSerialiseComponent(Object, allocator);
 
 			if(!Object.IsNull()) //If the script is deserialised or differs from the prototype script
 				Array.PushBack(Object, allocator);
