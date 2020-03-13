@@ -37,6 +37,16 @@ Enemy::Enemy() :
 	_attackRangeMelee *= _attackRangeMelee;
 }
 
+void Enemy::ForceDeath()
+{
+	_deathStart = true; _timerDeath = 1;
+	//GetSibilingComponent(ComponentId::CT_CircleCollider2D);// ->SetEnable(false);
+	//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
+	//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(true);
+	//GetSibilingComponentObject(RigidBody2D)->SetEnable(false);
+	return;
+}
+
 Enemy* Enemy::Clone()
 {
 	return new Enemy(*this);

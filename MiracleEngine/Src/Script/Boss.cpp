@@ -4,10 +4,6 @@
 #include <ctime>
 #include "Script/EntrancePortal.h"
 
-// set render layer of BOSS above bullet
-// bullet shooting @ the 4 diagonal corners
-
-
 Boss::Boss() :
 	health{ 0 }, healthMax{ 0 }, healthHalf{ 0 }, healthQuart{ 0 },
 
@@ -64,7 +60,8 @@ void Boss::Init()
 	_CurrAnimChain = _StartUp;
 	_CurrAnimChainItr = _CurrAnimChain.begin();
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("StartUp1");
-
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("StartUp");
 	MyAudioSystem.PlayBGM("MusicBGM1", 1.0f); // ask YX where she grab this from
 
 	_init = true;
@@ -73,6 +70,8 @@ void Boss::Update(double dt)
 {
 	if (!_init)
 		Init();
+	if (dt < 0)
+		return;
 	_dt = dt;
 	UpdateState();
 	RunState();
@@ -127,6 +126,8 @@ void Boss::UpdateState()
 		health = -1;
 	}
 
+	OnHit();
+
 	// check death
 	if (health < 1 && _state != (int)Boss_State::DEATH)
 	{
@@ -136,8 +137,6 @@ void Boss::UpdateState()
 		Death();
 		return;
 	}
-
-	HitTint();
 
 	// force skip UpdateState() if Boss currently still in any of these states
 	if (_state == (int)Boss_State::STARTUP ||
@@ -289,8 +288,11 @@ void Boss::Death()
 		for (auto itr : _engineSystems._factory->getObjectlist())
 			if (GetComponentObject(itr.second, Identity)->ObjectType().compare("Enemy") == 0 ||
 				GetComponentObject(itr.second, Identity)->ObjectType().compare("EnemyTwo") == 0)
-				itr.second->SetDestory();
+				if (!itr.second->GetDestory() && itr.second->GetAlive())
+					((Enemy*)itr.second)->ForceDeath();// ((Enemy*)itr.second)->SetHealth(-1);
 
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("Death");
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
 
 		if (_stateNext == (int)Boss_State::SPIN_SHOOTBULLET ||
@@ -562,23 +564,32 @@ void Boss::TransformNextAnim()
 	}
 }
 
-void Boss::HitTint()
+void Boss::OnHit()
 {
 	if (_justHit)
 	{
 		_justHit = false;
+		health--;
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("Hit");
 		if (_redTint)
 			hitTintTimer = hitTintDuration;
 		else
-			; // set tint red
+		{
+			_redTint = true;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.5, 0, 0, 0)); // set tint red
+		}
 	}
-	hitTintTimer -= _dt;
-	if (hitTintTimer > 0)
-		return;
 	else
 	{
-		_redTint = false;
-		; // set tint normal
+		hitTintTimer -= _dt;
+		if (hitTintTimer > 0)
+			return;
+		else
+		{
+			_redTint = false;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0)); // set tint normal
+		}
 	}
 }
 
@@ -614,7 +625,7 @@ void Boss::Transform()
 		PlayAnimChain(_TransformIdleRageToShoot, true);
 		_state = (int)Boss_State::TRANSFORMING;
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-		audcom->PlaySFX("LaserCharging");
+		audcom->PlaySFX("Transform");
 	}
 	if (_state == (int)Boss_State::SPIN_SHOOTBULLET_END &&
 		_stateNext == (int)Boss_State::IDLE_RAGE)
@@ -622,7 +633,7 @@ void Boss::Transform()
 		PlayAnimChain(_TransformShootToIdleRage, true);
 		_state = (int)Boss_State::TRANSFORMING;
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-		audcom->PlaySFX("LaserChargingReverse");
+		audcom->PlaySFX("TransformReverse");
 	}
 
 
@@ -671,9 +682,7 @@ void Boss::OnCollision2DTrigger(Collider2D* other)
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (otherType.compare("Bullet") == 0)
 	{
-		health--;
-		GraphicComponent* temp = GetSibilingComponentObject(Graphic);
-		temp->SetTintColor(glm::vec4(0.1,0,0,0));
+		_justHit = true; // used in OnHit()
 	}
 }
 

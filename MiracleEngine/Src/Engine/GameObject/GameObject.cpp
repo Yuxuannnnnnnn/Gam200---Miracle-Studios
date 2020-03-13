@@ -94,6 +94,7 @@ IComponent* GameObject::AddComponent(ComponentId componentType)
 
 	return result;
 }
+
 void GameObject::RemoveComponent(ComponentId componentType)
 {
 	Map_ComponentList::iterator it = _ComponentList.find(componentType);
@@ -120,7 +121,7 @@ void GameObject::RemoveComponent(ComponentId componentType)
 //
 //}
 
-//For Prototype Files
+//For Prototype Files and Objects in SceneFile
 void GameObject::Serialise(Serialiser& document)
 {
 	IComponent* component = nullptr;
@@ -154,6 +155,15 @@ void GameObject::Serialise(Serialiser& document)
 
 		if (document.HasMember("ChildObjects") && document["ChildObjects"].IsArray())
 		{
+
+			for (auto& childObjects : _childObjects)
+			{
+				delete childObjects.second; //delete all the gameObjects within this childObject and itself
+				MyFactory.RemoveChildGameObject(childObjects.first); //remove the child Object from the factory lists
+			}
+			_childObjects.clear(); //Clear child list
+
+
 			unsigned size = document["ChildObjects"].Size();
 
 			for (unsigned i = 0; i < size; ++i)
@@ -170,13 +180,26 @@ void GameObject::Serialise(Serialiser& document)
 			}
 		}
 	}
+	else //If the cloned object in the hierarchy should not have any child objects
+	{
+		//Clear all the childObjects if they were cloned from the prototype earlier
+		for (auto& childObjects : _childObjects)
+		{
+			delete childObjects.second;
+			MyFactory.RemoveChildGameObject(childObjects.first);
+		}
+		_childObjects.clear();
+	}
 }
 
-void GameObject::DeSerialise(std::string filePath)
+//For Prototype Deserialisation
+void GameObject::DeSerialise(/*std::string filePath*/ DeSerialiser& document)
 {
 	//IdentityComponent* IdComponent = dynamic_cast<IdentityComponent*> (_ComponentList[ComponentId::IDENTITY_COMPONENT]);
 	//std::string fileName = "./Resources/TextFiles/GameObjects/" + IdComponent->ObjectType() + ".json";
-	DeSerialiser prototypeDoc(filePath);
+
+	//DeSerialiser prototypeDoc(filePath);
+
 
 	for (auto& ComponentPair : _ComponentList)
 	{
@@ -184,16 +207,97 @@ void GameObject::DeSerialise(std::string filePath)
 		//value.Clear();
 
 		IComponent* component = ComponentPair.second;
-		component->DeSerialiseComponent(prototypeDoc);
+		component->DeSerialiseComponent(document);
 	}
 
 	if (_childObjects.size()) //If there is any childObjects
 	{
+		rapidjson::Value haveChild(true);
+		document.AddMember("HaveChild", haveChild);
+
+		rapidjson::Value ChildObjects;
+		ChildObjects.SetArray();
+
+		for (auto& child: _childObjects)
+		{
+			//rapidjson::Value ChildObject;
+			//ChildObject.SetObject();
+			DeSerialiser childObj(document.GetAllocator());
+
+			child.second->DeSerialise(childObj);
+
+			ChildObjects.PushBack(childObj.getValue(), document.GetAllocator());
+		}
+
+		document.AddMember("ChildObjects", ChildObjects);
 
 	}
 
-	prototypeDoc.ProduceJsonFile();
 }
+
+void GameObject::DeSerialise( rapidjson::Value& document, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	IdentityComponent* comp = dynamic_cast<IdentityComponent*>(GetComponent(ComponentId::CT_Identity));
+
+	GameObject* proObj = MyResourceSystem.GetPrototypeResource(comp->ObjectType());
+
+	std::unordered_map <ComponentId, IComponent* >& comList = GetComponentList();
+
+	if (proObj) //If Object actually exists in the Prototype List
+	{
+		std::unordered_map <ComponentId, IComponent* >& protoComList = proObj->GetComponentList(); //List of components in the prototype
+
+		for (auto& protoComPair : protoComList)  //Go thru the componentlist in the prototype
+		{
+			//If the  object does not have a certain component from the Prototype.
+			if (comList.find(protoComPair.first) == comList.end())
+			{
+				rapidjson::Value value;
+				value.SetNull();
+				document.AddMember(rapidjson::StringRef(ToString(protoComPair.first)), value, allocator); //Add component as null
+			}
+		}
+
+		for (auto& IdComPair : comList)  //Go thru the componentlist in the current object
+		{
+			IComponent* protoCom = proObj->GetComponent(IdComPair.first);
+			IdComPair.second->DeserialiseComponentSceneFile(protoCom, document, allocator);
+		}
+
+		//clonableObjects.PushBack(obj, SceneFile.Allocator());
+
+	}
+	else  //Object does not exists in PrototypeAssetList - Save in NonClonableObjects list
+	{
+
+		for (auto& IdComPair : comList)
+		{
+			//IComponent* protoCom = proObj->GetComponent(IdComPair.first);
+			IdComPair.second->DeSerialiseComponent(document, allocator);
+		}
+
+	}
+
+
+	if (_childObjects.size()) //If there is any childObjects in this current Object
+	{
+		rapidjson::Value haveChild(true);
+		document.AddMember("HaveChild", haveChild, allocator);
+
+		rapidjson::Value ChildObjects;
+		ChildObjects.SetArray();
+		
+		for (auto& childObject : _childObjects)
+		{
+			DeSerialiser childObj(allocator);
+			childObject.second->DeSerialise(childObj);
+			ChildObjects.PushBack(childObj.getValue(), allocator);
+		}
+		
+		document.AddMember("ChildObjects", ChildObjects, allocator);
+	}
+}
+
 
 Map_ComponentList& GameObject::GetComponentList() // Get ComponentList
 {

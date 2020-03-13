@@ -6,7 +6,7 @@
   "AudioSFXFilesPaths": [],
   "AudioBGMFilesPaths": [],
   "FontFilesPath": [ "Resources/Fonts/sector_017.ttf" ],
-  "ClonableObjects": [
+  "Objects": [
     {
       "IdentityComponent": true,
       "ObjectType": "none",
@@ -341,5 +341,6 @@
       "UI.Layer": 12,
       "UI.HasAlpha": false
     }
-  ],
-  "NonClonableObjects":[]}
+  ]
+
+}

@@ -40,6 +40,8 @@ private:
 	size_t _mapTileSize;
 
 public:
+	void ForceDeath();
+
 	void SerialiseComponent(Serialiser& document);
 	//No Need this function
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);

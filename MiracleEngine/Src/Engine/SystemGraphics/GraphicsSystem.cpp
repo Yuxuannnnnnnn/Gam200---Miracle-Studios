@@ -297,6 +297,7 @@ void GraphicsSystem::Update(double dt)
 
 
 	// loop through every font component
+	// check whether is delayed font or not
 	for (auto fontpair : GetComponentMap(Font))
 	{
 		// check if it is enabled
@@ -316,9 +317,18 @@ void GraphicsSystem::Update(double dt)
 
 		if (_fontRenderer == nullptr)
 			continue;
-		// draw the font
-		_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
-			transformComp->GetPos().GetY(), fontComp->GetFontColor());
+
+
+		// draw the non delayed font
+		/*_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
+			transformComp->GetPos().GetY(), fontComp->GetFontColor());*/
+
+		// draw the delayed font
+
+		// if starting, start delaying
+		// if not start, set delay and font counter to 0
+		_fontRenderer->DrawFontDelayed(dt,fontComp->GetFontString(), transformComp->GetPos().GetX(),
+			transformComp->GetPos().GetY(), fontComp->GetFontColor(), fontComp->IsStartDisplaying(), fontComp->GetDelayTime());
 	}
 
 

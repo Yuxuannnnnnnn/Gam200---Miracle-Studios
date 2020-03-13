@@ -1,10 +1,11 @@
 #pragma once
 #include "GameObject/Components/Logic/IScript.h"
+#include "Script/Enemy.h"
 
 #ifndef BOSS_H
 #define	BOSS_H
 
-class Node; // forward declare
+class Enemy; // forward declare
 
 /*
 
@@ -134,7 +135,7 @@ public:
 	void LaserShoot();
 	void Transform();
 	void TransformNextAnim();
-	void HitTint();
+	void OnHit();
 	
 	void OnCollision2DTrigger(Collider2D* other);
 
@@ -146,8 +147,8 @@ public:
 
 private:
 	std::vector<std::string> _StartUp = { // Boss_inactive_to_active_sprite
-	"StartUp1",
-	"StartUp2" };
+		"StartUp1",
+		"StartUp2" };
 	std::vector<std::string> _Idle = { // Boss_Idle_sprite
 		"Idle1",
 		"Idle2",

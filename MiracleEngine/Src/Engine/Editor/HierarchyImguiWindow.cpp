@@ -73,6 +73,11 @@ void HierarchyImguiWindow::Update()  //Update() function used in ImguiSystem.cpp
 
 	ImGui::Spacing();
 
+
+
+
+
+
 	ShowGameObjects();				//Show Every GameObject in the GameObjectList
 }
 
@@ -113,6 +118,8 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 	ImGui::Spacing();
 
 	int i = 0;
+
+	//for(auto& objects: MyFactory.)
 
 	for (auto& gameObjectPair : objlist)
 	{
