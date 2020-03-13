@@ -77,25 +77,7 @@ void GraphicsSystem::Update(double dt)
 	//_fontRenderer->Draw();
 	// test draw font
 
-	// loop through every font component
-	for (auto fontpair : GetComponentMap(Font))
-	{
-		// check if it is enabled
-		if (!fontpair.second->GetEnable())
-			continue;
 
-		// get the trasnform component from the object
-		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[fontpair.first];
-		FontComponent* fontComp = (FontComponent*)GetComponentMap(Font)[fontpair.first];
-		if (!transformComp)
-			continue;
-
-		if (_fontRenderer == nullptr)
-			continue;
-		// draw the font
-		_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
-			transformComp->GetPos().GetY());
-	}
 
 	DebugRenderer::GetInstance().BatchDrawDebugLine();
 
@@ -293,8 +275,7 @@ void GraphicsSystem::Update(double dt)
 		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
-
-
+		_shader->SetUniform4f("u_tintcolor", renderobj._tintcolor.r, renderobj._tintcolor.g, renderobj._tintcolor.b, renderobj._tintcolor.a);
 		renderobj._pShader->SetUniform1f("u_Alpha", renderobj._alpha);
 
 		/*if (renderobj._alpha < 0.95f)
@@ -315,6 +296,30 @@ void GraphicsSystem::Update(double dt)
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
 
+	// loop through every font component
+	for (auto fontpair : GetComponentMap(Font))
+	{
+		// check if it is enabled
+		if (!fontpair.second->GetEnable())
+			continue;
+
+
+		// get the trasnform component from the object
+		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[fontpair.first];
+		FontComponent* fontComp = (FontComponent*)GetComponentMap(Font)[fontpair.first];
+
+		//std::string tmp{ "sector_017.ttf" };
+
+		_fontRenderer = MyResourceManager.GetFontResource(fontComp->GetFontType());
+		if (!transformComp)
+			continue;
+
+		if (_fontRenderer == nullptr)
+			continue;
+		// draw the font
+		_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
+			transformComp->GetPos().GetY(), fontComp->GetFontColor());
+	}
 
 
 	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
@@ -355,7 +360,7 @@ void GraphicsSystem::LoadResource()
 
 #ifdef LEVELEDITOR
 	MyResourceManager.AddNewShaderResource({ temp,{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" } });
-	MyResourceManager.AddNewFontResource({ temp2,"Resources/Fonts/sector_017.ttf" });
+	//MyResourceManager.AddNewFontResource({ temp2,"Resources/Fonts/sector_017.ttf" });
 #endif // LEVELEDITOR
 
 	_shader = MyResourceManager.GetShaderResource(temp);
