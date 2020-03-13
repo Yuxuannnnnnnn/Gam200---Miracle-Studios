@@ -4,10 +4,6 @@
 #include <ctime>
 #include "Script/EntrancePortal.h"
 
-// set render layer of BOSS above bullet
-// bullet shooting @ the 4 diagonal corners
-
-
 Boss::Boss() :
 	health{ 0 }, healthMax{ 0 }, healthHalf{ 0 }, healthQuart{ 0 },
 
@@ -23,11 +19,12 @@ Boss::Boss() :
 
 	laserRapidFireNumOfShots{ 0 }, rapidFireShotCount{ 0 },
 	laserRapidChargeSpeedUp{ 0.0 },
+	hitTintTimer{ 0.0 }, hitTintDuration{ 0.5 },
 
 	_state{ (int)Boss_State::STARTUP }, _statePrev{ (int)Boss_State::STARTUP }, _stateNext{ (int)Boss_State::STARTUP },
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },
 	_init{ false }, _healthHalfStart{ false }, _healthHalfEnd{ false }, _deathStart{ false },
-	_transforming{ false },
+	_transforming{ false }, _redTint{ false }, _justHit{ false },
 
 	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 }
 {
@@ -125,6 +122,8 @@ void Boss::UpdateState()
 	{
 		health = -1;
 	}
+
+	OnHit();
 
 	// check death
 	if (health < 1 && _state != (int)Boss_State::DEATH)
@@ -559,6 +558,33 @@ void Boss::TransformNextAnim()
 	}
 }
 
+void Boss::OnHit()
+{
+	if (_justHit)
+	{
+		_justHit = false;
+		health--;
+		if (_redTint)
+			hitTintTimer = hitTintDuration;
+		else
+		{
+			_redTint = true;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.5, 0, 0, 0)); // set tint red
+		}
+	}
+	else
+	{
+		hitTintTimer -= _dt;
+		if (hitTintTimer > 0)
+			return;
+		else
+		{
+			_redTint = false;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0)); // set tint normal
+		}
+	}
+}
+
 void Boss::Transform()
 {
 	if (health < 1)
@@ -648,7 +674,7 @@ void Boss::OnCollision2DTrigger(Collider2D* other)
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (otherType.compare("Bullet") == 0)
 	{
-		health--;
+		_justHit = true; // used in OnHit()
 	}
 }
 
