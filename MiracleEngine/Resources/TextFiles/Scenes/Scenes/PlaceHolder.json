@@ -1,1 +1,61 @@
-{"PrototypesFilePaths":["./Resources/TextFiles/GameObjects\\ButtonController.json","./Resources/TextFiles/GameObjects\\none.json"],"TexturesFilesPaths":["./Resources/Image/Interface\\Return_To_Main_Menu.png","./Resources/Image/Tile\\Snowy_Texture.png","./Resources/Image/Interface\\Work_in_progress.png"],"ShaderFilesPaths":[],"AnimationDataFilesPaths":[],"FontFilesPath":[],"ClonableObjects":[{"IdentityComponent":true,"ObjectType":"ButtonController","TransformComponent":true,"Position":[0.0,0.0,0.0],"LogicComponent":true,"ScriptId":[]},{"IdentityComponent":true,"ObjectType":"none","Name":"Background","TransformComponent":true,"Scale":[1980.0,1080.0,1.0],"GraphicsComponent":true,"G.FileName":"Snowy_Texture.png"},{"IdentityComponent":true,"ObjectType":"none","Name":"workinprogress","TransformComponent":true,"Position":[0.0,15.044269561767579,1.0],"Scale":[645.1619873046875,800.0,1.0],"GraphicsComponent":true,"G.FileName":"Work_in_progress.png","G.Layer":3},{"IdentityComponent":true,"ObjectType":"none","Name":"button","TransformComponent":true,"Position":[10.99993896484375,-284.7434997558594,1.0],"Scale":[500.0,100.0,1.0],"GraphicsComponent":true,"G.FileName":"Return_To_Main_Menu.png","G.Layer":2,"ButtonComponent":true,"ButtonUId":30,"B.NormalFileName":"Return_To_Main_Menu.png","B.NormalScale":[500.0,100.0,1.0],"B.HaveHoveredFile":true,"B.HoveredFileName":"Return_To_Main_Menu_Hover.png","B.HoveredScale":[600.0,120.0,1.0],"B.HoveredAudioFileName":"Button.ogg","B.HavePressedFile":true,"B.PressedFileName":"Return_To_Main_Menu_click.png","B.PressedScale":[550.0,110.0,1.0],"B.PressedAudioFileName":"Coin.ogg"}],"NonClonableObjects":[]}
+{
+  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\ButtonController.json", "./Resources/TextFiles/GameObjects\\none.json" ],
+  "TexturesFilesPaths": [ "./Resources/Image/Interface\\Return_To_Main_Menu.png", "./Resources/Image/Tile\\Snowy_Texture.png", "./Resources/Image/Interface\\Work_in_progress.png" ],
+  "ShaderFilesPaths": [],
+  "AnimationDataFilesPaths": [],
+  "FontFilesPath": [],
+  "Objects": [
+    {
+      "IdentityComponent": true,
+      "ObjectType": "ButtonController",
+      "TransformComponent": true,
+      "Position": [ 0.0, 0.0, 0.0 ],
+      "LogicComponent": true,
+      "ScriptId": []
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "Background",
+      "TransformComponent": true,
+      "Scale": [ 1980.0, 1080.0, 1.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "Snowy_Texture.png"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "workinprogress",
+      "TransformComponent": true,
+      "Position": [ 0.0, 15.044269561767579, 1.0 ],
+      "Scale": [ 645.1619873046875, 800.0, 1.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "Work_in_progress.png",
+      "G.Layer": 3
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "button",
+      "TransformComponent": true,
+      "Position": [ 10.99993896484375, -284.7434997558594, 1.0 ],
+      "Scale": [ 500.0, 100.0, 1.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "Return_To_Main_Menu.png",
+      "G.Layer": 2,
+      "ButtonComponent": true,
+      "ButtonUId": 30,
+      "B.NormalFileName": "Return_To_Main_Menu.png",
+      "B.NormalScale": [ 500.0, 100.0, 1.0 ],
+      "B.HaveHoveredFile": true,
+      "B.HoveredFileName": "Return_To_Main_Menu_Hover.png",
+      "B.HoveredScale": [ 600.0, 120.0, 1.0 ],
+      "B.HoveredAudioFileName": "Button.ogg",
+      "B.HavePressedFile": true,
+      "B.PressedFileName": "Return_To_Main_Menu_click.png",
+      "B.PressedScale": [ 550.0, 110.0, 1.0 ],
+      "B.PressedAudioFileName": "Coin.ogg"
+    }
+  ]
+
+}
