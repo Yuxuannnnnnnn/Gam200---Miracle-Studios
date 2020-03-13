@@ -43,14 +43,38 @@
   "AudioComponent": true,
   "SFXList": [
     {
-      "SFXName": "LaserCharging",
-      "fileName": "Charging.wav",
+      "SFXName": "StartUp",
+      "fileName": "BossEntry.wav",
       "volume": 0.23899999260902406,
       "NumOfloops": 0
     },
     {
-      "SFXName": "LaserChargingReverse",
-      "fileName": "ChargingReverse.wav",
+      "SFXName": "Death",
+      "fileName": "BossExplode.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "Hit",
+      "fileName": "BossHit.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "Transform",
+      "fileName": "BossTransform.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "TransformReverse",
+      "fileName": "BossTransform.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "LaserCharging",
+      "fileName": "Charging.wav",
       "volume": 0.23899999260902406,
       "NumOfloops": 0
     },

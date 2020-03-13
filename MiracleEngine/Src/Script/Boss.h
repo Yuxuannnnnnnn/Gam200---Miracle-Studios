@@ -147,8 +147,8 @@ public:
 
 private:
 	std::vector<std::string> _StartUp = { // Boss_inactive_to_active_sprite
-	"StartUp1",
-	"StartUp2" };
+		"StartUp1",
+		"StartUp2" };
 	std::vector<std::string> _Idle = { // Boss_Idle_sprite
 		"Idle1",
 		"Idle2",
