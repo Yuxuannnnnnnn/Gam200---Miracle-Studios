@@ -34,7 +34,7 @@
   "GraphicsComponent": true,
   "G.FileName": "Laser_Blasting.png",
   "G.Shader": "",
-  "G.Layer": 20,
+  "G.Layer": 29,
   "_hasAlpha": true,
   "_hasAdjustableAlpha": false,
   "_alphaVal": 1.0,
@@ -43,15 +43,21 @@
   "AudioComponent": true,
   "SFXList": [
     {
-      "SFXName": "charging",
-      "fileName": "ChargingSound.wav",
+      "SFXName": "LaserCharging",
+      "fileName": "Charging.wav",
       "volume": 0.23899999260902406,
       "NumOfloops": 0
     },
     {
-      "SFXName": "shoot",
-      "fileName": "EnemyShoot.wav",
-      "volume": 0.14000000059604646,
+      "SFXName": "LaserChargingReverse",
+      "fileName": "ChargingReverse.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "BulletShoot",
+      "fileName": "SingleShot.wav",
+      "volume": 0.23899999260902406,
       "NumOfloops": 0
     }
   ],

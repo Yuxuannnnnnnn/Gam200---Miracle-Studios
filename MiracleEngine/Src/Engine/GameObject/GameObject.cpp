@@ -180,11 +180,16 @@ void GameObject::DeSerialise(std::string filePath)
 
 	for (auto& ComponentPair : _ComponentList)
 	{
-		rapidjson::Value value;
+		//rapidjson::Value value;
 		//value.Clear();
 
 		IComponent* component = ComponentPair.second;
 		component->DeSerialiseComponent(prototypeDoc);
+	}
+
+	if (_childObjects.size()) //If there is any childObjects
+	{
+
 	}
 
 	prototypeDoc.ProduceJsonFile();
