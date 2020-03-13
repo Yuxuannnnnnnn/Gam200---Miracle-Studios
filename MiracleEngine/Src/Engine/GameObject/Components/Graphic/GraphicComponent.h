@@ -34,7 +34,12 @@ private:
 	float u0, v0;
 	float u1, v1;
 
+	glm::vec4 _tintcolor;
+
 public:
+
+	glm::vec4 GetTintColor() const;
+	void SetTintColor(const glm::vec4& color);
 
 	void Init();
 	virtual void LoadResource() override;
