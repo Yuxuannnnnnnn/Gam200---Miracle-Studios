@@ -281,6 +281,13 @@ void Boss::Death()
 	if (_deathStart)
 	{
 		_deathStart = false;
+
+		// set destroy to all enemies
+		for (auto itr : _engineSystems._factory->getObjectlist())
+			if (GetComponentObject(itr.second, Identity)->ObjectType().compare("Enemy") == 0 ||
+				GetComponentObject(itr.second, Identity)->ObjectType().compare("EnemyTwo") == 0)
+				itr.second->SetDestory();
+
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
 
 		if (_stateNext == (int)Boss_State::SPIN_SHOOTBULLET ||

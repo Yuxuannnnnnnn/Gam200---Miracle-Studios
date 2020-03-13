@@ -442,7 +442,6 @@ void Factory::SerialiseLevel(std::string FileName)
 			else if (!_currentScene.compare("truelevel2"))
 			{
 				audcom->PlayBGM("level2");
-
 			}
 			else if (!_currentScene.compare("BossLevel"))
 			{
