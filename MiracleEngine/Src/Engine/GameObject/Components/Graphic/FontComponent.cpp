@@ -11,6 +11,16 @@ glm::vec3 FontComponent::GetFontColor() const
 	return glm::vec3{ _color[0], _color[1], _color[2]};
 }
 
+float FontComponent::GetDelayTime() const
+{
+	return _delayTime;
+}
+
+float FontComponent::IsStartDisplaying() const
+{
+	return _startDisplaying;
+}
+
 std::string FontComponent::ComponentName() const
 {
 	return "Font Component";
@@ -65,7 +75,8 @@ void FontComponent::Inspect()
 
 	ImGui::ColorEdit3("color", _color);
 
-	ImGui::Checkbox("start text", &_startdelay);
+	ImGui::Checkbox("start text", &_startDisplaying);
 
+	ImGui::InputFloat("Delay time", &_delayTime);
 	//ImGui::SliderFloat(string.c_str(), &_alphaVal, 0, 1);
 }

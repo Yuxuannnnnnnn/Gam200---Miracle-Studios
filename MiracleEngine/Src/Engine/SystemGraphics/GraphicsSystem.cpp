@@ -320,8 +320,8 @@ void GraphicsSystem::Update(double dt)
 		/*_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
 			transformComp->GetPos().GetY(), fontComp->GetFontColor());*/
 
-		_fontRenderer->DrawFontDelayed(fontComp->GetFontString(), transformComp->GetPos().GetX(),
-			transformComp->GetPos().GetY(), fontComp->GetFontColor(), fontComp->_startdelay);
+		_fontRenderer->DrawFontDelayed(dt,fontComp->GetFontString(), transformComp->GetPos().GetX(),
+			transformComp->GetPos().GetY(), fontComp->GetFontColor(), fontComp->IsStartDisplaying(), fontComp->GetDelayTime());
 	}
 
 
