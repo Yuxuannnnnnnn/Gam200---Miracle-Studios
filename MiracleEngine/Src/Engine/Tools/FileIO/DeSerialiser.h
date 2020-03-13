@@ -4,17 +4,31 @@
 
 class DeSerialiser
 {
-	rapidjson::Document _level;
+	rapidjson::Document _level; //Used for Parent in Prototype, if not, will not be an object
 	rapidjson::MemoryPoolAllocator<>& _allocator;
 
-	std::string _filename;
+	std::string _filename; //fileName will be empty if not used for Parent in Prototype
+
+	rapidjson::Value _value{};	//Used for child in prototype,  if not, will not be an object
 
 public:
+
+	rapidjson::Value& getValue()
+	{
+		return _value;
+	}
 
 	DeSerialiser(std::string filename)
 		:_level{}, _allocator{ _level.GetAllocator() }, _filename{filename}
 	{
 		_level.SetObject();	//Set the document as an OverArching Object
+	}
+
+
+	DeSerialiser(/*rapidjson::Value& value, */rapidjson::MemoryPoolAllocator<>& allocator)
+		:_level{}, _allocator{ allocator }, _filename{}, _value{ }
+	{
+		_value.SetObject();
 	}
 
 	//Default Comstructor for non serialising
@@ -73,7 +87,10 @@ public:
 	{
 		rapidjson::Value name(key.c_str(), _allocator);
 
-		_level.AddMember(name, value, _allocator);
+		if (_level.IsObject())
+			_level.AddMember(name, value, _allocator);
+		else if (_value.IsObject())
+			_value.AddMember(name, value, _allocator);
 	}
 
 

@@ -52,7 +52,8 @@ public:
 
 	void Serialise(Serialiser& document);
 	//void SerialiseFromLevel(Serialiser& fileObject);
-	void DeSerialise(std::string filePath);
+	void DeSerialise(DeSerialiser& document);
+	void DeSerialise(rapidjson::Value& document, rapidjson::MemoryPoolAllocator<>& allocator);
 
 	Map_ComponentList& GetComponentList(); // Get ComponentList
 

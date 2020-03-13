@@ -10,15 +10,25 @@ private:
 	std::string _fontString;
 	std::string _fontType;
 
+	/*
 	float _r;
 	float _g;
 	float _b;
 	float _a;
+
+	*/ 
+
 	float _color[4] = { 1.0f,1.0f,1.0f,1.0f };
+	bool _startDisplaying = false;
+	float _delayTime = 0.0f;
+	bool _isDelayedText = false;
+
+	
 public:
-
 	glm::vec3 GetFontColor() const;
-
+	
+	float GetDelayTime() const;
+	float IsStartDisplaying() const;
 	void SerialiseComponent(Serialiser& document) override
 	{
 
