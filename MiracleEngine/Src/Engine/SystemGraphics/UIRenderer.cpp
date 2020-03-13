@@ -53,9 +53,10 @@ void UIRenderer::Update(std::unordered_map<size_t, IComponent*> uiMap, const glm
 			_uiShader->Select();
 
 			_uiShader->SetUniformMat4f("u_MVP", mvp);
-
+			_uiShader->SetUniform4f("u_tintcolor", 0.0f, 0.0f, 0.0f, 0.0f);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
+
 	}
 
 	// alpha blending
@@ -89,7 +90,7 @@ void UIRenderer::Update(std::unordered_map<size_t, IComponent*> uiMap, const glm
 			_uiShader->Select();
 
 			_uiShader->SetUniformMat4f("u_MVP", mvp);
-
+			_uiShader->SetUniform4f("u_tintcolor", 0.0f, 0.0f, 0.0f, 0.0f);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
 	}
