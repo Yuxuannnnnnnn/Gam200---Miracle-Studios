@@ -69,6 +69,8 @@ void Boss::Update(double dt)
 {
 	if (!_init)
 		Init();
+	if (dt < 0)
+		return;
 	_dt = dt;
 	UpdateState();
 	RunState();
@@ -285,7 +287,7 @@ void Boss::Death()
 		for (auto itr : _engineSystems._factory->getObjectlist())
 			if (GetComponentObject(itr.second, Identity)->ObjectType().compare("Enemy") == 0 ||
 				GetComponentObject(itr.second, Identity)->ObjectType().compare("EnemyTwo") == 0)
-				itr.second->SetDestory();
+				((Enemy*)itr.second)->SetHealth(-1);// ((Enemy*)itr.second)->SetHealth(-1);
 
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
 

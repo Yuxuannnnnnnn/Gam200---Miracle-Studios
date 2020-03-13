@@ -1,10 +1,11 @@
 #pragma once
 #include "GameObject/Components/Logic/IScript.h"
+#include "Script/Enemy.h"
 
 #ifndef BOSS_H
 #define	BOSS_H
 
-class Node; // forward declare
+class Enemy; // forward declare
 
 /*
 

@@ -75,47 +75,47 @@
     },
     {
       "AnimationType": "Boss_Idle_sprite1.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "Idle1"
     },
     {
       "AnimationType": "Boss_Idle_sprite2.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "Idle2"
     },
     {
       "AnimationType": "Boss_Idle_sprite3.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "Idle3"
     },
     {
       "AnimationType": "Boss_Rage_idle_sprite1.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage1"
     },
     {
       "AnimationType": "Boss_Rage_idle_sprite2.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage2"
     },
     {
       "AnimationType": "Boss_Rage_idle_sprite3.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage3"
     },
     {
       "AnimationType": "Boss_Rage_idle_low_HP_sprite1.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage1Low"
     },
     {
       "AnimationType": "Boss_Rage_idle_low_HP_sprite2.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage2Low"
     },
     {
       "AnimationType": "Boss_Rage_idle_low_HP_sprite3.json",
-      "TimeDelay": 0.05,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage3Low"
     },
     {
