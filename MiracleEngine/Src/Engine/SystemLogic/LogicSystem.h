@@ -55,6 +55,8 @@ public:
 
 	IScript2* getScriptPtr(size_t uID);
 
+	void ClearAllScripts();
+
 };
 
 #define GetScriptByUId(UId, type) dynamic_cast<type*>(MyLogicSystem.getScriptPtr(UId))

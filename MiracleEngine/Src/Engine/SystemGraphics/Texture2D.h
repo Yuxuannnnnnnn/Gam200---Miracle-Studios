@@ -8,15 +8,15 @@
 
 class Texture2D
 {
-
-	static std::vector<unsigned char*> list;
-
 private:
 	unsigned int _id;
 	int _width;   // width and height of texture
 	int _height;
 	int _bpp;     // bit per pixel
 public:
+
+	static std::vector<unsigned char*> list;
+
 	unsigned int GetTextureID() const;
 
 	Texture2D();

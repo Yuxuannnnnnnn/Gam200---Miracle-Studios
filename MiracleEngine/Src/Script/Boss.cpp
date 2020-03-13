@@ -4,44 +4,9 @@
 #include <ctime>
 #include "Script/EntrancePortal.h"
 
-/*
-
 // set render layer of BOSS above bullet
 // bullet shooting @ the 4 diagonal corners
-// death will have mutliple sprite sheets,
-	will need to do the way that will play 1 anim after another
 
-Do above half heath shoot laser, then under half spin shoot.
-	if ok then try 100-75 normal laser, 75-50||40 rapid shot, remaining spint shoot with critical health anims
-
-Init()
-
-SND:: Plays the background music for the game --> MusicBGM1 OR MusicBGM2 (Your choice)
-	Boss_inactive_to_active_sprite --> Boss_Idle_sprite
-When start laser charge
-SND:: Plays the charging sound effect --> Charging
-	Boss_Idle_sprite --> Boss_Laser_Charge_up_sprite
-Once laser charged & now shoot laser
-	Boss_Laser_Charge_up_sprite --> freeze last frame of prev anim
-		+ Laser_Blast_Sprite (actual laser)
-SND:: Plays the laser shot sound effect --> LaserShot
-	Boss_Laser_Charge_up_sprite --> Laser_Blasting_small(body single frame) OR freeze to last frame of prev anim
-		+ Laser_Blast_Sprite (actual laser)
-Once shoot laser finish & return to IDLE
-	Laser_Blasting_small(body single frame) --> Boss_Laser_after_shoot_transform_back_sprite --> Boss_Idle_sprite
-On HP < 50, change from IDLE to IDLE_RAGE
- SND:: Plays the sound effect for shooting bullets --> SingleShot
-	Boss_Idle_sprite --> Boss_Transform_into_rage_sprite --> Boss_Rage_idle_sprite
-When want to shoot bullet
-	Boss_Rage_idle_sprite --> Boss_rage_transform_to_shoot_style_sprite --> Boss_Shoot_style_sprite OR Boss_Shoot_style_low_HP_sprite
-	While shooting, continue with the last anim from above
-Once shooting end
-	Boss_Shoot_style_sprite OR Boss_Shoot_style_low_HP_sprite --> Boss_shoot_style_transform_to_rage_sprite -->
-		Boss_Rage_idle_sprite OR Boss_Rage_idle_low_HP_sprite
-
-On DEATH depending on which mode its in, use the right death anim
-
-*/
 
 Boss::Boss() :
 	health{ 0 }, healthMax{ 0 }, healthHalf{ 0 }, healthQuart{ 0 },
@@ -98,6 +63,9 @@ void Boss::Init()
 	_CurrAnimChain = _StartUp;
 	_CurrAnimChainItr = _CurrAnimChain.begin();
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("StartUp1");
+
+	MyAudioSystem.PlayBGM("MusicBGM1", 1.0f); // ask YX where she grab this from
+
 	_init = true;
 }
 void Boss::Update(double dt)
@@ -313,6 +281,13 @@ void Boss::Death()
 	if (_deathStart)
 	{
 		_deathStart = false;
+
+		// set destroy to all enemies
+		for (auto itr : _engineSystems._factory->getObjectlist())
+			if (GetComponentObject(itr.second, Identity)->ObjectType().compare("Enemy") == 0 ||
+				GetComponentObject(itr.second, Identity)->ObjectType().compare("EnemyTwo") == 0)
+				itr.second->SetDestory();
+
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
 
 		if (_stateNext == (int)Boss_State::SPIN_SHOOTBULLET ||
@@ -414,8 +389,8 @@ void Boss::ShootBullet()
 
 			ammo--;
 
-			//AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-			//audcom->PlaySFX("Shoot");
+			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+			audcom->PlaySFX("BulletShoot");
 		}
 	}
 	else
@@ -615,12 +590,16 @@ void Boss::Transform()
 	{	// IDLE_RAGE --> SHOOTING
 		PlayAnimChain(_TransformIdleRageToShoot, true);
 		_state = (int)Boss_State::TRANSFORMING;
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("LaserCharging");
 	}
 	if (_state == (int)Boss_State::SPIN_SHOOTBULLET_END &&
 		_stateNext == (int)Boss_State::IDLE_RAGE)
 	{	// SHOOTING  --> IDLE_RAGE
 		PlayAnimChain(_TransformShootToIdleRage, true);
 		_state = (int)Boss_State::TRANSFORMING;
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("LaserChargingReverse");
 	}
 
 
