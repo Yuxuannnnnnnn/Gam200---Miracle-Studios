@@ -65,6 +65,7 @@ void FontComponent::Inspect()
 
 	ImGui::ColorEdit3("color", _color);
 
+	ImGui::Checkbox("start text", &_startdelay);
 
 	//ImGui::SliderFloat(string.c_str(), &_alphaVal, 0, 1);
 }

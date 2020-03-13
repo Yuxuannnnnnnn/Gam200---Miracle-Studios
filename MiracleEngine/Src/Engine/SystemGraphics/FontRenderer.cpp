@@ -8,6 +8,11 @@ void FontRenderer::DrawFont(std::string& text, float xpos, float ypos, const glm
 	RenderText(*_shader, text, xpos, ypos, 1.0f, color);
 }
 
+void FontRenderer::DrawFontDelayed(std::string& text, float xpos, float ypos, const glm::vec3& color, bool start)
+{
+	RenderTextDelayed(*_shader, text, xpos, ypos, 1.0f, color, start);
+}
+
 void FontRenderer::Draw()
 {
 	RenderText(*_shader, "Start", 200.0f, 250.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
@@ -15,6 +20,74 @@ void FontRenderer::Draw()
 	RenderText(*_shader, "Option", -75.0f, 0.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
 
 	RenderText(*_shader, "Quit", -300.0f, -250.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
+}
+
+void FontRenderer::RenderTextDelayed(Shader& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, bool startDelay)
+{
+	// Activate corresponding render state	
+
+	if (!startDelay)
+	{
+		_fontCounter = 0;
+		return;
+	}
+	delaytime -= 0.5f;
+
+	if (delaytime < 150.0f)
+	{
+		delaytime = 200.0f;
+		_fontCounter += 1;
+	}
+
+	glBindVertexArray(_vao);
+	shader.Select();
+	glUniform3f(glGetUniformLocation(shader._id, "textColor"), color.x, color.y, color.z);
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(_vao);
+
+	std::unordered_map<GLchar, Character> map = MyResourceManager.GetFontCharacterMap()[_characterMapId];
+
+	int i = 0;
+	// Iterate through all characters
+	std::string::const_iterator c;
+	for (c = text.begin(); c != text.end(); c++)
+	{
+		if (i > _fontCounter)
+			break;
+		Character ch = map[*c];
+
+		GLfloat xpos = x + ch.Bearing.x * scale;
+		GLfloat ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+
+		GLfloat w = ch.Size.x * scale;
+		GLfloat h = ch.Size.y * scale;
+		// Update VBO for each character
+		GLfloat vertices[6][4] = {
+			{ xpos,     ypos + h,   0.0, 0.0 },
+			{ xpos,     ypos,       0.0, 1.0 },
+			{ xpos + w, ypos,       1.0, 1.0 },
+
+			{ xpos,     ypos + h,   0.0, 0.0 },
+			{ xpos + w, ypos,       1.0, 1.0 },
+			{ xpos + w, ypos + h,   1.0, 0.0 }
+		};
+		// Render glyph texture over quad
+		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+		// Update content of VBO memory
+		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// Render quad
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		// Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+		x += (ch.Advance >> 6)* scale;
+
+		i++;
+	}
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void FontRenderer::RenderText(Shader& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)

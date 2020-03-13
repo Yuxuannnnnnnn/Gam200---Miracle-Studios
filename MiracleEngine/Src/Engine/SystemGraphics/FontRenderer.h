@@ -27,7 +27,7 @@ public:
 	FontRenderer() = default;
 	~FontRenderer();
 	void DrawFont(std::string& text, float xpos, float ypos, const glm::vec3& color = glm::vec3(0.2f, 0.8f, 0.2f));
-
+	void DrawFontDelayed(std::string& text, float xpos, float ypos, const glm::vec3& color = glm::vec3(0.2f, 0.8f, 0.2f), bool delay = false);
 	void Draw();
 
 	bool load(std::string path);
@@ -38,6 +38,7 @@ public:
 
 private:
 	void RenderText(Shader& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color);
+	void RenderTextDelayed(Shader& shader, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, bool startdelay);
 	size_t _characterMapId;
 	GLuint _texture;
 	GLuint _sampler;
@@ -49,4 +50,9 @@ private:
 
 
 	static size_t mapCounts;
+
+	size_t _fontCounter;
+	bool _startDelay = false;
+
+	float delaytime = 200.0f;
 };

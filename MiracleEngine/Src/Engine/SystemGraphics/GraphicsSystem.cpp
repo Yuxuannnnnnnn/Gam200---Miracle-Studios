@@ -317,8 +317,11 @@ void GraphicsSystem::Update(double dt)
 		if (_fontRenderer == nullptr)
 			continue;
 		// draw the font
-		_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
-			transformComp->GetPos().GetY(), fontComp->GetFontColor());
+		/*_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
+			transformComp->GetPos().GetY(), fontComp->GetFontColor());*/
+
+		_fontRenderer->DrawFontDelayed(fontComp->GetFontString(), transformComp->GetPos().GetX(),
+			transformComp->GetPos().GetY(), fontComp->GetFontColor(), fontComp->_startdelay);
 	}
 
 

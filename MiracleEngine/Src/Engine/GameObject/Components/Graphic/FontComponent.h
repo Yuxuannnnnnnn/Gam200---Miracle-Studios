@@ -15,9 +15,12 @@ private:
 	float _b;
 	float _a;
 	float _color[4] = { 1.0f,1.0f,1.0f,1.0f };
-public:
 
+	
+public:
+	bool _startdelay = false;
 	glm::vec3 GetFontColor() const;
+
 
 	void SerialiseComponent(Serialiser& document) override
 	{
