@@ -26,12 +26,14 @@ void FontRenderer::RenderTextDelayed(Shader& shader, float dt, std::string text,
 {
 	// Activate corresponding render state	
 
+	// if not delaying set counter to 0
 	if (!startDelay)
 	{
 		_fontCounter = 0;
 		return;
 	}
 	delaytime -= delayTime * dt;
+
 
 	if (delaytime < 150.0f)
 	{
