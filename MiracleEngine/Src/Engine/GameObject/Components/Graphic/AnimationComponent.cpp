@@ -357,6 +357,12 @@ void AnimationComponent::SetCurrentAnimOnce(const std::string& AnimationName)
 		{
 			//puts(buf);
 		}
+
+
+		ImGui::Checkbox("Play At Creation", &_playAtCreation);
+
+		if(_playAtCreation)
+			ImGui::Checkbox("Loop?", &_loop);
 	}
 
 	////ImGui::SetCursorPos(ImVec2((MyWindowsSystem.getWindow().GetWindowWidth() - (width / scale)) * 0.5f, (MyWindowsSystem.getWindow().GetWindowHeight() - (height / scale)) * 0.5f));
