@@ -36,4 +36,5 @@ struct RenderObject
 	float _alpha;
 	bool _hasAlpha;
 	bool _hasAdjustableAlpha;
+	glm::vec4 _tintcolor;
 };

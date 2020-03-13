@@ -10,8 +10,15 @@ private:
 	std::string _fontString;
 	std::string _fontType;
 
-
+	float _r;
+	float _g;
+	float _b;
+	float _a;
+	float _color[4] = { 1.0f,1.0f,1.0f,1.0f };
 public:
+
+	glm::vec3 GetFontColor() const;
+
 	void SerialiseComponent(Serialiser& document) override
 	{
 

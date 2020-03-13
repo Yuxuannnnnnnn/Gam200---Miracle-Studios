@@ -14,11 +14,11 @@ void GraphicsSystem::Update(double dt)
 
 	Vector3  pos = MyInputSystem.GetMouseWorldPos();
 
-	std::unordered_map<size_t, IComponent *>& TileMapContainer = GetComponentMap(TileMap);
+	std::unordered_map<size_t, IComponent*>& TileMapContainer = GetComponentMap(TileMap);
 
 	for (auto& tileMap : TileMapContainer)
 	{
-		TileMapComponent* TMCom = (TileMapComponent *)(tileMap.second);
+		TileMapComponent* TMCom = (TileMapComponent*)(tileMap.second);
 		std::unordered_map < int, Node* > tileNodeMap = TMCom->GetNodeMap();
 
 		if (TMCom->GetTurnOnTileMap())
@@ -61,9 +61,9 @@ void GraphicsSystem::Update(double dt)
 			}
 		}
 	}
-	
+
 	// debug renderer test
-	
+
 	//DebugRenderer::GetInstance().DrawLine(0, 0, 200, 100);
 	//DebugRenderer::GetInstance().DrawBox(glm::vec3{ 0,0,0 }, glm::vec3{ 100,100,0 });
 
@@ -77,23 +77,7 @@ void GraphicsSystem::Update(double dt)
 	//_fontRenderer->Draw();
 	// test draw font
 
-	// loop through every font component
-	for (auto fontpair : GetComponentMap(Font))
-	{
-		// check if it is enabled
-		if (!fontpair.second->GetEnable())
-			continue;
 
-		// get the trasnform component from the object
-		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[fontpair.first];
-		FontComponent* fontComp = (FontComponent*)GetComponentMap(Font)[fontpair.first];
-		if (!transformComp)
-			continue;
-
-		// draw the font
-		_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(), 
-			transformComp->GetPos().GetY());
-	}
 
 	DebugRenderer::GetInstance().BatchDrawDebugLine();
 
@@ -128,7 +112,7 @@ void GraphicsSystem::Update(double dt)
 			abs(1.0f - renderobj._alpha) > 0.01f)
 			continue;*/
 
-		
+
 		renderobj._pShader->Select();
 
 		if (renderobj._pTexture)
@@ -169,6 +153,7 @@ void GraphicsSystem::Update(double dt)
 		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
+		_shader->SetUniform4f("u_tintcolor", renderobj._tintcolor.r, renderobj._tintcolor.g, renderobj._tintcolor.b, renderobj._tintcolor.a);
 		renderobj._pShader->SetUniform1f("u_Alpha", 1.0f);
 		/*if (renderobj._alpha < 0.95f)
 		{
@@ -229,7 +214,7 @@ void GraphicsSystem::Update(double dt)
 		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
-
+		_shader->SetUniform4f("u_tintcolor", renderobj._tintcolor.r, renderobj._tintcolor.g, renderobj._tintcolor.b, renderobj._tintcolor.a);
 		renderobj._pShader->SetUniform1f("u_Alpha", 1.0f);
 		/*if (renderobj._alpha < 0.95f)
 		{
@@ -290,10 +275,9 @@ void GraphicsSystem::Update(double dt)
 		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
-
-
+		_shader->SetUniform4f("u_tintcolor", renderobj._tintcolor.r, renderobj._tintcolor.g, renderobj._tintcolor.b, renderobj._tintcolor.a);
 		renderobj._pShader->SetUniform1f("u_Alpha", renderobj._alpha);
-	
+
 		/*if (renderobj._alpha < 0.95f)
 		{
 			glDisable(GL_ALPHA_TEST);
@@ -311,8 +295,32 @@ void GraphicsSystem::Update(double dt)
 	// render UI in screen space
 	_uiRenderer.Update(GetComponentMap(UI), _proj);
 
-	
-	
+
+	// loop through every font component
+	for (auto fontpair : GetComponentMap(Font))
+	{
+		// check if it is enabled
+		if (!fontpair.second->GetEnable())
+			continue;
+
+
+		// get the trasnform component from the object
+		TransformComponent* transformComp = (TransformComponent*)GetComponentMap(Transform)[fontpair.first];
+		FontComponent* fontComp = (FontComponent*)GetComponentMap(Font)[fontpair.first];
+
+		//std::string tmp{ "sector_017.ttf" };
+
+		_fontRenderer = MyResourceManager.GetFontResource(fontComp->GetFontType());
+		if (!transformComp)
+			continue;
+
+		if (_fontRenderer == nullptr)
+			continue;
+		// draw the font
+		_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
+			transformComp->GetPos().GetY(), fontComp->GetFontColor());
+	}
+
 
 	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
 
@@ -338,7 +346,7 @@ void GraphicsSystem::Init()
 {
 	// temp
 	std::string temp = "DefaultShader";
-	std::string temp2 = "sector_017";
+	std::string temp2 = "sector_017.ttf";
 
 	_shader = MyResourceManager.GetShaderResource(temp);
 	_fontRenderer = MyResourceManager.GetFontResource(temp2);
@@ -352,7 +360,7 @@ void GraphicsSystem::LoadResource()
 
 #ifdef LEVELEDITOR
 	MyResourceManager.AddNewShaderResource({ temp,{ "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" } });
-	MyResourceManager.AddNewFontResource({ temp2,"Resources/Fonts/sector_017.ttf" });
+	//MyResourceManager.AddNewFontResource({ temp2,"Resources/Fonts/sector_017.ttf" });
 #endif // LEVELEDITOR
 
 	_shader = MyResourceManager.GetShaderResource(temp);
@@ -416,8 +424,9 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 
 
 		RenderObject renderobject;
+		renderobject._tintcolor = graphicComp->GetTintColor();
 
-		if (graphicComp->IsFadingOut() && !(MyFactory.GetCurrentScene().compare( "truelevel1")))
+		if (graphicComp->IsFadingOut() && !(MyFactory.GetCurrentScene().compare("truelevel1")))
 		{
 #ifdef LEVELEDITOR
 
@@ -426,7 +435,7 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 			{
 				if (graphicComp->GetAlpha() > 0.001f);
 				{
-					graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.003);
+					graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.3 * dt);
 					renderobject._hasAdjustableAlpha = true;
 				}
 			}
@@ -453,7 +462,8 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 		}
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
-
+		
+		graphicComp->GetTintColor();
 		if (graphicComp->IsFlickering())
 		{
 			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
@@ -521,11 +531,11 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 		_renderObjects.push_back(renderobject);
 
 	}
-	
-//#ifdef LEVELEDITOR
 
-	
-//#endif
+	//#ifdef LEVELEDITOR
+
+
+	//#endif
 }
 
 

@@ -46,6 +46,7 @@ GraphicComponent::GraphicComponent():
 	_layer{ 1 }, _hasAlpha{ false }, _hasAdjustableAlpha{ false }, _alphaVal{ 1.0f }, _isFadingOut{ false }, _isFlickering{false}
 {
 	_alphaVal = 1.0f;
+	_tintcolor = glm::vec4{ 0,0,0,0 };
 }
 
 GraphicComponent::~GraphicComponent()
@@ -334,6 +335,16 @@ void GraphicComponent::Inspect()
 		//ImGui::InputInt("RendeerLayer", &_renderLayer);
 		ImGui::Spacing();
 	}
+}
+
+glm::vec4 GraphicComponent::GetTintColor() const
+{
+	return _tintcolor;
+}
+
+void GraphicComponent::SetTintColor(const glm::vec4& color)
+{
+	_tintcolor = color;
 }
 
 void  GraphicComponent::Init()

@@ -345,9 +345,10 @@ void Enemy::FSM(double dt)
 void Enemy::ChancePickUps()
 {
 	std::srand((unsigned)std::time(0));
-	int Yaya = 1 + std::rand() % 10;
+	int Yaya = (1 + std::rand()) % 10;
 
-	if (Yaya <= 2) // health 30%drop
+	//if (Yaya <= 2) // health 40%drop
+	if (Yaya <= 4) // 40%
 	{
 		GameObject* pickups = CreateObject("PickUps_Health");
 		// set bullet position & rotation as same as 'parent' obj
@@ -356,15 +357,15 @@ void Enemy::ChancePickUps()
 		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 	}
-	else if (Yaya == 3 || Yaya == 4) // ammo 20%drop
-	{
-		GameObject* pickups = CreateObject("PickUps_Ammo");
-		// set bullet position & rotation as same as 'parent' obj
-		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-		((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	}
+	//else if (Yaya == 3 || Yaya == 4) // ammo 20%drop
+	//{
+	//	GameObject* pickups = CreateObject("PickUps_Ammo");
+	//	// set bullet position & rotation as same as 'parent' obj
+	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetPos(
+	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+	//	((TransformComponent*)pickups->GetComponent(ComponentId::CT_Transform))->SetRotate(
+	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+	//}
 }
 
 Vector3 Enemy::GetDestinationPos()

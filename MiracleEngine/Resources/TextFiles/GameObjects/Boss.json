@@ -34,7 +34,7 @@
   "GraphicsComponent": true,
   "G.FileName": "Laser_Blasting.png",
   "G.Shader": "",
-  "G.Layer": 20,
+  "G.Layer": 29,
   "_hasAlpha": true,
   "_hasAdjustableAlpha": false,
   "_alphaVal": 1.0,
@@ -43,15 +43,21 @@
   "AudioComponent": true,
   "SFXList": [
     {
-      "SFXName": "charging",
-      "fileName": "ChargingSound.wav",
+      "SFXName": "LaserCharging",
+      "fileName": "Charging.wav",
       "volume": 0.23899999260902406,
       "NumOfloops": 0
     },
     {
-      "SFXName": "shoot",
-      "fileName": "EnemyShoot.wav",
-      "volume": 0.14000000059604646,
+      "SFXName": "LaserChargingReverse",
+      "fileName": "ChargingReverse.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "BulletShoot",
+      "fileName": "SingleShot.wav",
+      "volume": 0.23899999260902406,
       "NumOfloops": 0
     }
   ],
@@ -59,224 +65,224 @@
   "AnimationTypes": [
     {
       "AnimationType": "Boss_inactive_to_active_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "StartUp1"
     },
     {
       "AnimationType": "Boss_inactive_to_active_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "StartUp2"
     },
     {
       "AnimationType": "Boss_Idle_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "Idle1"
     },
     {
       "AnimationType": "Boss_Idle_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "Idle2"
     },
     {
       "AnimationType": "Boss_Idle_sprite3.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "Idle3"
     },
     {
       "AnimationType": "Boss_Rage_idle_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage1"
     },
     {
       "AnimationType": "Boss_Rage_idle_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage2"
     },
     {
       "AnimationType": "Boss_Rage_idle_sprite3.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage3"
     },
     {
       "AnimationType": "Boss_Rage_idle_low_HP_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage1Low"
     },
     {
       "AnimationType": "Boss_Rage_idle_low_HP_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage2Low"
     },
     {
       "AnimationType": "Boss_Rage_idle_low_HP_sprite3.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.07,
       "AnimationName": "IdleRage3Low"
     },
     {
       "AnimationType": "Boss_Rage_idle_death_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathIdle1"
     },
     {
       "AnimationType": "Boss_Rage_idle_death_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathIdle2"
     },
     {
       "AnimationType": "Boss_Rage_idle_death_sprite3.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathIdle3"
     },
     {
       "AnimationType": "Boss_Rage_idle_death_sprite4.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathIdle4"
     },
     {
       "AnimationType": "Boss_Rage_idle_death_sprite5.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathIdle5"
     },
     {
       "AnimationType": "Boss_Rage_idle_death_sprite6.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathIdle6"
     },
     {
       "AnimationType": "Boss_Rage_idle_death_sprite7.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathIdle7"
     },
     {
       "AnimationType": "Boss_Rage_idle_death_sprite8.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathIdle8"
     },
     {
       "AnimationType": "Boss_Shoot_style_Death_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathShooting1"
     },
     {
       "AnimationType": "Boss_Shoot_style_Death_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathShooting2"
     },
     {
       "AnimationType": "Boss_Shoot_style_Death_sprite3.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathShooting3"
     },
     {
       "AnimationType": "Boss_Shoot_style_Death_sprite4.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathShooting4"
     },
     {
       "AnimationType": "Boss_Shoot_style_Death_sprite5.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathShooting5"
     },
     {
       "AnimationType": "Boss_Shoot_style_Death_sprite6.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "DeathShooting6"
     },
     {
       "AnimationType": "Boss_Laser_Charge_up_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "Laser1"
     },
     {
       "AnimationType": "Boss_Laser_Charge_up_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "Laser2"
     },
     {
       "AnimationType": "Boss_Laser_Charge_up_sprite3.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "Laser3"
     },
     {
       "AnimationType": "Boss_Laser_Charge_up_sprite4.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "Laser4"
     },
     {
       "AnimationType": "Boss_Laser_Charge_up_sprite5.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "Laser5"
     },
     {
       "AnimationType": "Boss_Laser_after_shoot_transform_back_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformLaserToIdle1"
     },
     {
       "AnimationType": "Boss_Laser_after_shoot_transform_back_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformLaserToIdle2"
     },
     {
       "AnimationType": "Boss_Laser_after_shoot_transform_back_sprite3.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformLaserToIdle3"
     },
     {
       "AnimationType": "Boss_Transform_into_rage_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformIdleToIdleRage1"
     },
     {
       "AnimationType": "Boss_Transform_into_rage_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformIdleToIdleRage2"
     },
     {
       "AnimationType": "Boss_Transform_into_rage_sprite3.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformIdleToIdleRage3"
     },
     {
       "AnimationType": "Boss_rage_transform_to_shoot_style_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformIdleRageToShooting1"
     },
     {
       "AnimationType": "Boss_rage_transform_to_shoot_style_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformIdleRageToShooting2"
     },
     {
       "AnimationType": "Boss_shoot_style_transform_to_rage_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformShootingToIdleRage1"
     },
     {
       "AnimationType": "Boss_shoot_style_transform_to_rage_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "TransformShootingToIdleRage2"
     },
     {
       "AnimationType": "Boss_Shoot_style_sprite.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "Shooting"
     },
     {
       "AnimationType": "Boss_Shoot_style_low_HP_sprite1.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "ShootingLowHP1"
     },
     {
       "AnimationType": "Boss_Shoot_style_low_HP_sprite2.json",
-      "TimeDelay": 0.10000000149011612,
+      "TimeDelay": 0.05,
       "AnimationName": "ShootingLowHP2"
     }
   ],
   "StartAnim": "StartUp1",
   "RigidBody2DComponent": true,
   "Mass": 5.0,
-  "Friction": 0.10000000149011612,
+  "Friction": 0.05,
   "Static": false,
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
