@@ -4,10 +4,6 @@
 #include <ctime>
 #include "Script/EntrancePortal.h"
 
-// set render layer of BOSS above bullet
-// bullet shooting @ the 4 diagonal corners
-
-
 Boss::Boss() :
 	health{ 0 }, healthMax{ 0 }, healthHalf{ 0 }, healthQuart{ 0 },
 
@@ -127,6 +123,8 @@ void Boss::UpdateState()
 		health = -1;
 	}
 
+	OnHit();
+
 	// check death
 	if (health < 1 && _state != (int)Boss_State::DEATH)
 	{
@@ -136,8 +134,6 @@ void Boss::UpdateState()
 		Death();
 		return;
 	}
-
-	HitTint();
 
 	// force skip UpdateState() if Boss currently still in any of these states
 	if (_state == (int)Boss_State::STARTUP ||
@@ -562,23 +558,30 @@ void Boss::TransformNextAnim()
 	}
 }
 
-void Boss::HitTint()
+void Boss::OnHit()
 {
 	if (_justHit)
 	{
 		_justHit = false;
+		health--;
 		if (_redTint)
 			hitTintTimer = hitTintDuration;
 		else
-			; // set tint red
+		{
+			_redTint = true;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.5, 0, 0, 0)); // set tint red
+		}
 	}
-	hitTintTimer -= _dt;
-	if (hitTintTimer > 0)
-		return;
 	else
 	{
-		_redTint = false;
-		; // set tint normal
+		hitTintTimer -= _dt;
+		if (hitTintTimer > 0)
+			return;
+		else
+		{
+			_redTint = false;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0)); // set tint normal
+		}
 	}
 }
 
@@ -671,9 +674,7 @@ void Boss::OnCollision2DTrigger(Collider2D* other)
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (otherType.compare("Bullet") == 0)
 	{
-		health--;
-		GraphicComponent* temp = GetSibilingComponentObject(Graphic);
-		temp->SetTintColor(glm::vec4(0.1,0,0,0));
+		_justHit = true; // used in OnHit()
 	}
 }
 

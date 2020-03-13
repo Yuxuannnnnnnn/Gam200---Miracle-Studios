@@ -134,7 +134,7 @@ public:
 	void LaserShoot();
 	void Transform();
 	void TransformNextAnim();
-	void HitTint();
+	void OnHit();
 	
 	void OnCollision2DTrigger(Collider2D* other);
 
