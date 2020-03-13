@@ -506,44 +506,7 @@ void TileMapComponent::Inspect()
 		ImGui::Spacing();
 		ImGui::Spacing();
 
-		Vector3  pos = MyInputSystem.GetMouseWorldPos();
 
-		//Check Picking Collision for every single tile
-		for (auto& tile : _tileNodeMap)
-		{
-			//Draw every Tile                                       // x center                     y center
-			DebugRenderer::GetInstance().DrawBox(glm::vec3{ tile.second->GetPosition()._x, tile.second->GetPosition()._y, 0 },
-				   // x y scale
-				glm::vec3{ _tilesize._x, _tilesize._y,0 });
-
-			std::cout << tile.second->GetPosition() << ", " << _tilesize << std::endl;
-
-			TransformComponent * transform = (TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform));
-
-			//Create a picking Box for each tile, position, tilesize and rotation
-			BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ tile.second->GetPosition()._x,tile.second->GetPosition()._y, 1.0f },
-				Vec3{ _tilesize._x, _tilesize._y },
-				transform->GetRotate());
-
-			//If there is collision
-			if (Collision::CollisionCheck(pickingBox, pos))
-			{
-				if (MyInputSystem.KeyDown(MOUSE_RBUTTON))	//If the tile is selcted
-				{
-					tile.second->SetSolid(!tile.second->GetSolid());
-				}
-				else										// If just Hovering over the box
-				{
-					DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(), 0}, glm::vec3{ _tilesize._x, _tilesize._y, 0}, glm::vec4{ 1, 0, 0, 0.3f });
-				}
-			}
-
-			if (tile.second->GetSolid())
-			{
-				DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(), 0}, glm::vec3{ _tilesize._x, _tilesize._y, 0});
-			}
-
-		}
 	}
 
 

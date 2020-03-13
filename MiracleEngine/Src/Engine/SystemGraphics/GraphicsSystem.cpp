@@ -11,6 +11,56 @@ void GraphicsSystem::Update(double dt)
 {
 	BeginScene(dt);
 
+
+	Vector3  pos = MyInputSystem.GetMouseWorldPos();
+
+	std::unordered_map<size_t, IComponent *>& TileMapContainer = GetComponentMap(TileMap);
+
+	for (auto& tileMap : TileMapContainer)
+	{
+		TileMapComponent* TMCom = (TileMapComponent *)(tileMap.second);
+		std::unordered_map < int, Node* > tileNodeMap = TMCom->GetNodeMap();
+
+		if (TMCom->GetTurnOnTileMap())
+		{
+			//Check Picking Collision for every single tile
+			for (auto& tile : tileNodeMap)
+			{
+				//Draw every Tile                                       // x center                     y center
+				DebugRenderer::GetInstance().DrawBox(glm::vec3{ tile.second->GetPosition()._x, tile.second->GetPosition()._y, 0 },
+					// x y scale
+					glm::vec3{ TMCom->GetTilesize()._x, TMCom->GetTilesize()._y,0 });
+
+				std::cout << tile.second->GetPosition() << ", " << TMCom->GetTilesize() << std::endl;
+
+				TransformComponent* transform = (TransformComponent*)(TMCom->GetSibilingComponent(ComponentId::CT_Transform));
+
+				//Create a picking Box for each tile, position, tilesize and rotation
+				BPolygon pickingBox = BPolygon::CreateBoxPolygon(Vec3{ tile.second->GetPosition()._x,tile.second->GetPosition()._y, 1.0f },
+					Vec3{ TMCom->GetTilesize()._x, TMCom->GetTilesize()._y },
+					transform->GetRotate());
+
+				//If there is collision
+				if (Collision::CollisionCheck(pickingBox, pos))
+				{
+					if (MyInputSystem.KeyDown(MOUSE_RBUTTON))	//If the tile is selcted
+					{
+						tile.second->SetSolid(!tile.second->GetSolid());
+					}
+					else										// If just Hovering over the box
+					{
+						DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(), 0 }, glm::vec3{ TMCom->GetTilesize()._x, TMCom->GetTilesize()._y, 0 }, glm::vec4{ 1, 0, 0, 0.3f });
+					}
+				}
+
+				if (tile.second->GetSolid())
+				{
+					DebugRenderer::GetInstance().FillBox(glm::vec3{ tile.second->GetPosition().GetX(),tile.second->GetPosition().GetY(), 0 }, glm::vec3{ TMCom->GetTilesize()._x, TMCom->GetTilesize()._y, 0 });
+				}
+
+			}
+		}
+	}
 	
 	// debug renderer test
 	
