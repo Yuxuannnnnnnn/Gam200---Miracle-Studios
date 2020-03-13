@@ -383,7 +383,7 @@ void AudioComponent::Inspect()
 			ImGui::Spacing();
 			ImGui::Spacing();
 
-			std::string VolumeString = "Volume##" + std::to_string(i);
+			std::string VolumeString = "Volume##Background" + std::to_string(i);
 			if (ImGui::SliderFloat(VolumeString.c_str(), &std::get<1>(sfxPairTuple.second), 0, 1))
 			{
 			}
