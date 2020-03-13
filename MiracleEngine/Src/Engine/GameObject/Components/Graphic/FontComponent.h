@@ -16,19 +16,45 @@ private:
 	float _b;
 	float _a;
 
-	*/ 
+	*/
 
 	float _color[4] = { 1.0f,1.0f,1.0f,1.0f };
 	bool _startDisplaying = false;
 	float _delayTime = 0.0f;
 	bool _isDelayedText = false;
 
-	
+	/* dont need serialize private var below*/
+
+	float _currentDelaytime = 0;
+	size_t _fontCounter = 0;
+
 public:
+	size_t GetFontCounter();
+	void SetFontCounter(size_t count);
+
+	float GetCurrentDelayTime() const;
+	void SetCurrentDelayTime(float time);
+
+	void SetFontColor(const glm::vec3& color);
 	glm::vec3 GetFontColor() const;
-	
+
 	float GetDelayTime() const;
-	float IsStartDisplaying() const;
+	void SetDelayTime(float time);
+
+	bool IsStartDisplaying() const;
+	void  SetStartDisplaying(bool start);
+
+	bool IsDelayedText();
+	void SetisDelayedText(bool text);
+
+	void SetText(const std::string& text);
+	std::string GetText();
+
+
+	void SetFontType(const std::string& type);
+	std::string GetType();
+
+
 	void SerialiseComponent(Serialiser& document) override
 	{
 
@@ -48,7 +74,7 @@ public:
 	}
 
 
-	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override 
+	void DeSerialiseComponent(DeSerialiser& prototypeDoc) override
 	{
 		rapidjson::Value value;
 

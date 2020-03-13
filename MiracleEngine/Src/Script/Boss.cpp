@@ -60,7 +60,8 @@ void Boss::Init()
 	_CurrAnimChain = _StartUp;
 	_CurrAnimChainItr = _CurrAnimChain.begin();
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("StartUp1");
-
+	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+	audcom->PlaySFX("StartUp");
 	MyAudioSystem.PlayBGM("MusicBGM1", 1.0f); // ask YX where she grab this from
 
 	_init = true;
@@ -290,6 +291,8 @@ void Boss::Death()
 				if (!itr.second->GetDestory() && itr.second->GetAlive())
 					((Enemy*)itr.second)->ForceDeath();// ((Enemy*)itr.second)->SetHealth(-1);
 
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("Death");
 		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
 
 		if (_stateNext == (int)Boss_State::SPIN_SHOOTBULLET ||
@@ -567,6 +570,8 @@ void Boss::OnHit()
 	{
 		_justHit = false;
 		health--;
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("Hit");
 		if (_redTint)
 			hitTintTimer = hitTintDuration;
 		else
@@ -620,7 +625,7 @@ void Boss::Transform()
 		PlayAnimChain(_TransformIdleRageToShoot, true);
 		_state = (int)Boss_State::TRANSFORMING;
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-		audcom->PlaySFX("LaserCharging");
+		audcom->PlaySFX("Transform");
 	}
 	if (_state == (int)Boss_State::SPIN_SHOOTBULLET_END &&
 		_stateNext == (int)Boss_State::IDLE_RAGE)
@@ -628,7 +633,7 @@ void Boss::Transform()
 		PlayAnimChain(_TransformShootToIdleRage, true);
 		_state = (int)Boss_State::TRANSFORMING;
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-		audcom->PlaySFX("LaserChargingReverse");
+		audcom->PlaySFX("TransformReverse");
 	}
 
 

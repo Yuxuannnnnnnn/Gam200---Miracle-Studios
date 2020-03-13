@@ -1,1 +1,25 @@
-{"PrototypesFilePaths":["./Resources/TextFiles/GameObjects\\SchoolLogo.json"],"TexturesFilesPaths":["./Resources/Image\\DigiPen_Singapore_WEB_WHITE.png"],"ShaderFilesPaths":[["DefaultShader","Resources/Shader/basic.vert","Resources/Shader/basic.frag"]],"AnimationDataFilesPaths":[],"AudioSFXFilesPaths":[],"AudioBGMFilesPaths":[],"FontFilesPath":["Resources/Fonts/sector_017.ttf"],"ClonableObjects":[{"IdentityComponent":true,"ObjectType":"SchoolLogo","TransformComponent":true,"Position":[1.0,0.0,1.0],"LogicComponent":true,"Scripts":[{"Script2Id":"SplashScreen","SS.ScreenDuration":3.0}]}],"NonClonableObjects":[]}
+{
+  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\SchoolLogo.json" ],
+  "TexturesFilesPaths": [ "./Resources/Image\\DigiPen_Singapore_WEB_WHITE.png" ],
+  "ShaderFilesPaths": [ [ "DefaultShader", "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" ] ],
+  "AnimationDataFilesPaths": [],
+  "AudioSFXFilesPaths": [],
+  "AudioBGMFilesPaths": [],
+  "FontFilesPath": [ "Resources/Fonts/sector_017.ttf" ],
+  "Objects": [
+    {
+      "IdentityComponent": true,
+      "ObjectType": "SchoolLogo",
+      "TransformComponent": true,
+      "Position": [ 1.0, 0.0, 1.0 ],
+      "LogicComponent": true,
+      "Scripts": [
+        {
+          "Script2Id": "SplashScreen",
+          "SS.ScreenDuration": 3.0
+        }
+      ]
+    }
+  ]
+
+}
