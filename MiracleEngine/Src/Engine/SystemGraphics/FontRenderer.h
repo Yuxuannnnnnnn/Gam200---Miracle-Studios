@@ -53,6 +53,5 @@ private:
 
 	size_t _fontCounter;
 	bool _startDelay = false;
-
 	float delaytime = 200.0f;
 };
