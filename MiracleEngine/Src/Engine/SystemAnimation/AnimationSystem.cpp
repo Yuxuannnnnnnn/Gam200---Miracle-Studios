@@ -3,6 +3,9 @@
 
 void AnimationSystem::Update(double dt)
 {
+	if (dt < 0)
+		return;
+
 	
 	for (auto& animCompPair : GetComponentMap(Animation))
 	{

@@ -176,7 +176,7 @@ std::string Bullet::IntToString(int bulletType)
 void  Bullet::Init()
 {
 	if (_bulletType == 1 || _bulletType == 3)
-		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(false);
+		((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
 
 	_body = (RigidBody2DComponent*)GetParentPtr()->GetComponent(ComponentId::CT_RigidBody2D);
 }
@@ -296,6 +296,7 @@ void Bullet::OnCollision2DTrigger(Collider2D* other)
 		_justCollided = true;
 		if (_bulletType == 1)
 		{
+			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(true);
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Explosion");
 			((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->SetScaleA({300, 300, 1});
 			((RigidBody2DComponent*)this->GetSibilingComponent(ComponentId::CT_RigidBody2D))->SetEnable(false);

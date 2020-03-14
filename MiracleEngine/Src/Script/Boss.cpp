@@ -578,6 +578,13 @@ void Boss::TransformNextAnim()
 
 void Boss::OnHit()
 {
+	if (health < 0)
+	{
+		if (_redTint)
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0));
+		return;
+	}
+
 	if (_justHit)
 	{
 		_justHit = false;
