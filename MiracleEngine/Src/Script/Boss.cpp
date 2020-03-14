@@ -285,15 +285,19 @@ void Boss::Death()
 		_deathStart = false;
 
 		// set destroy to all enemies
-		for (auto itr : _engineSystems._factory->getObjectlist())
+		for (auto& itr : _engineSystems._factory->getObjectlist())
+		{
 			if (GetComponentObject(itr.second, Identity)->ObjectType().compare("Enemy") == 0 ||
 				GetComponentObject(itr.second, Identity)->ObjectType().compare("EnemyTwo") == 0)
 				if (!itr.second->GetDestory() && itr.second->GetAlive())
-					((Enemy*)itr.second)->ForceDeath();// ((Enemy*)itr.second)->SetHealth(-1);
+				{
+					Enemy* obj = GetScriptByLogicComponent(GetComponentObject(itr.second, Logic), Enemy);
 
-		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
-		audcom->PlaySFX("Death");
-		GetSibilingComponent(ComponentId::CT_CircleCollider2D)->SetEnable(false);
+					if (obj)
+						obj->SetHealth(-1);
+				}
+					//((Enemy*)itr.second)->ForceDeath();// ((Enemy*)itr.second)->SetHealth(-1);
+		}
 
 		if (_stateNext == (int)Boss_State::SPIN_SHOOTBULLET ||
 			_statePrev == (int)Boss_State::SPIN_SHOOTBULLET ||
@@ -301,11 +305,15 @@ void Boss::Death()
 		{
 			if (DEBUGOUTPUT) std::cout << "DEBUG:\tDeathShooting.\n";
 			PlayAnimChain(_DeathShooting, true);
+			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+			audcom->PlaySFX("DeathShoot");
 		}
 		else // if (_statePrev == (int)Boss_State::IDLE_RAGE || _statePrev == (int)Boss_State::IDLE_RAGE_END)
 		{
 			if (DEBUGOUTPUT) std::cout << "DEBUG:\tDeathIdle.\n";
 			PlayAnimChain(_DeathIdle, true);
+			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+			audcom->PlaySFX("DeathIdleRage");
 		}
 		return;
 	}
