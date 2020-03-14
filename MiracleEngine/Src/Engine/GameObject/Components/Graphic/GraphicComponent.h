@@ -39,7 +39,9 @@ private:
 	float _startpos;
 	float _endpos;
 
+	
 	float _interpolateTimer = 0.0f;
+	int _interpoateState = 0;
 
 public:
 	glm::vec4 GetTintColor() const;

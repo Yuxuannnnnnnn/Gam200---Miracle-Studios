@@ -40,10 +40,10 @@ unsigned int GraphicComponent::GetTextureID() const
 
 
 
-GraphicComponent::GraphicComponent():
-	_fileName{}, 
+GraphicComponent::GraphicComponent() :
+	_fileName{},
 	_shader{},
-	_layer{ 1 }, _hasAlpha{ false }, _hasAdjustableAlpha{ false }, _alphaVal{ 1.0f }, _isFadingOut{ false }, _isFlickering{false}
+	_layer{ 1 }, _hasAlpha{ false }, _hasAdjustableAlpha{ false }, _alphaVal{ 1.0f }, _isFadingOut{ false }, _isFlickering{ false }
 {
 	_alphaVal = 1.0f;
 	_tintcolor = glm::vec4{ 0,0,0,0 };
@@ -71,7 +71,7 @@ void GraphicComponent::RenderLayerResolver()
 	IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (GetSibilingComponent(ComponentId::CT_Identity));
 	std::string type = IdCom->ObjectType();
 
-	
+
 }
 
 
@@ -160,7 +160,7 @@ void GraphicComponent::Inspect()
 
 	static ImGuiFunctions Function;
 	static bool op = false;
-	static bool * open = &op;
+	static bool* open = &op;
 
 	if (_fileName.empty())
 	{
@@ -242,13 +242,13 @@ void GraphicComponent::Inspect()
 
 		ImGui::Spacing();
 		ImGui::Spacing();
-		
+
 		string = "Fade Out ";
 		ImGui::Checkbox(string.c_str(), &_isFadingOut);
-				
+
 		ImGui::Spacing();
 		ImGui::Spacing();
-		
+
 		string = "Flicker ";
 		ImGui::Checkbox(string.c_str(), &_isFlickering);
 
@@ -399,7 +399,14 @@ int  GraphicComponent::GetRenderLayer()
 void GraphicComponent::StartInterpolate()
 {
 	int a = (int)_interpolateTimer;
-	if (a % 2 == 0)
+
+	if (_interpolateTimer > 1.00f)
+	{
+		_interpolateTimer -= 1.00f;
+		_interpoateState += 1;
+	}
+
+	if (_interpoateState % 2 == 0)
 	{
 		Vector3 result = _startpos * (1 - _interpolateTimer) + _endpos * _interpolateTimer;
 		auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
@@ -408,7 +415,6 @@ void GraphicComponent::StartInterpolate()
 	// return form point 2
 	else
 	{
-		a -= .99f;
 		Vector3 result = _endpos * (1 - _interpolateTimer) + _startpos * _interpolateTimer;
 		auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
 		b->SetPos(result);
