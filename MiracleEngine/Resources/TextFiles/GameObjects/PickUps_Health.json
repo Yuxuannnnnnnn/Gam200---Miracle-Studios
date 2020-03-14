@@ -6,7 +6,7 @@
 
   "TransformComponent": true,
   "Position": [ 0.0, 0.0 ],
-  "Scale": [ 50.0, 50.0 ],
+  "Scale": [ 100.0, 100.0 ],
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
@@ -29,5 +29,5 @@
   "ColliderTag": 5,
   "ColliderTrigger": true,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-  "Collider2D.C.Radius": 15.0
+  "Collider2D.C.Radius": 31.0
 }

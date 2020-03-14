@@ -654,20 +654,6 @@ void Player::UpdateInput(double dt)
 				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos() + aimVector.Normalized() * 100.f);
 		}
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_2) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_2))
-	{	// spawn WALL
-		if (_timerDeploy <= 0)
-		{
-			_timerDeploy = _firerateWall; // reset timer to frWall
-			GameObject* wall = nullptr;
-			wall = CreateObject("Wall");
-			((TransformComponent*)wall->GetComponent(ComponentId::CT_Transform))->SetPos(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-			((TransformComponent*)wall->GetComponent(ComponentId::CT_Transform))->SetRotate(
-				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-		}
-	}
 	// KEYS
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_Q) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_Q))
@@ -675,27 +661,27 @@ void Player::UpdateInput(double dt)
 		if (_timerSwitch < 0)
 			WeaponSwitch();
 	}
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
-	{
-		GameObject* tempGO = nullptr;
-		IdentityComponent* IdCom;
-		std::string Id;
-		std::unordered_map<size_t, GameObject*> temp = MyFactory.getObjectlist();
-		for (auto it : temp)
-		{
-			IdCom = dynamic_cast<IdentityComponent*>(it.second->GetComponent(ComponentId::CT_Identity));
-			Id = IdCom->ObjectType();
-			if ((Id.compare("Enemy") ||
-				Id.compare("EnemyTwo") ||
-				Id.compare("EnemyThree")
-				) && it.second->Get_uID() >= 1000)
-			{
-				tempGO = it.second;
-				tempGO->SetDestory();
-			}
-		}
-	}
+	//if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0) ||
+	//	EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0))
+	//{
+	//	GameObject* tempGO = nullptr;
+	//	IdentityComponent* IdCom;
+	//	std::string Id;
+	//	std::unordered_map<size_t, GameObject*> temp = MyFactory.getObjectlist();
+	//	for (auto it : temp)
+	//	{
+	//		IdCom = dynamic_cast<IdentityComponent*>(it.second->GetComponent(ComponentId::CT_Identity));
+	//		Id = IdCom->ObjectType();
+	//		if ((Id.compare("Enemy") ||
+	//			Id.compare("EnemyTwo") ||
+	//			Id.compare("EnemyThree")
+	//			) && it.second->Get_uID() >= 1000)
+	//		{
+	//			tempGO = it.second;
+	//			tempGO->SetDestory();
+	//		}
+	//	}
+	//}
 
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_9) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_9))
