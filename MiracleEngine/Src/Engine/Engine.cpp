@@ -123,6 +123,10 @@ void Engine::Update()
 			MyAudioSystem.Update();
 			MyPerformanceUsage.AudioFrameTime += MyFrameRateController.EndTimeCounter();
 		}
+		else
+		{
+			ShowCursor(true);
+		}
 
 		MyFrameRateController.StartTimeCounter();
 
