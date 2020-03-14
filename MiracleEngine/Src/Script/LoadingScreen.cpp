@@ -60,6 +60,8 @@ LoadingScreen* LoadingScreen::Clone()
 
 void LoadingScreen::Init()
 {
+	_cursorObj = GetLinkObject(_cursorLinkId);
+
 	if (_loadingComplete)
 	{
 		_continueButton = GetLinkObject(_continueLinkId);
@@ -69,10 +71,8 @@ void LoadingScreen::Init()
 		GetSibilingComponentObject(UI)->SetFileName(_CompletedFileName);
 
 		_input->_pause = true;
+		_cursorObj->SetEnable(false);
 	}
-
-	_cursorObj = GetLinkObject(_cursorLinkId);
-	_cursorObj->SetEnable(false);
 }
 
 void LoadingScreen::LoadResource()
