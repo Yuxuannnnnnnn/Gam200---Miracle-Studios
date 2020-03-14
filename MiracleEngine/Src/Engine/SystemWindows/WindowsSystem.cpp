@@ -13,6 +13,16 @@ WindowsSystem::WindowsSystem(HINSTANCE hInstance, int nCmdShow)
 //reads all messages received in this window objects
 bool WindowsSystem::Update()
 {
+#ifdef LEVELEDITOR
+	if(!MyImguiSystem._editorMode)
+		while (ShowCursor(false) >= 0);
+	else
+		for(int i = 0; i < 11; i ++)
+			ShowCursor(true);
+
+#else
+	while (ShowCursor(false) >= 0);
+#endif
 
 	window.CheckFullScreenToggle();
 

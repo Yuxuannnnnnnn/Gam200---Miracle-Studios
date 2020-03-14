@@ -66,8 +66,6 @@ void Engine::Update()
 
 		if (!MyImguiSystem._editorMode)
 		{
-			ShowCursor(false);
-
 			if (!MyInputSystem._pause)
 			{
 
@@ -123,10 +121,7 @@ void Engine::Update()
 			MyAudioSystem.Update();
 			MyPerformanceUsage.AudioFrameTime += MyFrameRateController.EndTimeCounter();
 		}
-		else
-		{
-			ShowCursor(true);
-		}
+
 
 		MyFrameRateController.StartTimeCounter();
 
@@ -154,7 +149,6 @@ void Engine::Update()
 		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 #else
 
-		ShowCursor(false);
 
 		MyInputSystem.Update(MyWindowsSystem.getWindow());
 		MyCameraSystem.Update();
