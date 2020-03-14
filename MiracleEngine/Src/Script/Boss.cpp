@@ -19,7 +19,7 @@ Boss::Boss() :
 
 	laserRapidFireNumOfShots{ 0 }, rapidFireShotCount{ 0 },
 	laserRapidChargeSpeedUp{ 0.0 },
-	hitTintTimer{ 0.0 }, hitTintDuration{ 1.0 },
+	hitTintTimer{ 0.0 }, hitTintDuration{ 0.3 },
 
 	_state{ (int)Boss_State::STARTUP }, _statePrev{ (int)Boss_State::STARTUP }, _stateNext{ (int)Boss_State::STARTUP },
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },
@@ -585,10 +585,10 @@ void Boss::OnHit()
 		else
 		{
 			_redTint = true;
-			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.5, 0, 0, 0)); // set tint red
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.3, 0, 0, 0)); // set tint red
 		}
 	}
-	else
+	if (_redTint)
 	{
 		hitTintTimer -= _dt;
 		if (hitTintTimer > 0)
@@ -599,6 +599,8 @@ void Boss::OnHit()
 			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0)); // set tint normal
 		}
 	}
+	else
+		hitTintTimer = hitTintDuration;
 }
 
 void Boss::Transform()
