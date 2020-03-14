@@ -68,7 +68,7 @@
     },
     {
       "SFXName": "TransformReverse",
-      "fileName": "BossTransform.wav",
+      "fileName": "BossTransforms.wav",
       "volume": 0.23899999260902406,
       "NumOfloops": 0
     },
