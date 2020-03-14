@@ -60,6 +60,39 @@ void CameraComponent::SetMainCamera(bool main)
 	}
 }
 
+void CameraComponent::Panning(const Vector3& p1, const Vector3& p2, float a)
+{
+	if (a > 0.999f)
+		a = 0.999f;
+	Vector3 result = p1 * (1 - a) + p2 * a;
+	auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
+	b->SetPos(result);
+}
+
+//void CameraComponent::Panning(const Vector3& p1, const Vector3& p2, float a, float dt)
+//{
+//}
+
+void CameraComponent::SmoothFollow(const Vector3& player, float damping)
+{
+
+	auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
+
+	Vector3 pos = b->GetPos();
+	Vector3 newPos = (player - pos) * damping;
+	b->SetPos(newPos);
+}
+
+void CameraComponent::SmoothFollow(const Vector3& player, float dt, float damping)
+{
+
+	auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
+
+	Vector3 pos = b->GetPos();
+	Vector3 newPos = (player - pos) * damping * dt;
+	b->SetPos(newPos);
+}
+
 void CameraComponent::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("CameraComponent") && document["CameraComponent"].IsBool())

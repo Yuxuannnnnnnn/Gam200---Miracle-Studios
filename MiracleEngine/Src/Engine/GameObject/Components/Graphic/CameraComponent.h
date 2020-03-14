@@ -30,5 +30,10 @@ public:
 	bool isMainCamera() const;
 
 	void SetMainCamera(bool main);
+
+	void Panning(const Vector3& p1, const Vector3& p2, float a);
+	//void Panning(const Vector3& p1, const Vector3& p2, float a, float dt);
+	void SmoothFollow(const Vector3& player, float damping = 0.1f);
+	void SmoothFollow(const Vector3& player, float dt, float damping = 0.1f);
 };
 
