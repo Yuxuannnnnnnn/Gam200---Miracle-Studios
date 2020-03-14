@@ -10,12 +10,14 @@ private:
 
 	int _playerLinkId;
 	int _continueLinkId;
+	int _cursorLinkId;
 
 	bool _loadingComplete;
 
 	IScript2* _player;
 
 	GameObject* _continueButton;
+	GameObject* _cursorObj;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
@@ -32,5 +34,7 @@ public:
 	void Init();
 	void LoadResource();
 	void Update(double dt);
+
+	void StartLoading();
 };
 

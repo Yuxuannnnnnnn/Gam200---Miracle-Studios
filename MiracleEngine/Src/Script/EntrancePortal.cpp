@@ -241,7 +241,7 @@ void EntrancePortal::Init()
 	}
 
 	if (_level != 3)
-		_loadingObj = GetLinkObject(_loadingLinkId);
+		_loadingObj = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_loadingLinkId), Logic), LoadingScreen);
 }
 
 void EntrancePortal::LoadResource()
@@ -285,10 +285,7 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 			std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 
 			if (!otherType.compare("player"))
-			{
-				_loadingObj->SetEnable(true);
 				GoNextScene();
-			}
 		}
 	}
 	else if (_level == 2)
@@ -296,10 +293,7 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 		std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 
 		if (!otherType.compare("player"))
-		{
-			_loadingObj->SetEnable(true);
 			GoNextScene();
-		}
 	}
 }
 
@@ -313,5 +307,8 @@ void EntrancePortal::IncreaseKillCount(int kills)
 
 void EntrancePortal::GoNextScene()
 {
+	if (_level != 3)
+		((LoadingScreen*)_loadingObj)->StartLoading();
+
 	MyFactory.ChangeScene(_nextScene);
 }

@@ -1,6 +1,7 @@
 #include "PrecompiledHeaders.h"
 #include "ButtonController.h"
 #include "PauseMenu.h"
+#include "Script/LoadingScreen.h"
 
 void ButtonController::SerialiseComponent(Serialiser& document)
 {
@@ -110,10 +111,7 @@ void ButtonController::Init()
 		_pauseMenu = GetScriptByLogicComponent(GetComponentObject( GetLinkObject(1275), Logic), PauseMenu);
 
 	if (_currScene == 1)
-	{
-		_LoadingObj = GetLinkObject(_loadingLinkId);
-		_LoadingObj->SetEnable(false);
-	}
+		_LoadingObj = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_loadingLinkId), Logic), LoadingScreen);
 }
 
 void ButtonController::LoadResource()
@@ -129,7 +127,7 @@ void ButtonController::Update(double dt)
 	{
 		if (_input->ButtonTrigger(10)) // start
 		{
-			_LoadingObj->SetEnable(true);
+			((LoadingScreen*)_LoadingObj)->StartLoading();
 			MyFactory.ChangeScene("truelevel1");
 		}
 		else if (_input->ButtonTrigger(11)) // options

@@ -11,5 +11,14 @@
   "UIComponent": true,
   "UI.FileName": "Loading_Screen_1.png",
   "UI.Layer": 130,
-  "UI.HasAlpha": false
+  "UI.HasAlpha": false,
+
+  "LogicComponent": true,
+  "Scripts": [
+    {
+      "Script2Id": "LoadingScreen",
+      "L.LoadComplete": false,
+      "L.CursorLinkId": 9723
+    }
+  ]
 }

@@ -20,7 +20,8 @@
       "L.CompletedFileName": "Loading_Screen_2.png",
       "L.PlayerLinkId": 999,
       "L.ContinueLinkId": 14239,
-      "L.LoadComplete":  true
+      "L.LoadComplete": true,
+      "L.CursorLinkId": 9723
     }
   ]
 }

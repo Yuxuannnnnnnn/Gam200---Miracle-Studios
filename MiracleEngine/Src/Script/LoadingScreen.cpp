@@ -19,6 +19,9 @@ void LoadingScreen::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("L.LoadComplete") && document["L.LoadComplete"].IsBool())
 		_loadingComplete = document["L.LoadComplete"].GetBool();
+
+	if (document.HasMember("L.CursorLinkId") && document["L.CursorLinkId"].IsInt())
+		_cursorLinkId = document["L.CursorLinkId"].GetInt();
 }
 
 void LoadingScreen::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -42,9 +45,11 @@ LoadingScreen::LoadingScreen() :
 	_CompletedFileName{},
 	_playerLinkId{ 0 },
 	_continueLinkId{ 0 },
+	_cursorLinkId{0},
 	_loadingComplete{ false },
 	_player{ nullptr },
-	_continueButton{ nullptr }
+	_continueButton{ nullptr },
+	_cursorObj{nullptr}
 {
 }
 
@@ -61,11 +66,13 @@ void LoadingScreen::Init()
 		_continueButton->SetEnable(true);
 		_player = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_playerLinkId), Logic), Player);
 		_player->GetParentPtr()->SetEnable(false);
-
 		GetSibilingComponentObject(UI)->SetFileName(_CompletedFileName);
 
 		_input->_pause = true;
 	}
+
+	_cursorObj = GetLinkObject(_cursorLinkId);
+	_cursorObj->SetEnable(false);
 }
 
 void LoadingScreen::LoadResource()
@@ -85,8 +92,18 @@ void LoadingScreen::Update(double dt)
 		_continueButton->SetEnable(false);
 		_player->GetParentPtr()->SetEnable(true);
 		GetParentPtr()->SetEnable(false);
+		_cursorObj->SetEnable(true);
 
 		GetSibilingComponentObject(UI)->SetFileName(_LoadingFileName);
 	}
+}
 
+void LoadingScreen::StartLoading()
+{
+	if (_loadingComplete)
+		_player->GetParentPtr()->SetEnable(false);
+
+	GetParentPtr()->SetEnable(true);
+	_cursorObj->SetEnable(false);
+	_input->_pause = false;
 }

@@ -11,7 +11,7 @@ private:
 
 	IScript2* _pauseMenu;
 
-	GameObject* _LoadingObj;
+	IScript2* _LoadingObj;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
