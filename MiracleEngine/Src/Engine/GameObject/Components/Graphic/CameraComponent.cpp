@@ -60,14 +60,37 @@ void CameraComponent::SetMainCamera(bool main)
 	}
 }
 
-void CameraComponent::Panning(const Vector3& p1, const Vector3& p2, float a)
+bool CameraComponent::Panning(const Vector3& p1, const Vector3& p2, float a)
 {
-	if (a > 0.999f)
-		a = 0.999f;
-	Vector3 result = p1 * (1 - a) + p2 * a;
-	auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
-	b->SetPos(result);
+	if (a < 0.999f && a > 0.0001f)
+	{
+		Vector3 result = p1 * (1 - a) + p2 * a;
+		auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
+		b->SetPos(result);
+		return false;
+	}
+	// return form point 2
+	else if (a > 0.999f && a < 1.999f)
+	{
+		a -= .99f;
+		Vector3 result = p2 * (1 - a) + p1 * a;
+		auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
+		b->SetPos(result);
+		return false;
+	}
+	// finish panning
+	else
+		return true;
 }
+
+//void CameraComponent::Panning(const Vector3& p1, const Vector3& p2, float a)
+//{
+//	if (a > 0.999f)
+//		a = 0.999f;
+//	Vector3 result = p1 * (1 - a) + p2 * a;
+//	auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
+//	b->SetPos(result);
+//}
 
 //void CameraComponent::Panning(const Vector3& p1, const Vector3& p2, float a, float dt)
 //{
