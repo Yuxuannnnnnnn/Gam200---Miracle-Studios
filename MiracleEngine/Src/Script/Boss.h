@@ -78,6 +78,9 @@ class Boss : public IScript2
 private:
 // Logic Data - General
 	int health, healthMax, healthHalf, healthQuart;
+
+	int _healthControllerLinkId;
+
 	double startUpTimer, idleTimer, idleDuration;
 
 	int ammo, ammoMax;
@@ -104,6 +107,8 @@ private:
 	std::vector<std::string>::iterator _CurrAnimChainItr;
 	std::vector<std::string> _CurrAnimChain, _NextAnimChain;
 	// anims are at end of this class
+
+	IScript2* _HealthController;
 
 public:
 	Boss();

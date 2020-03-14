@@ -149,6 +149,9 @@ void Engine::Update()
 		MyImguiSystem.Render();  //Renders Imgui Windows - All Imgui windows should be created before this line
 		MyPerformanceUsage.IMGUIFrameTime += MyFrameRateController.EndTimeCounter();
 #else
+
+		ShowCursor(false);
+
 		MyInputSystem.Update(MyWindowsSystem.getWindow());
 		MyCameraSystem.Update();
 

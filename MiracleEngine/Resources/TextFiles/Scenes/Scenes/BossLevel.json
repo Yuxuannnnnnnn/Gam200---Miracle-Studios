@@ -1,12 +1,41 @@
 {
-  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\BackgroundMusic.json", "./Resources/TextFiles/GameObjects\\Boss.json", "./Resources/TextFiles/GameObjects\\Bullet.json", "./Resources/TextFiles/GameObjects\\BulletE.json", "./Resources/TextFiles/GameObjects\\BulletT.json", "./Resources/TextFiles/GameObjects\\ButtonController.json", "./Resources/TextFiles/GameObjects\\Enemy.json", "./Resources/TextFiles/GameObjects\\EnemyTwo.json", "./Resources/TextFiles/GameObjects\\Explosion.json", "./Resources/TextFiles/GameObjects\\Floor01.json", "./Resources/TextFiles/GameObjects\\Floor02.json", "./Resources/TextFiles/GameObjects\\Floor03.json", "./Resources/TextFiles/GameObjects\\HealthController.json", "./Resources/TextFiles/GameObjects\\L3_Prop1.json", "./Resources/TextFiles/GameObjects\\L3_Prop2.json", "./Resources/TextFiles/GameObjects\\MapEdge.json", "./Resources/TextFiles/GameObjects\\MouseCursor.json", "./Resources/TextFiles/GameObjects\\PaseMenu.json", "./Resources/TextFiles/GameObjects\\PickUps_Ammo.json", "./Resources/TextFiles/GameObjects\\PickUps_Health.json", "./Resources/TextFiles/GameObjects\\PlayerMuzzle.json", "./Resources/TextFiles/GameObjects\\PlayerShield.json", "./Resources/TextFiles/GameObjects\\Prop_interior1.json", "./Resources/TextFiles/GameObjects\\Prop_interior2.json", "./Resources/TextFiles/GameObjects\\Prop_interior4.json", "./Resources/TextFiles/GameObjects\\Spawner.json", "./Resources/TextFiles/GameObjects\\Turret.json", "./Resources/TextFiles/GameObjects\\Wall.json", "./Resources/TextFiles/GameObjects\\Wall01.json", "./Resources/TextFiles/GameObjects\\Wall03.json", "./Resources/TextFiles/GameObjects\\Wall04.json", "./Resources/TextFiles/GameObjects\\Wall05.json", "./Resources/TextFiles/GameObjects\\Wall06.json", "./Resources/TextFiles/GameObjects\\none.json", "./Resources/TextFiles/GameObjects\\player.json" ],
-  "TexturesFilesPaths": [ "./Resources/Image/Interface\\Back_to_menu_button_click.png", "./Resources/Image/Interface\\Back_to_menu_button_hover.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Boss_HP_bar.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Boss_HP_bar_screen.png", "./Resources/Image/Enemy_AI\\Boss_Idle_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Idle_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Idle_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite4.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite5.png", "./Resources/Image/Enemy_AI\\Boss_Laser_after_shoot_transform_back_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Laser_after_shoot_transform_back_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Laser_after_shoot_transform_back_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite4.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite5.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite6.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite7.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite8.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_low_HP_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_low_HP_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_low_HP_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite4.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite5.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite6.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_low_HP_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_low_HP_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_sprite.png", "./Resources/Image/Enemy_AI\\Boss_Transform_into_rage_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Transform_into_rage_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Transform_into_rage_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_inactive_to_active_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_inactive_to_active_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_rage_transform_to_shoot_style_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_rage_transform_to_shoot_style_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_shoot_style_transform_to_rage_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_shoot_style_transform_to_rage_sprite2.png", "./Resources/Image\\Bullet.png", "./Resources/Image\\Bullet_E.png", "./Resources/Image\\Bullet_T.png", "./Resources/Image/Character_Animation\\Character_BodyFloat_sprite.png", "./Resources/Image/Character_Animation\\Character_death_sprite.png", "./Resources/Image/Character_Animation\\Character_muzzle_attack_sprite.png", "./Resources/Image/Enemy_AI\\Charger_enemy_sprite.png", "./Resources/Image/Enemy_AI\\Charging_enemies2_sprite.png", "./Resources/Image/Interface\\Continue_Button_click.png", "./Resources/Image/Interface\\Continue_Button_hover.png", "./Resources/Image/Enemy_AI\\Enemies1_sprite.png", "./Resources/Image/Enemy_AI\\Enemies_charging.png", "./Resources/Image\\EnemyTwo.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_green.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_orange.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_red.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_Fullset.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_screen.png", "./Resources/Image/Powers_effect\\Health_power_up_glow.png", "./Resources/Image/Enemy_AI\\Laser_Blasting.png", "./Resources/Image/Props_design/SCI_FI\\Level3_prop_1.png", "./Resources/Image/Props_design/SCI_FI\\Level3_prop_2.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_Floor_BotLeft.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_Floor_BotRight.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_Floor_TopLeft.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_Floor_TopRight.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_1.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_2.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_3.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_4.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_5.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_6.png", "./Resources/Image/Interface\\Mouse_cursor.png", "./Resources/Image/Character_Animation\\Muzzle_Idle_2.png", "./Resources/Image/Powers_effect\\Normal_impact_Blue_Plasma_24FPS_Sprite.png", "./Resources/Image/Interface\\Pause_menu.png", "./Resources/Image\\Player.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Progress_Bar.png", "./Resources/Image/Props_design\\Prop_interior_1.png", "./Resources/Image/Props_design\\Prop_interior_2.png", "./Resources/Image/Props_design\\Prop_interior_4.png", "./Resources/Image/Character_Animation\\Shield_Body_Character_sprite.png", "./Resources/Image/Character_Animation\\Shield_break_sprite.png", "./Resources/Image/Enemy_AI\\Shooter_enemy_sprite.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_lit.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_unlit.png", "./Resources/Image/Character_Animation\\Turret_Body_Sprite.png", "./Resources/Image/Character_Animation\\Turret_Transform_sprite.png", "./Resources/Image\\Wall.png", "./Resources/Image\\catjump.png", "./Resources/Image/Enemy_AI\\empty.png" ],
+  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\BackgroundMusic.json", "./Resources/TextFiles/GameObjects\\Boss.json", "./Resources/TextFiles/GameObjects\\BossHealthController.json", "./Resources/TextFiles/GameObjects\\Bullet.json", "./Resources/TextFiles/GameObjects\\BulletE.json", "./Resources/TextFiles/GameObjects\\BulletT.json", "./Resources/TextFiles/GameObjects\\ButtonController2.json", "./Resources/TextFiles/GameObjects\\Enemy.json", "./Resources/TextFiles/GameObjects\\EnemyTwo.json", "./Resources/TextFiles/GameObjects\\Explosion.json", "./Resources/TextFiles/GameObjects\\Floor01.json", "./Resources/TextFiles/GameObjects\\Floor02.json", "./Resources/TextFiles/GameObjects\\Floor03.json", "./Resources/TextFiles/GameObjects\\HealthController.json", "./Resources/TextFiles/GameObjects\\L3_Prop1.json", "./Resources/TextFiles/GameObjects\\L3_Prop2.json", "./Resources/TextFiles/GameObjects\\LoadingScreen.json", "./Resources/TextFiles/GameObjects\\LoadingText.json", "./Resources/TextFiles/GameObjects\\MapEdge.json", "./Resources/TextFiles/GameObjects\\MouseCursor.json", "./Resources/TextFiles/GameObjects\\PaseMenu.json", "./Resources/TextFiles/GameObjects\\PickUps_Ammo.json", "./Resources/TextFiles/GameObjects\\PickUps_Health.json", "./Resources/TextFiles/GameObjects\\PlayerMuzzle.json", "./Resources/TextFiles/GameObjects\\PlayerShield.json", "./Resources/TextFiles/GameObjects\\Prop_interior1.json", "./Resources/TextFiles/GameObjects\\Prop_interior2.json", "./Resources/TextFiles/GameObjects\\Prop_interior4.json", "./Resources/TextFiles/GameObjects\\Spawner.json", "./Resources/TextFiles/GameObjects\\Turret.json", "./Resources/TextFiles/GameObjects\\Wall.json", "./Resources/TextFiles/GameObjects\\Wall01.json", "./Resources/TextFiles/GameObjects\\Wall03.json", "./Resources/TextFiles/GameObjects\\Wall04.json", "./Resources/TextFiles/GameObjects\\Wall05.json", "./Resources/TextFiles/GameObjects\\Wall06.json", "./Resources/TextFiles/GameObjects\\none.json", "./Resources/TextFiles/GameObjects\\player.json" ],
+  "TexturesFilesPaths": [ "./Resources/Image/Interface\\Back_to_menu_button_click.png", "./Resources/Image/Interface\\Back_to_menu_button_hover.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Boss_HP_bar.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Boss_HP_bar_screen.png", "./Resources/Image/Enemy_AI\\Boss_Idle_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Idle_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Idle_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite4.png", "./Resources/Image/Enemy_AI\\Boss_Laser_Charge_up_sprite5.png", "./Resources/Image/Enemy_AI\\Boss_Laser_after_shoot_transform_back_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Laser_after_shoot_transform_back_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Laser_after_shoot_transform_back_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite4.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite5.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite6.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite7.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_death_sprite8.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_low_HP_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_low_HP_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_low_HP_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Rage_idle_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite4.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite5.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_Death_sprite6.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_low_HP_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_low_HP_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Shoot_style_sprite.png", "./Resources/Image/Enemy_AI\\Boss_Transform_into_rage_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_Transform_into_rage_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_Transform_into_rage_sprite3.png", "./Resources/Image/Enemy_AI\\Boss_inactive_to_active_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_inactive_to_active_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_rage_transform_to_shoot_style_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_rage_transform_to_shoot_style_sprite2.png", "./Resources/Image/Enemy_AI\\Boss_shoot_style_transform_to_rage_sprite1.png", "./Resources/Image/Enemy_AI\\Boss_shoot_style_transform_to_rage_sprite2.png", "./Resources/Image\\Bullet.png", "./Resources/Image\\Bullet_E.png", "./Resources/Image\\Bullet_T.png", "./Resources/Image/Character_Animation\\Character_BodyFloat_sprite.png", "./Resources/Image/Character_Animation\\Character_death_sprite.png", "./Resources/Image/Character_Animation\\Character_muzzle_attack_sprite.png", "./Resources/Image/Enemy_AI\\Charger_enemy_sprite.png", "./Resources/Image/Enemy_AI\\Charging_enemies2_sprite.png", "./Resources/Image/Interface\\Continue_Button_click.png", "./Resources/Image/Interface\\Continue_Button_hover.png", "./Resources/Image/Enemy_AI\\Enemies1_sprite.png", "./Resources/Image/Enemy_AI\\Enemies_charging.png", "./Resources/Image\\EnemyTwo.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_green.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_orange.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_red.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_Fullset.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_screen.png", "./Resources/Image/Powers_effect\\Health_power_up_glow.png", "./Resources/Image/Enemy_AI\\Laser_Blasting.png", "./Resources/Image/Props_design/SCI_FI\\Level3_prop_1.png", "./Resources/Image/Props_design/SCI_FI\\Level3_prop_2.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_Floor_BotLeft.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_Floor_BotRight.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_Floor_TopLeft.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_Floor_TopRight.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_1.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_2.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_3.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_4.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_5.png", "./Resources/Image/Props_design/SCI_FI\\Level_3_piece_6.png", "./Resources/Image/Interface\\Loading_Screen_1.png", "./Resources/Image/Interface\\Loading_Screen_2.png", "./Resources/Image/Interface\\Mouse_cursor.png", "./Resources/Image/Character_Animation\\Muzzle_Idle_2.png", "./Resources/Image/Powers_effect\\Normal_impact_Blue_Plasma_24FPS_Sprite.png", "./Resources/Image/Interface\\Pause_menu.png", "./Resources/Image\\Player.png", "./Resources/Image/Interface\\Press_Space_To_Continue_button.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Progress_Bar.png", "./Resources/Image/Props_design\\Prop_interior_1.png", "./Resources/Image/Props_design\\Prop_interior_2.png", "./Resources/Image/Props_design\\Prop_interior_4.png", "./Resources/Image/Character_Animation\\Shield_Body_Character_sprite.png", "./Resources/Image/Character_Animation\\Shield_break_sprite.png", "./Resources/Image/Enemy_AI\\Shooter_enemy_sprite.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_lit.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_unlit.png", "./Resources/Image/Character_Animation\\Turret_Body_Sprite.png", "./Resources/Image/Character_Animation\\Turret_Transform_sprite.png", "./Resources/Image\\Wall.png", "./Resources/Image\\catjump.png", "./Resources/Image/Enemy_AI\\empty.png" ],
   "ShaderFilesPaths": [ [ "DefaultShader", "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" ] ],
   "AnimationDataFilesPaths": [ "./Resources/TextFiles/AnimationData\\Boss_Idle_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Idle_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Idle_sprite3.json", "./Resources/TextFiles/AnimationData\\Boss_Laser_Charge_up_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Laser_Charge_up_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Laser_Charge_up_sprite3.json", "./Resources/TextFiles/AnimationData\\Boss_Laser_Charge_up_sprite4.json", "./Resources/TextFiles/AnimationData\\Boss_Laser_Charge_up_sprite5.json", "./Resources/TextFiles/AnimationData\\Boss_Laser_after_shoot_transform_back_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Laser_after_shoot_transform_back_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Laser_after_shoot_transform_back_sprite3.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_death_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_death_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_death_sprite3.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_death_sprite4.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_death_sprite5.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_death_sprite6.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_death_sprite7.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_death_sprite8.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_low_HP_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_low_HP_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_low_HP_sprite3.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Rage_idle_sprite3.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_Death_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_Death_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_Death_sprite3.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_Death_sprite4.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_Death_sprite5.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_Death_sprite6.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_low_HP_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_low_HP_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Shoot_style_sprite.json", "./Resources/TextFiles/AnimationData\\Boss_Transform_into_rage_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_Transform_into_rage_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_Transform_into_rage_sprite3.json", "./Resources/TextFiles/AnimationData\\Boss_inactive_to_active_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_inactive_to_active_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_rage_transform_to_shoot_style_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_rage_transform_to_shoot_style_sprite2.json", "./Resources/TextFiles/AnimationData\\Boss_shoot_style_transform_to_rage_sprite1.json", "./Resources/TextFiles/AnimationData\\Boss_shoot_style_transform_to_rage_sprite2.json", "./Resources/TextFiles/AnimationData\\Character_BodyFloat_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Character_death_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Charger_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Charging_enemies2_sprite.json", "./Resources/TextFiles/AnimationData\\Enemies1_sprite.json", "./Resources/TextFiles/AnimationData\\Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerMuzzle_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShieldBreak_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShield_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Shooter_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Turret_Transform_spriteSpriteSheetData.json" ],
-  "AudioSFXFilesPaths": [ "./Resources/Audio\\BossEntry.wav", "./Resources/Audio\\BossExplodes_IdleRage.wav", "./Resources/Audio\\BossExplodes_Shooting.wav", "./Resources/Audio\\BossHit.wav", "./Resources/Audio\\BossTransform.wav", "./Resources/Audio\\BossTransforms.wav", "./Resources/Audio\\Button.ogg", "./Resources/Audio\\Charging.wav", "./Resources/Audio\\ChargingSound.wav", "./Resources/Audio\\Coin.ogg", "./Resources/Audio\\EnemyShoot.wav", "./Resources/Audio\\PlayerDamaged.wav", "./Resources/Audio\\PlayerShoot.wav", "./Resources/Audio\\Shield2.wav", "./Resources/Audio\\SingleShot.wav", "./Resources/Audio\\TurretConstruction.wav", "./Resources/Audio\\TurretShoot.wav" ],
+  "AudioSFXFilesPaths": [ "./Resources/Audio\\BossEntry.wav", "./Resources/Audio\\BossExplodes_IdleRage.wav", "./Resources/Audio\\BossExplodes_Shooting.wav", "./Resources/Audio\\BossHit.wav", "./Resources/Audio\\BossTransform.wav", "./Resources/Audio\\BossTransforms.wav", "./Resources/Audio\\Button.ogg", "./Resources/Audio\\Charging.wav", "./Resources/Audio\\ChargingSound.wav", "./Resources/Audio\\Coin.ogg", "./Resources/Audio\\EnemyShoot.wav", "./Resources/Audio\\PlayerDamaged.wav", "./Resources/Audio\\PlayerShoot.wav", "./Resources/Audio\\SCIFILASERGENHDF20725.wav", "./Resources/Audio\\Shield2.wav", "./Resources/Audio\\SingleShot.wav", "./Resources/Audio\\TurretConstruction.wav", "./Resources/Audio\\TurretShoot.wav" ],
   "AudioBGMFilesPaths": [ "./Resources/Audio\\MusicBGM1.wav" ],
   "FontFilesPath": [],
   "Objects": [
+    {
+      "IdentityComponent": true,
+      "ObjectType": "MapEdge",
+      "Name": "Edge01",
+      "EdgeCollider2DComponent": true,
+      "ColliderTypeId": 3,
+      "ColliderTag": 9,
+      "ColliderTrigger": false,
+      "Collider2D.E.Center": [ 0.0, 0.0, 1.0 ],
+      "Collider2D.E.Start": [ 0.0, -2500.0, 1.0 ],
+      "Collider2D.E.End": [ 0.0, 2500.0, 1.0 ],
+      "TransformComponent": true,
+      "Position": [ -2500.0, 0.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "hp_18",
+      "LinkUId": 218,
+      "TransformComponent": true,
+      "Position": [ 217.0, 395.0, 1.0 ],
+      "Scale": [ 50.0, 60.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "UIComponent": true,
+      "UI.FileName": "HP_Bar_red.png",
+      "UI.Layer": 105,
+      "UI.HasAlpha": true
+    },
     {
       "IdentityComponent": true,
       "ObjectType": "none",
@@ -22,28 +51,33 @@
       "UI.HasAlpha": false
     },
     {
-      "RigidBody2DComponent": null,
-      "CircleCollider2DComponent": null,
       "IdentityComponent": true,
-      "ObjectType": "PlayerMuzzle",
-      "LinkUId": 555,
+      "ObjectType": "MapEdge",
+      "Name": "Edge02",
+      "EdgeCollider2DComponent": true,
+      "ColliderTypeId": 3,
+      "ColliderTag": 9,
+      "ColliderTrigger": false,
+      "Collider2D.E.Center": [ 0.0, 0.0, 1.0 ],
+      "Collider2D.E.Start": [ -2500.0, 0.0, 1.0 ],
+      "Collider2D.E.End": [ 2500.0, 0.0, 1.0 ],
       "TransformComponent": true,
-      "Position": [ -74.46754455566406, -1252.630615234375, 1.0 ],
-      "Scale": [ 150.0, 150.0, 1.0 ],
-      "Rotate": 1.0109198093414307,
-      "PivotPosition": [ 6.833137512207031, 12.8187255859375, 0.0 ],
-      "GraphicsComponent": true,
-      "_hasAlpha": true,
-      "G.FileName": "Muzzle_Idle_2.png",
-      "G.Layer": 14,
-      "AnimationComponent": true,
-      "AnimationTypes": [
-        {
-          "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
-          "TimeDelay": 0.05000000074505806,
-          "AnimationName": "Shoot"
-        }
-      ]
+      "Position": [ 0.0, 1350.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "hp_19",
+      "LinkUId": 219,
+      "TransformComponent": true,
+      "Position": [ 250.0, 395.0, 1.0 ],
+      "Scale": [ 50.0, 60.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "UIComponent": true,
+      "UI.FileName": "HP_Bar_red.png",
+      "UI.Layer": 105,
+      "UI.HasAlpha": true
     },
     {
       "IdentityComponent": true,
@@ -101,6 +135,7 @@
       "UI.Layer": 105,
       "UI.HasAlpha": true
     },
+
     {
       "IdentityComponent": true,
       "ObjectType": "player",
@@ -180,36 +215,6 @@
           "PlayInitLoop": false
         }
       ]
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "MapEdge",
-      "Name": "Edge01",
-      "EdgeCollider2DComponent": true,
-      "ColliderTypeId": 3,
-      "ColliderTag": 9,
-      "ColliderTrigger": false,
-      "Collider2D.E.Center": [ 0.0, 0.0, 1.0 ],
-      "Collider2D.E.Start": [ 0.0, -2500.0, 1.0 ],
-      "Collider2D.E.End": [ 0.0, 2500.0, 1.0 ],
-      "TransformComponent": true,
-      "Position": [ -2500.0, 0.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "MapEdge",
-      "Name": "Edge02",
-      "EdgeCollider2DComponent": true,
-      "ColliderTypeId": 3,
-      "ColliderTag": 9,
-      "ColliderTrigger": false,
-      "Collider2D.E.Center": [ 0.0, 0.0, 1.0 ],
-      "Collider2D.E.Start": [ -2500.0, 0.0, 1.0 ],
-      "Collider2D.E.End": [ 2500.0, 0.0, 1.0 ],
-      "TransformComponent": true,
-      "Position": [ 0.0, 1350.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
@@ -435,6 +440,12 @@
     {
       "IdentityComponent": true,
       "ObjectType": "HealthController",
+      "LogicComponent": true,
+      "Scripts": [ {} ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "BossHealthController",
       "LogicComponent": true,
       "Scripts": [ {} ]
     },
@@ -730,15 +741,24 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "ButtonController2"
+      "ObjectType": "ButtonController2",
+      "LogicComponent": true,
+      "Scripts": [ {} ]
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingScreen"
+      "ObjectType": "LoadingScreen",
+      "LogicComponent": true,
+      "Scripts": [ {} ],
+      "UIComponent": true,
+      "UI.FileName": "Loading_Screen_2.png"
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingText"
+      "ObjectType": "LoadingText",
+      "TransformComponent": true,
+      "Position": [ 0.0, -350.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
@@ -939,34 +959,6 @@
       "LinkUId": 217,
       "TransformComponent": true,
       "Position": [ 184.0, 395.0, 1.0 ],
-      "Scale": [ 50.0, 60.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "UIComponent": true,
-      "UI.FileName": "HP_Bar_red.png",
-      "UI.Layer": 105,
-      "UI.HasAlpha": true
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "hp_18",
-      "LinkUId": 218,
-      "TransformComponent": true,
-      "Position": [ 217.0, 395.0, 1.0 ],
-      "Scale": [ 50.0, 60.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "UIComponent": true,
-      "UI.FileName": "HP_Bar_red.png",
-      "UI.Layer": 105,
-      "UI.HasAlpha": true
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "hp_19",
-      "LinkUId": 219,
-      "TransformComponent": true,
-      "Position": [ 250.0, 395.0, 1.0 ],
       "Scale": [ 50.0, 60.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "UIComponent": true,

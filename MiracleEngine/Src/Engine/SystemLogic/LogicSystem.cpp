@@ -18,6 +18,7 @@
 #include "Script/SplashScreen.h"
 #include "Script/Boss.h"
 #include "Script/LoadingScreen.h"
+#include "Script/BossHealthController.h"
 
 
 LogicSystem::~LogicSystem()
@@ -59,6 +60,7 @@ void LogicSystem::RegisterAllScript()
 	RegisterScript(SplashScreen);
 	RegisterScript(Boss);
 	RegisterScript(LoadingScreen);
+	RegisterScript(BossHealthController);
 }
 
 void LogicSystem::Init() {
