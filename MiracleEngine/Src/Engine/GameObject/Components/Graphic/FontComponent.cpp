@@ -56,6 +56,7 @@ void FontComponent::Inspect()
 	ImGui::Spacing();
 
 	ImGui::InputFloat("Delay time", &_delayTime);
+	
 	//ImGui::SliderFloat(string.c_str(), &_alphaVal, 0, 1);
 }
 

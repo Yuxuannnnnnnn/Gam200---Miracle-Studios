@@ -35,9 +35,13 @@ private:
 	float u1, v1;
 
 	glm::vec4 _tintcolor;
+	bool _startInterpolate = false;
+	float _startpos;
+	float _endpos;
+
+	float _interpolateTimer = 0.0f;
 
 public:
-
 	glm::vec4 GetTintColor() const;
 	void SetTintColor(const glm::vec4& color);
 
@@ -95,6 +99,11 @@ public:
 	unsigned& GetTypeId();
 
 	GraphicComponent* CloneComponent() { return new GraphicComponent(*this); }
+
+	void StartInterpolate();
+	bool IsInterpolateStarting();
+	void SetInterpolateTimer(float);
+	float GetInterpolateTimer();
 };
 
 
