@@ -30,13 +30,13 @@
   "AnimationTypes": [
     {
       "AnimationType": "Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json",
-      "TimeDelay": 0.019999999552965165,
+      "TimeDelay": 0.005,
       "AnimationName": "Explosion"
     }
   ],
   "StartAnim": "Explosion",
-  "PlayAtCreation": false,
-  "PlayInitLoop": true,
+  "PlayAtCreation": true,
+  "PlayInitLoop": false,
   "RigidBody2DComponent": true,
   "Mass": 1.0,
   "Friction": 0.0,
