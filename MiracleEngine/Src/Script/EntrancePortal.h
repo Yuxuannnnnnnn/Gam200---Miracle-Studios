@@ -8,19 +8,23 @@ class EntrancePortal : public IScript2
 
 	std::string _nextScene;
 
+	int _loadingLinkId;
+
 	int _progressCount;
-
-	bool _clear;
-	GraphicComponent* _graphicComponent;
-	IScript2* _playerScript;
-
-	GameObject* _popUp;
-	TransformComponent* _player;
-	TransformComponent* _popUpPos;
-
 	int _KillCount;
 
 	int _level;
+
+	bool _clear;
+
+	GraphicComponent* _graphicComponent;
+	
+	TransformComponent* _popUpPos;
+	GameObject* _popUp;
+
+	TransformComponent* _player;
+
+	IScript2* _loadingScreen;
 
 public:
 
@@ -45,5 +49,7 @@ public:
 	virtual void OnTrigger2DEnter(Collider2D* other);
 
 	void IncreaseKillCount(int kills = 0);
+
+	void GoNextScene();
 };
 
