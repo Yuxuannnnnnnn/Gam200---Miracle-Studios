@@ -49,9 +49,15 @@
       "NumOfloops": 0
     },
     {
-      "SFXName": "Death",
-      "fileName": "BossExplode.wav",
-      "volume": 0.23899999260902406,
+      "SFXName": "DeathShoot",
+      "fileName": "BossExplodes_Shooting.wav",
+      "volume": 0.5,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "DeathIdleRage",
+      "fileName": "BossExplodes_IdleRage.wav",
+      "volume": 0.5,
       "NumOfloops": 0
     },
     {
@@ -68,7 +74,7 @@
     },
     {
       "SFXName": "TransformReverse",
-      "fileName": "BossTransform.wav",
+      "fileName": "BossTransforms.wav",
       "volume": 0.23899999260902406,
       "NumOfloops": 0
     },
