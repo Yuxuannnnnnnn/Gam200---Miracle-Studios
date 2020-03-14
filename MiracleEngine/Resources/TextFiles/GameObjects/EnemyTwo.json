@@ -32,6 +32,33 @@
   "_isFadingOut": false,
   "_isFlickering": false,
   "AudioComponent": true,
+  "SFXList": [
+    {
+      "SFXName": "Death",
+      "fileName": "SCIFILASERGENHDF20725.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "Hit",
+      "fileName": "BossHit.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "charging",
+      "fileName": "ChargingSound.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "shoot",
+      "fileName": "EnemyShoot.wav",
+      "volume": 0.14000000059604646,
+      "NumOfloops": 0
+    }
+  ],
+
   "AnimationComponent": true,
   "AnimationTypes": [
     {

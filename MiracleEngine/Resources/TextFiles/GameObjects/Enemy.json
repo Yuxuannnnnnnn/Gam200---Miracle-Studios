@@ -39,6 +39,18 @@
   "AudioComponent": true,
   "SFXList": [
     {
+      "SFXName": "Death",
+      "fileName": "SCIFILASERGENHDF20725.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
+      "SFXName": "Hit",
+      "fileName": "BossHit.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
       "SFXName": "charging",
       "fileName": "ChargingSound.wav",
       "volume": 0.23899999260902406,
