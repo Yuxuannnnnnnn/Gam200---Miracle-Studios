@@ -468,7 +468,7 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 			{
 				if (graphicComp->GetAlpha() > 0.001f && dt > 0.0)
 				{
-					float temp = graphicComp->GetAlpha() - 0.3f * dt;
+					float temp = graphicComp->GetAlpha() - 0.22f * dt;
 					graphicComp->SetAlpha(temp);
 					renderobject._hasAdjustableAlpha = true;
 				}

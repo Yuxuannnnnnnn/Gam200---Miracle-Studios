@@ -266,7 +266,11 @@ void EntrancePortal::Update(double dt)
 		}
 		else
 			_popUpPos->SetPos(Vec3{ _player->GetPos()._x, _player->GetPos()._y + 300, 1.f });
+	
 	}
+
+	if ((_level == 1 || _level==2) && ( _input->KeyDown(KeyCode::KEYB_0) || _input->KeyHold(KeyCode::KEYB_0)))
+		GoNextScene();
 }
 
 void EntrancePortal::OpenPortal()
