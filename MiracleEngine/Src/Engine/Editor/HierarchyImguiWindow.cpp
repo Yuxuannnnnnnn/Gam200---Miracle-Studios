@@ -117,9 +117,80 @@ void HierarchyImguiWindow::ShowGameObjects()			//Show Every GameObject in the Ga
 	ImGui::Separator();
 	ImGui::Spacing();
 
-	int i = 0;
+	{
+		auto& ObjectList = MyFactory.getObjectlist();
+		auto& childObjectList = MyFactory.getChildObjectlist();
 
-	//for(auto& objects: MyFactory.)
+		std::vector<size_t> ObjlistID(ObjectList.size() + 1 + childObjectList.size());
+		std::vector<const char*> Objlist(ObjectList.size() + 1 + childObjectList.size());
+		std::vector <std::string > ObjlistString(ObjectList.size() + 1 + childObjectList.size());
+
+		int i = 0;
+		Objlist[i] = "Search for Obj";
+		ObjlistString[i] = "Search for Obj";
+		i++;
+
+		for (auto& ObjPair = ObjectList.begin(); ObjPair != ObjectList.end(); ObjPair++)
+		{
+			IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (ObjPair->second->GetComponent(ComponentId::CT_Identity));
+
+			ObjlistID[i] = ObjPair->first;
+			ObjlistString[i] = std::to_string(ObjPair->first) + " " + IdCom->GetName();
+			const char* ptr = ObjlistString[i].c_str();
+
+			Objlist[i] = ptr;
+
+			i++;
+		}
+
+		for (auto& ObjPair = childObjectList.begin(); ObjPair != childObjectList.end(); ObjPair++)
+		{
+			IdentityComponent* IdCom = dynamic_cast<IdentityComponent*> (ObjPair->second->GetComponent(ComponentId::CT_Identity));
+
+			ObjlistID[i] = ObjPair->first;
+			ObjlistString[i] = std::to_string(ObjPair->first) + " " + IdCom->GetName();;
+			const char* ptr = ObjlistString[i].c_str();
+
+			Objlist[i] = ptr;
+
+			i++;
+		}
+
+		ComboFilterState s = { 0, 0 };
+
+		char buf[128];
+
+		ImGuiFunctions Function;
+		static bool op1 = false;
+		static bool* open1 = &op1;
+
+		strncpy(buf, "Search for Obj", 26 + 1);
+
+		std::string fileName;
+
+		//std::string fileName;
+
+		if (Function.ComboFilter("                                    ##Search Objects uID Name", buf, IM_ARRAYSIZE(buf), Objlist, Objlist.size(), s, fileName, open1))
+		{
+			int i = 0;
+			for (auto& obj : ObjlistString)
+			{
+				if (!obj.compare(fileName))
+				{
+					MyInspectionWindow.InspectGameObject(MyFactory.GetObjOrignialPointer(ObjlistID[i]));
+					selectedObj = fileName;
+					isObjectSelected = true;
+				}
+				i++;
+			}
+		}
+
+		ImGui::Spacing();
+		ImGui::Spacing();
+
+	}
+
+	int i = 0;
 
 	for (auto& gameObjectPair : objlist)
 	{
