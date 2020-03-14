@@ -1,6 +1,6 @@
 {
-  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\Background.json", "./Resources/TextFiles/GameObjects\\BackgroundMusic.json", "./Resources/TextFiles/GameObjects\\Bullet.json", "./Resources/TextFiles/GameObjects\\BulletE.json", "./Resources/TextFiles/GameObjects\\BulletT.json", "./Resources/TextFiles/GameObjects\\Crate.json", "./Resources/TextFiles/GameObjects\\Enemy.json", "./Resources/TextFiles/GameObjects\\EnemyTwo.json", "./Resources/TextFiles/GameObjects\\Explosion.json", "./Resources/TextFiles/GameObjects\\HealthController.json", "./Resources/TextFiles/GameObjects\\L2Background01.json", "./Resources/TextFiles/GameObjects\\Level2_01.json", "./Resources/TextFiles/GameObjects\\Level2_02.json", "./Resources/TextFiles/GameObjects\\Level2_03.json", "./Resources/TextFiles/GameObjects\\Level2_04.json", "./Resources/TextFiles/GameObjects\\Level2_05.json", "./Resources/TextFiles/GameObjects\\Level2_06.json", "./Resources/TextFiles/GameObjects\\Level2_07.json", "./Resources/TextFiles/GameObjects\\Level2_08.json", "./Resources/TextFiles/GameObjects\\Level2_09.json", "./Resources/TextFiles/GameObjects\\Level2_10.json", "./Resources/TextFiles/GameObjects\\Level2_11.json", "./Resources/TextFiles/GameObjects\\Level2_12.json", "./Resources/TextFiles/GameObjects\\Level2_13.json", "./Resources/TextFiles/GameObjects\\MouseCursor.json", "./Resources/TextFiles/GameObjects\\PaseMenu.json", "./Resources/TextFiles/GameObjects\\PickUps_Ammo.json", "./Resources/TextFiles/GameObjects\\PickUps_Health.json", "./Resources/TextFiles/GameObjects\\PlayerMuzzle.json", "./Resources/TextFiles/GameObjects\\PlayerShield.json", "./Resources/TextFiles/GameObjects\\Prop_interior1.json", "./Resources/TextFiles/GameObjects\\Prop_interior2.json", "./Resources/TextFiles/GameObjects\\Prop_interior3.json", "./Resources/TextFiles/GameObjects\\Prop_interior4.json", "./Resources/TextFiles/GameObjects\\Spark.json", "./Resources/TextFiles/GameObjects\\Spawner.json", "./Resources/TextFiles/GameObjects\\Turret.json", "./Resources/TextFiles/GameObjects\\Wall.json", "./Resources/TextFiles/GameObjects\\WallCollider.json", "./Resources/TextFiles/GameObjects\\none.json", "./Resources/TextFiles/GameObjects\\player.json" ],
-  "TexturesFilesPaths": [ "./Resources/Image/Interface\\Back_to_menu_button_click.png", "./Resources/Image/Interface\\Back_to_menu_button_hover.png", "./Resources/Image\\Bullet.png", "./Resources/Image\\Bullet_E.png", "./Resources/Image\\Bullet_T.png", "./Resources/Image/Character_Animation\\Character_BodyFloat_sprite.png", "./Resources/Image/Character_Animation\\Character_death_sprite.png", "./Resources/Image/Character_Animation\\Character_muzzle_attack_sprite.png", "./Resources/Image/Enemy_AI\\Charger_enemy_sprite.png", "./Resources/Image/Enemy_AI\\Charging_enemies2_sprite.png", "./Resources/Image/Interface\\Continue_Button_click.png", "./Resources/Image/Interface\\Continue_Button_hover.png", "./Resources/Image/Props_design/SCI_FI\\Crack_3.png", "./Resources/Image/Props_design/SCI_FI\\Crate_rusted.png", "./Resources/Image/Enemy_AI\\Enemies1_sprite.png", "./Resources/Image/Enemy_AI\\Enemies_charging.png", "./Resources/Image\\EnemyTwo.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_green.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_orange.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_red.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_Fullset.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_screen.png", "./Resources/Image/Powers_effect\\Health_power_up_glow.png", "./Resources/Image/Props_design\\Level_2_Floor_1.png", "./Resources/Image/Props_design\\Level_2_Floor_2.png", "./Resources/Image/Props_design\\Level_2_Floor_3.png", "./Resources/Image/Props_design\\Level_2_Floor_4.png", "./Resources/Image/Props_design\\Level_2_Floor_5.png", "./Resources/Image/Props_design\\Level_2_Floor_6.png", "./Resources/Image/Props_design\\Level_2_Floor_7.png", "./Resources/Image/Props_design\\Level_2_Floor_8.png", "./Resources/Image/Props_design\\Level_2_Floor_9.png", "./Resources/Image/Props_design\\Level_2_piece_1.png", "./Resources/Image/Props_design\\Level_2_piece_10.png", "./Resources/Image/Props_design\\Level_2_piece_11.png", "./Resources/Image/Props_design\\Level_2_piece_12.png", "./Resources/Image/Props_design\\Level_2_piece_13.png", "./Resources/Image/Props_design\\Level_2_piece_2.png", "./Resources/Image/Props_design\\Level_2_piece_3.png", "./Resources/Image/Props_design\\Level_2_piece_4.png", "./Resources/Image/Props_design\\Level_2_piece_5.png", "./Resources/Image/Props_design\\Level_2_piece_6.png", "./Resources/Image/Props_design\\Level_2_piece_7.png", "./Resources/Image/Props_design\\Level_2_piece_8.png", "./Resources/Image/Props_design\\Level_2_piece_9.png", "./Resources/Image/Interface\\Mouse_cursor.png", "./Resources/Image/Character_Animation\\Muzzle_Idle_2.png", "./Resources/Image/Powers_effect\\Normal_impact_Blue_Plasma_24FPS_Sprite.png", "./Resources/Image/Interface\\Pause_menu.png", "./Resources/Image\\Player.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Progress_Bar.png", "./Resources/Image/Props_design\\Prop_interior_1.png", "./Resources/Image/Props_design\\Prop_interior_2.png", "./Resources/Image/Props_design\\Prop_interior_3.png", "./Resources/Image/Props_design\\Prop_interior_4.png", "./Resources/Image\\Rocket_icon_glow.png", "./Resources/Image/Character_Animation\\Shield_Body_Character_sprite.png", "./Resources/Image/Character_Animation\\Shield_break_sprite.png", "./Resources/Image/Enemy_AI\\Shooter_enemy_sprite.png", "./Resources/Image/Tile\\Snowy_Texture.png", "./Resources/Image/Environment_Animation\\Spark_sprite_WithEmptyFrame.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_lit.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_unlit.png", "./Resources/Image/Character_Animation\\Turret_Body_Sprite.png", "./Resources/Image/Character_Animation\\Turret_Transform_sprite.png", "./Resources/Image\\Wall.png", "./Resources/Image\\catjump.png", "./Resources/Image/Enemy_AI\\empty.png" ],
+  "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\Background.json", "./Resources/TextFiles/GameObjects\\BackgroundMusic.json", "./Resources/TextFiles/GameObjects\\Bullet.json", "./Resources/TextFiles/GameObjects\\BulletE.json", "./Resources/TextFiles/GameObjects\\BulletT.json", "./Resources/TextFiles/GameObjects\\ButtonController2.json", "./Resources/TextFiles/GameObjects\\Crate.json", "./Resources/TextFiles/GameObjects\\Enemy.json", "./Resources/TextFiles/GameObjects\\EnemyTwo.json", "./Resources/TextFiles/GameObjects\\Explosion.json", "./Resources/TextFiles/GameObjects\\HealthController.json", "./Resources/TextFiles/GameObjects\\L2Background01.json", "./Resources/TextFiles/GameObjects\\Level2_01.json", "./Resources/TextFiles/GameObjects\\Level2_02.json", "./Resources/TextFiles/GameObjects\\Level2_03.json", "./Resources/TextFiles/GameObjects\\Level2_04.json", "./Resources/TextFiles/GameObjects\\Level2_05.json", "./Resources/TextFiles/GameObjects\\Level2_06.json", "./Resources/TextFiles/GameObjects\\Level2_07.json", "./Resources/TextFiles/GameObjects\\Level2_08.json", "./Resources/TextFiles/GameObjects\\Level2_09.json", "./Resources/TextFiles/GameObjects\\Level2_10.json", "./Resources/TextFiles/GameObjects\\Level2_11.json", "./Resources/TextFiles/GameObjects\\Level2_12.json", "./Resources/TextFiles/GameObjects\\Level2_13.json", "./Resources/TextFiles/GameObjects\\LoadingScreen.json", "./Resources/TextFiles/GameObjects\\LoadingText.json", "./Resources/TextFiles/GameObjects\\MouseCursor.json", "./Resources/TextFiles/GameObjects\\PaseMenu.json", "./Resources/TextFiles/GameObjects\\PickUps_Ammo.json", "./Resources/TextFiles/GameObjects\\PickUps_Health.json", "./Resources/TextFiles/GameObjects\\PlayerMuzzle.json", "./Resources/TextFiles/GameObjects\\PlayerShield.json", "./Resources/TextFiles/GameObjects\\Prop_interior1.json", "./Resources/TextFiles/GameObjects\\Prop_interior2.json", "./Resources/TextFiles/GameObjects\\Prop_interior3.json", "./Resources/TextFiles/GameObjects\\Prop_interior4.json", "./Resources/TextFiles/GameObjects\\Spark.json", "./Resources/TextFiles/GameObjects\\Spawner.json", "./Resources/TextFiles/GameObjects\\Turret.json", "./Resources/TextFiles/GameObjects\\Wall.json", "./Resources/TextFiles/GameObjects\\WallCollider.json", "./Resources/TextFiles/GameObjects\\none.json", "./Resources/TextFiles/GameObjects\\player.json", "./Resources/TextFiles/GameObjects\\portal2.json" ],
+  "TexturesFilesPaths": [ "./Resources/Image/Interface\\Back_to_menu_button_click.png", "./Resources/Image/Interface\\Back_to_menu_button_hover.png", "./Resources/Image\\Bullet.png", "./Resources/Image\\Bullet_E.png", "./Resources/Image\\Bullet_T.png", "./Resources/Image/Character_Animation\\Character_BodyFloat_sprite.png", "./Resources/Image/Character_Animation\\Character_death_sprite.png", "./Resources/Image/Character_Animation\\Character_muzzle_attack_sprite.png", "./Resources/Image/Enemy_AI\\Charger_enemy_sprite.png", "./Resources/Image/Enemy_AI\\Charging_enemies2_sprite.png", "./Resources/Image/Interface\\Continue_Button_click.png", "./Resources/Image/Interface\\Continue_Button_hover.png", "./Resources/Image/Props_design/SCI_FI\\Crack_3.png", "./Resources/Image/Props_design/SCI_FI\\Crate_rusted.png", "./Resources/Image/Enemy_AI\\Enemies1_sprite.png", "./Resources/Image/Enemy_AI\\Enemies_charging.png", "./Resources/Image\\EnemyTwo.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_green.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_orange.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_red.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_Fullset.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_screen.png", "./Resources/Image/Powers_effect\\Health_power_up_glow.png", "./Resources/Image/Props_design\\Level3_Portal.png", "./Resources/Image/Props_design\\Level_2_Floor_1.png", "./Resources/Image/Props_design\\Level_2_Floor_2.png", "./Resources/Image/Props_design\\Level_2_Floor_3.png", "./Resources/Image/Props_design\\Level_2_Floor_4.png", "./Resources/Image/Props_design\\Level_2_Floor_5.png", "./Resources/Image/Props_design\\Level_2_Floor_6.png", "./Resources/Image/Props_design\\Level_2_Floor_7.png", "./Resources/Image/Props_design\\Level_2_Floor_8.png", "./Resources/Image/Props_design\\Level_2_Floor_9.png", "./Resources/Image/Props_design\\Level_2_piece_1.png", "./Resources/Image/Props_design\\Level_2_piece_10.png", "./Resources/Image/Props_design\\Level_2_piece_11.png", "./Resources/Image/Props_design\\Level_2_piece_12.png", "./Resources/Image/Props_design\\Level_2_piece_13.png", "./Resources/Image/Props_design\\Level_2_piece_2.png", "./Resources/Image/Props_design\\Level_2_piece_3.png", "./Resources/Image/Props_design\\Level_2_piece_4.png", "./Resources/Image/Props_design\\Level_2_piece_5.png", "./Resources/Image/Props_design\\Level_2_piece_6.png", "./Resources/Image/Props_design\\Level_2_piece_7.png", "./Resources/Image/Props_design\\Level_2_piece_8.png", "./Resources/Image/Props_design\\Level_2_piece_9.png", "./Resources/Image/Interface\\Loading_Screen_1.png", "./Resources/Image/Interface\\Loading_Screen_2.png", "./Resources/Image/Interface\\Mouse_cursor.png", "./Resources/Image/Character_Animation\\Muzzle_Idle_2.png", "./Resources/Image/Powers_effect\\Normal_impact_Blue_Plasma_24FPS_Sprite.png", "./Resources/Image/Interface\\Pause_menu.png", "./Resources/Image\\Player.png", "./Resources/Image/Interface\\Press_Space_To_Continue_button.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Progress_Bar.png", "./Resources/Image/Props_design\\Prop_interior_1.png", "./Resources/Image/Props_design\\Prop_interior_2.png", "./Resources/Image/Props_design\\Prop_interior_3.png", "./Resources/Image/Props_design\\Prop_interior_4.png", "./Resources/Image\\Rocket_icon_glow.png", "./Resources/Image/Character_Animation\\Shield_Body_Character_sprite.png", "./Resources/Image/Character_Animation\\Shield_break_sprite.png", "./Resources/Image/Enemy_AI\\Shooter_enemy_sprite.png", "./Resources/Image/Tile\\Snowy_Texture.png", "./Resources/Image/Environment_Animation\\Spark_sprite_WithEmptyFrame.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_lit.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_unlit.png", "./Resources/Image/Character_Animation\\Turret_Body_Sprite.png", "./Resources/Image/Character_Animation\\Turret_Transform_sprite.png", "./Resources/Image\\Wall.png", "./Resources/Image\\catjump.png", "./Resources/Image/Enemy_AI\\empty.png" ],
   "ShaderFilesPaths": [ [ "DefaultShader", "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" ] ],
   "AnimationDataFilesPaths": [ "./Resources/TextFiles/AnimationData\\Character_BodyFloat_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Character_death_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Charger_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Charging_enemies2_sprite.json", "./Resources/TextFiles/AnimationData\\Enemies1_sprite.json", "./Resources/TextFiles/AnimationData\\Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerMuzzle_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShieldBreak_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShield_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Shooter_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Spark_sprite_WithEmptyFrameSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Turret_Transform_spriteSpriteSheetData.json" ],
   "AudioSFXFilesPaths": [ "./Resources/Audio\\BossHit.wav", "./Resources/Audio\\Button.ogg", "./Resources/Audio\\ChargingSound.wav", "./Resources/Audio\\Coin.ogg", "./Resources/Audio\\EnemyShoot.wav", "./Resources/Audio\\PlayerDamaged.wav", "./Resources/Audio\\PlayerShoot.wav", "./Resources/Audio\\SCIFILASERGENHDF20725.wav", "./Resources/Audio\\Shield2.wav", "./Resources/Audio\\TurretConstruction.wav", "./Resources/Audio\\TurretShoot.wav" ],
@@ -1385,8 +1385,9 @@
       "TransformComponent": true,
       "Position": [ -181.52854919433595, 335.27703857421877, 1.0 ],
       "Scale": [ 250.0, 250.0, 1.0 ],
-      "Rotate": 0.0,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "LogicComponent": true,
+      "Scripts": [ {} ]
     },
     {
       "IdentityComponent": true,
@@ -1943,15 +1944,25 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "ButtonController2"
+      "ObjectType": "ButtonController2",
+      "LogicComponent": true,
+      "Scripts": [ {} ]
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingScreen"
+      "ObjectType": "LoadingScreen",
+      "LogicComponent": true,
+      "Scripts": [ {} ],
+      "UIComponent": true,
+      "UI.FileName": "Loading_Screen_2.png",
+      "UI.Layer": 110
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingText"
+      "ObjectType": "LoadingText",
+      "TransformComponent": true,
+      "Position": [ 0.0, -350.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
@@ -2001,6 +2012,18 @@
       "AudioComponent": true,
       "SFXList": [
         {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
           "volume": 0.23899999260902406,
@@ -2038,6 +2061,18 @@
       ],
       "AudioComponent": true,
       "SFXList": [
+        {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
         {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
@@ -2127,6 +2162,18 @@
       "AudioComponent": true,
       "SFXList": [
         {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
           "volume": 0.23899999260902406,
@@ -2164,6 +2211,18 @@
       ],
       "AudioComponent": true,
       "SFXList": [
+        {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
         {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
@@ -2253,6 +2312,18 @@
       "AudioComponent": true,
       "SFXList": [
         {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
           "volume": 0.23899999260902406,
@@ -2291,6 +2362,18 @@
       "AudioComponent": true,
       "SFXList": [
         {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
           "volume": 0.23899999260902406,
@@ -2328,6 +2411,18 @@
       ],
       "AudioComponent": true,
       "SFXList": [
+        {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
         {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
@@ -2417,6 +2512,18 @@
       "AudioComponent": true,
       "SFXList": [
         {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
           "volume": 0.23899999260902406,
@@ -2454,6 +2561,18 @@
       ],
       "AudioComponent": true,
       "SFXList": [
+        {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
         {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
@@ -2493,6 +2612,18 @@
       "AudioComponent": true,
       "SFXList": [
         {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
           "volume": 0.23899999260902406,
@@ -2530,6 +2661,18 @@
       ],
       "AudioComponent": true,
       "SFXList": [
+        {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
         {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
@@ -2669,6 +2812,18 @@
       "AudioComponent": true,
       "SFXList": [
         {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
           "volume": 0.23899999260902406,
@@ -2706,6 +2861,18 @@
       ],
       "AudioComponent": true,
       "SFXList": [
+        {
+          "SFXName": "Death",
+          "fileName": "SCIFILASERGENHDF20725.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Hit",
+          "fileName": "BossHit.wav",
+          "volume": 0.23899999260902406,
+          "NumOfloops": 0
+        },
         {
           "SFXName": "charging",
           "fileName": "ChargingSound.wav",
@@ -3491,8 +3658,8 @@
       "Scale": [ 400.0, 400.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
-
       "Scripts": [ {} ]
     }
   ]
+
 }
