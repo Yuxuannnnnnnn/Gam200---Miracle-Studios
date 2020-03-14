@@ -2,26 +2,32 @@
 #include "GameObject/Components/Logic/IScript2.h"
 
 
-class ButtonController : public IScript2
+class LoadingScreen : public IScript2
 {
 private:
-	int _currScene;
+	std::string _LoadingFileName;
+	std::string _CompletedFileName;
 
-	int _loadingLinkId;
+	int _playerLinkId;
+	int _continueLinkId;
 
-	IScript2* _pauseMenu;
+	bool _loadingComplete;
 
-	GameObject* _LoadingObj;
+	IScript2* _player;
+
+	GameObject* _continueButton;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
+
 	virtual void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator);
+
 	virtual void DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator);
 
 	void Inspect();
 
-	ButtonController();
-	ButtonController* Clone();
+	LoadingScreen();
+	LoadingScreen* Clone();
 
 	void Init();
 	void LoadResource();

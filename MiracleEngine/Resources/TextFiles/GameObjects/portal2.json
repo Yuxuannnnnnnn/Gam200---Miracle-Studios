@@ -1,6 +1,6 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "Portal_Level3",
+  "ObjectType": "portal2",
   "Name": "ExittoL3",
   "LinkUId": 1239,
   "TransformComponent": true,
@@ -24,7 +24,8 @@
     {
       "Script2Id": "EntrancePortal",
       "E.CurrScene": 2,
-      "E.NextScene": "BossLevel"
+      "E.NextScene": "BossLevel",
+      "E.LoadingLinkId": 2310
     }
   ]
 

@@ -1,0 +1,30 @@
+
+
+in level 1 
+
+ {
+      "IdentityComponent": true,
+      "ObjectType": "ButtonController2"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingScreen"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText"
+    },
+
+
+
+in mainmenu
+
+
+ {
+      "IdentityComponent": true,
+      "ObjectType": "ButtonController1"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingScreen2"
+    },

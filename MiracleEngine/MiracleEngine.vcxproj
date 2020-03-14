@@ -596,6 +596,7 @@
     <ClInclude Include="Src\Script\Explosion.h" />
     <ClInclude Include="Src\Script\HealthController.h" />
     <ClInclude Include="Src\Script\HitEffect.h" />
+    <ClInclude Include="Src\Script\LoadingScreen.h" />
     <ClInclude Include="Src\Script\MouseCursor.h" />
     <ClInclude Include="Src\Script\PauseMenu.h" />
     <ClInclude Include="Src\Script\PickUps.h" />
@@ -776,6 +777,7 @@
     <ClCompile Include="Src\Script\Explosion.cpp" />
     <ClCompile Include="Src\Script\HealthController.cpp" />
     <ClCompile Include="Src\Script\HitEffect.cpp" />
+    <ClCompile Include="Src\Script\LoadingScreen.cpp" />
     <ClCompile Include="Src\Script\MouseCursor.cpp" />
     <ClCompile Include="Src\Script\PauseMenu.cpp" />
     <ClCompile Include="Src\Script\PickUps.cpp" />
@@ -952,6 +954,7 @@
     <None Include="Resources\TextFiles\GameObjects\Explosion.json" />
     <None Include="Resources\TextFiles\GameObjects\Floor.json" />
     <None Include="Resources\TextFiles\GameObjects\Font.json" />
+    <None Include="Resources\TextFiles\GameObjects\LoadingScreen.json" />
     <None Include="Resources\TextFiles\GameObjects\MapEdge.json" />
     <None Include="Resources\TextFiles\GameObjects\PaseMenu.json" />
     <None Include="Resources\TextFiles\GameObjects\PickUps_Ammo.json" />
