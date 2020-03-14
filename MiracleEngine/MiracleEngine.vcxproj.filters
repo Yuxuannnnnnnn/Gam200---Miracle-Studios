@@ -130,6 +130,7 @@
     <ClCompile Include="Src\Script\HitEffect.cpp" />
     <ClCompile Include="Src\Script\SplashScreen.cpp" />
     <ClCompile Include="Src\Engine\GameObject\Components\Logic\DataComponent.cpp" />
+    <ClCompile Include="Src\Script\LoadingScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -569,6 +570,7 @@
     <ClInclude Include="Src\Script\HitEffect.h" />
     <ClInclude Include="Src\Script\SplashScreen.h" />
     <ClInclude Include="Src\Engine\GameObject\Components\Logic\DataComponent.h" />
+    <ClInclude Include="Src\Script\LoadingScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
@@ -756,6 +758,7 @@
     <None Include="Resources\TextFiles\GameObjects\PortalText.json" />
     <None Include="Resources\TextFiles\GameObjects\SchoolLogo.json" />
     <None Include="Resources\TextFiles\Scenes\Scenes\SchoolSplashScreen.json" />
+    <None Include="Resources\TextFiles\GameObjects\LoadingScreen.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\TextFiles\Scenes\Scenes\MainMenu.json" />

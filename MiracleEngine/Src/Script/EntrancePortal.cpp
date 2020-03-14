@@ -1,6 +1,8 @@
 #include "PrecompiledHeaders.h"
 #include "EntrancePortal.h"
 #include "Player.h"
+#include "Script/LoadingScreen.h"
+
 void EntrancePortal::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("E.OpenEntranceFileName") && document["E.OpenEntranceFileName"].IsString())
@@ -17,6 +19,9 @@ void EntrancePortal::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("E.CurrScene") && document["E.CurrScene"].IsInt())
 		_level = document["E.CurrScene"].GetInt();
+
+	if (document.HasMember("E.LoadingLinkId") && document["E.LoadingLinkId"].IsInt())
+		_loadingLinkId = document["E.LoadingLinkId"].GetInt();
 }
 
 //No need this function
@@ -58,6 +63,9 @@ void EntrancePortal::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidj
 
 	value.SetInt(_level);
 	prototypeDoc.AddMember("E.CurrScene", value, allocator);
+
+	value.SetInt(_loadingLinkId);
+	prototypeDoc.AddMember("E.LoadingLinkId", value, allocator);
 }
 
 void EntrancePortal::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -74,6 +82,7 @@ void EntrancePortal::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 	rapidjson::Value CloseEntranceFileName;
 	rapidjson::Value ProgressCount;
 	rapidjson::Value NextScene;
+	rapidjson::Value LoadingLinkId;
 
 	bool addComponentIntoSceneFile = false;
 
@@ -99,6 +108,12 @@ void EntrancePortal::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 	{
 		addComponentIntoSceneFile = true;
 		NextScene.SetString(rapidjson::StringRef(_nextScene.c_str()));
+	}
+
+	if (script->_loadingLinkId != _loadingLinkId)
+	{
+		addComponentIntoSceneFile = true;
+		LoadingLinkId.SetInt(_loadingLinkId);
 	}
 
 
@@ -129,6 +144,11 @@ void EntrancePortal::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 		if (!NextScene.IsNull())	//if rapidjson::value container is not empty
 		{
 			value.AddMember("E.NextScene", NextScene, allocator);
+		}
+
+		if (!LoadingLinkId.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("E.LoadingLinkId", LoadingLinkId, allocator);
 		}
 	}
 }
@@ -199,11 +219,7 @@ void EntrancePortal::Inspect()
 	ImGui::Spacing();
 }
 
-EntrancePortal::EntrancePortal() :
-	_playerScript{ nullptr },
-	_graphicComponent{ nullptr },
-	_progressCount{0},
-	_clear{false}
+EntrancePortal::EntrancePortal() 
 {
 }
 
@@ -216,17 +232,15 @@ void EntrancePortal::Init()
 {
 	if (_level == 1)
 	{
-		_graphicComponent = (GraphicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Graphic);
+		_graphicComponent = GetSibilingComponentObject(Graphic);
 		_graphicComponent->SetFileName(_closePortalFileName);
-		_popUp = MyFactory.GetLinkIDObject(9542);
-		_popUpPos = (TransformComponent*)_popUp->GetComponent(ComponentId::CT_Transform);
+		_popUp = GetLinkObject(9542);
+		_popUpPos = GetComponentObject(_popUp, Transform);
 
-		GameObject* tempPlayer = MyFactory.GetLinkIDObject(999);
-		std::string temp = "Player";
-		_playerScript = MyLogicSystem.GetScriptList()[((LogicComponent*)(tempPlayer->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-		_player = (TransformComponent*)(tempPlayer->GetComponent(ComponentId::CT_Transform));
+		_player = GetComponentObject(GetLinkObject(999), Transform);
 	}
 
+	//_loadingScreen = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_loadingLinkId), Logic), LoadingScreen);
 }
 
 void EntrancePortal::LoadResource()
@@ -244,7 +258,6 @@ void EntrancePortal::Update(double dt)
 
 	if (_level == 1)
 	{
-
 		if (!_clear)
 		{
 			if (_KillCount >= _progressCount)
@@ -271,7 +284,10 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 			std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 
 			if (!otherType.compare("player"))
-				MyFactory.ChangeScene(_nextScene);
+			{
+				((LoadingScreen*)_loadingScreen)->StartLoading();
+				GoNextScene();
+			}
 		}
 	}
 	else if (_level == 2)
@@ -279,7 +295,10 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 		std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 
 		if (!otherType.compare("player"))
-			MyFactory.ChangeScene(_nextScene);
+		{
+			((LoadingScreen*)_loadingScreen)->StartLoading();
+			GoNextScene();
+		}
 	}
 }
 
@@ -287,6 +306,11 @@ void EntrancePortal::IncreaseKillCount(int kills)
 {
 	_KillCount += kills;
 
-	if (_level == 3 && kills == 999)
-		MyFactory.ChangeScene(_nextScene);
+	if (_level == 3 && kills == 999) // boss die
+		GoNextScene();
+}
+
+void EntrancePortal::GoNextScene()
+{
+	MyFactory.ChangeScene(_nextScene);
 }

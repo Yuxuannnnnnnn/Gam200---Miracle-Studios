@@ -29,7 +29,8 @@
 			"E.OpenEntranceFileName": "EntranceTo_Level2.png",
 			"E.CloseEntranceFileName": "EntranceTo_Level2_close.png",
 			"E.ProgressCount": 10,
-			"E.NextScene": "truelevel2"
+			"E.NextScene": "truelevel2",
+			"E.LoadingLinkId":  2310
 		}
 	]
 }
