@@ -573,7 +573,7 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 		}
 		else
 		{
-			graphicComp->SetInterpolateTimer(graphicComp->GetInterpolateTimer() + 0.01f * dt);
+			graphicComp->SetInterpolateTimer(graphicComp->GetInterpolateTimer() + 0.08f * dt);
 			graphicComp->StartInterpolate();
 		}
 	

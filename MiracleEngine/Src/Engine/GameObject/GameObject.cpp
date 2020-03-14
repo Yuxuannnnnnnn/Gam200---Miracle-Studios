@@ -21,8 +21,8 @@ GameObject::~GameObject()
 
 	for (auto& it : _childObjects)
 	{
+		MyFactory.RemoveChildGameObject(it.second->Get_uID());
 		delete it.second;
-		MyFactory.RemoveChildGameObject(it.first);
 	}
 	_childObjects.clear();
 }
@@ -155,28 +155,47 @@ void GameObject::Serialise(Serialiser& document)
 
 		if (document.HasMember("ChildObjects") && document["ChildObjects"].IsArray())
 		{
-
-			for (auto& childObjects : _childObjects)
+			if (Get_uID()) //If object is not a prototype
 			{
-				delete childObjects.second; //delete all the gameObjects within this childObject and itself
-				MyFactory.RemoveChildGameObject(childObjects.first); //remove the child Object from the factory lists
+				for (auto& childObjects : _childObjects)
+				{
+					MyFactory.RemoveChildGameObject(childObjects.second->Get_uID());
+					delete childObjects.second; //delete all the gameObjects within this childObject and itself
+				}
+				_childObjects.clear(); //Clear child list
+
+
+				unsigned size = document["ChildObjects"].Size();
+
+				for (unsigned i = 0; i < size; ++i)
+				{
+					Serialiser datafile(document["ChildObjects"][i]);
+
+					GameObject* child =  MyFactory.CreateEmptyChildGameObject();
+
+					child->Serialise(datafile);
+					child->SetIndependent(false);
+					child->SetParent(this);
+
+					_childObjects[i] = child;
+				}
 			}
-			_childObjects.clear(); //Clear child list
-
-
-			unsigned size = document["ChildObjects"].Size();
-
-			for (unsigned i = 0; i < size; ++i)
+			else //If object is a prototype
 			{
-				Serialiser datafile(document["ChildObjects"][i]);
+				unsigned size = document["ChildObjects"].Size();
 
-				GameObject* child = new GameObject();
+				for (unsigned i = 0; i < size; ++i)
+				{
+					Serialiser datafile(document["ChildObjects"][i]);
 
-				child->Serialise(datafile);
-				child->SetIndependent(false);
-				child->SetParent(this);
+					GameObject* child = new GameObject();
 
-				_childObjects[i] = child;
+					child->Serialise(datafile);
+					child->SetIndependent(false);
+					child->SetParent(this);
+
+					_childObjects[i] = child;
+				}
 			}
 		}
 	}
@@ -185,8 +204,8 @@ void GameObject::Serialise(Serialiser& document)
 		//Clear all the childObjects if they were cloned from the prototype earlier
 		for (auto& childObjects : _childObjects)
 		{
+			MyFactory.RemoveChildGameObject(childObjects.second->Get_uID());
 			delete childObjects.second;
-			MyFactory.RemoveChildGameObject(childObjects.first);
 		}
 		_childObjects.clear();
 	}
