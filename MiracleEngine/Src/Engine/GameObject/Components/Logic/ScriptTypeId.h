@@ -19,6 +19,7 @@ enum class ScriptType {
 	SCRIPT_SplashScreen,
 	SCRIPT_Boss,
 	SCRIPT_LoadingScreen,
+	SCRIPT_BossHealthController,
 	SCRIPT_COUNT
 };
 
@@ -44,6 +45,7 @@ inline const char* ToScriptName(ScriptType type)
 	case ScriptType::SCRIPT_SplashScreen:	return "SplashScreen";
 	case ScriptType::SCRIPT_Boss:		return "Boss";
 	case ScriptType::SCRIPT_LoadingScreen:		return "LoadingScreen";
+	case ScriptType::SCRIPT_BossHealthController:		return "BossHealthController";
 
 	default:      return "None";
 	}
@@ -87,6 +89,8 @@ inline ScriptType ToScriptId(std::string& name)
 		return ScriptType::SCRIPT_Boss;
 	if (name.compare("LoadingScreen") == 0)
 		return ScriptType::SCRIPT_LoadingScreen;
+	if (name.compare("BossHealthController") == 0)
+		return ScriptType::SCRIPT_BossHealthController;
 	
 	return ScriptType::SCRIPT_COUNT;
 }

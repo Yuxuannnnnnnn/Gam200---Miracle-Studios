@@ -1,0 +1,18 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "BossHealthController",
+  "Name": "BossHp_controller",
+  "LinkUId": 616,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Rotate": 0.0,
+  "LogicComponent": true,
+  "Scripts": [
+    {
+      "Script2Id": "BossHealthController",
+      "BH.MaxHealth": 22,
+      "BH.HealthLinkID": [ 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222 ]
+    }
+  ]
+}

@@ -3,10 +3,11 @@
 #include <cstdlib>
 #include <ctime>
 #include "Script/EntrancePortal.h"
+#include "Script/BossHealthController.h"
 
 Boss::Boss() :
 	health{ 0 }, healthMax{ 0 }, healthHalf{ 0 }, healthQuart{ 0 },
-
+	_healthControllerLinkId{0},
 	startUpTimer{ 0.0 }, idleTimer{ 0.0 }, idleDuration{ 0.0 },
 
 	ammo{ 0 }, ammoMax{ 0 },
@@ -26,7 +27,8 @@ Boss::Boss() :
 	_init{ false }, _healthHalfStart{ false }, _healthHalfEnd{ false }, _deathStart{ false },
 	_transforming{ false }, _redTint{ false }, _justHit{ false },
 
-	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 }
+	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 },
+	_HealthController{nullptr}
 {
 }
 
@@ -63,6 +65,8 @@ void Boss::Init()
 	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 	audcom->PlaySFX("StartUp");
 	MyAudioSystem.PlayBGM("MusicBGM1", 1.0f); // ask YX where she grab this from
+
+	_HealthController = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_healthControllerLinkId), Logic), BossHealthController);
 
 	_init = true;
 }
@@ -120,10 +124,17 @@ bool Boss::PlayAnimChain(std::vector<std::string> animChain, bool overwrite)
 void Boss::UpdateState()
 {
 
+	if (_state == (int)Boss_State::IDLE)
+	{
+		health = healthHalf - 1;
+		_state = _stateNext = (int)Boss_State::IDLE_RAGE;
+	}
+
 	if ((EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0)||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0)))
 	{
 		health = -1;
+		((BossHealthController*)_HealthController)->DecreaseHealth(healthMax);
 	}
 
 	OnHit();
@@ -146,14 +157,7 @@ void Boss::UpdateState()
 		_state == (int)Boss_State::DEATH
 		) return;
 
-	// select attack method
-	if (health > healthHalf)
-	{
-		// _state = (int)Boss_State::LASER_CHARGE_RAPID;
-		health = healthHalf - 1;
-		_state = _stateNext = (int)Boss_State::IDLE_RAGE;
-	}
-	else
+	if(health <= healthHalf)
 	{
 		if (!_healthHalfEnd) // if havent transform
 		{
@@ -578,6 +582,8 @@ void Boss::OnHit()
 	{
 		_justHit = false;
 		health--;
+		((BossHealthController*)_HealthController)->DecreaseHealth();
+
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 		audcom->PlaySFX("Hit");
 		if (_redTint)
@@ -690,7 +696,7 @@ void Boss::Transform()
 void Boss::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
-	if (otherType.compare("Bullet") == 0)
+	if (otherType.compare("Bullet") == 0 && _state != (int)Boss_State::STARTUP)
 	{
 		_justHit = true; // used in OnHit()
 	}
@@ -724,6 +730,9 @@ void Boss::SerialiseComponent(Serialiser& document)
 		laserRapidFireNumOfShots = rapidFireShotCount = (document["RapidFireNumOfShots"].GetInt());
 	if (document.HasMember("RapidFireChargeSpeedUp") && document["RapidFireChargeSpeedUp"].IsDouble())
 		laserRapidChargeSpeedUp = (document["RapidFireChargeSpeedUp"].GetDouble());
+
+	if (document.HasMember("HealthControllerLinkId") && document["HealthControllerLinkId"].IsInt())
+		_healthControllerLinkId = (document["HealthControllerLinkId"].GetInt());
 }
 
 void Boss::DeSerialiseComponent(DeSerialiser& prototypeDoc) {//not being used
@@ -763,6 +772,12 @@ void Boss::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::Memor
 	prototypeDoc.AddMember("RapidFireNumOfShots", value, allocator);
 	value.SetDouble(laserRapidChargeSpeedUp);
 	prototypeDoc.AddMember("RapidFireChargeSpeedUp", value, allocator);
+
+
+	value.SetInt(_healthControllerLinkId);
+	prototypeDoc.AddMember("HealthControllerLinkId", value, allocator);
+
+	
 }
 
 void Boss::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -793,6 +808,7 @@ void Boss::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value&
 	rapidjson::Value LaserAliveDuration;
 	rapidjson::Value RapidFireNumOfShots;
 	rapidjson::Value RapidFireChargeSpeedUp;
+	rapidjson::Value HealthControllerLinkId;
 
 	bool addComponentIntoSceneFile = false;
 
@@ -859,6 +875,12 @@ void Boss::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value&
 		RapidFireChargeSpeedUp.SetDouble(laserRapidChargeSpeedUp);
 	}
 
+	if (script->_healthControllerLinkId != _healthControllerLinkId)
+	{
+		addComponentIntoSceneFile = true;
+		HealthControllerLinkId.SetInt(_healthControllerLinkId);
+	}
+
 	if (addComponentIntoSceneFile)    //If anyone of component data of obj is different from Prototype
 	{
 		rapidjson::Value scriptName;
@@ -892,6 +914,9 @@ void Boss::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value&
 			value.AddMember("RapidFireNumOfShots", RapidFireNumOfShots, allocator);
 		if (!RapidFireChargeSpeedUp.IsNull())
 			value.AddMember("RapidFireChargeSpeedUp", RapidFireChargeSpeedUp, allocator);
+
+		if (!HealthControllerLinkId.IsNull())
+			value.AddMember("HealthControllerLinkId", HealthControllerLinkId, allocator);
 	}
 }
 
@@ -930,6 +955,8 @@ void Boss::Inspect()
 	ImGui::InputInt("Rapid Shot Counter ", &rapidFireShotCount);
 	ImGui::Spacing();
 	ImGui::InputDouble("Rapid Shot Charge Spd Mult ", &laserRapidChargeSpeedUp);
+	ImGui::Spacing();
+	ImGui::InputInt("Health Controller Linking Id ", &_healthControllerLinkId);
 	ImGui::Spacing();
 }
 
