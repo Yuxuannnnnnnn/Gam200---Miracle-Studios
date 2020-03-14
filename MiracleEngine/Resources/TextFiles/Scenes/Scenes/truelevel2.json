@@ -3,7 +3,7 @@
   "TexturesFilesPaths": [ "./Resources/Image/Interface\\Back_to_menu_button_click.png", "./Resources/Image/Interface\\Back_to_menu_button_hover.png", "./Resources/Image\\Bullet.png", "./Resources/Image\\Bullet_E.png", "./Resources/Image\\Bullet_T.png", "./Resources/Image/Character_Animation\\Character_BodyFloat_sprite.png", "./Resources/Image/Character_Animation\\Character_death_sprite.png", "./Resources/Image/Character_Animation\\Character_muzzle_attack_sprite.png", "./Resources/Image/Enemy_AI\\Charger_enemy_sprite.png", "./Resources/Image/Enemy_AI\\Charging_enemies2_sprite.png", "./Resources/Image/Interface\\Continue_Button_click.png", "./Resources/Image/Interface\\Continue_Button_hover.png", "./Resources/Image/Props_design/SCI_FI\\Crack_3.png", "./Resources/Image/Props_design/SCI_FI\\Crate_rusted.png", "./Resources/Image/Enemy_AI\\Enemies1_sprite.png", "./Resources/Image/Enemy_AI\\Enemies_charging.png", "./Resources/Image\\EnemyTwo.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_green.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_orange.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_red.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_Fullset.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_screen.png", "./Resources/Image/Powers_effect\\Health_power_up_glow.png", "./Resources/Image/Props_design\\Level3_Portal.png", "./Resources/Image/Props_design\\Level_2_Floor_1.png", "./Resources/Image/Props_design\\Level_2_Floor_2.png", "./Resources/Image/Props_design\\Level_2_Floor_3.png", "./Resources/Image/Props_design\\Level_2_Floor_4.png", "./Resources/Image/Props_design\\Level_2_Floor_5.png", "./Resources/Image/Props_design\\Level_2_Floor_6.png", "./Resources/Image/Props_design\\Level_2_Floor_7.png", "./Resources/Image/Props_design\\Level_2_Floor_8.png", "./Resources/Image/Props_design\\Level_2_Floor_9.png", "./Resources/Image/Props_design\\Level_2_piece_1.png", "./Resources/Image/Props_design\\Level_2_piece_10.png", "./Resources/Image/Props_design\\Level_2_piece_11.png", "./Resources/Image/Props_design\\Level_2_piece_12.png", "./Resources/Image/Props_design\\Level_2_piece_13.png", "./Resources/Image/Props_design\\Level_2_piece_2.png", "./Resources/Image/Props_design\\Level_2_piece_3.png", "./Resources/Image/Props_design\\Level_2_piece_4.png", "./Resources/Image/Props_design\\Level_2_piece_5.png", "./Resources/Image/Props_design\\Level_2_piece_6.png", "./Resources/Image/Props_design\\Level_2_piece_7.png", "./Resources/Image/Props_design\\Level_2_piece_8.png", "./Resources/Image/Props_design\\Level_2_piece_9.png", "./Resources/Image/Interface\\Loading_Screen_1.png", "./Resources/Image/Interface\\Loading_Screen_2.png", "./Resources/Image/Interface\\Mouse_cursor.png", "./Resources/Image/Character_Animation\\Muzzle_Idle_2.png", "./Resources/Image/Powers_effect\\Normal_impact_Blue_Plasma_24FPS_Sprite.png", "./Resources/Image/Interface\\Pause_menu.png", "./Resources/Image\\Player.png", "./Resources/Image/Interface\\Press_Space_To_Continue_button.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Progress_Bar.png", "./Resources/Image/Props_design\\Prop_interior_1.png", "./Resources/Image/Props_design\\Prop_interior_2.png", "./Resources/Image/Props_design\\Prop_interior_3.png", "./Resources/Image/Props_design\\Prop_interior_4.png", "./Resources/Image\\Rocket_icon_glow.png", "./Resources/Image/Character_Animation\\Shield_Body_Character_sprite.png", "./Resources/Image/Character_Animation\\Shield_break_sprite.png", "./Resources/Image/Enemy_AI\\Shooter_enemy_sprite.png", "./Resources/Image/Tile\\Snowy_Texture.png", "./Resources/Image/Environment_Animation\\Spark_sprite_WithEmptyFrame.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_lit.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_unlit.png", "./Resources/Image/Character_Animation\\Turret_Body_Sprite.png", "./Resources/Image/Character_Animation\\Turret_Transform_sprite.png", "./Resources/Image\\Wall.png", "./Resources/Image\\catjump.png", "./Resources/Image/Enemy_AI\\empty.png" ],
   "ShaderFilesPaths": [ [ "DefaultShader", "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" ] ],
   "AnimationDataFilesPaths": [ "./Resources/TextFiles/AnimationData\\Character_BodyFloat_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Character_death_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Charger_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Charging_enemies2_sprite.json", "./Resources/TextFiles/AnimationData\\Enemies1_sprite.json", "./Resources/TextFiles/AnimationData\\Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerMuzzle_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShieldBreak_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShield_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Shooter_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Spark_sprite_WithEmptyFrameSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Turret_Transform_spriteSpriteSheetData.json" ],
-  "AudioSFXFilesPaths": [ "./Resources/Audio\\BossHit.wav", "./Resources/Audio\\Button.ogg", "./Resources/Audio\\ChargingSound.wav", "./Resources/Audio\\Coin.ogg", "./Resources/Audio\\EnemyShoot.wav", "./Resources/Audio\\PlayerDamaged.wav", "./Resources/Audio\\PlayerShoot.wav", "./Resources/Audio\\SCIFILASERGENHDF20725.wav", "./Resources/Audio\\Shield2.wav", "./Resources/Audio\\TurretConstruction.wav", "./Resources/Audio\\TurretShoot.wav" ],
+  "AudioSFXFilesPaths": [ "./Resources/Audio\\EnemiesGotHit.wav", "./Resources/Audio\\Button.ogg", "./Resources/Audio\\ChargingSound.wav", "./Resources/Audio\\Coin.ogg", "./Resources/Audio\\EnemyShoot.wav", "./Resources/Audio\\PlayerDamaged.wav", "./Resources/Audio\\PlayerShoot.wav", "./Resources/Audio\\EnemiesExplode.wav", "./Resources/Audio\\Shield2.wav", "./Resources/Audio\\TurretConstruction.wav", "./Resources/Audio\\TurretShoot.wav" ],
   "AudioBGMFilesPaths": [ "./Resources/Audio\\gameplayBgm.wav" ],
   "FontFilesPath": [],
   "Objects": [
@@ -2013,13 +2013,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2063,13 +2063,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2113,13 +2113,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2163,13 +2163,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2213,13 +2213,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2263,13 +2263,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2313,13 +2313,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2363,13 +2363,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2413,13 +2413,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2463,13 +2463,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2513,13 +2513,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2563,13 +2563,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2613,13 +2613,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2663,13 +2663,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2713,13 +2713,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2763,13 +2763,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2813,13 +2813,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2863,13 +2863,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -2913,13 +2913,13 @@
       "SFXList": [
         {
           "SFXName": "Death",
-          "fileName": "SCIFILASERGENHDF20725.wav",
+          "fileName": "EnemiesExplode.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
         {
           "SFXName": "Hit",
-          "fileName": "BossHit.wav",
+          "fileName": "EnemiesGotHit.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
