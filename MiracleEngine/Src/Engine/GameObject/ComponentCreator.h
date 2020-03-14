@@ -32,3 +32,4 @@ public:
 
 //Register component macro
 #define RegisterComponent(type) MyFactory.AddComponentCreator( #type, new ComponentCreatorType<type##Component>( ComponentId::CT_##type ) );
+

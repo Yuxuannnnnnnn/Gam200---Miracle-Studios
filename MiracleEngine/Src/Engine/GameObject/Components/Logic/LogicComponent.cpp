@@ -193,10 +193,53 @@ void LogicComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjs
 
 void LogicComponent::Inspect()
 {
+
+	//{
+	//	std::vector<const char*> scriptlist((int)(ScriptType::SCRIPT_COUNT) + 1);
+	//	std::vector <std::string > scriptlistString((int)(ScriptType::SCRIPT_COUNT) + 1);
+	//	int a = 0;
+	//	scriptlist[a] = "Add Script Type";
+	//	scriptlistString[a] = "Add Script Type";
+	//	a++;
+	//	for (int i = 0; i < (int)(ScriptType::SCRIPT_COUNT); i ++)
+	//	{
+	//		scriptlistString[a] = scriptTOSTRING((ScriptType)(i));
+	//		scriptlist[a] = scriptlistString[a].c_str();
+	//		a++;
+	//	}
+	//
+	//
+	//	ComboFilterState s = { 0, 0 };
+	//
+	//	char buf[128];
+	//
+	//	ImGuiFunctions Function;
+	//	static bool op1 = false;
+	//	static bool* open1 = &op1;
+	//
+	//	strncpy(buf, "Add Script Type", 26 + 1);
+	//
+	//	std::string fileName;
+	//
+	//	//std::string fileName;
+	//
+	//	if (Function.ComboFilter("                                    ##Add Script", buf, IM_ARRAYSIZE(buf), scriptlist, scriptlist.size(), s, fileName, open1))
+	//	{
+	//		AddScript2(fileName);
+	//	}
+	//
+	//	ImGui::Spacing();
+	//	ImGui::Spacing();
+	//}
+
+
 	// itr through _scriptContianer and call the actual IScript2* from LogicSys _scriptList
-	for (auto script2id : ((LogicComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Logic))->GetScriptContianer())
-		for (auto script2ptrs : _engineSystems._logicSystem->GetScriptList(GetParentId()))
-			script2ptrs->Inspect(); // and call their inspects
+	//for (auto script2id : GetScriptContianer())
+	for (auto script2ptrs : MyLogicSystem.GetScriptList(GetParentId()))
+		script2ptrs->Inspect(); // and call their inspects
+
+
+
 
 	if (DEBUG_LUA)
 	{

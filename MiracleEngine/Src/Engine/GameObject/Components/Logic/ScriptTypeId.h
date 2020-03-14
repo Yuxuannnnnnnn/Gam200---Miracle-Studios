@@ -22,6 +22,8 @@ enum class ScriptType {
 	SCRIPT_COUNT
 };
 
+#define scriptTOSTRING(type) std::string(#type).substr(18)
+
 inline const char* ToScriptName(ScriptType type)
 {
 	switch (type)

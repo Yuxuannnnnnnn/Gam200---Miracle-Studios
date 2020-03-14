@@ -66,6 +66,8 @@ void Engine::Update()
 
 		if (!MyImguiSystem._editorMode)
 		{
+			ShowCursor(false);
+
 			if (!MyInputSystem._pause)
 			{
 

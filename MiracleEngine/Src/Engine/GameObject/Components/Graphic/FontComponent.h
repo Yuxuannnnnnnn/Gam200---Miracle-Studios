@@ -18,12 +18,18 @@ private:
 
 	*/
 
-	float _color[4] = { 1.0f,1.0f,1.0f,1.0f };
-	bool _startDisplaying = false;
-	float _delayTime = 0.0f;
+
+	float _color[4] = { 1.0f,1.0f,1.0f,1.0f }; //color of font
+
+
+	float _delayTime = 0.0f; //how long it takes to show the entire font object 
 	bool _isDelayedText = false;
 
+
 	/* dont need serialize private var below*/
+	bool _startDisplaying = false; //start feature of showing one character at a time
+									//Script will set to true
+
 
 	float _currentDelaytime = 200.0f;
 	size_t _fontCounter = 0;

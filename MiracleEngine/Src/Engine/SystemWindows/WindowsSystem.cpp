@@ -13,6 +13,7 @@ WindowsSystem::WindowsSystem(HINSTANCE hInstance, int nCmdShow)
 //reads all messages received in this window objects
 bool WindowsSystem::Update()
 {
+
 	window.CheckFullScreenToggle();
 
 	// Main message loop:
