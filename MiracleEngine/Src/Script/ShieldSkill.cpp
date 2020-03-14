@@ -82,5 +82,6 @@ void ShieldSkill::ActionShield(double skilltimer)
 	_timer = skilltimer;
 	_animTimer = -1.f;
 	_animation->SetCurrentAnim("On");
+	_animation->SetPlayingOnce(false);
 	_audcom->PlaySFX("Activate");
 }

@@ -15,7 +15,7 @@ Enemy::Enemy() :
 	_moveSpeed{ 0.0 }, _chaseSpeed{ 0.0 },
 	_chaseTimer{ 0.0 }, _chaseDuration{ 0.0 },
 
-	_timerDeath{ 0.0 }, _dt{ 0.0 }, hitTintTimer{ 0.0 }, hitTintDuration{ 1.0 },
+	_timerDeath{ 0.0 }, _dt{ 0.0 }, hitTintTimer{ 0.0 }, hitTintDuration{ 0.3 },
 	_deathStart{ false }, _redTint{ false }, _justHit{ false },
 	_charging{ false }, _chargingStart{false},
 	_animState{ 1 }, _animStatePrev{ 1 },
@@ -60,10 +60,10 @@ void Enemy::OnHit()
 		else
 		{
 			_redTint = true;
-			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.5, 0, 0, 0)); // set tint red
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.3, 0.3, 0, 0)); // set tint red
 		}
 	}
-	else
+	if (_redTint)
 	{
 		hitTintTimer -= _dt;
 		if (hitTintTimer > 0)
@@ -74,6 +74,8 @@ void Enemy::OnHit()
 			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0)); // set tint normal
 		}
 	}
+	else
+		hitTintTimer = hitTintDuration;
 }
 
 

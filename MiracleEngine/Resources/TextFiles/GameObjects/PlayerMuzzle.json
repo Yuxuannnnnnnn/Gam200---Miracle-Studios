@@ -12,6 +12,8 @@
   "G.Shader": "",
   "G.Layer": 1,
   "AnimationComponent": true,
+  "PlayAtCreation": false,
+  "PlayInitLoop": false,
   "AnimationTypes": [
     {
       "AnimationType": "PlayerMuzzle_SpriteSheetData.json",

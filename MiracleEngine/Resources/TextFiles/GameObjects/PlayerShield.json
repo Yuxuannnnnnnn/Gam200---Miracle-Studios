@@ -56,6 +56,8 @@
     }
   ],
   "StartAnim": "On",
+  "PlayAtCreation": true,
+  "PlayInitLoop": true,
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
   "ColliderTag": 1,

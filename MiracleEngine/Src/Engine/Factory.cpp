@@ -62,6 +62,9 @@ GameObject* Factory::CloneChildGameObjectPrototype(GameObject* gameobject)
 
 void Factory::RemoveChildGameObject(size_t UId)
 {
+	if (!UId)
+		return;
+
 	_childGameObjectIdMap.erase(UId);
 	_allExistGameObjectList.erase(UId);
 }

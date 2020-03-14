@@ -25,7 +25,11 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "ButtonController"
+      "ObjectType": "ButtonController1"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingScreen2"
     },
     {
       "IdentityComponent": true,
