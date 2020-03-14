@@ -332,7 +332,7 @@ void InspectionImguiWindow::Update()
 
 			//ImGuiFunctions Function;
 			static bool op1 = false;
-			static bool* open1 = &op;
+			static bool* open1 = &op1;
 
 
 			strncpy(buf, "Add Child Obj ID", 26 + 1);

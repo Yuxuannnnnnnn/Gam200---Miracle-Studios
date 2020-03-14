@@ -21,7 +21,9 @@ GameObject::~GameObject()
 
 	for (auto& it : _childObjects)
 	{
-		MyFactory.RemoveChildGameObject(it.second->Get_uID());
+		if(_uId)
+			MyFactory.RemoveChildGameObject(it.first);
+
 		delete it.second;
 	}
 	_childObjects.clear();
@@ -159,10 +161,11 @@ void GameObject::Serialise(Serialiser& document)
 			{
 				for (auto& childObjects : _childObjects)
 				{
-					MyFactory.RemoveChildGameObject(childObjects.second->Get_uID());
+					MyFactory.RemoveChildGameObject(childObjects.first);
 					delete childObjects.second; //delete all the gameObjects within this childObject and itself
 				}
 				_childObjects.clear(); //Clear child list
+				_anyChild = false;
 
 
 				unsigned size = document["ChildObjects"].Size();
@@ -177,7 +180,8 @@ void GameObject::Serialise(Serialiser& document)
 					child->SetIndependent(false);
 					child->SetParent(this);
 
-					_childObjects[i] = child;
+					_childObjects[child->Get_uID()] = child;
+					_anyChild = true;
 				}
 			}
 			else //If object is a prototype
@@ -204,7 +208,7 @@ void GameObject::Serialise(Serialiser& document)
 		//Clear all the childObjects if they were cloned from the prototype earlier
 		for (auto& childObjects : _childObjects)
 		{
-			MyFactory.RemoveChildGameObject(childObjects.second->Get_uID());
+			MyFactory.RemoveChildGameObject(childObjects.first);
 			delete childObjects.second;
 		}
 		_childObjects.clear();
