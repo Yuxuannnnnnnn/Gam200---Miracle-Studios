@@ -21,8 +21,8 @@ GameObject::~GameObject()
 
 	for (auto& it : _childObjects)
 	{
+		MyFactory.RemoveChildGameObject(it.second->Get_uID());
 		delete it.second;
-		MyFactory.RemoveChildGameObject(it.first);
 	}
 	_childObjects.clear();
 }
@@ -159,8 +159,8 @@ void GameObject::Serialise(Serialiser& document)
 			{
 				for (auto& childObjects : _childObjects)
 				{
+					MyFactory.RemoveChildGameObject(childObjects.second->Get_uID());
 					delete childObjects.second; //delete all the gameObjects within this childObject and itself
-					MyFactory.RemoveChildGameObject(childObjects.first); //remove the child Object from the factory lists
 				}
 				_childObjects.clear(); //Clear child list
 
@@ -204,8 +204,8 @@ void GameObject::Serialise(Serialiser& document)
 		//Clear all the childObjects if they were cloned from the prototype earlier
 		for (auto& childObjects : _childObjects)
 		{
+			MyFactory.RemoveChildGameObject(childObjects.second->Get_uID());
 			delete childObjects.second;
-			MyFactory.RemoveChildGameObject(childObjects.first);
 		}
 		_childObjects.clear();
 	}
