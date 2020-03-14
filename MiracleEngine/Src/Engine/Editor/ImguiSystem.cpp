@@ -55,7 +55,7 @@ void ImguiSystem::UpdateFrame()
 	ImGui_ImplWin32_NewFrame();		//
 	ImGui::NewFrame();				///
 
-	if (true)
+	if (false)
 	{
 		ImGui::ShowDemoWindow(); 		//Show Demo Window
 	}
