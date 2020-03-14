@@ -24,7 +24,7 @@ class EntrancePortal : public IScript2
 
 	TransformComponent* _player;
 
-	IScript2* _loadingScreen;
+	GameObject* _loadingObj;
 
 public:
 

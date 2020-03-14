@@ -7,7 +7,11 @@ class ButtonController : public IScript2
 private:
 	int _currScene;
 
+	int _loadingLinkId;
+
 	IScript2* _pauseMenu;
+
+	GameObject* _LoadingObj;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
