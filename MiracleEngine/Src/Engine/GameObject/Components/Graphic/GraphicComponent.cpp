@@ -252,7 +252,12 @@ void GraphicComponent::Inspect()
 		string = "Flicker ";
 		ImGui::Checkbox(string.c_str(), &_isFlickering);
 
+		ImGui::Spacing();
+		ImGui::Spacing();
 
+		ImGui::Checkbox("start panning", &_startInterpolate);
+		ImGui::InputFloat("start pos", &_startpos);
+		ImGui::InputFloat("end pos", &_endpos);
 		//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
 
 		//AssetsImguiWindow*  window = dynamic_cast<AssetsImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Assets"]);
@@ -389,6 +394,42 @@ const std::string& GraphicComponent::GetShaderType()
 int  GraphicComponent::GetRenderLayer()
 {
 	return _layer;
+}
+
+void GraphicComponent::StartInterpolate()
+{
+	int a = (int)_interpolateTimer;
+	if (a % 2 == 0)
+	{
+		Vector3 result = _startpos * (1 - _interpolateTimer) + _endpos * _interpolateTimer;
+		auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
+		b->SetPos(result);
+	}
+	// return form point 2
+	else
+	{
+		a -= .99f;
+		Vector3 result = _endpos * (1 - _interpolateTimer) + _startpos * _interpolateTimer;
+		auto b = (TransformComponent*)GetSibilingComponent(ComponentId::CT_Transform);
+		b->SetPos(result);
+
+	}
+
+}
+
+bool GraphicComponent::IsInterpolateStarting()
+{
+	return _startInterpolate;
+}
+
+void GraphicComponent::SetInterpolateTimer(float time)
+{
+	_interpolateTimer = time;
+}
+
+float GraphicComponent::GetInterpolateTimer()
+{
+	return _interpolateTimer;
 }
 
 void GraphicComponent::SerialiseComponent(Serialiser& document)

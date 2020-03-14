@@ -6,6 +6,9 @@ void ButtonController::SerialiseComponent(Serialiser& document)
 {
 	if (document.HasMember("B.SceneTag") && document["B.SceneTag"].IsInt())	//Checks if the variable exists in .Json file
 		_currScene = document["B.SceneTag"].GetInt();
+
+	if (document.HasMember("B.LoadingLinkId") && document["B.LoadingLinkId"].IsInt())	//Checks if the variable exists in .Json file
+		_loadingLinkId = document["B.LoadingLinkId"].GetInt();
 }
 
 void ButtonController::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -27,6 +30,9 @@ void ButtonController::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapi
 	value.SetInt(_currScene);
 	prototypeDoc.AddMember("B.SceneTag", value, allocator);
 
+	value.SetInt(_loadingLinkId);
+	prototypeDoc.AddMember("B.LoadingLinkId", value, allocator);
+
 }
 
 void ButtonController::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -40,6 +46,7 @@ void ButtonController::DeserialiseComponentSceneFile(IComponent* protoCom, rapid
 	}
 
 	rapidjson::Value currScene;
+	rapidjson::Value LoadingLinkId;
 
 	bool addComponentIntoSceneFile = false;
 
@@ -47,6 +54,12 @@ void ButtonController::DeserialiseComponentSceneFile(IComponent* protoCom, rapid
 	{
 		addComponentIntoSceneFile = true;
 		currScene.SetInt(_currScene);
+	}
+
+	if (script->_loadingLinkId != _loadingLinkId)
+	{
+		addComponentIntoSceneFile = true;
+		LoadingLinkId.SetInt(_loadingLinkId);
 	}
 
 
@@ -63,6 +76,11 @@ void ButtonController::DeserialiseComponentSceneFile(IComponent* protoCom, rapid
 			value.AddMember("B.SceneTag", currScene, allocator);
 		}
 
+		if (!LoadingLinkId.IsNull())	//if rapidjson::value container is not empty
+		{
+			value.AddMember("B.LoadingLinkId", LoadingLinkId, allocator);
+		}
+
 	}
 
 }
@@ -71,13 +89,13 @@ void ButtonController::DeserialiseComponentSceneFile(IComponent* protoCom, rapid
 
 void ButtonController::Inspect()
 {
-	ImGui::Spacing();
-	ImGui::InputInt("Current Scene ID ", &_currScene);
-	ImGui::Spacing();
+	//ImGui::Spacing();
+	//ImGui::InputInt("Current Scene ID ", &_currScene);
+	//ImGui::Spacing();
 }
 
 ButtonController::ButtonController() :
-	_currScene{ 0 }, _pauseMenu{nullptr}
+	_currScene{ 0 }, _pauseMenu{ nullptr }, _loadingLinkId{0}
 {
 }
 
@@ -89,9 +107,12 @@ ButtonController* ButtonController::Clone()
 void ButtonController::Init()
 {
 	if (_currScene == 2)
+		_pauseMenu = GetScriptByLogicComponent(GetComponentObject( GetLinkObject(1275), Logic), PauseMenu);
+
+	if (_currScene == 1)
 	{
-		std::string temp = "PauseMenu";
-		_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+		_LoadingObj = GetLinkObject(_loadingLinkId);
+		_LoadingObj->SetEnable(false);
 	}
 }
 
@@ -107,7 +128,10 @@ void ButtonController::Update(double dt)
 	if (_currScene == 1)
 	{
 		if (_input->ButtonTrigger(10)) // start
+		{
+			_LoadingObj->SetEnable(true);
 			MyFactory.ChangeScene("truelevel1");
+		}
 		else if (_input->ButtonTrigger(11)) // options
 			MyFactory.ChangeScene("OptionPage");
 		else if (_input->ButtonTrigger(12)) // instructions
@@ -118,31 +142,15 @@ void ButtonController::Update(double dt)
 			MyFactory.ChangeScene("CreditPage");
 		else if (_input->ButtonTrigger(16)) // quit
 			MyFactory.ChangeScene("Quit");
-		else if (_input->ButtonTrigger(60))
-		{
-			if (!_pauseMenu)
-			{
-				std::string temp = "PauseMenu";
-				_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-			}
-
-
-			((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
-		}
 	}
 	else if(_currScene == 2)
 	{ 
 		if (_input->ButtonTrigger(60))
-		{
-			if (!_pauseMenu)
-			{
-				std::string temp = "PauseMenu";
-				_pauseMenu = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1275)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
-			}
 			((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
-		}
+		else if (_input->ButtonTrigger(30)) // return to menu
+			MyFactory.ChangeScene("MainMenu");
 	}
-
-	if (_input->ButtonTrigger(30)) // return to menu
-		MyFactory.ChangeScene("MainMenu");
+	else if(_currScene == 3 && _input->ButtonTrigger(30))
+			MyFactory.ChangeScene("MainMenu");
+	
 }

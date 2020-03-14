@@ -15,8 +15,8 @@ Enemy::Enemy() :
 	_moveSpeed{ 0.0 }, _chaseSpeed{ 0.0 },
 	_chaseTimer{ 0.0 }, _chaseDuration{ 0.0 },
 
-	_timerDeath{ 0.0 },
-	_deathStart{ false },
+	_timerDeath{ 0.0 }, _dt{ 0.0 }, hitTintTimer{ 0.0 }, hitTintDuration{ 1.0 },
+	_deathStart{ false }, _redTint{ false }, _justHit{ false },
 	_charging{ false }, _chargingStart{false},
 	_animState{ 1 }, _animStatePrev{ 1 },
 
@@ -46,6 +46,36 @@ void Enemy::ForceDeath()
 	GetSibilingComponentObject(RigidBody2D)->SetEnable(false);
 	return;
 }
+
+void Enemy::OnHit()
+{
+	if (_justHit)
+	{
+		_justHit = false;
+		_health--;
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("Hit");
+		if (_redTint)
+			hitTintTimer = hitTintDuration;
+		else
+		{
+			_redTint = true;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.5, 0, 0, 0)); // set tint red
+		}
+	}
+	else
+	{
+		hitTintTimer -= _dt;
+		if (hitTintTimer > 0)
+			return;
+		else
+		{
+			_redTint = false;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0)); // set tint normal
+		}
+	}
+}
+
 
 Enemy* Enemy::Clone()
 {
@@ -82,7 +112,7 @@ void Enemy::Update(double dt)
 {
 	if (dt < 0)
 		return;
-
+	_dt = dt;
 // death logic
 	if (_timerDeath)
 	{
@@ -111,9 +141,11 @@ void Enemy::Update(double dt)
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("Death");
 			((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(true);
 			GetSibilingComponentObject(RigidBody2D)->SetEnable(false);
+			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+			audcom->PlaySFX("Death");
 		}
 	}
-
+	OnHit();
 // stunned logic
 	if (_stunActivate && _health > 0)
 	{
@@ -483,7 +515,7 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (otherType.compare("Bullet") == 0 || otherType.compare("BulletE") == 0 || otherType.compare("BulletT") == 0)
 	{
-		_health--;
+		_justHit = true;
 		SetStunned();
 		AddForwardForce(GetParentId(), -150000);
 	}

@@ -16,6 +16,9 @@ void LoadingScreen::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("L.ContinueLinkId") && document["L.ContinueLinkId"].IsInt())
 		_continueLinkId = document["L.ContinueLinkId"].GetInt();
+
+	if (document.HasMember("L.LoadComplete") && document["L.LoadComplete"].IsBool())
+		_loadingComplete = document["L.LoadComplete"].GetBool();
 }
 
 void LoadingScreen::DeSerialiseComponent(DeSerialiser& prototypeDoc)
@@ -52,11 +55,17 @@ LoadingScreen* LoadingScreen::Clone()
 
 void LoadingScreen::Init()
 {
-	if (_continueLinkId)
+	if (_loadingComplete)
+	{
 		_continueButton = GetLinkObject(_continueLinkId);
-
-	if(_playerLinkId)
+		_continueButton->SetEnable(true);
 		_player = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_playerLinkId), Logic), Player);
+		_player->GetParentPtr()->SetEnable(false);
+
+		GetSibilingComponentObject(UI)->SetFileName(_CompletedFileName);
+
+		_input->_pause = true;
+	}
 }
 
 void LoadingScreen::LoadResource()
@@ -69,36 +78,15 @@ void LoadingScreen::LoadResource()
 
 void LoadingScreen::Update(double dt)
 {
-	if (_loadingComplete && _continueButton)
+	if (_loadingComplete && _input->KeyDown(KeyCode::KEYB_SPACEBAR))
 	{
-		if (!_continueButton->GetEnable())
-		{
-			_input->_pause = true;
-			_continueButton->SetEnable(true);
+		_input->_pause = false;
+		_loadingComplete = false;
+		_continueButton->SetEnable(false);
+		_player->GetParentPtr()->SetEnable(true);
+		GetParentPtr()->SetEnable(false);
 
-			GetSibilingComponentObject(Graphic)->SetFileName(_CompletedFileName);
-		}
-		else if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_SPACEBAR))
-		{
-			_input->_pause = false;
-			_loadingComplete = false;
-			_player->GetParentPtr()->SetEnable(true);
-			GetParentPtr()->SetEnable(false);
-			_continueButton->SetEnable(false);
-		}
+		GetSibilingComponentObject(UI)->SetFileName(_LoadingFileName);
 	}
 
-}
-
-void LoadingScreen::StartLoading()
-{
-	GetParentPtr()->SetEnable(true);
-
-	if (_player)
-		_player->GetParentPtr()->SetEnable(false);
-
-	GetSibilingComponentObject(Graphic)->SetFileName(_LoadingFileName);
-
-	_input->_pause = true;
-	_loadingComplete = false;
 }

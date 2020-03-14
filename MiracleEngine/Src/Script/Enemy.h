@@ -19,14 +19,14 @@ private:
 	int _enemyType;
 // Logic - Behaviour
 	bool _stunned, _stunActivate;
-	double _timerStun, _timerStunCooldown;
-	double _timerAttack, _timerAttackCooldown;
+	double _timerStun, _timerStunCooldown,
+		_timerAttack, _timerAttackCooldown;
 	int _attackRangeShoot, _attackRangeMelee;
-	double _moveSpeed, _chaseSpeed;
-	double _chaseTimer, _chaseDuration;
+	double _moveSpeed, _chaseSpeed,
+		_chaseTimer, _chaseDuration;
 // Logic - Animation
-	double _timerDeath;
-	bool _deathStart;
+	double _timerDeath, _dt, hitTintTimer, hitTintDuration;
+	bool _deathStart, _redTint, _justHit;
 	bool _charging, _chargingStart;
 	int _animState, _animStatePrev;
 // Logic - Pathfinding
@@ -41,6 +41,7 @@ private:
 
 public:
 	void ForceDeath();
+	void OnHit();
 
 	void SerialiseComponent(Serialiser& document);
 	//No Need this function
