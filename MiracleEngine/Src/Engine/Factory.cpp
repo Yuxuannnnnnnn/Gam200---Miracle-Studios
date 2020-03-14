@@ -242,6 +242,12 @@ std::unordered_map<size_t, GameObject*>& Factory::getObjectlist()
 	return _gameObjectIdMap;
 }
 
+std::unordered_map<size_t, GameObject*>& Factory::getChildObjectlist()
+{
+	// TODO: insert return statement here
+	return _childGameObjectIdMap;
+}
+
 void Factory::SerialiseLevel(std::string FileName)
 {
 	Serialiser Level(FileName);
