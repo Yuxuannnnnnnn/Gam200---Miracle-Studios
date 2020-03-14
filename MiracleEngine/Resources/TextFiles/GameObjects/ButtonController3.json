@@ -1,6 +1,6 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "ButtonController",
+  "ObjectType": "ButtonController3",
   "Name": "ButtonController",
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
@@ -9,8 +9,10 @@
   "Layer": 1,
 
   "LogicComponent": true,
-  "Scripts":[ {
-    "Script2Id": "ButtonController",
-    "B.SceneTag": 1
-  }  ]
+  "Scripts": [
+    {
+      "Script2Id": "ButtonController",
+      "B.SceneTag": 3
+    }
+  ]
 }

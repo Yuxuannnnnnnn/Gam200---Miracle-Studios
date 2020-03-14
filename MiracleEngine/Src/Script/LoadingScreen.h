@@ -32,7 +32,5 @@ public:
 	void Init();
 	void LoadResource();
 	void Update(double dt);
-
-	void StartLoading();
 };
 

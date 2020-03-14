@@ -240,7 +240,8 @@ void EntrancePortal::Init()
 		_player = GetComponentObject(GetLinkObject(999), Transform);
 	}
 
-	//_loadingScreen = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_loadingLinkId), Logic), LoadingScreen);
+	if (_level != 3)
+		_loadingObj = GetLinkObject(_loadingLinkId);
 }
 
 void EntrancePortal::LoadResource()
@@ -285,7 +286,7 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 
 			if (!otherType.compare("player"))
 			{
-				((LoadingScreen*)_loadingScreen)->StartLoading();
+				_loadingObj->SetEnable(true);
 				GoNextScene();
 			}
 		}
@@ -296,7 +297,7 @@ void EntrancePortal::OnTrigger2DEnter(Collider2D* other)
 
 		if (!otherType.compare("player"))
 		{
-			((LoadingScreen*)_loadingScreen)->StartLoading();
+			_loadingObj->SetEnable(true);
 			GoNextScene();
 		}
 	}

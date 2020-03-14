@@ -1,0 +1,15 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "LoadingScreen2",
+  "Name": "loading",
+  "LinkUId": 2310,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 1920.0, 1080.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "UIComponent": true,
+  "UI.FileName": "Loading_Screen_1.png",
+  "UI.Layer": 130,
+  "UI.HasAlpha": false
+}

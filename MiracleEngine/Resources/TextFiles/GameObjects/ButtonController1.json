@@ -1,0 +1,20 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "ButtonController1",
+  "Name": "ButtonController",
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Rotate": 0.0,
+  "Layer": 1,
+
+  "LogicComponent": true,
+  "Scripts": [
+    {
+      "Script2Id": "ButtonController",
+      "B.SceneTag": 1,
+      "B.LoadingLinkId": 2310
+    }
+  ]
+
+}

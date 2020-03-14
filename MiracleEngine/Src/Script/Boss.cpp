@@ -19,7 +19,7 @@ Boss::Boss() :
 
 	laserRapidFireNumOfShots{ 0 }, rapidFireShotCount{ 0 },
 	laserRapidChargeSpeedUp{ 0.0 },
-	hitTintTimer{ 0.0 }, hitTintDuration{ 0.5 },
+	hitTintTimer{ 0.0 }, hitTintDuration{ 1.0 },
 
 	_state{ (int)Boss_State::STARTUP }, _statePrev{ (int)Boss_State::STARTUP }, _stateNext{ (int)Boss_State::STARTUP },
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },

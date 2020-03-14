@@ -25,7 +25,7 @@ private:
 
 	/* dont need serialize private var below*/
 
-	float _currentDelaytime = 0;
+	float _currentDelaytime = 200.0f;
 	size_t _fontCounter = 0;
 
 public:
