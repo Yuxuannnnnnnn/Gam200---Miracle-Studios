@@ -466,9 +466,10 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 			if (!MyImguiSystem._editorMode)
 #endif
 			{
-				if (graphicComp->GetAlpha() > 0.001f);
+				if (graphicComp->GetAlpha() > 0.001f && dt > 0.0)
 				{
-					graphicComp->SetAlpha(graphicComp->GetAlpha() - 0.3 * dt);
+					float temp = graphicComp->GetAlpha() - 0.3f * dt;
+					graphicComp->SetAlpha(temp);
 					renderobject._hasAdjustableAlpha = true;
 				}
 			}

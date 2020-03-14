@@ -11,6 +11,6 @@
   "UIComponent": true,
   "UI.FileName": "Press_Space_To_Continue_button.png",
   "UI.Layer": 131,
-  "UI.HasAlpha": false
+  "UI.HasAlpha": true
 
 }

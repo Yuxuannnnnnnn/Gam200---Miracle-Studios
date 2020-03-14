@@ -35,7 +35,7 @@
     }
   ],
   "StartAnim": "Explosion",
-  "PlayAtCreation": false,
+  "PlayAtCreation": true,
   "PlayInitLoop": false,
   "RigidBody2DComponent": true,
   "Mass": 1.0,
