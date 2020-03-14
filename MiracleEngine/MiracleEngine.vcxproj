@@ -589,6 +589,7 @@
     <ClInclude Include="Resources\targetver.h" />
     <ClInclude Include="Dep\stb_image\stb_image.h" />
     <ClInclude Include="Src\Script\Boss.h" />
+    <ClInclude Include="Src\Script\BossHealthController.h" />
     <ClInclude Include="Src\Script\Bullet.h" />
     <ClInclude Include="Src\Script\ButtonController.h" />
     <ClInclude Include="Src\Script\Enemy.h" />
@@ -770,6 +771,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\Script\Boss.cpp" />
+    <ClCompile Include="Src\Script\BossHealthController.cpp" />
     <ClCompile Include="Src\Script\Bullet.cpp" />
     <ClCompile Include="Src\Script\ButtonController.cpp" />
     <ClCompile Include="Src\Script\Enemy.cpp" />

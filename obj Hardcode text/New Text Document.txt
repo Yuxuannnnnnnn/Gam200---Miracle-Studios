@@ -100,3 +100,87 @@ pause menu ui
       "IdentityComponent": true,
       "ObjectType": "PaseMenu"
     }
+
+
+level 3 player
+
+{
+      "IdentityComponent": true,
+      "ObjectType": "player",
+      "TransformComponent": true,
+      "Position": [ -67.63440704345703, -1254.8118896484376, 1.0 ],
+      "Scale": [ 180.00001525878907, 180.00001525878907, 1.0 ],
+      "Rotate": 1.0109198093414307,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "_hasAlpha": true,
+      "G.FileName": "Player.png",
+      "_hasAdjustableAlpha": true,
+      "LogicComponent": true,
+      "Scripts": [ {} ],
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "Character_death_spriteSpriteSheetData.json",
+          "TimeDelay": 0.10000000149011612,
+          "AnimationName": "Death"
+        },
+        {
+          "AnimationType": "Character_BodyFloat_spriteSpriteSheetData.json",
+          "TimeDelay": 0.10000000149011612,
+          "AnimationName": "Move"
+        }
+      ],
+      "PlayAtCreation": true,
+      "PlayInitLoop": true,
+      "AudioComponent": true,
+      "SFXList": [
+        {
+          "SFXName": "GetHit",
+          "fileName": "PlayerDamaged.wav",
+          "volume": 0.07699999958276749,
+          "NumOfloops": 0
+        },
+        {
+          "SFXName": "Shoot",
+          "fileName": "PlayerShoot.wav",
+          "volume": 0.09200000017881394,
+          "NumOfloops": 0
+        }
+      ],
+      "BackgroundSoundList": [],
+      "HaveChild": true,
+      "ChildObjects": [
+        {
+          "IdentityComponent": true,
+          "ObjectType": "PlayerMuzzle",
+          "Name": "PlayerMuzzle",
+          "LinkUId": 555,
+          "TransformComponent": true,
+          "Position": [ 0.0, 15.0, 1.0 ],
+          "Scale": [ 150.0, 150.0, 1.0 ],
+          "Rotate": 0.0,
+          "PivotPosition": [ 0.0, 0.0, 0.0 ],
+          "GraphicsComponent": true,
+          "G.FileName": "Muzzle_Idle_2.png",
+          "G.Shader": "",
+          "G.Layer": 14,
+          "_hasAlpha": true,
+          "_hasAdjustableAlpha": false,
+          "_alphaVal": 1.0,
+          "_isFadingOut": false,
+          "_isFlickering": false,
+          "AnimationComponent": true,
+          "AnimationTypes": [
+            {
+              "AnimationType": "PlayerMuzzle_SpriteSheetData.json",
+              "TimeDelay": 0.05000000074505806,
+              "AnimationName": "Shoot"
+            }
+          ],
+          "StartAnim": "Shoot",
+          "PlayAtCreation": true,
+          "PlayInitLoop": false
+        }
+      ]
+    },
