@@ -524,9 +524,6 @@ void Player::UpdateUI()
 
 void Player::UpdateInput(double dt)
 {
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_8))
-		((TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform))->SetPos(Vec3{ 0.f,0.f,1.f });
-
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_P))
 	{
 		((PauseMenu*)_pauseMenu)->EnablePauseMenu(true);

@@ -27,7 +27,7 @@
   "_hasAlpha": true,
   "CircleCollider2DComponent": true,
   "ColliderTypeId": 2,
-  "ColliderTag": 5,
+  "ColliderTag": 11,
   "ColliderTrigger": false,
   "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
   "Collider2D.C.Radius": 200.3679962158203

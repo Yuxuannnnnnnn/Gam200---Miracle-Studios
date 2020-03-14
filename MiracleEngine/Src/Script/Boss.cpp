@@ -133,8 +133,8 @@ void Boss::UpdateState()
 	if ((EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_0)||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_0)))
 	{
+		((BossHealthController*)_HealthController)->DecreaseHealth(health);
 		health = -1;
-		((BossHealthController*)_HealthController)->DecreaseHealth(healthMax);
 	}
 
 	OnHit();
