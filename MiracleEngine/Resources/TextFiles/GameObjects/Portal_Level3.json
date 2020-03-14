@@ -24,7 +24,8 @@
     {
       "Script2Id": "EntrancePortal",
       "E.CurrScene": 2,
-      "E.NextScene": "BossLevel"
+      "E.NextScene": "BossLevel",
+      "E.LoadingLinkId": 2310
     }
   ]
 
