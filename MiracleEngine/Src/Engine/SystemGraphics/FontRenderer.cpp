@@ -8,9 +8,9 @@ void FontRenderer::DrawFont(std::string& text, float xpos, float ypos, const glm
 	RenderText(*_shader, text, xpos, ypos, 1.0f, color);
 }
 
-void FontRenderer::DrawFontDelayed(float dt, std::string& text, float xpos, float ypos, const glm::vec3& color, bool start, float delayTime)
+void FontRenderer::DrawFontDelayed(float dt, std::string& text, float xpos, float ypos, const glm::vec3& color, bool start, float delayTime, int fontCounter)
 {
-	RenderTextDelayed(*_shader, dt, text, xpos, ypos, 1.0f, color, start, delayTime);
+	RenderTextDelayed(*_shader, dt, text, xpos, ypos, 1.0f, color, start, delayTime, fontCounter);
 }
 
 void FontRenderer::Draw()
@@ -22,7 +22,8 @@ void FontRenderer::Draw()
 	RenderText(*_shader, "Quit", -300.0f, -250.0f, 1.0f, glm::vec3(0.2f, 0.8f, 0.2f));
 }
 
-void FontRenderer::RenderTextDelayed(Shader& shader, float dt, std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color, bool startDelay, float delayTime)
+void FontRenderer::RenderTextDelayed(Shader& shader, float dt, std::string text, GLfloat x, GLfloat y, GLfloat scale, 
+	glm::vec3 color, bool startDelay, float delayTime, int fontCounter)
 {
 	// Activate corresponding render state	
 

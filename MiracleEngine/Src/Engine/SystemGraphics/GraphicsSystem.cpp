@@ -320,16 +320,39 @@ void GraphicsSystem::Update(double dt)
 
 
 		// draw the non delayed font
-		/*_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
-			transformComp->GetPos().GetY(), fontComp->GetFontColor());*/
-
+		if (!fontComp->IsDelayedText())
+		{
+			_fontRenderer->DrawFont(fontComp->GetFontString(), transformComp->GetPos().GetX(),
+				transformComp->GetPos().GetY(), fontComp->GetFontColor());
+		}
 		// draw the delayed font
+		else
+		{
+			// if starting, start delaying
+			if (!fontComp->IsStartDisplaying())
+			{
+				fontComp->SetDelayTime(0.0f);
+			}
+			
+			// if not start, set delay and font counter to 0
+			else
+			{
+				fontComp->SetCurrentDelayTime(fontComp->GetCurrentDelayTime() - fontComp->GetDelayTime() * dt);
 
-		// if starting, start delaying
-		// if not start, set delay and font counter to 0
-		_fontRenderer->DrawFontDelayed(dt,fontComp->GetFontString(), transformComp->GetPos().GetX(),
-			transformComp->GetPos().GetY(), fontComp->GetFontColor(), fontComp->IsStartDisplaying(), fontComp->GetDelayTime());
+				if (fontComp->GetCurrentDelayTime() < 150.0f)
+				{
+					fontComp->SetCurrentDelayTime(200.0f);
+					fontComp->SetFontCounter(fontComp->GetFontCounter() + 1);
+				}
+
+				_fontRenderer->DrawFontDelayed(dt, fontComp->GetFontString(), transformComp->GetPos().GetX(),
+					transformComp->GetPos().GetY(), fontComp->GetFontColor(), fontComp->IsStartDisplaying(), fontComp->GetDelayTime(), fontComp->GetFontCounter());
+
+			}
+		}
 	}
+
+
 
 
 	//DebugRenderer::GetInstance().DrawLine(0.0f, 0.0f, 100.0f, 100.0f);
@@ -539,6 +562,22 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 		renderobject._transform = modelTransform;
 		renderobject._zvalue = transformComp->GetPos().GetZ();
 		_renderObjects.push_back(renderobject);
+
+	}
+	for (auto& graphicCompPair : GetComponentMap(Graphic))
+	{
+		GraphicComponent* graphicComp = (GraphicComponent*)graphicCompPair.second;
+		if (!graphicComp->IsInterpolateStarting())
+		{
+			graphicComp->SetInterpolateTimer(0.0f);
+		}
+		else
+		{
+			graphicComp->SetInterpolateTimer(graphicComp->GetInterpolateTimer() + 0.01f * dt);
+			graphicComp->StartInterpolate();
+		}
+	
+
 
 	}
 
