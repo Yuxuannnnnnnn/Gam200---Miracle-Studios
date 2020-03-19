@@ -77,7 +77,7 @@ class Boss : public IScript2
 {
 private:
 // Logic Data - General
-	int health, healthMax, healthHalf, healthQuart;
+	int _health, _healthMax, _healthHalf, _healthQuart;
 
 	int _healthControllerLinkId;
 
