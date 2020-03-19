@@ -200,11 +200,9 @@ void Bullet::Update(double dt)
 			GetParentPtr()->SetDestory();
 		}
 
+	_lifeTime -= dt;
 
-	if (_lifeTime > 0.0f)
-		_lifeTime -= dt;
-
-	if (_lifeTime < 0.0f && _lifeTime != -666.f)
+	if (_lifeTime < 0.0f)
 		GetParentPtr()->SetDestory();
 }
 

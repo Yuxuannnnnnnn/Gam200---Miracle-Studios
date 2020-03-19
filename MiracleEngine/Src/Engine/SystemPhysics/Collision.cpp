@@ -72,7 +72,7 @@ void BoxVsBoxCollisionUpdate(Collider2D* boxA, Collider2D* boxB, double dt)
 
 	if (Collision::CollisionCheck(BoxA->_data, BoxB->_data) || BoxVsBoxIntersection(BoxA, BoxB, data))
 	{
-		std::cout << "box static check" << std::endl;
+		//std::cout << "box static check" << std::endl;
 
 		if (rigidbodyA && rigidbodyB)
 		{
@@ -185,7 +185,7 @@ void CircleVsCircleCollisionUpdate(Collider2D* circleA, Collider2D* circleB, dou
 
 	if (Collision::CollisionCheck(CircleA->_data, CircleB->_data) || CircleVsCircleIntersection(CircleA, CircleB, data))
 	{
-		std::cout << "circle static check" << std::endl;
+		//std::cout << "circle static check" << std::endl;
 		EventHandler::GetInstance().AddCollided2DEvent(CircleA, CircleB);
 		EventHandler::GetInstance().AddCollided2DEvent(CircleB, CircleA);
 
@@ -434,7 +434,7 @@ void CircleVsBoxCollisionUpdate(Collider2D* circle, Collider2D* box, double dt)
 
 	if (Collision::CollisionCheck(Box->_data, Circle->_data) || CircleVsBoxIntersection(Circle, Box, data))
 	{
-		std::cout << "circle box static check" << std::endl;
+		//std::cout << "circle box static check" << std::endl;
 
 		if (!rigidbodyA || rigidbodyA->_static)
 			return;
@@ -576,7 +576,7 @@ void CircleVsEdgeCollisionUpdate(Collider2D* circle, Collider2D* edge, double dt
 
 	if (Collision::BEdgeVSBCircle(Edge->_data, Circle->_data) || CircleVsEdgeIntersection(Circle, Edge, data))
 	{
-		std::cout << "circle edge static check" << std::endl;
+		//std::cout << "circle edge static check" << std::endl;
 
 		if (!rigidbodyA || rigidbodyA->_static)
 			return;
@@ -678,7 +678,7 @@ void BoxVsEdgeCollisionUpdate(Collider2D* box, Collider2D* edge, double dt)
 
 	if (Collision::BEdgeVSBPolygon(Edge->_data, Box->_data) || BoxVsEdgeIntersection(Box, Edge, data))
 	{
-		std::cout << "box edge static check" << std::endl;
+		//std::cout << "box edge static check" << std::endl;
 
 		if (!rigidbodyA || rigidbodyA->_static)
 			return;
