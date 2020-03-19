@@ -111,9 +111,27 @@ void GraphicsSystem::Update(double dt)
 		/*if (renderobj._hasAdjustableAlpha &&
 			abs(1.0f - renderobj._alpha) > 0.01f)
 			continue;*/
+		
+		// getting shader from current gameobject
+		auto shader = MyResourceManager.GetShaderResource(renderobj._currShader);
+
+		int x = 0;
+		int y = 0;
+		int z = 0;
 
 
 		renderobj._pShader->Select();
+
+		
+		/*if (!renderobj._hasCustomShader)
+		{
+			renderobj._pShader->Select();
+		}
+		else
+		{
+			if (shader != nullptr)
+				shader->Select();
+		}*/
 
 		if (renderobj._pTexture)
 			renderobj._pTexture->Select();
@@ -153,6 +171,7 @@ void GraphicsSystem::Update(double dt)
 		}
 		glm::mat4 mvp = _proj * _view * renderobj._transform;
 		renderobj._pShader->SetUniformMat4f("u_MVP", mvp);
+		//if (shader != nullptr)
 		_shader->SetUniform4f("u_tintcolor", renderobj._tintcolor.r, renderobj._tintcolor.g, renderobj._tintcolor.b, renderobj._tintcolor.a);
 		renderobj._pShader->SetUniform1f("u_Alpha", 1.0f);
 		/*if (renderobj._alpha < 0.95f)
@@ -333,7 +352,7 @@ void GraphicsSystem::Update(double dt)
 			{
 				fontComp->SetDelayTime(0.0f);
 			}
-			
+
 			// if not start, set delay and font counter to 0
 			else
 			{
@@ -459,6 +478,8 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 		RenderObject renderobject;
 		renderobject._tintcolor = graphicComp->GetTintColor();
 
+		renderobject._currShader = graphicComp->GetShaderType();
+
 		if (graphicComp->IsFadingOut() && !(MyFactory.GetCurrentScene().compare("truelevel1")))
 		{
 #ifdef LEVELEDITOR
@@ -496,7 +517,7 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 		}
 
 		renderobject._zvalue = transComp->GetPos().GetZ();
-		
+
 		graphicComp->GetTintColor();
 		if (graphicComp->IsFlickering())
 		{
@@ -577,7 +598,7 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 			graphicComp->SetInterpolateTimer(graphicComp->GetInterpolateTimer() + 0.08f * dt);
 			graphicComp->StartInterpolate();
 		}
-	
+
 
 
 	}

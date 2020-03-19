@@ -7,7 +7,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-
+#include <string>
 
 struct UV
 {
@@ -37,4 +37,7 @@ struct RenderObject
 	bool _hasAlpha;
 	bool _hasAdjustableAlpha;
 	glm::vec4 _tintcolor;
+	bool _hasCustomShader;
+	std::string _currShader;
+
 };
