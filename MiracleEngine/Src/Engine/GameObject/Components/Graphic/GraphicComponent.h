@@ -43,6 +43,10 @@ private:
 	float _interpolateTimer = 0.0f;
 	int _interpoateState = 0;
 
+
+	// to be serialized
+	bool _hasCustomShader;
+
 public:
 	glm::vec4 GetTintColor() const;
 	void SetTintColor(const glm::vec4& color);
