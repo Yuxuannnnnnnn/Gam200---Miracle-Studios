@@ -442,9 +442,13 @@ void Boss::LookAtPlayer()
 			Vector3 dirVec = ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA() - 
 				((TransformComponent*)playerPtr->GetComponent(ComponentId::CT_Transform))->GetPositionA();
 			
-			Vector3 compareUp( 0, 1, 0 ), compareRight( 1, 0, 0 );
+
+
 			// do matrix mult to the 2 vectors above so it matches the bosses new facing direction
-			bool currAngle = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate();
+			// x' = xcos - ysin, y' = ycos + xsin
+			float currAngle = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate();
+			Vector3 compareUp(sin(currAngle), -cos(currAngle), 0); // rotated 0,-1,0
+			Vector3 compareRight(cos(currAngle), sin(currAngle), 0); // rotated 1,0,0
 
 	//	Vec3 diff = _pos - _pivotPoint;
 	//	float mag = diff.Length();
@@ -454,27 +458,27 @@ void Boss::LookAtPlayer()
 			float dot = 0, det = 0, newAngle = 0;
 			// check if left or right
 			dot = dirVec._x * compareRight._x + dirVec._y * compareRight._y;
-			bool rotateRight = (dot > 1) ? true : false;
-
-			
-			
+			bool rotateRight = (dot > 0) ? true : false;
 			dot = dirVec._x * compareUp._x + dirVec._y * compareUp._y;
 			det = dirVec._x * compareUp._y - dirVec._y * compareUp._x;
+			bool infront = (dot > 0) ? true : false;
+			
 			newAngle = -atan2(det, dot);
 
+			currAngle = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate();
+			det = (det >= 0.00000) ? det : -det;
+			if (det > 10)
+				if (rotateRight)
+				{
+					currAngle += ((rotationspeed * _dt) * (det * _dt));
+					((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
+				}
+				else
+				{
+					currAngle -= ((rotationspeed * _dt) * (det * _dt));
+					((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
+				}
 
-			if (rotateRight && (det > 10 || det < -10))
-			{
-				currAngle += (rotationspeed * _dt);
-				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
-			}
-			else if (!rotateRight && (det > 10 || det < -10))
-			{
-				currAngle -= (rotationspeed * _dt);
-				((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
-			}
-			else;
-			
 		//	if (newAngle > currAngle && (det > 10 || det < -10))
 		//	{
 		//		currAngle += (rotationspeed * _dt);
