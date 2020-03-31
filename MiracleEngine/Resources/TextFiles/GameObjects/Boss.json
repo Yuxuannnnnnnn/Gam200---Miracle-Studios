@@ -24,7 +24,7 @@
       "RotationSpeed": 0.7,
       "ChargeDuration": 3.0,
       "FlashDuration": 0.5,
-      "LaserAliveDuration": 1.0,
+      "LaserAliveDuration": 2.0,
       "RapidFireNumOfShots": 5,
       "RapidFireChargeSpeedUp": 2.0,
       "HealthControllerLinkId": 616

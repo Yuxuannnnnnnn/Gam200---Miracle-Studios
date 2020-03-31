@@ -447,9 +447,10 @@ void Boss::LookAtPlayer()
 			// do matrix mult to the 2 vectors above so it matches the bosses new facing direction
 			// x' = xcos - ysin, y' = ycos + xsin
 			float currAngle = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate();
-			Vector3 compareUp(sin(currAngle), -cos(currAngle), 0); // rotated 0,-1,0
+			currAngle += 2 * MY_PI;
+			Vector3 compareUp(-sin(currAngle), cos(currAngle), 0); // rotated 0,-1,0
 			Vector3 compareRight(cos(currAngle), sin(currAngle), 0); // rotated 1,0,0
-
+			
 	//	Vec3 diff = _pos - _pivotPoint;
 	//	float mag = diff.Length();
 	//	float deg = atan2(diff._y, diff._x) + temp;
@@ -548,12 +549,23 @@ void Boss::LaserShoot()
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 		((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+		AddForwardForce(subObj->Get_uID(), 70000);
 
 		// disable animation
 		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
 	}
 	// call the PlayAnimChain() for the child
 	laserAliveTimer -= _dt;
+
+// REMOVE THIS SECTION, THIS ONLY FOR TESTING OF THE LASER SHOOT TIMER WORKING PROPERLY
+	subObj = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
+		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+	AddForwardForce(subObj->Get_uID(), 70000);
+
+
 	// LaserShoot() COMPLETE // _state=LASER_SHOOT_END cause need TRANSOFRM back to IDLE
 	if (laserAliveTimer < 0)
 	{
