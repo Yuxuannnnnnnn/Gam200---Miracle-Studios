@@ -28,7 +28,8 @@ Boss::Boss() :
 	_transforming{ false }, _redTint{ false }, _justHit{ false },
 
 	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 },
-	_HealthController{ nullptr }
+	_HealthController{ nullptr },
+	_laserTransfrom{ nullptr }, _laserGraphic{ nullptr }, _laserAnimation{ nullptr }, _objTransfrom{ nullptr }
 {
 }
 
@@ -43,6 +44,21 @@ Boss* Boss::Clone()
 
 void Boss::Init()
 {
+//	for (auto& it : GetParentPtr()->GetChildList())
+//	{
+//		_laserTransfrom = (TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform);
+//		_laserAnimation = (AnimationComponent*)it.second->GetComponent(ComponentId::CT_Animation);
+//		break;
+//	}
+//	MyFactory.SaveNewLinkID(999, GetParentId());
+//	_objTransfrom = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
+//	if (_laserAnimation)
+//	{
+//		_laserGraphic->SetEnable(false);
+//		_laserAnimation->SetAnimationPlaying(false);
+//	}
+
+
 	for (auto itr : _engineSystems._factory->getObjectlist())
 	{
 		if ((((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
@@ -118,10 +134,39 @@ bool Boss::PlayAnimChain(std::vector<std::string> animChain, bool overwrite)
 		}
 	}
 }
+bool Boss::PlayOtherAnimChain()
+{	
+	if (_laserShootStart)
+	{
+		_laserGraphic->SetEnable(true);
+		_CurrOtherAnimChainItr = _Laser.begin();
+		_laserAnimation->SetCurrentAnimOnce(*_CurrOtherAnimChainItr);
+		return true;
+	}
 
+	if (_laserAnimation->IsAnimationPlaying())
+		return true;
+	else {
+		if (++_CurrOtherAnimChainItr != _Laser.end()) // still got more in the chain
+		{
+			_laserAnimation->SetCurrentAnimOnce(*_CurrOtherAnimChainItr);
+			if (*_CurrOtherAnimChainItr == "Mid")
+				_laserCollider->SetEnable(true);
+			else
+				_laserCollider->SetEnable(false);
+			return true;
+		}
+		else // end of chain
+		{
+			_laserGraphic->SetEnable(false);
+			_laserCollider->SetEnable(false);
+			_laserAnimation->SetAnimationPlaying(false);
+			return false;
+		}
+	}
+}
 void Boss::UpdateState()
 {
-
 	if ((EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_6) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_6)))
 		_state = (int)Boss_State::LASER_CHARGE;
@@ -612,8 +657,9 @@ void Boss::LaserShoot()
 {
 	if (_laserShootStart)
 	{
+		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT START.\n";
+		/////////PlayOtherAnimChain();
 		_laserShootStart = false;
-		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT.\n";
 		
 		// Change spawn bullet to change childlaser to play other anim, also enable the collider for it
 		subObj = CreateObject("BulletE");
@@ -623,10 +669,9 @@ void Boss::LaserShoot()
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
 		AddForwardForce(subObj->Get_uID(), -70000);
 
-		// disable animation
-		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
+		return;
 	}
-	// call the PlayAnimChain() for the child
+
 	laserAliveTimer -= _dt;
 
 // REMOVE THIS SECTION, THIS ONLY FOR TESTING OF THE LASER SHOOT TIMER WORKING PROPERLY
@@ -640,6 +685,7 @@ void Boss::LaserShoot()
 
 	// LaserShoot() COMPLETE // _state=LASER_SHOOT_END cause need TRANSOFRM back to IDLE
 	if (laserAliveTimer < 0)
+	///////// if (PlayOtherAnimChain());
 	{
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT END.\n";
 		// re-enable animation
