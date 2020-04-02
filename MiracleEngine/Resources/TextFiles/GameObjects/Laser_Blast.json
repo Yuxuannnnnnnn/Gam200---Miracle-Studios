@@ -1,1 +1,47 @@
-{"BoxCollider2DComponent":true,"ColliderTypeId":1,"ColliderTag":0,"ColliderTrigger":true,"Collider2D.B.Center":[0.0,-440.0,1.0],"Collider2D.B.Scale":[50.0,3000.0,1.0],"Collider2D.B.Angle":0.0,"IdentityComponent":true,"ObjectType":"Laser_Blast","Name":"laser","LinkUId":0,"TransformComponent":true,"Position":[-1.0001068115234376,-1648.5474853515626,1.0],"Scale":[200.0,4000.0,1.0],"Rotate":0.0,"PivotPosition":[0.0,0.0,0.0],"GraphicsComponent":true,"G.FileName":"laser_collider.png","G.Shader":"DefaultShader","G.Layer":21,"_hasAlpha":true,"_hasAdjustableAlpha":true,"_alphaVal":1.0,"_isFadingOut":false,"_isFlickering":false,"AnimationComponent":true,"AnimationTypes":[{"AnimationType":"Laser_Blast.json","TimeDelay":0.05000000074505806,"AnimationName":"Laser_Blast"}],"StartAnim":""}
+{
+  "BoxCollider2DComponent": true,
+  "ColliderTypeId": 1,
+  "ColliderTag": 0,
+  "ColliderTrigger": true,
+  "Collider2D.B.Center": [ 0.0, -440.0, 1.0 ],
+  "Collider2D.B.Scale": [ 50.0, 3000.0, 1.0 ],
+  "Collider2D.B.Angle": 0.0,
+  "IdentityComponent": true,
+  "ObjectType": "Laser_Blast",
+  "Name": "laser",
+  "LinkUId": 0,
+  "TransformComponent": true,
+  "Position": [ -1.0001068115234376, -1648.5474853515626, 1.0 ],
+  "Scale": [ 200.0, 4000.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "GraphicsComponent": true,
+  "G.FileName": "laser_collider.png",
+  "G.Shader": "DefaultShader",
+  "G.Layer": 21,
+  "_hasAlpha": true,
+  "_hasAdjustableAlpha": true,
+  "_alphaVal": 1.0,
+  "_isFadingOut": false,
+  "_isFlickering": false,
+  "AnimationComponent": true,
+  "AnimationTypes": [
+    {
+      "AnimationType": "Laser_blast_start_spritesheet.json",
+      "TimeDelay": 0.05000000074505806,
+      "AnimationName": "Start"
+    },
+    {
+      "AnimationType": "Laser_blast_mid_spritesheet.json",
+      "TimeDelay": 0.05000000074505806,
+      "AnimationName": "Mid"
+    },
+    {
+      "AnimationType": "Laser_blast_end_spritesheet.json",
+      "TimeDelay": 0.05000000074505806,
+      "AnimationName": "End"
+    }
+  ],
+  "StartAnim": ""
+
+}

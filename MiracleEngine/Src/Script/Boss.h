@@ -210,6 +210,12 @@ private:
 		"DeathShooting4",
 		"DeathShooting5",
 		"DeathShooting6" };
+	std::vector<std::string> _Laser = {
+		"Start",
+		"Mid",
+		"Mid",
+		"Mid",
+		"End" };
 };
 
 #endif
