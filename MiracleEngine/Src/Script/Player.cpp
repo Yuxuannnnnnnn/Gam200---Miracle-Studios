@@ -638,8 +638,8 @@ void Player::UpdateInput(double dt)
 	}
 
 	// NUMBERS
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_1) ||
-		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_1))
+	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_E) ||
+		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_E))
 	{	// spawn TURRET
 		if (_timerDeploy <= 0)
 		{

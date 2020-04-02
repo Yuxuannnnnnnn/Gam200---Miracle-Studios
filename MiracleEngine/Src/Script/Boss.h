@@ -137,6 +137,7 @@ public:
 	void TrackAndChargeLaser();
 	void LookAtPlayer();
 	void LaserCharge(double speedUp = 1.0);
+	void LookAtPlayerSlow();
 	void LaserShoot();
 	void Transform();
 	void TransformNextAnim();
