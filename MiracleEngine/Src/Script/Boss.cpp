@@ -34,8 +34,6 @@ Boss::Boss() :
 
 Boss::~Boss()
 {
-	if (subObj)
-		subObj->SetDestory();
 }
 
 Boss* Boss::Clone()
@@ -249,13 +247,19 @@ void Boss::StartUp()
 
 void Boss::Idle()
 {
+	if (_health < _healthHalf)
+	{
+		_state = _stateNext = (int)Boss_State::IDLE_RAGE;
+		IdleRage();
+		return;
+	}
 	if (!PlayAnimChain(_Idle))
 	{
-		if (_health < _healthHalf)
-		{
-			(int)Boss_State::IDLE_RAGE;
-		}
-		else
+	//	if (_health < _healthHalf)
+	//	{
+	//		_state = _stateNext = (int)Boss_State::IDLE_RAGE;
+	//	}
+	//	else
 			_state = (int)Boss_State::LASER_CHARGE;
 	}
 }
@@ -573,7 +577,7 @@ void Boss::LaserShoot()
 		// re-enable animation
 		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(true);
 		laserAliveTimer = laserAliveDuration;
-
+		subObj = nullptr;
 		_state = (int)Boss_State::LASER_SHOOT_END;
 		_stateNext = (int)Boss_State::IDLE;
 		Transform();
