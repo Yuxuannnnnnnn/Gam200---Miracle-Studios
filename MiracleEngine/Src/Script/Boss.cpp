@@ -191,6 +191,7 @@ void Boss::RunState()
 		TrackAndChargeLaser();
 		break;
 	case (int)Boss_State::LASER_SHOOT:
+		LookAtPlayerSlow();
 		LaserShoot();
 		break;
 	default:
@@ -446,13 +447,11 @@ void Boss::LookAtPlayer()
 			Vector3 dirVec = ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA() - 
 				((TransformComponent*)playerPtr->GetComponent(ComponentId::CT_Transform))->GetPositionA();
 			
-
-
 			// do matrix mult to the 2 vectors above so it matches the bosses new facing direction
-			// x' = xcos - ysin, y' = ycos + xsin
+			// x' = xcos - ysin || y' = ycos + xsin
 			float currAngle = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate();
-			currAngle += 2 * MY_PI;
-			Vector3 compareUp(-sin(currAngle), cos(currAngle), 0); // rotated 0,-1,0
+			//currAngle += 2 * MY_PI;
+			Vector3 compareUp(sin(currAngle), -cos(currAngle), 0); // rotated 0,1,0
 			Vector3 compareRight(cos(currAngle), sin(currAngle), 0); // rotated 1,0,0
 			
 	//	Vec3 diff = _pos - _pivotPoint;
@@ -475,12 +474,12 @@ void Boss::LookAtPlayer()
 			if (det > 10)
 				if (rotateRight)
 				{
-					currAngle += ((rotationspeed * _dt) * (det * _dt));
+					currAngle -= ((rotationspeed * _dt) * (det * _dt));
 					((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
 				}
 				else
 				{
-					currAngle -= ((rotationspeed * _dt) * (det * _dt));
+					currAngle += ((rotationspeed * _dt) * (det * _dt));
 					((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
 				}
 
@@ -499,6 +498,7 @@ void Boss::LookAtPlayer()
 		}
 	}
 }
+
 void Boss::LaserCharge(double speedup)
 {
 	// check if this is first LaserCharge()
@@ -540,6 +540,74 @@ void Boss::LaserCharge(double speedup)
 	//		_state = (int)Boss_State::LASER_SHOOT;
 	//	}
 }
+
+void Boss::LookAtPlayerSlow()
+{
+	for (auto itr : _engineSystems._factory->getObjectlist())
+	{
+		if ((((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player01") == 0 ||
+			((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("Player") == 0 ||
+			((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("player") == 0) &&
+			(((LogicComponent*)itr.second->GetComponent(ComponentId::CT_Logic))->GetScript2Id(ScriptType::SCRIPT_Player)))
+		{
+			playerPtr = itr.second;
+			playerId = itr.second->Get_uID();
+
+			Vector3 dirVec = ((TransformComponent*)this->GetSibilingComponent(ComponentId::CT_Transform))->GetPositionA() -
+				((TransformComponent*)playerPtr->GetComponent(ComponentId::CT_Transform))->GetPositionA();
+
+			// do matrix mult to the 2 vectors above so it matches the bosses new facing direction
+			// x' = xcos - ysin || y' = ycos + xsin
+			float currAngle = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate();
+			//currAngle += 2 * MY_PI;
+			Vector3 compareUp(sin(currAngle), -cos(currAngle), 0); // rotated 0,1,0
+			Vector3 compareRight(cos(currAngle), sin(currAngle), 0); // rotated 1,0,0
+
+	//	Vec3 diff = _pos - _pivotPoint;
+	//	float mag = diff.Length();
+	//	float deg = atan2(diff._y, diff._x) + temp;
+	//	temp2 = Vec3{ mag * cos(deg), mag * sin(deg) } -diff;
+
+			float dot = 0, det = 0, newAngle = 0;
+			// check if left or right
+			dot = dirVec._x * compareRight._x + dirVec._y * compareRight._y;
+			bool rotateRight = (dot > 0) ? true : false;
+			dot = dirVec._x * compareUp._x + dirVec._y * compareUp._y;
+			det = dirVec._x * compareUp._y - dirVec._y * compareUp._x;
+			bool infront = (dot > 0) ? true : false;
+
+			newAngle = -atan2(det, dot);
+
+			currAngle = ((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate();
+			det = (det >= 0.00000) ? det : -det;
+			if (det > 10)
+				if (rotateRight)
+				{
+					currAngle -= (((rotationspeed * _dt) * (det * _dt)) * 0.1);
+					((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
+				}
+				else
+				{
+					currAngle += (((rotationspeed * _dt) * (det * _dt)) * 0.1);
+					((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
+				}
+
+			//	if (newAngle > currAngle && (det > 10 || det < -10))
+			//	{
+			//		currAngle += (rotationspeed * _dt);
+			//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
+			//	}
+			//	else if (newAngle < currAngle && (det > 10 || det < -10))
+			//	{
+			//		currAngle -= (rotationspeed * _dt);
+			//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->SetRotate(currAngle);
+			//	}
+			//	else;
+			break;
+		}
+	}
+}
+
 void Boss::LaserShoot()
 {
 	if (_laserShootStart)
@@ -548,12 +616,12 @@ void Boss::LaserShoot()
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT.\n";
 		
 		// Change spawn bullet to change childlaser to play other anim, also enable the collider for it
-		subObj = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+		subObj = CreateObject("BulletE");
 		((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 		((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
 			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-		AddForwardForce(subObj->Get_uID(), 70000);
+		AddForwardForce(subObj->Get_uID(), -70000);
 
 		// disable animation
 		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(false);
@@ -562,12 +630,12 @@ void Boss::LaserShoot()
 	laserAliveTimer -= _dt;
 
 // REMOVE THIS SECTION, THIS ONLY FOR TESTING OF THE LASER SHOOT TIMER WORKING PROPERLY
-	subObj = MyFactory.CloneGameObject(MyResourceSystem.GetPrototypeMap()["BulletE"]);
+	subObj = CreateObject("BulletE");
 	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
 	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
 		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	AddForwardForce(subObj->Get_uID(), 70000);
+	AddForwardForce(subObj->Get_uID(), -70000);
 
 
 	// LaserShoot() COMPLETE // _state=LASER_SHOOT_END cause need TRANSOFRM back to IDLE
