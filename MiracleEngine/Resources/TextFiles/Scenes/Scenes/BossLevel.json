@@ -1656,7 +1656,59 @@
       "Static": true,
       "CircleCollider2DComponent": true,
 
-      "Collider2D.C.Radius": 187.5
+      "Collider2D.C.Radius": 187.5,
+      "HaveChild": true,
+      "ChildObjects": [
+        {
+          "IdentityComponent": true,
+          "ObjectType": "Laser_Blast",
+          "Name": "laser",
+          "LinkUId": 0,
+          "BoxCollider2DComponent": true,
+          "ColliderTypeId": 1,
+          "ColliderTag": 0,
+          "ColliderTrigger": true,
+          "Collider2D.B.Center": [ 0.0, -440.0, 1.0 ],
+          "Collider2D.B.Scale": [ 50.0, 3000.0, 1.0 ],
+          "Collider2D.B.Angle": 0.0,
+          "TransformComponent": true,
+          "Position": [ -9.000053405761719, -914.4056396484375, 1.0 ],
+          "Scale": [ 0.20000103116035462, 2.0000078678131105, 1.0 ],
+          "Rotate": 0.0,
+          "PivotPosition": [ 0.00020599365234375, 732.2823486328125, 1.0 ],
+          "GraphicsComponent": true,
+          "G.FileName": "laser_collider.png",
+          "G.Shader": "DefaultShader",
+          "G.Layer": 30,
+          "_hasAlpha": true,
+          "_hasAdjustableAlpha": true,
+          "_alphaVal": 1.0,
+          "_isFadingOut": false,
+          "_isFlickering": false,
+          "AnimationComponent": true,
+          "AnimationTypes": [
+            {
+              "AnimationType": "Laser_blast_end_spritesheet.json",
+              "TimeDelay": 0.05000000074505806,
+              "AnimationName": "End"
+            },
+            {
+              "AnimationType": "Laser_blast_mid_spritesheet.json",
+              "TimeDelay": 0.05000000074505806,
+              "AnimationName": "Mid"
+            },
+            {
+              "AnimationType": "Laser_blast_start_spritesheet.json",
+              "TimeDelay": 0.05000000074505806,
+              "AnimationName": "Start"
+            }
+          ],
+          "StartAnim": "",
+          "PlayAtCreation": true,
+
+          "PlayInitLoop": false
+        }
+      ]
     }
   ]
 }
