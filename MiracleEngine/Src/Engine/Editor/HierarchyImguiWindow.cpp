@@ -345,7 +345,7 @@ void HierarchyImguiWindow::ShowChildObjects(GameObject* gameObject, int layer)
 				if (ImGui::IsMouseReleased(0))
 				{
 					InspectionImguiWindow::InspectGameObject(gameObject);
-					//MyImGuizmoManager.SetPickObjectUId(uID);
+					MyImGuizmoManager.SetPickObjectUId(uID);
 					selectedObj = string;
 					isObjectSelected = true;
 					//std::unordered_map < unsigned, IComponent* > componentList = gameObject->GetComponentList(); //Get ComponenntList from each GameObject
