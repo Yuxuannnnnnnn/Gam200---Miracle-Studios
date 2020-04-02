@@ -36,6 +36,8 @@ private:
 
 	UINT _windowState;
 
+	HWND name;
+
 public:
 
 	Window(HINSTANCE hInstance, int nCmdShow);
@@ -63,5 +65,9 @@ public:
 	float GetWindowHeightRatio() const;
 
 	bool GetFullscreen() const;
+
+	bool CheckWindowActive();
+
+	double WinMinimize();
 };
 
