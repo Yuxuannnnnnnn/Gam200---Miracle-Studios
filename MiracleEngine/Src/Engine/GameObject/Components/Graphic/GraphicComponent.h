@@ -48,6 +48,9 @@ private:
 	bool _hasCustomShader;
 
 public:
+	bool HasCustomShader();
+	void SetHasCustomShader(bool);
+
 	glm::vec4 GetTintColor() const;
 	void SetTintColor(const glm::vec4& color);
 

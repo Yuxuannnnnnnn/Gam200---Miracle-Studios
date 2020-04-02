@@ -135,6 +135,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			int wmId = LOWORD(wParam);
 			// Parse the menu selections:
+
 			switch (wmId)
 			{
 				case IDM_EXIT:
@@ -142,8 +143,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					break;
 				default:
 					return DefWindowProc(hWnd, message, wParam, lParam);
+
 			}
-			break;
+
 		}
 
 		case WM_DESTROY:
@@ -155,6 +157,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				keybd_event((BYTE)i, MapVirtualKeyA((BYTE)i, 0), 0x0002, 0);
 			}
 			return 0;
+
+		//case WM_SYSCOMMAND:
+		//	if ((wParam & 0xFFF0) == SC_MINIMIZE)
+		//	{
+		//		// shrink the application to the notification area
+		//		// ...
+		//		std::cout << "Minimised" << std::endl;
+		//
+		//		return 0;
+		//	}
+		//	break;
 		
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -270,6 +283,8 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
 	ShowWindow(mainHWND, nCmdShow);
 	UpdateWindow(mainHWND);
 
+	name = GetForegroundWindow();
+
 	return TRUE;
 }
 
@@ -349,6 +364,32 @@ void Window::CheckFullScreenToggle()
 	}
 }
 
+
+bool Window::CheckWindowActive()
+{
+	{
+		if (mainHWND == GetForegroundWindow())
+		{
+			printf("Mine window is active\n");
+			return true;
+		}
+		else
+		{
+			printf("Mine window is not active\n");
+			WinMinimize();
+			return false;
+		}
+		return true;
+	}
+}
+
+
+double Window::WinMinimize() {
+
+	ShowWindow(mainHWND, SW_MINIMIZE);
+
+	return 0;
+}
 
 /*
 void Window::SetFullscreenImpl(bool fullscreen, bool for_metro) 

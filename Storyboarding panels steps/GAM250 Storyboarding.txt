@@ -1,0 +1,33 @@
+                                 * Storyboarding for GAM250 *
+                                        Team Sunrise
+
+
+- Script-based instead of animated
+
+- Utilizes zooming out effect AND transitions for the panels.
+
+Transitional effect: Fade into black then to the next panel.
+
+Total number of cutscene panels: 9 
+
+Total number of cutscene panels that requires zooming out effect: 4  [3 slow, 1 fast]
+
+Cutscene panels that requires the zooming out effect:
+
+1) Level1_Panel_1 (Slow paced zoom out effect)
+
+2) Level1_Panel_2 (Slow paced zoom out effect)
+
+3) Level2_Panel_3_1 (Slow paced zoom out effect)
+
+4) Level2_Panel4_Ending_contrast.png (Fast paced zoom out effect)
+
+
+* Level2_Panel_3_2 can also immediately cut in after Level2_Panel3_1 is done.
+
+
+Cutscenes/Panels are accompanied with background music:
+- Level1_Panel_1 AND Level1_Panel_2 [Intense Background Music]
+- The rest can be normal background music
+
+--------------------------------------------------------------------------------------

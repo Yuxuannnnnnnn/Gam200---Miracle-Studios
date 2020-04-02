@@ -258,6 +258,11 @@ void GraphicComponent::Inspect()
 		ImGui::Checkbox("start panning", &_startInterpolate);
 		ImGui::InputFloat("start pos", &_startpos);
 		ImGui::InputFloat("end pos", &_endpos);
+
+		ImGui::Spacing();
+		ImGui::Spacing();
+
+		ImGui::Checkbox("has lighting", &_hasCustomShader);
 		//ImGui::InputText("Static Graphic File Name", _fileName, IM_ARRAYSIZE(_fileName));
 
 		//AssetsImguiWindow*  window = dynamic_cast<AssetsImguiWindow *>(_engineSystems._imguiSystem->GetWindows()["Assets"]);
@@ -340,6 +345,16 @@ void GraphicComponent::Inspect()
 		//ImGui::InputInt("RendeerLayer", &_renderLayer);
 		ImGui::Spacing();
 	}
+}
+
+bool GraphicComponent::HasCustomShader()
+{
+	return _hasCustomShader;
+}
+
+void GraphicComponent::SetHasCustomShader(bool b)
+{
+	_hasCustomShader = b;
 }
 
 glm::vec4 GraphicComponent::GetTintColor() const

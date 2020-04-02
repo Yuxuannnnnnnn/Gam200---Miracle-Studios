@@ -61,7 +61,7 @@ void CameraSystem::SetPos_CamEditor(const size_t& in)
 
 		if (transform)
 		{
-			_globalCameraEditorPos = Vec3{ -transform->GetPos()._x, -transform->GetPos()._y, 1.f };
+			_globalCameraEditorPos = Vec3{ -transform->GetPivot()._x, -transform->GetPivot()._y, 1.f };
 			_cameraEditorzoom = 1.f;
 		}
 	}
