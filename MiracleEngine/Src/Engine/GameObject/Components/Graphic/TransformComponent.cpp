@@ -321,36 +321,38 @@ void TransformComponent::Inspect()
 	{
 		UpdateLocalData();
 
-		ImGui::InputFloat2("Input Local Pos X, Y", _localPos.m);
+		ImGui::InputFloat2("Local Pos X, Y", _localPos.m);
 		ImGui::Spacing();
-		ImGui::InputFloat2("Input Local Scale X, Y", _localScale.m);
+		ImGui::InputFloat2("Local Scale X, Y", _localScale.m);
 		ImGui::Spacing();
 
 		float DegAngle = RadToDeg(_localRotationAngle);
-		ImGui::InputFloat("Input Local Rotation Angle", &DegAngle);
+		ImGui::InputFloat("Local Rotation Angle", &DegAngle);
 		ImGui::Spacing();
 
 		Vec3 tempPivot = _localPivotPoint - _localPos;
-		ImGui::InputFloat2("Input Local Pivot offset X, Y", tempPivot.m);
+		ImGui::InputFloat2("Local Pivot offset X, Y", tempPivot.m);
 		ImGui::Spacing();
 	}
 	else
 	{
-		ImGui::InputFloat2("Input Global Pos X, Y", _pos.m);
+
+		Vector3 temp = _pos;
+		ImGui::InputFloat2("Input Global Pos X, Y", temp.m);
 		ImGui::Spacing();
-		ImGui::SliderFloat2("Slider Global Pos X, Y", _pos.m, -1000, 1000);
-		SetPos(_pos);
+		ImGui::SliderFloat2("Slider Global Pos X, Y", temp.m, -1000, 1000);
+		SetPos(temp);
 
 		ImGui::Spacing();
 		ImGui::Spacing();
 		ImGui::Spacing();
 		ImGui::Spacing();
 
-
-		ImGui::InputFloat2("Input Global Scale X, Y", _scale.m);
+		temp = _scale;
+		ImGui::InputFloat2("Input Global Scale X, Y", temp.m);
 		ImGui::Spacing();
-		ImGui::SliderFloat2("Slider Global Scale X, Y", _scale.m, 1, 500);
-		SetScale(_scale);
+		ImGui::SliderFloat2("Slider Global Scale X, Y", temp.m, 1, 500);
+		SetScale(temp);
 
 		ImGui::Spacing();
 		ImGui::Spacing();
