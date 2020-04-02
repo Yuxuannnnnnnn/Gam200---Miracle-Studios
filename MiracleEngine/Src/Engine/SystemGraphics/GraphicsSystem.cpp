@@ -120,10 +120,10 @@ void GraphicsSystem::Update(double dt)
 		int z = 0;
 
 
-		renderobj._pShader->Select();
+		//renderobj._pShader->Select();
 
 		
-		/*if (!renderobj._hasCustomShader)
+		if (!renderobj._hasCustomShader)
 		{
 			renderobj._pShader->Select();
 		}
@@ -131,7 +131,7 @@ void GraphicsSystem::Update(double dt)
 		{
 			if (shader != nullptr)
 				shader->Select();
-		}*/
+		}
 
 		if (renderobj._pTexture)
 			renderobj._pTexture->Select();
@@ -476,8 +476,9 @@ void GraphicsSystem::UpdateRenderObjectList(double dt)
 
 
 		RenderObject renderobject;
+		renderobject._hasCustomShader = graphicComp->HasCustomShader();
+		
 		renderobject._tintcolor = graphicComp->GetTintColor();
-
 		renderobject._currShader = graphicComp->GetShaderType();
 
 		if (graphicComp->IsFadingOut() && !(MyFactory.GetCurrentScene().compare("truelevel1")))

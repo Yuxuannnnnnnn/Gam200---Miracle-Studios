@@ -1,6 +1,6 @@
 {
   "PrototypesFilePaths": [ "./Resources/TextFiles/GameObjects\\BackgroundMusic.json", "./Resources/TextFiles/GameObjects\\Battery.json", "./Resources/TextFiles/GameObjects\\Building4.json", "./Resources/TextFiles/GameObjects\\Bullet.json", "./Resources/TextFiles/GameObjects\\BulletE.json", "./Resources/TextFiles/GameObjects\\BulletT.json", "./Resources/TextFiles/GameObjects\\ButtonController2.json", "./Resources/TextFiles/GameObjects\\CircleBatteryPlatform.json", "./Resources/TextFiles/GameObjects\\CirclePlatform.json", "./Resources/TextFiles/GameObjects\\CircleShadow.json", "./Resources/TextFiles/GameObjects\\Crack.json", "./Resources/TextFiles/GameObjects\\Crate.json", "./Resources/TextFiles/GameObjects\\Enemy.json", "./Resources/TextFiles/GameObjects\\EnemyTwo.json", "./Resources/TextFiles/GameObjects\\Explosion.json", "./Resources/TextFiles/GameObjects\\HealthController.json", "./Resources/TextFiles/GameObjects\\LoadingScreen.json", "./Resources/TextFiles/GameObjects\\LoadingText.json", "./Resources/TextFiles/GameObjects\\MapEdge.json", "./Resources/TextFiles/GameObjects\\MouseCursor.json", "./Resources/TextFiles/GameObjects\\Objective.json", "./Resources/TextFiles/GameObjects\\PaseMenu.json", "./Resources/TextFiles/GameObjects\\PickUps_Ammo.json", "./Resources/TextFiles/GameObjects\\PickUps_Health.json", "./Resources/TextFiles/GameObjects\\PlayerMuzzle.json", "./Resources/TextFiles/GameObjects\\PlayerShield.json", "./Resources/TextFiles/GameObjects\\PortalText.json", "./Resources/TextFiles/GameObjects\\Smoke.json", "./Resources/TextFiles/GameObjects\\Soil.json", "./Resources/TextFiles/GameObjects\\Spark.json", "./Resources/TextFiles/GameObjects\\Spawner.json", "./Resources/TextFiles/GameObjects\\SpawnerTwo.json", "./Resources/TextFiles/GameObjects\\Stain.json", "./Resources/TextFiles/GameObjects\\Stain1.json", "./Resources/TextFiles/GameObjects\\Turret.json", "./Resources/TextFiles/GameObjects\\Wall.json", "./Resources/TextFiles/GameObjects\\grass.json", "./Resources/TextFiles/GameObjects\\grass2.json", "./Resources/TextFiles/GameObjects\\none.json", "./Resources/TextFiles/GameObjects\\player.json", "./Resources/TextFiles/GameObjects\\portal.json", "./Resources/TextFiles/GameObjects\\snowy.json", "./Resources/TextFiles/GameObjects\\stain2.json", "./Resources/TextFiles/GameObjects\\stain3.json" ],
-  "TexturesFilesPaths": [ "./Resources/Image/Interface\\Back_to_menu_button_click.png", "./Resources/Image/Interface\\Back_to_menu_button_hover.png", "./Resources/Image/Props_design/SCI_FI\\Battery_rusted.png", "./Resources/Image/Props_design/SCI_FI\\Building_1_rusted_neon.png", "./Resources/Image/Props_design/SCI_FI\\Building_2_Rusted_400.png", "./Resources/Image/Props_design/SCI_FI\\Building_3_Rusted.png", "./Resources/Image/Props_design/SCI_FI\\Building_4_rusted.png", "./Resources/Image\\Bullet.png", "./Resources/Image\\Bullet_E.png", "./Resources/Image\\Bullet_T.png", "./Resources/Image/Character_Animation\\Character_BodyFloat_sprite.png", "./Resources/Image/Character_Animation\\Character_death_sprite.png", "./Resources/Image/Character_Animation\\Character_muzzle_attack_sprite.png", "./Resources/Image/Enemy_AI\\Charger_enemy_sprite.png", "./Resources/Image/Enemy_AI\\Charging_enemies2_sprite.png", "./Resources/Image/Props_design/SCI_FI\\Circle_shadow.png", "./Resources/Image/Props_design/SCI_FI\\Circular_Battery_Platform_rusted_neonLight.png", "./Resources/Image/Props_design/SCI_FI\\Circular_Platform_Rusted.png", "./Resources/Image/Interface\\Continue_Button_click.png", "./Resources/Image/Interface\\Continue_Button_hover.png", "./Resources/Image/Props_design/SCI_FI\\Crack_3.png", "./Resources/Image/Props_design/SCI_FI\\Crate_rusted.png", "./Resources/Image/Enemy_AI\\Enemies1_sprite.png", "./Resources/Image/Enemy_AI\\Enemies_charging.png", "./Resources/Image\\EnemyTwo.png", "./Resources/Image/Props_design/SCI_FI\\EntranceTo_Level2.png", "./Resources/Image/Props_design/SCI_FI\\EntranceTo_Level2_close.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_green.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_orange.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_red.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_Fullset.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_screen.png", "./Resources/Image/Powers_effect\\Health_power_up_glow.png", "./Resources/Image/Interface\\Loading_Screen_1.png", "./Resources/Image/Interface\\Loading_Screen_2.png", "./Resources/Image/Interface\\Mouse_cursor.png", "./Resources/Image/Character_Animation\\Muzzle_Idle_2.png", "./Resources/Image/Powers_effect\\Normal_impact_Blue_Plasma_24FPS_Sprite.png", "./Resources/Image/Interface\\Pause_menu.png", "./Resources/Image\\Player.png", "./Resources/Image/Interface\\Press_Space_To_Continue_button.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Progress_Bar.png", "./Resources/Image\\Rocket_icon_glow.png", "./Resources/Image/Character_Animation\\Shield_Body_Character_sprite.png", "./Resources/Image/Character_Animation\\Shield_break_sprite.png", "./Resources/Image/Enemy_AI\\Shooter_enemy_sprite.png", "./Resources/Image/Environment_Animation\\Smoke_Trail_sprite_small.png", "./Resources/Image/Tile\\Snowy_Texture.png", "./Resources/Image/Environment_Animation\\Spark_sprite_WithEmptyFrame.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_lit.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_unlit.png", "./Resources/Image/Props_design/SCI_FI\\Sphere_buidling.png", "./Resources/Image/Props_design/SCI_FI\\Stain_1.png", "./Resources/Image/Props_design/SCI_FI\\Stain_2.png", "./Resources/Image/Props_design/SCI_FI\\Stain_3.png", "./Resources/Image/Props_design/SCI_FI\\Stain_4_soil.png", "./Resources/Image/Character_Animation\\Turret_Body_Sprite.png", "./Resources/Image/Character_Animation\\Turret_Transform_sprite.png", "./Resources/Image\\Wall.png", "./Resources/Image/Props_design/SCI_FI\\Wall_Light_glow.png", "./Resources/Image\\background.png", "./Resources/Image\\catjump.png", "./Resources/Image/Enemy_AI\\empty.png", "./Resources/Image/Interface\\gameplay_guide_text2_outline.png", "./Resources/Image/Interface\\gameplay_guide_text3_outline.png", "./Resources/Image/Interface\\gameplay_guide_text_outline.png", "./Resources/Image/Props_design/SCI_FI\\grass_patch_big.png", "./Resources/Image/Props_design/SCI_FI\\grass_patch_mid.png", "./Resources/Image/Props_design/SCI_FI\\torch_light.png" ],
+  "TexturesFilesPaths": [ "./Resources/Image/Interface\\Back_to_menu_button_click.png", "./Resources/Image/Interface\\Back_to_menu_button_hover.png", "./Resources/Image/Props_design/SCI_FI\\Battery_rusted.png", "./Resources/Image/Props_design/SCI_FI\\Building_1_rusted_neon.png", "./Resources/Image/Props_design/SCI_FI\\Building_2_Rusted_400.png", "./Resources/Image/Props_design/SCI_FI\\Building_3_Rusted.png", "./Resources/Image/Props_design/SCI_FI\\Building_4_rusted.png", "./Resources/Image\\Bullet.png", "./Resources/Image\\Bullet_E.png", "./Resources/Image\\Bullet_T.png", "./Resources/Image/Character_Animation\\Character_BodyFloat_sprite.png", "./Resources/Image/Character_Animation\\Character_death_sprite.png", "./Resources/Image/Character_Animation\\Character_muzzle_attack_sprite.png", "./Resources/Image/Enemy_AI\\Charger_enemy_sprite.png", "./Resources/Image/Enemy_AI\\Charging_enemies2_sprite.png", "./Resources/Image/Props_design/SCI_FI\\Circle_shadow.png", "./Resources/Image/Props_design/SCI_FI\\Circular_Battery_Platform_rusted_neonLight.png", "./Resources/Image/Props_design/SCI_FI\\Circular_Platform_Rusted.png", "./Resources/Image/Interface\\Continue_Button_click.png", "./Resources/Image/Interface\\Continue_Button_hover.png", "./Resources/Image/Props_design/SCI_FI\\Crack_3.png", "./Resources/Image/Props_design/SCI_FI\\Crate_rusted.png", "./Resources/Image/Enemy_AI\\Enemies1_sprite.png", "./Resources/Image/Enemy_AI\\Enemies_charging.png", "./Resources/Image\\EnemyTwo.png", "./Resources/Image/Props_design/SCI_FI\\EntranceTo_Level2.png", "./Resources/Image/Props_design/SCI_FI\\EntranceTo_Level2_close.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_green.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_orange.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_Bar_red.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_Fullset.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\HP_and_Progress_Bar_screen.png", "./Resources/Image/Powers_effect\\Health_power_up_glow.png", "./Resources/Image/Interface\\Loading_Screen_1.png", "./Resources/Image/Interface\\Loading_Screen_2.png", "./Resources/Image/Interface\\Mouse_cursor.png", "./Resources/Image/Character_Animation\\Muzzle_Idle_2.png", "./Resources/Image/Powers_effect\\Normal_impact_Blue_Plasma_24FPS_Sprite.png", "./Resources/Image/Interface\\Pause_menu.png", "./Resources/Image\\Player.png", "./Resources/Image/Interface\\Press_Space_To_Continue_button.png", "./Resources/Image/Interface/HP_and_Progress_Bar\\Progress_Bar.png", "./Resources/Image\\Rocket_icon_glow.png", "./Resources/Image/Character_Animation\\Shield_Body_Character_sprite.png", "./Resources/Image/Character_Animation\\Shield_break_sprite.png", "./Resources/Image/Enemy_AI\\Shooter_enemy_sprite.png", "./Resources/Image/Environment_Animation\\Smoke_Trail_sprite_small.png", "./Resources/Image/Tile\\Snowy_Texture.png", "./Resources/Image/Environment_Animation\\Spark_sprite_WithEmptyFrame.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_lit.png", "./Resources/Image/Enemies_Spawner\\Spawner_Platform_unlit.png", "./Resources/Image/Props_design/SCI_FI\\Sphere_buidling.png", "./Resources/Image/Props_design/SCI_FI\\Stain_1.png", "./Resources/Image/Props_design/SCI_FI\\Stain_2.png", "./Resources/Image/Props_design/SCI_FI\\Stain_3.png", "./Resources/Image/Props_design/SCI_FI\\Stain_4_soil.png", "./Resources/Image/Character_Animation\\Turret_Body_Sprite.png", "./Resources/Image/Character_Animation\\Turret_Transform_sprite.png", "./Resources/Image\\Wall.png", "./Resources/Image/Props_design/SCI_FI\\Wall_Light_glow.png", "./Resources/Image\\background.png", "./Resources/Image\\catjump.png", "./Resources/Image/Enemy_AI\\empty.png", "./Resources/Image/Interface\\gameplay_guide_text.png", "./Resources/Image/Interface\\gameplay_guide_text2_outline.png", "./Resources/Image/Interface\\gameplay_guide_text3_outline.png", "./Resources/Image/Interface\\gameplay_guide_text_outline.png", "./Resources/Image/Props_design/SCI_FI\\grass_patch_big.png", "./Resources/Image/Props_design/SCI_FI\\grass_patch_mid.png", "./Resources/Image/Props_design/SCI_FI\\torch_light.png" ],
   "ShaderFilesPaths": [ [ "DefaultShader", "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" ] ],
   "AnimationDataFilesPaths": [ "./Resources/TextFiles/AnimationData\\Character_BodyFloat_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Character_death_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Charger_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Charging_enemies2_sprite.json", "./Resources/TextFiles/AnimationData\\Enemies1_sprite.json", "./Resources/TextFiles/AnimationData\\Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerMuzzle_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShieldBreak_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShield_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Shooter_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Smoke_Trail_sprite_smallSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Spark_sprite_WithEmptyFrameSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Turret_Transform_spriteSpriteSheetData.json" ],
   "AudioSFXFilesPaths": [ "./Resources/Audio\\BossHit.wav", "./Resources/Audio\\Button.ogg", "./Resources/Audio\\ChargingSound.wav", "./Resources/Audio\\Coin.ogg", "./Resources/Audio\\EnemiesExplode.wav", "./Resources/Audio\\EnemyShoot.wav", "./Resources/Audio\\PlayerDamaged.wav", "./Resources/Audio\\PlayerShoot.wav", "./Resources/Audio\\Shield2.wav", "./Resources/Audio\\TurretConstruction.wav", "./Resources/Audio\\TurretShoot.wav", "./Resources/Audio\\shield.wav" ],
@@ -165,6 +165,7 @@
       "ObjectType": "grass",
       "TransformComponent": true,
       "Position": [ 1408.637451171875, -442.78240966796877, 1.0 ],
+      "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -377,7 +378,9 @@
       "Position": [ 3305.942138671875, -1221.98583984375, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
-      "Scripts": [ {} ]
+      "Scripts": [ {} ],
+      "CircleCollider2DComponent": true,
+      "ColliderTag": 11
     },
     {
       "IdentityComponent": true,
@@ -765,6 +768,7 @@
       "ObjectType": "grass",
       "TransformComponent": true,
       "Position": [ 1256.3447265625, 356.2666320800781, 1.0 ],
+      "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -1893,8 +1897,6 @@
     {
       "IdentityComponent": true,
       "ObjectType": "LoadingScreen",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
       "Scripts": [ {} ],
       "UIComponent": true,
@@ -2108,6 +2110,7 @@
       "IdentityComponent": true,
       "ObjectType": "LoadingText",
       "TransformComponent": true,
+      "Position": [ 0.0, -350.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -2227,6 +2230,7 @@
       "ObjectType": "grass",
       "TransformComponent": true,
       "Position": [ 1890.860595703125, -704.9043579101563, 1.0 ],
+      "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -2568,7 +2572,7 @@
       "IdentityComponent": true,
       "ObjectType": "PortalText",
       "TransformComponent": true,
-      "PivotPosition": [ -1.0, 0.0, 0.0 ],
+      "Position": [ 1.0, 0.0, 1.0 ],
       "GraphicsComponent": false
     },
     {
@@ -3967,8 +3971,6 @@
     {
       "IdentityComponent": true,
       "ObjectType": "HealthController",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
       "Scripts": [ {} ]
     },
@@ -4061,13 +4063,13 @@
       "Position": [ 0.0, -1825.7840576171876, 1.0 ],
       "Scale": [ 177.60000610351563, 177.60000610351563, 1.0 ],
       "Rotate": 1.088533639907837,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": false,
+      "PivotPosition": [ 0.0, 0.0, 1.0 ],
+      "GraphicsComponent": true,
       "_hasAlpha": true,
       "G.FileName": "Player.png",
-      "LogicComponent": false,
+      "LogicComponent": true,
       "Scripts": [ {} ],
-      "AnimationComponent": false,
+      "AnimationComponent": true,
       "AnimationTypes": [
         {
           "AnimationType": "Character_death_spriteSpriteSheetData.json",
@@ -4080,11 +4082,11 @@
           "AnimationName": "Move"
         }
       ],
-      "CameraComponent": false,
-      "RigidBody2DComponent": false,
-      "CircleCollider2DComponent": false,
+      "PlayAtCreation": true,
+      "PlayInitLoop": true,
+      "CircleCollider2DComponent": true,
       "Collider2D.C.Radius": 56.98500061035156,
-      "AudioComponent": false,
+      "AudioComponent": true,
       "SFXList": [
         {
           "SFXName": "GetHit",
@@ -4108,10 +4110,10 @@
           "Name": "PlayerMuzzle",
           "LinkUId": 555,
           "TransformComponent": true,
-          "Position": [ 0.000011444091796875, 15.0, 1.0 ],
+          "Position": [ 0.0, 15.0, 1.0 ],
           "Scale": [ 0.8445945382118225, 0.8445945382118225, 1.0 ],
           "Rotate": 0.0,
-          "PivotPosition": [ -0.000011444091796875, 0.0, 1.0 ],
+          "PivotPosition": [ 0.0, 0.0, 1.0 ],
           "GraphicsComponent": true,
           "G.FileName": "Muzzle_Idle_2.png",
           "G.Shader": "",
@@ -4612,25 +4614,6 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ -2261.113525390625, 2189.093994140625, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
       "ObjectType": "grass2",
       "TransformComponent": true,
       "Position": [ 2532.160888671875, -1544.9322509765626, 1.0 ],
@@ -4696,25 +4679,6 @@
       "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
-      "Position": [ 1267.973388671875, 2608.169189453125, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
       "Position": [ 2042.848876953125, -1629.5711669921876, 1.0 ],
       "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
       "Rotate": 0.7841242551803589,
@@ -4768,12 +4732,6 @@
       "Position": [ 1399.4879150390626, -1730.258056640625, 1.0 ],
       "Scale": [ 1169.85693359375, 916.1182250976563, 1.0 ],
       "Rotate": 0.7160909175872803,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "grass",
-      "TransformComponent": true,
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -4838,14 +4796,6 @@
       "GraphicsComponent": true,
       "_hasAlpha": true,
       "G.Layer": 0
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "Soil",
-      "TransformComponent": true,
-      "Position": [ 576.923095703125, -2329.06005859375, 1.0 ],
-      "Scale": [ 500.0, 500.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
@@ -5442,25 +5392,6 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ -426.203369140625, 2634.8193359375, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
       "ObjectType": "snowy",
       "TransformComponent": true,
       "Position": [ -1027.155029296875, 497.09185791015627, 1.0 ],
@@ -5495,24 +5426,6 @@
       "TransformComponent": true,
       "Position": [ 19.396495819091798, -12.931098937988282, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "none",
-      "TransformComponent": true,
-      "Position": [ 1030.998779296875, -1892.001220703125, 1.0 ],
-      "Scale": [ 60.0, 60.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "torch_light.png",
-      "G.Shader": "",
-      "G.Layer": 3,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": true,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": true
     },
     {
       "IdentityComponent": true,
@@ -5586,25 +5499,6 @@
       "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
-      "Position": [ 3822.22412109375, -1760.1861572265626, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
       "Position": [ 2865.560546875, 183.32827758789063, 1.0 ],
       "Scale": [ 200.0005645751953, 200.0005645751953, 1.0 ],
       "Rotate": 3.049560785293579,
@@ -5661,13 +5555,6 @@
       "ColliderTrigger": false,
       "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
       "Collider2D.C.Radius": 121.3239974975586
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "grass2",
-      "TransformComponent": true,
-      "Position": [ -469.7001037597656, -628.5642700195313, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
@@ -6171,6 +6058,7 @@
       "ObjectType": "grass",
       "TransformComponent": true,
       "Position": [ -591.3681640625, -618.3766479492188, 1.0 ],
+      "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -6219,20 +6107,6 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "none",
-      "TransformComponent": true,
-      "Position": [ 1957.4921875, -2344.522216796875, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "CircleCollider2DComponent": true,
-      "ColliderTypeId": 2,
-      "ColliderTag": 6,
-      "ColliderTrigger": false,
-      "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-      "Collider2D.C.Radius": 56.98500061035156
     },
     {
       "BoxCollider2DComponent": true,
@@ -6308,25 +6182,6 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ 1876.8218994140626, -1654.20458984375, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
       "ObjectType": "Crack",
       "Name": "Crack",
       "TransformComponent": true,
@@ -6366,24 +6221,6 @@
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
       "G.Layer": -1
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "SnowyBackground",
-      "TransformComponent": true,
-      "Position": [ 756.5548706054688, -19.608095169067384, 1.0 ],
-      "Scale": [ 6680.0, 6000.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "background.png",
-      "G.Shader": "DefaultShader",
-      "G.Layer": -2,
-      "_hasAlpha": false,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -6441,15 +6278,6 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "Crate",
-      "TransformComponent": true,
-      "Position": [ 735.9890747070313, -1785.480712890625, 1.0 ],
-      "Scale": [ 99.99999237060547, 99.99999237060547, 1.0 ],
-      "Rotate": -0.31060221791267397,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
@@ -6526,16 +6354,6 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "Stain1",
-      "TransformComponent": true,
-      "Position": [ -316.0078125, -1838.87646484375, 1.0 ],
-      "Scale": [ 414.9999694824219, 414.9999694824219, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "_hasAlpha": true
     },
     {
       "IdentityComponent": true,
@@ -6648,9 +6466,8 @@
       "Position": [ -745.0, 390.0, 1.0 ],
       "Rotate": 86.50297546386719,
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "LogicComponent": false,
-      "Scripts": [ {} ],
-      "UIComponent": false
+      "LogicComponent": true,
+      "Scripts": [ {} ]
     },
     {
       "IdentityComponent": true,
@@ -6820,16 +6637,6 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "Soil",
-      "TransformComponent": true,
-      "Position": [ 2953.8623046875, 700.8384399414063, 1.0 ],
-      "Scale": [ 915.2101440429688, 1484.5072021484376, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.Layer": 0
-    },
-    {
-      "IdentityComponent": true,
       "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
@@ -6897,25 +6704,6 @@
     {
       "IdentityComponent": true,
       "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ 881.4819946289063, -2031.9859619140626, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
       "Name": "buildingcollider",
       "TransformComponent": true,
       "Position": [ 2073.0, 2315.0, 1.0 ],
@@ -6932,6 +6720,7 @@
       "ObjectType": "grass",
       "TransformComponent": true,
       "Position": [ -268.53387451171877, 905.3184814453125, 1.0 ],
+      "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -6952,24 +6741,6 @@
       "Position": [ 744.4447021484375, -2579.009521484375, 1.0 ],
       "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
       "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ 267.55230712890627, 214.98687744140626, 1.0 ],
-      "Scale": [ 110.70207214355469, 100.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
       "G.FileName": "grass_patch_big.png",
@@ -7054,34 +6825,6 @@
     {
       "IdentityComponent": true,
       "ObjectType": "none",
-      "Name": "continueButton",
-      "LinkUId": 1823,
-      "TransformComponent": true,
-      "Position": [ 0.0, 97.28610229492188, 1.0 ],
-      "Scale": [ 450.0, 120.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "LogicComponent": false,
-      "Scripts": [],
-      "UIComponent": false,
-      "UI.FileName": "Continue_Button_click.png",
-      "UI.Layer": 110,
-      "UI.HasAlpha": false,
-      "ButtonComponent": true,
-      "ButtonUId": 60,
-      "B.NormalFileName": "Continue_Button_click.png",
-      "B.NormalScale": [ 450.0, 120.0, 1.0 ],
-      "B.HaveHoveredFile": true,
-      "B.HoveredFileName": "Continue_Button_hover.png",
-      "B.HoveredScale": [ 450.0, 120.0, 1.0 ],
-      "B.HoveredAudioFileName": "Button.ogg",
-      "B.HavePressedFile": true,
-      "B.PressedFileName": "Continue_Button_click.png",
-      "B.PressedScale": [ 450.0, 120.0, 1.0 ],
-      "B.PressedAudioFileName": "Coin.ogg"
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
       "Position": [ 1469.2613525390626, 2016.2208251953126, 1.0 ],
@@ -7145,31 +6888,6 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "crate",
-      "TransformComponent": true,
-      "Position": [ 334.9996032714844, -335.62677001953127, 1.0 ],
-      "Scale": [ 100.00003051757813, 100.00003051757813, 1.0 ],
-      "Rotate": -0.31187450885772707,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "Crate_rusted.png",
-      "G.Shader": "DefaultShader",
-      "G.Layer": 1,
-      "_hasAlpha": false,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false,
-      "CircleCollider2DComponent": true,
-      "ColliderTypeId": 2,
-      "ColliderTag": 5,
-      "ColliderTrigger": false,
-      "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
-      "Collider2D.C.Radius": 32.819000244140628
     },
     {
       "IdentityComponent": true,
@@ -7253,14 +6971,6 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "ButtonController2",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "LogicComponent": true,
-      "Scripts": [ {} ]
-    },
-    {
-      "IdentityComponent": true,
       "ObjectType": "none",
       "Name": "crate",
       "TransformComponent": true,
@@ -7322,25 +7032,6 @@
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
       "G.Layer": 0
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ 3855.556884765625, 1448.256103515625, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -7418,25 +7109,6 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ 1077.77734375, -2562.296630859375, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
       "ObjectType": "Soil",
       "TransformComponent": true,
       "Position": [ -864.7465209960938, 1623.188232421875, 1.0 ],
@@ -7481,17 +7153,6 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "stain2",
-      "TransformComponent": true,
-      "Position": [ 1108.64599609375, 323.58135986328127, 1.0 ],
-      "Scale": [ 1230.040771484375, 1230.040771484375, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "_hasAlpha": true,
-      "G.Layer": 0
     },
     {
       "IdentityComponent": true,
@@ -7556,25 +7217,6 @@
       "Name": "grass",
       "TransformComponent": true,
       "Position": [ 1065.3577880859376, 2673.701904296875, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ -2321.49853515625, -1787.2999267578126, 1.0 ],
       "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
       "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
@@ -7670,14 +7312,6 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "Soil",
-      "TransformComponent": true,
-      "Position": [ 2993.045166015625, 2056.990234375, 1.0 ],
-      "Scale": [ 500.0, 500.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
-    },
-    {
-      "IdentityComponent": true,
       "ObjectType": "stain2",
       "TransformComponent": true,
       "Position": [ -361.18975830078127, -1286.9696044921876, 1.0 ],
@@ -7737,29 +7371,10 @@
     {
       "IdentityComponent": true,
       "ObjectType": "none",
-      "Name": "none",
-      "TransformComponent": true,
-      "Position": [ 791.8439331054688, 89.77623748779297, 1.0 ],
-      "Scale": [ 35.0, 35.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "Wall_Light_glow.png",
-      "G.Shader": "",
-      "G.Layer": 3,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
       "Name": "pauseMenubg",
       "LinkUId": 1822,
       "TransformComponent": true,
       "Scale": [ 838.6251220703125, 541.6045532226563, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": false,
       "Scripts": [],
       "UIComponent": false,
@@ -7830,6 +7445,7 @@
       "ObjectType": "grass",
       "TransformComponent": true,
       "Position": [ 243.27743530273438, 1655.3231201171876, 1.0 ],
+      "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -7856,6 +7472,7 @@
       "ObjectType": "grass",
       "TransformComponent": true,
       "Position": [ 926.3907470703125, -984.832275390625, 1.0 ],
+      "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
@@ -8366,20 +7983,6 @@
     {
       "IdentityComponent": true,
       "ObjectType": "none",
-      "Name": "1",
-      "LinkUId": 101,
-      "TransformComponent": true,
-      "Position": [ -804.0, 405.0, 1.0 ],
-      "Scale": [ 50.0, 60.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "UIComponent": true,
-      "UI.FileName": "HP_Bar_green.png",
-      "UI.Layer": 103,
-      "UI.HasAlpha": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
       "Name": "none",
       "TransformComponent": true,
       "Position": [ -755.1246948242188, 1641.2696533203126, 1.0 ],
@@ -8436,25 +8039,6 @@
       "Name": "grass",
       "TransformComponent": true,
       "Position": [ -1588.8892822265626, -2311.639404296875, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ -2477.77734375, -1052.7716064453126, 1.0 ],
       "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
       "Rotate": 0.7841242551803589,
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
@@ -8540,25 +8124,6 @@
       "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
-      "Position": [ 1594.2027587890626, 1457.9429931640626, 1.0 ],
-      "Scale": [ 200.0000457763672, 200.0000457763672, 1.0 ],
-      "Rotate": 0.18751785159111024,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 1,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
       "Position": [ 3163.398193359375, 2313.27978515625, 1.0 ],
       "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
       "Rotate": 0.7841242551803589,
@@ -8607,25 +8172,6 @@
       "TransformComponent": true,
       "Position": [ 2261.433837890625, -496.21435546875, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none",
-      "Name": "grass",
-      "TransformComponent": true,
-      "Position": [ 2677.439453125, -1117.0655517578126, 1.0 ],
-      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
-      "Rotate": 0.7841242551803589,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "grass_patch_big.png",
-      "G.Shader": "",
-      "G.Layer": 0,
-      "_hasAlpha": true,
-      "_hasAdjustableAlpha": false,
-      "_alphaVal": 1.0,
-      "_isFadingOut": false,
-      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -8725,6 +8271,31 @@
     {
       "IdentityComponent": true,
       "ObjectType": "none",
+      "Name": "crate",
+      "TransformComponent": true,
+      "Position": [ 334.9996032714844, -335.62677001953127, 1.0 ],
+      "Scale": [ 100.00003051757813, 100.00003051757813, 1.0 ],
+      "Rotate": -0.31187450885772707,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "Crate_rusted.png",
+      "G.Shader": "DefaultShader",
+      "G.Layer": 1,
+      "_hasAlpha": false,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false,
+      "CircleCollider2DComponent": true,
+      "ColliderTypeId": 2,
+      "ColliderTag": 5,
+      "ColliderTrigger": false,
+      "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
+      "Collider2D.C.Radius": 32.819000244140628
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
       "Position": [ 728.9541015625, 442.1349182128906, 1.0 ],
@@ -8781,6 +8352,12 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "ButtonController2",
+      "LogicComponent": true,
+      "Scripts": [ {} ]
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "stain2",
       "TransformComponent": true,
       "Position": [ 2188.4482421875, 192.66152954101563, 1.0 ],
@@ -8793,8 +8370,6 @@
     {
       "IdentityComponent": true,
       "ObjectType": "PaseMenu",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
       "Scripts": [
         {
@@ -8814,6 +8389,25 @@
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
       "_hasAlpha": true
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 3855.556884765625, 1448.256103515625, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -8847,6 +8441,25 @@
       "TransformComponent": true,
       "Position": [ -22.84258270263672, 679.4530639648438, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 1077.77734375, -2562.296630859375, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -8900,6 +8513,20 @@
     {
       "IdentityComponent": true,
       "ObjectType": "none",
+      "Name": "none",
+      "TransformComponent": true,
+      "Position": [ 1957.4921875, -2344.522216796875, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "CircleCollider2DComponent": true,
+      "ColliderTypeId": 2,
+      "ColliderTag": 6,
+      "ColliderTrigger": false,
+      "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
+      "Collider2D.C.Radius": 56.98500061035156
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
       "Position": [ 4016.6689453125, -406.625244140625, 1.0 ],
@@ -8932,6 +8559,25 @@
       "Position": [ -1294.1171875, 997.05859375, 1.0 ],
       "Scale": [ 500.0, 500.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 1876.8218994140626, -1654.20458984375, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -8968,6 +8614,24 @@
       "Position": [ -2311.109130859375, -538.889892578125, 1.0 ],
       "Scale": [ 500.0, 500.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "SnowyBackground",
+      "TransformComponent": true,
+      "Position": [ 756.5548706054688, -19.608095169067384, 1.0 ],
+      "Scale": [ 6680.0, 6000.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "background.png",
+      "G.Shader": "DefaultShader",
+      "G.Layer": -2,
+      "_hasAlpha": false,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -9020,6 +8684,15 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "Crate",
+      "TransformComponent": true,
+      "Position": [ 735.9890747070313, -1785.480712890625, 1.0 ],
+      "Scale": [ 99.99999237060547, 99.99999237060547, 1.0 ],
+      "Rotate": -0.31060221791267397,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "Soil",
       "TransformComponent": true,
       "Position": [ -1608.7080078125, 53.14009094238281, 1.0 ],
@@ -9060,6 +8733,25 @@
       "G.Shader": "",
       "G.Layer": 1,
       "_hasAlpha": false,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ -426.203369140625, 2634.8193359375, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
       "_hasAdjustableAlpha": false,
       "_alphaVal": 1.0,
       "_isFadingOut": false,
@@ -9119,6 +8811,24 @@
     {
       "IdentityComponent": true,
       "ObjectType": "none",
+      "Name": "none",
+      "TransformComponent": true,
+      "Position": [ 1030.998779296875, -1892.001220703125, 1.0 ],
+      "Scale": [ 60.0, 60.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "torch_light.png",
+      "G.Shader": "",
+      "G.Layer": 3,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": true,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": true
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
       "Position": [ 1495.8585205078126, -1593.994873046875, 1.0 ],
@@ -9155,6 +8865,25 @@
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
       "_hasAlpha": true
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 3822.22412109375, -1760.1861572265626, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -9200,6 +8929,13 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "grass2",
+      "TransformComponent": true,
+      "Position": [ -469.7001037597656, -628.5642700195313, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
@@ -9250,6 +8986,16 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "Soil",
+      "TransformComponent": true,
+      "Position": [ 2953.8623046875, 700.8384399414063, 1.0 ],
+      "Scale": [ 915.2101440429688, 1484.5072021484376, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.Layer": 0
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "Crate",
       "TransformComponent": true,
       "Position": [ -1159.4930419921876, 1877.2681884765626, 1.0 ],
@@ -9277,6 +9023,25 @@
       "GraphicsComponent": true,
       "_hasAlpha": true,
       "G.Layer": 0
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 881.4819946289063, -2031.9859619140626, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -9330,6 +9095,24 @@
       "_isFlickering": false
     },
     {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 267.55230712890627, 214.98687744140626, 1.0 ],
+      "Scale": [ 110.70207214355469, 100.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
+    },
+    {
       "BoxCollider2DComponent": true,
       "ColliderTypeId": 1,
       "ColliderTag": 6,
@@ -9348,6 +9131,7 @@
       "IdentityComponent": true,
       "ObjectType": "PlayerShield",
       "TransformComponent": true,
+      "Position": [ -3211.361083984375, -895.933349609375, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": false,
       "LogicComponent": false,
@@ -9403,6 +9187,34 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "continueButton",
+      "LinkUId": 1823,
+      "TransformComponent": true,
+      "Position": [ 0.0, 97.28610229492188, 1.0 ],
+      "Scale": [ 450.0, 120.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "LogicComponent": false,
+      "Scripts": [],
+      "UIComponent": false,
+      "UI.FileName": "Continue_Button_click.png",
+      "UI.Layer": 110,
+      "UI.HasAlpha": false,
+      "ButtonComponent": true,
+      "ButtonUId": 60,
+      "B.NormalFileName": "Continue_Button_click.png",
+      "B.NormalScale": [ 450.0, 120.0, 1.0 ],
+      "B.HaveHoveredFile": true,
+      "B.HoveredFileName": "Continue_Button_hover.png",
+      "B.HoveredScale": [ 450.0, 120.0, 1.0 ],
+      "B.HoveredAudioFileName": "Button.ogg",
+      "B.HavePressedFile": true,
+      "B.PressedFileName": "Continue_Button_click.png",
+      "B.PressedScale": [ 450.0, 120.0, 1.0 ],
+      "B.PressedAudioFileName": "Coin.ogg"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "CirclePlatform",
       "TransformComponent": true,
       "Position": [ 583.9998779296875, 112.38481140136719, 1.0 ],
@@ -9454,6 +9266,20 @@
     {
       "IdentityComponent": true,
       "ObjectType": "none",
+      "Name": "1",
+      "LinkUId": 101,
+      "TransformComponent": true,
+      "Position": [ -804.0, 405.0, 1.0 ],
+      "Scale": [ 50.0, 60.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "UIComponent": true,
+      "UI.FileName": "HP_Bar_green.png",
+      "UI.Layer": 103,
+      "UI.HasAlpha": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
       "Position": [ 3883.334228515625, -1487.249267578125, 1.0 ],
@@ -9497,6 +9323,25 @@
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ -2477.77734375, -1052.7716064453126, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
+    },
+    {
       "BoxCollider2DComponent": true,
       "ColliderTypeId": 1,
       "ColliderTag": 6,
@@ -9536,6 +9381,25 @@
       "TransformComponent": true,
       "Position": [ 1697.9697265625, 559.8538208007813, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 1594.2027587890626, 1457.9429931640626, 1.0 ],
+      "Scale": [ 200.0000457763672, 200.0000457763672, 1.0 ],
+      "Rotate": 0.18751785159111024,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -9596,6 +9460,25 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 2677.439453125, -1117.0655517578126, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 0,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "Spark",
       "Name": "Spark01",
       "TransformComponent": true,
@@ -9637,6 +9520,36 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ -2261.113525390625, 2189.093994140625, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "stain2",
+      "TransformComponent": true,
+      "Position": [ 1108.64599609375, 323.58135986328127, 1.0 ],
+      "Scale": [ 1230.040771484375, 1230.040771484375, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "_hasAlpha": true,
+      "G.Layer": 0
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "Battery",
       "BoxCollider2DComponent": true,
       "Collider2D.B.Scale": [ 350.0, 140.0, 1.0 ],
@@ -9661,6 +9574,44 @@
       "ColliderTrigger": false,
       "Collider2D.C.Center": [ 0.0, 0.0, 1.0 ],
       "Collider2D.C.Radius": 126.83799743652344
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ 1267.973388671875, 2608.169189453125, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "grass",
+      "TransformComponent": true,
+      "Position": [ -2321.49853515625, -1787.2999267578126, 1.0 ],
+      "Scale": [ 200.00006103515626, 200.00006103515626, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "grass_patch_big.png",
+      "G.Shader": "",
+      "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
     },
     {
       "IdentityComponent": true,
@@ -9694,6 +9645,22 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "grass",
+      "TransformComponent": true,
+      "Position": [ -2488.892578125, -295.2220764160156, 1.0 ],
+      "Rotate": 0.7841242551803589,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Soil",
+      "TransformComponent": true,
+      "Position": [ 2993.045166015625, 2056.990234375, 1.0 ],
+      "Scale": [ 500.0, 500.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "none",
       "Name": "grass",
       "TransformComponent": true,
@@ -9724,6 +9691,32 @@
       "G.FileName": "grass_patch_big.png",
       "G.Shader": "",
       "G.Layer": 1,
+      "_hasAlpha": true,
+      "_hasAdjustableAlpha": false,
+      "_alphaVal": 1.0,
+      "_isFadingOut": false,
+      "_isFlickering": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Soil",
+      "TransformComponent": true,
+      "Position": [ 576.923095703125, -2329.06005859375, 1.0 ],
+      "Scale": [ 500.0, 500.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "none",
+      "TransformComponent": true,
+      "Position": [ 791.8439331054688, 89.77623748779297, 1.0 ],
+      "Scale": [ 35.0, 35.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "Wall_Light_glow.png",
+      "G.Shader": "",
+      "G.Layer": 3,
       "_hasAlpha": true,
       "_hasAdjustableAlpha": false,
       "_alphaVal": 1.0,
@@ -9769,8 +9762,18 @@
       "ObjectType": "grass2",
       "TransformComponent": true,
       "Position": [ 2296.95166015625, -455.511962890625, 1.0 ],
-      
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "Stain1",
+      "TransformComponent": true,
+      "Position": [ -316.0078125, -1838.87646484375, 1.0 ],
+      "Scale": [ 414.9999694824219, 414.9999694824219, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+
+      "_hasAlpha": true
     }
   ]
 }
