@@ -8,10 +8,10 @@ std::string TransformComponent::ComponentName() const
 
 TransformComponent::TransformComponent()
 	:_pos{ Vector3{ 0, 0, 1 } },
-	_scale{ Vector3{ 100, 100, 1 } },
+	_scale{ Vector3{ 1, 1, 1 } },
 	_rotationAngle{ 0.0f },
 	_pivotPoint{ Vector3{ 0, 0, 1 } },
-	_localInspect{true}
+	_localInspect{ true }
 {
 }
 
@@ -21,15 +21,7 @@ TransformComponent::TransformComponent(const Vector3& pos, const Vector3& scale,
 
 }
 
-Vector3 TransformComponent::GetPos()
-{
-	return Vector3{ _pos._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_pos._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f } ;
-}
 
-Vector3 TransformComponent::GetPivot()
-{
-	return Vector3{ _pivotPoint._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_pivotPoint._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f };
-}
 
 void TransformComponent::SetPivot(const Vector3& in)
 {
@@ -47,18 +39,9 @@ void TransformComponent::SetPivot(const Vector3& in)
 			child->MovePos(temp);
 		}
 	}
-	
+
+	_pos += temp;
 	_pivotPoint = in;
-
-	// local data
-	_localPivotPoint = _pivotPoint;
-
-	/*if (!this->GetParentPtr()->GetIndependent())
-	{
-		TransformComponent* parentTransform = GetComponentObject(this->GetParentPtr()->GetParent(), Transform);
-		_localPos = _localPos - parentTransform->_pos;
-	}*/
-
 
 	if (temp != Vector3{ 0,0,0 })
 	{
@@ -71,7 +54,6 @@ void TransformComponent::SetPivot(const Vector3& in)
 
 void TransformComponent::SetPos(const Vector3& in)
 {
-
 	if (this->GetParentPtr()->GetChild())
 	{
 		Vec3 temp = in - _pos;
@@ -87,22 +69,11 @@ void TransformComponent::SetPos(const Vector3& in)
 		}
 	}
 
-
 	Vector3  OldPosition = _pos;
 
 	_pivotPoint = _pivotPoint - _pos;
 	_pos = in;
 	_pivotPoint = _pos + _pivotPoint;
-
-	// local data
-	_localPos = _pos;
-	_localPivotPoint = _pivotPoint;
-
-	/*if (!this->GetParentPtr()->GetIndependent())
-	{
-		TransformComponent* parentTransform = GetComponentObject(this->GetParentPtr()->GetParent(), Transform);
-		_localPos = _localPos - parentTransform->_pos;
-	}*/
 
 
 	if (OldPosition != _pos)
@@ -114,10 +85,7 @@ void TransformComponent::SetPos(const Vector3& in)
 	}
 }
 
-Vector3 TransformComponent::GetScale()
-{
-	return Vector3{ _scale._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_scale._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f };
-}
+
 
 void TransformComponent::SetScale(const Vector3& in)
 {
@@ -140,17 +108,6 @@ void TransformComponent::SetScale(const Vector3& in)
 
 	_scale = in;
 
-	// local data
-	_localScale = _scale;
-
-	/*if (!this->GetParentPtr()->GetIndependent())
-	{
-		TransformComponent* parentTransform = GetComponentObject(this->GetParentPtr()->GetParent(), Transform);
-		_localScale = _localScale / parentTransform->_localScale;
-	}*/
-
-
-
 	if (OldScale != _scale)
 	{
 		if (TileMapComponent* tilemap = (TileMapComponent*)(GetSibilingComponent(ComponentId::CT_TileMap)))
@@ -158,15 +115,9 @@ void TransformComponent::SetScale(const Vector3& in)
 			tilemap->ResizeNodeMap();
 		}
 	}
-
-
-
 }
 
-float& TransformComponent::GetRotate()
-{
-	return _rotationAngle;
-}
+
 
 void TransformComponent::SetRotate(const float& in, TransformComponent* parent)
 {
@@ -181,7 +132,7 @@ void TransformComponent::SetRotate(const float& in, TransformComponent* parent)
 			if (!child)
 				continue;
 
-			child->MoveRotate(this,temp);
+			child->MoveRotate(this, temp);
 		}
 	}
 
@@ -190,13 +141,15 @@ void TransformComponent::SetRotate(const float& in, TransformComponent* parent)
 	if (!parent)
 	{
 		Vec3 diff = _pos - _pivotPoint;
+		diff._z = 0.f;
 		float mag = diff.Length();
 		float deg = atan2(diff._y, diff._x) + temp;
-		temp2 = Vec3{ mag * cos(deg), mag * sin(deg) } - diff;
+		temp2 = Vec3{ mag * cos(deg), mag * sin(deg) } -diff;
 	}
 	else
 	{
-		Vec3 diff = _pos - parent->_pivotPoint;
+		Vec3 diff = _pos - parent->_pos;
+		diff._z = 0.f;
 		float mag = diff.Length();
 		float deg = atan2(diff._y, diff._x) + temp;
 		temp2 = Vec3{ mag * cos(deg), mag * sin(deg) } -diff;
@@ -204,16 +157,121 @@ void TransformComponent::SetRotate(const float& in, TransformComponent* parent)
 
 	_pos += temp2;
 	_rotationAngle = in;
+}
 
-	// local data
-	_localPos = _pos;
-	_localRotationAngle = _rotationAngle;
 
-	if (!this->GetParentPtr()->GetIndependent())
+void TransformComponent::SetPivotByLocal(const Vector3& in)
+{
+	_pivotPoint = in;
+}
+
+void TransformComponent::SetPosByLocal(const Vector3& in)
+{
+	if (this->GetParentPtr()->GetChild())
+	{
+		for (auto& it : this->GetParentPtr()->GetChildList())
+		{
+			TransformComponent* child = (TransformComponent*)GetComponentMap(Transform)[it.first];
+
+			if (!child)
+				continue;
+
+			child->MovePos(in);
+		}
+	}
+
+	_pos = in;
+	_pivotPoint = _pivotPoint + _pos;
+}
+
+void TransformComponent::SetScaleByLocal(const Vector3& in)
+{
+	if (this->GetParentPtr()->GetChild())
+	{
+		for (auto& it : this->GetParentPtr()->GetChildList())
+		{
+			TransformComponent* child = (TransformComponent*)GetComponentMap(Transform)[it.first];
+
+			if (!child)
+				continue;
+
+			child->MoveScale(in);
+		}
+	}
+
+	_scale = in;
+}
+
+void TransformComponent::SetRotateByLocal(const float& in)
+{
+	if (this->GetParentPtr()->GetChild())
+	{
+		for (auto& it : this->GetParentPtr()->GetChildList())
+		{
+			TransformComponent* child = (TransformComponent*)GetComponentMap(Transform)[it.first];
+
+			if (!child)
+				continue;
+
+			child->MoveRotate(this, in);
+		}
+	}
+
+	_rotationAngle = in;
+}
+
+
+Vector3 TransformComponent::GetPos()
+{
+	return Vector3{ _pos._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_pos._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f };
+}
+
+Vector3 TransformComponent::GetPivot()
+{
+	return Vector3{ _pivotPoint._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_pivotPoint._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f };
+}
+
+Vector3 TransformComponent::GetScale()
+{
+	return Vector3{ _scale._x * MyWindowsSystem.getWindow().GetWindowWidthRatio(),_scale._y * MyWindowsSystem.getWindow().GetWindowHeightRatio(),1.f };
+}
+
+float& TransformComponent::GetRotate()
+{
+	return _rotationAngle;
+}
+
+
+void TransformComponent::UpdateLocalData()
+{
+	if (this->GetParentPtr()->GetIndependent())
+	{
+		_localPivotPoint = _pivotPoint;
+		_localPos = _pos;
+		_localScale = _scale;
+		_localRotationAngle = _rotationAngle;
+	}
+	else
 	{
 		TransformComponent* parentTransform = GetComponentObject(this->GetParentPtr()->GetParent(), Transform);
-		_localPos = _localPos - parentTransform->_pos;
-		_localRotationAngle = _localRotationAngle - parentTransform->_rotationAngle;
+	
+		_localScale = _scale / parentTransform->_scale;
+		_localRotationAngle = _rotationAngle - parentTransform->_rotationAngle;
+
+
+		Vec3 diff = _pos - parentTransform->_pos;
+		diff._z = 0.f;
+		float mag = diff.Length();
+		float deg = atan2(diff._y, diff._x) - (parentTransform->_rotationAngle - _localRotationAngle);
+		Vector3 temp2 = Vec3{ mag * cos(deg), mag * sin(deg) } -diff;
+
+		Vector3 temp = _pos + temp2;
+
+		_localPos = temp - parentTransform->_pos;
+		_localPos._z = 1.f;
+
+		_localPivotPoint = _pivotPoint - parentTransform->_pos;
+		_localPivotPoint._z = 2.f;
 	}
 }
 
@@ -233,7 +291,7 @@ float* TransformComponent::GetModel()
 float* TransformComponent::GetMatrix(int layer)
 {
 	// calculate model matrix = TRS
-	Mtx44 translate = Mtx44::CreateTranslation(Vec3{ GetPos()._x,GetPos()._y, (float)layer});
+	Mtx44 translate = Mtx44::CreateTranslation(Vec3{ GetPos()._x,GetPos()._y, (float)layer });
 	_model = translate * Mtx44::CreateRotationZ(-_rotationAngle) * Mtx44::CreateScale(GetScale());
 
 	/*glm::mat4 model = translate * rotate * glm::scale(glm::mat4(1.0f),
@@ -248,7 +306,6 @@ void TransformComponent::SetModel(const float* in)
 	_model = in;
 }
 
-
 void TransformComponent::Inspect()
 {
 	ImGui::Spacing();
@@ -260,38 +317,22 @@ void TransformComponent::Inspect()
 	ImGui::Spacing();
 	ImGui::Spacing();
 
-	/*if (_localInspect)
+	if (_localInspect)
 	{
+		UpdateLocalData();
 
 		ImGui::InputFloat2("Input Local Pos X, Y", _localPos.m);
 		ImGui::Spacing();
-		ImGui::SliderFloat2("Slider Local Pos X, Y", _localPos.m, -1000, 1000);
-		SetPos(_localPos);
-
-		ImGui::Spacing();
-		ImGui::Spacing();
-		ImGui::Spacing();
-		ImGui::Spacing();
-
-
 		ImGui::InputFloat2("Input Local Scale X, Y", _localScale.m);
-		ImGui::Spacing();
-		ImGui::SliderFloat2("Slider Local Scale X, Y", _localScale.m, 1, 500);
-		SetScale(_localScale);
-
-		ImGui::Spacing();
-		ImGui::Spacing();
-		ImGui::Spacing();
 		ImGui::Spacing();
 
 		float DegAngle = RadToDeg(_localRotationAngle);
-
 		ImGui::InputFloat("Input Local Rotation Angle", &DegAngle);
 		ImGui::Spacing();
-		ImGui::SliderFloat("Slider Local Rotation Angle", &DegAngle, -180, 180);
-		ImGui::Spacing();
 
-		SetRotate(DegToRad(DegAngle));
+		Vec3 tempPivot = _localPivotPoint - _localPos;
+		ImGui::InputFloat2("Input Local Pivot offset X, Y", tempPivot.m);
+		ImGui::Spacing();
 	}
 	else
 	{
@@ -324,16 +365,15 @@ void TransformComponent::Inspect()
 		ImGui::Spacing();
 
 		SetRotate(DegToRad(DegAngle));
-	}*/
 
-	Vec3 tempPivot = _pivotPoint - _pos;
-	ImGui::InputFloat2("Input Pivot offset X, Y", tempPivot.m);
-	ImGui::Spacing();
-	ImGui::SliderFloat2("Slider Pivot offset X, Y", tempPivot.m, -1000, 1000);
-	_pivotPoint = _pos + tempPivot;
+		Vec3 tempPivot = _pivotPoint - _pos;
+		ImGui::InputFloat2("Input Pivot offset X, Y", tempPivot.m);
+		ImGui::Spacing();
+		ImGui::SliderFloat2("Slider Pivot offset X, Y", tempPivot.m, -1000, 1000);
+		_pivotPoint = _pos + tempPivot;
+	}
+
 }
-
-///////////////////////////////////////////////////////////////
 
 void TransformComponent::MovePos(const Vector3& in)
 {
@@ -356,10 +396,10 @@ void TransformComponent::Init()
 		for (auto& it : GetParentPtr()->GetChildList())
 			it.second->GetComponent(ComponentId::CT_Transform)->Init();
 
-	SetPivot(_localPivotPoint);
-	SetPos(_localPos);
-	SetScale(_localScale);
-	SetRotate(_localRotationAngle);
+	SetPivotByLocal(_localPivotPoint);
+	SetPosByLocal(_localPos);
+	SetScaleByLocal(_localScale);
+	SetRotateByLocal(_localRotationAngle);
 }
 
 void TransformComponent::SerialiseComponent(Serialiser& document)
@@ -405,6 +445,8 @@ void TransformComponent::SerialiseComponent(Serialiser& document)
 
 void TransformComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 {
+	UpdateLocalData();
+
 	rapidjson::Value value;
 
 	value.SetBool(true);
@@ -425,17 +467,18 @@ void TransformComponent::DeSerialiseComponent(DeSerialiser& prototypeDoc)
 	value.SetFloat(_localRotationAngle);
 	prototypeDoc.AddMember("Rotate", value);
 
-	_localPivotPoint -= _localPos;
+	Vector3 temp = _localPivotPoint - _localPos;
 	value.SetArray();
-	value.PushBack(rapidjson::Value(_localPivotPoint.GetX()).Move(), prototypeDoc.Allocator());
-	value.PushBack(rapidjson::Value(_localPivotPoint.GetY()).Move(), prototypeDoc.Allocator());
-	value.PushBack(rapidjson::Value(_localPivotPoint.GetZ()).Move(), prototypeDoc.Allocator());
+	value.PushBack(rapidjson::Value(temp.GetX()).Move(), prototypeDoc.Allocator());
+	value.PushBack(rapidjson::Value(temp.GetY()).Move(), prototypeDoc.Allocator());
+	value.PushBack(rapidjson::Value(temp.GetZ()).Move(), prototypeDoc.Allocator());
 	prototypeDoc.AddMember("PivotPosition", value);
-	_localPivotPoint += _localPos;
 }
 
 void TransformComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
 {
+	UpdateLocalData();
+
 	rapidjson::Value value;
 
 	value.SetBool(true);
@@ -456,13 +499,12 @@ void TransformComponent::DeSerialiseComponent(rapidjson::Value& prototypeDoc, ra
 	value.SetFloat(_localRotationAngle);
 	prototypeDoc.AddMember("Rotate", value, allocator);
 
-	_localPivotPoint -= _localPos;
+	Vector3 temp = _localPivotPoint - _localPos;
 	value.SetArray();
-	value.PushBack(rapidjson::Value(_localPivotPoint.GetX()).Move(), allocator);
-	value.PushBack(rapidjson::Value(_localPivotPoint.GetY()).Move(), allocator);
-	value.PushBack(rapidjson::Value(_localPivotPoint.GetZ()).Move(), allocator);
+	value.PushBack(rapidjson::Value(temp.GetX()).Move(), allocator);
+	value.PushBack(rapidjson::Value(temp.GetY()).Move(), allocator);
+	value.PushBack(rapidjson::Value(temp.GetZ()).Move(), allocator);
 	prototypeDoc.AddMember("PivotPosition", value, allocator);
-	_localPivotPoint += _localPos;
 }
 
 void TransformComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
@@ -474,6 +516,8 @@ void TransformComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rap
 		DeSerialiseComponent(value, allocator);
 		return;
 	}
+
+	UpdateLocalData();
 
 	bool addComponentIntoSceneFile = false;
 	rapidjson::Value position;
@@ -508,13 +552,12 @@ void TransformComponent::DeserialiseComponentSceneFile(IComponent* protoCom, rap
 
 	if (protoTransformCom->_localPivotPoint != _localPivotPoint)
 	{
-		_localPivotPoint -= _localPos;
+		Vector3 temp = _localPivotPoint - _localPos;
 		pivot.SetArray();
 		addComponentIntoSceneFile = true;
-		pivot.PushBack(rapidjson::Value(_localPivotPoint._x), allocator);
-		pivot.PushBack(rapidjson::Value(_localPivotPoint._y), allocator);
-		pivot.PushBack(rapidjson::Value(_localPivotPoint._z), allocator);
-		_localPivotPoint += _localPos;
+		pivot.PushBack(rapidjson::Value(temp._x), allocator);
+		pivot.PushBack(rapidjson::Value(temp._y), allocator);
+		pivot.PushBack(rapidjson::Value(temp._z), allocator);
 	}
 
 	if (addComponentIntoSceneFile)	//If anyone of component data of obj is different from Prototype
