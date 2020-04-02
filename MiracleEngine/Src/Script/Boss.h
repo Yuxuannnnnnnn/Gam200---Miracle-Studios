@@ -111,11 +111,10 @@ private:
 	IScript2* _HealthController;
 
 	std::vector<std::string>::iterator _CurrOtherAnimChainItr;
-	TransformComponent* _laserTransfrom;
-	GraphicComponent* _laserGraphic;
-	Collider2D* _laserCollider; // ? is this the right collider ptr?
+	std::vector<std::string> _CurrOtherAnimChain;
 	AnimationComponent* _laserAnimation;
-	TransformComponent* _objTransfrom;
+	GraphicComponent* _laserGraphic;
+	BoxCollider2DComponent* _laserCollider;
 
 public:
 	Boss();
@@ -220,7 +219,6 @@ private:
 		"DeathShooting6" };
 	std::vector<std::string> _Laser = {
 		"Start",
-		"Mid",
 		"Mid",
 		"Mid",
 		"End" };

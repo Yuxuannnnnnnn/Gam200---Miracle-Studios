@@ -1663,7 +1663,7 @@
           "IdentityComponent": true,
           "ObjectType": "Laser_Blast",
           "Name": "laser",
-          "LinkUId": 0,
+          "LinkUId": 69,
           "BoxCollider2DComponent": true,
           "ColliderTypeId": 1,
           "ColliderTag": 0,
