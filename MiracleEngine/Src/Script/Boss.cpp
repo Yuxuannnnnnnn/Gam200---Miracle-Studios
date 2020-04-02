@@ -29,7 +29,7 @@ Boss::Boss() :
 
 	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 },
 	_HealthController{ nullptr },
-	_laserTransfrom{ nullptr }, _laserGraphic{ nullptr }, _laserAnimation{ nullptr }, _objTransfrom{ nullptr }
+	_laserAnimation{ nullptr }
 {
 }
 
@@ -44,20 +44,10 @@ Boss* Boss::Clone()
 
 void Boss::Init()
 {
-//	for (auto& it : GetParentPtr()->GetChildList())
-//	{
-//		_laserTransfrom = (TransformComponent*)it.second->GetComponent(ComponentId::CT_Transform);
-//		_laserAnimation = (AnimationComponent*)it.second->GetComponent(ComponentId::CT_Animation);
-//		break;
-//	}
-//	MyFactory.SaveNewLinkID(999, GetParentId());
-//	_objTransfrom = (TransformComponent*)GetParentPtr()->GetComponent(ComponentId::CT_Transform);
-//	if (_laserAnimation)
-//	{
-//		_laserGraphic->SetEnable(false);
-//		_laserAnimation->SetAnimationPlaying(false);
-//	}
-
+	_laserAnimation = GetComponentObject(GetLinkObject(69), Animation);
+	_laserGraphic = GetComponentObject(GetLinkObject(69), Graphic);
+	_laserGraphic->SetEnable(false);
+	_laserCollider = GetComponentObject(GetLinkObject(69), BoxCollider2D);
 
 	for (auto itr : _engineSystems._factory->getObjectlist())
 	{
@@ -658,7 +648,7 @@ void Boss::LaserShoot()
 	if (_laserShootStart)
 	{
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT START.\n";
-		/////////PlayOtherAnimChain();
+		PlayOtherAnimChain();
 		_laserShootStart = false;
 		
 		// Change spawn bullet to change childlaser to play other anim, also enable the collider for it
@@ -684,8 +674,9 @@ void Boss::LaserShoot()
 
 
 	// LaserShoot() COMPLETE // _state=LASER_SHOOT_END cause need TRANSOFRM back to IDLE
+	PlayOtherAnimChain();
 	if (laserAliveTimer < 0)
-	///////// if (PlayOtherAnimChain());
+	//if (!PlayOtherAnimChain());
 	{
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT END.\n";
 		// re-enable animation
