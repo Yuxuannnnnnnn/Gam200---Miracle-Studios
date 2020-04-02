@@ -110,6 +110,13 @@ private:
 
 	IScript2* _HealthController;
 
+	std::vector<std::string>::iterator _CurrOtherAnimChainItr;
+	TransformComponent* _laserTransfrom;
+	GraphicComponent* _laserGraphic;
+	Collider2D* _laserCollider; // ? is this the right collider ptr?
+	AnimationComponent* _laserAnimation;
+	TransformComponent* _objTransfrom;
+
 public:
 	Boss();
 	~Boss();
@@ -122,6 +129,7 @@ public:
 	void RunState();
 	
 	bool PlayAnimChain(std::vector<std::string> animChain, bool overwrite = false);
+	bool PlayOtherAnimChain();
 	// need as ShaoX for the last frame of each sheet.
 	// need have an array of lastFrameSprites
 	// whenever PlayAnimChain change to next in chain, need set the next lastFrameSprites
@@ -210,6 +218,12 @@ private:
 		"DeathShooting4",
 		"DeathShooting5",
 		"DeathShooting6" };
+	std::vector<std::string> _Laser = {
+		"Start",
+		"Mid",
+		"Mid",
+		"Mid",
+		"End" };
 };
 
 #endif

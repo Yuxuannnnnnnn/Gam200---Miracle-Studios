@@ -62,7 +62,7 @@ void AISystem::UpdateNodeMapGO()
 	}
 	if (!NodeMapGO)
 	{
-		std::cout << "WARNING: NodeMapGO is nullptr.\n";
+		//std::cout << "WARNING: NodeMapGO is nullptr.\n";
 		NodeMapGOId = 0;
 		return;
 	}
