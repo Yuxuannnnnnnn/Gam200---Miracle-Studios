@@ -11,14 +11,15 @@ AudioSystem::AudioSystem()
 	FMOD_System_Create(&_fmodSystem);
 	FMOD_System_Init(_fmodSystem, 32, FMOD_INIT_NORMAL, 0);
 
-
 	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &_bgmGroup);
 	FMOD_System_CreateChannelGroup(_fmodSystem, NULL, &_sfxGroup);
 	
+	_isSystemPaused = false;
 }
 
 void AudioSystem::PlayBGM(const std::string& name, float volume)
 {
+
 	auto sound = MyResourceManager.GetLoopSoundResource(name);
 
 	if (sound != nullptr)
@@ -34,11 +35,13 @@ void AudioSystem::PlayBGM(const std::string& name, float volume)
 
 void AudioSystem::PlaySFX(const std::string& name, float volume)
 {
+
 	auto sound = MyResourceManager.GetSoundResource(name);
 
 	
 	if(sound != nullptr)
 		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _sfxGroup, false, &_channel2);
+
 
 	FMOD_Channel_SetVolume(_channel2, volume);
 	//FMOD_Channel_SetLoopCount(_channel2, 3);
@@ -47,6 +50,7 @@ void AudioSystem::PlaySFX(const std::string& name, float volume)
 
 AudioSystem::~AudioSystem()
 {
+	
 }
 
 void AudioSystem::Init()
@@ -56,6 +60,25 @@ void AudioSystem::Init()
 
 void AudioSystem::Update()
 {
+	if (!MyWindowsSystem.getWindow().CheckWindowActive())
+	{
+		if (_isSystemPaused == false)
+		{
+
+			_isSystemPaused = true;
+			PauseAllSound();
+		}
+	}
+	else 
+	{
+		if (_isSystemPaused == true)
+		{
+
+			_isSystemPaused = false;
+			ResumeAllSound();
+		}
+	}
+	
 	FMOD_System_Update(_fmodSystem);
 }
 
@@ -91,4 +114,36 @@ void AudioSystem::StopBGM()
 void AudioSystem::StopSFX()
 {
 	FMOD_ChannelGroup_Stop(_sfxGroup);
+}
+
+void AudioSystem::PauseBGM()
+{
+	FMOD_ChannelGroup_SetPaused(_bgmGroup, true);
+}
+
+void AudioSystem::PauseSFX()
+{
+	FMOD_ChannelGroup_SetPaused(_sfxGroup, true);
+}
+
+void AudioSystem::PauseAllSound()
+{
+	PauseBGM();
+	PauseSFX();
+}
+
+void AudioSystem::ResumeBGM()
+{
+	FMOD_ChannelGroup_SetPaused(_bgmGroup, false);
+}
+
+void AudioSystem::ResumeSFX()
+{
+	FMOD_ChannelGroup_SetPaused(_sfxGroup, false);
+}
+
+void AudioSystem::ResumeAllSound()
+{
+	ResumeBGM();
+	ResumeSFX();
 }

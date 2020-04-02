@@ -42,6 +42,15 @@ public:
 	void StopBGM();
 	void StopSFX();
 
+	void PauseBGM();
+	void PauseSFX();
+	void PauseAllSound();
+
+	void ResumeBGM();
+	void ResumeSFX();
+	void ResumeAllSound();
+
+	FMOD_CHANNELCONTROL* _control;
 	FMOD_SYSTEM* _fmodSystem;
 private:
 	FMOD_CHANNEL* _channel1 = nullptr;
@@ -49,6 +58,8 @@ private:
 
 	FMOD_CHANNELGROUP* _bgmGroup = nullptr;
 	FMOD_CHANNELGROUP* _sfxGroup = nullptr;
+
+	bool _isSystemPaused;
 };
 
 #endif
