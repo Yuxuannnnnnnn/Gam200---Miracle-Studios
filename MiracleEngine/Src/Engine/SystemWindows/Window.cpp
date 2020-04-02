@@ -368,7 +368,7 @@ void Window::CheckFullScreenToggle()
 bool Window::CheckWindowActive()
 {
 	{
-		if (name == GetForegroundWindow())
+		if (mainHWND == GetForegroundWindow())
 		{
 			printf("Mine window is active\n");
 			return true;

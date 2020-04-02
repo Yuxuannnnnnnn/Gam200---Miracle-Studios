@@ -43,7 +43,7 @@ void Engine::Update()
 		if (!MyWindowsSystem.Update()) //Update the window Object - reads all messages received in this window objects
 			return;
 
-		if (!MyWindowsSystem.getWindow().CheckWindowActive())
+		if (!MyWindowsSystem.getWindow().CheckWindowActive()) //Window is not active
 		{
 			//MyFactory.UpdateScene();
 			//MyEventHandler.BroadcastWindowEvents();
@@ -54,7 +54,7 @@ void Engine::Update()
 
 			MyAudioSystem.Update();
 		}
-		else
+		else //Window is active
 		{
 			MyFactory.UpdateScene();
 			MyEventHandler.BroadcastWindowEvents();
