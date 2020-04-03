@@ -374,6 +374,7 @@ Player::Player() :
 	_muzzleTransfrom{ nullptr },
 	_muzzleAnimation{ nullptr },
 	_animTime{ -1.0 },
+	_laserHitTimer{ 0.0 }, _laserHitDelay{ 2.0 },
 	_objTransfrom{ nullptr },
 	_healthBar{ nullptr },
 	_pauseMenu{ nullptr }
@@ -885,6 +886,25 @@ void Player::DamagePlayer(int dmg)
 	}
 }
 
+void Player::LaserPlayer()
+{
+	if (_god)
+		return;
+	else
+	{
+		if (_laserHitTimer < 0)
+		{
+			_laserHitTimer = _laserHitDelay;
+
+			((HealthController*)_healthBar)->DecreaseHealth();
+			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+			audcom->PlaySFX("GetHit");
+			std::cout << "Player hit by laser";
+			_health -= 2;
+		}
+	}
+}
+
 void Player::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
@@ -898,7 +918,7 @@ void Player::OnCollision2DTrigger(Collider2D* other)
 	}
 	if (!otherType.compare("Laser_Blast"))
 	{
-		DamagePlayer(2);
+		LaserPlayer();
 	}
 }
 
