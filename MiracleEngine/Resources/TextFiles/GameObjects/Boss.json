@@ -86,6 +86,12 @@
       "NumOfloops": 0
     },
     {
+      "SFXName": "LaserShooting",
+      "fileName": "BlastSound.wav",
+      "volume": 0.23899999260902406,
+      "NumOfloops": 0
+    },
+    {
       "SFXName": "BulletShoot",
       "fileName": "SingleShot.wav",
       "volume": 0.23899999260902406,
