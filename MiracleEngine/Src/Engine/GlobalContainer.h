@@ -59,7 +59,9 @@ public:
 
 	void Init(HINSTANCE hInstance, int nCmdShow)
 	{
+#ifdef LEVELEDITOR
 		_console = new Console(); //Create a Logging console
+#endif
 		_windowSystem = new WindowsSystem(hInstance, nCmdShow); //Create Window object in it
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
 

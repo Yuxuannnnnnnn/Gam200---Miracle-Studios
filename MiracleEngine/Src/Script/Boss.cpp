@@ -48,6 +48,7 @@ void Boss::Init()
 	_laserGraphic = GetComponentObject(GetLinkObject(69), Graphic);
 	_laserGraphic->SetEnable(false);
 	_laserCollider = GetComponentObject(GetLinkObject(69), BoxCollider2D);
+	_laserCollider->SetEnable(false);
 	_mouthGraphic = GetComponentObject(GetLinkObject(70), Graphic);
 	_mouthGraphic->SetEnable(false);
 
@@ -666,14 +667,6 @@ void Boss::LaserShoot()
 		PlayOtherAnimChain();
 		_laserShootStart = false;
 		_mouthGraphic->SetEnable(true);
-		
-		// Change spawn bullet to change childlaser to play other anim, also enable the collider for it
-	//	subObj = CreateObject("BulletE");
-	//	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	//	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
-	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	//	AddForwardForce(subObj->Get_uID(), -70000);
 
 		return;
 	}
