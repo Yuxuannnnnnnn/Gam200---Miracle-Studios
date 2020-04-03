@@ -41,8 +41,9 @@ private:
 	int _animState, _animStatePrev; // 1==StartMove, 2==StartIdle, 3==StartShoot, etc
 // Logic - DelayDeathForAnimation
 	double _timerDeath;
-
 	double _animTime;
+
+	double _laserHitTimer, _laserHitDelay;
 
 	TransformComponent* _muzzleTransfrom;
 	AnimationComponent* _muzzleAnimation;
@@ -92,6 +93,7 @@ public:
 	int GetProgressLevel() const;
 
 	void DamagePlayer(int dmg = 1);
+	void LaserPlayer();
 
 	void OnTrigger2DEnter(Collider2D* other);
 	void OnCollision2DTrigger(Collider2D* other);

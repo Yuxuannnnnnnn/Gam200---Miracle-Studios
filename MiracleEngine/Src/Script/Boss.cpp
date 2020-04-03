@@ -48,6 +48,9 @@ void Boss::Init()
 	_laserGraphic = GetComponentObject(GetLinkObject(69), Graphic);
 	_laserGraphic->SetEnable(false);
 	_laserCollider = GetComponentObject(GetLinkObject(69), BoxCollider2D);
+	_laserCollider->SetEnable(false);
+	_mouthGraphic = GetComponentObject(GetLinkObject(70), Graphic);
+	_mouthGraphic->SetEnable(false);
 
 	for (auto itr : _engineSystems._factory->getObjectlist())
 	{
@@ -137,6 +140,14 @@ bool Boss::PlayOtherAnimChain()
 	if (_laserAnimation->IsAnimationPlaying())
 		return true;
 	else {
+		if (*_CurrOtherAnimChainItr == "End")
+		{
+			_laserGraphic->SetEnable(false);
+			_laserCollider->SetEnable(false);
+			_laserAnimation->SetAnimationPlaying(false);
+			return false;
+		}
+
 		if (++_CurrOtherAnimChainItr != _Laser.end()) // still got more in the chain
 		{
 			_laserAnimation->SetCurrentAnimOnce(*_CurrOtherAnimChainItr);
@@ -347,6 +358,11 @@ void Boss::Death()
 				}
 			//((Enemy*)itr.second)->ForceDeath();// ((Enemy*)itr.second)->SetHealth(-1);
 		}
+
+		// disable the child displays
+		_laserGraphic->SetEnable(false);
+		_laserCollider->SetEnable(false);
+		_mouthGraphic->SetEnable(false);
 
 		if (_stateNext == (int)Boss_State::SPIN_SHOOTBULLET ||
 			_statePrev == (int)Boss_State::SPIN_SHOOTBULLET ||
@@ -650,14 +666,7 @@ void Boss::LaserShoot()
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT START.\n";
 		PlayOtherAnimChain();
 		_laserShootStart = false;
-		
-		// Change spawn bullet to change childlaser to play other anim, also enable the collider for it
-		subObj = CreateObject("BulletE");
-		((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-		((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-		AddForwardForce(subObj->Get_uID(), -70000);
+		_mouthGraphic->SetEnable(true);
 
 		return;
 	}
@@ -665,12 +674,12 @@ void Boss::LaserShoot()
 	laserAliveTimer -= _dt;
 
 // REMOVE THIS SECTION, THIS ONLY FOR TESTING OF THE LASER SHOOT TIMER WORKING PROPERLY
-	subObj = CreateObject("BulletE");
-	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
-		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
-		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	AddForwardForce(subObj->Get_uID(), -70000);
+//	subObj = CreateObject("BulletE");
+//	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
+//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+//	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
+//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+//	AddForwardForce(subObj->Get_uID(), -70000);
 
 
 	// LaserShoot() COMPLETE // _state=LASER_SHOOT_END cause need TRANSOFRM back to IDLE
@@ -679,8 +688,7 @@ void Boss::LaserShoot()
 	//if (!PlayOtherAnimChain());
 	{
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT END.\n";
-		// re-enable animation
-		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(true);
+		_mouthGraphic->SetEnable(false);
 		laserAliveTimer = laserAliveDuration;
 		subObj = nullptr;
 		_state = (int)Boss_State::LASER_SHOOT_END;
