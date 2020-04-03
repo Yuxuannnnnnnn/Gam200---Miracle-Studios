@@ -665,6 +665,7 @@ void Boss::LaserShoot()
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT START.\n";
 		PlayOtherAnimChain();
 		_laserShootStart = false;
+		_mouthGraphic->SetEnable(true);
 		
 		// Change spawn bullet to change childlaser to play other anim, also enable the collider for it
 	//	subObj = CreateObject("BulletE");
@@ -694,8 +695,7 @@ void Boss::LaserShoot()
 	//if (!PlayOtherAnimChain());
 	{
 		if (DEBUGOUTPUT) std::cout << "DEBUG:\t BOSS SHOOT END.\n";
-		// re-enable animation
-		//((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetEnable(true);
+		_mouthGraphic->SetEnable(false);
 		laserAliveTimer = laserAliveDuration;
 		subObj = nullptr;
 		_state = (int)Boss_State::LASER_SHOOT_END;

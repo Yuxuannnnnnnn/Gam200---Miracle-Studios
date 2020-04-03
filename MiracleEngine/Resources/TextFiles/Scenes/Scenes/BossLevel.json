@@ -1708,8 +1708,8 @@
         },
         {
           "IdentityComponent": true,
-          "ObjectType": "none",
-          "Name": "none",
+          "ObjectType": "Mouth",
+          "Name": "mouth",
           "LinkUId": 70,
           "TransformComponent": true,
           "Position": [ -2.000213623046875, -169.44564819335938, 1.0 ],

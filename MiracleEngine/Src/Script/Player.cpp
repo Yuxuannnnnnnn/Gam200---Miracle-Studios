@@ -896,6 +896,10 @@ void Player::OnCollision2DTrigger(Collider2D* other)
 	{
 		DamagePlayer(2);
 	}
+	if (!otherType.compare("Laser_Blast"))
+	{
+		DamagePlayer(2);
+	}
 }
 
 void Player::OnTrigger2DEnter(Collider2D* other)
