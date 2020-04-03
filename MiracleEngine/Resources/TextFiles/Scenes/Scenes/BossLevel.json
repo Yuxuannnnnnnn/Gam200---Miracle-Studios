@@ -1377,7 +1377,7 @@
       "IdentityComponent": true,
       "ObjectType": "Boss",
       "TransformComponent": true,
-      "Position": [ -74.00003051757813, -112.2955322265625, 1.0 ],
+      "Position": [ -75.00000762939453, -112.2955322265625, 1.0 ],
       "Scale": [ 1000.0, 1000.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
@@ -1655,15 +1655,10 @@
       "RigidBody2DComponent": true,
       "Static": true,
       "CircleCollider2DComponent": true,
-
       "Collider2D.C.Radius": 187.5,
       "HaveChild": true,
       "ChildObjects": [
         {
-          "IdentityComponent": true,
-          "ObjectType": "Laser_Blast",
-          "Name": "laser",
-          "LinkUId": 69,
           "BoxCollider2DComponent": true,
           "ColliderTypeId": 1,
           "ColliderTag": 0,
@@ -1671,12 +1666,16 @@
           "Collider2D.B.Center": [ 0.0, -440.0, 1.0 ],
           "Collider2D.B.Scale": [ 50.0, 3000.0, 1.0 ],
           "Collider2D.B.Angle": 0.0,
+          "IdentityComponent": true,
+          "ObjectType": "Laser_Blast",
+          "Name": "laser",
+          "LinkUId": 69,
           "TransformComponent": true,
-          "Position": [ -9.000053405761719, -914.4056396484375, 1.0 ],
+          "Position": [ -0.0000457763671875, -1095.0003662109376, 1.0 ],
           "Scale": [ 0.20000103116035462, 2.0000078678131105, 1.0 ],
           "Rotate": 0.0,
-          "PivotPosition": [ 0.00020599365234375, 732.2823486328125, 1.0 ],
-          "GraphicsComponent": true,
+          "PivotPosition": [ 0.000244140625, 732.2823486328125, 1.0 ],
+          "GraphicsComponent": false,
           "G.FileName": "laser_collider.png",
           "G.Shader": "DefaultShader",
           "G.Layer": 30,
@@ -1705,8 +1704,27 @@
           ],
           "StartAnim": "",
           "PlayAtCreation": true,
-
           "PlayInitLoop": false
+        },
+        {
+          "IdentityComponent": true,
+          "ObjectType": "Mouth",
+          "Name": "mouth",
+          "LinkUId": 70,
+          "TransformComponent": true,
+          "Position": [ -2.000213623046875, -169.44564819335938, 1.0 ],
+          "Scale": [ 0.17399999499320985, 0.09000000357627869, 1.0 ],
+          "Rotate": 0.0,
+          "PivotPosition": [ 0.0000152587890625, -0.000335693359375, 1.0 ],
+          "GraphicsComponent": true,
+          "G.FileName": "Laser_Blasting_top_teeth.png",
+          "G.Shader": "",
+          "G.Layer": 31,
+          "_hasAlpha": true,
+          "_hasAdjustableAlpha": false,
+          "_alphaVal": 1.0,
+          "_isFadingOut": false,
+          "_isFlickering": false
         }
       ]
     }

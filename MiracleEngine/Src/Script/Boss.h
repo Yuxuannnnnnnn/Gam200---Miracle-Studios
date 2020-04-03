@@ -114,6 +114,7 @@ private:
 	std::vector<std::string> _CurrOtherAnimChain;
 	AnimationComponent* _laserAnimation;
 	GraphicComponent* _laserGraphic;
+	GraphicComponent* _mouthGraphic;
 	BoxCollider2DComponent* _laserCollider;
 
 public:
