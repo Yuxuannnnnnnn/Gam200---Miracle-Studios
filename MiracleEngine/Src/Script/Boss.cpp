@@ -48,6 +48,8 @@ void Boss::Init()
 	_laserGraphic = GetComponentObject(GetLinkObject(69), Graphic);
 	_laserGraphic->SetEnable(false);
 	_laserCollider = GetComponentObject(GetLinkObject(69), BoxCollider2D);
+	_mouthGraphic = GetComponentObject(GetLinkObject(70), Graphic);
+	_mouthGraphic->SetEnable(false);
 
 	for (auto itr : _engineSystems._factory->getObjectlist())
 	{
@@ -355,6 +357,11 @@ void Boss::Death()
 				}
 			//((Enemy*)itr.second)->ForceDeath();// ((Enemy*)itr.second)->SetHealth(-1);
 		}
+
+		// disable the child displays
+		_laserGraphic->SetEnable(false);
+		_laserCollider->SetEnable(false);
+		_mouthGraphic->SetEnable(false);
 
 		if (_stateNext == (int)Boss_State::SPIN_SHOOTBULLET ||
 			_statePrev == (int)Boss_State::SPIN_SHOOTBULLET ||
