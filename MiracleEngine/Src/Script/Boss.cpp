@@ -137,6 +137,14 @@ bool Boss::PlayOtherAnimChain()
 	if (_laserAnimation->IsAnimationPlaying())
 		return true;
 	else {
+		if (*_CurrOtherAnimChainItr == "End")
+		{
+			_laserGraphic->SetEnable(false);
+			_laserCollider->SetEnable(false);
+			_laserAnimation->SetAnimationPlaying(false);
+			return false;
+		}
+
 		if (++_CurrOtherAnimChainItr != _Laser.end()) // still got more in the chain
 		{
 			_laserAnimation->SetCurrentAnimOnce(*_CurrOtherAnimChainItr);
@@ -652,12 +660,12 @@ void Boss::LaserShoot()
 		_laserShootStart = false;
 		
 		// Change spawn bullet to change childlaser to play other anim, also enable the collider for it
-		subObj = CreateObject("BulletE");
-		((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-		((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
-			((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-		AddForwardForce(subObj->Get_uID(), -70000);
+	//	subObj = CreateObject("BulletE");
+	//	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
+	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+	//	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
+	//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+	//	AddForwardForce(subObj->Get_uID(), -70000);
 
 		return;
 	}
@@ -665,12 +673,12 @@ void Boss::LaserShoot()
 	laserAliveTimer -= _dt;
 
 // REMOVE THIS SECTION, THIS ONLY FOR TESTING OF THE LASER SHOOT TIMER WORKING PROPERLY
-	subObj = CreateObject("BulletE");
-	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
-		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
-	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
-		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
-	AddForwardForce(subObj->Get_uID(), -70000);
+//	subObj = CreateObject("BulletE");
+//	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetPos(
+//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetPos());
+//	((TransformComponent*)subObj->GetComponent(ComponentId::CT_Transform))->SetRotate(
+//		((TransformComponent*)(GetSibilingComponent(ComponentId::CT_Transform)))->GetRotate());
+//	AddForwardForce(subObj->Get_uID(), -70000);
 
 
 	// LaserShoot() COMPLETE // _state=LASER_SHOOT_END cause need TRANSOFRM back to IDLE
