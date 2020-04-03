@@ -307,7 +307,8 @@ void Boss::Idle()
 	//		_state = _stateNext = (int)Boss_State::IDLE_RAGE;
 	//	}
 	//	else
-			_state = (int)Boss_State::LASER_CHARGE;
+		_laserChargeStart = true;
+		_state = (int)Boss_State::LASER_CHARGE;
 	}
 }
 void Boss::IdleRage()
@@ -553,9 +554,12 @@ void Boss::LookAtPlayer()
 void Boss::LaserCharge(double speedup)
 {
 	// check if this is first LaserCharge()
-	if (_statePrev == (int)Boss_State::IDLE_END)
+	if (_laserChargeStart)
 	{
 		PlayAnimChain(_LaserCharge);
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("LaserCharging");
+		_laserChargeStart = false;
 		// enable to child objects
 			// make laser play 'Laser_blast_start_sprite"
 	}
@@ -667,6 +671,9 @@ void Boss::LaserShoot()
 		PlayOtherAnimChain();
 		_laserShootStart = false;
 		_mouthGraphic->SetEnable(true);
+
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("LaserShooting");
 
 		return;
 	}
