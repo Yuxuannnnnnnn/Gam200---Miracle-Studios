@@ -370,12 +370,12 @@ bool Window::CheckWindowActive()
 	{
 		if (mainHWND == GetForegroundWindow())
 		{
-			printf("Mine window is active\n");
+			//printf("Mine window is active\n");
 			return true;
 		}
 		else
 		{
-			printf("Mine window is not active\n");
+			//printf("Mine window is not active\n");
 			WinMinimize();
 			return false;
 		}
