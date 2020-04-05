@@ -1636,7 +1636,7 @@
         },
         {
           "SFXName": "LaserShooting",
-          "fileName": "BlastSound.wav",
+          "fileName": "LaserFiring.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
