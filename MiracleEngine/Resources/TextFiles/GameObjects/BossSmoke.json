@@ -10,17 +10,17 @@
   "GraphicsComponent": true,
   "G.FileName": "Crack_3.png",
   "G.Shader": "DefaultShader",
-  "G.Layer": 29,
+  "G.Layer": 19,
   "_hasAlpha": true,
   "AnimationComponent": true,
   "AnimationTypes": [
     {
       "AnimationType": "Boss_Trigger_Smoke_sprite.json",
-      "TimeDelay": 0.001,
+      "TimeDelay": 0.05000000074505806,
       "AnimationName": "Smoke"
     }
   ],
   "PlayAtCreation": true,
-  "PlayInitLoop": false,
+  "PlayInitLoop": true,
   "StartAnim":"Smoke"
 }

@@ -16,7 +16,7 @@
   "AnimationTypes": [
     {
       "AnimationType": "Character_Impact_spark_sprite.json",
-      "TimeDelay": 0.001,
+      "TimeDelay": 0.05000000074505806,
       "AnimationName": "Spark"
     }
   ],

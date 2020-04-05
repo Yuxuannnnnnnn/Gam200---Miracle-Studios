@@ -25,7 +25,7 @@ Boss::Boss() :
 	_state{ (int)Boss_State::STARTUP }, _statePrev{ (int)Boss_State::STARTUP }, _stateNext{ (int)Boss_State::STARTUP },
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },
 	_init{ false }, _healthHalfStart{ false }, _healthHalfEnd{ false }, _deathStart{ false },
-	_transforming{ false }, _redTint{ false }, _justHit{ false },
+	_transforming{ false }, _redTint{ false }, _justHit{ false }, _subObjAnimDone{ false },
 
 	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 },
 	_HealthController{ nullptr },
@@ -64,14 +64,28 @@ void Boss::Init()
 			break;
 		}
 	}
+
+	for (auto itr : _engineSystems._factory->getObjectlist())
+	{
+		if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("BossHolder") == 0)
+		{
+			subObj = itr.second;
+			subObjId = itr.second->Get_uID();
+			GetComponentObject(subObj, Animation)->SetCurrentAnimOnce("Transform");
+			break;
+		}
+	}
+
 	_healthHalf = _healthMax / 2;
 	_healthQuart = _healthMax / 4;
 	_CurrAnimChain = _StartUp;
 	_CurrAnimChainItr = _CurrAnimChain.begin();
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnimOnce("StartUp1");
+	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetAnimationPlaying(false);
+
 	AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 	audcom->PlaySFX("StartUp");
-	MyAudioSystem.PlayBGM("MusicBGM1", 1.0f); // ask YX where she grab this from
+	MyAudioSystem.PlayBGM("MusicBGM1", 1.0f);
 
 	_HealthController = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_healthControllerLinkId), Logic), BossHealthController);
 
@@ -287,6 +301,25 @@ void Boss::RunState()
 
 void Boss::StartUp()
 {
+	if (startUpTimer > 0)
+	{
+		startUpTimer -= _dt;
+		return;
+	}
+	// check if bossHolder done animating
+	if (!_subObjAnimDone)
+	{
+		if (!subObj)
+			std::cout << "subObj is nullptr\n";
+		if (!GetComponentObject(subObj, Animation)->IsAnimationPlaying())
+		{
+			_subObjAnimDone = true;
+			PlayAnimChain(_StartUp, true);
+			subObj = nullptr;
+		}
+		return;
+	}
+
 	// on anim end, check if got somemore anim to play, else go to next state
 	if (!PlayAnimChain(_StartUp))
 		_state = (int)Boss_State::IDLE;

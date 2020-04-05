@@ -1379,7 +1379,7 @@
       "IdentityComponent": true,
       "ObjectType": "Boss",
       "TransformComponent": true,
-      "Position": [ -75.00000762939453, -112.2955322265625, 1.0 ],
+      "Position": [ -69.30738830566406, -112.2955322265625, 1.0 ],
       "Scale": [ 1000.0, 1000.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
@@ -1733,6 +1733,39 @@
           "_alphaVal": 1.0,
           "_isFadingOut": false,
           "_isFlickering": false
+        }
+      ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "BossHolder",
+      "TransformComponent": true,
+      "Position": [ -83.49131774902344, -97.10515594482422, 1.0 ],
+      "Scale": [ 650.0, 650.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "Boss_holder_animation_sprite.json",
+          "TimeDelay": 0.05000000074505806,
+          "AnimationName": "Transform"
+        }
+      ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "BossSmoke",
+      "TransformComponent": true,
+      "Position": [ 154.7312469482422, -391.38226318359377, 1.0 ],
+      "Scale": [ 300.0, 700.001220703125, 1.0 ],
+      "Rotate": -2.356194496154785,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "Boss_Trigger_Smoke_sprite.json",
+          "TimeDelay": 0.05000000074505806,
+          "AnimationName": "Smoke"
         }
       ]
     }
