@@ -21,6 +21,6 @@
     }
   ],
   "PlayAtCreation": true,
-  "PlayInitLoop": true,
+  "PlayInitLoop": false,
   "StartAnim":"Smoke"
 }

@@ -15,7 +15,7 @@
   "Scripts": [
     {
       "Script2Id": "Boss",
-      "StartDuration": 3.0,
+      "StartDuration": 5.0,
       "Health": 23,
       "IdleDuration": 2.0,
       "AmmoPerSpin": 25,
@@ -24,7 +24,7 @@
       "RotationSpeed": 0.7,
       "ChargeDuration": 3.0,
       "FlashDuration": 0.5,
-      "LaserAliveDuration": 7.0,
+      "LaserAliveDuration": 6.5,
       "RapidFireNumOfShots": 5,
       "RapidFireChargeSpeedUp": 2.0,
       "HealthControllerLinkId": 616
