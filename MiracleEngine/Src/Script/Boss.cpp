@@ -321,6 +321,7 @@ void Boss::StartUp()
 		{
 			_subObjAnimDone = true;
 			GetComponentObject(subObj, Graphic)->SetFileName("Boss_holder_animation_sprite_end.png");
+			((GraphicComponent*)this->GetSibilingComponent(ComponentId::CT_Graphic))->SetFileName("Laser_Blasting.png");
 			PlayAnimChain(_StartUp, true);
 			subObj = nullptr;
 		}
