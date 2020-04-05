@@ -97,7 +97,7 @@ private:
 	int _state, _statePrev, _stateNext;
 	bool _laserChargeStart, _laserFlashStart, _laserShootStart;
 	bool _init, _healthHalfStart, _healthHalfEnd, _deathStart,
-		_transforming, _redTint, _justHit, _subObjAnimDone;
+		_transforming, _redTint, _justHit, _subObjAnimStart, _subObjAnimDone;
 
 	GameObject* playerPtr, *subObj;
 	int playerId, subObjId;

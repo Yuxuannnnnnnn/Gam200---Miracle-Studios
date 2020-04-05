@@ -25,7 +25,7 @@ Boss::Boss() :
 	_state{ (int)Boss_State::STARTUP }, _statePrev{ (int)Boss_State::STARTUP }, _stateNext{ (int)Boss_State::STARTUP },
 	_laserChargeStart{ false }, _laserFlashStart{ false }, _laserShootStart{ false },
 	_init{ false }, _healthHalfStart{ false }, _healthHalfEnd{ false }, _deathStart{ false },
-	_transforming{ false }, _redTint{ false }, _justHit{ false }, _subObjAnimDone{ false },
+	_transforming{ false }, _redTint{ false }, _justHit{ false }, _subObjAnimStart{ false }, _subObjAnimDone{ false },
 
 	playerId{ 0 }, playerPtr{ nullptr }, subObj{ nullptr }, _dt{ 0.0 },
 	_HealthController{ nullptr },
@@ -71,7 +71,6 @@ void Boss::Init()
 		{
 			subObj = itr.second;
 			subObjId = itr.second->Get_uID();
-			GetComponentObject(subObj, Animation)->SetCurrentAnimOnce("Transform");
 			break;
 		}
 	}
@@ -304,6 +303,13 @@ void Boss::StartUp()
 	if (startUpTimer > 0)
 	{
 		startUpTimer -= _dt;
+		_subObjAnimStart = true;
+		return;
+	}
+	if (_subObjAnimStart)
+	{
+		GetComponentObject(subObj, Animation)->SetCurrentAnimOnce("Transform");
+		_subObjAnimStart = false;
 		return;
 	}
 	// check if bossHolder done animating
@@ -314,6 +320,7 @@ void Boss::StartUp()
 		if (!GetComponentObject(subObj, Animation)->IsAnimationPlaying())
 		{
 			_subObjAnimDone = true;
+			GetComponentObject(subObj, Graphic)->SetFileName("Boss_holder_animation_sprite_end.png");
 			PlayAnimChain(_StartUp, true);
 			subObj = nullptr;
 		}

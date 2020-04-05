@@ -1747,7 +1747,7 @@
       "AnimationTypes": [
         {
           "AnimationType": "Boss_holder_animation_sprite.json",
-          "TimeDelay": 0.0010000000474974514,
+          "TimeDelay": 0.05000000074505806,
           "AnimationName": "Transform"
         }
       ]
@@ -1757,11 +1757,11 @@
       "ObjectType": "BossSmoke",
       "TransformComponent": true,
       "Position": [ 156.05226135253907, -348.1684265136719, 1.0 ],
-      "Scale": [ 299.9997253417969, 399.99981689453127, 1.0 ],
+      "Scale": [ 400.0, 400.0, 1.0 ],
       "Rotate": 0.7853981852531433,
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
-      "G.FileName": "catidle.png",
+      "G.FileName": "empty.png",
       "AnimationComponent": true,
       "AnimationTypes": [
         {
@@ -1776,11 +1776,11 @@
       "ObjectType": "BossSmoke",
       "TransformComponent": true,
       "Position": [ 153.60537719726563, 116.44884490966797, 1.0 ],
-      "Scale": [ 299.9997253417969, 399.9999694824219, 1.0 ],
+      "Scale": [ 400.0, 400.0, 1.0 ],
       "Rotate": 2.356194496154785,
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
-      "G.FileName": "catidle.png",
+      "G.FileName": "empty.png",
       "AnimationComponent": true,
       "AnimationTypes": [
         {
@@ -1795,11 +1795,11 @@
       "ObjectType": "BossSmoke",
       "TransformComponent": true,
       "Position": [ -299.0762023925781, 116.448974609375, 1.0 ],
-      "Scale": [ 299.9997863769531, 400.0001220703125, 1.0 ],
+      "Scale": [ 400.0, 400.0, 1.0 ],
       "Rotate": -2.356194496154785,
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
-      "G.FileName": "catidle.png",
+      "G.FileName": "empty.png",
       "AnimationComponent": true,
       "AnimationTypes": [
         {
@@ -1814,11 +1814,11 @@
       "ObjectType": "BossSmoke",
       "TransformComponent": true,
       "Position": [ -299.0005187988281, -345.8023986816406, 1.0 ],
-      "Scale": [ 299.9997253417969, 399.99981689453127, 1.0 ],
+      "Scale": [ 400.0, 400.0, 1.0 ],
       "Rotate": -0.7853981852531433,
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "GraphicsComponent": true,
-      "G.FileName": "catidle.png",
+      "G.FileName": "empty.png",
       "AnimationComponent": true,
       "AnimationTypes": [
         {
