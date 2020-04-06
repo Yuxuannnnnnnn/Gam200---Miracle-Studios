@@ -5,7 +5,7 @@
   "LinkUId": 0,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
-  "Scale": [ 300.0,300.0, 1.0 ],
+  "Scale": [ 400.0,400.0, 1.0 ],
   "Rotate": 0.0,
   "GraphicsComponent": true,
   "G.FileName": "empty.png",
@@ -16,7 +16,7 @@
   "AnimationTypes": [
     {
       "AnimationType": "Healing_sparkles_sprite.json",
-      "TimeDelay": 0.05000000074505806,
+      "TimeDelay": 0.02,
       "AnimationName": "Heal"
     }
   ],

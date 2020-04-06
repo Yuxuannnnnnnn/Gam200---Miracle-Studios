@@ -372,6 +372,8 @@ Player::Player() :
 	_dt{ 0.0 }, hitTintTimer{ 0.0 }, hitTintDuration{ 0.3 },
 	_redTint{ false }, _justHit{ false },
 
+	_healingSparkle{ nullptr }, _hitSpark{ nullptr },
+
 	_moving{ false },
 	_animState{ 0 }, _animStatePrev{ 0 },
 	_muzzleTransfrom{ nullptr },
@@ -415,6 +417,8 @@ void Player::Init()
 			break;
 		}
 	}
+
+	_healingSparkle = CreateObject("HealingEffect");
 
 	_timerShieldActivateCooldown = 0;
 	MyAudioSystem.PlayBGM("Level1", 1.0f);
@@ -476,6 +480,8 @@ void Player::Update(double dt)
 	UpdateShield(dt);
 
 	OnHit();
+	// set healing sprite to always follow player
+	GetComponentObject(_healingSparkle, Transform)->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
 
 	// anim updating related logic
 	_animState = _moving ? 1 : 2;
@@ -972,6 +978,14 @@ void Player::OnCollision2DTrigger(Collider2D* other)
 	}
 	if (!otherType.compare("Enemy"))
 	{
+		GameObject* Spark = CreateObject("ImpactSparkCharacter");
+		TransformComponent* trans = GetComponentObject(Spark, Transform);
+		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		trans->SetScaleA({ 300, 300, 1 });
+		trans->SetRotationA(
+			GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+
 		DamagePlayer(2);
 	}
 }
@@ -984,12 +998,7 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	{
 		other->GetParentPtr()->SetDestory();
 
-		GameObject* Spark = CreateObject("HealingEffect");
-		TransformComponent* trans = GetComponentObject(Spark, Transform);
-		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
-		trans->SetScaleA({ 400, 400, 1 });
-		trans->SetRotationA(GetSibilingComponentObject(Transform)->GetRotationA());
-		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Heal");
+		GetComponentObject(_healingSparkle, Animation)->SetCurrentAnimOnce("Heal");
 
 		if (_god)
 			return;
