@@ -29,6 +29,12 @@ private:
 	bool _deathStart, _redTint, _justHit;
 	bool _charging, _chargingStart;
 	int _animState, _animStatePrev;
+
+	GameObject* _hitSpark;
+
+
+
+
 // Logic - Pathfinding
 	GameObject* _target;
 	int _state;	
