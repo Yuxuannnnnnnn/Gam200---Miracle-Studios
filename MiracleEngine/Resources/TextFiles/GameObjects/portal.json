@@ -36,7 +36,7 @@
       "E.CameraLinkId": 35123,
       "E.PanningPosition": [ 3047.998291015625, -154.0018768310547, 1.0 ],
       "E.panningSpeed": 33.0,
-      "E.panningWaitTime":  2
+      "E.panningWaitTime":  2.0
     }
 	]
 }

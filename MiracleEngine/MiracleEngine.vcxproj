@@ -599,6 +599,7 @@
     <ClInclude Include="Src\Script\HitEffect.h" />
     <ClInclude Include="Src\Script\LoadingScreen.h" />
     <ClInclude Include="Src\Script\MouseCursor.h" />
+    <ClInclude Include="Src\Script\OptionScript.h" />
     <ClInclude Include="Src\Script\PauseMenu.h" />
     <ClInclude Include="Src\Script\PickUps.h" />
     <ClInclude Include="Src\Script\Player.h" />
@@ -781,6 +782,7 @@
     <ClCompile Include="Src\Script\HitEffect.cpp" />
     <ClCompile Include="Src\Script\LoadingScreen.cpp" />
     <ClCompile Include="Src\Script\MouseCursor.cpp" />
+    <ClCompile Include="Src\Script\OptionScript.cpp" />
     <ClCompile Include="Src\Script\PauseMenu.cpp" />
     <ClCompile Include="Src\Script\PickUps.cpp" />
     <ClCompile Include="Src\Script\Player.cpp" />

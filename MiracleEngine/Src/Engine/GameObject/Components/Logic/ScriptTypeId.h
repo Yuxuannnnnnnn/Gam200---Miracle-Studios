@@ -19,7 +19,8 @@ F(SCRIPT_RegisterLink),			 \
 F(SCRIPT_SplashScreen),			 \
 F(SCRIPT_Boss),					 \
 F(SCRIPT_LoadingScreen),		 \
-F(SCRIPT_BossHealthController)
+F(SCRIPT_BossHealthController),\
+F(SCRIPT_OptionScript)
 
 
 // Create the Enums

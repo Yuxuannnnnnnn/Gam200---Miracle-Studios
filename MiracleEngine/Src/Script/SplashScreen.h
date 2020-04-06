@@ -5,7 +5,12 @@
 class SplashScreen : public IScript2
 {
 private:
-	double _ScreenDuration;
+	std::vector<int> _splashObjectLinkId;
+	std::vector<GameObject*> _splashObject;
+	std::vector<float> _splashObjectDuration;
+
+	int _totalSplash;
+	int _currSplash;
 	double _timer;
 public:
 	void SerialiseComponent(Serialiser& document);

@@ -45,14 +45,13 @@ void Engine::Update()
 
 		if (!MyWindowsSystem.getWindow().CheckWindowActive()) //Window is not active
 		{
-			//MyFactory.UpdateScene();
-			//MyEventHandler.BroadcastWindowEvents();
-
 			double dt = MyFrameRateController.UpdateFrameTime();
 			double fixedDt = MyFrameRateController.GetLockedDt();
 			int accumlatedframes = MyFrameRateController.GetSteps();
 
 			MyAudioSystem.Update();
+			::SwapBuffers(MyWindowsSystem.getWindow().get_m_windowDC()); 		// swap double buffer at the end
+
 		}
 		else //Window is active
 		{
