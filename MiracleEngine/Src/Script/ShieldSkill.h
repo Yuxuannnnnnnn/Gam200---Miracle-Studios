@@ -8,10 +8,14 @@ private:
 	double _timer;
 	double _animTimer;
 
+	double _cooldownTime;
+
 	AnimationComponent* _animation;
 	TransformComponent* _obj;
 	TransformComponent* _player;
 	AudioComponent* _audcom;
+
+	IScript2* _healthController;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
@@ -29,6 +33,6 @@ public:
 	void LoadResource();
 	void Update(double dt);
 
-	void ActionShield(double skilltimer);
+	void ActionShield(double skilltimer, double cooldown);
 };
 

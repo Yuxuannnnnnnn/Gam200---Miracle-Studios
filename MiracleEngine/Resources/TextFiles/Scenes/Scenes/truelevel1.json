@@ -9,6 +9,10 @@
   "Objects": [
     {
       "IdentityComponent": true,
+      "ObjectType": "HealthController"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "portal",
       "BoxCollider2DComponent": true,
       "Collider2D.B.Center": [ 0.0, 86.61399841308594, 1.0 ],
@@ -3981,14 +3985,6 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "HealthController",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "LogicComponent": true,
-      "Scripts": [ {} ]
     },
     {
       "IdentityComponent": true,

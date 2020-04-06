@@ -607,6 +607,7 @@
     <ClInclude Include="Src\Script\Spawner.h" />
     <ClInclude Include="Src\Script\SplashScreen.h" />
     <ClInclude Include="Src\Script\Turret.h" />
+    <ClInclude Include="Src\Script\WeaponTabs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Engine\Editor\AnimationImguiWindow.cpp" />
@@ -790,6 +791,7 @@
     <ClCompile Include="Src\Script\Spawner.cpp" />
     <ClCompile Include="Src\Script\SplashScreen.cpp" />
     <ClCompile Include="Src\Script\Turret.cpp" />
+    <ClCompile Include="Src\Script\WeaponTabs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\MiracleEngine.rc" />

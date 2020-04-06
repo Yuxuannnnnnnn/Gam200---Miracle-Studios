@@ -27,6 +27,13 @@ void HealthController::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("H.RedFileName") && document["H.RedFileName"].IsString())
 		_redHealthFileName = document["H.RedFileName"].GetString();
+
+	if (document.HasMember("H.progressBarYellow") && document["H.progressBarYellow"].IsString())
+		_progressBarYellow = document["H.progressBarYellow"].GetString();
+
+	if (document.HasMember("H.progressBarBlue") && document["H.progressBarBlue"].IsString())
+		_progressBarBlue = document["H.progressBarBlue"].GetString();
+
 }
 
 //No Need this function 
@@ -291,7 +298,6 @@ HealthController::HealthController() :
 	_greenHealthFileName{},
 	_orangeHealthFileName{},
 	_redHealthFileName{},
-	_progressPercent{ 0.f },
 	_maxProgressScale{0.f},
 	_progressBarLinkID{ 0 },
 	_maxHealth{ 0 },
@@ -313,10 +319,17 @@ void HealthController::Init()
 	for (unsigned i = 0; i < _hpBattery.size(); i++)
 		_hpBatteryGraphic.push_back((UIComponent*)_hpBattery[i]->GetComponent(ComponentId::CT_UI));
 
-	_progressBar = (TransformComponent*)MyFactory.GetLinkIDObject(_progressBarLinkID)->GetComponent(ComponentId::CT_Transform);
+	GameObject* progressBar = GetLinkObject(_progressBarLinkID);
+
+	_progressBar = GetComponentObject(progressBar, Transform);
+	_progressBarUI = GetComponentObject(progressBar, UI);
+	_progressBarUI->SetFileName(_progressBarBlue);
 
 	_currHealth = _maxHealth;
 	_currColor = 3;
+
+	_progressCharge = false;
+	_progressUse = false;
 }
 
 void HealthController::LoadResource()
@@ -325,21 +338,27 @@ void HealthController::LoadResource()
 	MyResourceManager.AddNewTexture2DResource({ _greenHealthFileName, MyResourceSystem.GetTexture2DResourcePath(_greenHealthFileName) });
 	MyResourceManager.AddNewTexture2DResource({ _orangeHealthFileName, MyResourceSystem.GetTexture2DResourcePath(_orangeHealthFileName) });
 	MyResourceManager.AddNewTexture2DResource({ _redHealthFileName, MyResourceSystem.GetTexture2DResourcePath(_redHealthFileName) });
+	MyResourceManager.AddNewTexture2DResource({ _progressBarYellow, MyResourceSystem.GetTexture2DResourcePath(_progressBarYellow) });
+	MyResourceManager.AddNewTexture2DResource({ _progressBarBlue, MyResourceSystem.GetTexture2DResourcePath(_progressBarBlue) });
 #endif
 }
 
 void HealthController::Update(double dt)
 {
-	/*if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_O))
-		DecreaseHealth();
+	if (dt < 0)
+		return;
 
-	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_I))
-		IncreaseHealth();
+	if (_progressCharge)
+	{
+		_progressCurrTime += dt;
+		UpdateProgressBar();
+	}
 
-
-	if (EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_U))
-		IncreaseEXP();*/
-
+	if (_progressUse)
+	{
+		_progressCurrTime -= dt;
+		UpdateProgressBar();
+	}
 }
 
 void HealthController::DecreaseHealth(int hit)
@@ -415,17 +434,53 @@ void HealthController::UpdateHealthColor()
 	}
 }
 
-void HealthController::IncreaseEXP(float exp)
+void HealthController::UseShield(float time)
 {
-	_progressPercent += exp;
-
-	if (_progressPercent >= 1.f)
-		_progressPercent = 0.001f;
-
+	_progressTotalTime = time;
+	_progressCurrTime = time;
 	UpdateProgressBar();
+
+	_progressUse = true;
+}
+
+void HealthController::ChargeShield(float time)
+{
+	_progressTotalTime = time;
+	_progressCurrTime = 0.f;
+	UpdateProgressBar();
+	_progressBarUI->SetEnable(true);
+
+	_progressCharge = true;
 }
 
 void HealthController::UpdateProgressBar()
 {
-	_progressBar->SetScale(Vec3{ _progressPercent * _maxProgressScale, _progressBar->GetScale()._y, 1.f });
+	float temp = _progressCurrTime / _progressTotalTime;
+
+	if (_progressCharge)
+	{
+		if (temp > 1.0)
+		{
+			_progressBar->SetScale(Vec3{ _maxProgressScale, _progressBar->GetScale()._y, 1.f });
+			_progressBarUI->SetFileName(_progressBarBlue);
+
+			_progressCharge = false;
+		}
+		else
+			_progressBar->SetScale(Vec3{ temp * _maxProgressScale, _progressBar->GetScale()._y, 1.f });
+	}
+
+	if (_progressUse)
+	{
+		if (temp < 0.0)
+		{
+			_progressBarUI->SetFileName(_progressBarYellow);
+			_progressBarUI->SetEnable(false);
+
+			_progressUse = false;
+		}
+		else
+			_progressBar->SetScale(Vec3{ temp * _maxProgressScale, _progressBar->GetScale()._y, 1.f });
+	}
+	
 }

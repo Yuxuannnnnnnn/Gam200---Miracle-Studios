@@ -1,5 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "ShieldSkill.h"
+#include "Script/HealthController.h"
 
 void ShieldSkill::SerialiseComponent(Serialiser& document)
 {
@@ -43,6 +44,8 @@ void ShieldSkill::Init()
 	_audcom = GetSibilingComponentObject(Audio);
 	_player = GetComponentObject(GetLinkObject(999), Transform);
 	GetParentPtr()->SetEnable(false);
+
+	_healthController = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(919),Logic), HealthController);
 }
 
 void ShieldSkill::LoadResource()
@@ -69,15 +72,22 @@ void ShieldSkill::Update(double dt)
 		_animTimer -= dt;
 
 		if (_animTimer < 0)
+		{
+			((HealthController*)_healthController)->ChargeShield(_cooldownTime);
 			GetParentPtr()->SetEnable(false);
+		}
 	}
 	else
 		_timer -= dt;
 		
 }
 
-void ShieldSkill::ActionShield(double skilltimer)
+void ShieldSkill::ActionShield(double skilltimer, double cooldown)
 {
+	_cooldownTime = cooldown;
+
+	((HealthController*)_healthController)->UseShield(skilltimer);
+
 	GetParentPtr()->SetEnable(true);
 	_timer = skilltimer;
 	_animTimer = -1.f;
