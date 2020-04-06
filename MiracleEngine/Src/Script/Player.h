@@ -40,10 +40,12 @@ private:
 	bool _moving;
 	int _animState, _animStatePrev; // 1==StartMove, 2==StartIdle, 3==StartShoot, etc
 // Logic - DelayDeathForAnimation
-	double _timerDeath;
-	double _animTime;
-
+	double _timerDeath, _animTime;
+	bool _redTint, _justHit;
+	double _dt, hitTintTimer, hitTintDuration;
 	double _laserHitTimer, _laserHitDelay;
+
+	GameObject* _healingSparkle, *_hitSpark;
 
 	TransformComponent* _muzzleTransfrom;
 	AnimationComponent* _muzzleAnimation;
@@ -94,7 +96,9 @@ public:
 
 	void DamagePlayer(int dmg = 1);
 	void LaserPlayer();
+	void OnHit();
 
 	void OnTrigger2DEnter(Collider2D* other);
 	void OnCollision2DTrigger(Collider2D* other);
+	void OnTrigger2DStay(Collider2D* other);
 };

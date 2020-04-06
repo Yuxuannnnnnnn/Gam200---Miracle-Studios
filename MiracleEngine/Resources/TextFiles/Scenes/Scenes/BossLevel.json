@@ -9,6 +9,30 @@
   "Objects": [
     {
       "IdentityComponent": true,
+      "ObjectType": "LoadingScreen6"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText3"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText4"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingScreen7"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText2"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingCamera"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "none",
       "Name": "hp_16",
       "LinkUId": 216,
@@ -224,7 +248,7 @@
           "GraphicsComponent": true,
           "G.FileName": "Muzzle_Idle_2.png",
           "G.Shader": "",
-          "G.Layer": 14,
+          "G.Layer": 22,
           "_hasAlpha": true,
           "_hasAdjustableAlpha": false,
           "_alphaVal": 1.0,
@@ -778,22 +802,6 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingScreen",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "LogicComponent": true,
-      "Scripts": [ {} ],
-      "UIComponent": true,
-      "UI.FileName": "Loading_Screen_2.png"
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "LoadingText",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
-    },
-    {
-      "IdentityComponent": true,
       "ObjectType": "MouseCursor",
       "TransformComponent": true,
       "Position": [ -745.0, 390.0, 1.0 ],
@@ -1311,7 +1319,7 @@
           "E.ProgressCount": 0,
           "E.NextScene": "VictoryScene",
           "E.CurrScene": 3,
-          "E.LoadingLinkId": 0
+          "E.LoadingLinkId": 2310
         }
       ]
     },
@@ -1379,7 +1387,7 @@
       "IdentityComponent": true,
       "ObjectType": "Boss",
       "TransformComponent": true,
-      "Position": [ -75.00000762939453, -112.2955322265625, 1.0 ],
+      "Position": [ -69.30738830566406, -112.2955322265625, 1.0 ],
       "Scale": [ 1000.0, 1000.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
@@ -1636,7 +1644,7 @@
         },
         {
           "SFXName": "LaserShooting",
-          "fileName": "BlastSound.wav",
+          "fileName": "LaserFiring.wav",
           "volume": 0.23899999260902406,
           "NumOfloops": 0
         },
@@ -1669,13 +1677,13 @@
         {
           "BoxCollider2DComponent": false,
           "ColliderTypeId": 1,
-          "ColliderTag": 0,
+          "ColliderTag": 7,
           "ColliderTrigger": true,
           "Collider2D.B.Center": [ 0.0, 0.0, 1.0 ],
           "Collider2D.B.Scale": [ 50.0, 2000.0, 1.0 ],
           "Collider2D.B.Angle": 0.0,
           "IdentityComponent": true,
-          "ObjectType": "Laser_Blast",
+          "ObjectType": "LaserBlast",
           "Name": "laser",
           "LinkUId": 69,
           "TransformComponent": true,
@@ -1684,7 +1692,7 @@
           "Rotate": 0.0,
           "PivotPosition": [ 0.000244140625, 732.2823486328125, 1.0 ],
           "GraphicsComponent": false,
-          "G.FileName": "laser_collider.png",
+          "G.FileName": "empty.png",
           "G.Shader": "DefaultShader",
           "G.Layer": 30,
           "_hasAlpha": true,
@@ -1733,6 +1741,98 @@
           "_alphaVal": 1.0,
           "_isFadingOut": false,
           "_isFlickering": false
+        }
+      ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "BossHolder",
+      "TransformComponent": true,
+      "Position": [ -83.49131774902344, -97.10515594482422, 1.0 ],
+      "Scale": [ 650.0, 650.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "Boss_holder_animation_sprite.json",
+          "TimeDelay": 0.05000000074505806,
+          "AnimationName": "Transform"
+        }
+      ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "BossSmoke",
+      "TransformComponent": true,
+      "Position": [ 156.05226135253907, -348.1684265136719, 1.0 ],
+      "Scale": [ 400.0, 400.0, 1.0 ],
+      "Rotate": 0.7853981852531433,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "empty.png",
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "Boss_Trigger_Smoke_sprite.json",
+          "TimeDelay": 0.05000000074505806,
+          "AnimationName": "Smoke"
+        }
+      ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "BossSmoke",
+      "TransformComponent": true,
+      "Position": [ 153.60537719726563, 116.44884490966797, 1.0 ],
+      "Scale": [ 400.0, 400.0, 1.0 ],
+      "Rotate": 2.356194496154785,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "empty.png",
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "Boss_Trigger_Smoke_sprite.json",
+          "TimeDelay": 0.05000000074505806,
+          "AnimationName": "Smoke"
+        }
+      ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "BossSmoke",
+      "TransformComponent": true,
+      "Position": [ -299.0762023925781, 116.448974609375, 1.0 ],
+      "Scale": [ 400.0, 400.0, 1.0 ],
+      "Rotate": -2.356194496154785,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "empty.png",
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "Boss_Trigger_Smoke_sprite.json",
+          "TimeDelay": 0.05000000074505806,
+          "AnimationName": "Smoke"
+        }
+      ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "BossSmoke",
+      "TransformComponent": true,
+      "Position": [ -299.0005187988281, -345.8023986816406, 1.0 ],
+      "Scale": [ 400.0, 400.0, 1.0 ],
+      "Rotate": -0.7853981852531433,
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "empty.png",
+      "AnimationComponent": true,
+      "AnimationTypes": [
+        {
+          "AnimationType": "Boss_Trigger_Smoke_sprite.json",
+          "TimeDelay": 0.05000000074505806,
+          "AnimationName": "Smoke"
         }
       ]
     }

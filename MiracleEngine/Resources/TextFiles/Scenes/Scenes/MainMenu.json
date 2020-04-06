@@ -31,8 +31,15 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingScreen2",
-      "UIComponent": false
+      "ObjectType": "LoadingScreen1"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText1"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingCamera"
     },
     {
       "IdentityComponent": true,
@@ -205,7 +212,7 @@
       "Rotate": 18.375503540039064,
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
-      
+
       "Scripts": [ {} ]
     }
   ]

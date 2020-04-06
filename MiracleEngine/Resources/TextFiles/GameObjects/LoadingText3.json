@@ -1,0 +1,16 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "LoadingText3",
+  "Name": "Continue",
+  "LinkUId": 14259,
+  "TransformComponent": true,
+  "Position": [ 0.0, -450.0, 1.0 ],
+  "Scale": [ 735.0, 95.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "UIComponent": true,
+  "UI.FileName": "Press_Space_To_Continue_button_backpad.png",
+  "UI.Layer": 135,
+  "UI.HasAlpha": true
+
+}

@@ -9,6 +9,26 @@
   "Objects": [
     {
       "IdentityComponent": true,
+      "ObjectType": "LoadingScreen2"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText2"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingScreen3"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText1"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingCamera"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "Soil",
       "TransformComponent": true,
       "Position": [ 3675.2138671875, -1769.2305908203126, 1.0 ],
@@ -1890,17 +1910,7 @@
       "_isFadingOut": false,
       "_isFlickering": false
     },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "LoadingScreen",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "LogicComponent": true,
-      "Scripts": [ {} ],
-      "UIComponent": true,
-      "UI.FileName": "Loading_Screen_2.png",
-      "UI.Layer": 110
-    },
+
     {
       "IdentityComponent": true,
       "ObjectType": "Soil",
@@ -2103,12 +2113,6 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "LoadingText",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
@@ -4115,7 +4119,7 @@
           "GraphicsComponent": true,
           "G.FileName": "Muzzle_Idle_2.png",
           "G.Shader": "",
-          "G.Layer": 14,
+          "G.Layer": 22,
           "_hasAlpha": true,
           "_hasAdjustableAlpha": false,
           "_alphaVal": 1.0,
@@ -9769,7 +9773,7 @@
       "ObjectType": "grass2",
       "TransformComponent": true,
       "Position": [ 2296.95166015625, -455.511962890625, 1.0 ],
-      
+
       "PivotPosition": [ 0.0, 0.0, 0.0 ]
     }
   ]

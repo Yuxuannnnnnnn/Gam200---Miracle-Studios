@@ -1,0 +1,36 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "LoadingScreen7",
+  "Name": "End_loadingScreen",
+  "LinkUId": 2310,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 1920.0, 1080.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "GraphicsComponent": true,
+  "G.FileName": "Level2_Panel_4_Ending.png",
+  "G.Shader": "",
+  "G.Layer": 130,
+  "_hasAlpha": false,
+  "LogicComponent": true,
+  "Scripts": [
+    {
+      "Script2Id": "LoadingScreen",
+      "L.FileName": "Level2_Panel_4_Ending.png",
+      "L.LoadingTextLinkId": 14259,
+      "L.playerExist": false,
+      "L.secondImage": true,
+      "L.FileName2": "Level2_Panel_4_Ending_contrast.png",
+      "L.CameraLinkId": 35123,
+      "L.panning": true,
+      "L.startPosition": [ -300.0, -60.0, 1.0 ],
+      "L.endPosition": [ 0.0, 0.0, 1.0 ],
+      "L.startZoom": 1.5,
+      "L.endZoom": 1.0,
+      "L.panningSpeed": 66.0,
+      "L.loadingCompleted": false,
+      "L.victoryTextLinkId": 14269
+    }
+  ]
+}

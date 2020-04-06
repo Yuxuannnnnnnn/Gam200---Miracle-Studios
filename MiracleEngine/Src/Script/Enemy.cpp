@@ -107,6 +107,7 @@ void Enemy::LoadResource()
 	MyResourceManager.AddNewPrototypeResource({ "BulletE" , MyResourceSystem.GetPrototypeResourcePath("BulletE") });
 	MyResourceManager.AddNewPrototypeResource({ "PickUps_Health" , MyResourceSystem.GetPrototypeResourcePath("PickUps_Health") });
 	MyResourceManager.AddNewPrototypeResource({ "PickUps_Ammo" , MyResourceSystem.GetPrototypeResourcePath("PickUps_Ammo") });
+	MyResourceManager.AddNewPrototypeResource({ "ImpactSparkEnemy" , MyResourceSystem.GetPrototypeResourcePath("ImpactSparkEnemy") });
 #endif
 }
 
@@ -520,6 +521,14 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 		_justHit = true;
 		SetStunned();
 		AddForwardForce(GetParentId(), -150000);
+
+		GameObject* Spark = CreateObject("ImpactSparkEnemy");
+		TransformComponent* trans = GetComponentObject(Spark, Transform);
+		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		trans->SetScaleA({ 300, 300, 1 });
+		trans->SetRotationA(
+			GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
 	}
 	if (otherType.compare("Player") == 0 || otherType.compare("player") == 0 || otherType.compare("PlayerShield") == 0)
 	{

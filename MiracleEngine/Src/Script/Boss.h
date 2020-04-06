@@ -97,10 +97,10 @@ private:
 	int _state, _statePrev, _stateNext;
 	bool _laserChargeStart, _laserFlashStart, _laserShootStart;
 	bool _init, _healthHalfStart, _healthHalfEnd, _deathStart,
-		_transforming, _redTint, _justHit;
+		_transforming, _redTint, _justHit, _subObjAnimStart, _subObjAnimDone;
 
 	GameObject* playerPtr, *subObj;
-	int playerId;
+	int playerId, subObjId;
 	double _dt;
 
 	// AnimNames for when calling particualr animations
@@ -123,6 +123,7 @@ public:
 	Boss* Clone();
 
 	void Init();
+	void LoadResource();
 	void Update(double dt);
 
 	void UpdateState();

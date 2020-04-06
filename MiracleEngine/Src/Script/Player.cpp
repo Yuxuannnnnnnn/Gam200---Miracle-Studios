@@ -369,12 +369,17 @@ Player::Player() :
 
 	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 },
 
+	_dt{ 0.0 }, hitTintTimer{ 0.0 }, hitTintDuration{ 0.3 },
+	_redTint{ false }, _justHit{ false },
+
+	_healingSparkle{ nullptr }, _hitSpark{ nullptr },
+
 	_moving{ false },
 	_animState{ 0 }, _animStatePrev{ 0 },
 	_muzzleTransfrom{ nullptr },
 	_muzzleAnimation{ nullptr },
 	_animTime{ -1.0 },
-	_laserHitTimer{ 0.0 }, _laserHitDelay{ 2.0 },
+	_laserHitTimer{ 0.0 }, _laserHitDelay{ 1.0 },
 	_objTransfrom{ nullptr },
 	_healthBar{ nullptr },
 	_pauseMenu{ nullptr }
@@ -413,6 +418,9 @@ void Player::Init()
 		}
 	}
 
+	_healingSparkle = CreateObject("HealingEffect");
+	_hitSpark = CreateObject("ImpactSparkCharacter");
+
 	_timerShieldActivateCooldown = 0;
 	MyAudioSystem.PlayBGM("Level1", 1.0f);
 
@@ -429,6 +437,8 @@ void Player::LoadResource()
 	MyResourceManager.AddNewPrototypeResource({ "BulletT" , MyResourceSystem.GetPrototypeResourcePath("BulletT") });
 	MyResourceManager.AddNewPrototypeResource({ "Turret" , MyResourceSystem.GetPrototypeResourcePath("Turret") });
 	MyResourceManager.AddNewPrototypeResource({ "Wall" , MyResourceSystem.GetPrototypeResourcePath("Wall") });
+	MyResourceManager.AddNewPrototypeResource({ "HealingEffect" , MyResourceSystem.GetPrototypeResourcePath("HealingEffect") });
+	MyResourceManager.AddNewPrototypeResource({ "ImpactSparkCharacter" , MyResourceSystem.GetPrototypeResourcePath("ImpactSparkCharacter") });
 #endif
 }
 
@@ -437,6 +447,7 @@ void Player::Update(double dt)
 	if (dt < 0)
 		return;
 
+	_dt = dt;
 	if (_animTime > 0)
 	{
 		_animTime -= dt;
@@ -468,6 +479,11 @@ void Player::Update(double dt)
 	UpdateCamera();
 	UpdateUI();
 	UpdateShield(dt);
+
+	OnHit();
+	// set healing sprite to always follow player
+	GetComponentObject(_healingSparkle, Transform)->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+	GetComponentObject(_hitSpark, Transform)->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
 
 	// anim updating related logic
 	_animState = _moving ? 1 : 2;
@@ -635,7 +651,6 @@ void Player::UpdateInput(double dt)
 			_shieldOn = true;
 			_timerShieldActivateCooldown = _timerShieldDuration + _timerShieldCooldown;
 		}
-
 	}
 
 	// NUMBERS
@@ -730,7 +745,8 @@ void Player::UpdateShield(double dt)
 	//{
 		// cooldown countdown
 	_timerShieldActivateCooldown -= dt;
-
+	if (_timerShieldActivateCooldown < 0)
+		_shieldOn = false;
 }
 
 void Player::WeaponSwitch()
@@ -738,7 +754,7 @@ void Player::WeaponSwitch()
 	// reset switch delay timer
 	_timerSwitch = _timerSwitchDelay;
 	// loop available weapons 1,2,3,1,2,3...
-	(_weaponActive != 3) ? ++_weaponActive : _weaponActive = 1;
+	(_weaponActive != 2) ? ++_weaponActive : _weaponActive = 1;
 	// reset timer so can shoot immediately
 	_timerShoot = 0;
 }
@@ -877,7 +893,7 @@ void Player::DamagePlayer(int dmg)
 		((HealthController*)_healthBar)->DecreaseHealth(dmg);
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 		audcom->PlaySFX("GetHit");
-
+		_justHit = true;
 		_health -= dmg;
 
 		//std::string temp = "HitEffect";
@@ -888,37 +904,98 @@ void Player::DamagePlayer(int dmg)
 
 void Player::LaserPlayer()
 {
+	_laserHitTimer -= _dt;
 	if (_god)
+		return;
+	if (_shieldOn)
 		return;
 	else
 	{
 		if (_laserHitTimer < 0)
 		{
+			_justHit = true;
+			std::cout << "Player hit by laser";
 			_laserHitTimer = _laserHitDelay;
-
-			((HealthController*)_healthBar)->DecreaseHealth();
+			_health -= 1;
+			((HealthController*)_healthBar)->DecreaseHealth(1);
 			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 			audcom->PlaySFX("GetHit");
-			std::cout << "Player hit by laser";
-			_health -= 2;
+
+			//GameObject* Spark = CreateObject("ImpactSparkCharacter");
+			//TransformComponent* trans = GetComponentObject(Spark, Transform);
+			//trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+			//trans->SetScaleA({ 300, 300, 1 });
+			//trans->SetRotationA(GetSibilingComponentObject(Transform)->GetRotationA());
+			//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");			
+
+			GetComponentObject(_hitSpark, Transform)->SetRotationA(GetSibilingComponentObject(Transform)->GetRotationA());
+			GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
 		}
 	}
 }
+
+void Player::OnHit()
+{
+	if (_justHit)
+	{
+		_justHit = false;
+		//_health--;
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("Hit");
+		if (_redTint)
+			hitTintTimer = hitTintDuration;
+		else
+		{
+			_redTint = true;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.3, 0.3, 0.3, 0)); // set tint white
+		}
+	}
+	if (_redTint)
+	{
+		hitTintTimer -= _dt;
+		if (hitTintTimer > 0)
+			return;
+		else
+		{
+			_redTint = false;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0)); // set tint normal
+		}
+	}
+	else
+		hitTintTimer = hitTintDuration;
+}
+
 
 void Player::OnCollision2DTrigger(Collider2D* other)
 {
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (!otherType.compare("BulletE"))
 	{
+		//GameObject* Spark = CreateObject("ImpactSparkCharacter");
+		//TransformComponent* trans = GetComponentObject(Spark, Transform);
+		//trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		//trans->SetScaleA({ 300, 300, 1 });
+		//trans->SetRotationA(
+		//	GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Transform)->SetRotationA(GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
+
 		DamagePlayer();
 	}
 	if (!otherType.compare("Enemy"))
 	{
+		//GameObject* Spark = CreateObject("ImpactSparkCharacter");
+		//TransformComponent* trans = GetComponentObject(Spark, Transform);
+		//trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		//trans->SetScaleA({ 300, 300, 1 });
+		//trans->SetRotationA(
+		//	GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Transform)->SetRotationA(GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
+
 		DamagePlayer(2);
-	}
-	if (!otherType.compare("Laser_Blast"))
-	{
-		LaserPlayer();
 	}
 }
 
@@ -929,6 +1006,8 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	if (!otherType.compare("PickUps_Health"))
 	{
 		other->GetParentPtr()->SetDestory();
+
+		GetComponentObject(_healingSparkle, Animation)->SetCurrentAnimOnce("Spark");
 
 		if (_god)
 			return;
@@ -945,8 +1024,10 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		_ammoRpg += 5;
 		other->GetParentPtr()->SetDestory();
 	}
-
-
+	if (!otherType.compare("LaserBlast"))
+	{
+		LaserPlayer();
+	}
 
 	/*IdentityComponent* idCom = dynamic_cast <IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string id = idCom->ObjectType();
@@ -967,4 +1048,13 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		_ammoRpg += 5;
 		temp->DestoryThis();
 	}*/
+}
+
+void Player::OnTrigger2DStay(Collider2D* other)
+{
+	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+	if (!otherType.compare("LaserBlast"))
+	{
+		LaserPlayer();
+	}
 }
