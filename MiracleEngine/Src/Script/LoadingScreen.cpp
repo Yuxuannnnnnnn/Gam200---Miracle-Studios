@@ -121,8 +121,11 @@ void LoadingScreen::Init()
 
 	_cursorObj = GetLinkObject(9723);
 
-	if(_playerExist)
+	if (_playerExist)
+	{
 		_player = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(999), Logic), Player);
+		_playerCamera = GetComponentObject(GetLinkObject(999), Camera);
+	}
 
 	_camera = GetComponentObject(GetLinkObject(_panningCameraLinkId), Camera);
 	_cameraTransform = GetComponentObject(GetLinkObject(_panningCameraLinkId), Transform);
@@ -142,17 +145,11 @@ void LoadingScreen::Init()
 
 		if (_panning)
 		{ 
-			if(_playerExist)
-				_playerCamera = GetComponentObject(GetLinkObject(999), Camera);
-		
 			_camera->SetMainCamera(true);
 			_camera->_cameraZoom = _startZoom;
 			_cameraTransform->SetPos(_startPosition);
 
 			GetLinkObject(_LoadingTextLinkId)->SetEnable(false);
-
-			if(_victoryTextLinkId)
-				GetLinkObject(_victoryTextLinkId)->SetEnable(false);
 		}
 		else
 		{
@@ -167,6 +164,9 @@ void LoadingScreen::Init()
 		GetParentPtr()->SetEnable(false);
 		GetLinkObject(_LoadingTextLinkId)->SetEnable(false);
 	}
+
+	if (_victoryTextLinkId)
+		GetLinkObject(_victoryTextLinkId)->SetEnable(false);
 
 	_panningComleted = !_panning;
 }

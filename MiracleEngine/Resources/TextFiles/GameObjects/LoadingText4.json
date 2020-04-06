@@ -1,0 +1,16 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "LoadingText4",
+  "Name": "virtory",
+  "LinkUId": 14269,
+  "TransformComponent": true,
+  "Position": [ 250.0, 257.0, 1.0 ],
+  "Scale": [ 1000.0, 170.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "UIComponent": true,
+  "UI.FileName": "Victory_word_backpad.png",
+  "UI.Layer": 135,
+  "UI.HasAlpha": true
+
+}

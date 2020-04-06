@@ -9,19 +9,23 @@
   "Objects": [
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingScreen2"
+      "ObjectType": "LoadingScreen6"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText3"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText4"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingScreen7"
     },
     {
       "IdentityComponent": true,
       "ObjectType": "LoadingText2"
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "LoadingScreen3"
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "LoadingText1"
     },
     {
       "IdentityComponent": true,
@@ -1315,7 +1319,7 @@
           "E.ProgressCount": 0,
           "E.NextScene": "VictoryScene",
           "E.CurrScene": 3,
-          "E.LoadingLinkId": 0
+          "E.LoadingLinkId": 2310
         }
       ]
     },

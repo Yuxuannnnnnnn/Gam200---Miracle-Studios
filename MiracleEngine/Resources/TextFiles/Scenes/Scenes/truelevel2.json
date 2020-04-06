@@ -9,7 +9,7 @@
   "Objects": [
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingScreen2"
+      "ObjectType": "LoadingScreen4"
     },
     {
       "IdentityComponent": true,
@@ -17,7 +17,7 @@
     },
     {
       "IdentityComponent": true,
-      "ObjectType": "LoadingScreen3"
+      "ObjectType": "LoadingScreen5"
     },
     {
       "IdentityComponent": true,
