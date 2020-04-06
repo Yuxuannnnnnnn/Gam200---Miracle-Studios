@@ -1,0 +1,28 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "portal3",
+  "Name": "none",
+  "LinkUId": 1239,
+  "TransformComponent": true,
+  "Position": [ 1.0, 0.0, 1.0 ],
+  "Scale": [ 1.0, 1.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ -1.0, 0.0, 0.0 ],
+  "LogicComponent": true,
+  "Scripts": [
+    {
+      "Script2Id": "EntrancePortal",
+      "E.OpenEntranceFileName": "",
+      "E.CloseEntranceFileName": "",
+      "E.ProgressCount": 0,
+      "E.NextScene": "VictoryScene",
+      "E.CurrScene": 3,
+      "E.LoadingLinkId": 2310,
+
+      "E.panning": true,
+      "E.CameraLinkId": 35123,
+      "E.PanningPosition": [ 0.0, 0.0, 1.0 ],
+      "E.panningSpeed": 33.0
+    }
+  ]
+}

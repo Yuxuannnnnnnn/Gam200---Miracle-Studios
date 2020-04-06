@@ -17,8 +17,10 @@ Enemy::Enemy() :
 
 	_timerDeath{ 0.0 }, _dt{ 0.0 }, hitTintTimer{ 0.0 }, hitTintDuration{ 0.3 },
 	_deathStart{ false }, _redTint{ false }, _justHit{ false },
-	_charging{ false }, _chargingStart{false},
+	_charging{ false }, _chargingStart{ false },
 	_animState{ 1 }, _animStatePrev{ 1 },
+
+	_hitSpark{ nullptr },
 
 	_target{ nullptr },
 	_state{ 0 },
@@ -99,6 +101,9 @@ void Enemy::Init()
 	}
 	_animState = 1;
 	((AnimationComponent*)this->GetSibilingComponent(ComponentId::CT_Animation))->SetCurrentAnim("Move");
+
+	_hitSpark = CreateObject("ImpactSparkEnemy");
+	//GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
 }
 
 void Enemy::LoadResource()
@@ -149,6 +154,7 @@ void Enemy::Update(double dt)
 		}
 	}
 	OnHit();
+	GetComponentObject(_hitSpark, Transform)->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
 // stunned logic
 	if (_stunActivate && _health > 0)
 	{
@@ -522,13 +528,18 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 		SetStunned();
 		AddForwardForce(GetParentId(), -150000);
 
-		GameObject* Spark = CreateObject("ImpactSparkEnemy");
-		TransformComponent* trans = GetComponentObject(Spark, Transform);
-		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
-		trans->SetScaleA({ 300, 300, 1 });
-		trans->SetRotationA(
-			GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
-		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+		//GameObject* Spark = CreateObject("ImpactSparkEnemy");
+		//TransformComponent* trans = GetComponentObject(Spark, Transform);
+		//trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		//trans->SetScaleA({ 300, 300, 1 });
+		//trans->SetRotationA(
+		//	GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Transform)->SetRotationA(GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		
 	}
 	if (otherType.compare("Player") == 0 || otherType.compare("player") == 0 || otherType.compare("PlayerShield") == 0)
 	{

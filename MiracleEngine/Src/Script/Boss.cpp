@@ -875,7 +875,7 @@ void Boss::OnCollision2DTrigger(Collider2D* other)
 		trans->SetRotationA(
 			GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
 		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
-
+		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
 
 		_justHit = true; // used in OnHit()
 	}
