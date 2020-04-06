@@ -27,7 +27,7 @@
       "L.endPosition": [ 0.0, 0.0, 1.0 ],
       "L.startZoom": 2.0,
       "L.endZoom": 1.0,
-      "L.panningSpeed": 33.0,
+      "L.panningSpeed": 15.0,
       "L.loadingCompleted": false,
       "L.victoryTextLinkId": 0
     }

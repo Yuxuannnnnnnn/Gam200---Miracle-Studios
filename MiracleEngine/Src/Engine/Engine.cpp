@@ -45,9 +45,6 @@ void Engine::Update()
 
 		if (!MyWindowsSystem.getWindow().CheckWindowActive()) //Window is not active
 		{
-			//MyFactory.UpdateScene();
-			//MyEventHandler.BroadcastWindowEvents();
-
 			double dt = MyFrameRateController.UpdateFrameTime();
 			double fixedDt = MyFrameRateController.GetLockedDt();
 			int accumlatedframes = MyFrameRateController.GetSteps();

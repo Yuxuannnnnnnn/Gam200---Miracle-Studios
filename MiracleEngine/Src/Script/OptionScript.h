@@ -1,8 +1,8 @@
-#pragma once
-#include "GameObject/Components/Logic/IScript.h"
 
 #ifndef OPTIONSCRIPT_H
 #define	OPTIONSCRIPT_H
+
+#include "GameObject/Components/Logic/IScript2.h"
 
 class OptionScript : public IScript2
 {
@@ -102,12 +102,22 @@ public:
 		//_adjustedMusic = _newMusc * _newMasterSound;
 		//_adjustedSFX = _newSFX * _newMasterSound;
 	}
+	OptionScript* Clone();
+
+	void SetNewFullscreen();
+	void IncreaseResolution();
+	void DecreaseResolution();
+	Vector3 DisplayNewResolution();
+	void IncreaseMasterSound();
+	void DecreaseMasterSound();
+	void IncreaseMusic();
+	void DecreaseMusic();
+	void IncreaseSFX();
+	void DecreaseSFX();
 
 
-
-
-
-
+	void ApplySettings();
+	void DiscardSettings();
 
 
 	void SerialiseComponent(Serialiser& document);
@@ -129,7 +139,7 @@ public:
 
 	// InUpEx
 	void Init();
-	void Update();
+	void Update(double dt);
 	void Exit();
 
 };

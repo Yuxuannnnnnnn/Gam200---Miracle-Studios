@@ -15,7 +15,7 @@
       "E.OpenEntranceFileName": "",
       "E.CloseEntranceFileName": "",
       "E.ProgressCount": 0,
-      "E.NextScene": "VictoryScene",
+      "E.NextScene": "CreditPage",
       "E.CurrScene": 3,
       "E.LoadingLinkId": 2310,
 

@@ -32,7 +32,8 @@ enum class ScriptId {
 	BULLET,
 	EXPLOSION,
 
-	BUTTON_UI,	
+	BUTTON_UI,
+	OPTIONSCRIPT,
 };
 
 class IScript : public IColliderHandler, public IMouseHandler, public IForce, public IComponent
