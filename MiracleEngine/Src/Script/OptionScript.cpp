@@ -1,7 +1,5 @@
 #include "PrecompiledHeaders.h"
-#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 #include "OptionScript.h"
-#include "Script/OptionScript.h"
 
 OptionScript::OptionScript() :
 	_currFullscreen{ false }, _newFullscreen{ false },
@@ -23,8 +21,10 @@ void OptionScript::SetNewFullscreen()
 }
 void OptionScript::IncreaseResolution()
 {
+	Index++;
+	if (Index > _allResolution.size())
+		Index = _allResolution.size();
 }
-
 void OptionScript::DecreaseResolution()
 {
 	Index--;

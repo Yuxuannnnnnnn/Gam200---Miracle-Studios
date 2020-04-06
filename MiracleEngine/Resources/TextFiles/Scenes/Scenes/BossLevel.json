@@ -9,6 +9,10 @@
   "Objects": [
     {
       "IdentityComponent": true,
+      "ObjectType": "HealthController"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "portal3"
     },
     {
@@ -369,14 +373,7 @@
       "BackgroundSoundList": [],
       "CircleCollider2DComponent": false
     },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "HealthController",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "LogicComponent": true,
-      "Scripts": [ {} ]
-    },
+
     {
       "IdentityComponent": true,
       "ObjectType": "none",
