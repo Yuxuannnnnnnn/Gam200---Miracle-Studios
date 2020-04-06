@@ -1,0 +1,14 @@
+{
+	"IdentityComponent": true,
+	"ObjectType": "BossHealthBattery",
+	"Name": "BossHPBattery",
+	"LinkUId": 0,
+	"TransformComponent": true,
+	"Position": [ 151.0, 395.0, 1.0 ],
+	"Scale": [ 50.0, 60.0, 1.0 ],
+	"PivotPosition": [ 0.0, 0.0, 0.0 ],
+	"UIComponent": true,
+	"UI.FileName": "HP_Bar_red.png",
+	"UI.Layer": 109,
+	"UI.HasAlpha": true
+}
