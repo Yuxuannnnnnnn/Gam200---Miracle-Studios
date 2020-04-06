@@ -107,6 +107,7 @@ void Enemy::LoadResource()
 	MyResourceManager.AddNewPrototypeResource({ "BulletE" , MyResourceSystem.GetPrototypeResourcePath("BulletE") });
 	MyResourceManager.AddNewPrototypeResource({ "PickUps_Health" , MyResourceSystem.GetPrototypeResourcePath("PickUps_Health") });
 	MyResourceManager.AddNewPrototypeResource({ "PickUps_Ammo" , MyResourceSystem.GetPrototypeResourcePath("PickUps_Ammo") });
+	MyResourceManager.AddNewPrototypeResource({ "ImpactSparkEnemy" , MyResourceSystem.GetPrototypeResourcePath("ImpactSparkEnemy") });
 #endif
 }
 

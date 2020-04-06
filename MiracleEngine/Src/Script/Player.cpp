@@ -432,6 +432,8 @@ void Player::LoadResource()
 	MyResourceManager.AddNewPrototypeResource({ "BulletT" , MyResourceSystem.GetPrototypeResourcePath("BulletT") });
 	MyResourceManager.AddNewPrototypeResource({ "Turret" , MyResourceSystem.GetPrototypeResourcePath("Turret") });
 	MyResourceManager.AddNewPrototypeResource({ "Wall" , MyResourceSystem.GetPrototypeResourcePath("Wall") });
+	MyResourceManager.AddNewPrototypeResource({ "HealingEffect" , MyResourceSystem.GetPrototypeResourcePath("HealingEffect") });
+	MyResourceManager.AddNewPrototypeResource({ "ImpactSparkCharacter" , MyResourceSystem.GetPrototypeResourcePath("ImpactSparkCharacter") });
 #endif
 }
 
@@ -981,6 +983,13 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	if (!otherType.compare("PickUps_Health"))
 	{
 		other->GetParentPtr()->SetDestory();
+
+		GameObject* Spark = CreateObject("HealingEffect");
+		TransformComponent* trans = GetComponentObject(Spark, Transform);
+		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		trans->SetScaleA({ 400, 400, 1 });
+		trans->SetRotationA(GetSibilingComponentObject(Transform)->GetRotationA());
+		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Heal");
 
 		if (_god)
 			return;

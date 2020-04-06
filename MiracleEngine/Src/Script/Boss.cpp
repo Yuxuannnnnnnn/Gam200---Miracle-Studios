@@ -90,6 +90,15 @@ void Boss::Init()
 
 	_init = true;
 }
+
+void Boss::LoadResource()
+{
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewPrototypeResource({ "BulletE" , MyResourceSystem.GetPrototypeResourcePath("BulletE") });
+	MyResourceManager.AddNewPrototypeResource({ "ImpactSparkEnemy" , MyResourceSystem.GetPrototypeResourcePath("ImpactSparkEnemy") });
+#endif
+}
+
 void Boss::Update(double dt)
 {
 	if (!_init)
