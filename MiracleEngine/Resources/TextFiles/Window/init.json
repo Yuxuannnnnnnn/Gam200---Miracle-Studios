@@ -1,5 +1,7 @@
 {
-	"ResX": 1280 ,
-	"ResY": 1024 ,
-	"Fullscreen": false
+	"currFullscreen": false,
+	"currResolution": [ 1280, 1024, 1 ],
+	"currMasterSound": 1.0,
+	"currMusic": 1.0,
+	"currSFX":  1.0
 }

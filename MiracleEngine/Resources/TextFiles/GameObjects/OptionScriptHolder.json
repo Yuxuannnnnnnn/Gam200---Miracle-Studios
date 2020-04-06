@@ -1,0 +1,19 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "OptionScriptHolder",
+  "Name": "OptionScriptHolder1",
+  "LinkUId": 1279,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Rotate": 0.0,
+  "Layer": 1,
+
+  "LogicComponent": true,
+  "Scripts": [
+    {
+      "Script2Id": "OptionScript",
+      "B.SceneTag": 4
+    }
+  ]
+}

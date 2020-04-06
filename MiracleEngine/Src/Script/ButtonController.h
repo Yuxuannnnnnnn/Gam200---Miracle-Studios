@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject/Components/Logic/IScript2.h"
+class OptionScript;
 
 
 class ButtonController : public IScript2
@@ -12,6 +13,7 @@ private:
 	IScript2* _pauseMenu;
 
 	IScript2* _LoadingObj;
+	OptionScript* _OptionObj;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc);
