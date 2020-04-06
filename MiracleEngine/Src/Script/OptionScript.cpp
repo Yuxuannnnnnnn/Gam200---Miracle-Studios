@@ -23,40 +23,8 @@ void OptionScript::SetNewFullscreen()
 }
 void OptionScript::IncreaseResolution()
 {
-	if (document.HasMember("currFullscreen") && document["currFullscreen"].IsBool())	//Checks if the variable exists in .Json file
-	{
-		_currFullscreen = (document["currFullscreen"].GetBool());
-	}
-
-
-	if (document.HasMember("currResolution") && document["currResolution"].IsArray())	//Checks if the variable exists in .Json file
-	{
-		_currResolution = { document["currResolution"][0].GetFloat(), document["currResolution"][1].GetFloat(), document["currResolution"][2].GetFloat() };
-	}
-
-
-	if (document.HasMember("currMasterSound") && document["currMasterSound"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_currMasterSound = (document["currMasterSound"].GetFloat());
-	}
-
-	if (document.HasMember("currMusic") && document["currMusic"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_currMusic = (document["currMusic"].GetFloat());
-	}
-
-	if (document.HasMember("currSFX") && document["currSFX"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_currSFX = (document["currSFX"].GetFloat());
-	}
 }
 
-void OptionScript::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
-{
-	Index++;
-	if (Index > _allResolution.size())
-		Index = _allResolution.size(); // check if correct
-}
 void OptionScript::DecreaseResolution()
 {
 	Index--;
@@ -117,16 +85,52 @@ void OptionScript::ApplySettings()
 	_adjustedMusic = _newMusic * _newMasterSound;
 	_adjustedSFX = _newSFX * _newMasterSound;
 
+	{
+		std::string fileName = "./Resources/TextFiles/Window\\init.json";
+
+		DeSerialiser document(fileName); //Create a deserialiser file
+
+		rapidjson::Value value;
+
+		value.SetBool(_currFullscreen);
+		document.AddMember("currFullscreen", value);
+
+		if(_currFullscreen)
+			MyWindowsSystem.getWindow().SetFullscreenWindowMode();
+		else
+			MyWindowsSystem.getWindow().SetNonFullScreenWindowMode();
+
+
+		value.SetArray();
+		for (unsigned i = 0; i < 3; i++)
+			value.PushBack(rapidjson::Value(_currResolution[i]).Move(), document.GetAllocator());
+		document.AddMember("currResolution", value);
+
+
+		value.SetFloat(_currMasterSound);
+		document.AddMember("currMasterSound", value);
+
+		value.SetFloat(_currMusic);
+		document.AddMember("currMusic", value);
+
+		value.SetFloat(_currSFX);
+		document.AddMember("currSFX", value);
+
+		MyAudioSystem.SetMasterVolume(_currMasterSound);
+		MyAudioSystem.SetBGMVolume(_currMusic);
+		MyAudioSystem.SetSFXVolume(_currSFX);
+
+
+		document.ProduceJsonFile();
+	}
 }
 
 void OptionScript::SerialiseComponent(Serialiser& document)
 {
-	if (document.HasMember("ButtonType") && document["ButtonType"].IsInt())	//Checks if the variable exists in .Json file
-		if (document.HasMember("currFullscreen") && document["currFullscreen"].IsBool())	//Checks if the variable exists in .Json file
-		{
-			_buttonType = (document["ButtonType"].IsInt());
-			_currFullscreen = (document["currFullscreen"].GetBool());
-		}
+	if (document.HasMember("currFullscreen") && document["currFullscreen"].IsBool())	//Checks if the variable exists in .Json file
+	{
+		_currFullscreen = (document["currFullscreen"].GetBool());
+	}
 
 
 	if (document.HasMember("currResolution") && document["currResolution"].IsArray())	//Checks if the variable exists in .Json file
@@ -151,9 +155,11 @@ void OptionScript::SerialiseComponent(Serialiser& document)
 	}
 }
 
-void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator) {
+void OptionScript::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	rapidjson::Value value;
 
-value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
 	prototypeDoc.AddMember("Script2Id", value, allocator);
 
 	value.SetBool(_currFullscreen);
@@ -294,4 +300,14 @@ void OptionScript::Update(double dt)
 void OptionScript::Init()
 {
 	_allResolution.push_back({ 1920, 1080, 1 });
+
+
+
+	_currFullscreen = MyWindowsSystem.getWindow().GetFullscreen();
+	_currResolution = { MyWindowsSystem.getWindow().GetWindowWidth(), MyWindowsSystem.getWindow().GetWindowHeight() };
+	_currMusic = MyAudioSystem.BGMvolume;
+	_currSFX = MyAudioSystem.SFXvolume;
+	_currMasterSound = MyAudioSystem.MasterVolume;
+
 }
+

@@ -24,13 +24,37 @@ void ScreenSize::FileRead_StartUp()
 
 	Serialiser document("./Resources/TextFiles/Window/init.json");
 
-	// get values from the Document;
-	rapidjson::Value& s = document["ResX"];
-	_ResX = s.GetInt();
-	s = document["ResY"];
-	_ResY = s.GetInt();
-	s = document["Fullscreen"];
-	_Fullscreen = s.GetBool();
+
+	if (document.HasMember("currFullscreen") && document["currFullscreen"].IsBool())	//Checks if the variable exists in .Json file
+	{
+		_Fullscreen = (document["currFullscreen"].GetBool());
+	}
+
+
+	if (document.HasMember("currResolution") && document["currResolution"].IsArray())	//Checks if the variable exists in .Json file
+	{
+		_ResX = document["currResolution"][0].GetFloat();
+		_ResY = document["currResolution"][1].GetFloat();
+	}
+
+
+	if (document.HasMember("currMasterSound") && document["currMasterSound"].IsFloat())	//Checks if the variable exists in .Json file
+	{
+		 MyAudioSystem.SetMasterVolume((document["currMasterSound"].GetFloat()));
+	}
+	
+	if (document.HasMember("currMusic") && document["currMusic"].IsFloat())	//Checks if the variable exists in .Json file
+	{
+		MyAudioSystem.SetBGMVolume((document["currMusic"].GetFloat()));
+	}
+	
+	if (document.HasMember("currSFX") && document["currSFX"].IsFloat())	//Checks if the variable exists in .Json file
+	{
+		MyAudioSystem.SetSFXVolume((document["currSFX"].GetFloat()));
+	}
+
+
+
 	// cout for check
 	std::cout << "Inital File Input" << std::endl
 		<< "X:" << _ResX << " Y:" << _ResY << " Full = " << _Fullscreen << std::endl
