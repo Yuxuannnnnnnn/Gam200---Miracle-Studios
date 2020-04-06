@@ -20,11 +20,9 @@ private:
 	bool _isFadingOut; //if box is checked, the object will slowly fade out
 	bool _isFlickering;//if box is checked, the objecy will randomly flicker on and off
 
+public:
 	int _layer;
 
-
-
-public:
 	bool HasAlpha() const;
 	bool HasAdjustableAlpha() const;
 	bool IsFadingOut() const;
