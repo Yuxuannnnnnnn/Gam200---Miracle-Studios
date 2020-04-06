@@ -63,9 +63,8 @@
   "ChildObjects": [
     {
       "IdentityComponent": true,
-      "ObjectType": "TurretBase",
+      "ObjectType": "none",
       "Name": "TurretLeg",
-      "LinkUId": 0,
       "TransformComponent": true,
       "Position": [ 0.0, 0.0, 1.0 ],
       "Scale": [ 1.4285, 0.7692, 1.0 ],

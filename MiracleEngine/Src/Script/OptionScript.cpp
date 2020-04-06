@@ -249,8 +249,8 @@ void OptionScript::DeserialiseComponentSceneFile(IComponent * protoCom, rapidjso
 		return;
 	}
 
-	rapidjson::Value currFullscreen;
-	rapidjson::Value currResolution;
+	rapidjson::Value currFullscreen;/*
+	rapidjson::Value currResolution;*/
 	rapidjson::Value currMasterSound;
 	rapidjson::Value currMusic;
 	rapidjson::Value currSFX;
@@ -262,15 +262,15 @@ void OptionScript::DeserialiseComponentSceneFile(IComponent * protoCom, rapidjso
 		addComponentIntoSceneFile = true;
 		currFullscreen.SetBool(_currFullscreen);
 	}
-	if (script->_currResolution != _currResolution)
-	{
-		addComponentIntoSceneFile = true;
-		currResolution.SetArray();
+	//if (script->_currResolution != _currResolution)
+	//{
+	//	addComponentIntoSceneFile = true;
+	//	currResolution.SetArray();
 
-		value.PushBack(rapidjson::Value(_currResolution[0]).Move(), allocator);
-		value.PushBack(rapidjson::Value(_currResolution[1]).Move(), allocator);
-		value.PushBack(rapidjson::Value(_currResolution[2]).Move(), allocator);
-	}
+	//	value.PushBack(rapidjson::Value(_currResolution[0]).Move(), allocator);
+	//	value.PushBack(rapidjson::Value(_currResolution[1]).Move(), allocator);
+	//	value.PushBack(rapidjson::Value(_currResolution[2]).Move(), allocator);
+	//}
 	if (script->_currMasterSound != _currMasterSound)
 	{
 		addComponentIntoSceneFile = true;
@@ -300,8 +300,8 @@ void OptionScript::DeserialiseComponentSceneFile(IComponent * protoCom, rapidjso
 
 		if (!currFullscreen.IsNull())
 			value.AddMember("currFullscreen", currFullscreen, allocator);
-		if (!currResolution.IsNull())
-			value.AddMember("currResolution", currResolution, allocator);
+		//if (!currResolution.IsNull())
+		//	value.AddMember("currResolution", currResolution, allocator);
 		if (!currMasterSound.IsNull())
 			value.AddMember("currMasterSound", currMasterSound, allocator);
 		if (!currMusic.IsNull())

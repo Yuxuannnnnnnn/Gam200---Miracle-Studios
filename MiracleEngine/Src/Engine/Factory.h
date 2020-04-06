@@ -86,6 +86,8 @@ public:
 
 	int CheckObjOrignialPointer(GameObject* obj);
 	int CheckObjOrignialChildPointer(GameObject* obj, GameObject* original);
+
+	bool _onceLag;
 private:
 	///Map of component creator used for data driven composition
 	typedef std::unordered_map<std::string, ComponentCreator*> ComponentMapType;
@@ -108,6 +110,8 @@ private:
 	std::string _currentScene;
 
 	std::string _currEditerScene;
+
+	
 
 	unsigned _lastGameObjectId; ///Used to incrementally generate unique id's.
 };
