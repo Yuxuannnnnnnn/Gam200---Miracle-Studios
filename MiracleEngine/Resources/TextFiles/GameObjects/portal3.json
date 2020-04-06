@@ -21,8 +21,9 @@
 
       "E.panning": true,
       "E.CameraLinkId": 35123,
-      "E.PanningPosition": [ 0.0, 0.0, 1.0 ],
-      "E.panningSpeed": 33.0
+      "E.PanningPosition": [ -70.0, -112.0, 1.0 ],
+      "E.panningSpeed": 33.0,
+      "E.panningWaitTime": 2.0
     }
   ]
 }

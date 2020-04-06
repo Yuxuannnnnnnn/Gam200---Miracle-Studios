@@ -9,6 +9,26 @@
   "Objects": [
     {
       "IdentityComponent": true,
+      "ObjectType": "portal",
+      "BoxCollider2DComponent": true,
+      "Collider2D.B.Center": [ 0.0, 86.61399841308594, 1.0 ],
+      "Collider2D.B.Scale": [ 342.8349914550781, 150.3070068359375, 1.0 ],
+      "TransformComponent": true,
+      "Position": [ 3047.998291015625, -154.0018768310547, 1.0 ],
+      "Scale": [ 430.0, 430.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "GraphicsComponent": true,
+      "G.FileName": "EntranceTo_Level2_close.png",
+      "G.Layer": 0,
+      "LogicComponent": true,
+      "Scripts": [ {} ]
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "PortalText"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "LoadingScreen2"
     },
     {
@@ -2568,13 +2588,7 @@
       "_isFadingOut": false,
       "_isFlickering": false
     },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "PortalText",
-      "TransformComponent": true,
-      "PivotPosition": [ -1.0, 0.0, 0.0 ],
-      "GraphicsComponent": false
-    },
+
     {
       "IdentityComponent": true,
       "ObjectType": "none",
@@ -4678,22 +4692,6 @@
       "_alphaVal": 1.0,
       "_isFadingOut": false,
       "_isFlickering": false
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "portal",
-      "BoxCollider2DComponent": true,
-      "Collider2D.B.Center": [ 0.0, 86.61399841308594, 1.0 ],
-      "Collider2D.B.Scale": [ 342.8349914550781, 150.3070068359375, 1.0 ],
-      "TransformComponent": true,
-      "Position": [ 3047.998291015625, -154.0018768310547, 1.0 ],
-      "Scale": [ 430.0, 430.0, 1.0 ],
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "GraphicsComponent": true,
-      "G.FileName": "EntranceTo_Level2_close.png",
-      "G.Layer": 0,
-      "LogicComponent": true,
-      "Scripts": [ {} ]
     },
     {
       "IdentityComponent": true,

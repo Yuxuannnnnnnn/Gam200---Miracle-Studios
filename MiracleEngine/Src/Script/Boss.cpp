@@ -87,7 +87,10 @@ void Boss::Init()
 	MyAudioSystem.PlayBGM("MusicBGM1", 1.0f);
 
 	_HealthController = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_healthControllerLinkId), Logic), BossHealthController);
+	((BossHealthController*)_HealthController)->EnableHealthBar(false);
 
+
+	_panning = false;
 	_init = true;
 }
 
@@ -313,6 +316,13 @@ void Boss::StartUp()
 	{
 		startUpTimer -= _dt;
 		_subObjAnimStart = true;
+
+		if (!_panning)
+		{
+			_panning = true;
+			std::string temp = "EntrancePortal";
+			((EntrancePortal*)MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(1239)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]])->StartPanning();
+		}
 		return;
 	}
 	if (_subObjAnimStart)
@@ -339,7 +349,10 @@ void Boss::StartUp()
 
 	// on anim end, check if got somemore anim to play, else go to next state
 	if (!PlayAnimChain(_StartUp))
+	{
 		_state = (int)Boss_State::IDLE;
+		((BossHealthController*)_HealthController)->EnableHealthBar(true);
+	}
 }
 
 void Boss::Idle()

@@ -117,6 +117,8 @@ private:
 	GraphicComponent* _mouthGraphic;
 	BoxCollider2DComponent* _laserCollider;
 
+
+	bool _panning;
 public:
 	Boss();
 	~Boss();
