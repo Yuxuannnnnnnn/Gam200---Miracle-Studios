@@ -1,8 +1,8 @@
-#pragma once
-#include "GameObject/Components/Logic/IScript2.h"
 
 #ifndef OPTIONSCRIPT_H
 #define	OPTIONSCRIPT_H
+
+#include "GameObject/Components/Logic/IScript2.h"
 
 class OptionScript : public IScript2
 {

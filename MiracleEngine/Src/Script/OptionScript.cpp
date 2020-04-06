@@ -1,4 +1,5 @@
 #include "PrecompiledHeaders.h"
+#include "Script/OptionScript.h"
 
 OptionScript::OptionScript() :
 	_currFullscreen{ false }, _newFullscreen{ false },
@@ -96,22 +97,6 @@ void OptionScript::DiscardSettings()
 	//// set adjusted Music & SFX
 	//_adjustedMusic = _newMusc * _newMasterSound;
 	//_adjustedSFX = _newSFX * _newMasterSound;
-}
-
-
-
-
-
-
-
-void OptionScript::SerialiseComponent(Serialiser& document)
-{
-	;
-}
-
-void OptionScript ::DeSerialiseComponent(DeSerialiser& prototypeDoc)
-{
-	;
 }
 
 void OptionScript::OnMouseDown()
