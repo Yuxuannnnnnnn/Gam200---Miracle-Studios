@@ -11,7 +11,7 @@
   "GraphicsComponent": true,
   "G.FileName": "empty.png",
   "G.Shader": "",
-  "G.Layer": 15,
+  "G.Layer": 23,
   "_hasAlpha": false,
 
   "LogicComponent": true,
@@ -94,7 +94,7 @@
       "GraphicsComponent": true,
       "G.FileName": "Muzzle_Idle_2.png",
       "G.Shader": "",
-      "G.Layer": 14,
+      "G.Layer": 22,
       "_hasAlpha": true,
       "AnimationComponent": true,
       "AnimationTypes": [

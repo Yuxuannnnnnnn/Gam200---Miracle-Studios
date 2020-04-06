@@ -369,12 +369,15 @@ Player::Player() :
 
 	_timerProg{ 0.0 }, _timerProgCooldown{ 1.0 },
 
+	_dt{ 0.0 }, hitTintTimer{ 0.0 }, hitTintDuration{ 0.3 },
+	_redTint{ false }, _justHit{ false },
+
 	_moving{ false },
 	_animState{ 0 }, _animStatePrev{ 0 },
 	_muzzleTransfrom{ nullptr },
 	_muzzleAnimation{ nullptr },
 	_animTime{ -1.0 },
-	_laserHitTimer{ 0.0 }, _laserHitDelay{ 2.0 },
+	_laserHitTimer{ 0.0 }, _laserHitDelay{ 1.0 },
 	_objTransfrom{ nullptr },
 	_healthBar{ nullptr },
 	_pauseMenu{ nullptr }
@@ -437,6 +440,7 @@ void Player::Update(double dt)
 	if (dt < 0)
 		return;
 
+	_dt = dt;
 	if (_animTime > 0)
 	{
 		_animTime -= dt;
@@ -468,6 +472,8 @@ void Player::Update(double dt)
 	UpdateCamera();
 	UpdateUI();
 	UpdateShield(dt);
+
+	OnHit();
 
 	// anim updating related logic
 	_animState = _moving ? 1 : 2;
@@ -635,7 +641,6 @@ void Player::UpdateInput(double dt)
 			_shieldOn = true;
 			_timerShieldActivateCooldown = _timerShieldDuration + _timerShieldCooldown;
 		}
-
 	}
 
 	// NUMBERS
@@ -730,7 +735,8 @@ void Player::UpdateShield(double dt)
 	//{
 		// cooldown countdown
 	_timerShieldActivateCooldown -= dt;
-
+	if (_timerShieldActivateCooldown < 0)
+		_shieldOn = false;
 }
 
 void Player::WeaponSwitch()
@@ -738,7 +744,7 @@ void Player::WeaponSwitch()
 	// reset switch delay timer
 	_timerSwitch = _timerSwitchDelay;
 	// loop available weapons 1,2,3,1,2,3...
-	(_weaponActive != 3) ? ++_weaponActive : _weaponActive = 1;
+	(_weaponActive != 2) ? ++_weaponActive : _weaponActive = 1;
 	// reset timer so can shoot immediately
 	_timerShoot = 0;
 }
@@ -877,7 +883,7 @@ void Player::DamagePlayer(int dmg)
 		((HealthController*)_healthBar)->DecreaseHealth(dmg);
 		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 		audcom->PlaySFX("GetHit");
-
+		_justHit = true;
 		_health -= dmg;
 
 		//std::string temp = "HitEffect";
@@ -888,22 +894,58 @@ void Player::DamagePlayer(int dmg)
 
 void Player::LaserPlayer()
 {
+	_laserHitTimer -= _dt;
 	if (_god)
+		return;
+	if (_shieldOn)
 		return;
 	else
 	{
 		if (_laserHitTimer < 0)
 		{
+			_justHit = true;
+			std::cout << "Player hit by laser";
 			_laserHitTimer = _laserHitDelay;
-
-			((HealthController*)_healthBar)->DecreaseHealth();
+			_health -= 1;
+			((HealthController*)_healthBar)->DecreaseHealth(1);
 			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 			audcom->PlaySFX("GetHit");
-			std::cout << "Player hit by laser";
-			_health -= 2;
+			
 		}
 	}
 }
+
+void Player::OnHit()
+{
+	if (_justHit)
+	{
+		_justHit = false;
+		//_health--;
+		AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
+		audcom->PlaySFX("Hit");
+		if (_redTint)
+			hitTintTimer = hitTintDuration;
+		else
+		{
+			_redTint = true;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0.3, 0.3, 0.3, 0)); // set tint white
+		}
+	}
+	if (_redTint)
+	{
+		hitTintTimer -= _dt;
+		if (hitTintTimer > 0)
+			return;
+		else
+		{
+			_redTint = false;
+			GetSibilingComponentObject(Graphic)->SetTintColor(glm::vec4(0, 0, 0, 0)); // set tint normal
+		}
+	}
+	else
+		hitTintTimer = hitTintDuration;
+}
+
 
 void Player::OnCollision2DTrigger(Collider2D* other)
 {
@@ -915,10 +957,6 @@ void Player::OnCollision2DTrigger(Collider2D* other)
 	if (!otherType.compare("Enemy"))
 	{
 		DamagePlayer(2);
-	}
-	if (!otherType.compare("Laser_Blast"))
-	{
-		LaserPlayer();
 	}
 }
 
@@ -945,8 +983,10 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		_ammoRpg += 5;
 		other->GetParentPtr()->SetDestory();
 	}
-
-
+	if (!otherType.compare("LaserBlast"))
+	{
+		LaserPlayer();
+	}
 
 	/*IdentityComponent* idCom = dynamic_cast <IdentityComponent*>(other->GetSibilingComponent(ComponentId::CT_Identity));
 	std::string id = idCom->ObjectType();
@@ -967,4 +1007,13 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 		_ammoRpg += 5;
 		temp->DestoryThis();
 	}*/
+}
+
+void Player::OnTrigger2DStay(Collider2D* other)
+{
+	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
+	if (!otherType.compare("LaserBlast"))
+	{
+		LaserPlayer();
+	}
 }
