@@ -910,7 +910,14 @@ void Player::LaserPlayer()
 			((HealthController*)_healthBar)->DecreaseHealth(1);
 			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 			audcom->PlaySFX("GetHit");
-			
+
+			GameObject* Spark = CreateObject("ImpactSparkCharacter");
+			TransformComponent* trans = GetComponentObject(Spark, Transform);
+			trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+			trans->SetScaleA({ 300, 300, 1 });
+			trans->SetRotationA(
+				trans->GetRotationA() += MY_PI);
+			GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");			
 		}
 	}
 }
@@ -952,6 +959,14 @@ void Player::OnCollision2DTrigger(Collider2D* other)
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (!otherType.compare("BulletE"))
 	{
+		GameObject* Spark = CreateObject("ImpactSparkCharacter");
+		TransformComponent* trans = GetComponentObject(Spark, Transform);
+		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		trans->SetScaleA({ 300, 300, 1 });
+		trans->SetRotationA(
+			GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+
 		DamagePlayer();
 	}
 	if (!otherType.compare("Enemy"))
