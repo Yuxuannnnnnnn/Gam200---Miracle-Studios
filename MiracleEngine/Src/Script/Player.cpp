@@ -4,6 +4,7 @@
 #include "HitEffect.h"
 #include "HealthController.h"
 #include "PauseMenu.h"
+#include "WeaponTabs.h"
 
 void Player::SerialiseComponent(Serialiser& document)
 {
@@ -428,6 +429,8 @@ void Player::Init()
 
 	std::string temp = "HealthController";
 	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
+
+	_weaponTab = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(400), Logic), WeaponTabs);
 }
 
 void Player::LoadResource()
@@ -756,6 +759,8 @@ void Player::WeaponSwitch()
 	// loop available weapons 1,2,3,1,2,3...
 	(_weaponActive != 2) ? ++_weaponActive : _weaponActive = 1;
 	// reset timer so can shoot immediately
+
+	((WeaponTabs*)_weaponTab)->SelectWeapon(_weaponActive);
 	_timerShoot = 0;
 }
 

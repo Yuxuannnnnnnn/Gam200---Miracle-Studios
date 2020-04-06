@@ -1,5 +1,6 @@
 #include "PrecompiledHeaders.h"
 #include "HealthController.h"
+#include "WeaponTabs.h"
 
 void HealthController::SerialiseComponent(Serialiser& document)
 {
@@ -330,6 +331,8 @@ void HealthController::Init()
 
 	_progressCharge = false;
 	_progressUse = false;
+
+	_weaponTab = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(400), Logic), WeaponTabs);
 }
 
 void HealthController::LoadResource()
@@ -439,6 +442,7 @@ void HealthController::UseShield(float time)
 	_progressTotalTime = time;
 	_progressCurrTime = time;
 	UpdateProgressBar();
+	((WeaponTabs*)_weaponTab)->EnableShield(true);
 
 	_progressUse = true;
 }
@@ -476,6 +480,7 @@ void HealthController::UpdateProgressBar()
 		{
 			_progressBarUI->SetFileName(_progressBarYellow);
 			_progressBarUI->SetEnable(false);
+			((WeaponTabs*)_weaponTab)->EnableShield(false);
 
 			_progressUse = false;
 		}

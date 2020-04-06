@@ -30,6 +30,8 @@ private:
 
 	bool _progressCharge;
 	bool _progressUse;
+
+	IScript2* _weaponTab;
 public:
 
 	void SerialiseComponent(Serialiser& document);
