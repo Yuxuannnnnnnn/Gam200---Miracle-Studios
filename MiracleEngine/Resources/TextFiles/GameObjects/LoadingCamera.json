@@ -1,0 +1,14 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "LoadingCamera",
+  "Name": "LoadingCamera",
+  "LinkUId": 35123,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 1.0, 1.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "CameraComponent": true,
+  "isCurrentCamera": false,
+  "cameraZoom": 1.0
+}

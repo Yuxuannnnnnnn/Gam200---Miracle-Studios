@@ -126,10 +126,7 @@ void ButtonController::Update(double dt)
 	if (_currScene == 1)
 	{
 		if (_input->ButtonTrigger(10)) // start
-		{
-			((LoadingScreen*)_LoadingObj)->StartLoading();
-			MyFactory.ChangeScene("truelevel1");
-		}
+			((LoadingScreen*)_LoadingObj)->StartLoading("truelevel1");
 		else if (_input->ButtonTrigger(11)) // options
 			MyFactory.ChangeScene("OptionPage");
 		else if (_input->ButtonTrigger(12)) // instructions

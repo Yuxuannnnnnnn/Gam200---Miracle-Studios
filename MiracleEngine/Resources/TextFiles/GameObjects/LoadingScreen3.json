@@ -1,15 +1,15 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "LoadingScreen2",
-  "Name": "Start_loadingScreen",
-  "LinkUId": 0,
+  "ObjectType": "LoadingScreen3",
+  "Name": "End_loadingScreen",
+  "LinkUId": 2310,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
   "Scale": [ 1920.0, 1080.0, 1.0 ],
   "Rotate": 0.0,
   "PivotPosition": [ 0.0, 0.0, 0.0 ],
   "GraphicsComponent": true,
-  "G.FileName": "Level1_Panel_2.png",
+  "G.FileName": "Level1_Panel_3.png",
   "G.Shader": "",
   "G.Layer": 130,
   "_hasAlpha": false,
@@ -17,18 +17,13 @@
   "Scripts": [
     {
       "Script2Id": "LoadingScreen",
-      "L.FileName": "Level1_Panel_2.png",
-      "L.LoadingTextLinkId": 14249,
+      "L.FileName": "Level1_Panel_3.png",
+      "L.LoadingTextLinkId": 14239,
       "L.playerExist": true,
       "L.secondImage": false,
       "L.CameraLinkId": 35123,
-      "L.panning": true,
-      "L.startPosition": [ -525.0, -202.0, 1.0 ],
-      "L.endPosition": [ 0.0, 0.0, 1.0 ],
-      "L.startZoom": 2.5,
-      "L.endZoom": 1.0,
-      "L.panningSpeed": 33.0,
-      "L.loadingCompleted": true,
+      "L.panning": false,
+      "L.loadingCompleted": false,
       "L.victoryTextLinkId": 0
     }
   ]

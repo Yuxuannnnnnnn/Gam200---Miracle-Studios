@@ -9,6 +9,26 @@
   "Objects": [
     {
       "IdentityComponent": true,
+      "ObjectType": "LoadingScreen2"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText2"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingScreen3"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingText1"
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "LoadingCamera"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "none",
       "Name": "hp_16",
       "LinkUId": 216,
@@ -775,22 +795,6 @@
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "LogicComponent": true,
       "Scripts": [ {} ]
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "LoadingScreen",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ],
-      "LogicComponent": true,
-      "Scripts": [ {} ],
-      "UIComponent": true,
-      "UI.FileName": "Loading_Screen_2.png"
-    },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "LoadingText",
-      "TransformComponent": true,
-      "PivotPosition": [ 0.0, 0.0, 0.0 ]
     },
     {
       "IdentityComponent": true,
