@@ -979,6 +979,7 @@ void Player::OnCollision2DTrigger(Collider2D* other)
 		//	GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
 		//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
 		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
 		GetComponentObject(_hitSpark, Transform)->SetRotationA(GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
 
 
@@ -993,7 +994,7 @@ void Player::OnCollision2DTrigger(Collider2D* other)
 		//trans->SetRotationA(
 		//	GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
 		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
-		//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
 		GetComponentObject(_hitSpark, Transform)->SetRotationA(GetComponentObject(GetParentPtr(), Transform)->GetRotationA());
 
 

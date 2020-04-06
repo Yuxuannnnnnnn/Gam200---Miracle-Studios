@@ -537,6 +537,7 @@ void Enemy::OnCollision2DTrigger(Collider2D* other)
 		//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
 
 		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
 		GetComponentObject(_hitSpark, Transform)->SetRotationA(GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
 		
 	}
