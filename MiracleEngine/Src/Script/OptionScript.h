@@ -13,9 +13,12 @@ public:
 
 	int Index;
 	Vector3 _currResolution, _newResolution;
-	float _currMasterSound, _newMasterSound,
-		_currMusic, _newMusic, _adjustedMusic,
-		_currSFX, _newSFX, _adjustedSFX;
+	int _currMasterSound, _newMasterSound,
+		_currMusic, _newMusic,
+		_currSFX, _newSFX;
+
+	UIComponent * _tickFullscreen, * _textResolution,
+		* _textMsound, * _textMus, * _textSfx;
 
 	OptionScript();
 
@@ -32,6 +35,7 @@ public:
 	void IncreaseSFX();
 	void DecreaseSFX();
 
+	std::string IntToFileName(int i);
 
 	void ApplySettings();
 	void DiscardSettings();
@@ -48,16 +52,9 @@ public:
 
 	}
 
-	// override these functions
-	void OnMouseDown();
-	void OnMouseEnter();
-	void OnMouseOver();
-	void OnMouseExit();
-
 	// InUpEx
 	void Init();
 	void Update(double dt);
-	void Exit();
 
 };
 
