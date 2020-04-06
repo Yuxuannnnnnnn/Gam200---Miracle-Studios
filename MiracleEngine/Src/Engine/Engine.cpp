@@ -53,6 +53,8 @@ void Engine::Update()
 			int accumlatedframes = MyFrameRateController.GetSteps();
 
 			MyAudioSystem.Update();
+			::SwapBuffers(MyWindowsSystem.getWindow().get_m_windowDC()); 		// swap double buffer at the end
+
 		}
 		else //Window is active
 		{
