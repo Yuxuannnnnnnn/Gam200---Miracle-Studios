@@ -448,6 +448,8 @@ void Player::LoadResource()
 	MyResourceManager.AddNewPrototypeResource({ "Wall" , MyResourceSystem.GetPrototypeResourcePath("Wall") });
 	MyResourceManager.AddNewPrototypeResource({ "HealingEffect" , MyResourceSystem.GetPrototypeResourcePath("HealingEffect") });
 	MyResourceManager.AddNewPrototypeResource({ "ImpactSparkCharacter" , MyResourceSystem.GetPrototypeResourcePath("ImpactSparkCharacter") });
+
+	MyResourceManager.AddNewTexture2DResource({ "Turret_Leg_Sprite.png", MyResourceSystem.GetTexture2DResourcePath("Turret_Leg_Sprite.png") });
 #endif
 }
 

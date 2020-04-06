@@ -872,6 +872,7 @@ void Factory::UpdateScene()
 	MyFactory.SerialiseLevel(MyResourceSystem.GetSceneList()[_currentScene]);
 
 	InitScene();
+	MyFrameRateController.UpdateFrameTime();
 }
 
 void Factory::InitScene()
