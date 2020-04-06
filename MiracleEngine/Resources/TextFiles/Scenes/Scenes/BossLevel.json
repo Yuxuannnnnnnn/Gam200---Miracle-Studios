@@ -9,6 +9,10 @@
   "Objects": [
     {
       "IdentityComponent": true,
+      "ObjectType": "portal3"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "LoadingScreen6"
     },
     {
@@ -990,29 +994,7 @@
       "_isFadingOut": false,
       "_isFlickering": false
     },
-    {
-      "IdentityComponent": true,
-      "ObjectType": "none1234",
-      "Name": "none",
-      "LinkUId": 1239,
-      "TransformComponent": true,
-      "Position": [ 1.0, 0.0, 1.0 ],
-      "Scale": [ 1.0, 1.0, 1.0 ],
-      "Rotate": 0.0,
-      "PivotPosition": [ -1.0, 0.0, 0.0 ],
-      "LogicComponent": true,
-      "Scripts": [
-        {
-          "Script2Id": "EntrancePortal",
-          "E.OpenEntranceFileName": "",
-          "E.CloseEntranceFileName": "",
-          "E.ProgressCount": 0,
-          "E.NextScene": "VictoryScene",
-          "E.CurrScene": 3,
-          "E.LoadingLinkId": 2310
-        }
-      ]
-    },
+
     {
       "IdentityComponent": true,
       "ObjectType": "Floor04",

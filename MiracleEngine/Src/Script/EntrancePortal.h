@@ -26,6 +26,15 @@ class EntrancePortal : public IScript2
 
 	IScript2* _loadingObj;
 
+	bool _panning;
+	int _panningCameraLinkId;
+	CameraComponent* _camera;
+	CameraComponent* _playerCamera;
+	Vector3 _PanningPosition;
+	Vector3 _moveSpeed;
+	float _panningSpeed;
+	bool _startpanning;
+	bool _panningComleted;
 public:
 
 	void SerialiseComponent(Serialiser& document);

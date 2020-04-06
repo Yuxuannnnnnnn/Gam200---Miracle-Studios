@@ -22,6 +22,32 @@ void EntrancePortal::SerialiseComponent(Serialiser& document)
 
 	if (document.HasMember("E.LoadingLinkId") && document["E.LoadingLinkId"].IsInt())
 		_loadingLinkId = document["E.LoadingLinkId"].GetInt();
+
+
+	
+	if (document.HasMember("E.panning") && document["E.panning"].IsBool())
+	{
+		_panning = document["E.panning"].GetBool();
+
+		if (_panning)
+		{
+			if (document.HasMember("E.CameraLinkId") && document["E.CameraLinkId"].IsInt())
+				_panningCameraLinkId = document["E.CameraLinkId"].GetInt();
+
+
+			if (document.HasMember("E.PanningPosition") && document["E.PanningPosition"].IsArray())	//Checks if the variable exists in .Json file
+			{
+				if (document["E.PanningPosition"][0].IsFloat() && document["E.PanningPosition"][1].IsFloat())	//Check the array values
+					_PanningPosition = Vector3{ document["E.PanningPosition"][0].GetFloat(), document["E.PanningPosition"][1].GetFloat(), 1 };
+
+				if (document["E.PanningPosition"].Size() == 3)
+					_PanningPosition.SetZ(document["E.PanningPosition"][2].GetFloat());
+			}
+
+			if (document.HasMember("E.panningSpeed") && document["E.panningSpeed"].IsFloat())	//Checks if the variable exists in .Json file
+				_panningSpeed = (document["E.panningSpeed"].GetFloat());
+		}
+	}
 }
 
 //No need this function
@@ -277,6 +303,9 @@ void EntrancePortal::OpenPortal()
 	_clear = true;
 	_graphicComponent->SetFileName(_openPortalFileName);
 	_popUp->SetEnable(true);
+
+
+
 }
 
 void EntrancePortal::OnTrigger2DEnter(Collider2D* other)

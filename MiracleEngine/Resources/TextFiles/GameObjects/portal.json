@@ -30,7 +30,12 @@
 			"E.CloseEntranceFileName": "EntranceTo_Level2_close.png",
 			"E.ProgressCount": 10,
 			"E.NextScene": "truelevel2",
-			"E.LoadingLinkId":  2310
+			"E.LoadingLinkId": 2310,
+
+			"E.panning": true,
+			"E.CameraLinkId": 35123,
+			"E.PanningPosition": [ -198.0009002685547, 235.6922607421875, 1.0 ],
+			"E.panningSpeed": 33.0
 		}
 	]
 }
