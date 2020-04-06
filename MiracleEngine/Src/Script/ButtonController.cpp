@@ -121,7 +121,16 @@ void ButtonController::LoadResource()
 
 void ButtonController::Update(double dt)
 {
-	(void)dt;
+	if (_currScene == 2)
+	{
+		if (_input->ButtonTrigger(60))
+			((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
+		else if (_input->ButtonTrigger(30)) // return to menu
+			MyFactory.ChangeScene("MainMenu");
+	}
+
+	if (dt < 0)
+		return;
 
 	if (_currScene == 1)
 	{
@@ -138,14 +147,7 @@ void ButtonController::Update(double dt)
 		else if (_input->ButtonTrigger(16)) // quit
 			MyFactory.ChangeScene("Quit");
 	}
-	else if(_currScene == 2)
-	{ 
-		if (_input->ButtonTrigger(60))
-			((PauseMenu*)_pauseMenu)->EnablePauseMenu(false);
-		else if (_input->ButtonTrigger(30)) // return to menu
-			MyFactory.ChangeScene("MainMenu");
-	}
-	else if(_currScene == 3 && _input->ButtonTrigger(30))
-			MyFactory.ChangeScene("MainMenu");
+	else if (_currScene == 3 && _input->ButtonTrigger(30))
+		MyFactory.ChangeScene("MainMenu");
 	
 }
