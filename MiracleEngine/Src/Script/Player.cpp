@@ -419,6 +419,7 @@ void Player::Init()
 	}
 
 	_healingSparkle = CreateObject("HealingEffect");
+	_hitSpark = CreateObject("ImpactSparkCharacter");
 
 	_timerShieldActivateCooldown = 0;
 	MyAudioSystem.PlayBGM("Level1", 1.0f);
@@ -482,6 +483,7 @@ void Player::Update(double dt)
 	OnHit();
 	// set healing sprite to always follow player
 	GetComponentObject(_healingSparkle, Transform)->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+	GetComponentObject(_hitSpark, Transform)->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
 
 	// anim updating related logic
 	_animState = _moving ? 1 : 2;
@@ -919,12 +921,15 @@ void Player::LaserPlayer()
 			AudioComponent* audcom = (AudioComponent*)(GetSibilingComponent(ComponentId::CT_Audio));
 			audcom->PlaySFX("GetHit");
 
-			GameObject* Spark = CreateObject("ImpactSparkCharacter");
-			TransformComponent* trans = GetComponentObject(Spark, Transform);
-			trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
-			trans->SetScaleA({ 300, 300, 1 });
-			trans->SetRotationA(GetSibilingComponentObject(Transform)->GetRotationA());
-			GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");			
+			//GameObject* Spark = CreateObject("ImpactSparkCharacter");
+			//TransformComponent* trans = GetComponentObject(Spark, Transform);
+			//trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+			//trans->SetScaleA({ 300, 300, 1 });
+			//trans->SetRotationA(GetSibilingComponentObject(Transform)->GetRotationA());
+			//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");			
+
+			GetComponentObject(_hitSpark, Transform)->SetRotationA(GetSibilingComponentObject(Transform)->GetRotationA());
+			GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
 		}
 	}
 }
@@ -966,25 +971,29 @@ void Player::OnCollision2DTrigger(Collider2D* other)
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (!otherType.compare("BulletE"))
 	{
-		GameObject* Spark = CreateObject("ImpactSparkCharacter");
-		TransformComponent* trans = GetComponentObject(Spark, Transform);
-		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
-		trans->SetScaleA({ 300, 300, 1 });
-		trans->SetRotationA(
-			GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
-		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+		//GameObject* Spark = CreateObject("ImpactSparkCharacter");
+		//TransformComponent* trans = GetComponentObject(Spark, Transform);
+		//trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		//trans->SetScaleA({ 300, 300, 1 });
+		//trans->SetRotationA(
+		//	GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Transform)->SetRotationA(GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
 
 		DamagePlayer();
 	}
 	if (!otherType.compare("Enemy"))
 	{
-		GameObject* Spark = CreateObject("ImpactSparkCharacter");
-		TransformComponent* trans = GetComponentObject(Spark, Transform);
-		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
-		trans->SetScaleA({ 300, 300, 1 });
-		trans->SetRotationA(
-			GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
-		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+		//GameObject* Spark = CreateObject("ImpactSparkCharacter");
+		//TransformComponent* trans = GetComponentObject(Spark, Transform);
+		//trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		//trans->SetScaleA({ 300, 300, 1 });
+		//trans->SetRotationA(
+		//	GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		//GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_hitSpark, Transform)->SetRotationA(GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		GetComponentObject(_hitSpark, Animation)->SetCurrentAnimOnce("Spark");
 
 		DamagePlayer(2);
 	}
@@ -998,7 +1007,7 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	{
 		other->GetParentPtr()->SetDestory();
 
-		GetComponentObject(_healingSparkle, Animation)->SetCurrentAnimOnce("Heal");
+		GetComponentObject(_healingSparkle, Animation)->SetCurrentAnimOnce("Spark");
 
 		if (_god)
 			return;

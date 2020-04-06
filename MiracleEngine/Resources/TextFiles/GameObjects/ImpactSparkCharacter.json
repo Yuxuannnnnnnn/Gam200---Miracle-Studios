@@ -20,7 +20,7 @@
       "AnimationName": "Spark"
     }
   ],
-  "PlayAtCreation": true,
+  "PlayAtCreation": false,
   "PlayInitLoop": false,
   "StartAnim":"Spark"
 }

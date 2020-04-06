@@ -45,7 +45,7 @@ private:
 	double _dt, hitTintTimer, hitTintDuration;
 	double _laserHitTimer, _laserHitDelay;
 
-	GameObject* _healingSparkle;
+	GameObject* _healingSparkle, *_hitSpark;
 
 	TransformComponent* _muzzleTransfrom;
 	AnimationComponent* _muzzleAnimation;
