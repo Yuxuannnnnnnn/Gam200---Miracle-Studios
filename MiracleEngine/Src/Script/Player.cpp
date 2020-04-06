@@ -14,6 +14,9 @@ void Player::SerialiseComponent(Serialiser& document)
 	if (document.HasMember("ShieldCooldown") && document["ShieldCooldown"].IsDouble())
 		_timerShieldCooldown = document["ShieldCooldown"].GetDouble();
 
+	if (document.HasMember("TurretCooldown") && document["TurretCooldown"].IsDouble())
+		_timerTurretCooldown = document["TurretCooldown"].GetDouble();
+
 	if (document.HasMember("Health") && document["Health"].IsInt())
 		_health = _healthMax = document["Health"].GetInt();
 
@@ -24,7 +27,7 @@ void Player::SerialiseComponent(Serialiser& document)
 		_ammoRpg = document["AmmoRpg"].GetInt();
 
 	if (document.HasMember("AmmoTurret") && document["AmmoTurret"].IsInt())
-		_ammoTurret = document["AmmoTurret"].GetInt();
+		_maxAmmoTurret = document["AmmoTurret"].GetInt();
 
 	if (document.HasMember("AmmoWall") && document["AmmoWall"].IsInt())
 		_ammoWall = document["AmmoWall"].GetInt();
@@ -112,7 +115,7 @@ void Player::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::Mem
 	value.SetInt(_ammoRpg);
 	prototypeDoc.AddMember("AmmoRpg", value, allocator);
 
-	value.SetInt(_ammoTurret);
+	value.SetInt(_maxAmmoTurret);
 	prototypeDoc.AddMember("AmmoTurret", value, allocator);
 
 	value.SetInt(_ammoWall);
@@ -195,10 +198,10 @@ void Player::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Valu
 		AmmoRpg.SetInt(_ammoRpg);
 	}
 
-	if (script->_ammoTurret != _ammoTurret)
+	if (script->_maxAmmoTurret != _maxAmmoTurret)
 	{
 		addComponentIntoSceneFile = true;
-		AmmoTurret.SetInt(_ammoTurret);
+		AmmoTurret.SetInt(_maxAmmoTurret);
 	}
 
 	if (script->_ammoWall != _ammoWall)
@@ -324,7 +327,7 @@ void Player::Inspect()
 	ImGui::Spacing();
 	ImGui::InputInt("Ammo RPG ", &_ammoRpg);
 	ImGui::Spacing();
-	ImGui::InputInt("Ammo Turret ", &_ammoTurret);
+	ImGui::InputInt("Ammo Turret ", &_maxAmmoTurret);
 	ImGui::Spacing();
 	ImGui::InputInt("Ammo Wall ", &_ammoWall);
 	ImGui::Spacing();
@@ -356,6 +359,7 @@ Player::Player() :
 	_shieldOn{ false },
 	_timerSwitch{ 0 }, _timerSwitchDelay{ 0.5 },
 	_timerShieldActivateCooldown{ 0 }, _timerShieldCooldown{ 1.5 },
+	_timerTurretActivateCooldown{ 0.0 },
 	_weaponActive{ (int)WeaponId::PISTOL },
 	_ammoRpg{ 5 },
 	_ammoTurret{ 2 },
@@ -431,6 +435,8 @@ void Player::Init()
 	_healthBar = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(919)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 
 	_weaponTab = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(400), Logic), WeaponTabs);
+
+	_ammoTurret = _maxAmmoTurret;
 }
 
 void Player::LoadResource()
@@ -460,10 +466,24 @@ void Player::Update(double dt)
 	}
 
 
+	if (_ammoTurret < _maxAmmoTurret)
+	{
+		_timerTurretActivateCooldown += dt;
+
+		if (_timerTurretActivateCooldown > _timerTurretCooldown)
+		{
+			_timerTurretActivateCooldown = 0.0;
+			++_ammoTurret;
+			((WeaponTabs*)_weaponTab)->AddNewTurret();
+		}
+	}
+
+
 	if (_god)
 	{
 		_health = _healthMax;
-		_ammoRpg = _ammoTurret = _ammoWall = 10;
+		_ammoRpg = _ammoWall = 10;
+		_ammoTurret = 3;
 		_timerShoot = _timerDeploy = 0.0;
 	}
 	if (_health == 0)
@@ -660,8 +680,10 @@ void Player::UpdateInput(double dt)
 	if (EngineSystems::GetInstance()._inputSystem->KeyDown(KeyCode::KEYB_E) ||
 		EngineSystems::GetInstance()._inputSystem->KeyHold(KeyCode::KEYB_E))
 	{	// spawn TURRET
-		if (_timerDeploy <= 0)
+		if (_timerDeploy <= 0 && _ammoTurret > 0)
 		{
+			--_ammoTurret;
+			((WeaponTabs*)_weaponTab)->UseOneTurret();
 			_timerDeploy = _firerateTurret; // reset timer to frWall
 			GameObject* turret = nullptr;
 			turret = CreateObject("Turret");

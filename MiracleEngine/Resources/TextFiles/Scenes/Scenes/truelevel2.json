@@ -126,6 +126,48 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "TurretAmmo1",
+      "LinkUId": 406,
+      "TransformComponent": true,
+      "Position": [ -635.0, 336.9903869628906, 1.0 ],
+      "Scale": [ 50.0, 50.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "UIComponent": true,
+      "UI.FileName": "Turret_gear_icon.png",
+      "UI.Layer": 100,
+      "UI.HasAlpha": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "TurretAmmo2",
+      "LinkUId": 407,
+      "TransformComponent": true,
+      "Position": [ -575.0, 336.9903869628906, 1.0 ],
+      "Scale": [ 50.0, 50.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "UIComponent": true,
+      "UI.FileName": "Turret_gear_icon.png",
+      "UI.Layer": 100,
+      "UI.HasAlpha": false
+    },
+    {
+      "IdentityComponent": true,
+      "ObjectType": "none",
+      "Name": "TurretAmmo3",
+      "LinkUId": 408,
+      "TransformComponent": true,
+      "Position": [ -515.000, 336.9903869628906, 1.0 ],
+      "Scale": [ 50.0, 50.0, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 0.0 ],
+      "UIComponent": true,
+      "UI.FileName": "Turret_gear_icon.png",
+      "UI.Layer": 100,
+      "UI.HasAlpha": false
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "HealthController"
     },
     {
