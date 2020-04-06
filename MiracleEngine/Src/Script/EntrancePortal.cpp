@@ -46,6 +46,10 @@ void EntrancePortal::SerialiseComponent(Serialiser& document)
 
 			if (document.HasMember("E.panningSpeed") && document["E.panningSpeed"].IsFloat())	//Checks if the variable exists in .Json file
 				_panningSpeed = (document["E.panningSpeed"].GetFloat());
+
+
+			if (document.HasMember("E.panningWaitTime") && document["E.panningWaitTime"].IsFloat())	//Checks if the variable exists in .Json file
+				_panningWaitTime = (document["E.panningWaitTime"].GetFloat());
 		}
 	}
 }
@@ -262,11 +266,29 @@ void EntrancePortal::Init()
 		_graphicComponent->SetFileName(_closePortalFileName);
 		_popUp = GetLinkObject(9542);
 		_popUpPos = GetComponentObject(_popUp, Transform);
+		_popUp->SetEnable(false);
 
 		_player = GetComponentObject(GetLinkObject(999), Transform);
 	}
 
-		_loadingObj = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_loadingLinkId), Logic), LoadingScreen);
+	if (_level == 3)
+	{
+		_popUp = GetLinkObject(9542);
+		_popUpPos = GetComponentObject(_popUp, Transform);
+		_popUp->SetEnable(false);
+
+		_player = GetComponentObject(GetLinkObject(999), Transform);
+	}
+
+	_loadingObj = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_loadingLinkId), Logic), LoadingScreen);
+
+	if (_panning)
+	{
+		_camera = GetComponentObject(GetLinkObject(_panningCameraLinkId), Camera);
+		_playerCamera = GetComponentObject(GetLinkObject(999), Camera);
+
+		_cameraTransform = GetComponentObject(GetLinkObject(_panningCameraLinkId), Transform);
+	}
 }
 
 void EntrancePortal::LoadResource()
@@ -279,19 +301,61 @@ void EntrancePortal::LoadResource()
 
 void EntrancePortal::Update(double dt)
 {
+	if (_panning && (_startpanning || _panningComleted))
+	{
+		if (_startpanning)
+		{
+			_cameraTransform->SetPos(_cameraTransform->GetPositionA() + _moveSpeed * MyFrameRateController.Getdt() * _panningSpeed);
+
+			if ((_PanningPosition - _cameraTransform->GetPositionA()).SquaredLength() < 25.f)
+			{
+				_panningComleted = true;
+				_startpanning = false;
+				_panningTimer = 0.f;
+
+
+				if (_level == 1)
+				{
+					_popUp->SetEnable(true);
+					_popUpPos->SetPos({ _PanningPosition._x, _PanningPosition._y + 300.0f, _PanningPosition._z });
+				}
+
+				if (_level == 3)
+				{
+					_popUp->SetEnable(true);
+					_popUpPos->SetPos({ _PanningPosition._x, _PanningPosition._y + 400.0f, _PanningPosition._z });
+				}
+			}
+		}
+
+		if (_panningComleted)
+		{
+			_panningTimer += MyFrameRateController.Getdt();
+
+			if (_panningTimer > _panningWaitTime)
+			{
+				_panningComleted = false;
+				_input->_pause = false;
+
+				if(_level == 3 || _level == 1)
+					_popUp->SetEnable(false);
+
+				_playerCamera->SetMainCamera(true);
+			}
+		}
+		
+	}
+
 	if (dt < 0)
 		return;
 
 	if (_level == 1)
 	{
-		if (!_clear)
+		if (!_clear && _KillCount >= _progressCount)
 		{
-			if (_KillCount >= _progressCount)
-				OpenPortal();
+			OpenPortal();
+			StartPanning();
 		}
-		else
-			_popUpPos->SetPos(Vec3{ _player->GetPos()._x, _player->GetPos()._y + 300, 1.f });
-	
 	}
 
 	if ((_level == 1 || _level==2) && ( _input->KeyDown(KeyCode::KEYB_0) || _input->KeyHold(KeyCode::KEYB_0)))
@@ -302,10 +366,23 @@ void EntrancePortal::OpenPortal()
 {
 	_clear = true;
 	_graphicComponent->SetFileName(_openPortalFileName);
-	_popUp->SetEnable(true);
+}
 
+void EntrancePortal::StartPanning()
+{
+	if (!_panning)
+		return;
 
+	_input->_pause = true;
 
+	_startpanning = true;
+	_panningComleted = false;
+
+	_camera->SetMainCamera(true);
+	_camera->_cameraZoom = _playerCamera->_cameraZoom;
+	_cameraTransform->SetPos(_player->GetPositionA());
+
+	_moveSpeed = (_PanningPosition - _player->GetPositionA()) * 0.01f;
 }
 
 void EntrancePortal::OnTrigger2DEnter(Collider2D* other)

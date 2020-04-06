@@ -23,19 +23,20 @@
 	"LogicComponent": true,
 	"ScriptId": [],
 	"Scripts": [
-		{
-			"Script2Id": "EntrancePortal",
-			"E.CurrScene": 1,
-			"E.OpenEntranceFileName": "EntranceTo_Level2.png",
-			"E.CloseEntranceFileName": "EntranceTo_Level2_close.png",
-			"E.ProgressCount": 10,
-			"E.NextScene": "truelevel2",
-			"E.LoadingLinkId": 2310,
+    {
+      "Script2Id": "EntrancePortal",
+      "E.CurrScene": 1,
+      "E.OpenEntranceFileName": "EntranceTo_Level2.png",
+      "E.CloseEntranceFileName": "EntranceTo_Level2_close.png",
+      "E.ProgressCount": 10,
+      "E.NextScene": "truelevel2",
+      "E.LoadingLinkId": 2310,
 
-			"E.panning": true,
-			"E.CameraLinkId": 35123,
-			"E.PanningPosition": [ -198.0009002685547, 235.6922607421875, 1.0 ],
-			"E.panningSpeed": 33.0
-		}
+      "E.panning": true,
+      "E.CameraLinkId": 35123,
+      "E.PanningPosition": [ 3047.998291015625, -154.0018768310547, 1.0 ],
+      "E.panningSpeed": 33.0,
+      "E.panningWaitTime":  2
+    }
 	]
 }

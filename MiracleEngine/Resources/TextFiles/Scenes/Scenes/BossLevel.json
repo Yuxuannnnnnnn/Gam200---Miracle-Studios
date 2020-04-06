@@ -13,6 +13,10 @@
     },
     {
       "IdentityComponent": true,
+      "ObjectType": "PortalText"
+    },
+    {
+      "IdentityComponent": true,
       "ObjectType": "LoadingScreen6"
     },
     {
