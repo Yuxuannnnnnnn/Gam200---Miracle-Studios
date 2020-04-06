@@ -1,0 +1,35 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "LoadingScreen7",
+  "Name": "loading",
+  "LinkUId": 2310,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 1920.0, 1080.0, 1.0 ],
+  "Rotate": 0.0,
+  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "UIComponent": true,
+  "UI.FileName": "Loading_Screen_1.png",
+  "UI.Layer": 130,
+  "UI.HasAlpha": false,
+  "LogicComponent": true,
+  "Scripts": [
+    {
+      "Script2Id": "LoadingScreen",
+      "L.FileName": "Loading_Screen_1.png",
+      "L.LoadingTextLinkId": 1,
+      "L.playerExist": false,
+      "L.secondImage": false,
+      "L.FileName2": "Loading_Screen_1.png",
+      "L.panning": true,
+      "L.panningCameraLinkId": 0,
+      "L.startPosition": [ 0.0, 0.0, 1.0 ],
+      "L.endPosition": [ 0.0, 0.0, 1.0 ],
+      "L.startZoom": 0.8,
+      "L.endZoom": 1.0,
+      "L.panningSpeed": 1.0,
+      "L.loadingCompleted": false,
+      "L.victoryTextLinkId" :  0
+    }
+  ]
+}

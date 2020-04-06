@@ -1,16 +1,16 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "LoadingText",
-  "Name": "none",
+  "ObjectType": "LoadingText1",
+  "Name": "Loading",
   "LinkUId": 14239,
   "TransformComponent": true,
-  "Position": [ 0.0, -350.0, 1.0 ],
+  "Position": [ 0.0, -392.0, 1.0 ],
   "Scale": [ 735.0, 95.0, 1.0 ],
   "Rotate": 0.0,
   "PivotPosition": [ 0.0, 0.0, 0.0 ],
   "UIComponent": true,
-  "UI.FileName": "Press_Space_To_Continue_button.png",
-  "UI.Layer": 131,
+  "UI.FileName": "Loading_backpad.png",
+  "UI.Layer": 135,
   "UI.HasAlpha": true
 
 }

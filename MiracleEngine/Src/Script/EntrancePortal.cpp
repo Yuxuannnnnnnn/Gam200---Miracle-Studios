@@ -240,7 +240,6 @@ void EntrancePortal::Init()
 		_player = GetComponentObject(GetLinkObject(999), Transform);
 	}
 
-	if (_level != 3)
 		_loadingObj = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_loadingLinkId), Logic), LoadingScreen);
 }
 
@@ -311,8 +310,5 @@ void EntrancePortal::IncreaseKillCount(int kills)
 
 void EntrancePortal::GoNextScene()
 {
-	if (_level != 3)
-		((LoadingScreen*)_loadingObj)->StartLoading();
-
-	MyFactory.ChangeScene(_nextScene);
+	((LoadingScreen*)_loadingObj)->StartLoading(_nextScene);
 }
