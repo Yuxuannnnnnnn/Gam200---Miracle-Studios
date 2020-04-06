@@ -129,6 +129,7 @@
       "Name": "fallscreen_tickBox",
       "TransformComponent": true,
       "Position": [ 300.0, 254.0, 1.0 ],
+      "Scale": [ 130.0, 130.0, 1.0 ],
       "PivotPosition": [ 0.0, 0.0, 0.0 ],
       "UIComponent": true,
       "UI.FileName": "UnTick.png",

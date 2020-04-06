@@ -127,7 +127,7 @@ void OptionScript::ApplySettings()
 {
 	// sets all new to current
 	_currFullscreen = _newFullscreen;
-	_currResolution = _allResolution[Index];
+	//_currResolution = _allResolution[Index]; // disabled as no assets for displaying resolution
 	_currMasterSound = _newMasterSound;
 	_currMusic = _newMusic;
 	_currSFX = _newSFX;
