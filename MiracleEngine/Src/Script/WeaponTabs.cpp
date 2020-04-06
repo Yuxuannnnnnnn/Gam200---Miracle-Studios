@@ -28,6 +28,13 @@ void WeaponTabs::Init()
 
 	_selectorRight = GetComponentObject(GetLinkObject(404), Transform);
 	_selectorLight = GetComponentObject(GetLinkObject(405), Transform);
+
+
+	_turretGear.push_back(GetLinkObject(406));
+	_turretGear.push_back(GetLinkObject(407));
+	_turretGear.push_back(GetLinkObject(408));
+
+	_remainderTurret = 3;
 }
 
 void WeaponTabs::LoadResource()
@@ -59,4 +66,25 @@ void WeaponTabs::SelectWeapon(int weapon)
 void WeaponTabs::EnableShield(bool enable)
 {
 	_shieldGlow->SetEnable(enable);
+}
+
+void WeaponTabs::UseOneTurret()
+{
+	--_remainderTurret;
+
+	if (_remainderTurret < 0)
+		_remainderTurret = 0;
+
+	for (int i = _remainderTurret; i < _turretGear.size(); ++i)
+		_turretGear[i]->SetEnable(false);
+}
+void WeaponTabs::AddNewTurret()
+{
+	++_remainderTurret;
+
+	if (_remainderTurret > _turretGear.size())
+		_remainderTurret = _turretGear.size();
+
+	for (int i = 0; i < _remainderTurret; ++i)
+		_turretGear[i]->SetEnable(true);
 }

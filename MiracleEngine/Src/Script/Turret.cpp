@@ -32,6 +32,7 @@ void Turret::Init()
 	_turretBase->SetEnable(false);
 
 	// set Deploy animation and set the animation's speed
+	GetSibilingComponentObject(Animation)->SetEnable(true);
 	GetSibilingComponentObject(Animation)->SetCurrentAnimOnce("Deploy");
 	GetSibilingComponentObject(Animation)->SetTimeDelay(
 		_deployTime / GetSibilingComponentObject(Animation)->GetMaxFrame() );
@@ -72,6 +73,8 @@ void Turret::Update(double dt)
 		{
 			GetSibilingComponentObject(Transform)->SetScaleA(_deployScale);
 			GetSibilingComponentObject(Animation)->SetEnable(false);
+			GetComponentObject(_turretBase,Transform)->SetPos(GetSibilingComponentObject(Transform)->GetPositionA());
+
 			_turretBase->SetEnable(true);
 		}
 

@@ -25,8 +25,9 @@ private:
 	double _timerSwitch, _timerSwitchDelay;
 	int _weaponActive;
 	int _ammoRpg;
-	int _ammoTurret;
+	int _ammoTurret, _maxAmmoTurret;
 	int _ammoWall;
+	double _timerTurretActivateCooldown, _timerTurretCooldown;
 	double _timerShoot;
 	double _timerDeploy;
 	double _fireratePistol;		// 1.0d == 1sec

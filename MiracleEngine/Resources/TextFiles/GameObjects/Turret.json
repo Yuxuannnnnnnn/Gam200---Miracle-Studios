@@ -5,13 +5,13 @@
   "LinkUId": 0,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
-  "Scale": [ 70.0, 130, 1.0 ],
+  "Scale": [ 80.0, 130.0, 1.0 ],
   "Rotate": 0.0,
-  "PivotPosition": [ 0.0, 0.0, 0.0 ],
+  "PivotPosition": [ 0.0, 0.0, 1.0 ],
   "GraphicsComponent": true,
   "G.FileName": "Turret_Body_Sprite.png",
   "G.Shader": "",
-  "G.Layer": 13,
+  "G.Layer": 31,
   "_hasAlpha": true,
   "_hasAdjustableAlpha": false,
   "_alphaVal": 1.0,
@@ -23,15 +23,15 @@
     {
       "Script2Id": "Turret",
       "Health": 10,
-      "Firerate": 2,
+      "Firerate": 1.2,
       "AttackRangeShoot": 4,
       "DeployTime": 2.0,
-      "AliveTime": 4.0,
-      "DeployScale": [ 80.0, 140.0, 1.0 ]
+      "AliveTime": 5.0,
+      "DeployScale": [ 65.0, 120.0, 1.0 ]
     }
   ],
 
-  "AnimationComponent": true,
+  "AnimationComponent": false,
   "AnimationTypes": [
     {
       "AnimationType": "Turret_Transform_spriteSpriteSheetData.json",
@@ -40,6 +40,8 @@
     }
   ],
   "StartAnim": "Deploy",
+  "PlayAtCreation": false,
+  "PlayInitLoop": false,
   "AudioComponent": true,
   "SFXList": [
     {
@@ -61,17 +63,19 @@
   "ChildObjects": [
     {
       "IdentityComponent": true,
-      "ObjectType": "TurretLeg",
+      "ObjectType": "TurretBase",
       "Name": "TurretLeg",
       "LinkUId": 0,
       "TransformComponent": true,
       "Position": [ 0.0, 0.0, 1.0 ],
-      "Scale": [ 100.0, 100.0, 1.0 ],
+      "Scale": [ 1.4285, 0.7692, 1.0 ],
+      "PivotPosition": [ 0.0, 0.0, 1.0 ],
       "Rotate": 0.0,
       "GraphicsComponent": true,
       "G.FileName": "Turret_Leg_Sprite.png",
       "G.Shader": "",
-      "G.Layer": 12
+      "G.Layer": 30,
+      "_hasAlpha": true
     }
   ]
 }

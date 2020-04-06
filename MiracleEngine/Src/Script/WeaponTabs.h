@@ -12,6 +12,10 @@ private:
 
 	TransformComponent* _selectorRight;
 	TransformComponent* _selectorLight;
+
+	std::vector<GameObject*> _turretGear;
+
+	int _remainderTurret;
 public:
 	void SerialiseComponent(Serialiser& document);
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) {};
@@ -30,6 +34,9 @@ public:
 	void Update(double dt);
 
 	void SelectWeapon(int weapon);
+
+	void UseOneTurret();
+	void AddNewTurret();
 
 	void EnableShield(bool enable);
 };
