@@ -27,7 +27,7 @@ void AudioSystem::PlayBGM(const std::string& name, float volume)
 		FMOD_ChannelGroup_Stop(_bgmGroup);
 		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _bgmGroup, 0, &_channel1);
 
-		FMOD_Channel_SetVolume(_channel1, volume);
+		FMOD_Channel_SetVolume(_channel1, volume * BGMvolume * MasterVolume);
 		//FMOD_Channel_SetLoopCount(_channel2, 3);
 		FMOD_Channel_SetPaused(_channel1, false);
 	}
@@ -43,7 +43,7 @@ void AudioSystem::PlaySFX(const std::string& name, float volume)
 		FMOD_System_PlaySound(_fmodSystem, sound->GetFSound(), _sfxGroup, false, &_channel2);
 
 
-	FMOD_Channel_SetVolume(_channel2, volume);
+	FMOD_Channel_SetVolume(_channel2, volume * SFXvolume * MasterVolume);
 	//FMOD_Channel_SetLoopCount(_channel2, 3);
 	FMOD_Channel_SetPaused(_channel2, false);
 }

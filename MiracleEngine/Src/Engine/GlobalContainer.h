@@ -62,6 +62,8 @@ public:
 #ifdef LEVELEDITOR
 		_console = new Console(); //Create a Logging console
 #endif
+		_audioSystem = new AudioSystem();
+
 		_windowSystem = new WindowsSystem(hInstance, nCmdShow); //Create Window object in it
 		_frameRateControl = new FrameRateController(60);	//FrameRateController Set to 60 FPS at start of the Engine
 
@@ -76,7 +78,6 @@ public:
 		_inputSystem = new InputSystem();
 		_cameraSystem = new CameraSystem();
 		_physicsSystem = new PhysicsSystem();
-		_audioSystem = new AudioSystem();
 		_animationSystem = new AnimationSystem();
 		_graphicsSystem = new GraphicsSystem();
 		

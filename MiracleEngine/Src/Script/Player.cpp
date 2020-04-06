@@ -647,7 +647,7 @@ void Player::UpdateInput(double dt)
 				_shieldSkill = MyLogicSystem.GetScriptList()[((LogicComponent*)(MyFactory.GetLinkIDObject(666)->GetComponent(ComponentId::CT_Logic)))->GetScriptContianer()[ToScriptId(temp)]];
 			}
 
-			((ShieldSkill*)_shieldSkill)->ActionShield(_timerShieldDuration);
+			((ShieldSkill*)_shieldSkill)->ActionShield(_timerShieldDuration, _timerShieldCooldown);
 			_shieldOn = true;
 			_timerShieldActivateCooldown = _timerShieldDuration + _timerShieldCooldown;
 		}

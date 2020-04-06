@@ -50,6 +50,26 @@ public:
 	void ResumeSFX();
 	void ResumeAllSound();
 
+	void SetBGMVolume(float volume)
+	{
+		BGMvolume = volume;
+	}
+
+	void SetSFXVolume(float volume)
+	{
+		SFXvolume = volume;
+	}
+
+	void SetMasterVolume(float volume)
+	{
+		MasterVolume = volume;
+	}
+
+
+	float BGMvolume;
+	float SFXvolume;
+	float MasterVolume;
+
 	FMOD_CHANNELCONTROL* _control;
 	FMOD_SYSTEM* _fmodSystem;
 private:
