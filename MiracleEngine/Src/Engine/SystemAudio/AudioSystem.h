@@ -53,6 +53,7 @@ public:
 	void SetBGMVolume(float volume)
 	{
 		BGMvolume = volume;
+		FMOD_Channel_SetVolume(_channel1, volume * BGMvolume * MasterVolume);
 	}
 
 	void SetSFXVolume(float volume)
