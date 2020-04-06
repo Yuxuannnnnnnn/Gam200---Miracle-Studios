@@ -1007,7 +1007,7 @@ void Player::OnTrigger2DEnter(Collider2D* other)
 	{
 		other->GetParentPtr()->SetDestory();
 
-		GetComponentObject(_healingSparkle, Animation)->SetCurrentAnimOnce("Spark");
+		GetComponentObject(_healingSparkle, Animation)->SetCurrentAnimOnce("Heal");
 
 		if (_god)
 			return;
