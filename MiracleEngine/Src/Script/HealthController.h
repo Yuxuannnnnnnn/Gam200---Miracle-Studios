@@ -13,15 +13,23 @@ private:
 	std::vector<UIComponent*> _hpBatteryGraphic;
 
 	int _progressBarLinkID;
+	UIComponent* _progressBarUI;
 	TransformComponent* _progressBar;
 
-	float _maxProgressScale;
+	std::string _progressBarYellow;
+	std::string _progressBarBlue;
 
-	float _progressPercent;
+	float _maxProgressScale;
+	float _progressTotalTime;
+	float _progressCurrTime;
+
 	int _maxHealth;
 	int _currHealth;
 
 	int _currColor;
+
+	bool _progressCharge;
+	bool _progressUse;
 public:
 
 	void SerialiseComponent(Serialiser& document);
@@ -44,7 +52,8 @@ public:
 	void DecreaseHealth(int hit = 1);
 	void IncreaseHealth(int heal = 1);
 
-	void IncreaseEXP(float exp = 0.01f);
+	void UseShield(float timer);
+	void ChargeShield(float time);
 
 	void UpdateHealthColor();
 	void UpdateProgressBar();

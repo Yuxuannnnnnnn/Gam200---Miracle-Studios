@@ -1,6 +1,5 @@
 #include "PrecompiledHeaders.h"
 #include "LogicSystem.h"
-
 #include "Script/Player.h"
 #include "Script/Enemy.h"
 #include "Script/Bullet.h"
@@ -20,6 +19,8 @@
 #include "Script/LoadingScreen.h"
 #include "Script/BossHealthController.h"
 #include "Script/OptionScript.h"
+#include "Script/WeaponTabs.h"
+
 
 
 LogicSystem::~LogicSystem()
@@ -63,6 +64,7 @@ void LogicSystem::RegisterAllScript()
 	RegisterScript(LoadingScreen);
 	RegisterScript(BossHealthController);
 	RegisterScript(OptionScript);
+	RegisterScript(WeaponTabs);
 }
 
 void LogicSystem::Init() {

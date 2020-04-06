@@ -133,6 +133,7 @@
     <ClCompile Include="Src\Script\LoadingScreen.cpp" />
     <ClCompile Include="Src\Script\BossHealthController.cpp" />
     <ClCompile Include="Src\Script\OptionScript.cpp" />
+    <ClCompile Include="Src\Script\WeaponTabs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dep\glew-2.1.0\include\GL\eglew.h" />
@@ -575,6 +576,7 @@
     <ClInclude Include="Src\Script\LoadingScreen.h" />
     <ClInclude Include="Src\Script\BossHealthController.h" />
     <ClInclude Include="Src\Script\OptionScript.h" />
+    <ClInclude Include="Src\Script\WeaponTabs.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dep\glew-2.1.0\lib\glew32s.lib" />
