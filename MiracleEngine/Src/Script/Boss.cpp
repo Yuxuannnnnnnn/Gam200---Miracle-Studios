@@ -74,6 +74,13 @@ void Boss::Init()
 			break;
 		}
 	}
+	for (auto itr : _engineSystems._factory->getObjectlist())
+	{
+		if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnvExplosion") == 0)
+		{
+			GetComponentObject(itr.second, Graphic)->SetEnable(false);
+		}
+	}
 
 	_healthHalf = _healthMax / 2;
 	_healthQuart = _healthMax / 4;
@@ -411,6 +418,11 @@ void Boss::Death()
 		// set destroy to all enemies
 		for (auto& itr : _engineSystems._factory->getObjectlist())
 		{
+			if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("EnvExplosion") == 0)
+			{
+				GetComponentObject(itr.second, Graphic)->SetEnable(true);
+				GetComponentObject(itr.second, Animation)->SetCurrentAnim("Explosion");
+			}
 			if (GetComponentObject(itr.second, Identity)->ObjectType().compare("Enemy") == 0 ||
 				GetComponentObject(itr.second, Identity)->ObjectType().compare("EnemyTwo") == 0)
 				if (!itr.second->GetDestory() && itr.second->GetAlive())

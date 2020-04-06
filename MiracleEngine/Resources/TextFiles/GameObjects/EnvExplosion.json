@@ -8,19 +8,19 @@
   "Scale": [ 300.0,300.0, 1.0 ],
   "Rotate": 0.0,
   "GraphicsComponent": true,
-  "G.FileName": "Crack_3.png",
+  "G.FileName": "empty.png",
   "G.Shader": "DefaultShader",
-  "G.Layer": 32,
+  "G.Layer": 40,
   "_hasAlpha": true,
   "AnimationComponent": true,
   "AnimationTypes": [
     {
       "AnimationType": "EnvExplosion_SpriteSheetData.json",
-      "TimeDelay": 0.001,
+      "TimeDelay": 0.02,
       "AnimationName": "Explosion"
     }
   ],
-  "PlayAtCreation": false,
-  "PlayInitLoop": false,
+  "PlayAtCreation": true,
+  "PlayInitLoop": true,
   "StartAnim":"Explosion"
 }
