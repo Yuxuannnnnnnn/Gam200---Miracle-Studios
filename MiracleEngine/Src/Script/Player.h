@@ -56,6 +56,7 @@ private:
 	IScript2* _hitEffect;
 	IScript2* _healthBar;
 	IScript2* _pauseMenu;
+	IScript2* _weaponTab;
 public:
 	void SerialiseComponent(Serialiser& document) ;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;
