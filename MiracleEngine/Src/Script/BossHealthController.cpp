@@ -141,6 +141,12 @@ void BossHealthController::DecreaseHealth(int hit)
 			stage = it.first;
 			break;
 		}
+		else if (temp == it.second)
+		{
+			_HpStageEnable[it.first] = false;
+			stage = it.first;
+			break;
+		}
 
 		temp -= it.second;
 	}
