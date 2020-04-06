@@ -4,9 +4,9 @@
 OptionScript::OptionScript() :
 	_currFullscreen{ false }, _newFullscreen{ false },
 	Index{ 0 },
-	_currMasterSound{ 0.f }, _newMasterSound{ 0.f },
-	_currMusic{ 0.f }, _newMusic{ 0.f }, _adjustedMusic{ 0.f },
-	_currSFX{ 0.f }, _newSFX{ 0.f }, _adjustedSFX{ 0.f }
+	_currMasterSound{ 0 }, _newMasterSound{ 0 },
+	_currMusic{ 0 }, _newMusic{ 0 },
+	_currSFX{ 0 }, _newSFX{ 0 }
 {
 }
 
@@ -17,16 +17,22 @@ OptionScript* OptionScript::Clone()
 
 void OptionScript::SetNewFullscreen()
 {
+	if (DEBUGOUTPUT) std::cout << "SetFullscreen\n";
 	_newFullscreen = !_newFullscreen;
+	(_newFullscreen) ?
+		_tickFullscreen->SetFileName("Tick.png") :
+		_tickFullscreen->SetFileName("UnTick.png");
 }
 void OptionScript::IncreaseResolution()
 {
+	if (DEBUGOUTPUT) std::cout << "Res++\n";
 	Index++;
 	if (Index > _allResolution.size())
 		Index = _allResolution.size();
 }
 void OptionScript::DecreaseResolution()
 {
+	if (DEBUGOUTPUT) std::cout << "Res--\n";
 	Index--;
 	if (Index < 0)
 		Index = 0;
@@ -38,52 +44,93 @@ Vector3 OptionScript::DisplayNewResolution()
 }
 void OptionScript::IncreaseMasterSound()
 {
-	_newMasterSound += 0.1f;
-	if (_newMasterSound > 1.0f)
-		_newMasterSound = 1.0f;
+	if (DEBUGOUTPUT) std::cout << "Msound++\n";
+	_newMasterSound += 1;
+	if (_newMasterSound > 10)
+		_newMasterSound = 10;
+	_textMsound->SetFileName(IntToFileName(_newMasterSound));
 }
 void OptionScript::DecreaseMasterSound()
 {
-	_newMasterSound -= 0.1f;
-	if (_newMasterSound < 0.0f)
-		_newMasterSound = 0.0f;
+	if (DEBUGOUTPUT) std::cout << "Msound--\n";
+	_newMasterSound -= 1;
+	if (_newMasterSound < 0)
+		_newMasterSound = 0;
+	_textMsound->SetFileName(IntToFileName(_newMasterSound));
 }
 void OptionScript::IncreaseMusic()
 {
-	_newMusic += 0.1f;
-	if (_newMusic > 1.0f)
-		_newMusic = 1.0f;
+	if (DEBUGOUTPUT) std::cout << "Mus++\n";
+	_newMusic += 1;
+	if (_newMusic > 10)
+		_newMusic = 10;
+	_textMus->SetFileName(IntToFileName(_newMusic));
 }
 void OptionScript::DecreaseMusic()
 {
-	_newMusic -= 0.1f;
-	if (_newMusic < 0.0f)
-		_newMusic = 0.0f;
+	if (DEBUGOUTPUT) std::cout << "Mus--\n";
+	_newMusic -= 1;
+	if (_newMusic < 0)
+		_newMusic = 0;
+	_textMus->SetFileName(IntToFileName(_newMusic));
 }
 void OptionScript::IncreaseSFX()
 {
-	_newSFX += 0.1f;
-	if (_newSFX > 1.0f)
-		_newSFX = 1.0f;
+	if (DEBUGOUTPUT) std::cout << "Sfx++\n";
+	_newSFX += 1;
+	if (_newSFX > 10)
+		_newSFX = 10;
+	_textSfx->SetFileName(IntToFileName(_newSFX));
 }
 void OptionScript::DecreaseSFX()
 {
-	_newSFX -= 0.1f;
-	if (_newSFX < 0.0f)
-		_newSFX = 0.0f;
+	if (DEBUGOUTPUT) std::cout << "Sfx--\n";
+	_newSFX -= 1;
+	if (_newSFX < 0)
+		_newSFX = 0;
+	_textSfx->SetFileName(IntToFileName(_newSFX));
+}
+
+std::string OptionScript::IntToFileName(int i)
+{
+	switch (i)
+	{
+	case 0:
+		return "0p.png";
+	case 1:
+		return "10p.png";
+	case 2:
+		return "20p.png";
+	case 3:
+		return "30p.png";
+	case 4:
+		return "40p.png";
+	case 5:
+		return "50p.png";
+	case 6:
+		return "60p.png";
+	case 7:
+		return "70p.png";
+	case 8:
+		return "80p.png";
+	case 9:
+		return "90p.png";
+	case 10:
+		return "100p.png";
+	default:
+		std::cout << "Impossibru O.o o.O \n";
+		return "100p.png";
+	}
 }
 
 void OptionScript::ApplySettings()
 {
 	// sets all new to current
 	_currFullscreen = _newFullscreen;
-	_currResolution = _allResolution[Index];
+	//_currResolution = _allResolution[Index]; // disabled as no assets for displaying resolution
 	_currMasterSound = _newMasterSound;
 	_currMusic = _newMusic;
 	_currSFX = _newSFX;
-	// set adjusted Music & SFX
-	_adjustedMusic = _newMusic * _newMasterSound;
-	_adjustedSFX = _newSFX * _newMasterSound;
 
 	{
 		std::string fileName = "./Resources/TextFiles/Window\\init.json";
@@ -95,7 +142,7 @@ void OptionScript::ApplySettings()
 		value.SetBool(_currFullscreen);
 		document.AddMember("currFullscreen", value);
 
-		if(_currFullscreen)
+		if (_currFullscreen)
 			MyWindowsSystem.getWindow().SetFullscreenWindowMode();
 		else
 			MyWindowsSystem.getWindow().SetNonFullScreenWindowMode();
@@ -107,32 +154,38 @@ void OptionScript::ApplySettings()
 		document.AddMember("currResolution", value);
 
 
-		value.SetFloat(_currMasterSound);
+		value.SetFloat(_currMasterSound * 0.1f);
 		document.AddMember("currMasterSound", value);
 
-		value.SetFloat(_currMusic);
+		value.SetFloat(_currMusic * 0.1f);
 		document.AddMember("currMusic", value);
 
-		value.SetFloat(_currSFX);
+		value.SetFloat(_currSFX * 0.1f);
 		document.AddMember("currSFX", value);
 
-		MyAudioSystem.SetMasterVolume(_currMasterSound);
-		MyAudioSystem.SetBGMVolume(_currMusic);
-		MyAudioSystem.SetSFXVolume(_currSFX);
+		MyAudioSystem.SetMasterVolume(_currMasterSound * 0.1f);
+		MyAudioSystem.SetBGMVolume(_currMusic * 0.1f);
+		MyAudioSystem.SetSFXVolume(_currSFX * 0.1f);
 
 
 		document.ProduceJsonFile();
 	}
 }
-
-void OptionScript::SerialiseComponent(Serialiser& document)
+void OptionScript::DiscardSettings()
 {
-	if (document.HasMember("currFullscreen") && document["currFullscreen"].IsBool())	//Checks if the variable exists in .Json file
-	{
-		_currFullscreen = (document["currFullscreen"].GetBool());
-	}
+	// sets all new to current
+	_newFullscreen = _currFullscreen;
+	_newResolution = _currResolution;
+	_newMasterSound = _currMasterSound;
+	_newMusic = _currMusic;
+	_newSFX = _currSFX;
+	//// set adjusted Music & SFX
+	//_adjustedMusic = _newMusc * _newMasterSound;
+	//_adjustedSFX = _newSFX * _newMasterSound;
+}
 
-
+void OptionScript::SerialiseComponent(Serialiser & document)
+{
 	if (document.HasMember("currResolution") && document["currResolution"].IsArray())	//Checks if the variable exists in .Json file
 	{
 		_currResolution = { document["currResolution"][0].GetFloat(), document["currResolution"][1].GetFloat(), document["currResolution"][2].GetFloat() };
@@ -155,10 +208,9 @@ void OptionScript::SerialiseComponent(Serialiser& document)
 	}
 }
 
-void OptionScript::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+void OptionScript::DeSerialiseComponent(rapidjson::Value & prototypeDoc, rapidjson::MemoryPoolAllocator<> & allocator)
 {
 	rapidjson::Value value;
-
 	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
 	prototypeDoc.AddMember("Script2Id", value, allocator);
 
@@ -183,7 +235,7 @@ void OptionScript::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjso
 
 }
 
-void OptionScript::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson::Value& value, rapidjson::MemoryPoolAllocator<>& allocator)
+void OptionScript::DeserialiseComponentSceneFile(IComponent * protoCom, rapidjson::Value & value, rapidjson::MemoryPoolAllocator<> & allocator)
 {
 	LogicComponent* protoLogicCom = dynamic_cast<LogicComponent*>(protoCom);
 
@@ -260,54 +312,46 @@ void OptionScript::DeserialiseComponentSceneFile(IComponent* protoCom, rapidjson
 }
 
 
-void OptionScript::DiscardSettings()
-{
-	// sets all new to current
-	_newFullscreen = _currFullscreen;
-	_newResolution = _currResolution;
-	_newMasterSound = _currMasterSound;
-	_newMusic = _currMusic;
-	_newSFX = _currSFX;
-	//// set adjusted Music & SFX
-	//_adjustedMusic = _newMusc * _newMasterSound;
-	//_adjustedSFX = _newSFX * _newMasterSound;
-}
 
 
-void OptionScript::OnMouseDown()
+void OptionScript::Init()
 {
-	;
-}
+	_allResolution.push_back({ 800, 600, 0 });
+	_allResolution.push_back({ 1280, 720, 0 });
+	_allResolution.push_back({ 1366, 768, 0 });
+	_allResolution.push_back({ 1600, 900, 0 });
+	_allResolution.push_back({ 1920, 1080, 0 });
 
-void OptionScript::OnMouseEnter()
-{
-	;
-}
-void OptionScript::OnMouseOver()
-{
-	;
-}
-void OptionScript::OnMouseExit()
-{
-	;
+	_currFullscreen = _newFullscreen = MyWindowsSystem.getWindow().GetFullscreen();
+	_currResolution = _currResolution = { MyWindowsSystem.getWindow().GetWindowWidth(), MyWindowsSystem.getWindow().GetWindowHeight() };
+	_currMusic = _newMusic = static_cast<int>(MyAudioSystem.BGMvolume * 10);
+	_currSFX = _newSFX = static_cast<int>(MyAudioSystem.SFXvolume * 10);
+	_currMasterSound  = _newMasterSound = static_cast<int>(MyAudioSystem.MasterVolume * 10);
+
+	// get the 5 related graphic items
+	for (auto itr : _engineSystems._factory->getObjectlist())
+	{
+		if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("tickFullscreen") == 0)
+			_tickFullscreen = GetComponentObject(itr.second, UI);
+		if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("textResolution") == 0)
+			_textResolution = GetComponentObject(itr.second, UI);
+		if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("textMsound") == 0)
+			_textMsound = GetComponentObject(itr.second, UI);
+		if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("textMus") == 0)
+			_textMus = GetComponentObject(itr.second, UI);
+		if (((IdentityComponent*)itr.second->GetComponent(ComponentId::CT_Identity))->ObjectType().compare("textSfx") == 0)
+			_textSfx = GetComponentObject(itr.second, UI);
+	}
+	// set initial values to current values
+	(_currFullscreen) ?
+		_tickFullscreen->SetFileName("Tick.png") :
+		_tickFullscreen->SetFileName("UnTick.png");
+	_textMsound->SetFileName(IntToFileName(_currMasterSound));
+	_textMus->SetFileName(IntToFileName(_currMusic));
+	_textSfx->SetFileName(IntToFileName(_currSFX));
 }
 
 void OptionScript::Update(double dt)
 {
 
 }
-
-void OptionScript::Init()
-{
-	_allResolution.push_back({ 1920, 1080, 1 });
-
-
-
-	_currFullscreen = MyWindowsSystem.getWindow().GetFullscreen();
-	_currResolution = { MyWindowsSystem.getWindow().GetWindowWidth(), MyWindowsSystem.getWindow().GetWindowHeight() };
-	_currMusic = MyAudioSystem.BGMvolume;
-	_currSFX = MyAudioSystem.SFXvolume;
-	_currMasterSound = MyAudioSystem.MasterVolume;
-
-}
-

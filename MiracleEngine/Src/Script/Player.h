@@ -25,8 +25,9 @@ private:
 	double _timerSwitch, _timerSwitchDelay;
 	int _weaponActive;
 	int _ammoRpg;
-	int _ammoTurret;
+	int _ammoTurret, _maxAmmoTurret;
 	int _ammoWall;
+	double _timerTurretActivateCooldown, _timerTurretCooldown;
 	double _timerShoot;
 	double _timerDeploy;
 	double _fireratePistol;		// 1.0d == 1sec
@@ -56,6 +57,7 @@ private:
 	IScript2* _hitEffect;
 	IScript2* _healthBar;
 	IScript2* _pauseMenu;
+	IScript2* _weaponTab;
 public:
 	void SerialiseComponent(Serialiser& document) ;
 	void DeSerialiseComponent(DeSerialiser& prototypeDoc) ;

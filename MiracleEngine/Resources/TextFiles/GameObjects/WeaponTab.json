@@ -1,0 +1,18 @@
+{
+  "IdentityComponent": true,
+  "ObjectType": "WeaponTab",
+  "Name": "WeaponTabController",
+  "LinkUId": 400,
+  "TransformComponent": true,
+  "Position": [ 0.0, 0.0, 1.0 ],
+  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Rotate": 0.0,
+  "Layer": 1,
+
+  "LogicComponent": true,
+  "Scripts": [
+    {
+      "Script2Id": "WeaponTabs"
+    }
+  ]
+}

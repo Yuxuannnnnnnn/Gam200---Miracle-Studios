@@ -2,6 +2,7 @@
 #include "ButtonController.h"
 #include "PauseMenu.h"
 #include "Script/LoadingScreen.h"
+#include "Script/OptionScript.h"
 
 void ButtonController::SerialiseComponent(Serialiser& document)
 {
@@ -112,6 +113,10 @@ void ButtonController::Init()
 
 	if (_currScene == 1)
 		_LoadingObj = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(_loadingLinkId), Logic), LoadingScreen);
+
+	if (_currScene == 4)
+		_OptionObj = GetScriptByLogicComponent(GetComponentObject(GetLinkObject(1279), Logic), OptionScript);
+
 }
 
 void ButtonController::LoadResource()
@@ -149,5 +154,44 @@ void ButtonController::Update(double dt)
 	}
 	else if (_currScene == 3 && _input->ButtonTrigger(30))
 		MyFactory.ChangeScene("MainMenu");
+	else if (_currScene == 4)
+	{
+		if (_input->ButtonTrigger(1)) // back
+			MyFactory.ChangeScene("MainMenu");
+		if (_input->ButtonTrigger(2)) // apply
+			_OptionObj->ApplySettings();
+
+		if (_input->ButtonTrigger(3)) // fullscreen
+			_OptionObj->SetNewFullscreen();
+
+		if (_input->ButtonTrigger(4)) // resolution up
+			_OptionObj->IncreaseResolution();
+		if (_input->ButtonTrigger(5)) // resolution down
+			_OptionObj->DecreaseResolution();
+
+		if (_input->ButtonTrigger(6)) // MSound up
+			_OptionObj->IncreaseMasterSound();
+		if (_input->ButtonTrigger(7)) // MSound down
+			_OptionObj->DecreaseMasterSound();
+
+		if (_input->ButtonTrigger(8)) // Mus up
+			_OptionObj->IncreaseMusic();
+		if (_input->ButtonTrigger(9)) // Mus down
+			_OptionObj->DecreaseMusic();
+
+		if (_input->ButtonTrigger(10)) // Sfx up
+			_OptionObj->IncreaseSFX();
+		if (_input->ButtonTrigger(11)) // Sfx down
+			_OptionObj->DecreaseSFX();
+
+		/*
+		back 1, apply 2
+		fullscn 3
+		res 4, down 5
+		Master 6, down 7
+		Mus 8, down 9
+		Sfx 10, 11
+		*/
+	}
 	
 }

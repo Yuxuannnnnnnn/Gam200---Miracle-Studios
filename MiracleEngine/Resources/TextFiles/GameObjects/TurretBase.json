@@ -5,7 +5,7 @@
   "LinkUId": 0,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
-  "Scale": [ 100.0, 100.0, 1.0 ],
+  "Scale": [ 1.4285, 0.7692, 1.0 ],
   "Rotate": 0.0,
 
   "GraphicsComponent": true,
