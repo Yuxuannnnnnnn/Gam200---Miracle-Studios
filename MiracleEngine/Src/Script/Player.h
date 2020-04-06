@@ -42,8 +42,10 @@ private:
 // Logic - DelayDeathForAnimation
 	double _timerDeath, _animTime;
 	bool _redTint, _justHit;
-	double _dt, hitTintTimer, hitTintDuration;;
+	double _dt, hitTintTimer, hitTintDuration;
 	double _laserHitTimer, _laserHitDelay;
+
+	GameObject* _healingSparkle, *_hitSpark;
 
 	TransformComponent* _muzzleTransfrom;
 	AnimationComponent* _muzzleAnimation;

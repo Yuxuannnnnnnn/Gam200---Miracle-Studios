@@ -90,6 +90,15 @@ void Boss::Init()
 
 	_init = true;
 }
+
+void Boss::LoadResource()
+{
+#ifdef LEVELEDITOR
+	MyResourceManager.AddNewPrototypeResource({ "BulletE" , MyResourceSystem.GetPrototypeResourcePath("BulletE") });
+	MyResourceManager.AddNewPrototypeResource({ "ImpactSparkEnemy" , MyResourceSystem.GetPrototypeResourcePath("ImpactSparkEnemy") });
+#endif
+}
+
 void Boss::Update(double dt)
 {
 	if (!_init)
@@ -859,6 +868,15 @@ void Boss::OnCollision2DTrigger(Collider2D* other)
 	std::string otherType = ((IdentityComponent*)other->GetParentPtr()->GetComponent(ComponentId::CT_Identity))->ObjectType();
 	if (otherType.compare("Bullet") == 0 && _state != (int)Boss_State::STARTUP)
 	{
+		GameObject* Spark = CreateObject("ImpactSparkEnemy");
+		TransformComponent* trans = GetComponentObject(Spark, Transform);
+		trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
+		trans->SetScaleA({ 600, 600, 1 });
+		trans->SetRotationA(
+			GetComponentObject(other->GetParentPtr(), Transform)->GetRotationA() += MY_PI);
+		GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");
+
+
 		_justHit = true; // used in OnHit()
 	}
 }

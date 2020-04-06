@@ -8,7 +8,7 @@
   "Scale": [ 300.0,300.0, 1.0 ],
   "Rotate": 0.0,
   "GraphicsComponent": true,
-  "G.FileName": "Crack_3.png",
+  "G.FileName": "empty.png",
   "G.Shader": "DefaultShader",
   "G.Layer": 35,
   "_hasAlpha": true,
@@ -20,7 +20,7 @@
       "AnimationName": "Spark"
     }
   ],
-  "PlayAtCreation": true,
+  "PlayAtCreation": false,
   "PlayInitLoop": false,
   "StartAnim":"Spark"
 }
