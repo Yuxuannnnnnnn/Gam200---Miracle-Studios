@@ -915,8 +915,7 @@ void Player::LaserPlayer()
 			TransformComponent* trans = GetComponentObject(Spark, Transform);
 			trans->SetPositionA(GetSibilingComponentObject(Transform)->GetPositionA());
 			trans->SetScaleA({ 300, 300, 1 });
-			trans->SetRotationA(
-				trans->GetRotationA() += MY_PI);
+			trans->SetRotationA(GetSibilingComponentObject(Transform)->GetRotationA());
 			GetComponentObject(Spark, Animation)->SetCurrentAnimOnce("Spark");			
 		}
 	}
