@@ -16,7 +16,7 @@
     {
       "Script2Id": "Boss",
       "StartDuration": 5.0,
-      "Health": 23,
+      "Health": 44,
       "IdleDuration": 2.0,
       "AmmoPerSpin": 25,
       "ShootROF": 0.1,
