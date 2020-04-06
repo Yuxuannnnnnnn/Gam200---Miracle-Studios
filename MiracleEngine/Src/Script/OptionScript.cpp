@@ -1,7 +1,5 @@
 #include "PrecompiledHeaders.h"
-#include "GameObject/Components/Logic/PrecompiledScriptType.h"
 #include "OptionScript.h"
-#include "Script/OptionScript.h"
 
 OptionScript::OptionScript() :
 	_currFullscreen{ false }, _newFullscreen{ false },
@@ -23,39 +21,9 @@ void OptionScript::SetNewFullscreen()
 }
 void OptionScript::IncreaseResolution()
 {
-	if (document.HasMember("currFullscreen") && document["currFullscreen"].IsBool())	//Checks if the variable exists in .Json file
-	{
-		_currFullscreen = (document["currFullscreen"].GetBool());
-	}
-
-
-	if (document.HasMember("currResolution") && document["currResolution"].IsArray())	//Checks if the variable exists in .Json file
-	{
-		_currResolution = { document["currResolution"][0].GetFloat(), document["currResolution"][1].GetFloat(), document["currResolution"][2].GetFloat() };
-	}
-
-
-	if (document.HasMember("currMasterSound") && document["currMasterSound"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_currMasterSound = (document["currMasterSound"].GetFloat());
-	}
-
-	if (document.HasMember("currMusic") && document["currMusic"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_currMusic = (document["currMusic"].GetFloat());
-	}
-
-	if (document.HasMember("currSFX") && document["currSFX"].IsFloat())	//Checks if the variable exists in .Json file
-	{
-		_currSFX = (document["currSFX"].GetFloat());
-	}
-}
-
-void OptionScript::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
-{
 	Index++;
 	if (Index > _allResolution.size())
-		Index = _allResolution.size(); // check if correct
+		Index = _allResolution.size();
 }
 void OptionScript::DecreaseResolution()
 {
@@ -121,14 +89,6 @@ void OptionScript::ApplySettings()
 
 void OptionScript::SerialiseComponent(Serialiser& document)
 {
-	if (document.HasMember("ButtonType") && document["ButtonType"].IsInt())	//Checks if the variable exists in .Json file
-		if (document.HasMember("currFullscreen") && document["currFullscreen"].IsBool())	//Checks if the variable exists in .Json file
-		{
-			_buttonType = (document["ButtonType"].IsInt());
-			_currFullscreen = (document["currFullscreen"].GetBool());
-		}
-
-
 	if (document.HasMember("currResolution") && document["currResolution"].IsArray())	//Checks if the variable exists in .Json file
 	{
 		_currResolution = { document["currResolution"][0].GetFloat(), document["currResolution"][1].GetFloat(), document["currResolution"][2].GetFloat() };
@@ -151,9 +111,10 @@ void OptionScript::SerialiseComponent(Serialiser& document)
 	}
 }
 
-void DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator) {
-
-value.SetString(rapidjson::StringRef(ToScriptName(_type)));
+void OptionScript::DeSerialiseComponent(rapidjson::Value& prototypeDoc, rapidjson::MemoryPoolAllocator<>& allocator)
+{
+	rapidjson::Value value;
+	value.SetString(rapidjson::StringRef(ToScriptName(_type)));
 	prototypeDoc.AddMember("Script2Id", value, allocator);
 
 	value.SetBool(_currFullscreen);
