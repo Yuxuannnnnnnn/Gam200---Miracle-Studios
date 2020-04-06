@@ -1,7 +1,7 @@
 {
   "IdentityComponent": true,
-  "ObjectType": "ImpactSparkPlayer",
-  "Name": "ImpactSparkPlayer",
+  "ObjectType": "ImpactSparkEnemy",
+  "Name": "ImpactSparkEnemy",
   "LinkUId": 0,
   "TransformComponent": true,
   "Position": [ 0.0, 0.0, 1.0 ],
@@ -10,17 +10,17 @@
   "GraphicsComponent": true,
   "G.FileName": "Crack_3.png",
   "G.Shader": "DefaultShader",
-  "G.Layer": 29,
+  "G.Layer": 35,
   "_hasAlpha": true,
   "AnimationComponent": true,
   "AnimationTypes": [
     {
-      "AnimationType": "Character_Impact_spark_sprite.json",
+      "AnimationType": "Enemy_Impact_spark_sprite.json",
       "TimeDelay": 0.05000000074505806,
       "AnimationName": "Spark"
     }
   ],
-  "PlayAtCreation": false,
+  "PlayAtCreation": true,
   "PlayInitLoop": false,
   "StartAnim":"Spark"
 }
