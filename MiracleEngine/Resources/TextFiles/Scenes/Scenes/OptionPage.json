@@ -4,7 +4,7 @@
   "ShaderFilesPaths": [ [ "DefaultShader", "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" ] ],
   "AnimationDataFilesPaths": [],
   "AudioSFXFilesPaths": [ "./Resources/Audio\\Button.ogg", "./Resources/Audio\\Coin.ogg" ],
-  "AudioBGMFilesPaths": [],
+  "AudioBGMFilesPaths": [ "./Resources/Audio\\FLOORITNewAgeMSCNEW133.wav" ],
   "FontFilesPath": [],
   "Objects": [
     {

@@ -4,7 +4,7 @@
   "ShaderFilesPaths": [ [ "DefaultShader", "Resources/Shader/basic.vert", "Resources/Shader/basic.frag" ] ],
   "AnimationDataFilesPaths": [ "./Resources/TextFiles/AnimationData\\Character_BodyFloat_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Character_Impact_spark_sprite.json", "./Resources/TextFiles/AnimationData\\Character_death_spriteSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Charger_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Charging_enemies2_sprite.json", "./Resources/TextFiles/AnimationData\\Enemies1_sprite.json", "./Resources/TextFiles/AnimationData\\Enemy_Impact_spark_sprite.json", "./Resources/TextFiles/AnimationData\\Healing_sparkles_sprite.json", "./Resources/TextFiles/AnimationData\\Normal_impact_Blue_Plasma_24FPS_Sprite_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerMuzzle_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShieldBreak_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\PlayerShield_SpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Shooter_enemy_sprite.json", "./Resources/TextFiles/AnimationData\\Smoke_Trail_sprite_smallSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Spark_sprite_WithEmptyFrameSpriteSheetData.json", "./Resources/TextFiles/AnimationData\\Turret_Transform_spriteSpriteSheetData.json" ],
   "AudioSFXFilesPaths": [ "./Resources/Audio\\BossHit.wav", "./Resources/Audio\\Button.ogg", "./Resources/Audio\\ChargingSound.wav", "./Resources/Audio\\Coin.ogg", "./Resources/Audio\\EnemiesExplode.wav", "./Resources/Audio\\EnemyShoot.wav", "./Resources/Audio\\PlayerDamaged.wav", "./Resources/Audio\\PlayerShoot.wav", "./Resources/Audio\\Shield2.wav", "./Resources/Audio\\TurretConstruction.wav", "./Resources/Audio\\TurretShoot.wav", "./Resources/Audio\\shield.wav" ],
-  "AudioBGMFilesPaths": [ "./Resources/Audio\\GameplayBgm2.wav" ],
+  "AudioBGMFilesPaths": [ "./Resources/Audio\\FLOORITNewAgeMSCNEW133.wav" ],
   "FontFilesPath": [],
   "Objects": [
     {
@@ -6228,7 +6228,7 @@
       "BackgroundSoundList": [
         {
           "BGMName": "level1",
-          "fileName": "GameplayBgm2.wav",
+          "fileName": "FLOORITNewAgeMSCNEW133.wav",
           "volume": 0.19900000095367433
         }
       ]
